@@ -10,7 +10,7 @@
 <meta name="description" content="1、朴素贝叶斯简介 Naive Bayes：预测样本属于每一类别的概率，取概率最高的类别。包含四个概念：后验概率、似然、先验概率以及全概率。如下图示例 例">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/basic/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF_%E5%A4%9A%E5%88%86%E7%B1%BB/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.48a18943c2fc15c38a372b8dde1f5e5dc0bc64fa6cb90f5a817d2f8c76b7f3ae.css" integrity="sha256-SKGJQ8L8FcOKNyuN3h9eXcC8ZPpsuQ9agX0vjHa3864=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.1abf8254c205953f8beb228727a5e0a5541f0bc42f68f2762e2e594e7b213985.css" integrity="sha256-Gr&#43;CVMIFlT&#43;L6yKHJ6XgpVQfC8QvaPJ2Li5ZTnshOYU=" rel="preload stylesheet" as="style">
 <script defer crossorigin="anonymous" src="/assets/js/highlight.min.4dcb3c4f38462f66c6b6137227726f5543cb934cca9788f041c087e374491df2.js" integrity="sha256-Tcs8TzhGL2bGthNyJ3JvVUPLk0zKl4jwQcCH43RJHfI="
     onload="hljs.initHighlightingOnLoad();"></script>
 <link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
@@ -195,11 +195,6 @@
                 </a>
             </li>
             <li>
-                <a href="https://lishensuo.github.io/links" title="友链">
-                    <span>友链</span>
-                </a>
-            </li>
-            <li>
                 <a href="https://lishensuo.github.io/search" title="搜索 (Alt &#43; /)" accesskey=/>
                     <span>搜索</span>
                 </a>
@@ -215,38 +210,111 @@
     <h1 class="post-title">
       朴素贝叶斯简介
     </h1>
-    <div class="post-meta"><span title='2021-04-15 10:10:59 +0800 CST'>2021-04-15</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Lishensuo
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+创建:&nbsp;<span title='2021-04-15 10:10:59 +0800 CST'>2021-04-15</span>&nbsp;|&nbsp;更新:&nbsp;2021-04-15&nbsp;|&nbsp;字数:&nbsp;887字&nbsp;|&nbsp;时长: 2分钟&nbsp;|&nbsp;Lishensuo
 
 </div>
-  </header> <div class="toc">
-    <details  open>
-        <summary accesskey="c" title="(Alt + C)">
-            <span class="details">Table of Contents</span>
-        </summary>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
 
-        <div class="inner"><ul>
-                <li>
-                    <a href="#1%e6%9c%b4%e7%b4%a0%e8%b4%9d%e5%8f%b6%e6%96%af%e7%ae%80%e4%bb%8b" aria-label="1、朴素贝叶斯简介">1、朴素贝叶斯简介</a></li>
-                <li>
-                    <a href="#2mlr%e5%bb%ba%e6%a8%a1" aria-label="2、mlr建模">2、mlr建模</a><ul>
-                        <ul>
-                        
-                <li>
-                    <a href="#21-%e4%bc%97%e8%ae%ae%e5%91%98%e6%8a%95%e7%a5%a8%e6%83%85%e5%86%b5%e7%a4%ba%e4%be%8b%e6%95%b0%e6%8d%ae" aria-label="2.1 众议员投票情况示例数据">2.1 众议员投票情况示例数据</a></li>
-                <li>
-                    <a href="#22-%e7%a1%ae%e5%ae%9a%e9%a2%84%e6%b5%8b%e7%9b%ae%e6%a0%87%e4%b8%8e%e8%ae%ad%e7%bb%83%e6%96%b9%e6%b3%95" aria-label="2.2 确定预测目标与训练方法">2.2 确定预测目标与训练方法</a></li>
-                <li>
-                    <a href="#23-%e6%a8%a1%e5%9e%8b%e8%ae%ad%e7%bb%83%e9%a2%84%e6%b5%8b" aria-label="2.3 模型训练、预测">2.3 模型训练、预测</a></li>
-                <li>
-                    <a href="#24-%e4%ba%a4%e5%8f%89%e9%aa%8c%e8%af%81%e6%a8%a1%e5%9e%8b" aria-label="2.4 交叉验证模型">2.4 交叉验证模型</a>
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#1%e6%9c%b4%e7%b4%a0%e8%b4%9d%e5%8f%b6%e6%96%af%e7%ae%80%e4%bb%8b" aria-label="1、朴素贝叶斯简介">1、朴素贝叶斯简介</a></li>
+                    <li>
+                        <a href="#2mlr%e5%bb%ba%e6%a8%a1" aria-label="2、mlr建模">2、mlr建模</a><ul>
+                            <ul>
+                            
+                    <li>
+                        <a href="#21-%e4%bc%97%e8%ae%ae%e5%91%98%e6%8a%95%e7%a5%a8%e6%83%85%e5%86%b5%e7%a4%ba%e4%be%8b%e6%95%b0%e6%8d%ae" aria-label="2.1 众议员投票情况示例数据">2.1 众议员投票情况示例数据</a></li>
+                    <li>
+                        <a href="#22-%e7%a1%ae%e5%ae%9a%e9%a2%84%e6%b5%8b%e7%9b%ae%e6%a0%87%e4%b8%8e%e8%ae%ad%e7%bb%83%e6%96%b9%e6%b3%95" aria-label="2.2 确定预测目标与训练方法">2.2 确定预测目标与训练方法</a></li>
+                    <li>
+                        <a href="#23-%e6%a8%a1%e5%9e%8b%e8%ae%ad%e7%bb%83%e9%a2%84%e6%b5%8b" aria-label="2.3 模型训练、预测">2.3 模型训练、预测</a></li>
+                    <li>
+                        <a href="#24-%e4%ba%a4%e5%8f%89%e9%aa%8c%e8%af%81%e6%a8%a1%e5%9e%8b" aria-label="2.4 交叉验证模型">2.4 交叉验证模型</a>
+                    </li>
+                </ul>
+                </ul>
                 </li>
-            </ul>
-            </ul>
-            </li>
-            </ul>
-        </div>
-    </details>
-</div>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
 
   <div class="post-content"><h2 id="1朴素贝叶斯简介">1、朴素贝叶斯简介<a hidden class="anchor" aria-hidden="true" href="#1朴素贝叶斯简介">#</a></h2>
 <ul>
@@ -431,7 +499,7 @@
   <a class="next" href="https://lishensuo.github.io/posts/basic/second-blog/">
     <span class="title">Next Page »</span>
     <br>
-    <span></span>
+    <span>这是一个有封面的笔记</span>
   </a>
 </nav>
 
