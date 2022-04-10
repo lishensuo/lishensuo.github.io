@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>机器学习基于R(2)--分类--逻辑回归 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="机器学习">
+<meta name="description" content="1、逻辑回归的算法理解 逻辑回归 = 线性回归 &#43; Sigmoid函数 与线性回归相同的是同样需要学习变量的权重(系数)与偏置(截距)；与线性回归不同的">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/posts/bioinfo/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er2--%E5%88%86%E7%B1%BB--%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.1abf8254c205953f8beb228727a5e0a5541f0bc42f68f2762e2e594e7b213985.css" integrity="sha256-Gr&#43;CVMIFlT&#43;L6yKHJ6XgpVQfC8QvaPJ2Li5ZTnshOYU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.4dcb3c4f38462f66c6b6137227726f5543cb934cca9788f041c087e374491df2.js" integrity="sha256-Tcs8TzhGL2bGthNyJ3JvVUPLk0zKl4jwQcCH43RJHfI="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="机器学习基于R(2)--分类--逻辑回归" />
+<meta property="og:description" content="1、逻辑回归的算法理解 逻辑回归 = 线性回归 &#43; Sigmoid函数 与线性回归相同的是同样需要学习变量的权重(系数)与偏置(截距)；与线性回归不同的" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/posts/bioinfo/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er2--%E5%88%86%E7%B1%BB--%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-01-08T23:33:37&#43;08:00" />
+<meta property="article:modified_time" content="2022-01-08T23:33:37&#43;08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="机器学习基于R(2)--分类--逻辑回归"/>
+<meta name="twitter:description" content="1、逻辑回归的算法理解 逻辑回归 = 线性回归 &#43; Sigmoid函数 与线性回归相同的是同样需要学习变量的权重(系数)与偏置(截距)；与线性回归不同的"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "📖 生信数据分析--分析流程，工具包等",
+      "item": "https://lishensuo.github.io/posts/bioinfo/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "机器学习基于R(2)--分类--逻辑回归",
+      "item": "https://lishensuo.github.io/posts/bioinfo/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er2--%E5%88%86%E7%B1%BB--%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "机器学习基于R(2)--分类--逻辑回归",
+  "name": "机器学习基于R(2)--分类--逻辑回归",
+  "description": "1、逻辑回归的算法理解 逻辑回归 = 线性回归 + Sigmoid函数 与线性回归相同的是同样需要学习变量的权重(系数)与偏置(截距)；与线性回归不同的",
+  "keywords": [
+    "机器学习"
+  ],
+  "articleBody": "1、逻辑回归的算法理解  逻辑回归 = 线性回归 + Sigmoid函数   与线性回归相同的是同样需要学习变量的权重(系数)与偏置(截距)；与线性回归不同的是逻辑回归的输出必须限制在0和1之间，即解释为概率（二分类）。 一般来说：P0.5,分类为1，P  2、mlr建模 2.1 泰坦尼克号示例数据 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19  data(titanic_train, package = \"titanic\") titanicSub = titanic_train[,c(\"Survived\",\"Sex\",\"Pclass\",  \"Age\",\"Fare\",\"SibSp\",\"Parch\")] summary(titanicSub) # Survived Sex Pclass Age Fare SibSp Parch  # Min. :0.0000 Length:891 Min. :1.000 Min. : 0.42 Min. : 0.00 Min. :0.000 Min. :0.0000  # 1st Qu.:0.0000 Class :character 1st Qu.:2.000 1st Qu.:20.12 1st Qu.: 7.91 1st Qu.:0.000 1st Qu.:0.0000  # Median :0.0000 Mode :character Median :3.000 Median :28.00 Median : 14.45 Median :0.000 Median :0.0000  # Mean :0.3838 Mean :2.309 Mean :29.70 Mean : 32.20 Mean :0.523 Mean :0.3816  # 3rd Qu.:1.0000 3rd Qu.:3.000 3rd Qu.:38.00 3rd Qu.: 31.00 3rd Qu.:1.000 3rd Qu.:0.0000  # Max. :1.0000 Max. :3.000 Max. :80.00 Max. :512.33 Max. :8.000 Max. :6.0000  # 第一列：生存与否0/1 # 第二列：性别 # 第三列：头等舱、二等舱、三等舱 1/2/3 # 第四列：年龄 # 第五列：票价 # 第六列：兄弟姐妹+配偶人数 # 第七列：父母和孩子总人数    数据预处理  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20  #（1）分类变量因子化 #（2）挑选合适特征（第六列+第七列，表示家庭成员数） fctrs \"Survived\", \"Sex\", \"Pclass\") titanicClean %  mutate_at(.vars = fctrs, .funs = factor) %%  mutate(FamSize = SibSp + Parch) %%  select(Survived, Pclass, Sex, Age, Fare, FamSize) head(titanicClean) # Survived Pclass Sex Age Fare FamSize # 1 0 3 male 22 7.2500 1 # 2 1 1 female 38 71.2833 1 # 3 1 3 female 26 7.9250 0 # 4 1 1 female 35 53.1000 1 # 5 0 3 male 35 8.0500 0 # 6 0 3 male NA 8.4583 0  # （3） 在年龄列有缺失值（NA），需要处理 ##如下均值用缺失值代替 imp sum(is.na(imp$data$Age)) #0   2.2 确定预测目标与训练方法  （1）确定预测目的：根据5个变量Pclass，Sex ，Age，Fare 以及FamSize预测是否会生存  1 2  titanicTask \"Survived\") titanicTask    （2）确定预测方法：使用逻辑回归算法，无超参数  1 2  #设置predict.type参数为\"prob\"，则预测输出不仅仅是分类变量，还有概率值 logReg \"classif.logreg\", predict.type = \"prob\")   2.3 模型训练、预测 1 2  #训练模型 logRegModel    理解模型的系数  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18  logRegModelData coef(logRegModelData) # (Intercept) Pclass2 Pclass3 Sexmale Age Fare FamSize  # 3.809661697 -1.000344806 -2.132428850 -2.775928255 -0.038822458 0.003218432 -0.243029114  #指数转换 exp(cbind(Odds_Ratio = coef(logRegModelData), confint(logRegModelData))) # Odds_Ratio 2.5 % 97.5 % # (Intercept) 45.13516691 19.14718874 109.72483921 # Pclass2 0.36775262 0.20650392 0.65220841 # Pclass3 0.11854901 0.06700311 0.20885220 # Sexmale 0.06229163 0.04182164 0.09116657 # Age 0.96192148 0.94700049 0.97652950 # Fare 1.00322362 0.99872001 1.00863263 # FamSize 0.78424868 0.68315465 0.89110044  #对于连续变量的解释：例如Age：表示其它变量不变，每Age增长1岁，生存率降低4% #对于分类变量的解释，需要有参照：例如Sexmale：表示男性的生存率仅为女性的6%    模型预测  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17  data(titanic_test, package = \"titanic\") titanicNewClean %  mutate_at(.vars = c(\"Sex\", \"Pclass\"), .funs = factor) %%  mutate(FamSize = SibSp + Parch) %%  select(Pclass, Sex, Age, Fare, FamSize)  LogiPred = predict(logRegModel, newdata = titanicNewClean) head(LogiPred$data) # prob.0 prob.1 response # 1 0.9178036 0.08219636 0 # 2 0.5909570 0.40904305 0 # 3 0.9123303 0.08766974 0 # 4 0.8927383 0.10726167 0 # 5 0.4069407 0.59305933 1 # 6 0.8337609 0.16623907 0  #由于在这个test测试集里没有Survived列，所以返回的对象列没有表示真实生存状态的truth列   2.4 交叉验证模型  50次重复的10折交叉验证  1 2  kFold \"RepCV\", folds = 10, reps = 50,  stratify = TRUE)    重新定义学习方法  1 2 3  #由于在数据预处理步骤时，使用均值模拟了缺失值。在交叉验证时也需要将这一步纳入进去 logRegWrapper \"classif.logreg\",  cols = list(Age = imputeMean()))    交叉验证  1 2 3 4 5 6 7 8  logRegwithImpute  measures = list(acc, fpr, fnr)) logRegwithImpute # Resample Result # Task: imp$data # Learner: classif.logreg.imputed # Aggr perf: acc.test.mean=0.7965652,fpr.test.mean=0.2987697,fnr.test.mean=0.1440801 # Runtime: 8.90803   ",
+  "wordCount" : "1173",
+  "inLanguage": "en",
+  "datePublished": "2022-01-08T23:33:37+08:00",
+  "dateModified": "2022-01-08T23:33:37+08:00",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/posts/bioinfo/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er2--%E5%88%86%E7%B1%BB--%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/posts/bioinfo/">📖 生信数据分析--分析流程，工具包等</a></div>
+    <h1 class="post-title">
+      机器学习基于R(2)--分类--逻辑回归
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2022-01-08 23:33:37 +0800 CST'>2022-01-08</span>&nbsp;|&nbsp;Update:&nbsp;2022-01-08&nbsp;|&nbsp;Words:&nbsp;1173&nbsp;|&nbsp;3 min&nbsp;|&nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#1%e9%80%bb%e8%be%91%e5%9b%9e%e5%bd%92%e7%9a%84%e7%ae%97%e6%b3%95%e7%90%86%e8%a7%a3" aria-label="1、逻辑回归的算法理解">1、逻辑回归的算法理解</a></li>
+                    <li>
+                        <a href="#2mlr%e5%bb%ba%e6%a8%a1" aria-label="2、mlr建模">2、mlr建模</a><ul>
+                            <ul>
+                            
+                    <li>
+                        <a href="#21-%e6%b3%b0%e5%9d%a6%e5%b0%bc%e5%85%8b%e5%8f%b7%e7%a4%ba%e4%be%8b%e6%95%b0%e6%8d%ae" aria-label="2.1 泰坦尼克号示例数据">2.1 泰坦尼克号示例数据</a></li>
+                    <li>
+                        <a href="#22-%e7%a1%ae%e5%ae%9a%e9%a2%84%e6%b5%8b%e7%9b%ae%e6%a0%87%e4%b8%8e%e8%ae%ad%e7%bb%83%e6%96%b9%e6%b3%95" aria-label="2.2 确定预测目标与训练方法">2.2 确定预测目标与训练方法</a></li>
+                    <li>
+                        <a href="#23-%e6%a8%a1%e5%9e%8b%e8%ae%ad%e7%bb%83%e9%a2%84%e6%b5%8b" aria-label="2.3 模型训练、预测">2.3 模型训练、预测</a></li>
+                    <li>
+                        <a href="#24-%e4%ba%a4%e5%8f%89%e9%aa%8c%e8%af%81%e6%a8%a1%e5%9e%8b" aria-label="2.4 交叉验证模型">2.4 交叉验证模型</a>
+                    </li>
+                </ul>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><h2 id="1逻辑回归的算法理解">1、逻辑回归的算法理解<a hidden class="anchor" aria-hidden="true" href="#1逻辑回归的算法理解">#</a></h2>
+<ul>
+<li>逻辑回归 = 线性回归 + <strong>Sigmoid</strong>函数</li>
+</ul>
+<p><img loading="lazy" src="https://s2.loli.net/2022/04/01/WFdNuX6vo42BGY3.png" alt="img"  />
+</p>
+<ul>
+<li>与线性回归相同的是同样需要学习变量的权重(系数)与偏置(截距)；与线性回归不同的是逻辑回归的输出必须限制在0和1之间，即解释为概率（二分类）。</li>
+<li>一般来说：P&gt;0.5,分类为1，P&lt;0.5分类为0</li>
+</ul>
+<p><img loading="lazy" src="https://s2.loli.net/2022/04/01/z4TEL26t3AvlPQi.png" alt="image-20220401171633594"  />
+</p>
+<h2 id="2mlr建模">2、mlr建模<a hidden class="anchor" aria-hidden="true" href="#2mlr建模">#</a></h2>
+<h4 id="21-泰坦尼克号示例数据">2.1 泰坦尼克号示例数据<a hidden class="anchor" aria-hidden="true" href="#21-泰坦尼克号示例数据">#</a></h4>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>data(titanic_train, package = <span style="color:#0ff;font-weight:bold">&#34;titanic&#34;</span>)
+</span></span><span style="display:flex;"><span>titanicSub = titanic_train[,c(<span style="color:#0ff;font-weight:bold">&#34;Survived&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;Sex&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;Pclass&#34;</span>,
+</span></span><span style="display:flex;"><span>                                <span style="color:#0ff;font-weight:bold">&#34;Age&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;Fare&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;SibSp&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;Parch&#34;</span>)]
+</span></span><span style="display:flex;"><span>summary(titanicSub)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Survived          Sex                Pclass           Age             Fare            SibSp           Parch       </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Min.   :0.0000   Length:891         Min.   :1.000   Min.   : 0.42   Min.   :  0.00   Min.   :0.000   Min.   :0.0000  </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1st Qu.:0.0000   Class :character   1st Qu.:2.000   1st Qu.:20.12   1st Qu.:  7.91   1st Qu.:0.000   1st Qu.:0.0000  </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Median :0.0000   Mode  :character   Median :3.000   Median :28.00   Median : 14.45   Median :0.000   Median :0.0000  </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Mean   :0.3838                      Mean   :2.309   Mean   :29.70   Mean   : 32.20   Mean   :0.523   Mean   :0.3816  </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3rd Qu.:1.0000                      3rd Qu.:3.000   3rd Qu.:38.00   3rd Qu.: 31.00   3rd Qu.:1.000   3rd Qu.:0.0000  </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Max.   :1.0000                      Max.   :3.000   Max.   :80.00   Max.   :512.33   Max.   :8.000   Max.   :6.0000</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 第一列：生存与否0/1</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 第二列：性别</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 第三列：头等舱、二等舱、三等舱 1/2/3</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 第四列：年龄</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 第五列：票价</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 第六列：兄弟姐妹+配偶人数</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 第七列：父母和孩子总人数</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>数据预处理</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">#（1）分类变量因子化</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#（2）挑选合适特征（第六列+第七列，表示家庭成员数）</span>
+</span></span><span style="display:flex;"><span>fctrs &lt;- c(<span style="color:#0ff;font-weight:bold">&#34;Survived&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;Sex&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;Pclass&#34;</span>)
+</span></span><span style="display:flex;"><span>titanicClean &lt;- titanicSub %&gt;%
+</span></span><span style="display:flex;"><span>  mutate_at(.vars = fctrs, .funs = factor) %&gt;%
+</span></span><span style="display:flex;"><span>  mutate(FamSize = SibSp + Parch) %&gt;%
+</span></span><span style="display:flex;"><span>  select(Survived, Pclass, Sex, Age, Fare, FamSize)
+</span></span><span style="display:flex;"><span>head(titanicClean)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   Survived Pclass    Sex Age    Fare FamSize</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1        0      3   male  22  7.2500       1</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2        1      1 female  38 71.2833       1</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3        1      3 female  26  7.9250       0</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 4        1      1 female  35 53.1000       1</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 5        0      3   male  35  8.0500       0</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 6        0      3   male  NA  8.4583       0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># （3） 在年龄列有缺失值（NA），需要处理</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##如下均值用缺失值代替</span>
+</span></span><span style="display:flex;"><span>imp &lt;- impute(titanicClean, cols = list(Age = imputeMean()))
+</span></span><span style="display:flex;"><span>sum(is.na(imp$data$Age)) <span style="color:#007f7f">#0</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="22-确定预测目标与训练方法">2.2 确定预测目标与训练方法<a hidden class="anchor" aria-hidden="true" href="#22-确定预测目标与训练方法">#</a></h4>
+<ul>
+<li>（1）确定预测目的：根据5个变量Pclass，Sex ，Age，Fare 以及FamSize预测是否会生存</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>titanicTask &lt;- makeClassifTask(data = imp$data, target = <span style="color:#0ff;font-weight:bold">&#34;Survived&#34;</span>)
+</span></span><span style="display:flex;"><span>titanicTask
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>（2）确定预测方法：使用逻辑回归算法，无超参数</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">#设置predict.type参数为&#34;prob&#34;，则预测输出不仅仅是分类变量，还有概率值</span>
+</span></span><span style="display:flex;"><span>logReg &lt;- makeLearner(<span style="color:#0ff;font-weight:bold">&#34;classif.logreg&#34;</span>, predict.type = <span style="color:#0ff;font-weight:bold">&#34;prob&#34;</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="23-模型训练预测">2.3 模型训练、预测<a hidden class="anchor" aria-hidden="true" href="#23-模型训练预测">#</a></h4>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">#训练模型</span>
+</span></span><span style="display:flex;"><span>logRegModel &lt;- train(logReg, titanicTask)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>理解模型的系数</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>logRegModelData &lt;- getLearnerModel(logRegModel)
+</span></span><span style="display:flex;"><span>coef(logRegModelData)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># (Intercept)      Pclass2      Pclass3      Sexmale          Age         Fare      FamSize </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3.809661697 -1.000344806 -2.132428850 -2.775928255 -0.038822458  0.003218432 -0.243029114</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#指数转换</span>
+</span></span><span style="display:flex;"><span>exp(cbind(Odds_Ratio = coef(logRegModelData), confint(logRegModelData)))
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#              Odds_Ratio       2.5 %       97.5 %</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># (Intercept) 45.13516691 19.14718874 109.72483921</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Pclass2      0.36775262  0.20650392   0.65220841</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Pclass3      0.11854901  0.06700311   0.20885220</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Sexmale      0.06229163  0.04182164   0.09116657</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Age          0.96192148  0.94700049   0.97652950</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Fare         1.00322362  0.99872001   1.00863263</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># FamSize      0.78424868  0.68315465   0.89110044</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#对于连续变量的解释：例如Age：表示其它变量不变，每Age增长1岁，生存率降低4%</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#对于分类变量的解释，需要有参照：例如Sexmale：表示男性的生存率仅为女性的6%</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>模型预测</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>data(titanic_test, package = <span style="color:#0ff;font-weight:bold">&#34;titanic&#34;</span>)
+</span></span><span style="display:flex;"><span>titanicNewClean &lt;- titanic_test %&gt;%
+</span></span><span style="display:flex;"><span>  mutate_at(.vars = c(<span style="color:#0ff;font-weight:bold">&#34;Sex&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;Pclass&#34;</span>), .funs = factor) %&gt;%
+</span></span><span style="display:flex;"><span>  mutate(FamSize = SibSp + Parch) %&gt;%
+</span></span><span style="display:flex;"><span>  select(Pclass, Sex, Age, Fare, FamSize)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>LogiPred = predict(logRegModel, newdata = titanicNewClean)
+</span></span><span style="display:flex;"><span>head(LogiPred$data)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#      prob.0     prob.1 response</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1 0.9178036 0.08219636        0</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2 0.5909570 0.40904305        0</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3 0.9123303 0.08766974        0</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 4 0.8927383 0.10726167        0</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 5 0.4069407 0.59305933        1</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 6 0.8337609 0.16623907        0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#由于在这个test测试集里没有Survived列，所以返回的对象列没有表示真实生存状态的truth列</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="24-交叉验证模型">2.4 交叉验证模型<a hidden class="anchor" aria-hidden="true" href="#24-交叉验证模型">#</a></h4>
+<ul>
+<li>50次重复的10折交叉验证</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>kFold &lt;- makeResampleDesc(method = <span style="color:#0ff;font-weight:bold">&#34;RepCV&#34;</span>, folds = <span style="color:#ff0;font-weight:bold">10</span>, reps = <span style="color:#ff0;font-weight:bold">50</span>, 
+</span></span><span style="display:flex;"><span>                          stratify = <span style="color:#fff;font-weight:bold">TRUE</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>重新定义学习方法</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">#由于在数据预处理步骤时，使用均值模拟了缺失值。在交叉验证时也需要将这一步纳入进去</span>
+</span></span><span style="display:flex;"><span>logRegWrapper &lt;- makeImputeWrapper(<span style="color:#0ff;font-weight:bold">&#34;classif.logreg&#34;</span>,
+</span></span><span style="display:flex;"><span>                                   cols = list(Age = imputeMean()))
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>交叉验证</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>logRegwithImpute &lt;- resample(logRegWrapper, titanicTask, resampling = kFold, 
+</span></span><span style="display:flex;"><span>                             measures = list(acc, fpr, fnr))
+</span></span><span style="display:flex;"><span>logRegwithImpute
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Resample Result</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Task: imp$data</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Learner: classif.logreg.imputed</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Aggr perf: acc.test.mean=0.7965652,fpr.test.mean=0.2987697,fnr.test.mean=0.1440801</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Runtime: 8.90803</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/posts/bioinfo/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er1--%E5%88%86%E7%B1%BB--knn/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>机器学习基于R(1)--分类--KNN</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/posts/bioinfo/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er3--%E5%88%86%E7%B1%BB--lda%E4%B8%8Eqda/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>机器学习基于R(3)--分类--LDA与QDA</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="https://lishensuo.github.io">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+</body>
+</html>
