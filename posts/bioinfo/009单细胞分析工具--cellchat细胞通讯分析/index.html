@@ -1,0 +1,1578 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>单细胞分析工具--CellChat细胞通讯分析 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="单细胞分析工具, Bioconductor包">
+<meta name="description" content="主要参考资料： 1、https://htmlpreview.github.io/?https://github.com/sqjin/CellC">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/posts/bioinfo/009%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--cellchat%E7%BB%86%E8%83%9E%E9%80%9A%E8%AE%AF%E5%88%86%E6%9E%90/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.1abf8254c205953f8beb228727a5e0a5541f0bc42f68f2762e2e594e7b213985.css" integrity="sha256-Gr&#43;CVMIFlT&#43;L6yKHJ6XgpVQfC8QvaPJ2Li5ZTnshOYU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.4dcb3c4f38462f66c6b6137227726f5543cb934cca9788f041c087e374491df2.js" integrity="sha256-Tcs8TzhGL2bGthNyJ3JvVUPLk0zKl4jwQcCH43RJHfI="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="单细胞分析工具--CellChat细胞通讯分析" />
+<meta property="og:description" content="主要参考资料： 1、https://htmlpreview.github.io/?https://github.com/sqjin/CellC" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/posts/bioinfo/009%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--cellchat%E7%BB%86%E8%83%9E%E9%80%9A%E8%AE%AF%E5%88%86%E6%9E%90/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-04-16T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2022-04-16T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="单细胞分析工具--CellChat细胞通讯分析"/>
+<meta name="twitter:description" content="主要参考资料： 1、https://htmlpreview.github.io/?https://github.com/sqjin/CellC"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "📖 生信数据分析--分析流程，工具包等",
+      "item": "https://lishensuo.github.io/posts/bioinfo/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "单细胞分析工具--CellChat细胞通讯分析",
+      "item": "https://lishensuo.github.io/posts/bioinfo/009%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--cellchat%E7%BB%86%E8%83%9E%E9%80%9A%E8%AE%AF%E5%88%86%E6%9E%90/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "单细胞分析工具--CellChat细胞通讯分析",
+  "name": "单细胞分析工具--CellChat细胞通讯分析",
+  "description": "主要参考资料： 1、https://htmlpreview.github.io/?https://github.com/sqjin/CellC",
+  "keywords": [
+    "单细胞分析工具", "Bioconductor包"
+  ],
+  "articleBody": "主要参考资料：\n1、https://htmlpreview.github.io/?https://github.com/sqjin/CellChat/blob/master/tutorial/CellChat-vignette.html\n2、https://htmlpreview.github.io/?https://github.com/sqjin/CellChat/blob/master/tutorial/Comparison_analysis_of_multiple_datasets.html\n3、细胞通讯讲座cellchat 生信技能树 jimmy 哔哩哔哩直播 录屏版 https://www.youtube.com/watch?v=kc45au1RhNs\n1、细胞通讯基础知识 1.1 细胞信号传导类型 （1）旁分泌：如下图A，细胞通过释放配体与相邻细胞的受体结合进行交流。\n（2）突触信号：如下图B，神经细胞传递旁分泌信号的方式，配体为神经递质。\n（3）内分泌信号：如下图C，经循环系统（血液），将这些信号(激素)带到身体远端的目标细胞。\n（4）自分泌信号：如下图D，细胞向自身发出信号，释放与自身表面受体结合的配体。\n（5）通过细胞与细胞的接触发出信号，即细胞的膜表面配体与另一细胞的膜表面受体直接结合。\n1.2 配受体结合的影响因素 如下图所示为TGFβ信号通路的传递过程，其中涉及的配受体以及影响因素情况如下\n（1）Ligand配体：TGFβ\n（2）Receptor受体：TGFβ R1，TGFβ R2(多亚基单位subunit)\n（3）Agonist激动剂：THBS1（可能来自配体细胞或者受体细胞）\n（4）Antagonist激动剂：Decrin，FMOD（同上）\n（5）Membrane-bound inhibitory coreceptor膜表面共抑制受体：BAMB1\n（6）Membrane-bound stimulatory coreceptorr膜表面共刺激受体：\n1.3 配受体结合/通讯概率 针对上述配体结合的多种影响因素，CellChat提供了如下计算两个细胞群（i与j）的第k对配受体结合/通讯概率的方法。\n（1）L代表细胞群的配体基因的平均表达水平，如果有多亚基组成，则计算几何平均数；同理，R代表受体基因\n（2）RA表示膜表面共刺激受体表达情况；RI表示膜表面共抑制受体表达情况\n（3）AG表示激动剂的表达情况，AN表示拮抗剂的表达情况\n（4）Kh为常数0.5\n1.4 CellChat的配受体数据库  分为人和老鼠两种，收集自KEGG与文献 根据信号传递方式分为三种（1）Secreted Signaling（2）ECM-Receptor（3）Cell-Cell Contact 其中有很多配受体是复合亚基构成的  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20  library(CellChat) CellChatDB # use CellChatDB.mouse if running on mouse data names(CellChatDB) # [1] \"interaction\" \"complex\" \"cofactor\" \"geneInfo\"  head(CellChatDB$interaction,1) %% t() # TGFB1_TGFBR1_TGFBR2  # interaction_name \"TGFB1_TGFBR1_TGFBR2\"  # pathway_name \"TGFb\"  # ligand \"TGFB1\"  # receptor \"TGFbR1_R2\"  # agonist \"TGFb agonist\"  # antagonist \"TGFb antagonist\"  # co_A_receptor \"\"  # co_I_receptor \"TGFb inhibition receptor\" # evidence \"KEGG: hsa04350\"  # annotation \"Secreted Signaling\"  # interaction_name_2 \"TGFB1 - (TGFBR1+TGFBR2)\" table(CellChatDB$interaction$annotation) # Cell-Cell Contact ECM-Receptor Secreted Signaling  # 319 421 1199   2、单细胞数据集细胞通讯分析 2.1 构建CellChat对象  需要提供（1）标准化的单细胞表达矩阵[对应Seurat的data slot]（2）细胞类型注释信息 如下是官方文档给出的皮肤组织的单细胞测序数据集  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26  # load(url(\"https://ndownloader.figshare.com/files/25950872\")) data.input = data_humanSkin$data meta = data_humanSkin$meta cell.use = rownames(meta)[meta$condition == \"LS\"] data.input = data.input[, cell.use] dim(data.input) # [1] 17328 5011 meta = meta[cell.use, ] head(meta,2) # patient.id condition labels # S1_AACTCCCAGAGCTGCA Patient1 LS Inflam. FIB # S1_CAACCAATCCTCATTA Patient1 LS FBN1+ FIB library(CellChat) cellchat \"labels\") cellchat # An object of class CellChat created from a single dataset  # 17328 genes. # 5011 cells. levels(cellchat@idents)  #原始表达数据在data对象里 cellchat@data[1:4,1:4] #原始注释信息在meta对象里 cellchat@meta %% head() #指定的细胞群注释信息在idents里 table(cellchat@idents)   2.2 分析配受体通讯概率 （1）整合配受体数据库\n1 2 3 4 5 6 7 8 9 10 11  CellChatDB # use Secreted Signaling CellChatDB.use \"Secreted Signaling\") cellchat@DB  #提取配受体相关的基因至一个单独的矩阵 dim(cellchat@data.signaling) #[1] 0 0 cellchat dim(cellchat@data.signaling) #[1] 555 5011   （2）分析通讯概率\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60  ## (1)首先鉴别每个细胞群的高表达(logFC0)的配受体对基因（差异分析） cellchat@var.features %% dim() #NULL cellchat cellchat@var.features$features.info %% head(2) # clusters features pvalues logFC pct.1 pct.2 pvalues.adj # CXCL12 APOE+ FIB CXCL12 4.948508e-271 1.6432928 0.691 0.198 2.746422e-268 # DCN APOE+ FIB DCN 7.587647e-186 0.7637475 0.899 0.392 4.211144e-183  table(cellchat@var.features$features.info$clusters) # APOE+ FIB CD40LG+ TC cDC1 cDC2 COL11A1+ FIB  # 126 77 55 108 88  # FBN1+ FIB Inflam. DC Inflam. FIB Inflam. TC LC  # 139 80 160 81 107  # NKT TC  # 56 69   ## (2)然后将这些高表达配受体基因关联的通路整理到LR对象里 cellchat@LR #list() cellchat head(cellchat@LR$LRsig, 1) %% t() # TGFB1_TGFBR1_TGFBR2  # interaction_name \"TGFB1_TGFBR1_TGFBR2\"  # pathway_name \"TGFb\"  # ligand \"TGFB1\"  # receptor \"TGFbR1_R2\"  # agonist \"TGFb agonist\"  # antagonist \"TGFb antagonist\"  # co_A_receptor \"\"  # co_I_receptor \"TGFb inhibition receptor\" # evidence \"KEGG: hsa04350\"  # annotation \"Secreted Signaling\"  # interaction_name_2 \"TGFB1 - (TGFBR1+TGFBR2)\"   ## (3) (optinal)再然后根据PPI网络对data.signaling表达矩阵进行diffusion process处理，主要是避免过度的稀疏性 ### useful when analyzing single-cell data with shallow sequencing depth  ### because the projection reduces the dropout effects of signaling genes,  ### in particular for possible zero expression of subunits of ligands/receptors cellchat@data.project %% dim() # [1] 0 0 cellchat cellchat@data.project %% dim() # [1] 555 5011   ## (4)之后就可以计算配受体通讯概率 cellchat@net # list() cellchat cellchat@net$prob %% dim() # [1] 12 12 656  ##表示656个配受体对在12种细胞群之间的通讯概率，显著性 cellchat@net$prob[1:4,1:4,1] # APOE+ FIB FBN1+ FIB COL11A1+ FIB Inflam. FIB # APOE+ FIB 0 0 0 0 # FBN1+ FIB 0 0 0 0 # COL11A1+ FIB 0 0 0 0 # Inflam. FIB 0 0 0 0 cellchat@net$pval[1:4,1:4,1] # APOE+ FIB FBN1+ FIB COL11A1+ FIB Inflam. FIB # APOE+ FIB 1 1 1 1 # FBN1+ FIB 1 1 1 1 # COL11A1+ FIB 1 1 1 1 # Inflam. FIB 1 1 1 1   2.3 基于配受体通讯的衍生分析1 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52  #(1)归纳细胞群之间的通讯 cellchat ##有如下两类结果 count,weight cellchat@net$count %% dim() #[1] 12 12 cellchat@net$count[1:4,1:4] # APOE+ FIB FBN1+ FIB COL11A1+ FIB Inflam. FIB # APOE+ FIB 1 3 1 1 # FBN1+ FIB 1 3 1 1 # COL11A1+ FIB 1 2 1 1 # Inflam. FIB 0 2 0 0  ##summarizing the communication probability. cellchat@net$weight %% dim() #[1] 12 12 cellchat@net$weight[1:4,1:4] # APOE+ FIB FBN1+ FIB COL11A1+ FIB Inflam. FIB # APOE+ FIB 0.006276293 0.07304813 0.007386033 0.008251458 # FBN1+ FIB 0.004854738 0.05861039 0.005714571 0.006385410 # COL11A1+ FIB 0.003575889 0.01721547 0.004210181 0.004705254 # Inflam. FIB 0.000000000 0.04183220 0.000000000 0.000000000   #(2) 将配受体水平的细胞通讯归纳为通路水平的细胞通讯 ###summarizing all related ligands/receptors cellchat@netP #list() cellchat cellchat@netP$prob %% dim() # [1] 12 12 13 ##表示13条通路在12种细胞群之间的通讯概率 cellchat@netP$pathways # [1] \"MIF\" \"GALECTIN\" \"CXCL\" \"COMPLEMENT\" \"FGF\"  # [6] \"TNF\" \"CCL\" \"GAS\" \"IL4\" \"CD40\"  # [11] \"LIGHT\" \"CSF\" \"VEGF\"   tmp = cellchat@netP$prob dimnames(tmp) netP_df = lapply(dimnames(tmp)[[3]], function(x){ \t# x=dimnames(a)[[3]][1] \ttmp[,,x] %% as.data.frame() %% \ttibble::rownames_to_column(\"Source\") %% \tdplyr::mutate(Pathway=x) %% \tdplyr::select(Pathway, Source, dplyr::everything()) \t}) %% do.call(rbind, .) #查看感兴趣的细胞类型的涉及通路 celltype=c(\"DNT_1\",\"DNT_2\") idx1 = netP_df$Source %in% celltype idx2 = rowSums(netP_df[,c(-1,-2)])!=0 idx3 = rowSums(netP_df[,celltype,drop=F])!=0 netP_df[idx1 \u0026 idx2 | idx3, ]   2.4 分析结果可视化 2.4.1 细胞群水平 1 2 3 4 5 6 7  groupSize #如下线link的宽度与细胞群之间存在通讯配受体对数目成正比 netVisual_circle(cellchat@net$count, vertex.weight = groupSize, weight.scale = T,  label.edge= F, title.name = \"Number of interactions\") #也可以设置为与通讯配受体对概率和成正比 #netVisual_circle(cellchat@net$weight, vertex.weight = groupSize, weight.scale = T,  # label.edge= F, title.name = \"Interaction weights/strength\")   1 2 3 4 5 6  #如果只想关注某一类细胞群相关的通讯情况 mat mat2 0, nrow = nrow(mat), ncol = ncol(mat), dimnames = dimnames(mat)) mat2[\"APOE+ FIB\", ] \"APOE+ FIB\", ] netVisual_circle(mat2, vertex.weight = groupSize, weight.scale = T,  edge.weight.max = max(mat), title.name = \"APOE+ FIB\")   2.4.2 通路水平  如下示例选择CXCL通路  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18  #(1)netVisual_aggregate()函数支持3种可视化布局，通过设置layout参数 pathways.show \"CXCL\") vertex.receiver = seq(1,3) netVisual_aggregate(cellchat, signaling = pathways.show,  vertex.receiver = vertex.receiver,  layout = \"hierarchy\") # netVisual_aggregate(cellchat, signaling = pathways.show,  # vertex.receiver = vertex.receiver, # layout = \"circle\") # netVisual_aggregate(cellchat, signaling = pathways.show,  # vertex.receiver = vertex.receiver, # layout = \"chord\")  ##如果使用第3中和弦图的可视化方式，那么可以再进一步指定细胞高层次的分组 # group.cellType # names(group.cellType) # netVisual_chord_cell(cellchat, signaling = pathways.show, group = group.cellType,  # title.name = paste0(pathways.show, \" signaling network\"))   1 2 3 4  #(2) netVisual_heatmap()热图 ##列表示Source，行表示Target netVisual_heatmap(cellchat, signaling = pathways.show,  color.heatmap = \"Reds\")   2.4.3 配受体对水平 1 2 3 4 5 6 7 8 9  ## (1)通路与对应的配受体对 pairLR.CXCL  geneLR.return = FALSE) # interaction_name # 1 CXCL12_CXCR4 # 2 CXCL12_ACKR3  ## 可视化在通路的通讯水平中，哪些配受体的作用最大 netAnalysis_contribution(cellchat, signaling = pathways.show)    接下来选取CXCL12_CXCR4配受体对进行可视化  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15  ## (2)netVisual_individual() LR.show 'CXCL12_CXCR4' vertex.receiver = seq(1,2) # a numeric vector.  # netVisual_individual(cellchat, signaling = pathways.show,  # pairLR.use = LR.show,  # vertex.receiver = vertex.receiver, # layout = \"hierarchy\") # netVisual_individual(cellchat, signaling = pathways.show,  # pairLR.use = LR.show,  # vertex.receiver = vertex.receiver, # layout = \"circle\") netVisual_individual(cellchat, signaling = pathways.show,  pairLR.use = LR.show,  vertex.receiver = vertex.receiver,  layout = \"chord\")   1 2 3 4 5 6 7 8  ## (3)netVisual_bubble()气泡图 ##有点类似的Seurat的dotplot() netVisual_bubble(cellchat, sources.use = 4, targets.use = c(5:11),  remove.isolate = FALSE) # #指定通路所包含的配受体 # pairLR.use # netVisual_bubble(cellchat, sources.use = c(3,4), targets.use = c(5:8),  # pairLR.use = pairLR.use, remove.isolate = TRUE)    此外 netVisual_chord_gene()函数支持通路、配受体水平的细胞群通讯和弦图可视化；plotGeneExpression()通路涉及基因在不同细胞群的表达情况可视化，就不展示了。\n 2.5 基于配受体通讯的衍生分析2 2.5.1 鉴别senders, receivers等 将细胞群作为节点，细胞群的配受体/通路通讯关系作为有方向、有权重的边则构建了一个细胞通讯网络\n 根据节点的出度(out-degree)和，分析细胞群是否为dominant senders 根据节点的入度(in-degree)和，分析细胞群是否为dominant receivers 根据节点的betweenness，centrality 等，计算细胞群是否为重要的dominant mediator、influencer  1 2 3 4 5  cellchat \"netP\") cellchat@netP$centr %% names() #(1)概括图 netAnalysis_signalingRole_network(cellchat, signaling = pathways.show,  width = 8, height = 2.5, font.size = 10)   1 2 3 4 5  #(2)重点可视化senders, receivers的关系 ##all signaling pathways netAnalysis_signalingRole_scatter(cellchat) ##也可以指定通路 ## netAnalysis_signalingRole_scatter(cellchat, signaling = c(\"CXCL\", \"CCL\"))   1 2 3 4 5  #(3)所有通路在所有细胞群的出入度可视化 ## which signals contributing most to outgoing signaling of certain cell groups. netAnalysis_signalingRole_heatmap(cellchat, pattern = \"outgoing\") # ## which signals contributing most to incoming signaling of certain cell groups. # netAnalysis_signalingRole_heatmap(cellchat, pattern = \"incoming\")   2.5.2 模式识别NMF  关于NMF非负矩阵分解：将原始矩阵分解为两个非负的子矩阵，分别称之为系数矩阵与基矩阵；可以结合Bulk RNAseq表达矩阵分解出样本的细胞类型比例组成理解。   在这一步，试分析：哪些通路类似从而属于同一个模式(Pattern)，这些模式主要在哪些细胞类型中高表达。  1 2 3 4 5  library(NMF) library(ggalluvial) selectK(cellchat, pattern = \"outgoing\") #time consuming #根据上述结果，提示可能有3个潜在的Pattern cellchat \"outgoing\", k = 3)   1 2  #桑基图 netAnalysis_river(cellchat, pattern = \"outgoing\")    (1) netAnalysis_dot() 可对每个细胞群的出度和进行dotplot可视化\n(2) 以上是对出度out-degree的分析，同理也可以对入度in-degree进行同样的分析。\n 3、两个数据集的细胞通讯比较  对来自两种不同生物状态（如对照组与疾病组）的细胞通讯比较分析； 首先需要对每种数据分别跑一遍上述的单细胞数据集细胞通讯分析流程，得到相应的CellChat对象。然后整合，就可以开始比较分析  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17  library(CellChat) library(patchwork) cellchat.NL \"https://ndownloader.figshare.com/files/25954199\")) cellchat.LS \"https://ndownloader.figshare.com/files/25956518\")) cellchat.NL #17328 2552 cellchat.LS #17328 5011 object.list names(object.list) # [1] \"NL\" \"LS\" cellchat  #先大致看一下不同生物状态的细胞通讯（数量与强度）差异 #the total number of interactions gg1 1,2)) #the total interaction strength  gg2 1,2), measure = \"weight\") gg1 + gg2   3.1 细胞群水平  计算差异可视化  1 2 3 4 5 6  #(1) netVisual_diffInteraction()弦图 ## 红色表示第二个数据与第一个数据增强，蓝色则表示降低 ## measure = \"count\" 数目差异 netVisual_diffInteraction(cellchat, weight.scale = T, measure = \"count\") # ## measure = \"weight\" 强度差异 # netVisual_diffInteraction(cellchat, weight.scale = T, measure = \"weight\")   1 2 3 4 5  #(2) netVisual_heatmap()热图 #列代表作为source与其它其它细胞类型的差异 #列代表作为target与其它其它细胞类型的差异 netVisual_heatmap(cellchat, measure = \"count\") #netVisual_heatmap(cellchat, measure = \"weight\")    绘制原图比较差异  这种可视化是控制表示大小的映射(线宽等)在两个数据集的比例尺相同\n1 2 3 4 5 6 7 8  #(1) netVisual_circle 弦图 weight.max \"idents\",\"count\")) par(mfrow = c(1,2), xpd=TRUE) for (i in 1:length(object.list)) {  netVisual_circle(object.list[[i]]@net$count, weight.scale = T, label.edge= F,  edge.weight.max = weight.max[2], edge.width.max = 12,  title.name = paste0(\"Number of interactions - \", names(object.list)[i])) }   1 2 3 4 5 6 7 8 9 10 11 12 13  # #简化细胞类型 # weight.max # attribute = c(\"idents\",\"count\", \"count.merged\")) # par(mfrow = c(1,2), xpd=TRUE) # for (i in 1:length(object.list)) { # netVisual_circle(object.list[[i]]@net$count.merged, weight.scale = T, label.edge= T,  # edge.weight.max = weight.max[3], edge.width.max = 12,  # title.name = paste0(\"Number of interactions - \", names(object.list)[i])) # }  # par(mfrow = c(1,2), xpd=TRUE) # netVisual_diffInteraction(cellchat, weight.scale = T, measure = \"count.merged\", label.edge = T) # netVisual_diffInteraction(cellchat, weight.scale = T, measure = \"weight.merged\", label.edge = T)   1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16  #(2) netAnalysis_signalingRole_scatter() ## 比较两组Incoming与Outgoing差异 num.link  #细胞群所参与的所有配受体对数目  rowSums(x@net$count) + colSums(x@net$count)-diag(x@net$count)  } ) # control the dot size in the different datasets weight.MinMax gg for (i in 1:length(object.list)) {  gg[[i]]  title = names(object.list)[i],  weight.MinMax = weight.MinMax) } patchwork::wrap_plots(plots = gg)   3.2 通路水平 1 2 3  #(1) 总结通路在不同生物状态总体的对比差异 rankNet(cellchat, mode = \"comparison\", stacked = F, do.stat = TRUE) # rankNet(cellchat, mode = \"comparison\", stacked = T, do.stat = TRUE)   1 2 3 4 5 6 7 8 9 10  #(1) 总结通路在不同生物状态的不同细胞群之间的对比差异 library(ComplexHeatmap) i = 1 #取全集通路 pathway.union +1]]@netP$pathways) ht1 = netAnalysis_signalingRole_heatmap(object.list[[i]], pattern = \"outgoing\", signaling = pathway.union, title = names(object.list)[i], width = 5, height = 6) ht2 = netAnalysis_signalingRole_heatmap(object.list[[i+1]], pattern = \"outgoing\", signaling = pathway.union, title = names(object.list)[i+1], width = 5, height = 6) draw(ht1 + ht2, ht_gap = unit(0.5, \"cm\")) #pattern参数可以是下面三选一 #pattern = c(\"outgoing\", \"incoming\", \"all\")   1 2 3 4 5 6 7 8 9 10 11 12  #(2) 基于某一特定通路的对比比较 netVisual_aggregate() pathways.show \"CXCL\") weight.max \"netP\"),  attribute = pathways.show) par(mfrow = c(1,2), xpd=TRUE) for (i in 1:length(object.list)) {  netVisual_aggregate(object.list[[i]], signaling = pathways.show,  layout = \"circle\", edge.weight.max = weight.max[1],  edge.width.max = 10,  signaling.name = paste(pathways.show, names(object.list)[i])) } #layout = c(\"circle\", \"hierarchy\", \"chord\")    此外 netVisual_heatmap()支持热图的可视化方式\n 3.3 配受体水平 1 2 3 4  #(1) netVisual_bubble()  ##直接基于两个CellChat所计算的通讯差异的结果 netVisual_bubble(cellchat, sources.use = 4, targets.use = c(5:11),  comparison = c(1, 2), angle.x = 45)   1 2 3 4 5 6 7 8 9 10 11  # #在LS中高表达的配受体 # gg1 # comparison = c(1, 2), max.dataset = 2,  # title.name = \"Increased signaling in LS\",  # angle.x = 45, remove.isolate = T) # #在LS中低表达的配受体 # gg2# comparison = c(1, 2), max.dataset = 1,  # title.name = \"Decreased signaling in LS\",  # angle.x = 45, remove.isolate = T) # gg1 + gg2   1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19  #(2) 基于最底层的不同状态下差异基因的配受体差异分析 pos.dataset = \"LS\" features.name = pos.dataset cellchat \"datasets\",  pos.dataset = pos.dataset, features.name = features.name,  only.pos = FALSE, thresh.pc = 0.1, thresh.fc = 0.1, thresh.p = 1) net net.up \"LS\",  ligand.logFC = 0.2, receptor.logFC = NULL) head(net.up,2) pairLR.use.up = net.up[, \"interaction_name\", drop = F] netVisual_bubble(cellchat, pairLR.use = pairLR.use.up,  sources.use = 4, targets.use = c(5:11),  comparison = c(1, 2), angle.x = 90, remove.isolate = T,  title.name = paste0(\"Up-regulated signaling in \", names(object.list)[2]))  #同理也是可以可视化下调的配受体对 net.down \"NL\",  ligand.logFC = -0.1, receptor.logFC = -0.1)   ",
+  "wordCount" : "5037",
+  "inLanguage": "en",
+  "datePublished": "2022-04-16T00:00:00Z",
+  "dateModified": "2022-04-16T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/posts/bioinfo/009%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--cellchat%E7%BB%86%E8%83%9E%E9%80%9A%E8%AE%AF%E5%88%86%E6%9E%90/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/posts/bioinfo/">📖 生信数据分析--分析流程，工具包等</a></div>
+    <h1 class="post-title">
+      单细胞分析工具--CellChat细胞通讯分析
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2022-04-16 00:00:00 +0000 UTC'>2022-04-16</span>&nbsp;|&nbsp;Update:&nbsp;2022-04-16&nbsp;|&nbsp;Words:&nbsp;5037&nbsp;|&nbsp;11 min&nbsp;|&nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#1%e7%bb%86%e8%83%9e%e9%80%9a%e8%ae%af%e5%9f%ba%e7%a1%80%e7%9f%a5%e8%af%86" aria-label="1、细胞通讯基础知识">1、细胞通讯基础知识</a><ul>
+                            <ul>
+                            
+                    <li>
+                        <a href="#11-%e7%bb%86%e8%83%9e%e4%bf%a1%e5%8f%b7%e4%bc%a0%e5%af%bc%e7%b1%bb%e5%9e%8b" aria-label="1.1 细胞信号传导类型">1.1 细胞信号传导类型</a></li>
+                    <li>
+                        <a href="#12-%e9%85%8d%e5%8f%97%e4%bd%93%e7%bb%93%e5%90%88%e7%9a%84%e5%bd%b1%e5%93%8d%e5%9b%a0%e7%b4%a0" aria-label="1.2 配受体结合的影响因素">1.2 配受体结合的影响因素</a></li>
+                    <li>
+                        <a href="#13-%e9%85%8d%e5%8f%97%e4%bd%93%e7%bb%93%e5%90%88%e9%80%9a%e8%ae%af%e6%a6%82%e7%8e%87" aria-label="1.3 配受体结合/通讯概率">1.3 配受体结合/通讯概率</a></li>
+                    <li>
+                        <a href="#14-cellchat%e7%9a%84%e9%85%8d%e5%8f%97%e4%bd%93%e6%95%b0%e6%8d%ae%e5%ba%93" aria-label="1.4 CellChat的配受体数据库">1.4 CellChat的配受体数据库</a></li></ul>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#2%e5%8d%95%e7%bb%86%e8%83%9e%e6%95%b0%e6%8d%ae%e9%9b%86%e7%bb%86%e8%83%9e%e9%80%9a%e8%ae%af%e5%88%86%e6%9e%90" aria-label="2、单细胞数据集细胞通讯分析">2、单细胞数据集细胞通讯分析</a><ul>
+                            <ul>
+                            
+                    <li>
+                        <a href="#21-%e6%9e%84%e5%bb%bacellchat%e5%af%b9%e8%b1%a1" aria-label="2.1 构建CellChat对象">2.1 构建CellChat对象</a></li>
+                    <li>
+                        <a href="#22-%e5%88%86%e6%9e%90%e9%85%8d%e5%8f%97%e4%bd%93%e9%80%9a%e8%ae%af%e6%a6%82%e7%8e%87" aria-label="2.2 分析配受体通讯概率">2.2 分析配受体通讯概率</a></li>
+                    <li>
+                        <a href="#23-%e5%9f%ba%e4%ba%8e%e9%85%8d%e5%8f%97%e4%bd%93%e9%80%9a%e8%ae%af%e7%9a%84%e8%a1%8d%e7%94%9f%e5%88%86%e6%9e%901" aria-label="2.3 基于配受体通讯的衍生分析1">2.3 基于配受体通讯的衍生分析1</a></li>
+                    <li>
+                        <a href="#24-%e5%88%86%e6%9e%90%e7%bb%93%e6%9e%9c%e5%8f%af%e8%a7%86%e5%8c%96" aria-label="2.4 分析结果可视化">2.4 分析结果可视化</a><ul>
+                            
+                    <li>
+                        <a href="#241-%e7%bb%86%e8%83%9e%e7%be%a4%e6%b0%b4%e5%b9%b3" aria-label="2.4.1 细胞群水平">2.4.1 细胞群水平</a></li>
+                    <li>
+                        <a href="#242-%e9%80%9a%e8%b7%af%e6%b0%b4%e5%b9%b3" aria-label="2.4.2 通路水平">2.4.2 通路水平</a></li>
+                    <li>
+                        <a href="#243-%e9%85%8d%e5%8f%97%e4%bd%93%e5%af%b9%e6%b0%b4%e5%b9%b3" aria-label="2.4.3 配受体对水平">2.4.3 配受体对水平</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#25-%e5%9f%ba%e4%ba%8e%e9%85%8d%e5%8f%97%e4%bd%93%e9%80%9a%e8%ae%af%e7%9a%84%e8%a1%8d%e7%94%9f%e5%88%86%e6%9e%902" aria-label="2.5 基于配受体通讯的衍生分析2">2.5 基于配受体通讯的衍生分析2</a><ul>
+                            
+                    <li>
+                        <a href="#251-%e9%89%b4%e5%88%absenders-receivers%e7%ad%89" aria-label="2.5.1 鉴别senders, receivers等">2.5.1 鉴别senders, receivers等</a></li>
+                    <li>
+                        <a href="#252-%e6%a8%a1%e5%bc%8f%e8%af%86%e5%88%abnmf" aria-label="2.5.2 模式识别NMF">2.5.2 模式识别NMF</a></li></ul>
+                    </li></ul>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#3%e4%b8%a4%e4%b8%aa%e6%95%b0%e6%8d%ae%e9%9b%86%e7%9a%84%e7%bb%86%e8%83%9e%e9%80%9a%e8%ae%af%e6%af%94%e8%be%83" aria-label="3、两个数据集的细胞通讯比较">3、两个数据集的细胞通讯比较</a><ul>
+                            <ul>
+                            
+                    <li>
+                        <a href="#31-%e7%bb%86%e8%83%9e%e7%be%a4%e6%b0%b4%e5%b9%b3" aria-label="3.1 细胞群水平">3.1 细胞群水平</a></li>
+                    <li>
+                        <a href="#32-%e9%80%9a%e8%b7%af%e6%b0%b4%e5%b9%b3" aria-label="3.2 通路水平">3.2 通路水平</a></li>
+                    <li>
+                        <a href="#33-%e9%85%8d%e5%8f%97%e4%bd%93%e6%b0%b4%e5%b9%b3" aria-label="3.3 配受体水平">3.3 配受体水平</a>
+                    </li>
+                </ul>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><p>主要参考资料：</p>
+<p>1、https://htmlpreview.github.io/?https://github.com/sqjin/CellChat/blob/master/tutorial/CellChat-vignette.html</p>
+<p>2、https://htmlpreview.github.io/?https://github.com/sqjin/CellChat/blob/master/tutorial/Comparison_analysis_of_multiple_datasets.html</p>
+<p>3、细胞通讯讲座cellchat 生信技能树 jimmy 哔哩哔哩直播 录屏版 <a href="https://www.youtube.com/watch?v=kc45au1RhNs">https://www.youtube.com/watch?v=kc45au1RhNs</a></p>
+<h2 id="1细胞通讯基础知识">1、细胞通讯基础知识<a hidden class="anchor" aria-hidden="true" href="#1细胞通讯基础知识">#</a></h2>
+<h4 id="11-细胞信号传导类型">1.1 细胞信号传导类型<a hidden class="anchor" aria-hidden="true" href="#11-细胞信号传导类型">#</a></h4>
+<p>（1）旁分泌：如下图A，细胞通过释放配体与相邻细胞的受体结合进行交流。</p>
+<p>（2）突触信号：如下图B，神经细胞传递旁分泌信号的方式，配体为神经递质。</p>
+<p>（3）内分泌信号：如下图C，经循环系统（血液），将这些信号(激素)带到身体远端的目标细胞。</p>
+<p>（4）自分泌信号：如下图D，细胞向自身发出信号，释放与自身表面受体结合的配体。</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/yF3wVaTWihY9Mfk.jpg" alt="preview"  />
+</p>
+<p>（5）通过细胞与细胞的接触发出信号，即细胞的膜表面配体与另一细胞的膜表面受体直接结合。</p>
+<h4 id="12-配受体结合的影响因素">1.2 配受体结合的影响因素<a hidden class="anchor" aria-hidden="true" href="#12-配受体结合的影响因素">#</a></h4>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220416174219900.png" alt="image-20220416174219900" style="zoom:50%;" />
+<p>如下图所示为TGFβ信号通路的传递过程，其中涉及的配受体以及影响因素情况如下</p>
+<p>（1）Ligand配体：TGFβ</p>
+<p>（2）Receptor受体：TGFβ R1，TGFβ R2(多亚基单位subunit)</p>
+<p>（3）Agonist激动剂：THBS1（可能来自配体细胞或者受体细胞）</p>
+<p>（4）Antagonist激动剂：Decrin，FMOD（同上）</p>
+<p>（5）Membrane-bound inhibitory coreceptor膜表面共抑制受体：BAMB1</p>
+<p>（6）Membrane-bound stimulatory coreceptorr膜表面共刺激受体：</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/A3h7dHpu4xTLCiq.png" alt="image-20220403102122296"  />
+</p>
+<h4 id="13-配受体结合通讯概率">1.3 配受体结合/通讯概率<a hidden class="anchor" aria-hidden="true" href="#13-配受体结合通讯概率">#</a></h4>
+<p>针对上述配体结合的多种影响因素，CellChat提供了如下计算两个细胞群（i与j）的第k对配受体结合/通讯概率的方法。</p>
+<p>（1）L代表细胞群的配体基因的平均表达水平，如果有多亚基组成，则计算几何平均数；同理，R代表受体基因</p>
+<p>（2）RA表示膜表面共刺激受体表达情况；RI表示膜表面共抑制受体表达情况</p>
+<p>（3）AG表示激动剂的表达情况，AN表示拮抗剂的表达情况</p>
+<p>（4）Kh为常数0.5</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/JydVKQLwbFADZ7f.png" alt="image-20220403103627615"  />
+</p>
+<h4 id="14-cellchat的配受体数据库">1.4 CellChat的配受体数据库<a hidden class="anchor" aria-hidden="true" href="#14-cellchat的配受体数据库">#</a></h4>
+<ul>
+<li>分为人和老鼠两种，收集自KEGG与文献</li>
+<li>根据信号传递方式分为三种（1）Secreted Signaling（2）ECM-Receptor（3）Cell-Cell Contact</li>
+<li>其中有很多配受体是复合亚基构成的</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>library(CellChat)
+</span></span><span style="display:flex;"><span>CellChatDB &lt;- CellChatDB.human <span style="color:#007f7f"># use CellChatDB.mouse if running on mouse data</span>
+</span></span><span style="display:flex;"><span>names(CellChatDB)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] &#34;interaction&#34; &#34;complex&#34;     &#34;cofactor&#34;    &#34;geneInfo&#34;   </span>
+</span></span><span style="display:flex;"><span>head(CellChatDB$interaction,<span style="color:#ff0;font-weight:bold">1</span>) %&gt;% t()
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#                    TGFB1_TGFBR1_TGFBR2       </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># interaction_name   &#34;TGFB1_TGFBR1_TGFBR2&#34;     </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># pathway_name       &#34;TGFb&#34;                    </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># ligand             &#34;TGFB1&#34;                   </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># receptor           &#34;TGFbR1_R2&#34;               </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># agonist            &#34;TGFb agonist&#34;            </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># antagonist         &#34;TGFb antagonist&#34;         </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># co_A_receptor      &#34;&#34;                        </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># co_I_receptor      &#34;TGFb inhibition receptor&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># evidence           &#34;KEGG: hsa04350&#34;          </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># annotation         &#34;Secreted Signaling&#34;      </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># interaction_name_2 &#34;TGFB1 - (TGFBR1+TGFBR2)&#34;</span>
+</span></span><span style="display:flex;"><span>table(CellChatDB$interaction$annotation)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Cell-Cell Contact       ECM-Receptor Secreted Signaling </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#               319                421               1199</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/WIAX9ghaBnCE4Hq.png" alt="image-20220403121341400"  />
+</p>
+<h2 id="2单细胞数据集细胞通讯分析">2、单细胞数据集细胞通讯分析<a hidden class="anchor" aria-hidden="true" href="#2单细胞数据集细胞通讯分析">#</a></h2>
+<h4 id="21-构建cellchat对象">2.1 构建CellChat对象<a hidden class="anchor" aria-hidden="true" href="#21-构建cellchat对象">#</a></h4>
+<ul>
+<li>需要提供（1）标准化的单细胞表达矩阵[对应Seurat的data slot]（2）细胞类型注释信息</li>
+<li>如下是官方文档给出的皮肤组织的单细胞测序数据集</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f"># load(url(&#34;https://ndownloader.figshare.com/files/25950872&#34;))</span>
+</span></span><span style="display:flex;"><span>data.input = data_humanSkin$data
+</span></span><span style="display:flex;"><span>meta = data_humanSkin$meta 
+</span></span><span style="display:flex;"><span>cell.use = rownames(meta)[meta$condition == <span style="color:#0ff;font-weight:bold">&#34;LS&#34;</span>]
+</span></span><span style="display:flex;"><span>data.input = data.input[, cell.use]
+</span></span><span style="display:flex;"><span>dim(data.input)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] 17328  5011</span>
+</span></span><span style="display:flex;"><span>meta = meta[cell.use, ]
+</span></span><span style="display:flex;"><span>head(meta,<span style="color:#ff0;font-weight:bold">2</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#                     patient.id condition      labels</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># S1_AACTCCCAGAGCTGCA   Patient1        LS Inflam. FIB</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># S1_CAACCAATCCTCATTA   Patient1        LS   FBN1+ FIB</span>
+</span></span><span style="display:flex;"><span>library(CellChat)
+</span></span><span style="display:flex;"><span>cellchat &lt;- createCellChat(object = data.input, meta = meta, group.by = <span style="color:#0ff;font-weight:bold">&#34;labels&#34;</span>)
+</span></span><span style="display:flex;"><span>cellchat
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># An object of class CellChat created from a single dataset </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 17328 genes.</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 5011 cells.</span>
+</span></span><span style="display:flex;"><span>levels(cellchat@idents)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#原始表达数据在data对象里</span>
+</span></span><span style="display:flex;"><span>cellchat@data[1:<span style="color:#ff0;font-weight:bold">4</span>,<span style="color:#ff0;font-weight:bold">1</span>:<span style="color:#ff0;font-weight:bold">4</span>]
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#原始注释信息在meta对象里</span>
+</span></span><span style="display:flex;"><span>cellchat@meta %&gt;% head()
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#指定的细胞群注释信息在idents里</span>
+</span></span><span style="display:flex;"><span>table(cellchat@idents)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="22-分析配受体通讯概率">2.2 分析配受体通讯概率<a hidden class="anchor" aria-hidden="true" href="#22-分析配受体通讯概率">#</a></h4>
+<p>（1）整合配受体数据库</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>CellChatDB &lt;- CellChatDB.human
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># use Secreted Signaling</span>
+</span></span><span style="display:flex;"><span>CellChatDB.use &lt;- subsetDB(CellChatDB, search = <span style="color:#0ff;font-weight:bold">&#34;Secreted Signaling&#34;</span>) 
+</span></span><span style="display:flex;"><span>cellchat@DB &lt;- CellChatDB.use
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#提取配受体相关的基因至一个单独的矩阵</span>
+</span></span><span style="display:flex;"><span>dim(cellchat@data.signaling)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#[1] 0 0</span>
+</span></span><span style="display:flex;"><span>cellchat &lt;- subsetData(cellchat)
+</span></span><span style="display:flex;"><span>dim(cellchat@data.signaling)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#[1]  555 5011</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>（2）分析通讯概率</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">27
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">28
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">29
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">30
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">31
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">32
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">33
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">34
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">35
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">36
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">37
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">38
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">39
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">40
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">41
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">42
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">43
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">44
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">45
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">46
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">47
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">48
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">49
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">50
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">51
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">52
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">53
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">54
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">55
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">56
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">57
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">58
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">59
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">60
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">## (1)首先鉴别每个细胞群的高表达(logFC&gt;0)的配受体对基因（差异分析）</span>
+</span></span><span style="display:flex;"><span>cellchat@var.features %&gt;% dim() <span style="color:#007f7f">#NULL</span>
+</span></span><span style="display:flex;"><span>cellchat &lt;- identifyOverExpressedGenes(cellchat)
+</span></span><span style="display:flex;"><span>cellchat@var.features$features.info %&gt;% head(<span style="color:#ff0;font-weight:bold">2</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#         clusters features       pvalues     logFC pct.1 pct.2   pvalues.adj</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># CXCL12 APOE+ FIB   CXCL12 4.948508e-271 1.6432928 0.691 0.198 2.746422e-268</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># DCN    APOE+ FIB      DCN 7.587647e-186 0.7637475 0.899 0.392 4.211144e-183</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>table(cellchat@var.features$features.info$clusters)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># APOE+ FIB   CD40LG+ TC         cDC1         cDC2 COL11A1+ FIB </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 126           77           55          108           88 </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># FBN1+ FIB   Inflam. DC  Inflam. FIB   Inflam. TC           LC </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 139           80          160           81          107 </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># NKT           TC </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 56           69 </span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## (2)然后将这些高表达配受体基因关联的通路整理到LR对象里</span>
+</span></span><span style="display:flex;"><span>cellchat@LR <span style="color:#007f7f">#list()</span>
+</span></span><span style="display:flex;"><span>cellchat &lt;- identifyOverExpressedInteractions(cellchat)
+</span></span><span style="display:flex;"><span>head(cellchat@LR$LRsig, <span style="color:#ff0;font-weight:bold">1</span>) %&gt;% t()
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#                    TGFB1_TGFBR1_TGFBR2       </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># interaction_name   &#34;TGFB1_TGFBR1_TGFBR2&#34;     </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># pathway_name       &#34;TGFb&#34;                    </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># ligand             &#34;TGFB1&#34;                   </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># receptor           &#34;TGFbR1_R2&#34;               </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># agonist            &#34;TGFb agonist&#34;            </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># antagonist         &#34;TGFb antagonist&#34;         </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># co_A_receptor      &#34;&#34;                        </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># co_I_receptor      &#34;TGFb inhibition receptor&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># evidence           &#34;KEGG: hsa04350&#34;          </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># annotation         &#34;Secreted Signaling&#34;      </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># interaction_name_2 &#34;TGFB1 - (TGFBR1+TGFBR2)&#34; </span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## (3) (optinal)再然后根据PPI网络对data.signaling表达矩阵进行diffusion process处理，主要是避免过度的稀疏性</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">### useful when analyzing single-cell data with shallow sequencing depth </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">### because the projection reduces the dropout effects of signaling genes, </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">### in particular for possible zero expression of subunits of ligands/receptors</span>
+</span></span><span style="display:flex;"><span>cellchat@data.project %&gt;% dim() <span style="color:#007f7f"># [1] 0 0</span>
+</span></span><span style="display:flex;"><span>cellchat &lt;- projectData(cellchat, PPI.human)
+</span></span><span style="display:flex;"><span>cellchat@data.project %&gt;% dim() <span style="color:#007f7f"># [1]  555 5011</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## (4)之后就可以计算配受体通讯概率</span>
+</span></span><span style="display:flex;"><span>cellchat@net <span style="color:#007f7f"># list()</span>
+</span></span><span style="display:flex;"><span>cellchat &lt;- computeCommunProb(cellchat)
+</span></span><span style="display:flex;"><span>cellchat@net$prob %&gt;% dim()
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1]  12  12 656 </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##表示656个配受体对在12种细胞群之间的通讯概率，显著性</span>
+</span></span><span style="display:flex;"><span>cellchat@net$prob[1:<span style="color:#ff0;font-weight:bold">4</span>,<span style="color:#ff0;font-weight:bold">1</span>:<span style="color:#ff0;font-weight:bold">4</span>,<span style="color:#ff0;font-weight:bold">1</span>]
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#              APOE+ FIB FBN1+ FIB COL11A1+ FIB Inflam. FIB</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># APOE+ FIB            0         0            0           0</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># FBN1+ FIB            0         0            0           0</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># COL11A1+ FIB         0         0            0           0</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Inflam. FIB          0         0            0           0</span>
+</span></span><span style="display:flex;"><span>cellchat@net$pval[1:<span style="color:#ff0;font-weight:bold">4</span>,<span style="color:#ff0;font-weight:bold">1</span>:<span style="color:#ff0;font-weight:bold">4</span>,<span style="color:#ff0;font-weight:bold">1</span>]
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#              APOE+ FIB FBN1+ FIB COL11A1+ FIB Inflam. FIB</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># APOE+ FIB            1         1            1           1</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># FBN1+ FIB            1         1            1           1</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># COL11A1+ FIB         1         1            1           1</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Inflam. FIB          1         1            1           1</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="23-基于配受体通讯的衍生分析1">2.3 基于配受体通讯的衍生分析1<a hidden class="anchor" aria-hidden="true" href="#23-基于配受体通讯的衍生分析1">#</a></h4>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">27
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">28
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">29
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">30
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">31
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">32
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">33
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">34
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">35
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">36
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">37
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">38
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">39
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">40
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">41
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">42
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">43
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">44
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">45
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">46
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">47
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">48
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">49
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">50
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">51
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">52
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">#(1)归纳细胞群之间的通讯</span>
+</span></span><span style="display:flex;"><span>cellchat &lt;- aggregateNet(cellchat)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##有如下两类结果 count,weight</span>
+</span></span><span style="display:flex;"><span>cellchat@net$count %&gt;% dim()
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#[1] 12 12</span>
+</span></span><span style="display:flex;"><span>cellchat@net$count[1:<span style="color:#ff0;font-weight:bold">4</span>,<span style="color:#ff0;font-weight:bold">1</span>:<span style="color:#ff0;font-weight:bold">4</span>]
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#              APOE+ FIB FBN1+ FIB COL11A1+ FIB Inflam. FIB</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># APOE+ FIB            1         3            1           1</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># FBN1+ FIB            1         3            1           1</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># COL11A1+ FIB         1         2            1           1</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Inflam. FIB          0         2            0           0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##summarizing the communication probability.</span>
+</span></span><span style="display:flex;"><span>cellchat@net$weight %&gt;% dim()
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#[1] 12 12</span>
+</span></span><span style="display:flex;"><span>cellchat@net$weight[1:<span style="color:#ff0;font-weight:bold">4</span>,<span style="color:#ff0;font-weight:bold">1</span>:<span style="color:#ff0;font-weight:bold">4</span>]
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#                APOE+ FIB  FBN1+ FIB COL11A1+ FIB Inflam. FIB</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># APOE+ FIB    0.006276293 0.07304813  0.007386033 0.008251458</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># FBN1+ FIB    0.004854738 0.05861039  0.005714571 0.006385410</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># COL11A1+ FIB 0.003575889 0.01721547  0.004210181 0.004705254</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Inflam. FIB  0.000000000 0.04183220  0.000000000 0.000000000</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#(2) 将配受体水平的细胞通讯归纳为通路水平的细胞通讯</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">###summarizing all related ligands/receptors</span>
+</span></span><span style="display:flex;"><span>cellchat@netP <span style="color:#007f7f">#list()</span>
+</span></span><span style="display:flex;"><span>cellchat &lt;- computeCommunProbPathway(cellchat)
+</span></span><span style="display:flex;"><span>cellchat@netP$prob %&gt;% dim()
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] 12 12 13</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##表示13条通路在12种细胞群之间的通讯概率</span>
+</span></span><span style="display:flex;"><span>cellchat@netP$pathways
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] &#34;MIF&#34;        &#34;GALECTIN&#34;   &#34;CXCL&#34;       &#34;COMPLEMENT&#34; &#34;FGF&#34;       </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [6] &#34;TNF&#34;        &#34;CCL&#34;        &#34;GAS&#34;        &#34;IL4&#34;        &#34;CD40&#34;      </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [11] &#34;LIGHT&#34;      &#34;CSF&#34;        &#34;VEGF&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>tmp = cellchat@netP$prob
+</span></span><span style="display:flex;"><span>dimnames(tmp)
+</span></span><span style="display:flex;"><span>netP_df = lapply(dimnames(tmp)[[3]], function(x){
+</span></span><span style="display:flex;"><span>	<span style="color:#007f7f"># x=dimnames(a)[[3]][1]</span>
+</span></span><span style="display:flex;"><span>	tmp[,,x] %&gt;% as.data.frame() %&gt;%
+</span></span><span style="display:flex;"><span>		tibble::rownames_to_column(<span style="color:#0ff;font-weight:bold">&#34;Source&#34;</span>) %&gt;%
+</span></span><span style="display:flex;"><span>		dplyr::mutate(Pathway=x) %&gt;%
+</span></span><span style="display:flex;"><span>		dplyr::select(Pathway, Source, dplyr::everything())
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>}) %&gt;% do.call(rbind, .)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#查看感兴趣的细胞类型的涉及通路</span>
+</span></span><span style="display:flex;"><span>celltype=c(<span style="color:#0ff;font-weight:bold">&#34;DNT_1&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;DNT_2&#34;</span>)
+</span></span><span style="display:flex;"><span>idx1 = netP_df$Source %in% celltype
+</span></span><span style="display:flex;"><span>idx2 = rowSums(netP_df[,c(<span style="color:#ff0;font-weight:bold">-1</span>,<span style="color:#ff0;font-weight:bold">-2</span>)])!=<span style="color:#ff0;font-weight:bold">0</span>
+</span></span><span style="display:flex;"><span>idx3 = rowSums(netP_df[,celltype,drop=F])!=<span style="color:#ff0;font-weight:bold">0</span>
+</span></span><span style="display:flex;"><span>netP_df[idx1 &amp; idx2 | idx3, ]
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="24-分析结果可视化">2.4 分析结果可视化<a hidden class="anchor" aria-hidden="true" href="#24-分析结果可视化">#</a></h4>
+<h5 id="241-细胞群水平">2.4.1 细胞群水平<a hidden class="anchor" aria-hidden="true" href="#241-细胞群水平">#</a></h5>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>groupSize &lt;- as.numeric(table(cellchat@idents))
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#如下线link的宽度与细胞群之间存在通讯配受体对数目成正比</span>
+</span></span><span style="display:flex;"><span>netVisual_circle(cellchat@net$count, vertex.weight = groupSize, weight.scale = T, 
+</span></span><span style="display:flex;"><span>                 label.edge= F, title.name = <span style="color:#0ff;font-weight:bold">&#34;Number of interactions&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#也可以设置为与通讯配受体对概率和成正比</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#netVisual_circle(cellchat@net$weight, vertex.weight = groupSize, weight.scale = T, </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#                 label.edge= F, title.name = &#34;Interaction weights/strength&#34;)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/BDiUSt4QRAbj2HN.png" alt="image-20220403134456945" style="zoom:50%;" />
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">#如果只想关注某一类细胞群相关的通讯情况</span>
+</span></span><span style="display:flex;"><span>mat &lt;- cellchat@net$weight
+</span></span><span style="display:flex;"><span>mat2 &lt;- matrix(<span style="color:#ff0;font-weight:bold">0</span>, nrow = nrow(mat), ncol = ncol(mat), dimnames = dimnames(mat))
+</span></span><span style="display:flex;"><span>mat2[<span style="color:#0ff;font-weight:bold">&#34;APOE+ FIB&#34;</span>, ] &lt;- mat[<span style="color:#0ff;font-weight:bold">&#34;APOE+ FIB&#34;</span>, ]
+</span></span><span style="display:flex;"><span>netVisual_circle(mat2, vertex.weight = groupSize, weight.scale = T, 
+</span></span><span style="display:flex;"><span>                 edge.weight.max = max(mat), title.name = <span style="color:#0ff;font-weight:bold">&#34;APOE+ FIB&#34;</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/mpFJaowUsi39zO7.png" alt="image-20220403134924265" style="zoom:50%;" />
+<h5 id="242-通路水平">2.4.2 通路水平<a hidden class="anchor" aria-hidden="true" href="#242-通路水平">#</a></h5>
+<ul>
+<li>如下示例选择CXCL通路</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">#(1)netVisual_aggregate()函数支持3种可视化布局，通过设置layout参数</span>
+</span></span><span style="display:flex;"><span>pathways.show &lt;- c(<span style="color:#0ff;font-weight:bold">&#34;CXCL&#34;</span>) 
+</span></span><span style="display:flex;"><span>vertex.receiver = seq(<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">3</span>)  
+</span></span><span style="display:flex;"><span>netVisual_aggregate(cellchat, signaling = pathways.show,  
+</span></span><span style="display:flex;"><span>                    vertex.receiver = vertex.receiver,
+</span></span><span style="display:flex;"><span>                    layout = <span style="color:#0ff;font-weight:bold">&#34;hierarchy&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># netVisual_aggregate(cellchat, signaling = pathways.show,  </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#                     vertex.receiver = vertex.receiver,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#                     layout = &#34;circle&#34;)</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># netVisual_aggregate(cellchat, signaling = pathways.show, </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#                     vertex.receiver = vertex.receiver,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#                     layout = &#34;chord&#34;)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##如果使用第3中和弦图的可视化方式，那么可以再进一步指定细胞高层次的分组</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># group.cellType &lt;- c(rep(&#34;FIB&#34;, 4), rep(&#34;DC&#34;, 4), rep(&#34;TC&#34;, 4))</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># names(group.cellType) &lt;- levels(cellchat@idents)</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># netVisual_chord_cell(cellchat, signaling = pathways.show, group = group.cellType, </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#                      title.name = paste0(pathways.show, &#34; signaling network&#34;))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/IwYJlmCK2Pzh1fO.png" alt="image-20220403135424382"  />
+</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">#(2) netVisual_heatmap()热图</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##列表示Source，行表示Target</span>
+</span></span><span style="display:flex;"><span>netVisual_heatmap(cellchat, signaling = pathways.show, 
+</span></span><span style="display:flex;"><span>                  color.heatmap = <span style="color:#0ff;font-weight:bold">&#34;Reds&#34;</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/6P1X3JLNGsa5tbg.png" alt="image-20220403135750487"  />
+</p>
+<h5 id="243-配受体对水平">2.4.3 配受体对水平<a hidden class="anchor" aria-hidden="true" href="#243-配受体对水平">#</a></h5>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">## (1)通路与对应的配受体对</span>
+</span></span><span style="display:flex;"><span>pairLR.CXCL &lt;- extractEnrichedLR(cellchat, signaling = pathways.show, 
+</span></span><span style="display:flex;"><span>                                 geneLR.return = <span style="color:#fff;font-weight:bold">FALSE</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   interaction_name</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1     CXCL12_CXCR4</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2     CXCL12_ACKR3</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## 可视化在通路的通讯水平中，哪些配受体的作用最大</span>
+</span></span><span style="display:flex;"><span>netAnalysis_contribution(cellchat, signaling = pathways.show)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>接下来选取<code>CXCL12_CXCR4</code>配受体对进行可视化</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">## (2)netVisual_individual()</span>
+</span></span><span style="display:flex;"><span>LR.show &lt;- <span style="color:#0ff;font-weight:bold">&#39;CXCL12_CXCR4&#39;</span>
+</span></span><span style="display:flex;"><span>vertex.receiver = seq(<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">2</span>) <span style="color:#007f7f"># a numeric vector. </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># netVisual_individual(cellchat, signaling = pathways.show,  </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#                     pairLR.use = LR.show, </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#                     vertex.receiver = vertex.receiver,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#                     layout = &#34;hierarchy&#34;)</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># netVisual_individual(cellchat, signaling = pathways.show,  </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#                      pairLR.use = LR.show, </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#                      vertex.receiver = vertex.receiver,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#                      layout = &#34;circle&#34;)</span>
+</span></span><span style="display:flex;"><span>netVisual_individual(cellchat, signaling = pathways.show, 
+</span></span><span style="display:flex;"><span>                     pairLR.use = LR.show, 
+</span></span><span style="display:flex;"><span>                     vertex.receiver = vertex.receiver,
+</span></span><span style="display:flex;"><span>                     layout = <span style="color:#0ff;font-weight:bold">&#34;chord&#34;</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/gfAHjlXRmE9WDNd.png" alt="image-20220403140903978"  />
+</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">## (3)netVisual_bubble()气泡图</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##有点类似的Seurat的dotplot()</span>
+</span></span><span style="display:flex;"><span>netVisual_bubble(cellchat, sources.use = <span style="color:#ff0;font-weight:bold">4</span>, targets.use = c(<span style="color:#ff0;font-weight:bold">5</span>:<span style="color:#ff0;font-weight:bold">11</span>), 
+</span></span><span style="display:flex;"><span>                 remove.isolate = <span style="color:#fff;font-weight:bold">FALSE</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># #指定通路所包含的配受体</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># pairLR.use &lt;- extractEnrichedLR(cellchat, signaling = c(&#34;CCL&#34;,&#34;CXCL&#34;,&#34;FGF&#34;))</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># netVisual_bubble(cellchat, sources.use = c(3,4), targets.use = c(5:8), </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#                  pairLR.use = pairLR.use, remove.isolate = TRUE)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/69EOQ3pA7hUxYgC.png" alt="image-20220403141426935" style="zoom:50%;" />
+<blockquote>
+<p>此外 <code>netVisual_chord_gene()</code>函数支持通路、配受体水平的细胞群通讯和弦图可视化；<code>plotGeneExpression()</code>通路涉及基因在不同细胞群的表达情况可视化，就不展示了。</p>
+</blockquote>
+<h4 id="25-基于配受体通讯的衍生分析2">2.5 基于配受体通讯的衍生分析2<a hidden class="anchor" aria-hidden="true" href="#25-基于配受体通讯的衍生分析2">#</a></h4>
+<h5 id="251-鉴别senders-receivers等">2.5.1 鉴别senders, receivers等<a hidden class="anchor" aria-hidden="true" href="#251-鉴别senders-receivers等">#</a></h5>
+<p>将细胞群作为节点，细胞群的配受体/通路通讯关系作为有方向、有权重的边则构建了一个细胞通讯网络</p>
+<ul>
+<li>根据节点的出度(out-degree)和，分析细胞群是否为dominant senders</li>
+<li>根据节点的入度(in-degree)和，分析细胞群是否为dominant receivers</li>
+<li>根据节点的betweenness，centrality  等，计算细胞群是否为重要的dominant mediator、influencer</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>cellchat &lt;- netAnalysis_computeCentrality(cellchat, slot.name = <span style="color:#0ff;font-weight:bold">&#34;netP&#34;</span>)
+</span></span><span style="display:flex;"><span>cellchat@netP$centr %&gt;% names()
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#(1)概括图</span>
+</span></span><span style="display:flex;"><span>netAnalysis_signalingRole_network(cellchat, signaling = pathways.show, 
+</span></span><span style="display:flex;"><span>                                  width = <span style="color:#ff0;font-weight:bold">8</span>, height = <span style="color:#ff0;font-weight:bold">2.5</span>, font.size = <span style="color:#ff0;font-weight:bold">10</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/QvUtJjp89ezVhPK.png" alt="image-20220403143910063"  />
+</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">#(2)重点可视化senders, receivers的关系</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##all signaling pathways</span>
+</span></span><span style="display:flex;"><span>netAnalysis_signalingRole_scatter(cellchat)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##也可以指定通路</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## netAnalysis_signalingRole_scatter(cellchat, signaling = c(&#34;CXCL&#34;, &#34;CCL&#34;))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/8t1Dv6uHRSVZ7F4.png" alt="image-20220403144005454" style="zoom:50%;" />
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">#(3)所有通路在所有细胞群的出入度可视化</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## which signals contributing most to outgoing  signaling of certain cell groups.</span>
+</span></span><span style="display:flex;"><span>netAnalysis_signalingRole_heatmap(cellchat, pattern = <span style="color:#0ff;font-weight:bold">&#34;outgoing&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># ## which signals contributing most to incoming signaling of certain cell groups.</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># netAnalysis_signalingRole_heatmap(cellchat, pattern = &#34;incoming&#34;)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/yj94l3b6LKdWhkQ.png" alt="image-20220403144400326" style="zoom:67%;" />
+<h5 id="252-模式识别nmf">2.5.2 模式识别NMF<a hidden class="anchor" aria-hidden="true" href="#252-模式识别nmf">#</a></h5>
+<ul>
+<li>关于NMF非负矩阵分解：将原始矩阵分解为两个非负的子矩阵，分别称之为系数矩阵与基矩阵；可以结合Bulk RNAseq表达矩阵分解出样本的细胞类型比例组成理解。</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/vt8IPhQVr6uY2DT.jpg" alt="微信图片_20220403150510" style="zoom: 33%;" />
+<ul>
+<li>在这一步，试分析：哪些通路类似从而属于同一个模式(Pattern)，这些模式主要在哪些细胞类型中高表达。</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>library(NMF)
+</span></span><span style="display:flex;"><span>library(ggalluvial)
+</span></span><span style="display:flex;"><span>selectK(cellchat, pattern = <span style="color:#0ff;font-weight:bold">&#34;outgoing&#34;</span>) <span style="color:#007f7f">#time consuming</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#根据上述结果，提示可能有3个潜在的Pattern</span>
+</span></span><span style="display:flex;"><span>cellchat &lt;- identifyCommunicationPatterns(cellchat, pattern = <span style="color:#0ff;font-weight:bold">&#34;outgoing&#34;</span>, k = <span style="color:#ff0;font-weight:bold">3</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/2NUHcazoOhEXv3J.png" alt="image-20220403152050914" style="zoom:50%;" />
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">#桑基图</span>
+</span></span><span style="display:flex;"><span>netAnalysis_river(cellchat, pattern = <span style="color:#0ff;font-weight:bold">&#34;outgoing&#34;</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/rVdB7HIijKlckUw.png" alt="image-20220403152219922" style="zoom:50%;" />
+<blockquote>
+<p>(1) netAnalysis_dot() 可对每个细胞群的出度和进行dotplot可视化</p>
+<p>(2) 以上是对出度out-degree的分析，同理也可以对入度in-degree进行同样的分析。</p>
+</blockquote>
+<h2 id="3两个数据集的细胞通讯比较">3、两个数据集的细胞通讯比较<a hidden class="anchor" aria-hidden="true" href="#3两个数据集的细胞通讯比较">#</a></h2>
+<ul>
+<li>对来自两种不同生物状态（如对照组与疾病组）的细胞通讯比较分析；</li>
+<li>首先需要对每种数据分别跑一遍上述的单细胞数据集细胞通讯分析流程，得到相应的CellChat对象。然后整合，就可以开始比较分析</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>library(CellChat)
+</span></span><span style="display:flex;"><span>library(patchwork)
+</span></span><span style="display:flex;"><span>cellchat.NL &lt;- readRDS(url(<span style="color:#0ff;font-weight:bold">&#34;https://ndownloader.figshare.com/files/25954199&#34;</span>))
+</span></span><span style="display:flex;"><span>cellchat.LS &lt;- readRDS(url(<span style="color:#0ff;font-weight:bold">&#34;https://ndownloader.figshare.com/files/25956518&#34;</span>))
+</span></span><span style="display:flex;"><span>cellchat.NL <span style="color:#007f7f">#17328 2552</span>
+</span></span><span style="display:flex;"><span>cellchat.LS <span style="color:#007f7f">#17328 5011</span>
+</span></span><span style="display:flex;"><span>object.list &lt;- list(NL = cellchat.NL, LS = cellchat.LS)
+</span></span><span style="display:flex;"><span>names(object.list)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] &#34;NL&#34; &#34;LS&#34;</span>
+</span></span><span style="display:flex;"><span>cellchat &lt;- mergeCellChat(object.list, add.names = names(object.list))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#先大致看一下不同生物状态的细胞通讯（数量与强度）差异</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#the total number of interactions</span>
+</span></span><span style="display:flex;"><span>gg1 &lt;- compareInteractions(cellchat, show.legend = F, group = c(<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">2</span>))
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#the total interaction strength </span>
+</span></span><span style="display:flex;"><span>gg2 &lt;- compareInteractions(cellchat, show.legend = F, group = c(<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">2</span>), measure = <span style="color:#0ff;font-weight:bold">&#34;weight&#34;</span>)
+</span></span><span style="display:flex;"><span>gg1 + gg2
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/YMXOeBCkxrERAwu.png" alt="image-20220403215516584" style="zoom: 33%;" />
+<h4 id="31-细胞群水平">3.1 细胞群水平<a hidden class="anchor" aria-hidden="true" href="#31-细胞群水平">#</a></h4>
+<ul>
+<li>计算差异可视化</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">#(1) netVisual_diffInteraction()弦图</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## 红色表示第二个数据与第一个数据增强，蓝色则表示降低</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## measure = &#34;count&#34; 数目差异</span>
+</span></span><span style="display:flex;"><span>netVisual_diffInteraction(cellchat, weight.scale = T, measure = <span style="color:#0ff;font-weight:bold">&#34;count&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># ## measure = &#34;weight&#34; 强度差异</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># netVisual_diffInteraction(cellchat, weight.scale = T, measure = &#34;weight&#34;)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/gfAqQskTMuGrKez.png" alt="image-20220403220707028" style="zoom:50%;" />
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">#(2) netVisual_heatmap()热图</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#列代表作为source与其它其它细胞类型的差异</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#列代表作为target与其它其它细胞类型的差异</span>
+</span></span><span style="display:flex;"><span>netVisual_heatmap(cellchat, measure = <span style="color:#0ff;font-weight:bold">&#34;count&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#netVisual_heatmap(cellchat, measure = &#34;weight&#34;)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/ZdKDuJXA5WFlnpc.png" alt="image-20220403220946156" style="zoom:50%;" />
+<ul>
+<li>绘制原图比较差异</li>
+</ul>
+<p>这种可视化是控制表示大小的映射(线宽等)在两个数据集的比例尺相同</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">#(1) netVisual_circle 弦图</span>
+</span></span><span style="display:flex;"><span>weight.max &lt;- getMaxWeight(object.list, attribute = c(<span style="color:#0ff;font-weight:bold">&#34;idents&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;count&#34;</span>))
+</span></span><span style="display:flex;"><span>par(mfrow = c(<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">2</span>), xpd=<span style="color:#fff;font-weight:bold">TRUE</span>)
+</span></span><span style="display:flex;"><span>for (i in <span style="color:#ff0;font-weight:bold">1</span>:length(object.list)) {
+</span></span><span style="display:flex;"><span>  netVisual_circle(object.list[[i]]@net$count, weight.scale = T, label.edge= F, 
+</span></span><span style="display:flex;"><span>                   edge.weight.max = weight.max[2], edge.width.max = <span style="color:#ff0;font-weight:bold">12</span>, 
+</span></span><span style="display:flex;"><span>                   title.name = paste0(<span style="color:#0ff;font-weight:bold">&#34;Number of interactions - &#34;</span>, names(object.list)[i]))
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/eTEZqLdm72YQCuM.png" alt="image-20220403221830254"  />
+</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f"># #简化细胞类型</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># weight.max &lt;- getMaxWeight(object.list, slot.name = c(&#34;idents&#34;, &#34;net&#34;, &#34;net&#34;), </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#                            attribute = c(&#34;idents&#34;,&#34;count&#34;, &#34;count.merged&#34;))</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># par(mfrow = c(1,2), xpd=TRUE)</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># for (i in 1:length(object.list)) {</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   netVisual_circle(object.list[[i]]@net$count.merged, weight.scale = T, label.edge= T, </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#                    edge.weight.max = weight.max[3], edge.width.max = 12, </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#                    title.name = paste0(&#34;Number of interactions - &#34;, names(object.list)[i]))</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># }</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># par(mfrow = c(1,2), xpd=TRUE)</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># netVisual_diffInteraction(cellchat, weight.scale = T, measure = &#34;count.merged&#34;, label.edge = T)</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># netVisual_diffInteraction(cellchat, weight.scale = T, measure = &#34;weight.merged&#34;, label.edge = T)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">#(2) netAnalysis_signalingRole_scatter()</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## 比较两组Incoming与Outgoing差异</span>
+</span></span><span style="display:flex;"><span>num.link &lt;- sapply(object.list, function(x) {
+</span></span><span style="display:flex;"><span>  <span style="color:#007f7f">#细胞群所参与的所有配受体对数目</span>
+</span></span><span style="display:flex;"><span>  rowSums(x@net$count) + colSums(x@net$count)-diag(x@net$count)
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># control the dot size in the different datasets</span>
+</span></span><span style="display:flex;"><span>weight.MinMax &lt;- c(min(num.link), max(num.link)) 
+</span></span><span style="display:flex;"><span>gg &lt;- list()
+</span></span><span style="display:flex;"><span>for (i in <span style="color:#ff0;font-weight:bold">1</span>:length(object.list)) {
+</span></span><span style="display:flex;"><span>  gg[[i]] &lt;- netAnalysis_signalingRole_scatter(object.list[[i]], 
+</span></span><span style="display:flex;"><span>                                               title = names(object.list)[i], 
+</span></span><span style="display:flex;"><span>                                               weight.MinMax = weight.MinMax)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>patchwork::wrap_plots(plots = gg)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/FWlZIbLqk4eX9Kx.png" alt="image-20220403223630087"  />
+</p>
+<h4 id="32-通路水平">3.2 通路水平<a hidden class="anchor" aria-hidden="true" href="#32-通路水平">#</a></h4>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">#(1) 总结通路在不同生物状态总体的对比差异</span>
+</span></span><span style="display:flex;"><span>rankNet(cellchat, mode = <span style="color:#0ff;font-weight:bold">&#34;comparison&#34;</span>, stacked = F, do.stat = <span style="color:#fff;font-weight:bold">TRUE</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># rankNet(cellchat, mode = &#34;comparison&#34;, stacked = T, do.stat = TRUE)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/MA91NI2G7mQnKvf.png" alt="image-20220403223855331"  />
+</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">#(1) 总结通路在不同生物状态的不同细胞群之间的对比差异</span>
+</span></span><span style="display:flex;"><span>library(ComplexHeatmap)
+</span></span><span style="display:flex;"><span>i = <span style="color:#ff0;font-weight:bold">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#取全集通路</span>
+</span></span><span style="display:flex;"><span>pathway.union &lt;- union(object.list[[i]]@netP$pathways, object.list[[i<span style="color:#ff0;font-weight:bold">+1</span>]]@netP$pathways)
+</span></span><span style="display:flex;"><span>ht1 = netAnalysis_signalingRole_heatmap(object.list[[i]], pattern = <span style="color:#0ff;font-weight:bold">&#34;outgoing&#34;</span>, signaling = pathway.union, title = names(object.list)[i], width = <span style="color:#ff0;font-weight:bold">5</span>, height = <span style="color:#ff0;font-weight:bold">6</span>)
+</span></span><span style="display:flex;"><span>ht2 = netAnalysis_signalingRole_heatmap(object.list[[i<span style="color:#ff0;font-weight:bold">+1</span>]], pattern = <span style="color:#0ff;font-weight:bold">&#34;outgoing&#34;</span>, signaling = pathway.union, title = names(object.list)[i<span style="color:#ff0;font-weight:bold">+1</span>], width = <span style="color:#ff0;font-weight:bold">5</span>, height = <span style="color:#ff0;font-weight:bold">6</span>)
+</span></span><span style="display:flex;"><span>draw(ht1 + ht2, ht_gap = unit(<span style="color:#ff0;font-weight:bold">0.5</span>, <span style="color:#0ff;font-weight:bold">&#34;cm&#34;</span>))
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#pattern参数可以是下面三选一</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#pattern = c(&#34;outgoing&#34;, &#34;incoming&#34;, &#34;all&#34;)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/IfM9rNJDdSBtkTA.png" alt="image-20220403224452580"  />
+</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">#(2) 基于某一特定通路的对比比较 netVisual_aggregate()</span>
+</span></span><span style="display:flex;"><span>pathways.show &lt;- c(<span style="color:#0ff;font-weight:bold">&#34;CXCL&#34;</span>) 
+</span></span><span style="display:flex;"><span>weight.max &lt;- getMaxWeight(object.list, slot.name = c(<span style="color:#0ff;font-weight:bold">&#34;netP&#34;</span>), 
+</span></span><span style="display:flex;"><span>                           attribute = pathways.show) 
+</span></span><span style="display:flex;"><span>par(mfrow = c(<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">2</span>), xpd=<span style="color:#fff;font-weight:bold">TRUE</span>)
+</span></span><span style="display:flex;"><span>for (i in <span style="color:#ff0;font-weight:bold">1</span>:length(object.list)) {
+</span></span><span style="display:flex;"><span>  netVisual_aggregate(object.list[[i]], signaling = pathways.show, 
+</span></span><span style="display:flex;"><span>                      layout = <span style="color:#0ff;font-weight:bold">&#34;circle&#34;</span>, edge.weight.max = weight.max[1], 
+</span></span><span style="display:flex;"><span>                      edge.width.max = <span style="color:#ff0;font-weight:bold">10</span>, 
+</span></span><span style="display:flex;"><span>                      signaling.name = paste(pathways.show, names(object.list)[i]))
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#layout = c(&#34;circle&#34;, &#34;hierarchy&#34;, &#34;chord&#34;)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/xliDsYSyEw1TOpC.png" alt="image-20220404075930464" style="zoom:67%;" />
+<blockquote>
+<p>此外 <code>netVisual_heatmap()</code>支持热图的可视化方式</p>
+</blockquote>
+<h4 id="33-配受体水平">3.3 配受体水平<a hidden class="anchor" aria-hidden="true" href="#33-配受体水平">#</a></h4>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">#(1) netVisual_bubble() </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##直接基于两个CellChat所计算的通讯差异的结果</span>
+</span></span><span style="display:flex;"><span>netVisual_bubble(cellchat, sources.use = <span style="color:#ff0;font-weight:bold">4</span>, targets.use = c(<span style="color:#ff0;font-weight:bold">5</span>:<span style="color:#ff0;font-weight:bold">11</span>),  
+</span></span><span style="display:flex;"><span>                 comparison = c(<span style="color:#ff0;font-weight:bold">1</span>, <span style="color:#ff0;font-weight:bold">2</span>), angle.x = <span style="color:#ff0;font-weight:bold">45</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/d2namfZlteoTwDP.png" alt="image-20220403225213825" style="zoom: 67%;" />
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f"># #在LS中高表达的配受体</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># gg1 &lt;- netVisual_bubble(cellchat, sources.use = 4, targets.use = c(5:11),  </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#                         comparison = c(1, 2), max.dataset = 2, </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#                         title.name = &#34;Increased signaling in LS&#34;, </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#                         angle.x = 45, remove.isolate = T)</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># #在LS中低表达的配受体</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># gg2&lt;- netVisual_bubble(cellchat, sources.use = 4, targets.use = c(5:11),  </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#                         comparison = c(1, 2), max.dataset = 1, </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#                         title.name = &#34;Decreased signaling in LS&#34;, </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#                         angle.x = 45, remove.isolate = T)</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># gg1 + gg2</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">#(2) 基于最底层的不同状态下差异基因的配受体差异分析</span>
+</span></span><span style="display:flex;"><span>pos.dataset = <span style="color:#0ff;font-weight:bold">&#34;LS&#34;</span>
+</span></span><span style="display:flex;"><span>features.name = pos.dataset
+</span></span><span style="display:flex;"><span>cellchat &lt;- identifyOverExpressedGenes(cellchat, group.dataset = <span style="color:#0ff;font-weight:bold">&#34;datasets&#34;</span>, 
+</span></span><span style="display:flex;"><span>                                       pos.dataset = pos.dataset, features.name = features.name, 
+</span></span><span style="display:flex;"><span>                                       only.pos = <span style="color:#fff;font-weight:bold">FALSE</span>, thresh.pc = <span style="color:#ff0;font-weight:bold">0.1</span>, thresh.fc = <span style="color:#ff0;font-weight:bold">0.1</span>, thresh.p = <span style="color:#ff0;font-weight:bold">1</span>)
+</span></span><span style="display:flex;"><span>net &lt;- netMappingDEG(cellchat, features.name = features.name)
+</span></span><span style="display:flex;"><span>net.up &lt;- subsetCommunication(cellchat, net = net, datasets = <span style="color:#0ff;font-weight:bold">&#34;LS&#34;</span>,
+</span></span><span style="display:flex;"><span>                              ligand.logFC = <span style="color:#ff0;font-weight:bold">0.2</span>, receptor.logFC = <span style="color:#fff;font-weight:bold">NULL</span>)
+</span></span><span style="display:flex;"><span>head(net.up,<span style="color:#ff0;font-weight:bold">2</span>)
+</span></span><span style="display:flex;"><span>pairLR.use.up = net.up[, <span style="color:#0ff;font-weight:bold">&#34;interaction_name&#34;</span>, drop = F]
+</span></span><span style="display:flex;"><span>netVisual_bubble(cellchat, pairLR.use = pairLR.use.up, 
+</span></span><span style="display:flex;"><span>                 sources.use = <span style="color:#ff0;font-weight:bold">4</span>, targets.use = c(<span style="color:#ff0;font-weight:bold">5</span>:<span style="color:#ff0;font-weight:bold">11</span>), 
+</span></span><span style="display:flex;"><span>                 comparison = c(<span style="color:#ff0;font-weight:bold">1</span>, <span style="color:#ff0;font-weight:bold">2</span>),  angle.x = <span style="color:#ff0;font-weight:bold">90</span>, remove.isolate = T,
+</span></span><span style="display:flex;"><span>                 title.name = paste0(<span style="color:#0ff;font-weight:bold">&#34;Up-regulated signaling in &#34;</span>, names(object.list)[2]))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#同理也是可以可视化下调的配受体对</span>
+</span></span><span style="display:flex;"><span>net.down &lt;- subsetCommunication(cellchat, net = net, datasets = <span style="color:#0ff;font-weight:bold">&#34;NL&#34;</span>,
+</span></span><span style="display:flex;"><span>                                ligand.logFC = <span style="color:#ff0;font-weight:bold">-0.1</span>, receptor.logFC = <span style="color:#ff0;font-weight:bold">-0.1</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/m6qsduj7goYeQWE.png" alt="image-20220403231130752"  />
+</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/tags/%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7/">单细胞分析工具</a></li>
+      <li><a href="https://lishensuo.github.io/tags/bioconductor%E5%8C%85/">Bioconductor包</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/posts/bioinfo/008%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--monocle%E8%BD%A8%E8%BF%B9%E5%88%86%E6%9E%90/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>单细胞分析工具--monocle轨迹分析</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/posts/bioinfo/010%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--%E8%BD%AC%E5%BD%95%E5%9B%A0%E5%AD%90pyscenic/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>单细胞分析工具--pySCENIC转录因子分析</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="https://lishensuo.github.io">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+</body>
+</html>

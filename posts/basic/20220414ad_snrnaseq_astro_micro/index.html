@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>AD星形胶质细胞与小胶质细胞的snRNA-seq数据分析 | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="文献AD, 文献scRNAseq">
+<meta name="keywords" content="文献-AD, 文献-单细胞">
 <meta name="description" content="AD星形胶质细胞与小胶质细胞的snRNA-seq数据分析 Diverse human astrocyte and microglial transcriptional responses to Alzheimer’s pathology Acta Neuropathologica (2022) 143:75–91 IF=17 https://doi.org/10.1007/s00401-021-02372-6 1、测序样本 24">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/basic/20220414ad_snrnaseq_astro_micro/">
@@ -102,7 +102,7 @@
   "name": "AD星形胶质细胞与小胶质细胞的snRNA-seq数据分析",
   "description": "AD星形胶质细胞与小胶质细胞的snRNA-seq数据分析 Diverse human astrocyte and microglial transcriptional responses to Alzheimer’s pathology Acta Neuropathologica (2022) 143:75–91 IF=17 https://doi.org/10.1007/s00401-021-02372-6 1、测序样本 24",
   "keywords": [
-    "文献AD", "文献scRNAseq"
+    "文献-AD", "文献-单细胞"
   ],
   "articleBody": " AD星形胶质细胞与小胶质细胞的snRNA-seq数据分析\nDiverse human astrocyte and microglial transcriptional responses to Alzheimer’s pathology\nActa Neuropathologica (2022) 143:75–91\nIF=17\nhttps://doi.org/10.1007/s00401-021-02372-6\n 1、测序样本  24个样本：AD与NDC的EC(entorhinal)与SSC(somatosensory) cortical region(2×2×6) 使用Immunohistochemistry量化每个样本的p-Tau与Amyloid-beta指标   本文是想研究astrocyte星形胶质细胞与microglial小胶质细胞在AD中所发挥的作用。但是The proportions of microglia and astrocytes defined by snR- NASeq of nuclei isolated from the human brain post-mortem are low and variable。 因此本文采取的方式是使用阴性选择方法去除样本中的neuron与oligodendroglia，间接富集Astro与Micro，再进行snRNA-seq测序。测序数据已经上传到GSE160936。  2、鉴定细胞类型   经数据预处理后，使用AUCell，结合细胞marker基因进行细胞类型注释，如下图所示Astro(52706)与Micro(27592)占大部分\n  文章为了验证所富集的Astro与Micro不存在偏差bias，做了进一步的分析。即对上述24个样本又做了非富集的snRNAseq测序，注释出细胞类型。通过比较同一样本的富集与非富集的Astro(Micro)细胞类型的Top10% HVG高变基因的相关性，从而表示富集到Astro(Micro)不存在bias。\n   24+24=48个snRNAseq，这篇文章应该花了很多钱。\n 3、差异基因分析   文章并非按一般的AD/NAD差异分析，而是将基因表达与样本的p-Tau(或Amyloid-beta)指标进行回归分析，并校正性别、线粒体含量等因素。\n  此时基因差异表达倍数的含义表示为pTau (or amyloid density)发生一单位的变化，基因表达差异的log2倍数（斜率）。如下例图所示\n   文章提到是使用MAST包的zlm()进行的回归分析。\n  按照上述思路可分别对Astro与Micro进行Amyloid-beta、pTau两个指标的回归分析，即得到4类差异基因。如下图所示在Astro中的两类差异基因火山图。从右侧的韦恩图可以得到有208个基因表达与Amyloid-beta、pTau正相关等信息。    继续以Astro差异基因为例。文章将Amyloid-beta、pTau两个指标的回归差异基因进行通路富集分析(GO/Reactome/Wikipathways)，得出结论：Increased expression of genes related to metal ion homeostasis, proteostasis, and inflammation in astrocytes with AD pathology。同法，也对Micro差异基因结果进行类似的分析。\n  4、细胞通讯分析  使用CellChat包对Astro与Micro进行ligand–receptor的细胞间通讯分析。 根据配受体基因与Amyloid-beta、pTau两个指标的相关性，将CellChat结果分为3类：（1）Amyloid-beta and pTau；（2）Amyloid-beta only；（3）pTau only 如下图是Amyloid-beta and pTau的结果，可结合配受体对的功能展开分析与讨论。  5、共表达网络分析   文章使用MEGENA进行共表达网络分析，计算得到astrocytes与microglia分别在EC与SSC的module；使用SCENIC进行转录因子分析，也分别得到astrocytes与microglia分别在EC与SSC的regulons。\n  然后使用AUCell包计算出每个细胞核的对应细胞类型模块的score。然后结合Aβ/pTau指标进行类似上述差异基因的回归分析。即Aβ/pTau指标变化与模块表达score是否存在相关性。根据分析结果，初步得到结论：The EC and SSC show similar co‑expression signatures。如下图展示部分module与regulon\n   根据上述得到的基因模块表达特征与功能特征，分析AD GWAS基因所发挥的cell-specific功能。例如下图所示：GPNMB已知是AD的biomarker，它是Micro的amyloid-beta and pTau 正相关模块(module11)的hub gene；而且该基因在AD的Micro中也是相对高表达。  6、亚群特征分析   根据之前的细胞类型注释，将Astro与Micro进行在亚群分析。\n  在亚群分析时，主要结合细胞亚群的marker基因功能，是否为上述的差异基因；亚群熷细胞是否特异表达/参与上述计算得到的module/regulon等，具体可参看原文献。\n   我的想法：这篇单细胞文章测序样本量大，且有创新之处，即富集的Astro与Micro。而且计算差异基因方式很有新意，即进行病理指标的回归，也许更可以反映出基因表达水平与AD病理特征的关系。文章也使用多种多样的单细胞数据分析手段，例如亚群分析、细胞通讯分析、转录因子分析。总之无论是测序数据还是分析方法，都挺有借鉴价值的。\n ",
   "wordCount" : "1984",
@@ -426,19 +426,19 @@ NASeq of nuclei isolated from the human brain post-mortem are <strong>low and va
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://lishensuo.github.io/tags/%E6%96%87%E7%8C%AEad/">文献AD</a></li>
-      <li><a href="https://lishensuo.github.io/tags/%E6%96%87%E7%8C%AEscrnaseq/">文献scRNAseq</a></li>
+      <li><a href="https://lishensuo.github.io/tags/%E6%96%87%E7%8C%AE-ad/">文献-AD</a></li>
+      <li><a href="https://lishensuo.github.io/tags/%E6%96%87%E7%8C%AE-%E5%8D%95%E7%BB%86%E8%83%9E/">文献-单细胞</a></li>
     </ul>
 <nav class="paginav">
-  <a class="prev" href="https://lishensuo.github.io/posts/bioinfo/%E5%8D%95%E7%BB%86%E8%83%9E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90--%E8%BD%AC%E5%BD%95%E5%9B%A0%E5%AD%90pyscenic/">
+  <a class="prev" href="https://lishensuo.github.io/posts/bioinfo/010%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--%E8%BD%AC%E5%BD%95%E5%9B%A0%E5%AD%90pyscenic/">
     <span class="title">« Prev Page</span>
     <br>
-    <span>单细胞数据分析工具--pySCENIC</span>
+    <span>单细胞分析工具--pySCENIC转录因子分析</span>
   </a>
-  <a class="next" href="https://lishensuo.github.io/posts/bioinfo/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er1--%E5%88%86%E7%B1%BB--knn/">
+  <a class="next" href="https://lishensuo.github.io/posts/bioinfo/049%E4%B8%8B%E8%BD%BD%E6%B5%8B%E5%BA%8F%E6%95%B0%E6%8D%AEsrr%E4%B8%8Efastq.gz%E6%96%B9%E5%BC%8F/">
     <span class="title">Next Page »</span>
     <br>
-    <span>机器学习基于R(1)--分类--KNN</span>
+    <span>下载测序数据SRR与fastq.gz方式</span>
   </a>
 </nav>
 
