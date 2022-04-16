@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>机器学习基于R(2)--分类--逻辑回归 | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="机器学习">
+<meta name="keywords" content="机器学习, 机器学习基于R">
 <meta name="description" content="1、逻辑回归的算法理解 逻辑回归 = 线性回归 &#43; Sigmoid函数 与线性回归相同的是同样需要学习变量的权重(系数)与偏置(截距)；与线性回归不同的">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/bioinfo/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er2--%E5%88%86%E7%B1%BB--%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/">
@@ -102,7 +102,7 @@
   "name": "机器学习基于R(2)--分类--逻辑回归",
   "description": "1、逻辑回归的算法理解 逻辑回归 = 线性回归 + Sigmoid函数 与线性回归相同的是同样需要学习变量的权重(系数)与偏置(截距)；与线性回归不同的",
   "keywords": [
-    "机器学习"
+    "机器学习", "机器学习基于R"
   ],
   "articleBody": "1、逻辑回归的算法理解  逻辑回归 = 线性回归 + Sigmoid函数   与线性回归相同的是同样需要学习变量的权重(系数)与偏置(截距)；与线性回归不同的是逻辑回归的输出必须限制在0和1之间，即解释为概率（二分类）。 一般来说：P0.5,分类为1，P  2、mlr建模 2.1 泰坦尼克号示例数据 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19  data(titanic_train, package = \"titanic\") titanicSub = titanic_train[,c(\"Survived\",\"Sex\",\"Pclass\",  \"Age\",\"Fare\",\"SibSp\",\"Parch\")] summary(titanicSub) # Survived Sex Pclass Age Fare SibSp Parch  # Min. :0.0000 Length:891 Min. :1.000 Min. : 0.42 Min. : 0.00 Min. :0.000 Min. :0.0000  # 1st Qu.:0.0000 Class :character 1st Qu.:2.000 1st Qu.:20.12 1st Qu.: 7.91 1st Qu.:0.000 1st Qu.:0.0000  # Median :0.0000 Mode :character Median :3.000 Median :28.00 Median : 14.45 Median :0.000 Median :0.0000  # Mean :0.3838 Mean :2.309 Mean :29.70 Mean : 32.20 Mean :0.523 Mean :0.3816  # 3rd Qu.:1.0000 3rd Qu.:3.000 3rd Qu.:38.00 3rd Qu.: 31.00 3rd Qu.:1.000 3rd Qu.:0.0000  # Max. :1.0000 Max. :3.000 Max. :80.00 Max. :512.33 Max. :8.000 Max. :6.0000  # 第一列：生存与否0/1 # 第二列：性别 # 第三列：头等舱、二等舱、三等舱 1/2/3 # 第四列：年龄 # 第五列：票价 # 第六列：兄弟姐妹+配偶人数 # 第七列：父母和孩子总人数    数据预处理  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20  #（1）分类变量因子化 #（2）挑选合适特征（第六列+第七列，表示家庭成员数） fctrs \"Survived\", \"Sex\", \"Pclass\") titanicClean %  mutate_at(.vars = fctrs, .funs = factor) %%  mutate(FamSize = SibSp + Parch) %%  select(Survived, Pclass, Sex, Age, Fare, FamSize) head(titanicClean) # Survived Pclass Sex Age Fare FamSize # 1 0 3 male 22 7.2500 1 # 2 1 1 female 38 71.2833 1 # 3 1 3 female 26 7.9250 0 # 4 1 1 female 35 53.1000 1 # 5 0 3 male 35 8.0500 0 # 6 0 3 male NA 8.4583 0  # （3） 在年龄列有缺失值（NA），需要处理 ##如下均值用缺失值代替 imp sum(is.na(imp$data$Age)) #0   2.2 确定预测目标与训练方法  （1）确定预测目的：根据5个变量Pclass，Sex ，Age，Fare 以及FamSize预测是否会生存  1 2  titanicTask \"Survived\") titanicTask    （2）确定预测方法：使用逻辑回归算法，无超参数  1 2  #设置predict.type参数为\"prob\"，则预测输出不仅仅是分类变量，还有概率值 logReg \"classif.logreg\", predict.type = \"prob\")   2.3 模型训练、预测 1 2  #训练模型 logRegModel    理解模型的系数  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18  logRegModelData coef(logRegModelData) # (Intercept) Pclass2 Pclass3 Sexmale Age Fare FamSize  # 3.809661697 -1.000344806 -2.132428850 -2.775928255 -0.038822458 0.003218432 -0.243029114  #指数转换 exp(cbind(Odds_Ratio = coef(logRegModelData), confint(logRegModelData))) # Odds_Ratio 2.5 % 97.5 % # (Intercept) 45.13516691 19.14718874 109.72483921 # Pclass2 0.36775262 0.20650392 0.65220841 # Pclass3 0.11854901 0.06700311 0.20885220 # Sexmale 0.06229163 0.04182164 0.09116657 # Age 0.96192148 0.94700049 0.97652950 # Fare 1.00322362 0.99872001 1.00863263 # FamSize 0.78424868 0.68315465 0.89110044  #对于连续变量的解释：例如Age：表示其它变量不变，每Age增长1岁，生存率降低4% #对于分类变量的解释，需要有参照：例如Sexmale：表示男性的生存率仅为女性的6%    模型预测  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17  data(titanic_test, package = \"titanic\") titanicNewClean %  mutate_at(.vars = c(\"Sex\", \"Pclass\"), .funs = factor) %%  mutate(FamSize = SibSp + Parch) %%  select(Pclass, Sex, Age, Fare, FamSize)  LogiPred = predict(logRegModel, newdata = titanicNewClean) head(LogiPred$data) # prob.0 prob.1 response # 1 0.9178036 0.08219636 0 # 2 0.5909570 0.40904305 0 # 3 0.9123303 0.08766974 0 # 4 0.8927383 0.10726167 0 # 5 0.4069407 0.59305933 1 # 6 0.8337609 0.16623907 0  #由于在这个test测试集里没有Survived列，所以返回的对象列没有表示真实生存状态的truth列   2.4 交叉验证模型  50次重复的10折交叉验证  1 2  kFold \"RepCV\", folds = 10, reps = 50,  stratify = TRUE)    重新定义学习方法  1 2 3  #由于在数据预处理步骤时，使用均值模拟了缺失值。在交叉验证时也需要将这一步纳入进去 logRegWrapper \"classif.logreg\",  cols = list(Age = imputeMean()))    交叉验证  1 2 3 4 5 6 7 8  logRegwithImpute  measures = list(acc, fpr, fnr)) logRegwithImpute # Resample Result # Task: imp$data # Learner: classif.logreg.imputed # Aggr perf: acc.test.mean=0.7965652,fpr.test.mean=0.2987697,fnr.test.mean=0.1440801 # Runtime: 8.90803   ",
   "wordCount" : "1173",
@@ -616,17 +616,18 @@ Create:&nbsp;<span title='2022-04-10 00:00:00 +0000 UTC'>2022-04-10</span>&nbsp;
   <footer class="post-footer">
     <ul class="post-tags">
       <li><a href="https://lishensuo.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></li>
+      <li><a href="https://lishensuo.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er/">机器学习基于R</a></li>
     </ul>
 <nav class="paginav">
-  <a class="prev" href="https://lishensuo.github.io/posts/program/python%E5%9F%BA%E7%A1%80-2%E5%BA%8F%E5%88%97%E5%85%83%E7%BB%84%E4%B8%8E%E5%AD%97%E7%AC%A6%E4%B8%B2/">
+  <a class="prev" href="https://lishensuo.github.io/posts/bioinfo/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er1--%E5%88%86%E7%B1%BB--knn/">
     <span class="title">« Prev Page</span>
     <br>
-    <span>Python基础-(2)序列、元组与字符串</span>
+    <span>机器学习基于R(1)--分类--KNN</span>
   </a>
-  <a class="next" href="https://lishensuo.github.io/posts/program/python%E5%9F%BA%E7%A1%80-3%E6%9D%A1%E4%BB%B6%E4%B8%8E%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5/">
+  <a class="next" href="https://lishensuo.github.io/posts/bioinfo/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er3--%E5%88%86%E7%B1%BB--lda%E4%B8%8Eqda/">
     <span class="title">Next Page »</span>
     <br>
-    <span>Python基础-(3)条件与循环语句</span>
+    <span>机器学习基于R(3)--分类--LDA与QDA</span>
   </a>
 </nav>
 

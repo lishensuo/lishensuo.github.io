@@ -5,10 +5,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="">
+<title>机器学习基于R(6)--分类--决策树 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="机器学习, 机器学习基于R">
 <meta name="description" content="1、决策树基础 1.1 决策树的构成 （1）决策树由节点组成，可分为决策节点(Decision tree)与叶节点(leaf node)。 （2）从上到下的">
-<meta name="author" content="">
+<meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/bioinfo/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er6--%E5%88%86%E7%B1%BB--%E5%86%B3%E7%AD%96%E6%A0%91/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.min.1abf8254c205953f8beb228727a5e0a5541f0bc42f68f2762e2e594e7b213985.css" integrity="sha256-Gr&#43;CVMIFlT&#43;L6yKHJ6XgpVQfC8QvaPJ2Li5ZTnshOYU=" rel="preload stylesheet" as="style">
 <script defer crossorigin="anonymous" src="/assets/js/highlight.min.4dcb3c4f38462f66c6b6137227726f5543cb934cca9788f041c087e374491df2.js" integrity="sha256-Tcs8TzhGL2bGthNyJ3JvVUPLk0zKl4jwQcCH43RJHfI="
@@ -56,15 +56,15 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="" />
+</noscript><meta property="og:title" content="机器学习基于R(6)--分类--决策树" />
 <meta property="og:description" content="1、决策树基础 1.1 决策树的构成 （1）决策树由节点组成，可分为决策节点(Decision tree)与叶节点(leaf node)。 （2）从上到下的" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://lishensuo.github.io/posts/bioinfo/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er6--%E5%88%86%E7%B1%BB--%E5%86%B3%E7%AD%96%E6%A0%91/" /><meta property="article:section" content="posts" />
-
-
+<meta property="article:published_time" content="2022-04-16T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2022-04-16T00:00:00&#43;00:00" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content=""/>
+<meta name="twitter:title" content="机器学习基于R(6)--分类--决策树"/>
 <meta name="twitter:description" content="1、决策树基础 1.1 决策树的构成 （1）决策树由节点组成，可分为决策节点(Decision tree)与叶节点(leaf node)。 （2）从上到下的"/>
 
 
@@ -88,7 +88,7 @@
     {
       "@type": "ListItem",
       "position":  4 ,
-      "name": "",
+      "name": "机器学习基于R(6)--分类--决策树",
       "item": "https://lishensuo.github.io/posts/bioinfo/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er6--%E5%88%86%E7%B1%BB--%E5%86%B3%E7%AD%96%E6%A0%91/"
     }
   ]
@@ -98,17 +98,21 @@
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "",
-  "name": "",
+  "headline": "机器学习基于R(6)--分类--决策树",
+  "name": "机器学习基于R(6)--分类--决策树",
   "description": "1、决策树基础 1.1 决策树的构成 （1）决策树由节点组成，可分为决策节点(Decision tree)与叶节点(leaf node)。 （2）从上到下的",
   "keywords": [
-    
+    "机器学习", "机器学习基于R"
   ],
   "articleBody": "1、决策树基础 1.1 决策树的构成 （1）决策树由节点组成，可分为决策节点(Decision tree)与叶节点(leaf node)。\n（2）从上到下的第一个节点也称为根节点(Root Node)。根节点到叶节点的最长距离称为树的深度。\n（3）对于每一个决策节点，选择样本集的一个最佳预测变量，确定最佳的阈值，进行二分类；最后根据叶节点类别的众数进行分类（均数进行回归）。\n  在决策树中有两个关键问题：\n（1）如何选择最佳的预测变量？以及如何确定其阈值？\n（2）如何防止决策树过拟合\n  1.2 基尼系数 （1）决策树为了使表示数据杂乱程度的不纯度减小，选择预测变量的最佳cut-off进行分割。当分割出来的每个组中的标签大部分属于同种标签时，不纯度会变小。\n 每一组的复杂度可通过基尼指数表示。其值越小，表示数据纯度越高 分割前后的数据复杂度变化可通过基尼增益表示。其值越大，表示数据的纯度变得越高。  （2）基尼指数与基尼增益的计算方法如下图所示：\n如公式所示，对于二分类任务的基尼指数取值范围应为0~0.5之间。当等于0时，表示由同一种标签样本组成；当等于1时，表示两个标签样本各占一半。\n（3）比较不同预测变量的基尼增益，其实就是比较把不同预测变量的最佳分割cut-off下的基尼增益。\n具体对于不同类型的预测变量，如上图所示，有不同的选择方法（从若干候选值中选择一个最佳的，作为该预测变量的代表）\n1.3 防止决策树过拟合   如果不对决策树做出限制，它会一直划分节点，直至所有的叶节点都是只有一个类别的纯节点。这是决策树过拟合的主要原因。\n  防止过拟合的思路有两种–\n ① 先生成一颗冗长的树，再回过头修剪； ② 提前定义好规则，防止树出现过拟合。    关于第二种思路，有如下4个角度（超参数）\n  （1）直接限制最长深度；\n（2）每一次划分所引起的最小性能改进（cp值，类似于基尼增益）；\n（3）叶节点size：如果划分一个节点会导致叶节点中包含的样本数少于规定值，则不会划分；\n（4）决策节点size：如果决策节点少于规定值，则不会被划分。（就被视为了叶节点）\n2、mlr建模 2.1 动物特征数据集 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26  data(Zoo, package = \"mlbench\") zooTib #将逻辑变量(True/False)转为数值型因子变量 zooTib str(zooTib) # 'data.frame':\t101 obs. of 17 variables: # $ hair : Factor w/ 2 levels \"FALSE\",\"TRUE\": 2 2 1 2 2 2 2 1 1 2 ... # $ feathers: Factor w/ 2 levels \"FALSE\",\"TRUE\": 1 1 1 1 1 1 1 1 1 1 ... # $ eggs : Factor w/ 2 levels \"FALSE\",\"TRUE\": 1 1 2 1 1 1 1 2 2 1 ... # $ milk : Factor w/ 2 levels \"FALSE\",\"TRUE\": 2 2 1 2 2 2 2 1 1 2 ... # $ airborne: Factor w/ 2 levels \"FALSE\",\"TRUE\": 1 1 1 1 1 1 1 1 1 1 ... # $ aquatic : Factor w/ 2 levels \"FALSE\",\"TRUE\": 1 1 2 1 1 1 1 2 2 1 ... # $ predator: Factor w/ 2 levels \"FALSE\",\"TRUE\": 2 1 2 2 2 1 1 1 2 1 ... # $ toothed : Factor w/ 2 levels \"FALSE\",\"TRUE\": 2 2 2 2 2 2 2 2 2 2 ... # $ backbone: Factor w/ 2 levels \"FALSE\",\"TRUE\": 2 2 2 2 2 2 2 2 2 2 ... # $ breathes: Factor w/ 2 levels \"FALSE\",\"TRUE\": 2 2 1 2 2 2 2 1 1 2 ... # $ venomous: Factor w/ 2 levels \"FALSE\",\"TRUE\": 1 1 1 1 1 1 1 1 1 1 ... # $ fins : Factor w/ 2 levels \"FALSE\",\"TRUE\": 1 1 2 1 1 1 1 2 2 1 ... # $ legs : int 4 4 0 4 4 4 4 0 0 4 ... # $ tail : Factor w/ 2 levels \"FALSE\",\"TRUE\": 1 2 2 1 2 2 2 2 2 1 ... # $ domestic: Factor w/ 2 levels \"FALSE\",\"TRUE\": 1 1 1 1 1 1 2 2 1 2 ... # $ catsize : Factor w/ 2 levels \"FALSE\",\"TRUE\": 2 2 1 2 2 2 2 1 1 1 ... # $ type : Factor w/ 7 levels \"mammal\",\"bird\",..: 1 1 4 1 1 1 1 4 4 1 ...  ##第1~16列为动物特征 ##第17列为动物名标签   2.2 确定预测目标与训练方法 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17  #（1）根据1-16列动物特征进行动物类型预测 zooTask \"type\") #使用决策树rpart分类算法 tree \"classif.rpart\")  ##（2）确定该算法的超参数空间以及遍历方法 getParamSet(tree) treeParamSpace  makeIntegerParam(\"minsplit\", lower = 5, upper = 20),  makeIntegerParam(\"minbucket\", lower = 3, upper = 10),  makeDiscreteParam(\"cp\", values = seq(0.01,0.1,0.01)),  makeIntegerParam(\"maxdepth\", lower = 3, upper = 10)) # 16*8*10*8=100240 randSearch 200)  ##（3）交叉验证方法 cvForTuning \"CV\", iters = 5)   2.3 模型训练 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25  ##（1）确定最佳超参数组合 library(parallel) library(parallelMap) #调用多线程 parallelStartSocket(cpus = detectCores()) tunedTreePars # ~30 sec  resampling = cvForTuning,  par.set = treeParamSpace,  control = randSearch) #停用多线程 parallelStop()  tunedTreePars # Tune result: # Op. pars: minsplit=6; minbucket=3; cp=0.0345; maxdepth=9 # mmce.test.mean=0.1200000  ##（2）使用上述组合训练模型 tunedTree tunedTreeModel  ##（3）可视化决策树 treeModelData library(rpart.plot) rpart.plot(treeModelData, roundint = FALSE, type = 5)   2.4 嵌套交叉验证 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19  #inner inner \"CV\", iters = 5) #outer outer \"CV\", iters = 3)  treeWrapper \"classif.rpart\", resampling = inner,  par.set = treeParamSpace,  control = randSearch)  parallelStartSocket(cpus = 8) cvWithTuning parallelStop()  cvWithTuning # Resample Result # Task: zooTib # Learner: classif.rpart.tuned # Aggr perf: mmce.test.mean=0.1295306 # Runtime: 13.4196   ",
   "wordCount" : "1659",
   "inLanguage": "en",
-  "datePublished": "0001-01-01T00:00:00Z",
-  "dateModified": "0001-01-01T00:00:00Z",
+  "datePublished": "2022-04-16T00:00:00Z",
+  "dateModified": "2022-04-16T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": "https://lishensuo.github.io/posts/bioinfo/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er6--%E5%88%86%E7%B1%BB--%E5%86%B3%E7%AD%96%E6%A0%91/"
@@ -205,7 +209,7 @@
   <header class="post-header">
     <div class="breadcrumbs"><a href="https://lishensuo.github.io">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/posts/bioinfo/">📖 生信数据分析--分析流程，工具包等</a></div>
     <h1 class="post-title">
-      
+      机器学习基于R(6)--分类--决策树
     </h1>
     <div class="post-meta">
 
@@ -221,7 +225,7 @@
 
 
 
-Update:&nbsp;0001-01-01&nbsp;|&nbsp;Words:&nbsp;1659&nbsp;|&nbsp;4 min
+Create:&nbsp;<span title='2022-04-16 00:00:00 +0000 UTC'>2022-04-16</span>&nbsp;|&nbsp;Update:&nbsp;2022-04-16&nbsp;|&nbsp;Words:&nbsp;1659&nbsp;|&nbsp;4 min&nbsp;|&nbsp;Lishensuo
 
 |  Viewers: <span id="busuanzi_value_page_pv"></span> 
 	  
@@ -580,11 +584,15 @@ Update:&nbsp;0001-01-01&nbsp;|&nbsp;Words:&nbsp;1659&nbsp;|&nbsp;4 min
   </div>
 
   <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></li>
+      <li><a href="https://lishensuo.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er/">机器学习基于R</a></li>
+    </ul>
 <nav class="paginav">
-  <a class="prev" href="https://lishensuo.github.io/posts/basic/20220414ad_snrnaseq_astro_micro/">
+  <a class="prev" href="https://lishensuo.github.io/posts/bioinfo/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er5--%E5%88%86%E7%B1%BB--svm/">
     <span class="title">« Prev Page</span>
     <br>
-    <span>AD星形胶质细胞与小胶质细胞的snRNA-seq数据分析</span>
+    <span>机器学习基于R(5)--分类--SVM</span>
   </a>
   <a class="next" href="https://lishensuo.github.io/posts/program/python%E5%9F%BA%E7%A1%80-7%E6%A8%A1%E5%9D%97/">
     <span class="title">Next Page »</span>

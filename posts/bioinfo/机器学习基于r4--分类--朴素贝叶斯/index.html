@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>机器学习基于R(4)--分类--朴素贝叶斯 | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="机器学习">
+<meta name="keywords" content="机器学习, 机器学习基于R">
 <meta name="description" content="1、朴素贝叶斯简介 Naive Bayes：预测样本属于每一类别的概率，取概率最高的类别。包含四个概念：后验概率、似然、先验概率以及全概率。如下图示例 例">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/bioinfo/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er4--%E5%88%86%E7%B1%BB--%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF/">
@@ -102,7 +102,7 @@
   "name": "机器学习基于R(4)--分类--朴素贝叶斯",
   "description": "1、朴素贝叶斯简介 Naive Bayes：预测样本属于每一类别的概率，取概率最高的类别。包含四个概念：后验概率、似然、先验概率以及全概率。如下图示例 例",
   "keywords": [
-    "机器学习"
+    "机器学习", "机器学习基于R"
   ],
   "articleBody": "1、朴素贝叶斯简介  Naive Bayes：预测样本属于每一类别的概率，取概率最高的类别。包含四个概念：后验概率、似然、先验概率以及全概率。如下图示例  例(1)：某人的某病诊断结果为阳性，那他实际患该病的概率是多少？\n可以视为1个预测变量（诊断结果），一个二分类标签（是否患病）。\n （1）如果有多个预测变量，就单独估计每个预测变量的似然，并将它们相乘。这样做的前提是预测变量间是独立的。 （2）对于分类型预测变量可以直接计算概率；对于连续型预测变量，假设每类样本该预测变量均呈正态分布，计算概率密度，视为概率。 （3）由于全概率难以获得，且计算不同类别的后验概率，全概率值为常数，所以可以直接计算分子的乘积，进而比较不同类别的后验概率，进行分类。  例(2)：某班评三好学生，有10%名额，有三项指标。判断某同学是否有希望获奖。\n可以视为3个预测变量的二分类分体\n2、mlr建模 2.1 众议员投票情况示例数据 1 2 3 4 5 6 7 8 9 10 11 12 13  data(HouseVotes84, package = \"mlbench\") votesTib head(votesTib) # Class V1 V2 V3 V4 V5 V6 V7 V8 V9 V10 V11 V12 V13 V14 V15 V16 # 1 republican n y n y y y n n n y  y y y n y # 2 republican n y n y y y n n n n n y y y n  # 3 democrat  y y  y y n n n n y n y y n n # 4 democrat n y y n  y n n n n y n y n n y # 5 democrat y y y n y y n n n n y  y y y y # 6 democrat n y y n y y n n n n n n y y y y  #第一列：众议员的派别 #第2到17列：16次投票的表决情况   2.2 确定预测目标与训练方法  根据16次的表决情况，判断某议员是共和党还是民主党  1  votesTask \"Class\")    使用朴素贝叶斯的分类学习器  1  bayes \"classif.naiveBayes\", predict.type = \"prob\")   2.3 模型训练、预测 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29  ##(1)训练模型 bayesModel  ##先验概率 aa$apriori # Y # democrat republican  # 267 168   ##每个预测变量的似然 aa$tables$V1 # V1 # Y n y # democrat 0.3953488 0.6046512 # republican 0.8121212 0.1878788  ##(2)模型预测 politician \"n\", V2 = \"n\", V3 = \"y\", V4 = \"n\", V5 = \"n\",  V6 = \"y\", V7 = \"y\", V8 = \"y\", V9 = \"y\", V10 = \"y\",  V11 = \"n\", V12 = \"y\", V13 = \"n\", V14 = \"n\", V15 = \"y\",  V16 = \"n\") politicianPred politicianPred # Prediction: 1 observations # predict.type: prob # threshold: democrat=0.50,republican=0.50 # time: 0.00 # prob.democrat prob.republican response # 1 0.9999999 1.316593e-07 democrat   2.4 交叉验证模型 1 2 3 4 5 6 7 8 9 10 11  #50次重复的10折交叉验证 kFold \"RepCV\", folds = 10, reps = 50,  stratify = TRUE)  bayesCV  resampling = kFold,  measures = list(mmce, acc, fpr, fnr))  bayesCV$aggr # mmce.test.mean acc.test.mean fpr.test.mean fnr.test.mean  # 0.09854279 0.90145721 0.08269118 0.10862963   ",
   "wordCount" : "887",
@@ -498,17 +498,18 @@ Create:&nbsp;<span title='2022-04-10 00:00:00 +0000 UTC'>2022-04-10</span>&nbsp;
   <footer class="post-footer">
     <ul class="post-tags">
       <li><a href="https://lishensuo.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></li>
+      <li><a href="https://lishensuo.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er/">机器学习基于R</a></li>
     </ul>
 <nav class="paginav">
-  <a class="prev" href="https://lishensuo.github.io/posts/program/python%E5%9F%BA%E7%A1%80-4%E5%87%BD%E6%95%B0/">
+  <a class="prev" href="https://lishensuo.github.io/posts/bioinfo/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er3--%E5%88%86%E7%B1%BB--lda%E4%B8%8Eqda/">
     <span class="title">« Prev Page</span>
     <br>
-    <span>Python基础-(4)函数</span>
+    <span>机器学习基于R(3)--分类--LDA与QDA</span>
   </a>
-  <a class="next" href="https://lishensuo.github.io/posts/program/python%E5%9F%BA%E7%A1%80-5%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%B1%BB%E4%B8%8E%E5%AE%9E%E4%BE%8B/">
+  <a class="next" href="https://lishensuo.github.io/posts/bioinfo/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er5--%E5%88%86%E7%B1%BB--svm/">
     <span class="title">Next Page »</span>
     <br>
-    <span>Python基础-(5)面向对象的类与实例</span>
+    <span>机器学习基于R(5)--分类--SVM</span>
   </a>
 </nav>
 
