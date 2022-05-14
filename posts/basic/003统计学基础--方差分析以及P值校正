@@ -1,0 +1,121 @@
+---
+title: "统计学基础--方差分析以及P值校正"
+date: 2022-05-13
+lastmod: 2022-05-13
+author: ["Lishensuo"]
+disableShare: true 
+tags: 
+- 统计学基础
+weight: 003
+
+slug: ""
+draft: on # 是否为草稿
+disableShare: true # 底部不显示分享栏
+showbreadcrumbs: true #顶部显示当前路径
+---
+
+
+
+
+
+方差分析(analysis of variance)可以简单的理解为多组间的均值比较。例如A班、B班、C班、D班的考试成绩均值是否存在显著差异。方差分析是基于F分布的假设检验，所以又称F检验
+
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/anova-diagram.svg" alt="What is Analysis of Variance (ANOVA)? | TIBCO Software" style="zoom:50%;" />
+
+
+
+# 1、分析步骤
+
+## 1.1 明确问题，做出假设 
+
+**零假设**为组间（假设有k组）均值相同。**备择假设**表示为k组中至少有两组不相等。
+
+`k`表示组别数，`nj`表示第j组的样本数，`xij`表示第j组的第i个样本；`(hat)x`表示总均值。根据分组信息，可以将总变异分解为组间方差与组内误差两部分
+
+$$
+H_0 : \mu_1=\mu_2= ... =\mu_k
+$$
+
+
+
+## 1.2 方差分解
+
+（1）所有样本的总方差计算即所有组样本与总均值的差值的平方和。然后可将总分差分解为组间方差与组内方差两部分。
+
+- 总方差计算公式
+
+
+$$
+SS_{total} = \sum_{j=1}^{k} \sum_{i=1}^{n_j}(x_{ij}-\overline{x})^2
+$$
+
+（2）组间误差：分析组与组之间的差异。如果分组变量对结果有很大的影响，那么组间差异应该很大。
+
+- 组间方差计算公式
+
+$$
+SS_{between} = \sum_{j=1}^{k}n_{j}(\overline{x}_{j} - \overline{x})^2
+$$
+
+（3）组内方差：组内样本由于个体随机性造成差异。这种差异占比理论上应该越小越好，则每组的水平都很一致。
+
+- 组内方差计算公式
+
+
+
+
+$$
+SS_{within} =  \sum_{j=1}^{k} \sum_{i=1}^{n_j}(x_{ij}-\overline{x}_j)^2
+$$
+
+
+
+## 1.3 计算F统计量
+
+（1）在零假设的前提下，组间方差等于0。而如果预期分类变量对样本结果影响很大，那么组间方差应远大于组内方差。
+
+$$
+SS_{total} = SS_{between} + SS_{within}
+$$
+
+（2）因此可计算F统计量表示**组间方差与组内方差的比值**，其中分子的自由度为（k-1），分母的自由度为（N-k）。
+$$
+F = \frac{\frac{SS_{between}}{k-1}}{\frac{SS_{within}}{N-k}}
+$$
+
+
+（3）在零假设成立的情况下，F统计量符合自由度组合为[(k-1), (N-k)]的F分布。据此计算出当前F统计量对应的P值结果。
+
+![How F-tests work in Analysis of Variance (ANOVA) - Statistics By Jim](https://raw.githubusercontent.com/lishensuo/images/main/F-distribution_probability.png)
+
+
+
+# 2、注意事项
+
+方差分析的前提
+
+分类变量--方差分析
+
+连续变量--回归分析
+
+
+
+可加性
+
+多因素方差分析
+
+多变量回归分析
+
+
+
+
+
+非参数方差分析（不符合正态分布）
+
+Kruskal-Wails秩和检验
+
+
+
+两两比较
+
+holm hochberg bonferroni BH/fdr

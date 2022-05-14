@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>机器学习基于R(10)--回归--岭回归&#43;LASSO回归&#43;弹性网络 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="机器学习, 机器学习基于R">
+<meta name="description" content="在建立通用线性模型时，当模型参数即斜率值绝对值过大时，容易存在过拟合的风险。可通过下面介绍的3种正则化方法将每个预测变量的斜率参数缩小为0或">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/posts/bioinfo/109%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er10--%E5%9B%9E%E5%BD%92--%E5%B2%AD%E5%9B%9E%E5%BD%92&#43;lasson%E5%9B%9E%E5%BD%92&#43;%E5%BC%B9%E6%80%A7%E7%BD%91%E7%BB%9C/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.1abf8254c205953f8beb228727a5e0a5541f0bc42f68f2762e2e594e7b213985.css" integrity="sha256-Gr&#43;CVMIFlT&#43;L6yKHJ6XgpVQfC8QvaPJ2Li5ZTnshOYU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.4dcb3c4f38462f66c6b6137227726f5543cb934cca9788f041c087e374491df2.js" integrity="sha256-Tcs8TzhGL2bGthNyJ3JvVUPLk0zKl4jwQcCH43RJHfI="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="机器学习基于R(10)--回归--岭回归&#43;LASSO回归&#43;弹性网络" />
+<meta property="og:description" content="在建立通用线性模型时，当模型参数即斜率值绝对值过大时，容易存在过拟合的风险。可通过下面介绍的3种正则化方法将每个预测变量的斜率参数缩小为0或" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/posts/bioinfo/109%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er10--%E5%9B%9E%E5%BD%92--%E5%B2%AD%E5%9B%9E%E5%BD%92&#43;lasson%E5%9B%9E%E5%BD%92&#43;%E5%BC%B9%E6%80%A7%E7%BD%91%E7%BB%9C/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-05-07T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2022-05-07T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="机器学习基于R(10)--回归--岭回归&#43;LASSO回归&#43;弹性网络"/>
+<meta name="twitter:description" content="在建立通用线性模型时，当模型参数即斜率值绝对值过大时，容易存在过拟合的风险。可通过下面介绍的3种正则化方法将每个预测变量的斜率参数缩小为0或"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "📖 生信数据分析--分析流程，工具包等",
+      "item": "https://lishensuo.github.io/posts/bioinfo/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "机器学习基于R(10)--回归--岭回归+LASSO回归+弹性网络",
+      "item": "https://lishensuo.github.io/posts/bioinfo/109%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er10--%E5%9B%9E%E5%BD%92--%E5%B2%AD%E5%9B%9E%E5%BD%92+lasson%E5%9B%9E%E5%BD%92+%E5%BC%B9%E6%80%A7%E7%BD%91%E7%BB%9C/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "机器学习基于R(10)--回归--岭回归+LASSO回归+弹性网络",
+  "name": "机器学习基于R(10)--回归--岭回归\u002bLASSO回归\u002b弹性网络",
+  "description": "在建立通用线性模型时，当模型参数即斜率值绝对值过大时，容易存在过拟合的风险。可通过下面介绍的3种正则化方法将每个预测变量的斜率参数缩小为0或",
+  "keywords": [
+    "机器学习", "机器学习基于R"
+  ],
+  "articleBody": " 在建立通用线性模型时，当模型参数即斜率值绝对值过大时，容易存在过拟合的风险。可通过下面介绍的3种正则化方法将每个预测变量的斜率参数缩小为0或者接近0。 $$ y = \\beta_0 + \\beta_1x_1 + \\beta_2x_2 + …+\\beta_kx_k + \\epsilon $$\n 1、三种正则化方法 线性回归最小二乘法损失函数：MSE\n如下公式表示在一组给定的参数值模型中 所有预测值与观测值的差值的平方和（残差和，RSS）： $$ J = \\sum_{i=1}^n(y_i-\\hat{y_i})^2 $$\n1.1 岭回归 在上述RRS损失函数公式中，添加L2范数(所有斜率值的平方和)。可通过λ参数控制惩罚的强度。 $$ J=\\sum_{i=1}^n(y_i-\\hat{y_i})^2 + \\lambda \\sum_{j=1}^p{\\beta_j^2} $$ 可结合下图理解：假设有两个预测变量，即有两个斜率参数。\n（1）绿色圆表示不同参数值组合的MSE，中心值最小，越往外越大，黑色边表示相同MSE的等高线。\n（2）蓝色圆边表示具有相同L2结果的不同参数值[r^2=β1^2+β2^2]，总会存在一组参数值对应的RSS最小（如下图所示）。\n1.2 LASSO回归 在上述RSS损失函数公式中，添加L1范数(所有斜率值的绝对值和)。可通过λ参数控制惩罚的强度。 $$ J=\\sum_{i=1}^n(y_i-\\hat{y_i})^2 + \\lambda \\sum_{j=1}^p{|\\beta_j|} $$ 可结合下图理解：假设有两个预测变量，即有两个斜率参数。\n（1）红色同心圆表示不同参数值组合的MSE，中心值最小，越往外越大，黑色边表示相同MSE的等高线。\n（2）蓝色正方形边表示具有相同L1结果的不同参数值[r=|β1|+|β2|]，总会存在一组参数值对应的RSS最小（如下图所示）。\n1.3 弹性网络 （1） 岭回归与LASSO回归比较   如上公式岭回归与LASSO回归的最主要差异在于惩罚项L2范数与L1范数的区别。 $$ J_{L2}=\\sum_{i=1}^n(y_i-\\hat{y_i})^2 + \\lambda \\sum_{j=1}^p{\\beta_j^2} $$\n$$ J_{L1}=\\sum_{i=1}^n(y_i-\\hat{y_i})^2 + \\lambda \\sum_{j=1}^p{|\\beta_j|} $$\n  当λ=0时，等价于不加入惩罚项，取一组参数值使RRS值最小即可；\n  当λ0时，岭回归加入了L2范数，LASSO回归加入了L1范数；虽然计算方式不同，但都与斜率值参数偏离0的程度呈正比。\n  当λ值不断增大时，惩罚项的权重不断增高；从而导致通过缩小斜率参数值使得损失函数总值下降的收益就越大。\n 换言之考虑惩罚项下降的强度与RRS项增高的强度，此时斜率参数值越接近0越好； 考虑到LASSO回归与岭回归形状的不同，LASSO能够将小的参数值缩小至0，即在模型中删除该变量，从而实现了特征选择的目的。    （2）弹性网络 弹性网络中同时包含L2与L1正则化，通过α参数控制L2范数和L1范数的权重。所以在弹性网络中会有两个超参数。\n如下公式\n  α=0时，L1范数=0，即为岭回归；α=1时，L2范数=0，即为LASSO回归\n  0 $$ J_{Net} = \\sum_{i=1}^n(y_i-\\hat{y_i})^2 + \\lambda { (1-\\alpha)\\sum_{j=1}^p{\\beta_j^2} + \\alpha \\sum_{j=1}^p{|\\beta_j|} } $$\n2、mlr建模  示例数据：小麦年产量 目的：根据第1~9列的预测变量信息预测小麦的产量 根据mlr包提供的\"regr.glmnet\"方法，进行三种正则化建模。  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15  library(mlr) data(Iowa, package = \"lasso2\") iowaTib head(iowaTib) # Year Rain0 Temp1 Rain1 Temp2 Rain2 Temp3 Rain3 Temp4 Yield # 1 1930 17.75 60.2 5.83 69.0 1.49 77.9 2.42 74.4 34.0 # 2 1931 14.76 57.5 3.83 75.0 2.72 77.2 3.30 72.6 32.9 # 3 1932 27.99 62.3 5.17 72.0 3.12 75.8 7.10 72.2 43.0 # 4 1933 16.76 60.5 1.64 77.8 3.45 76.4 3.01 70.5 40.0 # 5 1934 11.36 69.5 3.49 77.2 3.85 79.7 2.84 73.4 23.0 # 6 1935 22.71 55.0 7.00 65.9 3.35 79.4 2.42 73.6 38.4  ##第10列为小麦的产量 ##其余列为小麦生长不同阶段的天气情况 iowaTask \"Yield\")    目的：根据第1~9列的预测变量信息预测小麦的产量  2.1 岭回归 2.1.1 确定训练方法 1 2 3 4 5 6 7 8 9 10 11 12 13 14  ##(1)定义学习器 ridge \"regr.glmnet\", alpha = 0) # getParamSet(ridge) # 默认对数据进行标准化，以避免不同尺度的斜率参数的差异影响  ##(2)定义超参数空间：s即为λ，控制惩罚项的权重 ridgeParamSpace  makeNumericParam(\"s\", lower = 0, upper = 15))  ##(3)随机搜索200个超参数 randSearch 200)  ##(4)10次重复的3折交叉验证 cvForTuning \"RepCV\", folds = 3, reps = 10)   2.1.2 选取最优超参数 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19  library(parallel) library(parallelMap) parallelStartSocket(cpus = detectCores())  tunedRidgePars # ~30 sec  resampling = cvForTuning,  par.set = ridgeParamSpace,  control = randSearch) parallelStop() #最优超参数结果 tunedRidgePars$x #$s #[1] 5.898183  #不同超参数结果可视化 ridgeTuningData plotHyperParsEffect(ridgeTuningData, x = \"s\", y = \"mse.test.mean\",  plot.type = \"line\") +  theme_bw()   2.1.3 训练模型 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22  ##训练模型 tunedRidge tunedRidgeModel  ##查看模型结果 ridgeModelData ridgeCoefs ridgeCoefs # 10 x 1 sparse Matrix of class \"dgCMatrix\" # s1 # (Intercept) -916.65674179 # Year 0.53685059 # Rain0 0.34648992 # Temp1 -0.23854000 # Rain1 -0.70694968 # Temp2 0.03531768 # Rain2 1.92710185 # Temp3 -0.57686084 # Rain3 0.64050635 # Temp4 -0.47974939  plot(ridgeModelData, xvar = \"lambda\", label = TRUE)    之前提及\"regr.glmnet\"会自动标准化，在计算斜率时则会自动转为变量原来的尺度。\n 2.2 lasso回归 2.2.1 确定训练方法  除了定义学习器时，alpha参数改为1，其它保持不变  1 2 3 4 5 6 7 8 9 10 11 12 13 14  ##(1)定义学习器 lasso \"regr.glmnet\", alpha = 1) # getParamSet(lasso) # 默认对数据进行标准化，以避免不同尺度的斜率参数的差异影响  ##(2)定义超参数空间：s即为λ，控制惩罚项的权重 lassoParamSpace  makeNumericParam(\"s\", lower = 0, upper = 15))  ##(3)随机搜索200个超参数 randSearch 200)  ##(4)10次重复的3折交叉验证 cvForTuning \"RepCV\", folds = 3, reps = 10)   2.2.2 选取最优超参数 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19  library(parallel) library(parallelMap) parallelStartSocket(cpus = detectCores())  tunedLassoPars # ~30 sec  resampling = cvForTuning,  par.set = lassoParamSpace,  control = randSearch) parallelStop() #最优超参数结果 tunedLassoPars$x #$s #[1] 1.647296  #不同超参数结果可视化 lassoTuningData plotHyperParsEffect(lassoTuningData, x = \"s\", y = \"mse.test.mean\",  plot.type = \"line\") +  theme_bw()   2.2.3 训练模型 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23  ##训练模型 tunedLasso tunedLassoModel  ##查看模型结果 lassoModelData lassoCoefs lassoCoefs # 10 x 1 sparse Matrix of class \"dgCMatrix\" # s1 # (Intercept) -1.313315e+03 # Year 7.138660e-01 # Rain0 1.489506e-01 # Temp1 .  # Rain1 .  # Temp2 .  # Rain2 1.890166e+00 # Temp3 -8.095605e-02 # Rain3 7.292344e-02 # Temp4 -4.042185e-01  ##如上有3个变量被剔除 plot(lassoModelData, xvar = \"lambda\", label = TRUE)   2.3 弹性网络  与上面两个不同的是，有两个超参数需要调节  2.3.1 确定训练方法 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17  elastic \"regr.glmnet\")  ##(1)定义学习器 elastic \"regr.glmnet\") # getParamSet(elastic) # 默认对数据进行标准化，以避免不同尺度的斜率参数的差异影响  ##(2)定义超参数空间：s即为λ，控制惩罚项的权重 elasticParamSpace  makeNumericParam(\"s\", lower = 0, upper = 10),  makeNumericParam(\"alpha\", lower = 0, upper = 1))  ##(3)随机搜索400个超参数 randSearchElastic 400)  ##(4)10次重复的3折交叉验证 cvForTuning \"RepCV\", folds = 3, reps = 10)   2.3.2 选取最优超参数组合 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25  library(parallel) library(parallelMap) parallelStartSocket(cpus = detectCores())  tunedElasticPars # ~30 sec  resampling = cvForTuning,  par.set = elasticParamSpace,  control = randSearchElastic) parallelStop() #最优超参数结果 tunedElasticPars$x #$s #[1] 1.786091 #$alpha #[1] 0.8142816  #不同超参数结果可视化 elasticTuningData plotHyperParsEffect(elasticTuningData, x = \"s\", y = \"alpha\",  z = \"mse.test.mean\", interpolate = \"regr.kknn\",  plot.type = \"heatmap\") +  scale_fill_gradientn(colours = terrain.colors(5)) +  geom_point(x = tunedElasticPars$x$s, y = tunedElasticPars$x$alpha) +  theme_bw()\\ #如下图，黑点标注的即为最优超参数组合   2.3.3 训练模型 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23  ##训练模型 tunedElastic tunedElasticModel  ##查看模型结果 elasticModelData elasticCoefs elasticCoefs # 10 x 1 sparse Matrix of class \"dgCMatrix\" # s1 # (Intercept) -1290.1150312 # Year 0.7038625 # Rain0 0.1786434 # Temp1 .  # Rain1 .  # Temp2 .  # Rain2 1.9443047 # Temp3 -0.1234248 # Rain3 0.1621764 # Temp4 -0.4266126  ##如上同样有3个变量被剔除 plot(elasticModelData, xvar = \"lambda\", label = TRUE)   2.4 对比三个模型结果  上述3个正则化模型与普通线性  2.4.1 预测变量系数比较 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21  #(1)普通线性回归 lmCoefs  #(2)岭回归 coefTib -1],  Ridge = as.vector(ridgeCoefs)[-1],  Lm = as.vector(lmCoefs)[-1]) coefUntidy  #(3)lasso回归 coefTib$LASSO -1] coefUntidy  #(4)弹性网络 coefTib$Elastic -1] coefUntidy  ggplot(coefUntidy, aes(reorder(Coef, Beta), Beta, fill = Model)) +  geom_bar(stat = \"identity\", position = \"dodge\", col = \"black\") +  facet_wrap(~ Model) +  theme_bw()   2.4.2 benchmark 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36  ##(1)初始化模型 ridge \"regr.glmnet\", alpha = 0, id=\"ridge\") ridgeWrapper  par.set = ridgeParamSpace,  control = randSearch)  lasso \"regr.glmnet\", alpha = 0, id=\"lasso\") lassoWrapper  par.set = lassoParamSpace,  control = randSearch)  elastic \"regr.glmnet\", alpha = 0, id=\"elastic\") elasticWrapper  par.set = elasticParamSpace,  control = randSearchElastic) learners = list(ridgeWrapper, lassoWrapper, elasticWrapper, \"regr.lm\")  ##(2)开始测试 library(parallel) library(parallelMap)  kFold3 \"CV\", iters = 3)  parallelStartSocket(cpus = detectCores())  bench  parallelStop()  bench # bench # task.id learner.id mse.test.mean # 1 iowaTib ridge.tuned 204.6557 # 2 iowaTib lasso.tuned 209.6984 # 3 iowaTib elastic.tuned 179.3852 # 4 iowaTib regr.lm 251.6789   ",
+  "wordCount" : "2856",
+  "inLanguage": "en",
+  "datePublished": "2022-05-07T00:00:00Z",
+  "dateModified": "2022-05-07T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/posts/bioinfo/109%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er10--%E5%9B%9E%E5%BD%92--%E5%B2%AD%E5%9B%9E%E5%BD%92+lasson%E5%9B%9E%E5%BD%92+%E5%BC%B9%E6%80%A7%E7%BD%91%E7%BB%9C/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/posts/bioinfo/">📖 生信数据分析--分析流程，工具包等</a></div>
+    <h1 class="post-title">
+      机器学习基于R(10)--回归--岭回归&#43;LASSO回归&#43;弹性网络
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2022-05-07 00:00:00 +0000 UTC'>2022-05-07</span>&nbsp;|&nbsp;Update:&nbsp;2022-05-07&nbsp;|&nbsp;Words:&nbsp;2856&nbsp;|&nbsp;6 min&nbsp;|&nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#1%e4%b8%89%e7%a7%8d%e6%ad%a3%e5%88%99%e5%8c%96%e6%96%b9%e6%b3%95" aria-label="1、三种正则化方法">1、三种正则化方法</a><ul>
+                            
+                    <li>
+                        <a href="#11-%e5%b2%ad%e5%9b%9e%e5%bd%92" aria-label="1.1 岭回归">1.1 岭回归</a></li>
+                    <li>
+                        <a href="#12-lasso%e5%9b%9e%e5%bd%92" aria-label="1.2 LASSO回归">1.2 LASSO回归</a></li>
+                    <li>
+                        <a href="#13-%e5%bc%b9%e6%80%a7%e7%bd%91%e7%bb%9c" aria-label="1.3 弹性网络">1.3 弹性网络</a><ul>
+                            
+                    <li>
+                        <a href="#1-%e5%b2%ad%e5%9b%9e%e5%bd%92%e4%b8%8elasso%e5%9b%9e%e5%bd%92%e6%af%94%e8%be%83" aria-label="（1） 岭回归与LASSO回归比较">（1） 岭回归与LASSO回归比较</a></li>
+                    <li>
+                        <a href="#2%e5%bc%b9%e6%80%a7%e7%bd%91%e7%bb%9c" aria-label="（2）弹性网络">（2）弹性网络</a></li></ul>
+                    </li></ul>
+                    </li>
+                    <li>
+                        <a href="#2mlr%e5%bb%ba%e6%a8%a1" aria-label="2、mlr建模">2、mlr建模</a><ul>
+                            
+                    <li>
+                        <a href="#21-%e5%b2%ad%e5%9b%9e%e5%bd%92" aria-label="2.1 岭回归">2.1 岭回归</a><ul>
+                            
+                    <li>
+                        <a href="#211-%e7%a1%ae%e5%ae%9a%e8%ae%ad%e7%bb%83%e6%96%b9%e6%b3%95" aria-label="2.1.1 确定训练方法">2.1.1 确定训练方法</a></li>
+                    <li>
+                        <a href="#212-%e9%80%89%e5%8f%96%e6%9c%80%e4%bc%98%e8%b6%85%e5%8f%82%e6%95%b0" aria-label="2.1.2 选取最优超参数">2.1.2 选取最优超参数</a></li>
+                    <li>
+                        <a href="#213-%e8%ae%ad%e7%bb%83%e6%a8%a1%e5%9e%8b" aria-label="2.1.3 训练模型">2.1.3 训练模型</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#22-lasso%e5%9b%9e%e5%bd%92" aria-label="2.2 lasso回归">2.2 lasso回归</a><ul>
+                            
+                    <li>
+                        <a href="#221-%e7%a1%ae%e5%ae%9a%e8%ae%ad%e7%bb%83%e6%96%b9%e6%b3%95" aria-label="2.2.1 确定训练方法">2.2.1 确定训练方法</a></li>
+                    <li>
+                        <a href="#222-%e9%80%89%e5%8f%96%e6%9c%80%e4%bc%98%e8%b6%85%e5%8f%82%e6%95%b0" aria-label="2.2.2 选取最优超参数">2.2.2 选取最优超参数</a></li>
+                    <li>
+                        <a href="#223-%e8%ae%ad%e7%bb%83%e6%a8%a1%e5%9e%8b" aria-label="2.2.3 训练模型">2.2.3 训练模型</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#23-%e5%bc%b9%e6%80%a7%e7%bd%91%e7%bb%9c" aria-label="2.3 弹性网络">2.3 弹性网络</a><ul>
+                            
+                    <li>
+                        <a href="#231-%e7%a1%ae%e5%ae%9a%e8%ae%ad%e7%bb%83%e6%96%b9%e6%b3%95" aria-label="2.3.1 确定训练方法">2.3.1 确定训练方法</a></li>
+                    <li>
+                        <a href="#232-%e9%80%89%e5%8f%96%e6%9c%80%e4%bc%98%e8%b6%85%e5%8f%82%e6%95%b0%e7%bb%84%e5%90%88" aria-label="2.3.2 选取最优超参数组合">2.3.2 选取最优超参数组合</a></li>
+                    <li>
+                        <a href="#233-%e8%ae%ad%e7%bb%83%e6%a8%a1%e5%9e%8b" aria-label="2.3.3 训练模型">2.3.3 训练模型</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#24-%e5%af%b9%e6%af%94%e4%b8%89%e4%b8%aa%e6%a8%a1%e5%9e%8b%e7%bb%93%e6%9e%9c" aria-label="2.4 对比三个模型结果">2.4 对比三个模型结果</a><ul>
+                            
+                    <li>
+                        <a href="#241-%e9%a2%84%e6%b5%8b%e5%8f%98%e9%87%8f%e7%b3%bb%e6%95%b0%e6%af%94%e8%be%83" aria-label="2.4.1 预测变量系数比较">2.4.1 预测变量系数比较</a></li>
+                    <li>
+                        <a href="#242-benchmark" aria-label="2.4.2 benchmark">2.4.2 benchmark</a>
+                    </li>
+                </ul>
+                </li>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><blockquote>
+<p>在建立通用线性模型时，当模型参数即<strong>斜率值绝对值</strong>过大时，容易存在过拟合的风险。可通过下面介绍的3种<strong>正则化</strong>方法将每个预测变量的斜率参数缩小为0或者接近0。
+$$
+y = \beta_0 + \beta_1x_1 +  \beta_2x_2 + &hellip;+\beta_kx_k + \epsilon
+$$</p>
+</blockquote>
+<h1 id="1三种正则化方法">1、三种正则化方法<a hidden class="anchor" aria-hidden="true" href="#1三种正则化方法">#</a></h1>
+<p>线性回归最小二乘法损失函数：MSE</p>
+<p>如下公式表示在一组给定的参数值模型中 所有预测值与观测值的差值的平方和（残差和，RSS）：
+$$
+J = \sum_{i=1}^n(y_i-\hat{y_i})^2
+$$</p>
+<h2 id="11-岭回归">1.1 岭回归<a hidden class="anchor" aria-hidden="true" href="#11-岭回归">#</a></h2>
+<p>在上述RRS损失函数公式中，添加L2范数(所有斜率值的平方和)。可通过<code>λ</code>参数控制惩罚的强度。
+$$
+J=\sum_{i=1}^n(y_i-\hat{y_i})^2 + \lambda \sum_{j=1}^p{\beta_j^2}
+$$
+可结合下图理解：假设有两个预测变量，即有两个斜率参数。</p>
+<p>（1）<strong>绿色圆</strong>表示不同参数值组合的MSE，中心值最小，越往外越大，黑色边表示相同MSE的等高线。</p>
+<p>（2）<strong>蓝色圆</strong>边表示具有相同L2结果的不同参数值[r^2=β1^2+β2^2]，总会存在一组参数值对应的RSS最小（如下图所示）。</p>
+<img src="https://rstatisticsblog.com/wp-content/uploads/2020/05/ridge.jpg" alt="Simple Guide To Ridge Regression In R | R-bloggers" style="zoom: 50%;" />
+<h2 id="12-lasso回归">1.2 LASSO回归<a hidden class="anchor" aria-hidden="true" href="#12-lasso回归">#</a></h2>
+<p>在上述RSS损失函数公式中，添加L1范数(所有斜率值的绝对值和)。可通过<code>λ</code>参数控制惩罚的强度。
+$$
+J=\sum_{i=1}^n(y_i-\hat{y_i})^2 + \lambda \sum_{j=1}^p{|\beta_j|}
+$$
+可结合下图理解：假设有两个预测变量，即有两个斜率参数。</p>
+<p>（1）<strong>红色同心圆</strong>表示不同参数值组合的MSE，中心值最小，越往外越大，黑色边表示相同MSE的等高线。</p>
+<p>（2）<strong>蓝色正方形</strong>边表示具有相同L1结果的不同参数值[r=|β1|+|β2|]，总会存在一组参数值对应的RSS最小（如下图所示）。</p>
+<img src="https://rstatisticsblog.com/wp-content/uploads/2020/05/lasso.jpg" alt="Lasso Machine Learning Sale, 59% OFF | www.pegasusaerogroup.com" style="zoom:50%;" />
+<h2 id="13-弹性网络">1.3 弹性网络<a hidden class="anchor" aria-hidden="true" href="#13-弹性网络">#</a></h2>
+<h3 id="1-岭回归与lasso回归比较">（1） 岭回归与LASSO回归比较<a hidden class="anchor" aria-hidden="true" href="#1-岭回归与lasso回归比较">#</a></h3>
+<ul>
+<li>
+<p>如上公式岭回归与LASSO回归的最主要差异在于惩罚项L2范数与L1范数的区别。
+$$
+J_{L2}=\sum_{i=1}^n(y_i-\hat{y_i})^2 + \lambda \sum_{j=1}^p{\beta_j^2}
+$$</p>
+<p>$$
+J_{L1}=\sum_{i=1}^n(y_i-\hat{y_i})^2 + \lambda \sum_{j=1}^p{|\beta_j|}
+$$</p>
+</li>
+<li>
+<p>当<code>λ</code>=0时，等价于不加入惩罚项，取一组参数值使RRS值最小即可；</p>
+</li>
+<li>
+<p>当<code>λ</code>&gt;0时，岭回归加入了L2范数，LASSO回归加入了L1范数；虽然计算方式不同，但都与斜率值参数<strong>偏离0的程度</strong>呈正比。</p>
+</li>
+<li>
+<p>当<code>λ</code>值不断增大时，惩罚项的权重不断增高；从而导致通过缩小斜率参数值使得损失函数总值下降的收益就越大。</p>
+<ul>
+<li>换言之考虑惩罚项下降的强度与RRS项增高的强度，此时斜率参数值越接近0越好；</li>
+<li>考虑到LASSO回归与岭回归形状的不同，LASSO能够将小的参数值缩小至0，即在模型中删除该变量，从而实现了特征选择的目的。</li>
+</ul>
+</li>
+</ul>
+<img src="https://favtutor.com/resources/images/uploads/mceu_95973090761620302179448.png" alt="lasso regression machine learning for Sale OFF 63%" style="zoom: 33%;" />
+<h3 id="2弹性网络">（2）弹性网络<a hidden class="anchor" aria-hidden="true" href="#2弹性网络">#</a></h3>
+<p>弹性网络中同时包含L2与L1正则化，通过α参数控制L2范数和L1范数的权重。所以在弹性网络中会有两个超参数。</p>
+<p>如下公式</p>
+<ul>
+<li>
+<p>α=0时，L1范数=0，即为岭回归；α=1时，L2范数=0，即为LASSO回归</p>
+</li>
+<li>
+<p>0&lt;α&lt;1时，得到岭回归与LASSO回归的组合。</p>
+</li>
+</ul>
+<p>$$
+J_{Net} = \sum_{i=1}^n(y_i-\hat{y_i})^2 + \lambda { (1-\alpha)\sum_{j=1}^p{\beta_j^2} + \alpha \sum_{j=1}^p{|\beta_j|} }
+$$</p>
+<p><img loading="lazy" src="https://miro.medium.com/max/761/1*nrWncnoJ4V_BkzEf1pd4MA.png" alt="From Linear Regression to Ridge Regression, the Lasso, and the Elastic Net  | by Robby Sneiderman | Towards Data Science"  />
+</p>
+<h1 id="2mlr建模">2、mlr建模<a hidden class="anchor" aria-hidden="true" href="#2mlr建模">#</a></h1>
+<ul>
+<li>示例数据：小麦年产量</li>
+<li>目的：根据第1~9列的预测变量信息预测小麦的产量</li>
+<li>根据mlr包提供的&quot;regr.glmnet&quot;方法，进行三种正则化建模。</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>library(mlr)
+</span></span><span style="display:flex;"><span>data(Iowa, package = <span style="color:#0ff;font-weight:bold">&#34;lasso2&#34;</span>)
+</span></span><span style="display:flex;"><span>iowaTib &lt;- Iowa
+</span></span><span style="display:flex;"><span>head(iowaTib)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   Year Rain0 Temp1 Rain1 Temp2 Rain2 Temp3 Rain3 Temp4 Yield</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1 1930 17.75  60.2  5.83  69.0  1.49  77.9  2.42  74.4  34.0</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2 1931 14.76  57.5  3.83  75.0  2.72  77.2  3.30  72.6  32.9</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3 1932 27.99  62.3  5.17  72.0  3.12  75.8  7.10  72.2  43.0</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 4 1933 16.76  60.5  1.64  77.8  3.45  76.4  3.01  70.5  40.0</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 5 1934 11.36  69.5  3.49  77.2  3.85  79.7  2.84  73.4  23.0</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 6 1935 22.71  55.0  7.00  65.9  3.35  79.4  2.42  73.6  38.4</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##第10列为小麦的产量</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##其余列为小麦生长不同阶段的天气情况</span>
+</span></span><span style="display:flex;"><span>iowaTask &lt;- makeRegrTask(data = iowaTib, target = <span style="color:#0ff;font-weight:bold">&#34;Yield&#34;</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>目的：根据第1~9列的预测变量信息预测小麦的产量</li>
+</ul>
+<h2 id="21-岭回归">2.1 岭回归<a hidden class="anchor" aria-hidden="true" href="#21-岭回归">#</a></h2>
+<h3 id="211-确定训练方法">2.1.1 确定训练方法<a hidden class="anchor" aria-hidden="true" href="#211-确定训练方法">#</a></h3>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">##(1)定义学习器</span>
+</span></span><span style="display:flex;"><span>ridge &lt;- makeLearner(<span style="color:#0ff;font-weight:bold">&#34;regr.glmnet&#34;</span>, alpha = <span style="color:#ff0;font-weight:bold">0</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># getParamSet(ridge)</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 默认对数据进行标准化，以避免不同尺度的斜率参数的差异影响</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##(2)定义超参数空间：s即为λ，控制惩罚项的权重</span>
+</span></span><span style="display:flex;"><span>ridgeParamSpace &lt;- makeParamSet(
+</span></span><span style="display:flex;"><span>  makeNumericParam(<span style="color:#0ff;font-weight:bold">&#34;s&#34;</span>, lower = <span style="color:#ff0;font-weight:bold">0</span>, upper = <span style="color:#ff0;font-weight:bold">15</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##(3)随机搜索200个超参数</span>
+</span></span><span style="display:flex;"><span>randSearch &lt;- makeTuneControlRandom(maxit = <span style="color:#ff0;font-weight:bold">200</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##(4)10次重复的3折交叉验证</span>
+</span></span><span style="display:flex;"><span>cvForTuning &lt;- makeResampleDesc(<span style="color:#0ff;font-weight:bold">&#34;RepCV&#34;</span>, folds = <span style="color:#ff0;font-weight:bold">3</span>, reps = <span style="color:#ff0;font-weight:bold">10</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="212-选取最优超参数">2.1.2 选取最优超参数<a hidden class="anchor" aria-hidden="true" href="#212-选取最优超参数">#</a></h3>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>library(parallel)
+</span></span><span style="display:flex;"><span>library(parallelMap)
+</span></span><span style="display:flex;"><span>parallelStartSocket(cpus = detectCores())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>tunedRidgePars &lt;- tuneParams(ridge, task = iowaTask, <span style="color:#007f7f"># ~30 sec</span>
+</span></span><span style="display:flex;"><span>                             resampling = cvForTuning, 
+</span></span><span style="display:flex;"><span>                             par.set = ridgeParamSpace, 
+</span></span><span style="display:flex;"><span>                             control = randSearch)
+</span></span><span style="display:flex;"><span>parallelStop()
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#最优超参数结果</span>
+</span></span><span style="display:flex;"><span>tunedRidgePars$x
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#$s</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#[1] 5.898183</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#不同超参数结果可视化</span>
+</span></span><span style="display:flex;"><span>ridgeTuningData &lt;- generateHyperParsEffectData(tunedRidgePars)
+</span></span><span style="display:flex;"><span>plotHyperParsEffect(ridgeTuningData, x = <span style="color:#0ff;font-weight:bold">&#34;s&#34;</span>, y = <span style="color:#0ff;font-weight:bold">&#34;mse.test.mean&#34;</span>,
+</span></span><span style="display:flex;"><span>                    plot.type = <span style="color:#0ff;font-weight:bold">&#34;line&#34;</span>) +
+</span></span><span style="display:flex;"><span>  theme_bw()
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220506221725599.png" alt="image-20220506221725599"  />
+</p>
+<h3 id="213-训练模型">2.1.3 训练模型<a hidden class="anchor" aria-hidden="true" href="#213-训练模型">#</a></h3>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">##训练模型</span>
+</span></span><span style="display:flex;"><span>tunedRidge &lt;- setHyperPars(ridge, par.vals = tunedRidgePars$x)
+</span></span><span style="display:flex;"><span>tunedRidgeModel &lt;- train(tunedRidge, iowaTask)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##查看模型结果</span>
+</span></span><span style="display:flex;"><span>ridgeModelData &lt;- getLearnerModel(tunedRidgeModel)
+</span></span><span style="display:flex;"><span>ridgeCoefs &lt;- coef(ridgeModelData, s = tunedRidgePars$x$s)
+</span></span><span style="display:flex;"><span>ridgeCoefs
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 10 x 1 sparse Matrix of class &#34;dgCMatrix&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># s1</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># (Intercept) -916.65674179</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Year           0.53685059</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Rain0          0.34648992</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Temp1         -0.23854000</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Rain1         -0.70694968</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Temp2          0.03531768</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Rain2          1.92710185</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Temp3         -0.57686084</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Rain3          0.64050635</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Temp4         -0.47974939</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>plot(ridgeModelData, xvar = <span style="color:#0ff;font-weight:bold">&#34;lambda&#34;</span>, label = <span style="color:#fff;font-weight:bold">TRUE</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>之前提及&quot;regr.glmnet&quot;会自动标准化，在计算斜率时则会自动转为变量原来的尺度。</p>
+</blockquote>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220506224913600.png" alt="image-20220506224913600"  />
+</p>
+<h2 id="22-lasso回归">2.2 lasso回归<a hidden class="anchor" aria-hidden="true" href="#22-lasso回归">#</a></h2>
+<h3 id="221-确定训练方法">2.2.1 确定训练方法<a hidden class="anchor" aria-hidden="true" href="#221-确定训练方法">#</a></h3>
+<ul>
+<li>除了定义学习器时，alpha参数改为1，其它保持不变</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">##(1)定义学习器</span>
+</span></span><span style="display:flex;"><span>lasso &lt;- makeLearner(<span style="color:#0ff;font-weight:bold">&#34;regr.glmnet&#34;</span>, alpha = <span style="color:#ff0;font-weight:bold">1</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># getParamSet(lasso)</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 默认对数据进行标准化，以避免不同尺度的斜率参数的差异影响</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##(2)定义超参数空间：s即为λ，控制惩罚项的权重</span>
+</span></span><span style="display:flex;"><span>lassoParamSpace &lt;- makeParamSet(
+</span></span><span style="display:flex;"><span>  makeNumericParam(<span style="color:#0ff;font-weight:bold">&#34;s&#34;</span>, lower = <span style="color:#ff0;font-weight:bold">0</span>, upper = <span style="color:#ff0;font-weight:bold">15</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##(3)随机搜索200个超参数</span>
+</span></span><span style="display:flex;"><span>randSearch &lt;- makeTuneControlRandom(maxit = <span style="color:#ff0;font-weight:bold">200</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##(4)10次重复的3折交叉验证</span>
+</span></span><span style="display:flex;"><span>cvForTuning &lt;- makeResampleDesc(<span style="color:#0ff;font-weight:bold">&#34;RepCV&#34;</span>, folds = <span style="color:#ff0;font-weight:bold">3</span>, reps = <span style="color:#ff0;font-weight:bold">10</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="222-选取最优超参数">2.2.2 选取最优超参数<a hidden class="anchor" aria-hidden="true" href="#222-选取最优超参数">#</a></h3>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>library(parallel)
+</span></span><span style="display:flex;"><span>library(parallelMap)
+</span></span><span style="display:flex;"><span>parallelStartSocket(cpus = detectCores())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>tunedLassoPars &lt;- tuneParams(lasso, task = iowaTask, <span style="color:#007f7f"># ~30 sec</span>
+</span></span><span style="display:flex;"><span>                             resampling = cvForTuning, 
+</span></span><span style="display:flex;"><span>                             par.set = lassoParamSpace, 
+</span></span><span style="display:flex;"><span>                             control = randSearch)
+</span></span><span style="display:flex;"><span>parallelStop()
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#最优超参数结果</span>
+</span></span><span style="display:flex;"><span>tunedLassoPars$x
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#$s</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#[1] 1.647296</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#不同超参数结果可视化</span>
+</span></span><span style="display:flex;"><span>lassoTuningData &lt;- generateHyperParsEffectData(tunedLassoPars)
+</span></span><span style="display:flex;"><span>plotHyperParsEffect(lassoTuningData, x = <span style="color:#0ff;font-weight:bold">&#34;s&#34;</span>, y = <span style="color:#0ff;font-weight:bold">&#34;mse.test.mean&#34;</span>,
+</span></span><span style="display:flex;"><span>                    plot.type = <span style="color:#0ff;font-weight:bold">&#34;line&#34;</span>) +
+</span></span><span style="display:flex;"><span>  theme_bw()
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220506222556652.png" alt="image-20220506222556652" style="zoom:50%;" />
+<h3 id="223-训练模型">2.2.3 训练模型<a hidden class="anchor" aria-hidden="true" href="#223-训练模型">#</a></h3>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">##训练模型</span>
+</span></span><span style="display:flex;"><span>tunedLasso &lt;- setHyperPars(lasso, par.vals = tunedRidgePars$x)
+</span></span><span style="display:flex;"><span>tunedLassoModel &lt;- train(tunedLasso, iowaTask)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##查看模型结果</span>
+</span></span><span style="display:flex;"><span>lassoModelData &lt;- getLearnerModel(tunedLassoModel)
+</span></span><span style="display:flex;"><span>lassoCoefs &lt;- coef(lassoModelData, s = tunedLassoPars$x$s)
+</span></span><span style="display:flex;"><span>lassoCoefs
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 10 x 1 sparse Matrix of class &#34;dgCMatrix&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># s1</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># (Intercept) -1.313315e+03</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Year         7.138660e-01</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Rain0        1.489506e-01</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Temp1        .           </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Rain1        .           </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Temp2        .           </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Rain2        1.890166e+00</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Temp3       -8.095605e-02</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Rain3        7.292344e-02</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Temp4       -4.042185e-01</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##如上有3个变量被剔除</span>
+</span></span><span style="display:flex;"><span>plot(lassoModelData, xvar = <span style="color:#0ff;font-weight:bold">&#34;lambda&#34;</span>, label = <span style="color:#fff;font-weight:bold">TRUE</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220506224939715.png" alt="image-20220506224939715"  />
+</p>
+<h2 id="23-弹性网络">2.3 弹性网络<a hidden class="anchor" aria-hidden="true" href="#23-弹性网络">#</a></h2>
+<ul>
+<li>与上面两个不同的是，有两个超参数需要调节</li>
+</ul>
+<h3 id="231-确定训练方法">2.3.1 确定训练方法<a hidden class="anchor" aria-hidden="true" href="#231-确定训练方法">#</a></h3>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>elastic &lt;- makeLearner(<span style="color:#0ff;font-weight:bold">&#34;regr.glmnet&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##(1)定义学习器</span>
+</span></span><span style="display:flex;"><span>elastic &lt;- makeLearner(<span style="color:#0ff;font-weight:bold">&#34;regr.glmnet&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># getParamSet(elastic)</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 默认对数据进行标准化，以避免不同尺度的斜率参数的差异影响</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##(2)定义超参数空间：s即为λ，控制惩罚项的权重</span>
+</span></span><span style="display:flex;"><span>elasticParamSpace &lt;- makeParamSet(
+</span></span><span style="display:flex;"><span>  makeNumericParam(<span style="color:#0ff;font-weight:bold">&#34;s&#34;</span>, lower = <span style="color:#ff0;font-weight:bold">0</span>, upper = <span style="color:#ff0;font-weight:bold">10</span>),
+</span></span><span style="display:flex;"><span>  makeNumericParam(<span style="color:#0ff;font-weight:bold">&#34;alpha&#34;</span>, lower = <span style="color:#ff0;font-weight:bold">0</span>, upper = <span style="color:#ff0;font-weight:bold">1</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##(3)随机搜索400个超参数</span>
+</span></span><span style="display:flex;"><span>randSearchElastic &lt;- makeTuneControlRandom(maxit = <span style="color:#ff0;font-weight:bold">400</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##(4)10次重复的3折交叉验证</span>
+</span></span><span style="display:flex;"><span>cvForTuning &lt;- makeResampleDesc(<span style="color:#0ff;font-weight:bold">&#34;RepCV&#34;</span>, folds = <span style="color:#ff0;font-weight:bold">3</span>, reps = <span style="color:#ff0;font-weight:bold">10</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="232-选取最优超参数组合">2.3.2 选取最优超参数组合<a hidden class="anchor" aria-hidden="true" href="#232-选取最优超参数组合">#</a></h3>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>library(parallel)
+</span></span><span style="display:flex;"><span>library(parallelMap)
+</span></span><span style="display:flex;"><span>parallelStartSocket(cpus = detectCores())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>tunedElasticPars &lt;- tuneParams(elastic, task = iowaTask, <span style="color:#007f7f"># ~30 sec</span>
+</span></span><span style="display:flex;"><span>                             resampling = cvForTuning, 
+</span></span><span style="display:flex;"><span>                             par.set = elasticParamSpace, 
+</span></span><span style="display:flex;"><span>                             control = randSearchElastic)
+</span></span><span style="display:flex;"><span>parallelStop()
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#最优超参数结果</span>
+</span></span><span style="display:flex;"><span>tunedElasticPars$x
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#$s</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#[1] 1.786091</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#$alpha</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#[1] 0.8142816</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#不同超参数结果可视化</span>
+</span></span><span style="display:flex;"><span>elasticTuningData &lt;- generateHyperParsEffectData(tunedElasticPars)
+</span></span><span style="display:flex;"><span>plotHyperParsEffect(elasticTuningData, x = <span style="color:#0ff;font-weight:bold">&#34;s&#34;</span>, y = <span style="color:#0ff;font-weight:bold">&#34;alpha&#34;</span>, 
+</span></span><span style="display:flex;"><span>                    z = <span style="color:#0ff;font-weight:bold">&#34;mse.test.mean&#34;</span>, interpolate = <span style="color:#0ff;font-weight:bold">&#34;regr.kknn&#34;</span>, 
+</span></span><span style="display:flex;"><span>                    plot.type = <span style="color:#0ff;font-weight:bold">&#34;heatmap&#34;</span>) +
+</span></span><span style="display:flex;"><span>  scale_fill_gradientn(colours = terrain.colors(<span style="color:#ff0;font-weight:bold">5</span>)) +
+</span></span><span style="display:flex;"><span>  geom_point(x = tunedElasticPars$x$s, y = tunedElasticPars$x$alpha) + 
+</span></span><span style="display:flex;"><span>  theme_bw()\
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#如下图，黑点标注的即为最优超参数组合</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220506223706428.png" alt="image-20220506223706428"  />
+</p>
+<h3 id="233-训练模型">2.3.3 训练模型<a hidden class="anchor" aria-hidden="true" href="#233-训练模型">#</a></h3>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">##训练模型</span>
+</span></span><span style="display:flex;"><span>tunedElastic &lt;- setHyperPars(elastic, par.vals = tunedElasticPars$x)
+</span></span><span style="display:flex;"><span>tunedElasticModel &lt;- train(tunedElastic, iowaTask)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##查看模型结果</span>
+</span></span><span style="display:flex;"><span>elasticModelData &lt;- getLearnerModel(tunedElasticModel)
+</span></span><span style="display:flex;"><span>elasticCoefs &lt;- coef(elasticModelData, s = tunedElasticPars$x$s)
+</span></span><span style="display:flex;"><span>elasticCoefs
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 10 x 1 sparse Matrix of class &#34;dgCMatrix&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># s1</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># (Intercept) -1290.1150312</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Year            0.7038625</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Rain0           0.1786434</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Temp1           .        </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Rain1           .        </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Temp2           .        </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Rain2           1.9443047</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Temp3          -0.1234248</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Rain3           0.1621764</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Temp4          -0.4266126</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##如上同样有3个变量被剔除</span>
+</span></span><span style="display:flex;"><span>plot(elasticModelData, xvar = <span style="color:#0ff;font-weight:bold">&#34;lambda&#34;</span>, label = <span style="color:#fff;font-weight:bold">TRUE</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220506225001362.png" alt="image-20220506225001362"  />
+</p>
+<h2 id="24-对比三个模型结果">2.4 对比三个模型结果<a hidden class="anchor" aria-hidden="true" href="#24-对比三个模型结果">#</a></h2>
+<ul>
+<li>上述3个正则化模型与普通线性</li>
+</ul>
+<h3 id="241-预测变量系数比较">2.4.1 预测变量系数比较<a hidden class="anchor" aria-hidden="true" href="#241-预测变量系数比较">#</a></h3>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">#(1)普通线性回归</span>
+</span></span><span style="display:flex;"><span>lmCoefs &lt;- coef(lm(Yield ~ ., data = iowaTib))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#(2)岭回归</span>
+</span></span><span style="display:flex;"><span>coefTib &lt;- tibble(Coef = rownames(ridgeCoefs)[<span style="color:#ff0;font-weight:bold">-1</span>],
+</span></span><span style="display:flex;"><span>                  Ridge = as.vector(ridgeCoefs)[<span style="color:#ff0;font-weight:bold">-1</span>],
+</span></span><span style="display:flex;"><span>                  Lm = as.vector(lmCoefs)[<span style="color:#ff0;font-weight:bold">-1</span>])
+</span></span><span style="display:flex;"><span>coefUntidy &lt;- gather(coefTib, key = Model, value = Beta, -Coef)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#(3)lasso回归</span>
+</span></span><span style="display:flex;"><span>coefTib$LASSO &lt;- as.vector(lassoCoefs)[<span style="color:#ff0;font-weight:bold">-1</span>]
+</span></span><span style="display:flex;"><span>coefUntidy &lt;- gather(coefTib, key = Model, value = Beta, -Coef)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#(4)弹性网络</span>
+</span></span><span style="display:flex;"><span>coefTib$Elastic &lt;- as.vector(elasticCoefs)[<span style="color:#ff0;font-weight:bold">-1</span>]
+</span></span><span style="display:flex;"><span>coefUntidy &lt;- gather(coefTib, key = Model, value = Beta, -Coef)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ggplot(coefUntidy, aes(reorder(Coef, Beta), Beta, fill = Model)) +
+</span></span><span style="display:flex;"><span>  geom_bar(stat = <span style="color:#0ff;font-weight:bold">&#34;identity&#34;</span>, position = <span style="color:#0ff;font-weight:bold">&#34;dodge&#34;</span>, col = <span style="color:#0ff;font-weight:bold">&#34;black&#34;</span>) +
+</span></span><span style="display:flex;"><span>  facet_wrap(~ Model) +
+</span></span><span style="display:flex;"><span>  theme_bw()
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220506224640330.png" alt="image-20220506224640330"  />
+</p>
+<h3 id="242-benchmark">2.4.2 benchmark<a hidden class="anchor" aria-hidden="true" href="#242-benchmark">#</a></h3>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">27
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">28
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">29
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">30
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">31
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">32
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">33
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">34
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">35
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">36
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">##(1)初始化模型</span>
+</span></span><span style="display:flex;"><span>ridge &lt;- makeLearner(<span style="color:#0ff;font-weight:bold">&#34;regr.glmnet&#34;</span>, alpha = <span style="color:#ff0;font-weight:bold">0</span>, id=<span style="color:#0ff;font-weight:bold">&#34;ridge&#34;</span>)
+</span></span><span style="display:flex;"><span>ridgeWrapper &lt;- makeTuneWrapper(ridge, resampling = cvForTuning,
+</span></span><span style="display:flex;"><span>                                par.set = ridgeParamSpace, 
+</span></span><span style="display:flex;"><span>                                control = randSearch) 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>lasso &lt;- makeLearner(<span style="color:#0ff;font-weight:bold">&#34;regr.glmnet&#34;</span>, alpha = <span style="color:#ff0;font-weight:bold">0</span>, id=<span style="color:#0ff;font-weight:bold">&#34;lasso&#34;</span>)
+</span></span><span style="display:flex;"><span>lassoWrapper &lt;- makeTuneWrapper(lasso, resampling = cvForTuning,
+</span></span><span style="display:flex;"><span>                                par.set = lassoParamSpace, 
+</span></span><span style="display:flex;"><span>                                control = randSearch) 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>elastic &lt;- makeLearner(<span style="color:#0ff;font-weight:bold">&#34;regr.glmnet&#34;</span>, alpha = <span style="color:#ff0;font-weight:bold">0</span>, id=<span style="color:#0ff;font-weight:bold">&#34;elastic&#34;</span>)
+</span></span><span style="display:flex;"><span>elasticWrapper &lt;- makeTuneWrapper(elastic, resampling = cvForTuning,
+</span></span><span style="display:flex;"><span>                                  par.set = elasticParamSpace, 
+</span></span><span style="display:flex;"><span>                                  control = randSearchElastic) 
+</span></span><span style="display:flex;"><span>learners = list(ridgeWrapper, lassoWrapper, elasticWrapper, <span style="color:#0ff;font-weight:bold">&#34;regr.lm&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##(2)开始测试</span>
+</span></span><span style="display:flex;"><span>library(parallel)
+</span></span><span style="display:flex;"><span>library(parallelMap)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>kFold3 &lt;- makeResampleDesc(<span style="color:#0ff;font-weight:bold">&#34;CV&#34;</span>, iters = <span style="color:#ff0;font-weight:bold">3</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>parallelStartSocket(cpus = detectCores())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>bench &lt;- benchmark(learners, iowaTask, kFold3)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>parallelStop()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>bench
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># bench</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># task.id    learner.id mse.test.mean</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1 iowaTib   ridge.tuned      204.6557</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2 iowaTib   lasso.tuned      209.6984</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3 iowaTib elastic.tuned      179.3852</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 4 iowaTib       regr.lm      251.6789</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></li>
+      <li><a href="https://lishensuo.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er/">机器学习基于R</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/posts/bioinfo/108%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er9--%E5%9B%9E%E5%BD%92--gam%E9%9D%9E%E7%BA%BF%E5%9B%9E%E5%BD%92/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>机器学习基于R(9)--回归--GAM非线性回归</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/posts/bioinfo/110%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er11--%E5%9B%9E%E5%BD%92--knn&#43;%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97&#43;xgboost/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>机器学习基于R(11)--回归--kNN&#43;随机森林&#43;XGBboost</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="https://lishensuo.github.io">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

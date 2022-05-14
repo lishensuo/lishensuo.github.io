@@ -61,7 +61,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://lishensuo.github.io/posts/program/001python%E5%9F%BA%E7%A1%80-1%E5%88%9D%E8%AF%86/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2022-04-10T00:00:00&#43;00:00" />
-<meta property="article:modified_time" content="2022-04-10T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2022-05-14T00:00:00&#43;00:00" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Python基础-(1)初识"/>
@@ -104,11 +104,11 @@
   "keywords": [
     "Python", "Python基础"
   ],
-  "articleBody": "print()打印 1 2 3 4 5 6 7 8  print(\"Hello, world!\")  #打印多个字符串，默认用空格链接 print(\"A\", \"B\", \"C\") print(\"A\", \"B\", \"C\",sep=\",\") #`+`可直接拼接字符串 print(\"A\"+\"B\",\"C\") #AB C   input()取用户输入 1 2  x = int(input(\"请输入x：\")) print(x)   关于python脚本程序 1 2 3 4 5 6 7 8 9  # 方式一：使用shell的python命令显示运行python脚本 python hello.py  # 方式二：在python脚本首行指定python解释器，如下所示 #!/usr/bin/env python #然后可执行 chmod a+x hello.py #直接与逆行 ./hello.py   关于反斜杠\\ 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16  ### (1) 转义符 print('Let\\'s, go') print(\"Let's, go\")  ### (2) 转义转义符:将转义符当作普通的转斜杠字符 # \\n 表示换行 print(\"Hello, \\nworld\") # 将 `\\n`当作普通字符打印 print(\"Hello, \\nworld\") print(r'Hello, \\nworld')  ### (3) 字符串/表达式/语句换行 print(\"Hello, \\ world!\") print \\ (\"Hello, world!\")   赋值语句与序列解包 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19  #简单用法 x = 1  #序列解包 x, y, z = 1, 2, 3 ## 其实上面表达式右边本质是一个元组序列 print(x,y,z)  x, y, z = [1, 2, 3] print(x,y,z)  #一般来说左右两边的元素数要相同，但可以使用星号运算符收集多余的值 x, y, *z = 1,2,3,4,5 print(x, y) ## 1 2  x, *y, z = 1,2,3,4,5 print(x, y, z) ## 1 [2, 3, 4] 5   ",
-  "wordCount" : "439",
+  "articleBody": "print()打印 1 2 3 4 5 6 7 8  print(\"Hello, world!\")  #打印多个字符串，默认用空格链接 print(\"A\", \"B\", \"C\") print(\"A\", \"B\", \"C\",sep=\",\") #`+`可直接拼接字符串 print(\"A\"+\"B\",\"C\") #AB C   input()取用户输入 1 2  x = int(input(\"请输入x：\")) print(x)   关于python脚本程序 1 2 3 4 5 6 7 8 9  # 方式一：使用shell的python命令显示运行python脚本 python hello.py  # 方式二：在python脚本首行指定python解释器，如下所示 #!/usr/bin/env python #然后可执行 chmod a+x hello.py #直接运行 ./hello.py   关于反斜杠\\ 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15  ### (1) 转义符 print('Let\\'s, go') print(\"Let's, go\")  ### (2) 转义转义符:将转义符当作普通的转斜杠字符 # \\n 表示换行 print(\"Hello, \\nworld\") # 将 `\\n`当作普通字符打印 print(r'Hello, \\nworld')  ### (3) 字符串/表达式/语句换行 print(\"Hello, \\ world!\") print \\ (\"Hello, world!\")   赋值语句与序列解包 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19  #简单用法 x = 1  #序列解包 x, y, z = 1, 2, 3 ## 其实上面表达式右边本质是一个元组序列 print(x,y,z)  x, y, z = [1, 2, 3] print(x,y,z)  #一般来说左右两边的元素数要相同，但可以使用星号运算符收集多余的值 x, y, *z = 1,2,3,4,5 print(x, y) ## 1 2  x, *y, z = 1,2,3,4,5 print(x, y, z) ## 1 [2, 3, 4] 5   ",
+  "wordCount" : "435",
   "inLanguage": "en",
   "datePublished": "2022-04-10T00:00:00Z",
-  "dateModified": "2022-04-10T00:00:00Z",
+  "dateModified": "2022-05-14T00:00:00Z",
   "author":[{
     "@type": "Person",
     "name": "Lishensuo"
@@ -225,7 +225,7 @@
 
 
 
-Create:&nbsp;<span title='2022-04-10 00:00:00 +0000 UTC'>2022-04-10</span>&nbsp;|&nbsp;Update:&nbsp;2022-04-10&nbsp;|&nbsp;Words:&nbsp;439&nbsp;|&nbsp;1 min&nbsp;|&nbsp;Lishensuo
+Create:&nbsp;<span title='2022-04-10 00:00:00 +0000 UTC'>2022-04-10</span>&nbsp;|&nbsp;Update:&nbsp;2022-05-14&nbsp;|&nbsp;Words:&nbsp;435&nbsp;|&nbsp;1 min&nbsp;|&nbsp;Lishensuo
 
 |  Viewers: <span id="busuanzi_value_page_pv"></span> 
 	  
@@ -370,7 +370,7 @@ Create:&nbsp;<span title='2022-04-10 00:00:00 +0000 UTC'>2022-04-10</span>&nbsp;
 </span></span><span style="display:flex;"><span><span style="color:#007f7f">#!/usr/bin/env python</span>
 </span></span><span style="display:flex;"><span><span style="color:#007f7f">#然后可执行</span>
 </span></span><span style="display:flex;"><span>chmod a+x hello.py
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">#直接与逆行</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#直接运行</span>
 </span></span><span style="display:flex;"><span>./hello.py 
 </span></span></code></pre></td></tr></table>
 </div>
@@ -392,7 +392,6 @@ Create:&nbsp;<span title='2022-04-10 00:00:00 +0000 UTC'>2022-04-10</span>&nbsp;
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#007f7f">### (1) 转义符</span>
@@ -403,7 +402,6 @@ Create:&nbsp;<span title='2022-04-10 00:00:00 +0000 UTC'>2022-04-10</span>&nbsp;
 </span></span><span style="display:flex;"><span><span style="color:#007f7f"># \n 表示换行</span>
 </span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">print</span>(<span style="color:#0ff;font-weight:bold">&#34;Hello, </span><span style="color:#0ff;font-weight:bold">\n</span><span style="color:#0ff;font-weight:bold">world&#34;</span>)
 </span></span><span style="display:flex;"><span><span style="color:#007f7f"># 将 `\n`当作普通字符打印</span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">print</span>(<span style="color:#0ff;font-weight:bold">&#34;Hello, </span><span style="color:#0ff;font-weight:bold">\n</span><span style="color:#0ff;font-weight:bold">world&#34;</span>)
 </span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">print</span>(<span style="color:#0ff;font-weight:bold">r</span><span style="color:#0ff;font-weight:bold">&#39;Hello, \nworld&#39;</span>)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#007f7f">### (3) 字符串/表达式/语句换行</span>
@@ -468,10 +466,15 @@ Create:&nbsp;<span title='2022-04-10 00:00:00 +0000 UTC'>2022-04-10</span>&nbsp;
       <li><a href="https://lishensuo.github.io/tags/python%E5%9F%BA%E7%A1%80/">Python基础</a></li>
     </ul>
 <nav class="paginav">
-  <a class="next" href="https://lishensuo.github.io/posts/bioinfo/002conda%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%BD%BD%E7%AE%A1%E7%90%86%E8%BD%AF%E4%BB%B6r%E5%8C%85/">
+  <a class="prev" href="https://lishensuo.github.io/posts/basic/001%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%9F%BA%E7%A1%80--%E7%BB%9F%E8%AE%A1%E6%8F%8F%E8%BF%B0%E6%8C%87%E6%A0%87%E4%B8%8E%E5%B8%B8%E8%A7%81%E7%BB%9F%E8%AE%A1%E5%88%86%E5%B8%83/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>统计学基础--统计描述指标与常见统计分布</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/posts/basic/002%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%9F%BA%E7%A1%80--%E4%BB%A5t%E6%A3%80%E9%AA%8C%E4%B8%BA%E4%BE%8B%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8E%E4%B8%AD%E5%BF%83%E6%9E%81%E9%99%90%E5%AE%9A%E7%90%86%E7%9A%84%E5%81%87%E8%AE%BE%E6%A3%80%E9%AA%8C/">
     <span class="title">Next Page »</span>
     <br>
-    <span>conda环境下载管理软件、R包</span>
+    <span>统计学基础--以T检验为例学习基于中心极限定理的假设检验</span>
   </a>
 </nav>
 

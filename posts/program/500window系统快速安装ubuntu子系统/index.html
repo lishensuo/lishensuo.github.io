@@ -104,8 +104,8 @@
   "keywords": [
     "我的电脑"
   ],
-  "articleBody": " 最近有在window系统安装linux子系统(WSL, Windows Subsystem for Linux)的需求，搜索发现Microsoft最近(4月8号)提供了更加简便的安装方式。在此记录一下安装过程，的确非常简单。\n 参考官方文档\n https://docs.microsoft.com/zh-cn/windows/wsl/install https://docs.microsoft.com/zh-cn/windows/wsl/setup/environment  根据文档说明，此方式只适用于Windows 10 版本 2004 及更高版本（内部版本 19041 及更高版本）或 Windows 11。\n1、wsl安装  进入window的cmd模式：Win+R  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19  ###(1) 选择wsl所支持的linux版本 wsl --list --online # 以下是可安装的有效分发的列表。 # 请使用“wsl --install -d ”安装。  # NAME FRIENDLY NAME # Ubuntu Ubuntu # Debian Debian GNU/Linux # kali-linux Kali Linux Rolling # openSUSE-42 openSUSE Leap 42 # SLES-12 SUSE Linux Enterprise Server v12 # Ubuntu-16.04 Ubuntu 16.04 LTS # Ubuntu-18.04 Ubuntu 18.04 LTS # Ubuntu-20.04 Ubuntu 20.04 LTS  ###(2) 选择其中的Ubuntu版本进行安装 wsl --install -d Ubuntu #如上会自动下载、安装、启动Ubuntu系统；然后根据提示设置用户名与密码。 #在创建第一个用户账号后，该账户就被视为系统管理员，能够运行`sudo`管理命令。    理论上Ubuntu子系统就已经安装了，点击window的开始选项，会出现该图标，点击即可运行。\n 2、关于密码 1 2 3 4 5 6 7 8 9 10 11  ##(1) 只是想单纯修改密码，使用linux的password命令解决 #进入ubuntu系统 password #然后根据提示输入旧密码，再输入新密码  ##(2) 如果是忘记了密码，想要修改密码 #进入window的cmd模式 wsl -u root passwd  # 为忘记密码的账户名 # 然后就可以直接设置新密码了   3、互访文件   linux子系统中访问window桌面\n1 2 3 4 5 6  ls /mnt/ # c d #对应window的c盘与d盘  ## 进入window桌面文件夹，xiaoxin是我的用户名 cd /mnt/c/Users/xiaoxin/Desktop/     window访问linux子系统的文件目录：在Windows资源管理器路径栏输入\\\\wsl$便可逐级查看\n  关于ubuntu子系统的磁盘空间：https://docs.microsoft.com/zh-cn/windows/wsl/vhd-size\n  4、安装conda  因为在安装conda过程中遇到了一个之前在服务器linux中没遇到的问题，特此记录一下。  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16  ##(1)下载、执行安装脚本 wget https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/Miniconda3-latest-Linux-x86_64.sh bash Miniconda3-latest-Linux-x86_64.sh source ~/.bashrc  ##(2)添加镜像源 conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/bioconda conda config --set show_channel_urls yes  #查看已设置的channels conda config --get  ##然后此时直接使用conda安装软件时，会出现类似下面的报错 conda install -c anaconda ipython    CondaHTTPError: HTTP 000 CONNECTION FAILED for url https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/linux-64/current_repodata.json Elapsed: -\nAn HTTP error occurred when trying to retrieve this URL. HTTP errors are often intermittent, and a simple retry will get you on your way. ‘https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/linux-64'\n 网上搜了一些办法，例如更改镜像源、把https换为http，试了以下都不行。最后重启了一下电脑，就可以了。虽然还不知道为什么原因，但现在ubuntu子系统的conda算是正式安装好了，可以安装软件了。\n1 2 3 4  conda install -c anaconda ipython conda install -c anaconda jupyter pip install numpy pip install pandas   ",
-  "wordCount" : "1131",
+  "articleBody": " 最近有在window系统安装linux子系统(WSL, Windows Subsystem for Linux)的需求，搜索发现Microsoft最近(4月8号)提供了更加简便的安装方式。在此记录一下安装过程，的确非常简单。\n 参考官方文档\n https://docs.microsoft.com/zh-cn/windows/wsl/install https://docs.microsoft.com/zh-cn/windows/wsl/setup/environment  根据文档说明，此方式只适用于Windows 10 版本 2004 及更高版本（内部版本 19041 及更高版本）或 Windows 11。\n1、wsl安装  进入window的cmd模式：Win+R  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27  ###(1) 选择wsl所支持的linux版本 wsl --list --online # 以下是可安装的有效分发的列表。 # 请使用“wsl --install -d ”安装。  # NAME FRIENDLY NAME # Ubuntu Ubuntu # Debian Debian GNU/Linux # kali-linux Kali Linux Rolling # openSUSE-42 openSUSE Leap 42 # SLES-12 SUSE Linux Enterprise Server v12 # Ubuntu-16.04 Ubuntu 16.04 LTS # Ubuntu-18.04 Ubuntu 18.04 LTS # Ubuntu-20.04 Ubuntu 20.04 LTS  ###(2) 选择其中的Ubuntu版本进行安装 wsl --install -d Ubuntu #如上会自动下载、安装、启动Ubuntu系统；然后根据提示设置用户名与密码。 #在创建第一个用户账号后，该账户就被视为系统管理员，能够运行`sudo`管理命令。  #已安装的发行版 wsl --list --verbose  #目前WSL有两个版本，WSL1与WSL2；WSL2相较于WSL1更贴近真实Linux内核 #可如下设置指定版本的WSL默认Linux发行版 wsl --set-version 1/2 wsl --set-default Ubuntu-20.04 2    理论上Ubuntu子系统就已经安装了，点击window的开始选项，会出现该图标，点击即可运行。\n 2、关于密码 1 2 3 4 5 6 7 8 9 10 11  ##(1) 只是想单纯修改密码，使用linux的password命令解决 #进入ubuntu系统 password #然后根据提示输入旧密码，再输入新密码  ##(2) 如果是忘记了密码，想要修改密码 #进入window的cmd模式 wsl -u root passwd  # 为忘记密码的账户名 # 然后就可以直接设置新密码了   3、互访文件   linux子系统中访问window桌面\n1 2 3 4 5 6  ls /mnt/ # c d #对应window的c盘与d盘  ## 进入window桌面文件夹，xiaoxin是我的用户名 cd /mnt/c/Users/xiaoxin/Desktop/     window访问linux子系统的文件目录：在Windows资源管理器路径栏输入\\\\wsl$便可逐级查看\n  关于ubuntu子系统的磁盘空间：https://docs.microsoft.com/zh-cn/windows/wsl/vhd-size\n  4、安装conda  因为在安装conda过程中遇到了一个之前在服务器linux中没遇到的问题，特此记录一下。  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16  ##(1)下载、执行安装脚本 wget https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/Miniconda3-latest-Linux-x86_64.sh bash Miniconda3-latest-Linux-x86_64.sh source ~/.bashrc  ##(2)添加镜像源 conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/bioconda conda config --set show_channel_urls yes  #查看已设置的channels conda config --get  ##然后此时直接使用conda安装软件时，会出现类似下面的报错 conda install -c anaconda ipython    CondaHTTPError: HTTP 000 CONNECTION FAILED for url https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/linux-64/current_repodata.json Elapsed: -\nAn HTTP error occurred when trying to retrieve this URL. HTTP errors are often intermittent, and a simple retry will get you on your way. ‘https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/linux-64'\n 网上搜了一些办法，例如更改镜像源、把https换为http，试了以下都不行。最后重启了一下电脑，就可以了。虽然还不知道为什么原因，但现在ubuntu子系统的conda算是正式安装好了，可以安装软件了。\n1 2 3 4  conda install -c anaconda ipython conda install -c anaconda jupyter pip install numpy pip install pandas   ",
+  "wordCount" : "1228",
   "inLanguage": "en",
   "datePublished": "2022-04-22T00:00:00Z",
   "dateModified": "2022-04-22T00:00:00Z",
@@ -225,7 +225,7 @@
 
 
 
-Create:&nbsp;<span title='2022-04-22 00:00:00 +0000 UTC'>2022-04-22</span>&nbsp;|&nbsp;Update:&nbsp;2022-04-22&nbsp;|&nbsp;Words:&nbsp;1131&nbsp;|&nbsp;3 min&nbsp;|&nbsp;Lishensuo
+Create:&nbsp;<span title='2022-04-22 00:00:00 +0000 UTC'>2022-04-22</span>&nbsp;|&nbsp;Update:&nbsp;2022-04-22&nbsp;|&nbsp;Words:&nbsp;1228&nbsp;|&nbsp;3 min&nbsp;|&nbsp;Lishensuo
 
 |  Viewers: <span id="busuanzi_value_page_pv"></span> 
 	  
@@ -349,6 +349,14 @@ Create:&nbsp;<span title='2022-04-22 00:00:00 +0000 UTC'>2022-04-22</span>&nbsp;
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">27
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#007f7f">###(1) 选择wsl所支持的linux版本</span>
@@ -370,6 +378,14 @@ Create:&nbsp;<span title='2022-04-22 00:00:00 +0000 UTC'>2022-04-22</span>&nbsp;
 </span></span><span style="display:flex;"><span>wsl --install -d Ubuntu
 </span></span><span style="display:flex;"><span><span style="color:#007f7f">#如上会自动下载、安装、启动Ubuntu系统；然后根据提示设置用户名与密码。</span>
 </span></span><span style="display:flex;"><span><span style="color:#007f7f">#在创建第一个用户账号后，该账户就被视为系统管理员，能够运行`sudo`管理命令。</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#已安装的发行版</span>
+</span></span><span style="display:flex;"><span>wsl --list --verbose
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#目前WSL有两个版本，WSL1与WSL2；WSL2相较于WSL1更贴近真实Linux内核</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#可如下设置指定版本的WSL默认Linux发行版</span>
+</span></span><span style="display:flex;"><span>wsl --set-version &lt;distribution name&gt; 1/2
+</span></span><span style="display:flex;"><span>wsl --set-default Ubuntu-20.04 <span style="color:#ff0;font-weight:bold">2</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><blockquote>
@@ -513,10 +529,10 @@ HTTP errors are often intermittent, and a simple retry will get you on your way.
       <li><a href="https://lishensuo.github.io/tags/%E6%88%91%E7%9A%84%E7%94%B5%E8%84%91/">我的电脑</a></li>
     </ul>
 <nav class="paginav">
-  <a class="prev" href="https://lishensuo.github.io/posts/program/403shell%E5%9F%BA%E7%A1%80--grep%E7%AD%89%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4/">
+  <a class="prev" href="https://lishensuo.github.io/posts/program/450linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E4%B8%8E%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C/">
     <span class="title">« Prev Page</span>
     <br>
-    <span>shell基础--grep等文本处理命令</span>
+    <span>linux进程管理与后台运行</span>
   </a>
   <a class="next" href="https://lishensuo.github.io/posts/bioinfo/500obabel%E5%8C%96%E5%AD%A6%E5%B0%8F%E5%88%86%E5%AD%90%E6%A0%BC%E5%BC%8F%E8%BD%AC%E6%8D%A2/">
     <span class="title">Next Page »</span>
