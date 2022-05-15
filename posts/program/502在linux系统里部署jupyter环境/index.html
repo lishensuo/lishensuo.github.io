@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>502在Linux系统里部署Jupyter环境 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="之前就了解过Jupyter notebook，是调试python代码的简洁、高效软件。现在大致整理下目前学到的在Linux系统里部署Jupyt">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/posts/program/502%E5%9C%A8linux%E7%B3%BB%E7%BB%9F%E9%87%8C%E9%83%A8%E7%BD%B2jupyter%E7%8E%AF%E5%A2%83/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.1abf8254c205953f8beb228727a5e0a5541f0bc42f68f2762e2e594e7b213985.css" integrity="sha256-Gr&#43;CVMIFlT&#43;L6yKHJ6XgpVQfC8QvaPJ2Li5ZTnshOYU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.4dcb3c4f38462f66c6b6137227726f5543cb934cca9788f041c087e374491df2.js" integrity="sha256-Tcs8TzhGL2bGthNyJ3JvVUPLk0zKl4jwQcCH43RJHfI="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="502在Linux系统里部署Jupyter环境" />
+<meta property="og:description" content="之前就了解过Jupyter notebook，是调试python代码的简洁、高效软件。现在大致整理下目前学到的在Linux系统里部署Jupyt" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/posts/program/502%E5%9C%A8linux%E7%B3%BB%E7%BB%9F%E9%87%8C%E9%83%A8%E7%BD%B2jupyter%E7%8E%AF%E5%A2%83/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-05-15T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2022-05-15T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="502在Linux系统里部署Jupyter环境"/>
+<meta name="twitter:description" content="之前就了解过Jupyter notebook，是调试python代码的简洁、高效软件。现在大致整理下目前学到的在Linux系统里部署Jupyt"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "📖 R\u0026Python\u0026Shell --- 编程基础、可视化等",
+      "item": "https://lishensuo.github.io/posts/program/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "502在Linux系统里部署Jupyter环境",
+      "item": "https://lishensuo.github.io/posts/program/502%E5%9C%A8linux%E7%B3%BB%E7%BB%9F%E9%87%8C%E9%83%A8%E7%BD%B2jupyter%E7%8E%AF%E5%A2%83/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "502在Linux系统里部署Jupyter环境",
+  "name": "502在Linux系统里部署Jupyter环境",
+  "description": "之前就了解过Jupyter notebook，是调试python代码的简洁、高效软件。现在大致整理下目前学到的在Linux系统里部署Jupyt",
+  "keywords": [
+    
+  ],
+  "articleBody": " 之前就了解过Jupyter notebook，是调试python代码的简洁、高效软件。现在大致整理下目前学到的在Linux系统里部署Jupyter环境的小流程，以供之后自己学习python及相关分析时使用。\n 1、安装Jupyter  这里假设已经对conda环境有一定了解，并已在linux里安装； 官方安装教程 https://jupyter.org/install，推荐使用conda安装  1  conda install -c conda-forge notebook    tips：先暂时在base环境里安装，之后会介绍如何通用于其它环境。\n  查看版本  1 2  jupyter notebook --version # 6.4.5    调用jupyter(不推荐这么使用)  1  # jupyter notebook   2、本地端口登录  如上虽然可以直接在Linux默认的浏览器里调用Jupyter页面，但之前发现不仅启动慢，而且使用过程也很不流畅；应该是Linux调用默认浏览器的原因。可以通过如下方式，在本地电脑端口使用\n 2.1 生成jupyter notebook 配置文件 1  jupyter notebook --generate-config   2.2 设置登录密码  需要两次确认  1  jupyter notebook password    如上就会在.jupyter隐藏文件夹下生成两个文件：jupyter_notebook_config.json与jupyter_notebook_config.py\n 2.3 在Linux端启动jupyter 需要设置两个参数：指定端口号，不在Linux浏览器里启动\n1  jupyter notebook --port=8889 --no-browser   2.4 在本地电脑端设置链接端口 1 2 3  # Win + r 进入本地电脑命令行模式 ssh -L localhost:8889:localhost:8889 user_name@xxx.xxx.xxx.xxx -p 22 # 根据提示输入用户的密码即可进行关联   2.5 在本地任意浏览器登录  在浏览器网址栏输入：localhost:8889；在根据提示输入之前设置的密码即可在本地电脑端登入Linux系统里的Jupyter notebook软件，流畅得使用了。    参考教程 （1）远程访问服务器Jupyter Notebook的两种方法 https://www.jianshu.com/p/8fc3cd032d3c （2）关于Jupyter notebook远程连接服务器踩坑记 https://zhuanlan.zhihu.com/p/161221247\n 3、Jupyter 基本使用   如下图所示 Jupyter是由一个个单元格Cell组成，可以是Python的代码块，也可以是支持Rmarkown模式的注释文档；默认为代码块，可通过功能栏的下拉列表进行切换。\n  很多快捷键的用法，例如：\n Esc + H 快捷键大全 Esc + M 将单元格切换到markdown模式 Esc + Y 将单元格切换为代码code模式 Shift + Enter 运行当前单元格的内容，并选中下一个单元格的内容； Ctrl + Enter 运行当前单元格的内容，光标保留在当前单元格。     最后需要注意的是Jupyter保存的文件格式后缀为：.ipynb（即ipython notebook缩写）   Jupyter使用教程：https://cloud.tencent.com/developer/article/1091924\n 4、切换conda环境  在第一步里有介绍是在base环境中安装的Jupyter。通过安装nb_conda_kernels，可以实现建立基于某一特定conda环境的python脚本(前提是该conda环境已经安装好jupyter)  1 2  # 在base环境安装 conda install nb_conda_kernels   之后在，新建文件时，可以选择在基于哪一个conda环境下创建，非常方便 5、jupyter插件之jupyter-contrib-nbextensions jupyter-contrib-nbextensions提供了很多jupyter的插件，其中有些还是非常实用的。\n5.1 安装 jupyter_contrib_nbextensions 1  conda install -c conda-forge jupyter_contrib_nbextensions   5.2 配置 nbextension 1  jupyter contrib nbextension install --user   5.3 启用插件  如上述第2步的方法，在本地端口登陆Linux里的Jupyter Edit → 选择新增的Nbextensions，勾选想启用的插件功能即可。 我这里主要设置了三个插件 （1）Table of Contents(2)：根据rmarkdown注释的标题文档，在右边显示实时的目录信息； （2）Codefolding：可将python代码块里的函数、循环语句等折叠起来； （3）Variable Inspector：查看当前Python环境里所定义的变量信息。    参考教程 （1）Jupyter Notebook——如何显示目录的导航栏（安装 Jupyter Notebook extension） https://www.jianshu.com/p/61562bc5988b （2）工具篇-Jupyter Notebook效率提升小技巧 https://zhuanlan.zhihu.com/p/68328243 （3）真香！Jupyter Notebook 五大效率插件！ https://zhuanlan.zhihu.com/p/434052042\n  报错记录 （1）20220329 最近遇到一个问题，遇到的问题是在localhost无法打开ipynb文件，在linux端显示的报错如下：Permission denied: '/usr/local/share/jupyter/conf.json' 在localhost端则显示的500:internal server error。 后来经查询一番https://discourse.jupyter.org/t/500-internal-server-error-while-trying-to-open-python-notebook-on-jupyterhub/9738发现是nbconvert软件的版本的问题，安装指定的5.6.1版本后问题就解决了。 1  conda install nbconvent=5.6.1   ",
+  "wordCount" : "1947",
+  "inLanguage": "en",
+  "datePublished": "2022-05-15T00:00:00Z",
+  "dateModified": "2022-05-15T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/posts/program/502%E5%9C%A8linux%E7%B3%BB%E7%BB%9F%E9%87%8C%E9%83%A8%E7%BD%B2jupyter%E7%8E%AF%E5%A2%83/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/posts/program/">📖 R&amp;Python&amp;Shell --- 编程基础、可视化等</a></div>
+    <h1 class="post-title">
+      502在Linux系统里部署Jupyter环境
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2022-05-15 00:00:00 +0000 UTC'>2022-05-15</span>&nbsp;|&nbsp;Update:&nbsp;2022-05-15&nbsp;|&nbsp;Words:&nbsp;1947&nbsp;|&nbsp;4 min&nbsp;|&nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#1%e5%ae%89%e8%a3%85jupyter" aria-label="1、安装Jupyter">1、安装Jupyter</a></li>
+                    <li>
+                        <a href="#2%e6%9c%ac%e5%9c%b0%e7%ab%af%e5%8f%a3%e7%99%bb%e5%bd%95" aria-label="2、本地端口登录">2、本地端口登录</a><ul>
+                            
+                    <li>
+                        <a href="#21-%e7%94%9f%e6%88%90jupyter-notebook-%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6" aria-label="2.1 生成jupyter notebook 配置文件">2.1 生成jupyter notebook 配置文件</a></li>
+                    <li>
+                        <a href="#22-%e8%ae%be%e7%bd%ae%e7%99%bb%e5%bd%95%e5%af%86%e7%a0%81" aria-label="2.2 设置登录密码">2.2 设置登录密码</a></li>
+                    <li>
+                        <a href="#23-%e5%9c%a8linux%e7%ab%af%e5%90%af%e5%8a%a8jupyter" aria-label="2.3 在Linux端启动jupyter">2.3 在Linux端启动jupyter</a></li>
+                    <li>
+                        <a href="#24-%e5%9c%a8%e6%9c%ac%e5%9c%b0%e7%94%b5%e8%84%91%e7%ab%af%e8%ae%be%e7%bd%ae%e9%93%be%e6%8e%a5%e7%ab%af%e5%8f%a3" aria-label="2.4 在本地电脑端设置链接端口">2.4 在本地电脑端设置链接端口</a></li>
+                    <li>
+                        <a href="#25-%e5%9c%a8%e6%9c%ac%e5%9c%b0%e4%bb%bb%e6%84%8f%e6%b5%8f%e8%a7%88%e5%99%a8%e7%99%bb%e5%bd%95" aria-label="2.5 在本地任意浏览器登录">2.5 在本地任意浏览器登录</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#3jupyter-%e5%9f%ba%e6%9c%ac%e4%bd%bf%e7%94%a8" aria-label="3、Jupyter 基本使用">3、Jupyter 基本使用</a></li>
+                    <li>
+                        <a href="#4%e5%88%87%e6%8d%a2conda%e7%8e%af%e5%a2%83" aria-label="4、切换conda环境">4、切换conda环境</a></li>
+                    <li>
+                        <a href="#5jupyter%e6%8f%92%e4%bb%b6%e4%b9%8bjupyter-contrib-nbextensions" aria-label="5、jupyter插件之jupyter-contrib-nbextensions">5、jupyter插件之jupyter-contrib-nbextensions</a><ul>
+                            <ul>
+                            
+                    <li>
+                        <a href="#51-%e5%ae%89%e8%a3%85-jupyter_contrib_nbextensions" aria-label="5.1 安装 jupyter_contrib_nbextensions">5.1 安装 jupyter_contrib_nbextensions</a></li>
+                    <li>
+                        <a href="#52-%e9%85%8d%e7%bd%ae-nbextension" aria-label="5.2 配置 nbextension">5.2 配置 nbextension</a></li>
+                    <li>
+                        <a href="#53-%e5%90%af%e7%94%a8%e6%8f%92%e4%bb%b6" aria-label="5.3 启用插件">5.3 启用插件</a></li>
+                    <li>
+                        <a href="#%e6%8a%a5%e9%94%99%e8%ae%b0%e5%bd%95" aria-label="报错记录">报错记录</a>
+                    </li>
+                </ul>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><blockquote>
+<p>之前就了解过Jupyter notebook，是调试python代码的简洁、高效软件。现在大致整理下目前学到的在Linux系统里部署Jupyter环境的小流程，以供之后自己学习python及相关分析时使用。</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-eeffa14317933a08.png" style="zoom:33%;" />
+</blockquote>
+<h1 id="1安装jupyter">1、安装Jupyter<a hidden class="anchor" aria-hidden="true" href="#1安装jupyter">#</a></h1>
+<ul>
+<li>这里假设已经对conda环境有一定了解，并已在linux里安装；</li>
+<li>官方安装教程 <a href="https://jupyter.org/install">https://jupyter.org/install</a>，推荐使用conda安装</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>conda install -c conda-forge notebook
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>tips：先暂时在base环境里安装，之后会介绍如何通用于其它环境。</p>
+</blockquote>
+<ul>
+<li>查看版本</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>jupyter notebook --version
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 6.4.5</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>调用jupyter(不推荐这么使用)</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f"># jupyter notebook</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="2本地端口登录">2、本地端口登录<a hidden class="anchor" aria-hidden="true" href="#2本地端口登录">#</a></h1>
+<blockquote>
+<p>如上虽然可以直接在Linux默认的浏览器里调用Jupyter页面，但之前发现不仅启动慢，而且使用过程也很不流畅；应该是Linux调用默认浏览器的原因。可以通过如下方式，在本地电脑端口使用</p>
+</blockquote>
+<h2 id="21-生成jupyter-notebook-配置文件">2.1 生成jupyter notebook 配置文件<a hidden class="anchor" aria-hidden="true" href="#21-生成jupyter-notebook-配置文件">#</a></h2>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>jupyter notebook --generate-config
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="22-设置登录密码">2.2 设置登录密码<a hidden class="anchor" aria-hidden="true" href="#22-设置登录密码">#</a></h2>
+<ul>
+<li>需要两次确认</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>jupyter notebook password
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>如上就会在<code>.jupyter</code>隐藏文件夹下生成两个文件：jupyter_notebook_config.json与jupyter_notebook_config.py</p>
+</blockquote>
+<h2 id="23-在linux端启动jupyter">2.3 在Linux端启动jupyter<a hidden class="anchor" aria-hidden="true" href="#23-在linux端启动jupyter">#</a></h2>
+<p>需要设置两个参数：指定端口号，不在Linux浏览器里启动</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>jupyter notebook --port=8889 --no-browser 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="24-在本地电脑端设置链接端口">2.4 在本地电脑端设置链接端口<a hidden class="anchor" aria-hidden="true" href="#24-在本地电脑端设置链接端口">#</a></h2>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f"># Win + r 进入本地电脑命令行模式</span>
+</span></span><span style="display:flex;"><span>ssh -L localhost:<span style="color:#ff0;font-weight:bold">8889</span>:localhost:<span style="color:#ff0;font-weight:bold">8889</span> user_name@xxx.xxx.xxx.xxx -p <span style="color:#ff0;font-weight:bold">22</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 根据提示输入用户的密码即可进行关联</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="25-在本地任意浏览器登录">2.5 在本地任意浏览器登录<a hidden class="anchor" aria-hidden="true" href="#25-在本地任意浏览器登录">#</a></h2>
+<ul>
+<li>在浏览器网址栏输入：<code>localhost:8889</code>；在根据提示输入之前设置的密码即可在本地电脑端登入Linux系统里的Jupyter notebook软件，流畅得使用了。
+<img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-8f0bf203da844aba.png" alt=""  />
+</li>
+</ul>
+<blockquote>
+<p>参考教程
+（1）远程访问服务器Jupyter Notebook的两种方法 <a href="https://www.jianshu.com/p/8fc3cd032d3c">https://www.jianshu.com/p/8fc3cd032d3c</a>
+（2）关于Jupyter notebook远程连接服务器踩坑记 <a href="https://zhuanlan.zhihu.com/p/161221247">https://zhuanlan.zhihu.com/p/161221247</a></p>
+</blockquote>
+<h1 id="3jupyter-基本使用">3、Jupyter 基本使用<a hidden class="anchor" aria-hidden="true" href="#3jupyter-基本使用">#</a></h1>
+<ul>
+<li>
+<p>如下图所示 Jupyter是由一个个单元格<code>Cell</code>组成，可以是Python的代码块，也可以是支持Rmarkown模式的注释文档；默认为代码块，可通过功能栏的下拉列表进行切换。</p>
+</li>
+<li>
+<p>很多快捷键的用法，例如：</p>
+<ul>
+<li><code>Esc + H</code>  快捷键大全</li>
+<li><code>Esc + M</code>  将单元格切换到markdown模式</li>
+<li><code>Esc + Y</code> 将单元格切换为代码code模式</li>
+<li><code>Shift + Enter</code> 运行当前单元格的内容，并选中下一个单元格的内容；</li>
+<li><code>Ctrl + Enter</code> 运行当前单元格的内容，光标保留在当前单元格。</li>
+</ul>
+</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-730294f1dac31557.png" alt="image.png"  />
+</p>
+<ul>
+<li>最后需要注意的是Jupyter保存的文件格式后缀为：<code>.ipynb</code>（即ipython notebook缩写）</li>
+</ul>
+<blockquote>
+<p>Jupyter使用教程：https://cloud.tencent.com/developer/article/1091924</p>
+</blockquote>
+<h1 id="4切换conda环境">4、切换conda环境<a hidden class="anchor" aria-hidden="true" href="#4切换conda环境">#</a></h1>
+<ul>
+<li>在第一步里有介绍是在base环境中安装的Jupyter。通过安装<code>nb_conda_kernels</code>，可以实现建立基于某一特定conda环境的python脚本(<strong>前提是该conda环境已经安装好jupyter</strong>)</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f"># 在base环境安装</span>
+</span></span><span style="display:flex;"><span>conda install nb_conda_kernels
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>之后在，新建文件时，可以选择在基于哪一个conda环境下创建，非常方便
+<img loading="lazy" src="https://upload-images.jianshu.io/upload_images/20354525-49744c02433a57d6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""  />
+</p>
+<h1 id="5jupyter插件之jupyter-contrib-nbextensions">5、jupyter插件之jupyter-contrib-nbextensions<a hidden class="anchor" aria-hidden="true" href="#5jupyter插件之jupyter-contrib-nbextensions">#</a></h1>
+<p>jupyter-contrib-nbextensions提供了很多jupyter的插件，其中有些还是非常实用的。</p>
+<h3 id="51-安装-jupyter_contrib_nbextensions">5.1 安装 jupyter_contrib_nbextensions<a hidden class="anchor" aria-hidden="true" href="#51-安装-jupyter_contrib_nbextensions">#</a></h3>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>conda install -c conda-forge jupyter_contrib_nbextensions
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="52-配置-nbextension">5.2 配置 nbextension<a hidden class="anchor" aria-hidden="true" href="#52-配置-nbextension">#</a></h3>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>jupyter contrib nbextension install --user
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="53-启用插件">5.3 启用插件<a hidden class="anchor" aria-hidden="true" href="#53-启用插件">#</a></h3>
+<ul>
+<li>如上述第2步的方法，在本地端口登陆Linux里的Jupyter</li>
+<li>Edit → 选择新增的Nbextensions，勾选想启用的插件功能即可。
+<img loading="lazy" src="https://upload-images.jianshu.io/upload_images/20354525-7678401f274c6d3e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""  />
+
+我这里主要设置了三个插件
+（1）<code>Table of Contents(2)</code>：根据rmarkdown注释的标题文档，在右边显示实时的目录信息；
+（2）<code>Codefolding</code>：可将python代码块里的函数、循环语句等折叠起来；
+（3）<code>Variable Inspector</code>：查看当前Python环境里所定义的变量信息。
+<img loading="lazy" src="https://upload-images.jianshu.io/upload_images/20354525-284ff2c46a5d51b6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""  />
+</li>
+</ul>
+<blockquote>
+<p>参考教程
+（1）Jupyter Notebook——如何显示目录的导航栏（安装 Jupyter Notebook extension） <a href="https://www.jianshu.com/p/61562bc5988b">https://www.jianshu.com/p/61562bc5988b</a>
+（2）工具篇-Jupyter Notebook效率提升小技巧 <a href="https://zhuanlan.zhihu.com/p/68328243">https://zhuanlan.zhihu.com/p/68328243</a>
+（3）真香！Jupyter Notebook 五大效率插件！ <a href="https://zhuanlan.zhihu.com/p/434052042">https://zhuanlan.zhihu.com/p/434052042</a></p>
+</blockquote>
+<hr>
+<h3 id="报错记录">报错记录<a hidden class="anchor" aria-hidden="true" href="#报错记录">#</a></h3>
+<p>（1）20220329 最近遇到一个问题，遇到的问题是在localhost无法打开ipynb文件，在linux端显示的报错如下：<code>Permission denied: '/usr/local/share/jupyter/conf.json'</code>
+<img loading="lazy" src="https://upload-images.jianshu.io/upload_images/20354525-2ca2737f3fd1dbe7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""  />
+
+在localhost端则显示的<code>500:internal server error</code>。
+后来经查询一番https://discourse.jupyter.org/t/500-internal-server-error-while-trying-to-open-python-notebook-on-jupyterhub/9738发现是<code>nbconvert</code>软件的版本的问题，安装指定的5.6.1版本后问题就解决了。
+<img loading="lazy" src="https://upload-images.jianshu.io/upload_images/20354525-f9b549d521a2e413.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""  />
+</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>conda install nbconvent=5.6.1
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
+
+  </div>
+
+  <footer class="post-footer">
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/posts/program/501docker%E5%88%9D%E5%AD%A6/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>docker初学</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="https://lishensuo.github.io">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>
