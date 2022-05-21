@@ -5,11 +5,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Python基础-(4)函数 | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="Python, Python基础">
-<meta name="description" content="1、定义函数 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 # def语句定义函数 def hello(name): print(&#34;Hello,&#34;, name) # 添加return语句有两个作用 ## (1) 表示函数的结束 ## (2)">
+<title>Linux的parallel并行方法 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="我对于parallel并行的简单理解即同时执行多个命令语句。尽管目前很多生信软件支持多线程运行(一条命令语句内)，但并不是设置的越多就越快，">
 <meta name="author" content="Lishensuo">
-<link rel="canonical" href="https://lishensuo.github.io/posts/program/004python%E5%9F%BA%E7%A1%80-4%E5%87%BD%E6%95%B0/">
+<link rel="canonical" href="https://lishensuo.github.io/posts/program/503linux%E7%9A%84parallel%E5%B9%B6%E8%A1%8C%E6%96%B9%E6%B3%95/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.min.1abf8254c205953f8beb228727a5e0a5541f0bc42f68f2762e2e594e7b213985.css" integrity="sha256-Gr&#43;CVMIFlT&#43;L6yKHJ6XgpVQfC8QvaPJ2Li5ZTnshOYU=" rel="preload stylesheet" as="style">
 <script defer crossorigin="anonymous" src="/assets/js/highlight.min.4dcb3c4f38462f66c6b6137227726f5543cb934cca9788f041c087e374491df2.js" integrity="sha256-Tcs8TzhGL2bGthNyJ3JvVUPLk0zKl4jwQcCH43RJHfI="
     onload="hljs.initHighlightingOnLoad();"></script>
@@ -56,16 +56,16 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="Python基础-(4)函数" />
-<meta property="og:description" content="1、定义函数 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 # def语句定义函数 def hello(name): print(&#34;Hello,&#34;, name) # 添加return语句有两个作用 ## (1) 表示函数的结束 ## (2)" />
+</noscript><meta property="og:title" content="Linux的parallel并行方法" />
+<meta property="og:description" content="我对于parallel并行的简单理解即同时执行多个命令语句。尽管目前很多生信软件支持多线程运行(一条命令语句内)，但并不是设置的越多就越快，" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://lishensuo.github.io/posts/program/004python%E5%9F%BA%E7%A1%80-4%E5%87%BD%E6%95%B0/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2022-04-10T00:00:00&#43;00:00" />
-<meta property="article:modified_time" content="2022-04-10T00:00:00&#43;00:00" />
+<meta property="og:url" content="https://lishensuo.github.io/posts/program/503linux%E7%9A%84parallel%E5%B9%B6%E8%A1%8C%E6%96%B9%E6%B3%95/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-05-15T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2022-05-15T00:00:00&#43;00:00" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Python基础-(4)函数"/>
-<meta name="twitter:description" content="1、定义函数 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 # def语句定义函数 def hello(name): print(&#34;Hello,&#34;, name) # 添加return语句有两个作用 ## (1) 表示函数的结束 ## (2)"/>
+<meta name="twitter:title" content="Linux的parallel并行方法"/>
+<meta name="twitter:description" content="我对于parallel并行的简单理解即同时执行多个命令语句。尽管目前很多生信软件支持多线程运行(一条命令语句内)，但并不是设置的越多就越快，"/>
 
 
 <script type="application/ld+json">
@@ -88,8 +88,8 @@
     {
       "@type": "ListItem",
       "position":  4 ,
-      "name": "Python基础-(4)函数",
-      "item": "https://lishensuo.github.io/posts/program/004python%E5%9F%BA%E7%A1%80-4%E5%87%BD%E6%95%B0/"
+      "name": "Linux的parallel并行方法",
+      "item": "https://lishensuo.github.io/posts/program/503linux%E7%9A%84parallel%E5%B9%B6%E8%A1%8C%E6%96%B9%E6%B3%95/"
     }
   ]
 }
@@ -98,24 +98,24 @@
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "Python基础-(4)函数",
-  "name": "Python基础-(4)函数",
-  "description": "1、定义函数 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 # def语句定义函数 def hello(name): print(\u0026#34;Hello,\u0026#34;, name) # 添加return语句有两个作用 ## (1) 表示函数的结束 ## (2)",
+  "headline": "Linux的parallel并行方法",
+  "name": "Linux的parallel并行方法",
+  "description": "我对于parallel并行的简单理解即同时执行多个命令语句。尽管目前很多生信软件支持多线程运行(一条命令语句内)，但并不是设置的越多就越快，",
   "keywords": [
-    "Python", "Python基础"
+    
   ],
-  "articleBody": "1、定义函数 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23  # def语句定义函数 def hello(name):  print(\"Hello,\", name)  # 添加return语句有两个作用 ## (1) 表示函数的结束 ## (2) 指定函数的返回值 def square(number):  res = number*number  return res square(4)  # 可以在函数开头编辑一个文档字符串，用以解释函数功能，可作为函数的一部分储存起来 def square(number):  'Calaulate the square of the input number'  res = number*number  return res help(square) #可以在帮助文档里找到这个字符串  # 定义多个参数 def hello(time,name):  print(\"Good\",time, \",\", name) hello(name=\"LI\",time=\"morning\")   2、参数类型 （1）在定义函数时，可以设置参数的默认值。但需要注意的是这类参数需要放到最后。\n1 2 3 4 5 6  def test(x, y, z=3):  print(x, y, z) test(1,2) # 1 2 3 test(1,2,4) # 1 2 4    此外还有带一个星号的收集参数与带两个星号的收集关键词参数，暂时用不到。\n （2）在调用函数时，有两种方式，对应两类参数：\n 位置参数：仅提供若干值，对应定义函数时参数顺序。因此一定要注意顺序  1 2 3 4  def test(x, y, z):  print(x, y, z) test(1,2,3) # 1 2 3    关键字参数：参数名称=值的形式。可以无视定义函数时的参数顺序  1 2 3 4  def test(x, y, z):  print(x, y, z) test(y=1,z=2,x=3) # 3 1 2    通常不应该混合使用位置参数与关键字参数\n 一个小示例  当传递的参数是一个列表时，可对其进行修改； 如下表示登记学生的成绩。如果已经登记则返回提示，如果没有则需输入成绩。有点类似字典的setdefault方法。  1 2 3 4 5 6 7 8 9 10 11 12 13 14  def add_students(all_stu,stu):  'Registration record'  had_stu = list(all_stu.keys())  if stu in had_stu:  return \"The students had grades\"  else:  all_stu[stu] = int(input(\"Please input the student's grade:\"))  students = {'A':59, 'B':72, 'C':90} add_students(students,\"A\") # 'The students had grades' add_students(students,\"D\") students # {'A': 59, 'B': 72, 'C': 90, 'D': 99}   3、lambda表达式 1 2 3 4  #lambda [arg1 [,arg2,.....argn]]:expression sums = lambda num1, num2: num1 + num2 sums(1,2) # 3   ",
-  "wordCount" : "580",
+  "articleBody": " 我对于parallel并行的简单理解即同时执行多个命令语句。尽管目前很多生信软件支持多线程运行(一条命令语句内)，但并不是设置的越多就越快，比如trim_galore命令建议对于一对fastq文件，不超过8个线程。因此，如果有多个文件需要处理，想尽可能利用计算机几十个线程的资源，可以使用parallel。\n 1 2 3 4  #使用conda安装可以避免root权限的限制 conda install -c conda-forge parallel  parallel --help   1、基本用法 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29  ##(1) ::: 传递不同遍历值 parallel echo ::: A B C # A # B # C  ##(2) --dryrun 仅打印命令，而不执行 parallel --dryrun echo ::: A B C parallel --dryrun echo {} ::: A B C parallel --dryrun echo {1} ::: A B C # echo A # echo B # echo C  ##(3) 可提供双参数 parallel --dryrun echo {1} and_{2} ::: A B ::: D E # echo A and_D # echo A and_E # echo B and_D # echo B and_E  parallel --dryrun --xapply echo {1} {2} ::: A B ::: D E # echo A D # echo B E  ##(4) -j 指定同时执行的命令数,相当于线程数 ## --verbose参数可以在执行命令语句前，先打印出该命令 ## --progress参数可以实时显示任务的完成进度 parallel -j 3 echo chr{}.fa ::: {1..22} X Y Z   2、{}的字符处理 {} – full name 全名 {.} – 以（最后一个）逗号为分隔符的前半部分 {/} – 去除路径 {//} – 仅保留路径\n1 2 3 4 5 6  ls # 1.txt 2.txt 3.txt parallel echo mv {1} {1.}.doc ::: ./*.txt # mv 1.txt 1.doc # mv 2.txt 2.doc # mv 3.txt 3.doc   3、文件传递参数/命令 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20  cat chrID.txt # 1 # 2 # 3 # 4 # 5 # 6 # X # Y  parallel echo chr{}.fa :::: chrID.txt ## 等同于 cat chrID.txt | parallel echo chr{}.fa # chr1.fa # chr2.fa # chr3.fa # chr4.fa # chr5.fa # chr6.fa # chrX.fa # chrY.fa   ",
+  "wordCount" : "584",
   "inLanguage": "en",
-  "datePublished": "2022-04-10T00:00:00Z",
-  "dateModified": "2022-04-10T00:00:00Z",
+  "datePublished": "2022-05-15T00:00:00Z",
+  "dateModified": "2022-05-15T00:00:00Z",
   "author":[{
     "@type": "Person",
     "name": "Lishensuo"
   }],
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://lishensuo.github.io/posts/program/004python%E5%9F%BA%E7%A1%80-4%E5%87%BD%E6%95%B0/"
+    "@id": "https://lishensuo.github.io/posts/program/503linux%E7%9A%84parallel%E5%B9%B6%E8%A1%8C%E6%96%B9%E6%B3%95/"
   },
   "publisher": {
     "@type": "Organization",
@@ -209,7 +209,7 @@
   <header class="post-header">
     <div class="breadcrumbs"><a href="https://lishensuo.github.io">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/posts/program/">📖 R&amp;Python&amp;Shell --- 编程基础、可视化等</a></div>
     <h1 class="post-title">
-      Python基础-(4)函数
+      Linux的parallel并行方法
     </h1>
     <div class="post-meta">
 
@@ -225,7 +225,7 @@
 
 
 
-Create:&nbsp;<span title='2022-04-10 00:00:00 +0000 UTC'>2022-04-10</span>&nbsp;|&nbsp;Update:&nbsp;2022-04-10&nbsp;|&nbsp;Words:&nbsp;580&nbsp;|&nbsp;2 min&nbsp;|&nbsp;Lishensuo
+Create:&nbsp;<span title='2022-05-15 00:00:00 +0000 UTC'>2022-05-15</span>&nbsp;|&nbsp;Update:&nbsp;2022-05-15&nbsp;|&nbsp;Words:&nbsp;584&nbsp;|&nbsp;2 min&nbsp;|&nbsp;Lishensuo
 
 |  Viewers: <span id="busuanzi_value_page_pv"></span> 
 	  
@@ -239,19 +239,11 @@ Create:&nbsp;<span title='2022-04-10 00:00:00 +0000 UTC'>2022-04-10</span>&nbsp;
 
             <div class="inner"><ul>
                     <li>
-                        <a href="#1%e5%ae%9a%e4%b9%89%e5%87%bd%e6%95%b0" aria-label="1、定义函数">1、定义函数</a></li>
+                        <a href="#1%e5%9f%ba%e6%9c%ac%e7%94%a8%e6%b3%95" aria-label="1、基本用法">1、基本用法</a></li>
                     <li>
-                        <a href="#2%e5%8f%82%e6%95%b0%e7%b1%bb%e5%9e%8b" aria-label="2、参数类型">2、参数类型</a><ul>
-                            <ul>
-                            <ul>
-                            
+                        <a href="#2%e7%9a%84%e5%ad%97%e7%ac%a6%e5%a4%84%e7%90%86" aria-label="2、{}的字符处理">2、{}的字符处理</a></li>
                     <li>
-                        <a href="#%e4%b8%80%e4%b8%aa%e5%b0%8f%e7%a4%ba%e4%be%8b" aria-label="一个小示例">一个小示例</a></li></ul>
-                        </ul>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#3lambda%e8%a1%a8%e8%be%be%e5%bc%8f" aria-label="3、lambda表达式">3、lambda表达式</a>
+                        <a href="#3%e6%96%87%e4%bb%b6%e4%bc%a0%e9%80%92%e5%8f%82%e6%95%b0%e5%91%bd%e4%bb%a4" aria-label="3、文件传递参数/命令">3、文件传递参数/命令</a>
                     </li>
                 </ul>
             </div>
@@ -319,7 +311,24 @@ Create:&nbsp;<span title='2022-04-10 00:00:00 +0000 UTC'>2022-04-10</span>&nbsp;
 </script>
 
 
-  <div class="post-content"><h2 id="1定义函数">1、定义函数<a hidden class="anchor" aria-hidden="true" href="#1定义函数">#</a></h2>
+  <div class="post-content"><blockquote>
+<p>我对于parallel并行的简单理解即同时执行多个命令语句。尽管目前很多生信软件支持多线程运行(一条命令语句内)，但并不是设置的越多就越快，比如trim_galore命令建议对于一对fastq文件，不超过8个线程。因此，如果有多个文件需要处理，想尽可能利用计算机几十个线程的资源，可以使用<strong>parallel</strong>。</p>
+</blockquote>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#007f7f">#使用conda安装可以避免root权限的限制</span>
+</span></span><span style="display:flex;"><span>conda install -c conda-forge parallel
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>parallel --help
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="1基本用法">1、基本用法<a hidden class="anchor" aria-hidden="true" href="#1基本用法">#</a></h1>
 <div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
@@ -345,35 +354,50 @@ Create:&nbsp;<span title='2022-04-10 00:00:00 +0000 UTC'>2022-04-10</span>&nbsp;
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">27
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">28
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">29
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#007f7f"># def语句定义函数</span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">def</span> hello(name):
-</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">print</span>(<span style="color:#0ff;font-weight:bold">&#34;Hello,&#34;</span>, name)
-</span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 添加return语句有两个作用</span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">## (1) 表示函数的结束</span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">## (2) 指定函数的返回值</span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">def</span> square(number):
-</span></span><span style="display:flex;"><span>    res = number*number
-</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> res
-</span></span><span style="display:flex;"><span>square(<span style="color:#ff0;font-weight:bold">4</span>)
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#007f7f">##(1) ::: 传递不同遍历值</span>
+</span></span><span style="display:flex;"><span>parallel <span style="color:#fff;font-weight:bold">echo</span> ::: A B C
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># A</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># B</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># C</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 可以在函数开头编辑一个文档字符串，用以解释函数功能，可作为函数的一部分储存起来</span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">def</span> square(number):
-</span></span><span style="display:flex;"><span>    <span style="color:#0ff;font-weight:bold">&#39;Calaulate the square of the input number&#39;</span>
-</span></span><span style="display:flex;"><span>    res = number*number
-</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> res
-</span></span><span style="display:flex;"><span>help(square) <span style="color:#007f7f">#可以在帮助文档里找到这个字符串</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##(2) --dryrun 仅打印命令，而不执行</span>
+</span></span><span style="display:flex;"><span>parallel --dryrun <span style="color:#fff;font-weight:bold">echo</span> ::: A B C
+</span></span><span style="display:flex;"><span>parallel --dryrun <span style="color:#fff;font-weight:bold">echo</span> {} ::: A B C
+</span></span><span style="display:flex;"><span>parallel --dryrun <span style="color:#fff;font-weight:bold">echo</span> {1} ::: A B C
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># echo A</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># echo B</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># echo C</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 定义多个参数</span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">def</span> hello(time,name):
-</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">print</span>(<span style="color:#0ff;font-weight:bold">&#34;Good&#34;</span>,time, <span style="color:#0ff;font-weight:bold">&#34;,&#34;</span>, name)
-</span></span><span style="display:flex;"><span>hello(name=<span style="color:#0ff;font-weight:bold">&#34;LI&#34;</span>,time=<span style="color:#0ff;font-weight:bold">&#34;morning&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##(3) 可提供双参数</span>
+</span></span><span style="display:flex;"><span>parallel --dryrun <span style="color:#fff;font-weight:bold">echo</span> {1} and_{2} ::: A B ::: D E
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># echo A and_D</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># echo A and_E</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># echo B and_D</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># echo B and_E</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>parallel --dryrun --xapply <span style="color:#fff;font-weight:bold">echo</span> {1} {2} ::: A B ::: D E
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># echo A D</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># echo B E</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##(4) -j 指定同时执行的命令数,相当于线程数</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##    --verbose参数可以在执行命令语句前，先打印出该命令</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##    --progress参数可以实时显示任务的完成进度</span>
+</span></span><span style="display:flex;"><span>parallel -j <span style="color:#ff0;font-weight:bold">3</span> <span style="color:#fff;font-weight:bold">echo</span> chr{}.fa ::: {1..22} X Y Z
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="2参数类型">2、参数类型<a hidden class="anchor" aria-hidden="true" href="#2参数类型">#</a></h2>
-<p>（1）在定义函数时，可以设置参数的默认值。但需要注意的是这类参数需要放到最后。</p>
+</div><h1 id="2的字符处理">2、{}的字符处理<a hidden class="anchor" aria-hidden="true" href="#2的字符处理">#</a></h1>
+<p><code>{}</code>   – full name 全名
+<code>{.}</code>  – 以（最后一个）逗号为分隔符的前半部分
+<code>{/}</code>  – 去除路径
+<code>{//}</code> – 仅保留路径</p>
 <div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
@@ -384,60 +408,15 @@ Create:&nbsp;<span title='2022-04-10 00:00:00 +0000 UTC'>2022-04-10</span>&nbsp;
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">def</span> test(x, y, z=<span style="color:#ff0;font-weight:bold">3</span>):
-</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">print</span>(x, y, z)
-</span></span><span style="display:flex;"><span>test(<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">2</span>)
-</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1 2 3</span>
-</span></span><span style="display:flex;"><span>test(<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">2</span>,<span style="color:#ff0;font-weight:bold">4</span>)
-</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1 2 4</span>
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>ls
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1.txt  2.txt  3.txt</span>
+</span></span><span style="display:flex;"><span>parallel <span style="color:#fff;font-weight:bold">echo</span> mv {1} {1.}.doc ::: ./*.txt 
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># mv 1.txt 1.doc</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># mv 2.txt 2.doc</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># mv 3.txt 3.doc</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><blockquote>
-<p>此外还有带一个星号的收集参数与带两个星号的收集关键词参数，暂时用不到。</p>
-</blockquote>
-<p>（2）在调用函数时，有两种方式，对应两类参数：</p>
-<ul>
-<li>位置参数：仅提供若干值，对应定义函数时参数顺序。因此一定要注意顺序</li>
-</ul>
-<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">def</span> test(x, y, z):
-</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">print</span>(x, y, z)   
-</span></span><span style="display:flex;"><span>test(<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">2</span>,<span style="color:#ff0;font-weight:bold">3</span>)
-</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1 2 3</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><ul>
-<li>关键字参数：<code>参数名称=值</code>的形式。可以无视定义函数时的参数顺序</li>
-</ul>
-<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">def</span> test(x, y, z):
-</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">print</span>(x, y, z)   
-</span></span><span style="display:flex;"><span>test(y=<span style="color:#ff0;font-weight:bold">1</span>,z=<span style="color:#ff0;font-weight:bold">2</span>,x=<span style="color:#ff0;font-weight:bold">3</span>)
-</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3 1 2</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><blockquote>
-<p>通常不应该混合使用位置参数与关键字参数</p>
-</blockquote>
-<h5 id="一个小示例">一个小示例<a hidden class="anchor" aria-hidden="true" href="#一个小示例">#</a></h5>
-<ul>
-<li>当传递的参数是一个列表时，可对其进行修改；</li>
-<li>如下表示登记学生的成绩。如果已经登记则返回提示，如果没有则需输入成绩。有点类似字典的setdefault方法。</li>
-</ul>
+</div><h1 id="3文件传递参数命令">3、文件传递参数/命令<a hidden class="anchor" aria-hidden="true" href="#3文件传递参数命令">#</a></h1>
 <div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
@@ -454,37 +433,34 @@ Create:&nbsp;<span title='2022-04-10 00:00:00 +0000 UTC'>2022-04-10</span>&nbsp;
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">def</span> add_students(all_stu,stu):
-</span></span><span style="display:flex;"><span>    <span style="color:#0ff;font-weight:bold">&#39;Registration record&#39;</span>
-</span></span><span style="display:flex;"><span>    had_stu = <span style="color:#fff;font-weight:bold">list</span>(all_stu.keys())
-</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">if</span> stu in had_stu:
-</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span> <span style="color:#0ff;font-weight:bold">&#34;The students had grades&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">else</span>:
-</span></span><span style="display:flex;"><span>        all_stu[stu] = <span style="color:#fff;font-weight:bold">int</span>(<span style="color:#fff;font-weight:bold">input</span>(<span style="color:#0ff;font-weight:bold">&#34;Please input the student&#39;s grade:&#34;</span>))
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>students = {<span style="color:#0ff;font-weight:bold">&#39;A&#39;</span>:<span style="color:#ff0;font-weight:bold">59</span>, <span style="color:#0ff;font-weight:bold">&#39;B&#39;</span>:<span style="color:#ff0;font-weight:bold">72</span>, <span style="color:#0ff;font-weight:bold">&#39;C&#39;</span>:<span style="color:#ff0;font-weight:bold">90</span>}
-</span></span><span style="display:flex;"><span>add_students(students,<span style="color:#0ff;font-weight:bold">&#34;A&#34;</span>)
-</span></span><span style="display:flex;"><span><span style="color:#007f7f"># &#39;The students had grades&#39;</span>
-</span></span><span style="display:flex;"><span>add_students(students,<span style="color:#0ff;font-weight:bold">&#34;D&#34;</span>)
-</span></span><span style="display:flex;"><span>students
-</span></span><span style="display:flex;"><span><span style="color:#007f7f"># {&#39;A&#39;: 59, &#39;B&#39;: 72, &#39;C&#39;: 90, &#39;D&#39;: 99}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="3lambda表达式">3、lambda表达式<a hidden class="anchor" aria-hidden="true" href="#3lambda表达式">#</a></h2>
-<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#007f7f">#lambda [arg1 [,arg2,.....argn]]:expression</span>
-</span></span><span style="display:flex;"><span>sums = <span style="color:#fff;font-weight:bold">lambda</span> num1, num2: num1 + num2
-</span></span><span style="display:flex;"><span>sums(<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">2</span>)
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>cat chrID.txt
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2</span>
 </span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 4</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 5</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 6</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># X</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Y</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>parallel <span style="color:#fff;font-weight:bold">echo</span> chr{}.fa :::: chrID.txt
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## 等同于 cat chrID.txt | parallel echo chr{}.fa</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># chr1.fa</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># chr2.fa</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># chr3.fa</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># chr4.fa</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># chr5.fa</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># chr6.fa</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># chrX.fa</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># chrY.fa</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div>
@@ -492,20 +468,11 @@ Create:&nbsp;<span title='2022-04-10 00:00:00 +0000 UTC'>2022-04-10</span>&nbsp;
   </div>
 
   <footer class="post-footer">
-    <ul class="post-tags">
-      <li><a href="https://lishensuo.github.io/tags/python/">Python</a></li>
-      <li><a href="https://lishensuo.github.io/tags/python%E5%9F%BA%E7%A1%80/">Python基础</a></li>
-    </ul>
 <nav class="paginav">
-  <a class="prev" href="https://lishensuo.github.io/posts/program/003python%E5%9F%BA%E7%A1%80-3%E6%9D%A1%E4%BB%B6%E4%B8%8E%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5/">
+  <a class="prev" href="https://lishensuo.github.io/posts/program/502%E5%9C%A8linux%E7%B3%BB%E7%BB%9F%E9%87%8C%E9%83%A8%E7%BD%B2jupyter%E7%8E%AF%E5%A2%83/">
     <span class="title">« Prev Page</span>
     <br>
-    <span>Python基础-(3)条件与循环语句</span>
-  </a>
-  <a class="next" href="https://lishensuo.github.io/posts/program/005python%E5%9F%BA%E7%A1%80-5%E7%B1%BB%E4%B8%8E%E5%AE%9E%E4%BE%8B/">
-    <span class="title">Next Page »</span>
-    <br>
-    <span>Python基础-(5)类与实例</span>
+    <span>502在Linux系统里部署Jupyter环境</span>
   </a>
 </nav>
 

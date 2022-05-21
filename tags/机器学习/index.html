@@ -312,7 +312,7 @@ Create:&nbsp;<span title='2022-04-10 00:00:00 +0000 UTC'>2022-04-10</span>&nbsp;
 <article class="post-entry tag-entry">
 	<div class="post-info">  
 		<header class="entry-header">
-			<h2>机器学习基于R(6)--分类--决策树
+			<h2>机器学习基于R(6)--分类--决策树与随机森林
 			</h2>
 		</header>
 		<section class="entry-content">
@@ -332,41 +332,9 @@ Create:&nbsp;<span title='2022-04-10 00:00:00 +0000 UTC'>2022-04-10</span>&nbsp;
 
 
 
-Create:&nbsp;<span title='2022-04-16 00:00:00 +0000 UTC'>2022-04-16</span>&nbsp;|&nbsp;Update:&nbsp;2022-04-16&nbsp;|&nbsp;Words:&nbsp;3391&nbsp;|&nbsp;7 min&nbsp;|&nbsp;Lishensuo</footer>
+Create:&nbsp;<span title='2022-04-16 00:00:00 +0000 UTC'>2022-04-16</span>&nbsp;|&nbsp;Update:&nbsp;2022-04-16&nbsp;|&nbsp;Words:&nbsp;3392&nbsp;|&nbsp;7 min&nbsp;|&nbsp;Lishensuo</footer>
 	</div>   
-  <a class="entry-link" aria-label="post link to 机器学习基于R(6)--分类--决策树" href="https://lishensuo.github.io/posts/bioinfo/105%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er6--%E5%88%86%E7%B1%BB--%E5%86%B3%E7%AD%96%E6%A0%91%E4%B8%8E%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97/"></a>
-</article>
-
-
-
-
-
-<article class="post-entry tag-entry">
-	<div class="post-info">  
-		<header class="entry-header">
-			<h2>机器学习基于R(6)--分类--决策树
-			</h2>
-		</header>
-		<section class="entry-content">
-			<p>2、boosting与XGBoost 2.1 步骤简介 boosting算法是按顺序构建一系列弱学习器模型。每一个新建的模型都在试图改正前序模型的错误...</p>
-		</section>
-		<footer class="entry-footer">
-
-
-
-
-
-
-
-
-
-
-
-
-
-Create:&nbsp;<span title='2022-04-16 00:00:00 +0000 UTC'>2022-04-16</span>&nbsp;|&nbsp;Update:&nbsp;2022-04-16&nbsp;|&nbsp;Words:&nbsp;764&nbsp;|&nbsp;2 min&nbsp;|&nbsp;Lishensuo</footer>
-	</div>   
-  <a class="entry-link" aria-label="post link to 机器学习基于R(6)--分类--决策树" href="https://lishensuo.github.io/posts/bioinfo/106%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er7--%E5%88%86%E7%B1%BB--%E5%9F%BA%E4%BA%8E%E6%A0%91%E7%9A%84%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97%E4%B8%8Exgboost/"></a>
+  <a class="entry-link" aria-label="post link to 机器学习基于R(6)--分类--决策树与随机森林" href="https://lishensuo.github.io/posts/bioinfo/105%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er6--%E5%88%86%E7%B1%BB--%E5%86%B3%E7%AD%96%E6%A0%91%E4%B8%8E%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97/"></a>
 </article>
 
 
@@ -463,6 +431,38 @@ Create:&nbsp;<span title='2022-04-27 00:00:00 +0000 UTC'>2022-04-27</span>&nbsp;
 Create:&nbsp;<span title='2022-05-07 00:00:00 +0000 UTC'>2022-05-07</span>&nbsp;|&nbsp;Update:&nbsp;2022-05-07&nbsp;|&nbsp;Words:&nbsp;2856&nbsp;|&nbsp;6 min&nbsp;|&nbsp;Lishensuo</footer>
 	</div>   
   <a class="entry-link" aria-label="post link to 机器学习基于R(10)--回归--岭回归&#43;LASSO回归&#43;弹性网络" href="https://lishensuo.github.io/posts/bioinfo/109%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er10--%E5%9B%9E%E5%BD%92--%E5%B2%AD%E5%9B%9E%E5%BD%92&#43;lasson%E5%9B%9E%E5%BD%92&#43;%E5%BC%B9%E6%80%A7%E7%BD%91%E7%BB%9C/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>机器学习基于R(11)--回归--kNN&#43;随机森林&#43;XGBboost
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>0、示例数据 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 ##(1)示例数据 data(&#34;fuelsubset.task&#34;) fuelTib &lt;- getTaskData(fuelsubset.task) fuelTib dim(fuelTib) # [1] 129 367 head(fuelTib[1:3,1:6]) # heatan h20 UVVIS.UVVIS.1 UVVIS.UVVIS.2 UVVIS.UVVIS.3 UVVIS.UVVIS.4 # 1 26.781 2.3000 0.87431601 0.7481823 0.7738064 0.7471426 # 2 27.472 3.0000 -0.85517389 -1.2873925 -0.8328261 -0.9758280 # 3...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2022-05-08 00:00:00 +0000 UTC'>2022-05-08</span>&nbsp;|&nbsp;Update:&nbsp;2022-05-08&nbsp;|&nbsp;Words:&nbsp;1120&nbsp;|&nbsp;3 min&nbsp;|&nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 机器学习基于R(11)--回归--kNN&#43;随机森林&#43;XGBboost" href="https://lishensuo.github.io/posts/bioinfo/110%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er11--%E5%9B%9E%E5%BD%92--knn&#43;%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97&#43;xgboost/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
