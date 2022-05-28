@@ -6,7 +6,7 @@
     <description>Recent content in Bioconductor包 on Li&#39;s Bioinfo-Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 25 Apr 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://lishensuo.github.io/tags/bioconductor%E5%8C%85/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 28 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://lishensuo.github.io/tags/bioconductor%E5%8C%85/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>单细胞分析工具--Seurat4基础流程</title>
       <link>https://lishensuo.github.io/posts/bioinfo/006%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--seurat4%E5%9F%BA%E7%A1%80%E6%B5%81%E7%A8%8B/</link>
@@ -35,6 +35,42 @@
     </item>
     
     <item>
+      <title>TCGAbiolinks包-TCGA数据下载与差异分析</title>
+      <link>https://lishensuo.github.io/posts/bioinfo/046tcgabiolinks%E5%8C%85-tcga%E6%95%B0%E6%8D%AE%E4%B8%8B%E8%BD%BD%E4%B8%8E%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/</link>
+      <pubDate>Sat, 30 Apr 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/posts/bioinfo/046tcgabiolinks%E5%8C%85-tcga%E6%95%B0%E6%8D%AE%E4%B8%8B%E8%BD%BD%E4%B8%8E%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/</guid>
+      <description>TCGAbiolinks包是一站式分析TCGA数据的R包工具，它集成了TCGA数据下载、分析、可视化的全部流程。此次系列笔记主要跟着 TCGA</description>
+    </item>
+    
+    <item>
+      <title>STRINGdb包下载蛋白PPI数据</title>
+      <link>https://lishensuo.github.io/posts/bioinfo/051stringdb%E5%8C%85%E4%B8%8B%E8%BD%BD%E8%9B%8B%E7%99%BDppi%E6%95%B0%E6%8D%AE/</link>
+      <pubDate>Sat, 16 Apr 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/posts/bioinfo/051stringdb%E5%8C%85%E4%B8%8B%E8%BD%BD%E8%9B%8B%E7%99%BDppi%E6%95%B0%E6%8D%AE/</guid>
+      <description>1 2 3 4 5 if (!require(&amp;#34;BiocManager&amp;#34;, quietly = TRUE)) install.packages(&amp;#34;BiocManager&amp;#34;) BiocManager::install(&amp;#34;STRINGdb&amp;#34;) library(STRINGdb) 1、定义要使用的STRING版本、物种，以及PPI阈值分数 1 2 3 4 string_db &amp;lt;- STRINGdb$new(version=&amp;#34;11&amp;#34;, species=9606, score_threshold=200, input_directory=&amp;#34;&amp;#34;) 2、示例基因 1 2 3 4 5 6 7 8 9 10 11 12</description>
+    </item>
+    
+    <item>
+      <title>人类基因组基础知识与下载查询</title>
+      <link>https://lishensuo.github.io/posts/bioinfo/053%E4%BA%BA%E7%B1%BB%E5%9F%BA%E5%9B%A0%E7%BB%84%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E4%B8%8E%E4%B8%8B%E8%BD%BD%E6%9F%A5%E8%AF%A2/</link>
+      <pubDate>Sat, 28 May 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/posts/bioinfo/053%E4%BA%BA%E7%B1%BB%E5%9F%BA%E5%9B%A0%E7%BB%84%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E4%B8%8E%E4%B8%8B%E8%BD%BD%E6%9F%A5%E8%AF%A2/</guid>
+      <description>一、基因组大小 （1）人类基因组主要由细胞核的23对染色体组成(核基因组)，还包括线粒体中的小DNA分子(线粒体基因组)。 （2）单倍体基因组大</description>
+    </item>
+    
+    <item>
+      <title>基因ID等转换</title>
+      <link>https://lishensuo.github.io/posts/bioinfo/054%E5%9F%BA%E5%9B%A0id%E7%AD%89%E8%BD%AC%E6%8D%A2/</link>
+      <pubDate>Sat, 28 May 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/posts/bioinfo/054%E5%9F%BA%E5%9B%A0id%E7%AD%89%E8%BD%AC%E6%8D%A2/</guid>
+      <description>1、不同基因ID转换 1.1 org.Hs.eg.db包 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 library(dplyr) library(org.Hs.eg.db) keytypes(org.Hs.eg.db) # [1] &amp;#34;ACCNUM&amp;#34; &amp;#34;ALIAS&amp;#34; &amp;#34;ENSEMBL&amp;#34; &amp;#34;ENSEMBLPROT&amp;#34; &amp;#34;ENSEMBLTRANS&amp;#34; &amp;#34;ENTREZID&amp;#34; # [7] &amp;#34;ENZYME&amp;#34; &amp;#34;EVIDENCE&amp;#34; &amp;#34;EVIDENCEALL&amp;#34;</description>
+    </item>
+    
+    <item>
       <title>WGCNA基因加权共表达网络分析</title>
       <link>https://lishensuo.github.io/posts/bioinfo/071wgcna%E5%9F%BA%E5%9B%A0%E5%8A%A0%E6%9D%83%E5%85%B1%E8%A1%A8%E8%BE%BE%E7%BD%91%E7%BB%9C%E5%88%86%E6%9E%90/</link>
       <pubDate>Mon, 25 Apr 2022 00:00:00 +0000</pubDate>
@@ -50,6 +86,15 @@
       
       <guid>https://lishensuo.github.io/posts/bioinfo/070%E4%BD%BF%E7%94%A8isoformswitchanalyzer%E5%8C%85%E8%BF%9B%E8%A1%8C%E5%8F%AF%E5%8F%98%E5%89%AA%E5%88%87%E5%88%86%E6%9E%90/</guid>
       <description>https://bioconductor.org/packages/release/bioc/html/IsoformSwitchAnalyzeR.html 1、背景知识 The usage of Alternative Transcription Start sites (aTSS可选择转录起始位点), Alternative Splicing (AS可选择剪切位点) and alternative Transcription Termination Sites (aTTS可选择终止位点) are collectively collectively results in the production of different</description>
+    </item>
+    
+    <item>
+      <title>文献_药物组合数据库DrugCombDB</title>
+      <link>https://lishensuo.github.io/posts/basic/170%E6%96%87%E7%8C%AE_%E8%8D%AF%E7%89%A9%E7%BB%84%E5%90%88%E6%95%B0%E6%8D%AE%E5%BA%93drugcombdb/</link>
+      <pubDate>Fri, 27 May 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/posts/basic/170%E6%96%87%E7%8C%AE_%E8%8D%AF%E7%89%A9%E7%BB%84%E5%90%88%E6%95%B0%E6%8D%AE%E5%BA%93drugcombdb/</guid>
+      <description>DrugCombDB: a comprehensive database of drug combinations toward the discovery of combinatorial therapy Nucleic Acids Research | 2020 | IF=17 1、数据收集 （1）HTS(high-throughput screening)高通量筛选技术可用于快速</description>
     </item>
     
     <item>

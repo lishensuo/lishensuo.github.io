@@ -61,7 +61,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://lishensuo.github.io/posts/bioinfo/049%E4%B8%8B%E8%BD%BD%E6%B5%8B%E5%BA%8F%E6%95%B0%E6%8D%AEsrr%E4%B8%8Efastq.gz%E6%96%B9%E5%BC%8F/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2022-04-16T00:00:00&#43;00:00" />
-<meta property="article:modified_time" content="2022-04-16T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2022-05-23T00:00:00&#43;00:00" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="下载测序数据SRR与fastq.gz方式"/>
@@ -104,11 +104,11 @@
   "keywords": [
     "RNA-seq", "下载数据"
   ],
-  "articleBody": "1、准备conda环境与软件 1 2 3 4 5 6 7 8  # 准备download环境 conda create -n download conda activate download  # 安装软件 conda install -c hcc aspera-cli conda install -c bioconda sra-tools conda install -c conda-forge pigz    以SRR13911909为例  2、aspera下载  https://www.ebi.ac.uk/ena/browser/view/SRR13911909  2.1 下载链接 1 2 3 4 5  # era-fasp@fasp.sra.ebi.ac.uk:/vol1/fastq/SRR139/009/SRR13911909/SRR13911909_1.fastq.gz # era-fasp@fasp.sra.ebi.ac.uk:/vol1/fastq/SRR139/009/SRR13911909/SRR13911909_2.fastq.gz # 观察上述链接规律后，可以自动生成下载链接 era-fasp@fasp.sra.ebi.ac.uk:/vol1/fastq/${id:0:6}/0${id:0-2}/${id}/${id}_1.fastq.gz era-fasp@fasp.sra.ebi.ac.uk:/vol1/fastq/${id:0:6}/0${id:0-2}/${id}/${id}_2.fastq.gz   2.2 aspera下载 1 2 3 4 5 6 7 8 9 10 11 12  id=SRR13911909  ascp -QT -l 300m -P33001 \\ -i ~/miniconda3/envs/download/etc/asperaweb_id_dsa.openssh \\ era-fasp@fasp.sra.ebi.ac.uk:/vol1/fastq/${id:0:6}/0${id:0-2}/${id}/${id}_1.fastq.gz .  ascp -QT -l 300m -P33001 \\ -i ~/miniconda3/envs/download/etc/asperaweb_id_dsa.openssh \\ era-fasp@fasp.sra.ebi.ac.uk:/vol1/fastq/${id:0:6}/0${id:0-2}/${id}/${id}_2.fastq.gz .  #最后一个点表示下载文件的储存路径 #如果是其它环境，将download替换为对应环境名即可   使用aspera可以达到百兆的速度，建议首先尝试。但最近试了几次，容易报错，不稳定(报错内容如下)；有时候可以。\n 1 2  # ascp: failed to authenticate, exiting. # Session Stop (Error: failed to authenticate)     如上图所示，虽然ebi网站也提供了fastq.gz的ftp链接。但经过尝试后，不建议使用。因为下载不稳定，容易中断(网速极慢)。尽管wget支持断点续传，但是会出现部分序列丢失情况，导致后续步骤报错。当aspera方法暂时不能使用时，建议使用下面介绍的prefetch方法。\n 2.3 prefetch下载  先下载.sra文件  1 2 3 4 5  id=SRR13911909 # -p 显示进程 # -X 允许下载的文件内存上限 # -O 下载文件的储存路径 prefetch -p -X 35G ${id} -O .    再拆分为fastq.gz文件  1 2 3 4 5 6 7 8 9 10  fasterq-dump --split-files ${id} -p -O ./  # pigz多线程压缩 ls *fastq | while read id do pigz -v $id done  # 删除sra文件 rm -rf ${id}   ",
-  "wordCount" : "546",
+  "articleBody": "1、准备conda环境与软件 1 2 3 4 5 6 7 8  # 准备download环境 conda create -n download conda activate download  # 安装软件 conda install -c hcc aspera-cli conda install -c bioconda sra-tools conda install -c conda-forge pigz    以SRR13911909为例  2、aspera下载  https://www.ebi.ac.uk/ena/browser/view/SRR13911909  2.1 下载链接 1 2 3 4 5  # era-fasp@fasp.sra.ebi.ac.uk:/vol1/fastq/SRR139/009/SRR13911909/SRR13911909_1.fastq.gz # era-fasp@fasp.sra.ebi.ac.uk:/vol1/fastq/SRR139/009/SRR13911909/SRR13911909_2.fastq.gz # 观察上述链接规律后，可以自动生成下载链接 era-fasp@fasp.sra.ebi.ac.uk:/vol1/fastq/${id:0:6}/0${id:0-2}/${id}/${id}_1.fastq.gz era-fasp@fasp.sra.ebi.ac.uk:/vol1/fastq/${id:0:6}/0${id:0-2}/${id}/${id}_2.fastq.gz   2.2 aspera下载 1 2 3 4 5 6 7 8 9 10 11 12 13  id=SRR13911909  ascp -QT -l 300m -P33001 \\ -i ~/miniconda3/envs/download/etc/asperaweb_id_dsa.openssh \\ era-fasp@fasp.sra.ebi.ac.uk:/vol1/fastq/${id:0:6}/0${id:0-2}/${id}/${id}_1.fastq.gz .  ascp -QT -l 300m -P33001 \\ -i ~/miniconda3/envs/download/etc/asperaweb_id_dsa.openssh \\ era-fasp@fasp.sra.ebi.ac.uk:/vol1/fastq/${id:0:6}/0${id:0-2}/${id}/${id}_2.fastq.gz .  #最后一个点表示下载文件的储存路径 #如果是其它环境，将download替换为对应环境名即可 #如果是base环境： ~/miniconda3/etc/asperaweb_id_dsa.openssh   使用aspera可以达到百兆的速度，建议首先尝试。但最近试了几次，容易报错，不稳定(报错内容如下)；有时候可以。\n 1 2  # ascp: failed to authenticate, exiting. # Session Stop (Error: failed to authenticate)     如上图所示，虽然ebi网站也提供了fastq.gz的ftp链接。但经过尝试后，不建议使用。因为下载不稳定，容易中断(网速极慢)。尽管wget支持断点续传，但是会出现部分序列丢失情况，导致后续步骤报错。当aspera方法暂时不能使用时，建议使用下面介绍的prefetch方法。\n 2.3 prefetch下载  先下载.sra文件  1 2 3 4 5  id=SRR13911909 # -p 显示进程 # -X 允许下载的文件内存上限 # -O 下载文件的储存路径 prefetch -p -X 35G ${id} -O .    再拆分为fastq.gz文件  1 2 3 4 5 6 7 8 9 10  fasterq-dump --split-files ${id} -p -O ./  # pigz多线程压缩 ls *fastq | while read id do pigz -v $id done  # 删除sra文件 rm -rf ${id}   ",
+  "wordCount" : "559",
   "inLanguage": "en",
   "datePublished": "2022-04-16T00:00:00Z",
-  "dateModified": "2022-04-16T00:00:00Z",
+  "dateModified": "2022-05-23T00:00:00Z",
   "author":[{
     "@type": "Person",
     "name": "Lishensuo"
@@ -225,7 +225,7 @@
 
 
 
-Create:&nbsp;<span title='2022-04-16 00:00:00 +0000 UTC'>2022-04-16</span>&nbsp;|&nbsp;Update:&nbsp;2022-04-16&nbsp;|&nbsp;Words:&nbsp;546&nbsp;|&nbsp;2 min&nbsp;|&nbsp;Lishensuo
+Create:&nbsp;<span title='2022-04-16 00:00:00 +0000 UTC'>2022-04-16</span>&nbsp;|&nbsp;Update:&nbsp;2022-05-23&nbsp;|&nbsp;Words:&nbsp;559&nbsp;|&nbsp;2 min&nbsp;|&nbsp;Lishensuo
 
 |  Viewers: <span id="busuanzi_value_page_pv"></span> 
 	  
@@ -382,6 +382,7 @@ Create:&nbsp;<span title='2022-04-16 00:00:00 +0000 UTC'>2022-04-16</span>&nbsp;
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>id=SRR13911909
@@ -396,6 +397,7 @@ Create:&nbsp;<span title='2022-04-16 00:00:00 +0000 UTC'>2022-04-16</span>&nbsp;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#007f7f">#最后一个点表示下载文件的储存路径</span>
 </span></span><span style="display:flex;"><span><span style="color:#007f7f">#如果是其它环境，将download替换为对应环境名即可</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#如果是base环境： ~/miniconda3/etc/asperaweb_id_dsa.openssh</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>使用aspera可以达到百兆的速度，建议首先尝试。但最近试了几次，容易报错，不稳定(报错内容如下)；有时候可以。</p>
