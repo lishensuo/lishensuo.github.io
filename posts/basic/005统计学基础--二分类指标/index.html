@@ -5,12 +5,14 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>统计学基础 | Li&#39;s Bioinfo-Blog</title>
+<title>Li&#39;s Bioinfo-Blog</title>
 <meta name="keywords" content="">
-<meta name="description" content="李申锁的博客，记录生信学习过程。R/Python/Shell">
+<meta name="description" content="均方误差 Mean squared error 决定系数 coefficient of determination, R2 正确率 accuracy 精确率 precision 召回率 recall 特异度 specifity F值 ROC曲线与AUC PRAUC">
 <meta name="author" content="">
-<link rel="canonical" href="https://lishensuo.github.io/tags/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%9F%BA%E7%A1%80/">
+<link rel="canonical" href="https://lishensuo.github.io/posts/basic/005%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%9F%BA%E7%A1%80--%E4%BA%8C%E5%88%86%E7%B1%BB%E6%8C%87%E6%A0%87/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.min.1abf8254c205953f8beb228727a5e0a5541f0bc42f68f2762e2e594e7b213985.css" integrity="sha256-Gr&#43;CVMIFlT&#43;L6yKHJ6XgpVQfC8QvaPJ2Li5ZTnshOYU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.4dcb3c4f38462f66c6b6137227726f5543cb934cca9788f041c087e374491df2.js" integrity="sha256-Tcs8TzhGL2bGthNyJ3JvVUPLk0zKl4jwQcCH43RJHfI="
+    onload="hljs.initHighlightingOnLoad();"></script>
 <link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
 <link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
 <link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
@@ -18,7 +20,6 @@
 <link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="https://lishensuo.github.io/tags/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%9F%BA%E7%A1%80/index.xml">
 <noscript>
     <style>
         #theme-toggle,
@@ -55,19 +56,77 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="统计学基础" />
-<meta property="og:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://lishensuo.github.io/tags/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%9F%BA%E7%A1%80/" />
+</noscript><meta property="og:title" content="" />
+<meta property="og:description" content="均方误差 Mean squared error 决定系数 coefficient of determination, R2 正确率 accuracy 精确率 precision 召回率 recall 特异度 specifity F值 ROC曲线与AUC PRAUC" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/posts/basic/005%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%9F%BA%E7%A1%80--%E4%BA%8C%E5%88%86%E7%B1%BB%E6%8C%87%E6%A0%87/" /><meta property="article:section" content="posts" />
+
+
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="统计学基础"/>
-<meta name="twitter:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="均方误差 Mean squared error 决定系数 coefficient of determination, R2 正确率 accuracy 精确率 precision 召回率 recall 特异度 specifity F值 ROC曲线与AUC PRAUC"/>
 
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "📖 科研基础 -- 读文献、看教材",
+      "item": "https://lishensuo.github.io/posts/basic/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "",
+      "item": "https://lishensuo.github.io/posts/basic/005%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%9F%BA%E7%A1%80--%E4%BA%8C%E5%88%86%E7%B1%BB%E6%8C%87%E6%A0%87/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "",
+  "name": "",
+  "description": "均方误差 Mean squared error 决定系数 coefficient of determination, R2 正确率 accuracy 精确率 precision 召回率 recall 特异度 specifity F值 ROC曲线与AUC PRAUC",
+  "keywords": [
+    
+  ],
+  "articleBody": "均方误差 Mean squared error\n决定系数 coefficient of determination, R2\n正确率 accuracy\n精确率 precision\n召回率 recall\n特异度 specifity\nF值\nROC曲线与AUC\nPRAUC\n",
+  "wordCount" : "43",
+  "inLanguage": "en",
+  "datePublished": "0001-01-01T00:00:00Z",
+  "dateModified": "0001-01-01T00:00:00Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/posts/basic/005%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%9F%BA%E7%A1%80--%E4%BA%8C%E5%88%86%E7%B1%BB%E6%8C%87%E6%A0%87/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </head>
 
-<body class="list" id="top">
+<body class="" id="top">
 <script>
     if (localStorage.getItem("pref-theme") === "dark") {
         document.body.classList.add('dark');
@@ -140,25 +199,19 @@
         </ul>
     </nav>
 </header>
-<main class="main"> 
-<header class="page-header"><div class="breadcrumbs"><a href="https://lishensuo.github.io">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/tags/">Tags</a></div>
-  <h1>统计学基础</h1>
-</header>
+<main class="main">
 
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/posts/basic/">📖 科研基础 -- 读文献、看教材</a></div>
+    <h1 class="post-title">
+      
+    </h1>
+    <div class="post-meta">
 
 
 
 
-<article class="post-entry tag-entry">
-	<div class="post-info">  
-		<header class="entry-header">
-			<h2>统计学基础--统计描述指标与常见统计分布
-			</h2>
-		</header>
-		<section class="entry-content">
-			<p>统计的对象是数据，其中会涉及到不同类型的数据；统计的目的是描述，描述一组数据的分布特征、两组至多组数据之间的关系。 1、数据分类 根据数据特点，...</p>
-		</section>
-		<footer class="entry-footer">
 
 
 
@@ -168,109 +221,37 @@
 
 
 
+Update:&nbsp;0001-01-01&nbsp;|&nbsp;Words:&nbsp;43&nbsp;|&nbsp;1 min
 
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> 
 
 
+  <div class="post-content"><p>均方误差 Mean squared error</p>
+<p>决定系数 coefficient of determination, R2</p>
+<p>正确率 accuracy</p>
+<p>精确率 precision</p>
+<p>召回率 recall</p>
+<p>特异度 specifity</p>
+<p>F值</p>
+<p>ROC曲线与AUC</p>
+<p>PRAUC</p>
 
-Create:&nbsp;<span title='2022-04-18 00:00:00 +0000 UTC'>2022-04-18</span>&nbsp;|&nbsp;Update:&nbsp;2022-04-18&nbsp;|&nbsp;Words:&nbsp;2987&nbsp;|&nbsp;6 min&nbsp;|&nbsp;Lishensuo</footer>
-	</div>   
-  <a class="entry-link" aria-label="post link to 统计学基础--统计描述指标与常见统计分布" href="https://lishensuo.github.io/posts/basic/001%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%9F%BA%E7%A1%80--%E7%BB%9F%E8%AE%A1%E6%8F%8F%E8%BF%B0%E6%8C%87%E6%A0%87%E4%B8%8E%E5%B8%B8%E8%A7%81%E7%BB%9F%E8%AE%A1%E5%88%86%E5%B8%83/"></a>
-</article>
 
+  </div>
 
+  <footer class="post-footer">
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/posts/program/503linux%E7%9A%84parallel%E5%B9%B6%E8%A1%8C%E6%96%B9%E6%B3%95/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>Linux的parallel并行方法</span>
+  </a>
+</nav>
 
-
-
-<article class="post-entry tag-entry">
-	<div class="post-info">  
-		<header class="entry-header">
-			<h2>统计学基础--以T检验为例学习基于中心极限定理的假设检验
-			</h2>
-		</header>
-		<section class="entry-content">
-			<p>统计学常用样本数据推断总体结果，或者说使用样本统计量推断总体参数。包含如下意义： （1）对于样本数据，根据问题的不同，会有不同的形式。例如单纯...</p>
-		</section>
-		<footer class="entry-footer">
-
-
-
-
-
-
-
-
-
-
-
-
-
-Create:&nbsp;<span title='2022-05-10 00:00:00 +0000 UTC'>2022-05-10</span>&nbsp;|&nbsp;Update:&nbsp;2022-05-10&nbsp;|&nbsp;Words:&nbsp;3240&nbsp;|&nbsp;7 min&nbsp;|&nbsp;Lishensuo</footer>
-	</div>   
-  <a class="entry-link" aria-label="post link to 统计学基础--以T检验为例学习基于中心极限定理的假设检验" href="https://lishensuo.github.io/posts/basic/002%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%9F%BA%E7%A1%80--%E4%BB%A5t%E6%A3%80%E9%AA%8C%E4%B8%BA%E4%BE%8B%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8E%E4%B8%AD%E5%BF%83%E6%9E%81%E9%99%90%E5%AE%9A%E7%90%86%E7%9A%84%E5%81%87%E8%AE%BE%E6%A3%80%E9%AA%8C/"></a>
-</article>
-
-
-
-
-
-<article class="post-entry tag-entry">
-	<div class="post-info">  
-		<header class="entry-header">
-			<h2>统计学基础--方差分析与卡方检验
-			</h2>
-		</header>
-		<section class="entry-content">
-			<p>方差分析(analysis of variance)可以简单的理解为多组间的均值比较。例如A班、B班、C班、D班的考试成绩均值是否存在显著差异。方...</p>
-		</section>
-		<footer class="entry-footer">
-
-
-
-
-
-
-
-
-
-
-
-
-
-Create:&nbsp;<span title='2022-05-13 00:00:00 +0000 UTC'>2022-05-13</span>&nbsp;|&nbsp;Update:&nbsp;2022-05-23&nbsp;|&nbsp;Words:&nbsp;2395&nbsp;|&nbsp;5 min&nbsp;|&nbsp;Lishensuo</footer>
-	</div>   
-  <a class="entry-link" aria-label="post link to 统计学基础--方差分析与卡方检验" href="https://lishensuo.github.io/posts/basic/003%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%9F%BA%E7%A1%80--%E6%96%B9%E5%B7%AE%E5%88%86%E6%9E%90%E4%B8%8E%E5%8D%A1%E6%96%B9%E6%A3%80%E9%AA%8C/"></a>
-</article>
-
-
-
-
-
-<article class="post-entry tag-entry">
-	<div class="post-info">  
-		<header class="entry-header">
-			<h2>统计学基础--方差分析与卡方检验
-			</h2>
-		</header>
-		<section class="entry-content">
-			<p>一、相关性 1、线性相关系数 （1）线性相关系数用于描述多个样本数据中两个变量之间的线性相关的程度。 变量通常为连续型变量； 两个变量一般为描述样本...</p>
-		</section>
-		<footer class="entry-footer">
-
-
-
-
-
-
-
-
-
-
-
-
-
-Create:&nbsp;<span title='2022-06-02 00:00:00 +0000 UTC'>2022-06-02</span>&nbsp;|&nbsp;Update:&nbsp;2022-06-02&nbsp;|&nbsp;Words:&nbsp;2015&nbsp;|&nbsp;5 min&nbsp;|&nbsp;Lishensuo</footer>
-	</div>   
-  <a class="entry-link" aria-label="post link to 统计学基础--方差分析与卡方检验" href="https://lishensuo.github.io/posts/basic/004%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%9F%BA%E7%A1%80--%E7%9B%B8%E5%85%B3%E6%80%A7%E4%B8%8E%E4%B8%80%E8%87%B4%E6%80%A7/"></a>
+  </footer>
 </article>
     </main>
     
@@ -342,6 +323,53 @@ Create:&nbsp;<span title='2022-06-02 00:00:00 +0000 UTC'>2022-06-02</span>&nbsp;
         }
     })
 
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
 </script>
 
 <script type="text/javascript"

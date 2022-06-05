@@ -5,10 +5,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="">
-<meta name="description" content="相关性 对于多个样本，两个描述不同指标的变量间的关系 协方差，在概率论与统计学中 连续变量之间的相关性 协方差(Corvariance)：用于衡量两">
-<meta name="author" content="">
+<title>统计学基础--方差分析与卡方检验 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="统计学基础">
+<meta name="description" content="一、相关性 1、线性相关系数 （1）线性相关系数用于描述多个样本数据中两个变量之间的线性相关的程度。 变量通常为连续型变量； 两个变量一般为描述样本">
+<meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/basic/004%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%9F%BA%E7%A1%80--%E7%9B%B8%E5%85%B3%E6%80%A7%E4%B8%8E%E4%B8%80%E8%87%B4%E6%80%A7/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.min.1abf8254c205953f8beb228727a5e0a5541f0bc42f68f2762e2e594e7b213985.css" integrity="sha256-Gr&#43;CVMIFlT&#43;L6yKHJ6XgpVQfC8QvaPJ2Li5ZTnshOYU=" rel="preload stylesheet" as="style">
 <script defer crossorigin="anonymous" src="/assets/js/highlight.min.4dcb3c4f38462f66c6b6137227726f5543cb934cca9788f041c087e374491df2.js" integrity="sha256-Tcs8TzhGL2bGthNyJ3JvVUPLk0zKl4jwQcCH43RJHfI="
@@ -56,16 +56,16 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="" />
-<meta property="og:description" content="相关性 对于多个样本，两个描述不同指标的变量间的关系 协方差，在概率论与统计学中 连续变量之间的相关性 协方差(Corvariance)：用于衡量两" />
+</noscript><meta property="og:title" content="统计学基础--方差分析与卡方检验" />
+<meta property="og:description" content="一、相关性 1、线性相关系数 （1）线性相关系数用于描述多个样本数据中两个变量之间的线性相关的程度。 变量通常为连续型变量； 两个变量一般为描述样本" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://lishensuo.github.io/posts/basic/004%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%9F%BA%E7%A1%80--%E7%9B%B8%E5%85%B3%E6%80%A7%E4%B8%8E%E4%B8%80%E8%87%B4%E6%80%A7/" /><meta property="article:section" content="posts" />
-
-
+<meta property="article:published_time" content="2022-06-02T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2022-06-02T00:00:00&#43;00:00" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content=""/>
-<meta name="twitter:description" content="相关性 对于多个样本，两个描述不同指标的变量间的关系 协方差，在概率论与统计学中 连续变量之间的相关性 协方差(Corvariance)：用于衡量两"/>
+<meta name="twitter:title" content="统计学基础--方差分析与卡方检验"/>
+<meta name="twitter:description" content="一、相关性 1、线性相关系数 （1）线性相关系数用于描述多个样本数据中两个变量之间的线性相关的程度。 变量通常为连续型变量； 两个变量一般为描述样本"/>
 
 
 <script type="application/ld+json">
@@ -88,7 +88,7 @@
     {
       "@type": "ListItem",
       "position":  4 ,
-      "name": "",
+      "name": "统计学基础--方差分析与卡方检验",
       "item": "https://lishensuo.github.io/posts/basic/004%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%9F%BA%E7%A1%80--%E7%9B%B8%E5%85%B3%E6%80%A7%E4%B8%8E%E4%B8%80%E8%87%B4%E6%80%A7/"
     }
   ]
@@ -98,17 +98,21 @@
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "",
-  "name": "",
-  "description": "相关性 对于多个样本，两个描述不同指标的变量间的关系 协方差，在概率论与统计学中 连续变量之间的相关性 协方差(Corvariance)：用于衡量两",
+  "headline": "统计学基础--方差分析与卡方检验",
+  "name": "统计学基础--方差分析与卡方检验",
+  "description": "一、相关性 1、线性相关系数 （1）线性相关系数用于描述多个样本数据中两个变量之间的线性相关的程度。 变量通常为连续型变量； 两个变量一般为描述样本",
   "keywords": [
-    
+    "统计学基础"
   ],
-  "articleBody": "相关性 对于多个样本，两个描述不同指标的变量间的关系\n协方差，在概率论与统计学中\n连续变量之间的相关性\n协方差(Corvariance)：用于衡量两个随机变量的联合变化程度。如果协方差大于0，表示正相关；小于0表示负相关。 $$ Cov(y, x) = \\frac{\\sum_{i=1}^n(y_i-\\overline{y})(x_i-\\overline{x})}{n-1} $$\n 如上公式，可以看出方差其实是协方差的特例。自己对自己的关系就是方差。\n 为了克服不同变量的尺度不相同所带来的的干扰，在计算需要间原始变量进行标准正态分布转换。\n此时得到的协方差就是两个连续变量的线性相关系数，常成为Person相关系数。 $$ r = \\frac{\\sum_{i=1}^n(y_i-\\overline{y})(x_i-\\overline{x})}{\\sqrt{\\sum_{i=1}^n(y_i-\\overline{y})^2}\\sqrt{\\sum_{i=1}^n(x_i-\\overline{x})^2}} $$ r(r0)值越大表示两个变量呈正相关；r(r在相关性分析的假设检验中，零假设通常为r=0。在p值显著的情况下，可认为两个变量存在相关性，仅此而已。不能说P值越小，两个变量的相关性越强(包括正负)。当P值不显著时，所能得到的结论是两个变量不存在线性相关；而不是不相关。\n当变量不符合正态分布时，一般不可使用Person相关系数；而使用基于秩次的Spearman相关系数。\n首先求出每个变量各自排序后的秩次，然后以秩次作为变量计算其Person相关系数。\n另一种基于秩次计算相关系数的Kendall的tau系数\n对于每个变量(Var1, Var2)，计算每个样本的样本秩次。\n随机抽取一对样本Sp1，Sp2：如果Sp1的Var1秩次大于(小于)Sp2的Var1秩次，同时Sp1的Var2秩次大于(小于)Sp2的Var2秩次，则记为Concordant，简记为C；如不符合上述情况，则记为Discordant,简记为D。\nKendall的tau系数则表示了对于所有两两组合的情况下，C与D的差值所占的比例。值越高表明两个变量越相关。 $$ \\tau = \\frac{C-D}{n(n-1)/2} $$\n在计算秩次时，如果对于某一变量，多个样本的值相同的情况，则称为Tie或者说是打结。此时一般取秩次的平均值。\n   Sample Var1 Var1-Rank     Sp1 1.1 1   Sp2 2.5 2.5   Sp3 2.5 2.5   Sp4 4.9 4    在涉及有序分类(等级)变量的相关性时，可以转换为基于秩次的相关性计算。此时会存在很多打结的秩次数据，此时使用Tau/b系数相对Spearman可以更好地处理打结数据。\n一致性 关于一致性与相关性的区别\n首先一般来说：相关性强调两个描述不同指标的变量的相关程度，例如体重与血糖的相关性；而一致性在强调是描述同一指标的不同测量方式的相关性，例如仪器A测量体重值与仪器B测量体重值的一致性。\n另一方面，一致性更强调两个指标的尺度上的一致性，即[1,2,3]与[1.1,1.9,2.8]的一致性更高；而与[2,4,6]的一致性则较低。\n计算指标：在计算方面，由于不会识别出是不是同一指标的变量，所以与计算相关系数有类似之处。\nCCC(Concordance Correlation Coefficient)：用偏离45度线的程度，对Pearson相关系数进行校正\n计算公式如下：r–相关系数；Sx–变量x的标准差；x(hat)–变量x的均值 $$ r_c = \\frac{2r\\cdot S_xS_y}{S_x^2+S_y^2+(\\overline{x}-\\overline{y})^2} $$\n如下图所示，\nKappa系数用于分类变量的一致性评价 $$ \\kappa = \\frac{p_o - p_e}{1 - p_e} $$\nC-index\n",
-  "wordCount" : "1240",
+  "articleBody": "一、相关性 1、线性相关系数 （1）线性相关系数用于描述多个样本数据中两个变量之间的线性相关的程度。\n 变量通常为连续型变量； 两个变量一般为描述样本的不同指标，例如人群的体重值与血糖值  （2）协方差(Corvariance)：用于衡量两个随机变量的联合变化程度。\n 如果协方差大于0，表示正相关；小于0表示负相关。  $$ Cov(y, x) = \\frac{\\sum_{i=1}^n(y_i-\\overline{y})(x_i-\\overline{x})}{n-1} $$\n 如上公式，可以看出方差其实是协方差的特例。自己对自己的关系就是方差。\n （3）为了克服不同变量的尺度不相同所带来的的干扰，在计算需要对原始变量进行标准正态分布转换。此时得到的协方差就是两个连续变量的线性相关系数，常称为Person相关系数。 $$ r = \\frac{\\sum_{i=1}^n(y_i-\\overline{y})(x_i-\\overline{x})}{\\sqrt{\\sum_{i=1}^n(y_i-\\overline{y})^2}\\sqrt{\\sum_{i=1}^n(x_i-\\overline{x})^2}} $$\n r(r0)值越大表示两个变量呈正相关；r(r  （4）P值与假设检验\n 在相关性分析的假设检验中，零假设通常为r=0。在p值显著的情况下，可认为两个变量存在相关性，仅此而已。 不能说P值越小，两个变量的相关性越强(包括正负)。 当P值不显著时，所能得到的结论是两个变量不存在线性相关；而不是不相关。  2、基于秩次的相关系数 当连续变量值的分布特征不符合正态分布时，一般不可使用Person相关系数，可选择如下基于秩次的计算方式。\n2.1 Spearman相关系数 计算思路比较简单：首先求出每个变量各自排序后的秩次，然后以秩次作为变量计算其Person相关系数。\n在计算秩次时，如果对于某一变量，多个样本的值相同的情况，则称为Tie或者说是打结。此时一般取秩次的平均值。如下例图所示。\n   Sample Var1 Var1-Rank     Sp1 1.1 1   Sp2 2.5 2.5   Sp3 2.5 2.5   Sp4 4.9 4    2.2 Kendall的tau系数 （1）首先对于每个变量(Var1, Var2)，计算每个样本的样本秩次。\n（2）然后随机抽取一对样本Sp1，Sp2：\n 如果Sp1的Var1秩次大于(小于)Sp2的Var1秩次，同时Sp1的Var2秩次也大于(小于)Sp2的Var2秩次，则记为Concordant，简记为C； 如不符合上述情况，则记为Discordant，简记为D。  （3）最后统计对于所有两两组合的情况下，C与D的差值所占的比例，即为tau系数。\n tau值越高表明两个变量越相关。  $$ \\tau = \\frac{C-D}{n(n-1)/2} $$\n 在涉及有序分类(等级)变量的相关性时，可以转换为基于秩次的相关性计算。\n此时会存在很多打结的秩次数据，此时使用Tau/b系数相对Spearman可以更好地处理打结数据。\n 二、一致性 一致性与相关性的区别体现在如下两个方面\n  一致性强调是描述同一指标的不同测量方式的关系。例如仪器A测量体重值与仪器B测量体重值的一致性。\n  一致性更注重两个指标的尺度上的一致性，即[1,2,3]与[1.1,1.9,2.8]的一致性更高；而与[2,4,6]的一致性则较低。\n  2.1 CCC CCC(Concordance Correlation Coefficient)用偏离45度线的程度，对Pearson相关系数进行校正。\n 计算公式如下：其中r–相关系数；Sx–变量x的标准差；x(hat)–变量x的均值  $$ r_c = \\frac{2r\\cdot S_xS_y}{S_x^2+S_y^2+(\\overline{x}-\\overline{y})^2} $$\n 如下图所示，展现了CCC与线性相关系数的不同之处。  2.2 Kappa系数 （1）Kappa系数用于分类变量的一致性评价。值范围在 -1 ~ 1之间，越接近1表示一致性越好。\n 可用于机器学习中评价模型分类预测能力。 例如真实的有效、无效所预测的有效、无效的一致性程度。  计算公式如下：其中Po表示观察的一致性，即同一样本的两个变量分类结果相同；Pe表示期望的一致性，即同一样本一致性的期望频率 $$ \\kappa = \\frac{p_o - p_e}{1 - p_e} $$\n（2）举例来说，需要对一批产品(N=20)进行质量评价，分为A、B、C 这3个等级。两个质检员分别独自评价分类，使用kappa系数计算两次结果的一致性。\n    A B C sum     A 8 2 1 11   B 2 3 0 5   C 0 1 3 4   sum 10 6 4 20    $$ p_o = \\frac{8}{20} + \\frac{3}{20}+ \\frac{3}{20} = 0.70 $$\n$$ p_e = \\frac{10}{20}\\cdot\\frac{11}{20}+\\frac{6}{20}\\cdot\\frac{5}{20}+\\frac{4}{20}\\cdot\\frac{4}{20} = 0.39 $$\n$$ \\kappa = \\frac{0.7 - 0.39}{1-0.39} = 0.51 $$\n（3）加权kappa系数：适用于有序分类变量的一致性评价。\n  还是上面的例子，如果A、B、C分别表示好、中、差3个有序等级。\n  把同一个产品标记为A、B的情况与把同一个产品标记为A、C的一致性差异是不一致的，前者会比后者更好一些。\n  如下为一个示例的权重矩阵\n    A B C     A 1 0.5 0   B 0.5 1 0.5   C 0 0.5 1    把同一产品分为同一等级的一致性最高，故赋予最高的权重\n把同一产品分为相差一级的一致性中等，故赋予较低的权重\n把同一产品分为相差两级的一致性最低，故赋予最低的权重\n所以加权的观察一致性计算如下\n    A B C sum     A 8×1=8 2×0.5=1 1×0=0 9   B 2×0.5=1 3×1=3 0×0.5=0 4   C 0×0=0 1×0.5=0.5 3×1=3 3.5   sum 9 4.5 3 16.5    $$ p_o = \\frac{16.5}{20} = 0.825 $$\n加权的预期一致性计算如下\n    A B C sum     A 10×11×1=110 6×11×0.5=33 4×11×0=0 143   B 10×5×0.5=25 6×5×1=30 4×5×0.5=10 65   C 10×4×0=0 6×4×0.5=12 4×4×1=16 28   sum 135 75 26 236    $$ p_e = \\frac{236 }{20×20} = 0.59 $$\n$$ \\kappa = \\frac{0.825 - 0.59}{1-0.59} = 0.57 $$\n 未加权矩阵相当于多角线元素值为1，其余元素值为0的权重值矩阵。\n ",
+  "wordCount" : "2015",
   "inLanguage": "en",
-  "datePublished": "0001-01-01T00:00:00Z",
-  "dateModified": "0001-01-01T00:00:00Z",
+  "datePublished": "2022-06-02T00:00:00Z",
+  "dateModified": "2022-06-02T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": "https://lishensuo.github.io/posts/basic/004%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%9F%BA%E7%A1%80--%E7%9B%B8%E5%85%B3%E6%80%A7%E4%B8%8E%E4%B8%80%E8%87%B4%E6%80%A7/"
@@ -205,7 +209,7 @@
   <header class="post-header">
     <div class="breadcrumbs"><a href="https://lishensuo.github.io">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/posts/basic/">📖 科研基础 -- 读文献、看教材</a></div>
     <h1 class="post-title">
-      
+      统计学基础--方差分析与卡方检验
     </h1>
     <div class="post-meta">
 
@@ -221,7 +225,7 @@
 
 
 
-Update:&nbsp;0001-01-01&nbsp;|&nbsp;Words:&nbsp;1240&nbsp;|&nbsp;3 min
+Create:&nbsp;<span title='2022-06-02 00:00:00 +0000 UTC'>2022-06-02</span>&nbsp;|&nbsp;Update:&nbsp;2022-06-02&nbsp;|&nbsp;Words:&nbsp;2015&nbsp;|&nbsp;5 min&nbsp;|&nbsp;Lishensuo
 
 |  Viewers: <span id="busuanzi_value_page_pv"></span> 
 	  
@@ -235,10 +239,29 @@ Update:&nbsp;0001-01-01&nbsp;|&nbsp;Words:&nbsp;1240&nbsp;|&nbsp;3 min
 
             <div class="inner"><ul>
                     <li>
-                        <a href="#%e7%9b%b8%e5%85%b3%e6%80%a7" aria-label="相关性">相关性</a></li>
+                        <a href="#%e4%b8%80%e7%9b%b8%e5%85%b3%e6%80%a7" aria-label="一、相关性">一、相关性</a><ul>
+                            
                     <li>
-                        <a href="#%e4%b8%80%e8%87%b4%e6%80%a7" aria-label="一致性">一致性</a>
+                        <a href="#1%e7%ba%bf%e6%80%a7%e7%9b%b8%e5%85%b3%e7%b3%bb%e6%95%b0" aria-label="1、线性相关系数">1、线性相关系数</a></li>
+                    <li>
+                        <a href="#2%e5%9f%ba%e4%ba%8e%e7%a7%a9%e6%ac%a1%e7%9a%84%e7%9b%b8%e5%85%b3%e7%b3%bb%e6%95%b0" aria-label="2、基于秩次的相关系数">2、基于秩次的相关系数</a><ul>
+                            
+                    <li>
+                        <a href="#21-spearman%e7%9b%b8%e5%85%b3%e7%b3%bb%e6%95%b0" aria-label="2.1 Spearman相关系数">2.1 Spearman相关系数</a></li>
+                    <li>
+                        <a href="#22-kendall%e7%9a%84tau%e7%b3%bb%e6%95%b0" aria-label="2.2 Kendall的tau系数">2.2 Kendall的tau系数</a></li></ul>
+                    </li></ul>
                     </li>
+                    <li>
+                        <a href="#%e4%ba%8c%e4%b8%80%e8%87%b4%e6%80%a7" aria-label="二、一致性">二、一致性</a><ul>
+                            
+                    <li>
+                        <a href="#21-ccc" aria-label="2.1 CCC">2.1 CCC</a></li>
+                    <li>
+                        <a href="#22-kappa%e7%b3%bb%e6%95%b0" aria-label="2.2 Kappa系数">2.2 Kappa系数</a>
+                    </li>
+                </ul>
+                </li>
                 </ul>
             </div>
         </details>
@@ -305,37 +328,43 @@ Update:&nbsp;0001-01-01&nbsp;|&nbsp;Words:&nbsp;1240&nbsp;|&nbsp;3 min
 </script>
 
 
-  <div class="post-content"><h1 id="相关性">相关性<a hidden class="anchor" aria-hidden="true" href="#相关性">#</a></h1>
-<p>对于多个样本，两个描述不同指标的变量间的关系</p>
-<p>协方差，在概率论与统计学中</p>
-<p>连续变量之间的相关性</p>
-<p>协方差(Corvariance)：用于衡量两个随机变量的联合变化程度。如果协方差大于0，表示正相关；小于0表示负相关。
-$$
+  <div class="post-content"><h1 id="一相关性">一、相关性<a hidden class="anchor" aria-hidden="true" href="#一相关性">#</a></h1>
+<h2 id="1线性相关系数">1、线性相关系数<a hidden class="anchor" aria-hidden="true" href="#1线性相关系数">#</a></h2>
+<p>（1）线性相关系数用于描述多个样本数据中两个变量之间的线性相关的程度。</p>
+<ul>
+<li>变量通常为连续型变量；</li>
+<li>两个变量一般为描述样本的不同指标，例如人群的体重值与血糖值</li>
+</ul>
+<p>（2）协方差(Corvariance)：用于衡量两个随机变量的联合变化程度。</p>
+<ul>
+<li>如果协方差大于0，表示正相关；小于0表示负相关。</li>
+</ul>
+<p>$$
 Cov(y, x) = \frac{\sum_{i=1}^n(y_i-\overline{y})(x_i-\overline{x})}{n-1}
 $$</p>
 <blockquote>
 <p>如上公式，可以看出方差其实是协方差的特例。自己对自己的关系就是方差。</p>
 </blockquote>
-<p>为了克服不同变量的尺度不相同所带来的的干扰，在计算需要间原始变量进行标准正态分布转换。</p>
-<p>此时得到的协方差就是两个连续变量的<strong>线性相关系数</strong>，常成为Person相关系数。
+<p>（3）为了克服不同变量的尺度不相同所带来的的干扰，在计算需要对原始变量进行<u>标准正态分布转换</u>。此时得到的协方差就是两个连续变量的<strong>线性相关系数</strong>，常称为Person相关系数。
 $$
 r = \frac{\sum_{i=1}^n(y_i-\overline{y})(x_i-\overline{x})}{\sqrt{\sum_{i=1}^n(y_i-\overline{y})^2}\sqrt{\sum_{i=1}^n(x_i-\overline{x})^2}}
-$$
-r(r&gt;0)值越大表示两个变量呈正相关；r(r&lt;0)值越小表示两个变量呈负相关；r=0表示两个变量不相关</p>
-<p>在相关性分析的假设检验中，零假设通常为r=0。在p值显著的情况下，可认为两个变量存在相关性，仅此而已。不能说P值越小，两个变量的相关性越强(包括正负)。当P值不显著时，所能得到的结论是两个变量不存在线性相关；而不是不相关。</p>
-<p>当变量不符合正态分布时，一般不可使用Person相关系数；而使用基于秩次的Spearman相关系数。</p>
-<p>首先求出每个变量各自排序后的秩次，然后以秩次作为变量计算其Person相关系数。</p>
+$$</p>
+<ul>
+<li>r(r&gt;0)值越大表示两个变量呈正相关；r(r&lt;0)值越小表示两个变量呈负相关；r=0表示两个变量不相关。</li>
+</ul>
+<p>（4）P值与假设检验</p>
+<ul>
+<li>在相关性分析的假设检验中，零假设通常为r=0。在p值显著的情况下，可认为两个变量存在相关性，仅此而已。</li>
+<li>不能说P值越小，两个变量的相关性越强(包括正负)。</li>
+<li>当P值不显著时，所能得到的结论是两个变量不存在线性相关；而不是不相关。</li>
+</ul>
+<h2 id="2基于秩次的相关系数">2、基于秩次的相关系数<a hidden class="anchor" aria-hidden="true" href="#2基于秩次的相关系数">#</a></h2>
+<p>当连续变量值的分布特征不符合正态分布时，一般不可使用Person相关系数，可选择如下基于秩次的计算方式。</p>
+<h3 id="21-spearman相关系数">2.1 Spearman相关系数<a hidden class="anchor" aria-hidden="true" href="#21-spearman相关系数">#</a></h3>
+<p>计算思路比较简单：首先求出每个变量各自排序后的秩次，然后以秩次作为变量计算其Person相关系数。</p>
 <p><img loading="lazy" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Spearman_fig1.svg/300px-Spearman_fig1.svg.png" alt="Spearman&amp;rsquo;s rank correlation coefficient - Wikipedia"  />
 </p>
-<p>另一种基于秩次计算相关系数的Kendall的tau系数</p>
-<p>对于每个变量(Var1, Var2)，计算每个样本的样本秩次。</p>
-<p>随机抽取一对样本Sp1，Sp2：如果Sp1的Var1秩次大于(小于)Sp2的Var1秩次，同时Sp1的Var2秩次大于(小于)Sp2的Var2秩次，则记为<strong>Concordant</strong>，简记为C；如不符合上述情况，则记为<strong>Discordant</strong>,简记为D。</p>
-<img src="https://www.statology.org/wp-content/uploads/2020/02/kendall8.png" alt="Kendall's tau calculation" style="zoom:50%;" />
-<p>Kendall的tau系数则表示了对于所有两两组合的情况下，C与D的差值所占的比例。值越高表明两个变量越相关。
-$$
-\tau = \frac{C-D}{n(n-1)/2}
-$$</p>
-<p>在计算秩次时，如果对于某一变量，多个样本的值相同的情况，则称为Tie或者说是打结。此时一般取秩次的平均值。</p>
+<p>在计算秩次时，如果对于某一变量，多个样本的值相同的情况，则称为Tie或者说是打结。此时一般取秩次的平均值。如下例图所示。</p>
 <table>
 <thead>
 <tr>
@@ -367,35 +396,266 @@ $$</p>
 </tr>
 </tbody>
 </table>
-<p>在涉及有序分类(等级)变量的相关性时，可以转换为基于秩次的相关性计算。此时会存在很多打结的秩次数据，此时使用Tau/b系数相对Spearman可以更好地处理打结数据。</p>
-<h1 id="一致性">一致性<a hidden class="anchor" aria-hidden="true" href="#一致性">#</a></h1>
-<p>关于一致性与相关性的区别</p>
-<p>首先一般来说：相关性强调两个描述不同指标的变量的相关程度，例如体重与血糖的相关性；而一致性在强调是描述同一指标的不同测量方式的相关性，例如仪器A测量体重值与仪器B测量体重值的一致性。</p>
-<p>另一方面，一致性更强调两个指标的尺度上的一致性，即[1,2,3]与[1.1,1.9,2.8]的一致性更高；而与[2,4,6]的一致性则较低。</p>
-<p>计算指标：在计算方面，由于不会识别出是不是同一指标的变量，所以与计算相关系数有类似之处。</p>
-<p>CCC(Concordance Correlation Coefficient)：用偏离45度线的程度，对Pearson相关系数进行校正</p>
-<p>计算公式如下：r&ndash;相关系数；Sx&ndash;变量x的标准差；x(hat)&ndash;变量x的均值
-$$
+<h3 id="22-kendall的tau系数">2.2 Kendall的tau系数<a hidden class="anchor" aria-hidden="true" href="#22-kendall的tau系数">#</a></h3>
+<p>（1）首先对于每个变量(Var1, Var2)，计算每个样本的样本秩次。</p>
+<p>（2）然后随机抽取一对样本Sp1，Sp2：</p>
+<ul>
+<li>如果Sp1的Var1秩次大于(小于)Sp2的Var1秩次，同时Sp1的Var2秩次也大于(小于)Sp2的Var2秩次，则记为<strong>Concordant</strong>，简记为C；</li>
+<li>如不符合上述情况，则记为<strong>Discordant</strong>，简记为D。</li>
+</ul>
+<img src="https://www.statology.org/wp-content/uploads/2020/02/kendall8.png" alt="Kendall's tau calculation" style="zoom:50%;" />
+<p>（3）最后统计对于所有两两组合的情况下，C与D的差值所占的比例，即为tau系数。</p>
+<ul>
+<li>tau值越高表明两个变量越相关。</li>
+</ul>
+<p>$$
+\tau = \frac{C-D}{n(n-1)/2}
+$$</p>
+<blockquote>
+<p>在涉及有序分类(等级)变量的相关性时，可以转换为基于秩次的相关性计算。</p>
+<p>此时会存在很多打结的秩次数据，此时使用Tau/b系数相对Spearman可以更好地处理打结数据。</p>
+</blockquote>
+<h1 id="二一致性">二、一致性<a hidden class="anchor" aria-hidden="true" href="#二一致性">#</a></h1>
+<p>一致性与相关性的区别体现在如下两个方面</p>
+<ul>
+<li>
+<p>一致性强调是描述<u>同一指标</u>的不同测量方式的关系。例如仪器A测量体重值与仪器B测量体重值的一致性。</p>
+</li>
+<li>
+<p>一致性更注重两个指标的<u>尺度上的一致性</u>，即[1,2,3]与[1.1,1.9,2.8]的一致性更高；而与[2,4,6]的一致性则较低。</p>
+</li>
+</ul>
+<h2 id="21-ccc">2.1 CCC<a hidden class="anchor" aria-hidden="true" href="#21-ccc">#</a></h2>
+<p>CCC(Concordance Correlation Coefficient)用偏离45度线的程度，对Pearson相关系数进行校正。</p>
+<ul>
+<li>计算公式如下：其中r&ndash;相关系数；Sx&ndash;变量x的标准差；x(hat)&ndash;变量x的均值</li>
+</ul>
+<p>$$
 r_c = \frac{2r\cdot S_xS_y}{S_x^2+S_y^2+(\overline{x}-\overline{y})^2}
 $$</p>
-<p>如下图所示，</p>
+<ul>
+<li>如下图所示，展现了CCC与线性相关系数的不同之处。</li>
+</ul>
 <p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/animals-10-02054-g001-550.jpg" alt="Animals | Free Full-Text | Validation of an Alternative Feather Sampling  Method to Measure Corticosterone | HTML"  />
 </p>
-<p>Kappa系数用于分类变量的一致性评价
+<h2 id="22-kappa系数">2.2 Kappa系数<a hidden class="anchor" aria-hidden="true" href="#22-kappa系数">#</a></h2>
+<p>（1）Kappa系数用于分类变量的一致性评价。值范围在 -1 ~ 1之间，越接近1表示一致性越好。</p>
+<ul>
+<li>可用于机器学习中评价模型分类预测能力。</li>
+<li>例如真实的有效、无效所预测的有效、无效的一致性程度。</li>
+</ul>
+<p>计算公式如下：其中Po表示观察的一致性，即同一样本的两个变量分类结果相同；Pe表示期望的一致性，即同一样本一致性的期望频率
 $$
 \kappa = \frac{p_o - p_e}{1 - p_e}
 $$</p>
-<p>C-index</p>
+<p>（2）举例来说，需要对一批产品(N=20)进行质量评价，分为A、B、C 这3个等级。两个质检员分别独自评价分类，使用kappa系数计算两次结果的一致性。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center">A</th>
+<th style="text-align:center">B</th>
+<th style="text-align:center">C</th>
+<th style="text-align:center">sum</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>A</strong></td>
+<td style="text-align:center">8</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">11</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>B</strong></td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">5</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>C</strong></td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">4</td>
+</tr>
+<tr>
+<td style="text-align:center">sum</td>
+<td style="text-align:center">10</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">20</td>
+</tr>
+</tbody>
+</table>
+<p>$$
+p_o = \frac{8}{20} + \frac{3}{20}+ \frac{3}{20} = 0.70
+$$</p>
+<p>$$
+p_e = \frac{10}{20}\cdot\frac{11}{20}+\frac{6}{20}\cdot\frac{5}{20}+\frac{4}{20}\cdot\frac{4}{20} = 0.39
+$$</p>
+<p>$$
+\kappa = \frac{0.7 - 0.39}{1-0.39} = 0.51
+$$</p>
+<p>（3）加权kappa系数：适用于有序分类变量的一致性评价。</p>
+<ul>
+<li>
+<p>还是上面的例子，如果A、B、C分别表示好、中、差3个有序等级。</p>
+</li>
+<li>
+<p>把同一个产品标记为A、B的情况与把同一个产品标记为A、C的一致性差异是不一致的，前者会比后者更好一些。</p>
+</li>
+</ul>
+<p>如下为一个示例的权重矩阵</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>1</td>
+<td>0.5</td>
+<td>0</td>
+</tr>
+<tr>
+<td>B</td>
+<td>0.5</td>
+<td>1</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td>C</td>
+<td>0</td>
+<td>0.5</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>把同一产品分为同一等级的一致性最高，故赋予最高的权重</p>
+<p>把同一产品分为相差一级的一致性中等，故赋予较低的权重</p>
+<p>把同一产品分为相差两级的一致性最低，故赋予最低的权重</p>
+<p>所以加权的<strong>观察一致性</strong>计算如下</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center">A</th>
+<th style="text-align:center">B</th>
+<th style="text-align:center">C</th>
+<th style="text-align:center">sum</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>A</strong></td>
+<td style="text-align:center">8×1=8</td>
+<td style="text-align:center">2×0.5=1</td>
+<td style="text-align:center">1×0=0</td>
+<td style="text-align:center">9</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>B</strong></td>
+<td style="text-align:center">2×0.5=1</td>
+<td style="text-align:center">3×1=3</td>
+<td style="text-align:center">0×0.5=0</td>
+<td style="text-align:center">4</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>C</strong></td>
+<td style="text-align:center">0×0=0</td>
+<td style="text-align:center">1×0.5=0.5</td>
+<td style="text-align:center">3×1=3</td>
+<td style="text-align:center">3.5</td>
+</tr>
+<tr>
+<td style="text-align:center">sum</td>
+<td style="text-align:center">9</td>
+<td style="text-align:center">4.5</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">16.5</td>
+</tr>
+</tbody>
+</table>
+<p>$$
+p_o = \frac{16.5}{20} = 0.825
+$$</p>
+<p>加权的<strong>预期一致性</strong>计算如下</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center">A</th>
+<th style="text-align:center">B</th>
+<th style="text-align:center">C</th>
+<th style="text-align:center">sum</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>A</strong></td>
+<td style="text-align:center">10×11×1=110</td>
+<td style="text-align:center">6×11×0.5=33</td>
+<td style="text-align:center">4×11×0=0</td>
+<td style="text-align:center">143</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>B</strong></td>
+<td style="text-align:center">10×5×0.5=25</td>
+<td style="text-align:center">6×5×1=30</td>
+<td style="text-align:center">4×5×0.5=10</td>
+<td style="text-align:center">65</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>C</strong></td>
+<td style="text-align:center">10×4×0=0</td>
+<td style="text-align:center">6×4×0.5=12</td>
+<td style="text-align:center">4×4×1=16</td>
+<td style="text-align:center">28</td>
+</tr>
+<tr>
+<td style="text-align:center">sum</td>
+<td style="text-align:center">135</td>
+<td style="text-align:center">75</td>
+<td style="text-align:center">26</td>
+<td style="text-align:center">236</td>
+</tr>
+</tbody>
+</table>
+<p>$$
+p_e = \frac{236 }{20×20} = 0.59
+$$</p>
+<p>$$
+\kappa = \frac{0.825 - 0.59}{1-0.59} = 0.57
+$$</p>
+<blockquote>
+<p>未加权矩阵相当于多角线元素值为1，其余元素值为0的权重值矩阵。</p>
+</blockquote>
 
 
   </div>
 
   <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/tags/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%9F%BA%E7%A1%80/">统计学基础</a></li>
+    </ul>
 <nav class="paginav">
-  <a class="prev" href="https://lishensuo.github.io/posts/program/503linux%E7%9A%84parallel%E5%B9%B6%E8%A1%8C%E6%96%B9%E6%B3%95/">
+  <a class="prev" href="https://lishensuo.github.io/posts/program/003python%E5%9F%BA%E7%A1%80-3%E6%9D%A1%E4%BB%B6%E4%B8%8E%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5/">
     <span class="title">« Prev Page</span>
     <br>
-    <span>Linux的parallel并行方法</span>
+    <span>Python基础-(3)条件与循环语句</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/posts/program/004python%E5%9F%BA%E7%A1%80-4%E5%87%BD%E6%95%B0/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>Python基础-(4)函数</span>
   </a>
 </nav>
 
