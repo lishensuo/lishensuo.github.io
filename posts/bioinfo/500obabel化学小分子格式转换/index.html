@@ -5,8 +5,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>obabel化学小分子格式转换. | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="网络药理学">
+<title>obabel化学小分子格式转换 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="化学信息学">
 <meta name="description" content="conda 安装 1 2 3 4 conda install -c conda-forge openbabel obabel # Open Babel 3.1.0 -- Nov 2 2021 -- 08:43:45 查看支持的格式 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 obabel -L # charges # descriptors # fingerprints # forcefields # formats # loaders # ops obabel -L formats | head">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/bioinfo/500obabel%E5%8C%96%E5%AD%A6%E5%B0%8F%E5%88%86%E5%AD%90%E6%A0%BC%E5%BC%8F%E8%BD%AC%E6%8D%A2/">
@@ -56,7 +56,7 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="obabel化学小分子格式转换." />
+</noscript><meta property="og:title" content="obabel化学小分子格式转换" />
 <meta property="og:description" content="conda 安装 1 2 3 4 conda install -c conda-forge openbabel obabel # Open Babel 3.1.0 -- Nov 2 2021 -- 08:43:45 查看支持的格式 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 obabel -L # charges # descriptors # fingerprints # forcefields # formats # loaders # ops obabel -L formats | head" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://lishensuo.github.io/posts/bioinfo/500obabel%E5%8C%96%E5%AD%A6%E5%B0%8F%E5%88%86%E5%AD%90%E6%A0%BC%E5%BC%8F%E8%BD%AC%E6%8D%A2/" /><meta property="article:section" content="posts" />
@@ -64,7 +64,7 @@
 <meta property="article:modified_time" content="2022-04-16T00:00:00&#43;00:00" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="obabel化学小分子格式转换."/>
+<meta name="twitter:title" content="obabel化学小分子格式转换"/>
 <meta name="twitter:description" content="conda 安装 1 2 3 4 conda install -c conda-forge openbabel obabel # Open Babel 3.1.0 -- Nov 2 2021 -- 08:43:45 查看支持的格式 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 obabel -L # charges # descriptors # fingerprints # forcefields # formats # loaders # ops obabel -L formats | head"/>
 
 
@@ -88,7 +88,7 @@
     {
       "@type": "ListItem",
       "position":  4 ,
-      "name": "obabel化学小分子格式转换.",
+      "name": "obabel化学小分子格式转换",
       "item": "https://lishensuo.github.io/posts/bioinfo/500obabel%E5%8C%96%E5%AD%A6%E5%B0%8F%E5%88%86%E5%AD%90%E6%A0%BC%E5%BC%8F%E8%BD%AC%E6%8D%A2/"
     }
   ]
@@ -98,11 +98,11 @@
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "obabel化学小分子格式转换.",
-  "name": "obabel化学小分子格式转换.",
+  "headline": "obabel化学小分子格式转换",
+  "name": "obabel化学小分子格式转换",
   "description": "conda 安装 1 2 3 4 conda install -c conda-forge openbabel obabel # Open Babel 3.1.0 -- Nov 2 2021 -- 08:43:45 查看支持的格式 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 obabel -L # charges # descriptors # fingerprints # forcefields # formats # loaders # ops obabel -L formats | head",
   "keywords": [
-    "网络药理学"
+    "化学信息学"
   ],
   "articleBody": " conda 安装  1 2 3 4  conda install -c conda-forge openbabel  obabel # Open Babel 3.1.0 -- Nov 2 2021 -- 08:43:45    查看支持的格式  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19  obabel -L # charges # descriptors # fingerprints # forcefields # formats # loaders # ops  obabel -L formats | head # acesin -- ACES input format [Write-only] # acesout -- ACES output format [Read-only] # acr -- ACR format [Read-only] # adf -- ADF cartesian input format [Write-only] # adfband -- ADF Band output format [Read-only] # adfdftb -- ADF DFTB output format [Read-only] # adfout -- ADF output format [Read-only] # alc -- Alchemy format # aoforce -- Turbomole AOFORCE output format [Read-only]     格式转换\n例如将mol2转为pdbqt格式\n  1 2 3 4 5 6 7 8  ls *mol2 # MOL000006.mol2 MOL000098.mol2  #单个文件格式转换 obabel -imol2 MOL000006.mol2 -opdbqt -O MOL000006.pdbqt  #批量转换 ls *mol2 | while read id; do obabel -imol2 $id -opdbqt -O ${id%.*}.pdbqt; done   ",
   "wordCount" : "201",
@@ -209,7 +209,7 @@
   <header class="post-header">
     <div class="breadcrumbs"><a href="https://lishensuo.github.io">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/posts/bioinfo/">📖 生信数据分析--分析流程，工具包等</a></div>
     <h1 class="post-title">
-      obabel化学小分子格式转换.
+      obabel化学小分子格式转换
     </h1>
     <div class="post-meta">
 
@@ -331,7 +331,7 @@ Create:&nbsp;<span title='2022-04-16 00:00:00 +0000 UTC'>2022-04-16</span>&nbsp;
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://lishensuo.github.io/tags/%E7%BD%91%E7%BB%9C%E8%8D%AF%E7%90%86%E5%AD%A6/">网络药理学</a></li>
+      <li><a href="https://lishensuo.github.io/tags/%E5%8C%96%E5%AD%A6%E4%BF%A1%E6%81%AF%E5%AD%A6/">化学信息学</a></li>
     </ul>
 <nav class="paginav">
   <a class="prev" href="https://lishensuo.github.io/posts/program/500window%E7%B3%BB%E7%BB%9F%E5%BF%AB%E9%80%9F%E5%AE%89%E8%A3%85ubuntu%E5%AD%90%E7%B3%BB%E7%BB%9F/">
