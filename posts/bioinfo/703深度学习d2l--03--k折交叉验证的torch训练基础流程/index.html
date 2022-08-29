@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>“深度学习D2L--03--K折交叉验证的torch训练基础流程&#34; | Li&#39;s Bioinfo-Blog</title>
+<title>深度学习D2L--03--K折交叉验证的torch训练基础流程 | Li&#39;s Bioinfo-Blog</title>
 <meta name="keywords" content="深度学习">
 <meta name="description" content="1、加载库 1 2 3 4 5 6 7 import pandas as pd import torch from torch import nn from torch.nn import functional as F from torch.utils import data import itertools 2、示例数据 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 # http://d2l-data.s3-accelerate.amazonaws.com/kaggle_house_pred_train.csv # http://d2l-data.s3-accelerate.amazonaws.com/kaggle_house_pred_test.csv train_data = pd.read_csv(&#34;../data/kaggle_house_pred_train.csv&#34;) test_data = pd.read_csv(&#34;../data/kaggle_house_pred_test.csv&#34;) train_data.shape,">
 <meta name="author" content="Lishensuo">
@@ -56,7 +56,7 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="“深度学习D2L--03--K折交叉验证的torch训练基础流程&#34;" />
+</noscript><meta property="og:title" content="深度学习D2L--03--K折交叉验证的torch训练基础流程" />
 <meta property="og:description" content="1、加载库 1 2 3 4 5 6 7 import pandas as pd import torch from torch import nn from torch.nn import functional as F from torch.utils import data import itertools 2、示例数据 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 # http://d2l-data.s3-accelerate.amazonaws.com/kaggle_house_pred_train.csv # http://d2l-data.s3-accelerate.amazonaws.com/kaggle_house_pred_test.csv train_data = pd.read_csv(&#34;../data/kaggle_house_pred_train.csv&#34;) test_data = pd.read_csv(&#34;../data/kaggle_house_pred_test.csv&#34;) train_data.shape," />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://lishensuo.github.io/posts/bioinfo/703%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0d2l--03--k%E6%8A%98%E4%BA%A4%E5%8F%89%E9%AA%8C%E8%AF%81%E7%9A%84torch%E8%AE%AD%E7%BB%83%E5%9F%BA%E7%A1%80%E6%B5%81%E7%A8%8B/" /><meta property="article:section" content="posts" />
@@ -64,7 +64,7 @@
 <meta property="article:modified_time" content="2022-08-23T00:00:00&#43;00:00" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="“深度学习D2L--03--K折交叉验证的torch训练基础流程&#34;"/>
+<meta name="twitter:title" content="深度学习D2L--03--K折交叉验证的torch训练基础流程"/>
 <meta name="twitter:description" content="1、加载库 1 2 3 4 5 6 7 import pandas as pd import torch from torch import nn from torch.nn import functional as F from torch.utils import data import itertools 2、示例数据 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 # http://d2l-data.s3-accelerate.amazonaws.com/kaggle_house_pred_train.csv # http://d2l-data.s3-accelerate.amazonaws.com/kaggle_house_pred_test.csv train_data = pd.read_csv(&#34;../data/kaggle_house_pred_train.csv&#34;) test_data = pd.read_csv(&#34;../data/kaggle_house_pred_test.csv&#34;) train_data.shape,"/>
 
 
@@ -88,7 +88,7 @@
     {
       "@type": "ListItem",
       "position":  4 ,
-      "name": "“深度学习D2L--03--K折交叉验证的torch训练基础流程\"",
+      "name": "深度学习D2L--03--K折交叉验证的torch训练基础流程",
       "item": "https://lishensuo.github.io/posts/bioinfo/703%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0d2l--03--k%E6%8A%98%E4%BA%A4%E5%8F%89%E9%AA%8C%E8%AF%81%E7%9A%84torch%E8%AE%AD%E7%BB%83%E5%9F%BA%E7%A1%80%E6%B5%81%E7%A8%8B/"
     }
   ]
@@ -98,8 +98,8 @@
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "“深度学习D2L--03--K折交叉验证的torch训练基础流程\"",
-  "name": "“深度学习D2L--03--K折交叉验证的torch训练基础流程\u0022",
+  "headline": "深度学习D2L--03--K折交叉验证的torch训练基础流程",
+  "name": "深度学习D2L--03--K折交叉验证的torch训练基础流程",
   "description": "1、加载库 1 2 3 4 5 6 7 import pandas as pd import torch from torch import nn from torch.nn import functional as F from torch.utils import data import itertools 2、示例数据 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 # http://d2l-data.s3-accelerate.amazonaws.com/kaggle_house_pred_train.csv # http://d2l-data.s3-accelerate.amazonaws.com/kaggle_house_pred_test.csv train_data = pd.read_csv(\u0026#34;../data/kaggle_house_pred_train.csv\u0026#34;) test_data = pd.read_csv(\u0026#34;../data/kaggle_house_pred_test.csv\u0026#34;) train_data.shape,",
   "keywords": [
     "深度学习"
@@ -209,7 +209,7 @@
   <header class="post-header">
     <div class="breadcrumbs"><a href="https://lishensuo.github.io">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/posts/bioinfo/">📖 生信数据分析--分析流程，工具包等</a></div>
     <h1 class="post-title">
-      “深度学习D2L--03--K折交叉验证的torch训练基础流程&#34;
+      深度学习D2L--03--K折交叉验证的torch训练基础流程
     </h1>
     <div class="post-meta">
 
