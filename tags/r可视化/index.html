@@ -208,6 +208,70 @@ Create:&nbsp;<span title='2022-07-23 00:00:00 +0000 UTC'>2022-07-23</span>&nbsp;
 	</div>   
   <a class="entry-link" aria-label="post link to R-可视化-ggpubr包快速绘制点图、线图与柱状图" href="https://lishensuo.github.io/posts/program/213r-%E5%8F%AF%E8%A7%86%E5%8C%96-ggpubr%E5%8C%85%E5%BF%AB%E9%80%9F%E7%BB%98%E5%88%B6%E7%82%B9%E5%9B%BE%E7%BA%BF%E5%9B%BE%E4%B8%8E%E6%9F%B1%E7%8A%B6%E5%9B%BE/"></a>
 </article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>R-可视化-拼图patchwork
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>一、ggplot2组图 0、安装包及示例图 1 2 3 4 5 6 7 8 9 10 # #install.packages(&#34;devtools&#34;) # devtools::install_github(&#34;thomasp85/patchwork&#34;) library(ggplot2) library(patchwork) p1 &lt;- ggplot(mtcars) &#43; geom_point(aes(mpg, disp)) p2 &lt;- ggplot(mtcars) &#43; geom_boxplot(aes(gear, disp, group = gear)) p3 &lt;- ggplot(mtcars) &#43; geom_bar(aes(gear)) &#43; facet_wrap(~cyl) p4 &lt;- ggplot(mtcars) &#43; geom_bar(aes(carb)) p5 &lt;- ggplot(mtcars) &#43; geom_violin(aes(cyl, mpg, group...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2022-09-04 00:00:00 +0000 UTC'>2022-09-04</span>&nbsp;|&nbsp;Update:&nbsp;2022-09-04&nbsp;|&nbsp;Words:&nbsp;1139&nbsp;|&nbsp;3 min&nbsp;|&nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to R-可视化-拼图patchwork" href="https://lishensuo.github.io/posts/program/214r-%E5%8F%AF%E8%A7%86%E5%8C%96-%E6%8B%BC%E5%9B%BEpatchwork/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>R-可视化-韦恩图venn
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>示例数据 3个基因集列表，为list格式 1 2 3 4 5 genes &lt;- paste0(&#34;gene&#34;,1:1000) set.seed(20210302) gene_list &lt;- list(A = sample(genes,100), B = sample(genes,200), C = sample(genes,300)) 一、VennDiagram VennDiagram包是绘制韦恩图...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2022-09-10 00:00:00 +0000 UTC'>2022-09-10</span>&nbsp;|&nbsp;Update:&nbsp;2022-09-10&nbsp;|&nbsp;Words:&nbsp;2104&nbsp;|&nbsp;5 min&nbsp;|&nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to R-可视化-韦恩图venn" href="https://lishensuo.github.io/posts/program/215r-%E5%8F%AF%E8%A7%86%E5%8C%96-%E9%9F%A6%E6%81%A9%E5%9B%BEvenn/"></a>
+</article>
     </main>
     
 <footer class="footer">

@@ -6,7 +6,7 @@
     <description>Recent content in R可视化 on Li&#39;s Bioinfo-Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 23 Jul 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://lishensuo.github.io/tags/r%E5%8F%AF%E8%A7%86%E5%8C%96/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 10 Sep 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://lishensuo.github.io/tags/r%E5%8F%AF%E8%A7%86%E5%8C%96/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>R-可视化-ggplot2绘图基础</title>
       <link>https://lishensuo.github.io/posts/program/212r-%E5%8F%AF%E8%A7%86%E5%8C%96-ggplot2%E7%BB%98%E5%9B%BE%E5%9F%BA%E7%A1%80/</link>
@@ -23,6 +23,24 @@
       
       <guid>https://lishensuo.github.io/posts/program/213r-%E5%8F%AF%E8%A7%86%E5%8C%96-ggpubr%E5%8C%85%E5%BF%AB%E9%80%9F%E7%BB%98%E5%88%B6%E7%82%B9%E5%9B%BE%E7%BA%BF%E5%9B%BE%E4%B8%8E%E6%9F%B1%E7%8A%B6%E5%9B%BE/</guid>
       <description>参考教程：http://www.sthda.com/english/articles/24-ggpubr-publication-ready</description>
+    </item>
+    
+    <item>
+      <title>R-可视化-拼图patchwork</title>
+      <link>https://lishensuo.github.io/posts/program/214r-%E5%8F%AF%E8%A7%86%E5%8C%96-%E6%8B%BC%E5%9B%BEpatchwork/</link>
+      <pubDate>Sun, 04 Sep 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/posts/program/214r-%E5%8F%AF%E8%A7%86%E5%8C%96-%E6%8B%BC%E5%9B%BEpatchwork/</guid>
+      <description>一、ggplot2组图 0、安装包及示例图 1 2 3 4 5 6 7 8 9 10 # #install.packages(&amp;#34;devtools&amp;#34;) # devtools::install_github(&amp;#34;thomasp85/patchwork&amp;#34;) library(ggplot2) library(patchwork) p1 &amp;lt;- ggplot(mtcars) + geom_point(aes(mpg, disp)) p2 &amp;lt;- ggplot(mtcars) + geom_boxplot(aes(gear, disp, group = gear)) p3 &amp;lt;- ggplot(mtcars) + geom_bar(aes(gear)) + facet_wrap(~cyl) p4 &amp;lt;- ggplot(mtcars) + geom_bar(aes(carb)) p5 &amp;lt;- ggplot(mtcars) + geom_violin(aes(cyl, mpg, group</description>
+    </item>
+    
+    <item>
+      <title>R-可视化-韦恩图venn</title>
+      <link>https://lishensuo.github.io/posts/program/215r-%E5%8F%AF%E8%A7%86%E5%8C%96-%E9%9F%A6%E6%81%A9%E5%9B%BEvenn/</link>
+      <pubDate>Sat, 10 Sep 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/posts/program/215r-%E5%8F%AF%E8%A7%86%E5%8C%96-%E9%9F%A6%E6%81%A9%E5%9B%BEvenn/</guid>
+      <description>示例数据 3个基因集列表，为list格式 1 2 3 4 5 genes &amp;lt;- paste0(&amp;#34;gene&amp;#34;,1:1000) set.seed(20210302) gene_list &amp;lt;- list(A = sample(genes,100), B = sample(genes,200), C = sample(genes,300)) 一、VennDiagram VennDiagram包是绘制韦恩图</description>
     </item>
     
   </channel>
