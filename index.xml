@@ -6,7 +6,7 @@
     <description>Recent content on Li&#39;s Bioinfo-Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 30 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://lishensuo.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 05 Nov 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://lishensuo.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>统计学基础--统计描述指标与常见统计分布</title>
       <link>https://lishensuo.github.io/posts/basic/001%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%9F%BA%E7%A1%80--%E7%BB%9F%E8%AE%A1%E6%8F%8F%E8%BF%B0%E6%8C%87%E6%A0%87%E4%B8%8E%E5%B8%B8%E8%A7%81%E7%BB%9F%E8%AE%A1%E5%88%86%E5%B8%83/</link>
@@ -851,6 +851,33 @@
       
       <guid>https://lishensuo.github.io/posts/program/215r-%E5%8F%AF%E8%A7%86%E5%8C%96-%E9%9F%A6%E6%81%A9%E5%9B%BEvenn/</guid>
       <description>示例数据 3个基因集列表，为list格式 1 2 3 4 5 genes &amp;lt;- paste0(&amp;#34;gene&amp;#34;,1:1000) set.seed(20210302) gene_list &amp;lt;- list(A = sample(genes,100), B = sample(genes,200), C = sample(genes,300)) 一、VennDiagram VennDiagram包是绘制韦恩图</description>
+    </item>
+    
+    <item>
+      <title>R-可视化-ggplot&#43;ggpubr绘制箱图boxplot</title>
+      <link>https://lishensuo.github.io/posts/program/216ggplot&#43;ggpubr%E7%BB%98%E5%88%B6%E7%AE%B1%E5%9B%BEboxplot/</link>
+      <pubDate>Sat, 05 Nov 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/posts/program/216ggplot&#43;ggpubr%E7%BB%98%E5%88%B6%E7%AE%B1%E5%9B%BEboxplot/</guid>
+      <description>一、ggplot绘制基础箱图 0、示例数据 1 2 3 4 5 6 7 8 9 10 11 12 13 library(ggplot2) library(patchwork) #组别名最好是字符型；如果是数值类型，最好转为因子化 ToothGrowth$dose = factor(ToothGrowth$dose) summary(ToothGrowth) # len supp dose #</description>
+    </item>
+    
+    <item>
+      <title>R-可视化-ggplot绘制常规柱状图barplot</title>
+      <link>https://lishensuo.github.io/posts/program/217ggplot%E7%BB%98%E5%88%B6%E5%B8%B8%E8%A7%84%E6%9F%B1%E7%8A%B6%E5%9B%BEbarplot/</link>
+      <pubDate>Sat, 05 Nov 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/posts/program/217ggplot%E7%BB%98%E5%88%B6%E5%B8%B8%E8%A7%84%E6%9F%B1%E7%8A%B6%E5%9B%BEbarplot/</guid>
+      <description>1、示例数据 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 library(ggplot2) library(patchwork) library(carData) #示例数据 head(Salaries) #教职工资情况 # rank discipline yrs.since.phd yrs.service sex salary # 1 Prof B 19 18 Male 139750 # 2 Prof B 20 16 Male 173200 # 3 AsstProf B 4 3 Male 79750 #</description>
+    </item>
+    
+    <item>
+      <title>R-可视化-绘图颜色与画板的选择</title>
+      <link>https://lishensuo.github.io/posts/program/218%E7%BB%98%E5%9B%BE%E9%A2%9C%E8%89%B2%E4%B8%8E%E7%94%BB%E6%9D%BF%E7%9A%84%E9%80%89%E6%8B%A9/</link>
+      <pubDate>Sat, 05 Nov 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/posts/program/218%E7%BB%98%E5%9B%BE%E9%A2%9C%E8%89%B2%E4%B8%8E%E7%94%BB%E6%9D%BF%E7%9A%84%E9%80%89%E6%8B%A9/</guid>
+      <description>1、R中颜色的表示方式 1.1 颜色的名字 R内置了657种颜色的名字可供调用 http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf 1 2 3 4 5 6 7 8 9 10 11 str(colors()) # chr [1:657] &amp;#34;white&amp;#34; &amp;#34;aliceblue&amp;#34; &amp;#34;antiquewhite&amp;#34; ... head(colors()[1:10]) # [1] &amp;#34;white&amp;#34; &amp;#34;aliceblue&amp;#34; &amp;#34;antiquewhite&amp;#34; # [4] &amp;#34;antiquewhite1&amp;#34; &amp;#34;antiquewhite2&amp;#34; &amp;#34;antiquewhite3&amp;#34; set.seed(111) cols = sample(colors(), 5)</description>
     </item>
     
     <item>
