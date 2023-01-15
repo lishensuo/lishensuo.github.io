@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>xCell与CIBERSORT预测BulkRNAseq细胞组成 | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="RNA-seq">
+<meta name="keywords" content="转录组分析">
 <meta name="description" content="xCell xCell包 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 devtools::install_github(&#39;dviraran/xCell&#39;) library(xCell) data(&#34;xCell.data&#34;) ##查看支持的64种细胞类型，同下图 colnames(xCell.data$spill$K) ##预测函数的关键参数解释 ?xCellAnalysis() # expr = 交代表达矩阵； ##">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/bioinfo/072xcell%E4%B8%8Ecibersort%E9%A2%84%E6%B5%8Bbulkrnaseq%E7%BB%86%E8%83%9E%E7%BB%84%E6%88%90/">
@@ -102,7 +102,7 @@
   "name": "xCell与CIBERSORT预测BulkRNAseq细胞组成",
   "description": "xCell xCell包 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 devtools::install_github(\u0026#39;dviraran/xCell\u0026#39;) library(xCell) data(\u0026#34;xCell.data\u0026#34;) ##查看支持的64种细胞类型，同下图 colnames(xCell.data$spill$K) ##预测函数的关键参数解释 ?xCellAnalysis() # expr = 交代表达矩阵； ##",
   "keywords": [
-    "RNA-seq"
+    "转录组分析"
   ],
   "articleBody": "xCell xCell包 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15  devtools::install_github('dviraran/xCell') library(xCell) data(\"xCell.data\")  ##查看支持的64种细胞类型，同下图 colnames(xCell.data$spill$K)  ##预测函数的关键参数解释 ?xCellAnalysis() # expr = 交代表达矩阵； ##如果是array，不需要额外标准化；如果是RNAseq，需要TPM/FPKM/TPM。 ##对于基因ID格式需要是symbol格式。 # rnaseq = TRUE 数据是否为RNAseq数据，如果是芯片数据设置为FALSE # cell.types.use = NULL 提供一个字符串，说明想要预测64种细胞中的哪些细胞类型 # parallel.sz = 4 调用的线程数，默认为4    NOTE：\n(1) 由于xCell支持64种细胞类型，分析前根据先验知识判断预期有哪些细胞类型再分析，会提高数据结果可靠度性。\n(2) xCell的结果适用于同一细胞类型在不同样本间的含量差异比较，不适用于同一样本的不同细胞类型组成分析。\n 示例分析 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39  ##(1)加载包 library(xCell) data(\"xCell.data\")  ##(2)示例表达数据：xCell内嵌的array数据 sdy = readRDS('sdy420.rds') expr = sdy$expr dim(expr) #104个样本的12027个样本 # [1] 12027 104 expr[1:4,1:4] # SUB137169 SUB137172 SUB137208 SUB137209 # A1CF 6.3480 6.1807 5.9556 6.3678 # A2LD1 6.8177 8.6354 7.2744 6.8724 # A2M 6.7169 6.9159 7.3686 6.7054 # A2ML1 7.8906 9.8874 10.5970 9.0120  ##(3)选取预期的细胞类型用于预测 cell.types.use = intersect(colnames(xCell.data$spill$K),  rownames(sdy$fcs)) cell.types.use # [1] \"B-cells\" \"CD4+ naive T-cells\" \"CD4+ T-cells\"  # [4] \"CD4+ Tcm\" \"CD4+ Tem\" \"CD8+ naive T-cells\" # [7] \"CD8+ T-cells\" \"CD8+ Tcm\" \"CD8+ Tem\"  # [10] \"Memory B-cells\" \"Monocytes\" \"naive B-cells\"  # [13] \"NK cells\" \"NKT\" \"Plasma cells\"  # [16] \"pro B-cells\" \"Tgd cells\" \"Tregs\"   ##(4) xCellAnalysis分析 scores = xCellAnalysis(expr, rnaseq=F,  cell.types.use = cell.types.use) #得到104样本的18种细胞类型的含量 dim(scores) # [1] 18 104 scores[1:4,1:4] # SUB137169 SUB137172 SUB137208 SUB137209 # B-cells 0.11282951 1.689912e-01 0.15363674 0.11287388 # CD4+ naive T-cells 0.06465254 0.000000e+00 0.09620357 0.07204639 # CD4+ T-cells 0.18315694 8.676322e-02 0.14341114 0.14930520 # CD4+ Tcm 0.06477823 4.463612e-18 0.02393895 0.01463585   CIBERSOFT CIBERSORT脚本 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27  source(\"CIBERSORT.R\") # 使用CIBERSORT()函数预测免疫浸润细胞比例 # 其中涉及两个关键参数： ##（1） sig_matrix：参考细胞类型特征表达矩阵文件名，官方提供了LM22.txt LM22 = data.table::fread(\"LM22.txt\") dim(LM22) # [1] 547 23 LM22[1:4,1:4] # Gene symbol B cells naive B cells memory Plasma cells # 1: ABCB4 555.71345 10.74423 7.225819 # 2: ABCB9 15.60354 22.09479 653.392328 # 3: ACAP1 215.30595 321.62102 38.616872 # 4: ACHE 15.11795 16.64885 22.123737 colnames(LM22) #所覆盖的22种免疫细胞 # [1] \"Gene symbol\" \"B cells naive\" \"B cells memory\"  # [4] \"Plasma cells\" \"T cells CD8\" \"T cells CD4 naive\"  # [7] \"T cells CD4 memory resting\" \"T cells CD4 memory activated\" \"T cells follicular helper\"  # [10] \"T cells regulatory (Tregs)\" \"T cells gamma delta\" \"NK cells resting\"  # [13] \"NK cells activated\" \"Monocytes\" \"Macrophages M0\"  # [16] \"Macrophages M1\" \"Macrophages M2\" \"Dendritic cells resting\"  # [19] \"Dendritic cells activated\" \"Mast cells resting\" \"Mast cells activated\"  # [22] \"Eosinophils\" \"Neutrophils\"   ##（2） mixture_file：待预测细胞组成的表达矩阵文件名 # 如果是array，不需要额外标准化；如果是RNAseq，需要TPM/FPKM/TPM。 # 对于基因ID格式需要是symbol格式。 # 将符合上述两个条件的表达矩阵储存为Tab分割的TXT文件（行名转为第一列数据，列名为“symbol”，不储存行名）   示例分析 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35  ##(1)加载脚本 source(\"CIBERSORT1.03.R\")  ##(2)示例表达数据：仍使用上面xCell内嵌的array数据 sdy = readRDS('sdy420.rds') expr = sdy$expr dim(expr) #104个样本的12027个样本 # [1] 12027 104 expr[1:4,1:4]  expr2 = tibble::rownames_to_column(expr, \"symbol\") expr2[1:4,1:4] # symbol SUB137169 SUB137172 SUB137208 # 1 A1CF 6.3480 6.1807 5.9556 # 2 A2LD1 6.8177 8.6354 7.2744 # 3 A2M 6.7169 6.9159 7.3686 # 4 A2ML1 7.8906 9.8874 10.5970 write.table(expr2, row.names = F,quote = F,sep = \"\\t\",  file = \"exp_array.txt\")  ##(3)官方提供的参考细胞类型特征表达矩阵文件：\"LM22.txt\"  ##(4)CIBERSORT预测 results = CIBERSORT(sig_matrix = \"LM22.txt\",  mixture_file = \"exp_array.txt\",  perm = 1000,  QN = T) dim(results) # [1] 104 25 results[1:4,1:4] # B cells naive B cells memory Plasma cells T cells CD8 # SUB137169 0.04924204 0 0.0000000000 0.2643171 # SUB137172 0.07936758 0 0.0147950385 0.2623424 # SUB137208 0.03038180 0 0.0004003184 0.1864818 # SUB137209 0.07007071 0 0.0089139936 0.1127511   ",
   "wordCount" : "1299",
@@ -602,18 +602,18 @@ Create:&nbsp;<span title='2022-04-25 00:00:00 +0000 UTC'>2022-04-25</span>&nbsp;
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://lishensuo.github.io/tags/rna-seq/">RNA-seq</a></li>
+      <li><a href="https://lishensuo.github.io/tags/%E8%BD%AC%E5%BD%95%E7%BB%84%E5%88%86%E6%9E%90/">转录组分析</a></li>
     </ul>
 <nav class="paginav">
-  <a class="prev" href="https://lishensuo.github.io/posts/bioinfo/071wgcna%E5%9F%BA%E5%9B%A0%E5%8A%A0%E6%9D%83%E5%85%B1%E8%A1%A8%E8%BE%BE%E7%BD%91%E7%BB%9C%E5%88%86%E6%9E%90/">
+  <a class="prev" href="https://lishensuo.github.io/posts/bioinfo/058gsva%E5%8C%85%E5%8D%95%E6%A0%B7%E6%9C%AC%E5%AF%8C%E9%9B%86%E5%88%86%E6%9E%90/">
     <span class="title">« Prev Page</span>
     <br>
-    <span>WGCNA基因加权共表达网络分析</span>
+    <span>GSVA包单样本富集分析</span>
   </a>
-  <a class="next" href="https://lishensuo.github.io/posts/bioinfo/073%E5%8D%95%E7%BB%86%E8%83%9E%E6%95%B0%E6%8D%AEhdwgcna/">
+  <a class="next" href="https://lishensuo.github.io/posts/bioinfo/070%E4%BD%BF%E7%94%A8isoformswitchanalyzer%E5%8C%85%E8%BF%9B%E8%A1%8C%E5%8F%AF%E5%8F%98%E5%89%AA%E5%88%87%E5%88%86%E6%9E%90/">
     <span class="title">Next Page »</span>
     <br>
-    <span>单细胞数据hdWGCNA</span>
+    <span>使用IsoformSwitchAnalyzeR包进行可变剪切分析</span>
   </a>
 </nav>
 
@@ -622,7 +622,7 @@ Create:&nbsp;<span title='2022-04-25 00:00:00 +0000 UTC'>2022-04-25</span>&nbsp;
     </main>
     
 <footer class="footer">
-    <span>&copy; 2022 <a href="https://lishensuo.github.io">Li&#39;s Bioinfo-Blog</a></span>
+    <span>&copy; 2023 <a href="https://lishensuo.github.io">Li&#39;s Bioinfo-Blog</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

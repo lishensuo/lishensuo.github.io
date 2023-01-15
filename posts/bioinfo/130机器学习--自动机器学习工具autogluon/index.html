@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>机器学习--自动机器学习工具autogluon | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="机器学习, 机器学习基于python">
+<meta name="keywords" content="机器学习">
 <meta name="description" content="最先在李沐大神在B站的分享中了解到autogluon，它是一个自动机器学习工具，可用于文本图片识别、表格任务等。据说效果非常不错&ndash">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/bioinfo/130%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0--%E8%87%AA%E5%8A%A8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B7%A5%E5%85%B7autogluon/">
@@ -102,7 +102,7 @@
   "name": "机器学习--自动机器学习工具autogluon",
   "description": "最先在李沐大神在B站的分享中了解到autogluon，它是一个自动机器学习工具，可用于文本图片识别、表格任务等。据说效果非常不错\u0026ndash",
   "keywords": [
-    "机器学习", "机器学习基于python"
+    "机器学习"
   ],
   "articleBody": " 最先在李沐大神在B站的分享中了解到autogluon，它是一个自动机器学习工具，可用于文本图片识别、表格任务等。据说效果非常不错–号称3行代码打败99%的机器学习模型，甚至说标志着手动调参的时代已经结束。\n关于它的原理暂且不深入了解了，简单记录下在传统表格任务上的用法，可以作为对数据的初步探索。\n 安装方式：https://auto.gluon.ai/stable/index.html 官方教程：https://auto.gluon.ai/stable/tutorials/tabular_prediction/tabular-quickstart.html   1  from autogluon.tabular import TabularDataset, TabularPredictor   1、准备数据 （1）(多列)特征与(1列)target合并在一个表格中，转为autogluon的TabularDataset对象；\n（2）每行代表一个样本，须分为训练集与测试集。\n1 2 3 4 5 6 7 8 9 10 11 12 13  ## (1) 方式1： 从csv文件读取 train_data = TabularDataset('https://autogluon.s3.amazonaws.com/datasets/Inc/train.csv') subsample_size = 500 # 仅为演示、节省时间 train_data = train_data.sample(n=subsample_size, random_state=0) test_data = TabularDataset('https://autogluon.s3.amazonaws.com/datasets/Inc/test.csv')  type(train_data) # autogluon.core.dataset.TabularDataset  ## (2) 方式2：可由pd.Dataframe对象转换 import pandas as pd train_df = pd.read_csv(\"https://autogluon.s3.amazonaws.com/datasets/Inc/train.csv\") train_data = TabularDataset(train_df)   2、模型训练 （1）autogluon可自动根据target列的内容决定是回归还是分类任务；\n（2）对于特征列数据，autogluon可自动完成缺失值处理、数据标准化等，无需手动清洗数据。\n2.1 基础流程  （1）训练模型  1 2 3 4 5 6 7 8  #指定target列 label = 'class' #指定模型保存位置 save_path = 'tmp' #开始训练 predictor = TabularPredictor(label=label, path=save_path).fit(train_data)  # predictor = TabularPredictor.load(save_path) 加载模型    （2）查看训练结果相关信息  1 2 3 4 5  predictor.problem_type #训练任务类型 print(predictor.feature_metadata) #所判断的特征列数据类型  #不同类型模型的训练结果验证集指标排名 predictor.fit_summary()    （3）测试集预测  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15  # 不同模型在测试集的指标排名 predictor.leaderboard(test_data, silent=True)  # 最优模型在测试集的多种结果指标 predictor.evaluate(test_data) ##等价于如下步骤 y_test = test_data[label] #真实值 test_data_nolab = test_data.drop(columns=[label]) test_data_nolab.head() y_pred = predictor.predict(test_data_nolab) #预测值 predictor.evaluate_predictions(y_true=y_test, y_pred=y_pred, auxiliary_metrics=True) predictor.predict_proba(test_data_nolab) #预测概率  # 使用指定模型预测 predictor.predict(test_data, model='LightGBM')   2.2 多种指标 autogluon对于分类任务，默认使用accuracy指标；对于回归任务，默认使用RMSE指标\n其它可选指标包括\n（1）分类：\n1 2 3  ['accuracy', 'balanced_accuracy', 'f1', 'f1_macro', 'f1_micro', 'f1_weighted', 'roc_auc', 'roc_auc_ovo_macro', 'average_precision', 'precision', 'precision_macro', 'precision_micro', 'precision_weighted', 'recall', 'recall_macro', 'recall_micro', 'recall_weighted', 'log_loss', 'pac_score']   （2）回归\n1 2  ['root_mean_squared_error', 'mean_squared_error', 'mean_absolute_error', 'median_absolute_error', 'mean_absolute_percentage_error', 'r2']    如需更多评价指标可参考https://auto.gluon.ai/stable/tutorials/tabular_prediction/tabular-custom-metric.html#sec-tabularcustommetric\n  用于训练时的模型优化：选择一个指标，用于模型优化以及比较  1 2 3  metric = 'roc_auc' predictor = TabularPredictor(label=label, path=save_path, eval_metric=metric).fit(train_data) predictor.fit_summary()    用于训练后的模型不同角度的性能比较：可选择多个指标  1 2  metrics = ['roc_auc', \"f1\", \"recall\", \"recall\"] predictor.leaderboard(test_data, extra_metrics = metrics, silent=True)   2.3 不同模式 主要针对 TabularPredictor().fit(train_data, presets=)的presets参数\n默认为\"medium_quality\"，其余依次为\"good_quality\", “high_quality”, “best_quality”\n从左到右，代表了训练时间/成本与训练结果性能之间的取舍。\n官方教程建议先按默认的medium_quality训练，对模型有初步的了解后，在尝试best_quality\n 此外fit()函数还包括一个time_limit=参数，单位为秒，直接指定训练的时长。如不指定默认训练完全部可能的模型。\n ",
   "wordCount" : "1311",
@@ -535,7 +535,6 @@ Create:&nbsp;<span title='2022-09-17 00:00:00 +0000 UTC'>2022-09-17</span>&nbsp;
   <footer class="post-footer">
     <ul class="post-tags">
       <li><a href="https://lishensuo.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></li>
-      <li><a href="https://lishensuo.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Epython/">机器学习基于python</a></li>
     </ul>
 <nav class="paginav">
   <a class="prev" href="https://lishensuo.github.io/posts/basic/120%E6%96%87%E7%8C%AE_signature_tnbc%E9%A2%84%E5%90%8E%E6%A8%A1%E5%9E%8B_wgcna/">
@@ -543,10 +542,10 @@ Create:&nbsp;<span title='2022-09-17 00:00:00 +0000 UTC'>2022-09-17</span>&nbsp;
     <br>
     <span>signature_TNBC预后模型_WGCNA</span>
   </a>
-  <a class="next" href="https://lishensuo.github.io/posts/bioinfo/150therapeutic-target-databasettd-%E8%8D%AF%E7%89%A9%E9%9D%B6%E7%82%B9%E6%95%B0%E6%8D%AE%E5%BA%93/">
+  <a class="next" href="https://lishensuo.github.io/posts/bioinfo/150%E6%95%B0%E6%8D%AE%E5%BA%93--%E8%8D%AF%E7%89%A9%E4%B8%8E%E8%8D%AF%E7%89%A9%E9%9D%B6%E7%82%B9ttd/">
     <span class="title">Next Page »</span>
     <br>
-    <span>Therapeutic-Target-Database(TTD)-药物靶点数据库.</span>
+    <span>数据库--药物与药物靶点TTD</span>
   </a>
 </nav>
 
@@ -555,7 +554,7 @@ Create:&nbsp;<span title='2022-09-17 00:00:00 +0000 UTC'>2022-09-17</span>&nbsp;
     </main>
     
 <footer class="footer">
-    <span>&copy; 2022 <a href="https://lishensuo.github.io">Li&#39;s Bioinfo-Blog</a></span>
+    <span>&copy; 2023 <a href="https://lishensuo.github.io">Li&#39;s Bioinfo-Blog</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

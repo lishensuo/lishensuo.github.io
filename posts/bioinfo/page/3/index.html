@@ -173,11 +173,11 @@
 <article class="post-entry">
 	<div class="post-info">  
 		<header class="entry-header">
-			<h2>单细胞数据hdWGCNA
+			<h2>GSEA富集分析工具
 			</h2>
 		</header>
 		<section class="entry-content">
-			<p>WGCNA是适用于大批量样本的array或者Bulk RNAseq数据的加权基因共表达网络分析。由于单细胞数据的稀疏性，不适用于WGCNA直接...</p>
+			<p>以前通路富集分析直接使用clusterprofiler包，阅读文献发现GSEA分析及可视化较多使用Broad团队研发的工具，现简要学习其(w...</p>
 		</section>
 		<footer class="entry-footer">
 
@@ -193,9 +193,169 @@
 
 
 
-Create:&nbsp;<span title='2022-07-07 00:00:00 +0000 UTC'>2022-07-07</span>&nbsp;|&nbsp;Update:&nbsp;2022-07-07&nbsp;|&nbsp;Words:&nbsp;1850&nbsp;|&nbsp;4 min&nbsp;|&nbsp;Lishensuo</footer>
+Create:&nbsp;<span title='2023-01-13 00:00:00 +0000 UTC'>2023-01-13</span>&nbsp;|&nbsp;Update:&nbsp;2023-01-13&nbsp;|&nbsp;Words:&nbsp;1154&nbsp;|&nbsp;3 min&nbsp;|&nbsp;Lishensuo</footer>
 	</div>   
-  <a class="entry-link" aria-label="post link to 单细胞数据hdWGCNA" href="https://lishensuo.github.io/posts/bioinfo/073%E5%8D%95%E7%BB%86%E8%83%9E%E6%95%B0%E6%8D%AEhdwgcna/"></a>
+  <a class="entry-link" aria-label="post link to GSEA富集分析工具" href="https://lishensuo.github.io/posts/bioinfo/055gsea%E5%AF%8C%E9%9B%86%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>clusterProfiler包富集分析与可视化
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1、背景知识 （1）两种富集分析 基于超几何检验的ORA(over representation analysis)富集分析 ① 假设对转录组分组测序的10000个基因表达数据进...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2023-01-14 00:00:00 +0000 UTC'>2023-01-14</span>&nbsp;|&nbsp;Update:&nbsp;2023-01-14&nbsp;|&nbsp;Words:&nbsp;3217&nbsp;|&nbsp;7 min&nbsp;|&nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to clusterProfiler包富集分析与可视化" href="https://lishensuo.github.io/posts/bioinfo/056clusterprofiler%E5%8C%85%E5%AF%8C%E9%9B%86%E5%88%86%E6%9E%90%E4%B8%8E%E5%8F%AF%E8%A7%86%E5%8C%96/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>clusterProfiler包富集分析与可视化
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>0、示例数据 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 library(clusterProfiler) library(org.Hs.eg.db) data(geneList, package=&#34;DOSE&#34;) str(geneList) # Named num [1:12495] 4.57 4.51 4.42 4.14 3.88 ... # - attr(*, &#34;names&#34;)= chr [1:12495] &#34;4312&#34; &#34;8318&#34; &#34;10874&#34; &#34;55143&#34; ... gene_ids&lt;-AnnotationDbi::select(org.Hs.eg.db, keys=as.character(names(gene_list)), columns=&#34;SYMBOL&#34;, #目标格式 keytype=&#34;ENTREZID&#34;)...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2023-01-14 00:00:00 +0000 UTC'>2023-01-14</span>&nbsp;|&nbsp;Update:&nbsp;2023-01-14&nbsp;|&nbsp;Words:&nbsp;1008&nbsp;|&nbsp;3 min&nbsp;|&nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to clusterProfiler包富集分析与可视化" href="https://lishensuo.github.io/posts/bioinfo/057%E5%AF%8C%E9%9B%86%E9%80%9A%E8%B7%AF%E5%8F%AF%E8%A7%86%E5%8C%96%E6%96%B9%E5%BC%8F/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>WGCNA基因加权共表达网络分析
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1、关于WGCNA原理 1.1 建立共表达网络 在基因共表达网络中，节点node代表基因，边edge代表两个基因间共表达关系。 若一个基因同时与多个基因...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2022-04-25 00:00:00 +0000 UTC'>2022-04-25</span>&nbsp;|&nbsp;Update:&nbsp;2022-05-06&nbsp;|&nbsp;Words:&nbsp;5111&nbsp;|&nbsp;11 min&nbsp;|&nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to WGCNA基因加权共表达网络分析" href="https://lishensuo.github.io/posts/bioinfo/071wgcna%E5%9F%BA%E5%9B%A0%E5%8A%A0%E6%9D%83%E5%85%B1%E8%A1%A8%E8%BE%BE%E7%BD%91%E7%BB%9C%E5%88%86%E6%9E%90/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>GSVA包单样本富集分析
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1、GSVA函数 1 2 3 4 5 6 7 # BiocManager::install(&#34;GSVA&#34;) library(GSVA) ?gsva gsva(expr = , #metrix格式表达矩阵(行--基因，列--样本) gset.idx.list = , #list格式基因集 method=c(&#34;gsva&#34;, &#34;ssgsea&#34;, &#34;zscore&#34;, &#34;plage&#34;), # defaul:gsva kcdf=c(&#34;Gaussian&#34;, &#34;Poisson&#34;, &#34;none&#34;))...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2023-01-15 00:00:00 +0000 UTC'>2023-01-15</span>&nbsp;|&nbsp;Update:&nbsp;2023-01-15&nbsp;|&nbsp;Words:&nbsp;872&nbsp;|&nbsp;2 min&nbsp;|&nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to GSVA包单样本富集分析" href="https://lishensuo.github.io/posts/bioinfo/058gsva%E5%8C%85%E5%8D%95%E6%A0%B7%E6%9C%AC%E5%AF%8C%E9%9B%86%E5%88%86%E6%9E%90/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>xCell与CIBERSORT预测BulkRNAseq细胞组成
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>xCell xCell包 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 devtools::install_github(&#39;dviraran/xCell&#39;) library(xCell) data(&#34;xCell.data&#34;) ##查看支持的64种细胞类型，同下图 colnames(xCell.data$spill$K) ##预测函数的关键参数解释 ?xCellAnalysis() # expr = 交代表达矩阵； ##...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2022-04-25 00:00:00 +0000 UTC'>2022-04-25</span>&nbsp;|&nbsp;Update:&nbsp;2022-04-25&nbsp;|&nbsp;Words:&nbsp;1299&nbsp;|&nbsp;3 min&nbsp;|&nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to xCell与CIBERSORT预测BulkRNAseq细胞组成" href="https://lishensuo.github.io/posts/bioinfo/072xcell%E4%B8%8Ecibersort%E9%A2%84%E6%B5%8Bbulkrnaseq%E7%BB%86%E8%83%9E%E7%BB%84%E6%88%90/"></a>
 </article>
 
 
@@ -325,166 +485,6 @@ Create:&nbsp;<span title='2022-06-30 00:00:00 +0000 UTC'>2022-06-30</span>&nbsp;
 	</div>   
   <a class="entry-link" aria-label="post link to 机器学习基于R包mlr3(1)--分类--KNN" href="https://lishensuo.github.io/posts/bioinfo/100%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr31--%E5%88%86%E7%B1%BB--knn/"></a>
 </article>
-
-
-
-
-
-<article class="post-entry">
-	<div class="post-info">  
-		<header class="entry-header">
-			<h2>机器学习基于R包mlr3(2)--分类--逻辑回归.md
-			</h2>
-		</header>
-		<section class="entry-content">
-			<p>1、逻辑回归的算法理解 逻辑回归 = 线性回归 &#43; Sigmoid函数 与线性回归相同的是同样需要学习变量的权重(系数)与偏置(截距)；与线性回归不同的...</p>
-		</section>
-		<footer class="entry-footer">
-
-
-
-
-
-
-
-
-
-
-
-
-
-Create:&nbsp;<span title='2022-04-10 00:00:00 +0000 UTC'>2022-04-10</span>&nbsp;|&nbsp;Update:&nbsp;2022-07-01&nbsp;|&nbsp;Words:&nbsp;1297&nbsp;|&nbsp;3 min&nbsp;|&nbsp;Lishensuo</footer>
-	</div>   
-  <a class="entry-link" aria-label="post link to 机器学习基于R包mlr3(2)--分类--逻辑回归.md" href="https://lishensuo.github.io/posts/bioinfo/101%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr32--%E5%88%86%E7%B1%BB--%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/"></a>
-</article>
-
-
-
-
-
-<article class="post-entry">
-	<div class="post-info">  
-		<header class="entry-header">
-			<h2>机器学习基于R包mlr3(3)--分类--LDA与QDA
-			</h2>
-		</header>
-		<section class="entry-content">
-			<p>1、概述 LDA与QDA可以简单理解为有监督的降维，将多个预测变量信息压缩成少数（类别数-1）新的预测变量。 每一个新的预测变量称之为判别函数，...</p>
-		</section>
-		<footer class="entry-footer">
-
-
-
-
-
-
-
-
-
-
-
-
-
-Create:&nbsp;<span title='2022-04-10 00:00:00 +0000 UTC'>2022-04-10</span>&nbsp;|&nbsp;Update:&nbsp;2022-07-01&nbsp;|&nbsp;Words:&nbsp;1278&nbsp;|&nbsp;3 min&nbsp;|&nbsp;Lishensuo</footer>
-	</div>   
-  <a class="entry-link" aria-label="post link to 机器学习基于R包mlr3(3)--分类--LDA与QDA" href="https://lishensuo.github.io/posts/bioinfo/102%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr33--%E5%88%86%E7%B1%BB--lda%E4%B8%8Eqda/"></a>
-</article>
-
-
-
-
-
-<article class="post-entry">
-	<div class="post-info">  
-		<header class="entry-header">
-			<h2>机器学习基于R包mlr3(4)--分类--朴素贝叶斯
-			</h2>
-		</header>
-		<section class="entry-content">
-			<p>1、朴素贝叶斯简介 Naive Bayes：预测样本属于每一类别的概率，取概率最高的类别。包含四个概念：后验概率、似然、先验概率以及全概率。如下图示例 例...</p>
-		</section>
-		<footer class="entry-footer">
-
-
-
-
-
-
-
-
-
-
-
-
-
-Create:&nbsp;<span title='2022-04-10 00:00:00 +0000 UTC'>2022-04-10</span>&nbsp;|&nbsp;Update:&nbsp;2022-07-01&nbsp;|&nbsp;Words:&nbsp;1160&nbsp;|&nbsp;3 min&nbsp;|&nbsp;Lishensuo</footer>
-	</div>   
-  <a class="entry-link" aria-label="post link to 机器学习基于R包mlr3(4)--分类--朴素贝叶斯" href="https://lishensuo.github.io/posts/bioinfo/103%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr34--%E5%88%86%E7%B1%BB--%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF/"></a>
-</article>
-
-
-
-
-
-<article class="post-entry">
-	<div class="post-info">  
-		<header class="entry-header">
-			<h2>机器学习基于R包mlr3(5)--分类--SVM
-			</h2>
-		</header>
-		<section class="entry-content">
-			<p>1、SVM相关 基本概念 超平面：比数据集的变量少一个维度的平面，也称为决策边界； 间隔：（对于硬间隔）训练数据中最接近决策边界的样本点与决策边界...</p>
-		</section>
-		<footer class="entry-footer">
-
-
-
-
-
-
-
-
-
-
-
-
-
-Create:&nbsp;<span title='2022-04-10 00:00:00 +0000 UTC'>2022-04-10</span>&nbsp;|&nbsp;Update:&nbsp;2022-04-10&nbsp;|&nbsp;Words:&nbsp;1695&nbsp;|&nbsp;4 min&nbsp;|&nbsp;Lishensuo</footer>
-	</div>   
-  <a class="entry-link" aria-label="post link to 机器学习基于R包mlr3(5)--分类--SVM" href="https://lishensuo.github.io/posts/bioinfo/104%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr35--%E5%88%86%E7%B1%BB--svm/"></a>
-</article>
-
-
-
-
-
-<article class="post-entry">
-	<div class="post-info">  
-		<header class="entry-header">
-			<h2>机器学习基于R包mlr3(6)--分类--决策树与随机森林
-			</h2>
-		</header>
-		<section class="entry-content">
-			<p>1、决策树基础 1.1 决策树的构成 （1）决策树由节点组成，可分为决策节点(Decision tree)与叶节点(leaf node)。 （2）从上到下的...</p>
-		</section>
-		<footer class="entry-footer">
-
-
-
-
-
-
-
-
-
-
-
-
-
-Create:&nbsp;<span title='2022-04-16 00:00:00 +0000 UTC'>2022-04-16</span>&nbsp;|&nbsp;Update:&nbsp;2022-04-16&nbsp;|&nbsp;Words:&nbsp;3559&nbsp;|&nbsp;8 min&nbsp;|&nbsp;Lishensuo</footer>
-	</div>   
-  <a class="entry-link" aria-label="post link to 机器学习基于R包mlr3(6)--分类--决策树与随机森林" href="https://lishensuo.github.io/posts/bioinfo/105%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr36--%E5%88%86%E7%B1%BB--%E5%86%B3%E7%AD%96%E6%A0%91%E4%B8%8E%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97/"></a>
-</article>
 <footer class="page-footer">
   <nav class="pagination">
     <a class="prev" href="https://lishensuo.github.io/posts/bioinfo/page/2/">« Prev Page</a>
@@ -494,7 +494,7 @@ Create:&nbsp;<span title='2022-04-16 00:00:00 +0000 UTC'>2022-04-16</span>&nbsp;
     </main>
     
 <footer class="footer">
-    <span>&copy; 2022 <a href="https://lishensuo.github.io">Li&#39;s Bioinfo-Blog</a></span>
+    <span>&copy; 2023 <a href="https://lishensuo.github.io">Li&#39;s Bioinfo-Blog</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

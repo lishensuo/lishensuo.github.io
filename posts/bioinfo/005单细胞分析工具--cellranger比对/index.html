@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>单细胞分析工具--cellranger | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="单细胞分析工具">
+<meta name="keywords" content="单细胞分析">
 <meta name="description" content="1、下载fastq数据 （1）参考之前介绍的aspera/prefetch下载工具。如果前两种都失败或者比较慢，可再尝试wget （2）对于单细">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/bioinfo/005%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--cellranger%E6%AF%94%E5%AF%B9/">
@@ -102,7 +102,7 @@
   "name": "单细胞分析工具--cellranger",
   "description": "1、下载fastq数据 （1）参考之前介绍的aspera/prefetch下载工具。如果前两种都失败或者比较慢，可再尝试wget （2）对于单细",
   "keywords": [
-    "单细胞分析工具"
+    "单细胞分析"
   ],
   "articleBody": "1、下载fastq数据   （1）参考之前介绍的aspera/prefetch下载工具。如果前两种都失败或者比较慢，可再尝试wget\n  （2）对于单细胞测序文件，一个样本一般有3个或者2个fastq.gz文件\n R1：Barcode + UMI，一般26nt长度 R2：单细胞的基因数据（我们想要测到的数据），一般98nt长度 I1：sample index，用于区分不同（客户）样本的标签(optional)      （3）文件重命名\nhttps://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/using/fastq-input\n1 2 3 4 5 6 7  PROJECT_FOLDER |-- MySample_S1_L001_I1_001.fastq.gz |-- MySample_S1_L001_R1_001.fastq.gz |-- MySample_S1_L001_R2_001.fastq.gz |-- MySample_S1_L002_I1_001.fastq.gz |-- MySample_S1_L002_R1_001.fastq.gz |-- MySample_S1_L002_R2_001.fastq.gz   将一个样本的测序文件放在一个文件夹内，按照如下示例重命名\n1 2 3  id=SRR13911909 mv /path/to/${id}_1.fastq.gz /path/to/${id}_S1_L001_R1_001.fastq.gz mv /path/to/${id}_2.fastq.gz /path/to/${id}_S1_L001_R2_001.fastq.gz     echo\n2、下载软件与参考数据 https://support.10xgenomics.com/single-cell-gene-expression/software/downloads/latest?\n进入上面网址，下载cellranger软件与参考比对数据\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17  ##(1) 软件 tar -zxvf cellranger-7.0.0.tar.gz ./cellranger-7.0.0/bin/cellranger --version # cellranger cellranger-7.0.0 ./cellranger-7.0.0/bin/cellranger --help  ##(2) 数据 #人：wget -c https://cf.10xgenomics.com/supp/cell-exp/refdata-gex-GRCh38-2020-A.tar.gz #鼠：wget -c https://cf.10xgenomics.com/supp/cell-exp/refdata-gex-mm10-2020-A.tar.gz tar -zxvf refdata-gex-GRCh38-2020-A.tar.gz tree -L 1 refdata-gex-GRCh38-2020-A # ./refdata-gex-GRCh38-2020-A # ├── fasta # ├── genes # ├── pickle # ├── reference.json # └── star   3、cellranger比对 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23  bin=/path/to/cellranger-7.0.0/bin/cellranger ref=/path/to/refdata-gex-GRCh38-2020-A    $bin count \\ --fastqs=./fq \\ --sample=${id} \\ --transcriptome=$ref \\ --id=${id} \\ --localcores=10 \\ --no-bam --nosecondary  # --fastqs 交代测速数据路径（文件夹名） # --sample 交代待比对样本名的前缀（因为该文件夹内可能有许多样本的测序数据） # --transcriptome 交代参考基因组文件夹 # --id 交代储存结果的文件夹，如果没有会自动创建 # --localcores 多线程 # --no-bam 不生成bam文件(视情况而定：如果进行RNA速率分析等，需要保留bam文件) # --nosecondary 不进行后续分析  ##输出结果一般在 ${id} 的out文件夹 # 一个样本：8G per fastq.gz在20线程下，大概需要两个小时   ",
   "wordCount" : "627",
@@ -468,7 +468,7 @@ Create:&nbsp;<span title='2022-05-24 00:00:00 +0000 UTC'>2022-05-24</span>&nbsp;
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://lishensuo.github.io/tags/%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7/">单细胞分析工具</a></li>
+      <li><a href="https://lishensuo.github.io/tags/%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90/">单细胞分析</a></li>
     </ul>
 <nav class="paginav">
   <a class="prev" href="https://lishensuo.github.io/posts/basic/005%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%9F%BA%E7%A1%80--%E4%BA%8C%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/">
@@ -488,7 +488,7 @@ Create:&nbsp;<span title='2022-05-24 00:00:00 +0000 UTC'>2022-05-24</span>&nbsp;
     </main>
     
 <footer class="footer">
-    <span>&copy; 2022 <a href="https://lishensuo.github.io">Li&#39;s Bioinfo-Blog</a></span>
+    <span>&copy; 2023 <a href="https://lishensuo.github.io">Li&#39;s Bioinfo-Blog</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

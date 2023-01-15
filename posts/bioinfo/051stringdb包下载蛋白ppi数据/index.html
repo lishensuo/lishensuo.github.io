@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>STRINGdb包下载蛋白PPI数据 | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="Bioconductor包, 下载数据, 可视化">
+<meta name="keywords" content="生信基础分析">
 <meta name="description" content="1 2 3 4 5 if (!require(&#34;BiocManager&#34;, quietly = TRUE)) install.packages(&#34;BiocManager&#34;) BiocManager::install(&#34;STRINGdb&#34;) library(STRINGdb) 1、定义要使用的STRING版本、物种，以及PPI阈值分数 1 2 3 4 string_db &lt;- STRINGdb$new(version=&#34;11&#34;, species=9606, score_threshold=200, input_directory=&#34;&#34;) 2、示例基因 1 2 3 4 5 6 7 8 9 10 11 12">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/bioinfo/051stringdb%E5%8C%85%E4%B8%8B%E8%BD%BD%E8%9B%8B%E7%99%BDppi%E6%95%B0%E6%8D%AE/">
@@ -102,7 +102,7 @@
   "name": "STRINGdb包下载蛋白PPI数据",
   "description": "1 2 3 4 5 if (!require(\u0026#34;BiocManager\u0026#34;, quietly = TRUE)) install.packages(\u0026#34;BiocManager\u0026#34;) BiocManager::install(\u0026#34;STRINGdb\u0026#34;) library(STRINGdb) 1、定义要使用的STRING版本、物种，以及PPI阈值分数 1 2 3 4 string_db \u0026lt;- STRINGdb$new(version=\u0026#34;11\u0026#34;, species=9606, score_threshold=200, input_directory=\u0026#34;\u0026#34;) 2、示例基因 1 2 3 4 5 6 7 8 9 10 11 12",
   "keywords": [
-    "Bioconductor包", "下载数据", "可视化"
+    "生信基础分析"
   ],
   "articleBody": "1 2 3 4 5  if (!require(\"BiocManager\", quietly = TRUE))  install.packages(\"BiocManager\")  BiocManager::install(\"STRINGdb\") library(STRINGdb)   1、定义要使用的STRING版本、物种，以及PPI阈值分数 1 2 3 4  string_db \"11\",  species=9606,  score_threshold=200,  input_directory=\"\")   2、示例基因 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26  data(diff_exp_example1) genes = diff_exp_example1[1:50,] head(genes) # pvalue logFC gene # 1 0.0001018 3.333461 VSTM2L # 2 0.0001392 3.822383 TBC1D2 # 3 0.0001720 3.306056 LENG9 # 4 0.0001739 3.024605 TMEM27 # 5 0.0001990 3.854414 LOC100506014 # 6 0.0002393 3.082052 TSPAN1  ###基因名匹配protein ID #第一个参数是data.frame; 第二个参数是基因所在列的列名 genes_mapped \"gene\" ) #Warning: we couldn't map to STRING 30% of your identifiers  head(genes_mapped) # gene pvalue logFC STRING_id # 1 VSTM2L 0.0001018 3.333461 9606.ENSP00000362560 # 2 TBC1D2 0.0001392 3.822383 9606.ENSP00000481721 # 3 LENG9 0.0001720 3.306056 9606.ENSP00000479355 # 4 TMEM27 0.0001739 3.024605 9606.ENSP00000369699 # 40 LOC100506014 0.0001990 3.854414  # 5 TSPAN1 0.0002393 3.082052 9606.ENSP00000361072  #string_db$plot_network(genes_mapped$STRING_id)   3、下载这些基因间的互作关系 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15  ppi = string_db$get_interactions(genes_mapped$STRING_id) %% distinct() ppi = ppi %%  dplyr::left_join(genes_mapped[,c(1,4)], by=c('from'='STRING_id')) %% #列标序号根据具体情况而定  dplyr::rename(Gene1=gene) %% ##列名根据具体情况而定  dplyr::left_join(genes_mapped[,c(1,4)], by=c('to'='STRING_id')) %%  dplyr::rename(Gene2=gene) %%  dplyr::select(Gene1, Gene2, combined_score) head(ppi) # Gene1 Gene2 combined_score # 1 C3 TYROBP 240 # 2 ABCA12 GRHL3 308 # 3 FAM189A1 TM4SF20 400 # 4 ABCA12 NIPAL4 824 # 5 GRHL3 NIPAL4 275 # 6 GRHL3 IGDCC4 238   ",
   "wordCount" : "340",
@@ -444,15 +444,13 @@ Create:&nbsp;<span title='2022-04-16 00:00:00 +0000 UTC'>2022-04-16</span>&nbsp;
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://lishensuo.github.io/tags/bioconductor%E5%8C%85/">Bioconductor包</a></li>
-      <li><a href="https://lishensuo.github.io/tags/%E4%B8%8B%E8%BD%BD%E6%95%B0%E6%8D%AE/">下载数据</a></li>
-      <li><a href="https://lishensuo.github.io/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/">可视化</a></li>
+      <li><a href="https://lishensuo.github.io/tags/%E7%94%9F%E4%BF%A1%E5%9F%BA%E7%A1%80%E5%88%86%E6%9E%90/">生信基础分析</a></li>
     </ul>
 <nav class="paginav">
-  <a class="prev" href="https://lishensuo.github.io/posts/bioinfo/004%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%A4%96%E7%BD%91%E6%96%87%E4%BB%B6%E4%BC%A0%E8%BE%93--%E5%A5%B6%E7%89%9B%E5%BF%AB%E4%BC%A0%E9%98%BF%E9%87%8C%E4%BA%91%E7%9B%98/">
+  <a class="prev" href="https://lishensuo.github.io/posts/bioinfo/050refgenie%E4%B8%8B%E8%BD%BD%E5%8F%82%E8%80%83%E5%9F%BA%E5%9B%A0%E7%BB%84/">
     <span class="title">« Prev Page</span>
     <br>
-    <span>服务器外网文件传输--奶牛快传、阿里云盘</span>
+    <span>Refgenie下载参考基因组</span>
   </a>
   <a class="next" href="https://lishensuo.github.io/posts/bioinfo/052%E4%BD%BF%E7%94%A8clusterprofiler%E4%B8%8B%E8%BD%BDgokegg%E9%80%9A%E8%B7%AF%E5%9F%BA%E5%9B%A0/">
     <span class="title">Next Page »</span>
@@ -466,7 +464,7 @@ Create:&nbsp;<span title='2022-04-16 00:00:00 +0000 UTC'>2022-04-16</span>&nbsp;
     </main>
     
 <footer class="footer">
-    <span>&copy; 2022 <a href="https://lishensuo.github.io">Li&#39;s Bioinfo-Blog</a></span>
+    <span>&copy; 2023 <a href="https://lishensuo.github.io">Li&#39;s Bioinfo-Blog</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

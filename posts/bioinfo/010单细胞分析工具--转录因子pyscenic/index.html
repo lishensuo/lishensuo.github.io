@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>单细胞分析工具--pySCENIC转录因子分析 | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="单细胞分析工具">
+<meta name="keywords" content="单细胞分析">
 <meta name="description" content="SCENIC全称Single-Cell rEgulatory Network Inference and Clustering，即转录因子分析，用于构建GRN，gene regulatory network基因调控网络。2">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/bioinfo/010%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--%E8%BD%AC%E5%BD%95%E5%9B%A0%E5%AD%90pyscenic/">
@@ -102,7 +102,7 @@
   "name": "单细胞分析工具--pySCENIC转录因子分析",
   "description": "SCENIC全称Single-Cell rEgulatory Network Inference and Clustering，即转录因子分析，用于构建GRN，gene regulatory network基因调控网络。2",
   "keywords": [
-    "单细胞分析工具"
+    "单细胞分析"
   ],
   "articleBody": " SCENIC全称Single-Cell rEgulatory Network Inference and Clustering，即转录因子分析，用于构建GRN，gene regulatory network基因调控网络。2017年于Nat Methods首次发表R包版本(https://doi:10.1038/nmeth.4463.)，后又于2020年NATURE PROTOCOLS发表python版本(https://doi.org/10.1038/s41596-020-0336-2)，分析速度得到大幅度提升，而分析方法基本相同。\n这篇笔记首先简单了解下分析步骤与原理，然后参考文章提供代码进行实操\n 1、TF转录因子   转录因子(Transcription factor)是指能够识别、结合在某基因上游特异核苷酸序列上的蛋白质;\n  这类蛋白通过介导RNA聚合酶与DNA模板的结合，从而调控下游靶基因的转录；也可以和其它转录因子形成转录因子复合体来影响基因的转录。\n  转录因子特异识别、结合的DNA序列称为转录因子结合位点(Transcription factor binding site,TFBS)，长度在5~20bp范围。由于同一个TF可以调控多个，而其具体结合到每个靶基因的TFBS不完全相同，但具有一定的保守性。\n  基于此，使用motif来概括TFBS的特征序列，具体是使用PWM(Postion Weight Matrix)表示。如下例图，即有的位点是某一种特定碱基，而有的位点是多种可能。\n   同一个基因上游可能存在多种motif，受到多个TF调控；而同一个TF也可能识别多种motif，从而形成复杂的基因表达转录调控网络。  2、SCENIC分析步骤 2.1 单细胞数据预处理  输入：单细胞测序数据；输出：单细胞表达矩阵  这一步主要就是读入单细胞数据，过滤低质量的细胞、低表达的基因；然后将单细胞count表达矩阵(行名是细胞，列名是基因)存储为csv格式（或者loom）;\n文章建议使用Scanpy预处理，因为更适合大的单细胞数据集。但个人还是更习惯于Seurat的流程。\n2.2 网络推断Network inference  输入：单细胞表达矩阵，转录因子列表；输出：TF-gene.csv文件。第1列是转录因子，第2列是共表达的基因，第3列是共表达强度(weight)  针对转录因子列表里的每一个转录因子，探索在单细胞表达矩阵中哪些基因与之存在共表达关系。\n通过基于树(tree-based)的回归模型，根据转录因子的表达去预测基因的表达情况。具体算法可选择GRNBoost2或者GENIE3，前者的计算效率会更高。\n2.3 得到TF-regulon  输入：上一步得到的TF-gene.csv，motif-gene注释数据，motif-TF注释数据，单细胞表达数据 输出：motif富集结果或者regulon数据  分为如下几个子步骤\n(1) Module generation 首先根据第二步得到的TF-gene.csv文件，计算中TF -module(one Translate factor and its target genes)。scenic提供下面三种思路计算得到。\n  Based on a percentile score; the default is to select sets based on the 75th or 90th percentile of a factor’s targets. Based on the top N targets for each factor, with a default of 50 targets. Based on the top N regulators for a target; the default settings select sets of 5, 10, and 50 regulators. 按照如上默认值设置的话，有 2 + 1 + 3 = 6种思路的module结果。所以在最终得到的结果里，可能同一个TF有多个module。   根据调控基因与转录因子的相关性方向可分为 activating module(ρ ≥ +0.03)与 repressing module(ρ ≤ −0.03)。由于负相关模块(TF介导对靶基因的转录抑制)的数量一般较少，默认后续分析只保留正相关的activating module进行后续分析。\n最后可限制module所包含的最少基因数，默认为20。\n(2) Motif enrichment 在提供的motif-gene注释文件中，提供了每个motif的基因排名，即哪些基因的上游区域含有最类似该motif的区域。\n基于此计算出每个module中所富集的motif有哪些。然后根据motif-TF注释数据，判断module 所富集到的motif是否为该module TF的motif。再然后，通过module的motif预测模块中真正的靶基因，去除其中的假阳性或者间接靶点。\n最后通过合并同一个TF的所有保留基因，作为一个Regulon(one TF and its target gene)\n2.4 Regulon活性评分 基于上一步得到的所有Regulon(可认为是Gene Set)，结合单细胞表达矩阵去评价每一个细胞对于每一个Regulon的表达程度评分。\n不同细胞对于同一Regulon的表达活性是可以比较的，但同一细胞的不同Regulon的表达与否是不好比较的。\n文章提供一种分析思路，将Regulon的活性得分二值化，即是否激活(On/Off)。这主要通过对那些具有 bimodal distribution双峰分布曲线的Regulon进行混合高斯分布拟合，确定合适的分割阈值，从而将细胞划分为两种状态。\n3、pySCENIC代码实操 原文的预处理步骤是使用Scanpy进行单细胞预处理的，我还是比较熟悉Seurat流程，因此对文章给的代码有所删改。\n3.1 准备conda环境 1 2 3 4 5 6 7 8 9 10 11 12 13  conda create -n scenic_protocol python=3.6 conda activate scenic_protocol conda install numpy pandas matplotlib seaborn -y conda install -c anaconda cytoolz -y conda install seaborn scikit-learn statsmodels numba pytables -y conda install -c conda-forge python-igraph louvain -y conda install -c conda-forge multicore-tsne -y pip install scanpy # Install pySCENIC pip install pyscenic # Install environment as kernel for Jupyter pip install --user ipykernel -y python -m ipykernel install --user --name=scenic_protocol -y   3.2 下载相关文件 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17  #转录因子列表(1840) wget https://raw.githubusercontent.com/aertslab/pySCENIC/master/resources/hs_hgnc_tfs.txt  #motif--TF注释数据 wget https://resources.aertslab.org/cistarget/motif2tf/motifs-v9-nr.hgnc-m0.001-o0.0.tbl  #motif--gene注释数据(genome ranking database) wget https://resources.aertslab.org/cistarget/databases/homo_sapiens/hg38/refseq_r80/mc9nr/gene_based/hg38__refseq-r80__10kb_up_and_down_tss.mc9nr.feather  #下载单细胞示例数据 wget http://cf.10xgenomics.com/samples/cell-exp/3.0.0/pbmc_10k_v3/pbmc_10k_v3_filtered_feature_bc_matrix.tar.gz tar xvf pbmc_10k_v3_filtered_feature_bc_matrix.tar.gz tree filtered_feature_bc_matrix/ # filtered_feature_bc_matrix/ # ├── barcodes.tsv.gz # ├── features.tsv.gz # └── matrix.mtx.gz   3.3 单细胞数据Seurat预处理 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23  library(Seurat) sce = Read10X(data.dir = \"filtered_feature_bc_matrix\") sce = CreateSeuratObject(sce) sce = PercentageFeatureSet(sce, \"^MT-\", col.name = \"percent_mito\") head(sce@meta.data) # orig.ident nCount_RNA nFeature_RNA percent_mito #AAACCCAAGCGCCCAT-1 SeuratProject 2204 1087 2.359347 #AAACCCAAGGTTCCGC-1 SeuratProject 20090 4200 6.590343 #AAACCCACAGAGTTGG-1 SeuratProject 5884 1836 10.757988  #过滤低质量细胞与基因 sce = subset(sce, nFeature_RNA  200 \u0026 nFeature_RNA 4000) sce = subset(sce, percent_mito 15) sce = sce[rowSums(sce@assays$RNA@counts0)=3,] sce #An object of class Seurat #33538 features across 11769 samples within 1 assay #Active assay: RNA (33538 features, 0 variable features)  #写入count表达矩阵CSV文件 sce_count = GetAssayData(sce[[\"RNA\"]], slot = \"counts\") sce_count[1:4,1:4] #行名基因，列名细胞 write.csv(sce_count, file=\"sce_count.csv\")    注意输出的表达矩阵行名是基因，列名是细胞。而SCENIC分析需要的表达矩阵格式为：行名是细胞，列名是基因，因此可在之后pyscenic分析时添加参数 –transpose\n 3.4 scenic分析 分别对应上述的2.2~2.4简介\n(1) pyscenic grn 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15  pyscenic grn \\ --num_workers 20 \\ --output TF_gene_coexp_adj.tsv \\ --method grnboost2 \\ --transpose \\ sce_count.csv \\ hs_hgnc_tfs.txt  head TF_gene_coexp_adj.tsv # TF target importance # RPS4X RPL13 234.58007467913387 # RPS4X RPS3A 224.52858402807706 # RPS4X RPL39 214.68469442853782 # RPS4X RPS23 212.0381059803069 # RPS4X RPL30 210.60051259132962   (2) pyscenic ctx 1 2 3 4 5 6 7 8 9 10 11 12 13  pyscenic ctx \\ TF_gene_coexp_adj.tsv \\ hg38__refseq-r80__10kb_up_and_down_tss.mc9nr.feather \\ --annotations_fname motifs-v9-nr.hgnc-m0.001-o0.0.tbl \\ --expression_mtx_fname sce_count.csv \\ --mode \"dask_multiprocessing\" \\ --transpose \\ --output sce_regulon.gmt \\ --num_workers 20 \\ --mask_dropouts  less -SN sce_regulon.gmt #每一行是一个regulon：第一列是转录因子，第二列是说明性文字，第三列往后是target gene   (3) pyscenic aucell 1 2 3 4 5 6 7 8  pyscenic aucell \\ sce_count.csv \\ sce_regulon.gmt \\ --transpose \\ --output sce_regulon_AUC.csv \\ --num_workers 20  less -SN regulon_AUC.csv    将AUCell结果二值化：on/off。需要进入python环境  1 2 3 4 5 6 7 8  from pyscenic import binarization import pandas as pd auc_mtx = pd.read_csv(\"sce_regulon_AUC.csv\", index_col=\"Regulon\") # time consuming auc_binary = binarization.binarize(auc_mtx, num_workers=20) # 结果返回一个tuple，包含两个元素：第一个是二值化后的表达矩阵；第二个是每个转录因子二值化的阈值 auc_binary[0] auc_binary[1]   ",
   "wordCount" : "2767",
@@ -677,7 +677,7 @@ Create:&nbsp;<span title='2022-04-16 00:00:00 +0000 UTC'>2022-04-16</span>&nbsp;
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://lishensuo.github.io/tags/%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7/">单细胞分析工具</a></li>
+      <li><a href="https://lishensuo.github.io/tags/%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90/">单细胞分析</a></li>
     </ul>
 <nav class="paginav">
   <a class="prev" href="https://lishensuo.github.io/posts/bioinfo/009%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--cellchat%E7%BB%86%E8%83%9E%E9%80%9A%E8%AE%AF%E5%88%86%E6%9E%90/">
@@ -685,10 +685,10 @@ Create:&nbsp;<span title='2022-04-16 00:00:00 +0000 UTC'>2022-04-16</span>&nbsp;
     <br>
     <span>单细胞分析工具--CellChat细胞通讯分析</span>
   </a>
-  <a class="next" href="https://lishensuo.github.io/posts/program/015python-lambda%E5%87%BD%E6%95%B0%E8%A1%A8%E8%BE%BE%E5%BC%8F/">
+  <a class="next" href="https://lishensuo.github.io/posts/bioinfo/011%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--palantir%E8%BD%A8%E8%BF%B9%E5%88%86%E6%9E%90-/">
     <span class="title">Next Page »</span>
     <br>
-    <span>Python-lambda函数表达式</span>
+    <span>单细胞分析工具--Palantir轨迹分析</span>
   </a>
 </nav>
 
@@ -697,7 +697,7 @@ Create:&nbsp;<span title='2022-04-16 00:00:00 +0000 UTC'>2022-04-16</span>&nbsp;
     </main>
     
 <footer class="footer">
-    <span>&copy; 2022 <a href="https://lishensuo.github.io">Li&#39;s Bioinfo-Blog</a></span>
+    <span>&copy; 2023 <a href="https://lishensuo.github.io">Li&#39;s Bioinfo-Blog</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="Paper：https://www.nature.com/articles/s41587-019-0068-4 github：https://">
+<meta name="author" content="">
+<link rel="canonical" href="https://lishensuo.github.io/posts/bioinfo/011%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--palantir/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.1abf8254c205953f8beb228727a5e0a5541f0bc42f68f2762e2e594e7b213985.css" integrity="sha256-Gr&#43;CVMIFlT&#43;L6yKHJ6XgpVQfC8QvaPJ2Li5ZTnshOYU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.4dcb3c4f38462f66c6b6137227726f5543cb934cca9788f041c087e374491df2.js" integrity="sha256-Tcs8TzhGL2bGthNyJ3JvVUPLk0zKl4jwQcCH43RJHfI="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="" />
+<meta property="og:description" content="Paper：https://www.nature.com/articles/s41587-019-0068-4 github：https://" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/posts/bioinfo/011%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--palantir/" /><meta property="article:section" content="posts" />
+
+
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="Paper：https://www.nature.com/articles/s41587-019-0068-4 github：https://"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "📖 生信数据分析--分析流程，工具包等",
+      "item": "https://lishensuo.github.io/posts/bioinfo/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "",
+      "item": "https://lishensuo.github.io/posts/bioinfo/011%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--palantir/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "",
+  "name": "",
+  "description": "Paper：https://www.nature.com/articles/s41587-019-0068-4 github：https://",
+  "keywords": [
+    
+  ],
+  "articleBody": "Paper：https://www.nature.com/articles/s41587-019-0068-4\ngithub：https://github.com/dpeerlab/Palantir\ntutorial：https://nbviewer.org/github/dpeerlab/Palantir/blob/master/notebooks/Palantir_sample_notebook.ipynb\n简介：Palantir是一个2019年在nature biotechnology提出的用于单细胞数据轨迹推断的Python工具包。根据官方教程，简单学习用法如下。\n0、安装包与准备数据 1）安装python包  根据前期探索，不建议直接使用pip安装(存在bug)，而是下载github的最新源码后安装。  1 2 3  unzip Palantir-master cd Palantir-master pip install .   2）示例数据  需要准备**.h5ad**的单细胞数据（count表达矩阵）格式，官方提供示例数据可直接下载。  1  wget https://dp-lab-data-public.s3.amazonaws.com/palantir/marrow_sample_scseq_counts.h5ad    Seurat对象转为h5ad格式，参考笔记：***\n 1、加载包与环境 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23  import palantir import scanpy as sc import numpy as np import pandas as pd import os  # Plotting  import matplotlib import matplotlib.pyplot as plt import seaborn as sns import warnings  # Inline plotting %matplotlib inline  sns.set_style('ticks') matplotlib.rcParams['figure.figsize'] = [4, 4] matplotlib.rcParams['figure.dpi'] = 100 matplotlib.rcParams['image.cmap'] = 'Spectral_r' warnings.filterwarnings(action=\"ignore\", module=\"matplotlib\", message=\"findfont\")  # Reset random seed np.random.seed(5)   2、导入数据与预处理 1 2 3 4 5 6 7 8 9 10 11 12  ## (1) 导入数据 ad = sc.read('marrow_sample_scseq_counts.h5ad') ad # AnnData object with n_obs × n_vars = 4142 × 16106 # 4142个细胞，16106个基因  ## (2) 标准化 sc.pp.normalize_per_cell(ad) palantir.preprocess.log_transform(ad)  ## (3) 高变基因 sc.pp.highly_variable_genes(ad, n_top_genes=1500, flavor='cell_ranger')     降维：PCA → UMAP\n可以使用scanpy包的相关函数，也可以导入Seurat的降维结果，以保证可视化的一致性。\n  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27  ## (1) scanpy #PCA降维 sc.pp.pca(ad) #UMAP降维 sc.pp.neighbors(ad) sc.tl.umap(ad)  ## (2) Seurat seurat_pca = pd.read_csv(\"marrow_sample_scseq_pca.csv\", index_col=0).values ad.obsm['X_pca'] = seurat_pca seurat_umap = pd.read_csv(\"marrow_sample_scseq_umap.csv\", index_col=0).values ad.obsm['X_umap'] = seurat_umap  ad # AnnData object with n_obs × n_vars = 4142 × 16106 # obs: 'n_counts' # var: 'highly_variable', 'means', 'dispersions', 'dispersions_norm' # uns: 'hvg', 'pca', 'neighbors', 'umap' # obsm: 'X_pca', 'X_umap' # varm: 'PCs' # obsp: 'distances', 'connectivities'   pca_projections = pd.DataFrame(ad.obsm['X_pca'], index=ad.obs_names) umap = pd.DataFrame(ad.obsm['X_umap'], index=ad.obs_names) # umap可视化 sc.pl.embedding(ad, basis='umap')   3、轨迹推断分析 1 2 3 4 5 6 7 8 9  ## (1)Run diffusion maps dm_res = palantir.utils.run_diffusion_maps(pca_projections, n_components=5)  ms_data = palantir.utils.determine_multiscale_space(dm_res) ad.layers['MAGIC_imputed_data'] = palantir.utils.run_magic_imputation(ad, dm_res)  #基因表达量可视化 sc.pl.embedding(ad, basis='umap', layer='MAGIC_imputed_data',  color=['CD34', 'MPO', 'GATA1', 'IRF8'])   1 2 3 4 5 6 7 8 9 10 11 12 13 14 15  ## (2)轨迹推断 # 定义发育起点(required) start_cell = 'Run5_164698952452459'  # 定义可能的发育终点(optional) terminal_states = pd.Series(['DC', 'Mono', 'Ery'],  index=['Run5_131097901611291',  'Run5_134936662236454',  'Run4_200562869397916']) # 轨迹推断 pr_res = palantir.core.run_palantir(ms_data, start_cell, num_waypoints=500, terminal_states=terminal_states.index) pr_res.branch_probs.columns = terminal_states[pr_res.branch_probs.columns]  # 基本可视化 palantir.plot.plot_palantir_results(pr_res, umap)   4、结果可视化  指定细胞的不同轨迹状态可能性  1 2  cells = ['Run5_164698952452459', 'Run5_170327461775790', 'Run4_121896095574750', ] palantir.plot.plot_terminal_state_probs(pr_res, cells)   1  palantir.plot.highlight_cells_on_tsne(umap, cells)    指定基因在不同发育路线的变化趋势  1 2 3 4 5 6 7  genes = ['CD34', 'MPO', 'GATA1', 'IRF8'] imp_df = pd.DataFrame(ad[:, genes].layers['MAGIC_imputed_data'],  index=ad.obs_names, columns=genes) gene_trends = palantir.presults.compute_gene_trends( pr_res, imp_df.loc[:, genes])  ## 线图可视化 palantir.plot.plot_gene_trends(gene_trends)   1 2  ## 热图可视化 palantir.plot.plot_gene_trend_heatmaps(gene_trends)    选取特定基因，根据表达模式聚类  1 2 3 4 5 6 7 8 9  genes = ad.var_names[:1000] imp_df = pd.DataFrame(ad[:, genes].layers['MAGIC_imputed_data'],  index=ad.obs_names, columns=genes) gene_trends = palantir.presults.compute_gene_trends(pr_res,  imp_df.iloc[:, 0:1000], ['Ery']) trends = gene_trends['Ery']['trends'] gene_clusters = palantir.presults.cluster_gene_trends(trends)  palantir.plot.plot_gene_trend_clusters(trends, gene_clusters)    最后如原文所述， 由于自身算法限制，本工具可能不太适合应用于肿瘤细胞生长、迁移等存在dedifferetiate或者trans-differentiate to earlier transcriptional state的发育轨迹推断\n ",
+  "wordCount" : "1146",
+  "inLanguage": "en",
+  "datePublished": "0001-01-01T00:00:00Z",
+  "dateModified": "0001-01-01T00:00:00Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/posts/bioinfo/011%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--palantir/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/posts/bioinfo/">📖 生信数据分析--分析流程，工具包等</a></div>
+    <h1 class="post-title">
+      
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Update:&nbsp;0001-01-01&nbsp;|&nbsp;Words:&nbsp;1146&nbsp;|&nbsp;3 min
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#0%e5%ae%89%e8%a3%85%e5%8c%85%e4%b8%8e%e5%87%86%e5%a4%87%e6%95%b0%e6%8d%ae" aria-label="0、安装包与准备数据">0、安装包与准备数据</a><ul>
+                            
+                    <li>
+                        <a href="#1%e5%ae%89%e8%a3%85python%e5%8c%85" aria-label="1）安装python包">1）安装python包</a></li>
+                    <li>
+                        <a href="#2%e7%a4%ba%e4%be%8b%e6%95%b0%e6%8d%ae" aria-label="2）示例数据">2）示例数据</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#1%e5%8a%a0%e8%bd%bd%e5%8c%85%e4%b8%8e%e7%8e%af%e5%a2%83" aria-label="1、加载包与环境">1、加载包与环境</a></li>
+                    <li>
+                        <a href="#2%e5%af%bc%e5%85%a5%e6%95%b0%e6%8d%ae%e4%b8%8e%e9%a2%84%e5%a4%84%e7%90%86" aria-label="2、导入数据与预处理">2、导入数据与预处理</a></li>
+                    <li>
+                        <a href="#3%e8%bd%a8%e8%bf%b9%e6%8e%a8%e6%96%ad%e5%88%86%e6%9e%90" aria-label="3、轨迹推断分析">3、轨迹推断分析</a></li>
+                    <li>
+                        <a href="#4%e7%bb%93%e6%9e%9c%e5%8f%af%e8%a7%86%e5%8c%96" aria-label="4、结果可视化">4、结果可视化</a>
+                    </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><p>Paper：https://www.nature.com/articles/s41587-019-0068-4</p>
+<p>github：https://github.com/dpeerlab/Palantir</p>
+<p>tutorial：https://nbviewer.org/github/dpeerlab/Palantir/blob/master/notebooks/Palantir_sample_notebook.ipynb</p>
+<p>简介：Palantir是一个2019年在nature biotechnology提出的用于单细胞数据轨迹推断的Python工具包。根据官方教程，简单学习用法如下。</p>
+<h2 id="0安装包与准备数据">0、安装包与准备数据<a hidden class="anchor" aria-hidden="true" href="#0安装包与准备数据">#</a></h2>
+<h3 id="1安装python包">1）安装python包<a hidden class="anchor" aria-hidden="true" href="#1安装python包">#</a></h3>
+<ul>
+<li>根据前期探索，不建议直接使用pip安装(存在bug)，而是下载github的最新源码后安装。</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>unzip Palantir-master
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">cd</span> Palantir-master
+</span></span><span style="display:flex;"><span>pip install .
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="2示例数据">2）示例数据<a hidden class="anchor" aria-hidden="true" href="#2示例数据">#</a></h3>
+<ul>
+<li>需要准备**.h5ad**的单细胞数据（count表达矩阵）格式，官方提供示例数据可直接下载。</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>wget https://dp-lab-data-public.s3.amazonaws.com/palantir/marrow_sample_scseq_counts.h5ad
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>Seurat对象转为h5ad格式，参考笔记：***</p>
+</blockquote>
+<h2 id="1加载包与环境">1、加载包与环境<a hidden class="anchor" aria-hidden="true" href="#1加载包与环境">#</a></h2>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> palantir
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> scanpy <span style="color:#fff;font-weight:bold">as</span> sc
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> numpy <span style="color:#fff;font-weight:bold">as</span> np
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> pandas <span style="color:#fff;font-weight:bold">as</span> pd
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> os
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Plotting </span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> matplotlib
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> matplotlib.pyplot <span style="color:#fff;font-weight:bold">as</span> plt
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> seaborn <span style="color:#fff;font-weight:bold">as</span> sns
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> warnings
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Inline plotting</span>
+</span></span><span style="display:flex;"><span>%matplotlib inline
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sns.set_style(<span style="color:#0ff;font-weight:bold">&#39;ticks&#39;</span>)
+</span></span><span style="display:flex;"><span>matplotlib.rcParams[<span style="color:#0ff;font-weight:bold">&#39;figure.figsize&#39;</span>] = [<span style="color:#ff0;font-weight:bold">4</span>, <span style="color:#ff0;font-weight:bold">4</span>]
+</span></span><span style="display:flex;"><span>matplotlib.rcParams[<span style="color:#0ff;font-weight:bold">&#39;figure.dpi&#39;</span>] = <span style="color:#ff0;font-weight:bold">100</span>
+</span></span><span style="display:flex;"><span>matplotlib.rcParams[<span style="color:#0ff;font-weight:bold">&#39;image.cmap&#39;</span>] = <span style="color:#0ff;font-weight:bold">&#39;Spectral_r&#39;</span>
+</span></span><span style="display:flex;"><span>warnings.filterwarnings(action=<span style="color:#0ff;font-weight:bold">&#34;ignore&#34;</span>, module=<span style="color:#0ff;font-weight:bold">&#34;matplotlib&#34;</span>, message=<span style="color:#0ff;font-weight:bold">&#34;findfont&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Reset random seed</span>
+</span></span><span style="display:flex;"><span>np.random.seed(<span style="color:#ff0;font-weight:bold">5</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="2导入数据与预处理">2、导入数据与预处理<a hidden class="anchor" aria-hidden="true" href="#2导入数据与预处理">#</a></h2>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#007f7f">## (1) 导入数据</span>
+</span></span><span style="display:flex;"><span>ad = sc.read(<span style="color:#0ff;font-weight:bold">&#39;marrow_sample_scseq_counts.h5ad&#39;</span>)
+</span></span><span style="display:flex;"><span>ad
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># AnnData object with n_obs × n_vars = 4142 × 16106</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 4142个细胞，16106个基因</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## (2) 标准化</span>
+</span></span><span style="display:flex;"><span>sc.pp.normalize_per_cell(ad)
+</span></span><span style="display:flex;"><span>palantir.preprocess.log_transform(ad)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## (3) 高变基因</span>
+</span></span><span style="display:flex;"><span>sc.pp.highly_variable_genes(ad, n_top_genes=<span style="color:#ff0;font-weight:bold">1500</span>, flavor=<span style="color:#0ff;font-weight:bold">&#39;cell_ranger&#39;</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>
+<p>降维：PCA → UMAP</p>
+<p>可以使用scanpy包的相关函数，也可以导入Seurat的降维结果，以保证可视化的一致性。</p>
+</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">27
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#007f7f">## (1) scanpy</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#PCA降维</span>
+</span></span><span style="display:flex;"><span>sc.pp.pca(ad)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#UMAP降维</span>
+</span></span><span style="display:flex;"><span>sc.pp.neighbors(ad)
+</span></span><span style="display:flex;"><span>sc.tl.umap(ad)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## (2) Seurat</span>
+</span></span><span style="display:flex;"><span>seurat_pca = pd.read_csv(<span style="color:#0ff;font-weight:bold">&#34;marrow_sample_scseq_pca.csv&#34;</span>, index_col=<span style="color:#ff0;font-weight:bold">0</span>).values
+</span></span><span style="display:flex;"><span>ad.obsm[<span style="color:#0ff;font-weight:bold">&#39;X_pca&#39;</span>] = seurat_pca
+</span></span><span style="display:flex;"><span>seurat_umap = pd.read_csv(<span style="color:#0ff;font-weight:bold">&#34;marrow_sample_scseq_umap.csv&#34;</span>, index_col=<span style="color:#ff0;font-weight:bold">0</span>).values
+</span></span><span style="display:flex;"><span>ad.obsm[<span style="color:#0ff;font-weight:bold">&#39;X_umap&#39;</span>] = seurat_umap
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ad
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># AnnData object with n_obs × n_vars = 4142 × 16106</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#     obs: &#39;n_counts&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#     var: &#39;highly_variable&#39;, &#39;means&#39;, &#39;dispersions&#39;, &#39;dispersions_norm&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#     uns: &#39;hvg&#39;, &#39;pca&#39;, &#39;neighbors&#39;, &#39;umap&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#     obsm: &#39;X_pca&#39;, &#39;X_umap&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#     varm: &#39;PCs&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#     obsp: &#39;distances&#39;, &#39;connectivities&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>pca_projections = pd.DataFrame(ad.obsm[<span style="color:#0ff;font-weight:bold">&#39;X_pca&#39;</span>], index=ad.obs_names)
+</span></span><span style="display:flex;"><span>umap = pd.DataFrame(ad.obsm[<span style="color:#0ff;font-weight:bold">&#39;X_umap&#39;</span>], index=ad.obs_names)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># umap可视化</span>
+</span></span><span style="display:flex;"><span>sc.pl.embedding(ad, basis=<span style="color:#0ff;font-weight:bold">&#39;umap&#39;</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230111205204830.png" alt="image-20230111205204830" style="zoom:67%;" />
+<h2 id="3轨迹推断分析">3、轨迹推断分析<a hidden class="anchor" aria-hidden="true" href="#3轨迹推断分析">#</a></h2>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#007f7f">## (1)Run diffusion maps</span>
+</span></span><span style="display:flex;"><span>dm_res = palantir.utils.run_diffusion_maps(pca_projections, n_components=<span style="color:#ff0;font-weight:bold">5</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ms_data = palantir.utils.determine_multiscale_space(dm_res)
+</span></span><span style="display:flex;"><span>ad.layers[<span style="color:#0ff;font-weight:bold">&#39;MAGIC_imputed_data&#39;</span>] = palantir.utils.run_magic_imputation(ad, dm_res)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#基因表达量可视化</span>
+</span></span><span style="display:flex;"><span>sc.pl.embedding(ad, basis=<span style="color:#0ff;font-weight:bold">&#39;umap&#39;</span>, layer=<span style="color:#0ff;font-weight:bold">&#39;MAGIC_imputed_data&#39;</span>,
+</span></span><span style="display:flex;"><span>               color=[<span style="color:#0ff;font-weight:bold">&#39;CD34&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;MPO&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;GATA1&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;IRF8&#39;</span>])
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230111205450190.png" alt="image-20230111205450190"  />
+</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#007f7f">## (2)轨迹推断</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 定义发育起点(required)</span>
+</span></span><span style="display:flex;"><span>start_cell = <span style="color:#0ff;font-weight:bold">&#39;Run5_164698952452459&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 定义可能的发育终点(optional)</span>
+</span></span><span style="display:flex;"><span>terminal_states = pd.Series([<span style="color:#0ff;font-weight:bold">&#39;DC&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;Mono&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;Ery&#39;</span>], 
+</span></span><span style="display:flex;"><span>                           index=[<span style="color:#0ff;font-weight:bold">&#39;Run5_131097901611291&#39;</span>, 
+</span></span><span style="display:flex;"><span>                                  <span style="color:#0ff;font-weight:bold">&#39;Run5_134936662236454&#39;</span>, 
+</span></span><span style="display:flex;"><span>                                  <span style="color:#0ff;font-weight:bold">&#39;Run4_200562869397916&#39;</span>])
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 轨迹推断</span>
+</span></span><span style="display:flex;"><span>pr_res = palantir.core.run_palantir(ms_data, start_cell, num_waypoints=<span style="color:#ff0;font-weight:bold">500</span>, terminal_states=terminal_states.index)
+</span></span><span style="display:flex;"><span>pr_res.branch_probs.columns = terminal_states[pr_res.branch_probs.columns]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 基本可视化</span>
+</span></span><span style="display:flex;"><span>palantir.plot.plot_palantir_results(pr_res, umap)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230111205828154.png" alt="image-20230111205828154"  />
+</p>
+<h2 id="4结果可视化">4、结果可视化<a hidden class="anchor" aria-hidden="true" href="#4结果可视化">#</a></h2>
+<ul>
+<li>指定细胞的不同轨迹状态可能性</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>cells = [<span style="color:#0ff;font-weight:bold">&#39;Run5_164698952452459&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;Run5_170327461775790&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;Run4_121896095574750&#39;</span>, ]
+</span></span><span style="display:flex;"><span>palantir.plot.plot_terminal_state_probs(pr_res, cells) 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230111205953044.png" alt="image-20230111205953044" style="zoom:67%;" />
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>palantir.plot.highlight_cells_on_tsne(umap, cells)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230111210035751.png" alt="image-20230111210035751"  />
+</p>
+<ul>
+<li>指定基因在不同发育路线的变化趋势</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>genes = [<span style="color:#0ff;font-weight:bold">&#39;CD34&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;MPO&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;GATA1&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;IRF8&#39;</span>]
+</span></span><span style="display:flex;"><span>imp_df = pd.DataFrame(ad[:, genes].layers[<span style="color:#0ff;font-weight:bold">&#39;MAGIC_imputed_data&#39;</span>],
+</span></span><span style="display:flex;"><span>                     index=ad.obs_names, columns=genes)
+</span></span><span style="display:flex;"><span>gene_trends = palantir.presults.compute_gene_trends( pr_res, imp_df.loc[:, genes])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## 线图可视化</span>
+</span></span><span style="display:flex;"><span>palantir.plot.plot_gene_trends(gene_trends)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230111210200848.png" alt="image-20230111210200848" style="zoom:67%;" />
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#007f7f">## 热图可视化</span>
+</span></span><span style="display:flex;"><span>palantir.plot.plot_gene_trend_heatmaps(gene_trends)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230111210237392.png" alt="image-20230111210237392"  />
+</p>
+<ul>
+<li>选取特定基因，根据表达模式聚类</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>genes = ad.var_names[:<span style="color:#ff0;font-weight:bold">1000</span>]
+</span></span><span style="display:flex;"><span>imp_df = pd.DataFrame(ad[:, genes].layers[<span style="color:#0ff;font-weight:bold">&#39;MAGIC_imputed_data&#39;</span>], 
+</span></span><span style="display:flex;"><span>                     index=ad.obs_names, columns=genes)
+</span></span><span style="display:flex;"><span>gene_trends = palantir.presults.compute_gene_trends(pr_res, 
+</span></span><span style="display:flex;"><span>                    imp_df.iloc[:, <span style="color:#ff0;font-weight:bold">0</span>:<span style="color:#ff0;font-weight:bold">1000</span>], [<span style="color:#0ff;font-weight:bold">&#39;Ery&#39;</span>])
+</span></span><span style="display:flex;"><span>trends = gene_trends[<span style="color:#0ff;font-weight:bold">&#39;Ery&#39;</span>][<span style="color:#0ff;font-weight:bold">&#39;trends&#39;</span>]
+</span></span><span style="display:flex;"><span>gene_clusters = palantir.presults.cluster_gene_trends(trends)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>palantir.plot.plot_gene_trend_clusters(trends, gene_clusters)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230111210355987.png" alt="image-20230111210355987"  />
+</p>
+<blockquote>
+<p>最后如原文所述， 由于自身算法限制，本工具可能不太适合应用于肿瘤细胞生长、迁移等存在dedifferetiate或者trans-differentiate to earlier transcriptional state的发育轨迹推断</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230112074849547.png" alt="image-20230112074849547"  />
+</p>
+</blockquote>
+
+
+  </div>
+
+  <footer class="post-footer">
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/posts/bioinfo/804%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9Cdgl-04%E5%90%8C%E6%9E%84%E5%9B%BE_%E8%BE%B9%E9%A2%84%E6%B5%8B/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>图神经网络DGL-03同构图_边预测</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://lishensuo.github.io">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>
