@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>文献-组学 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="李申锁的博客，记录生信学习过程。R/Python/Shell">
+<meta name="author" content="">
+<link rel="canonical" href="https://lishensuo.github.io/tags/%E6%96%87%E7%8C%AE-%E7%BB%84%E5%AD%A6/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.1abf8254c205953f8beb228727a5e0a5541f0bc42f68f2762e2e594e7b213985.css" integrity="sha256-Gr&#43;CVMIFlT&#43;L6yKHJ6XgpVQfC8QvaPJ2Li5ZTnshOYU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="https://lishensuo.github.io/tags/%E6%96%87%E7%8C%AE-%E7%BB%84%E5%AD%A6/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="文献-组学" />
+<meta property="og:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://lishensuo.github.io/tags/%E6%96%87%E7%8C%AE-%E7%BB%84%E5%AD%A6/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="文献-组学"/>
+<meta name="twitter:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell"/>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header"><div class="breadcrumbs"><a href="https://lishensuo.github.io">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/tags/">Tags</a></div>
+  <h1>文献-组学</h1>
+</header>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>文献--AD星形胶质与小胶质细胞的单细胞数据分析
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>AD星形胶质细胞与小胶质细胞的snRNA-seq数据分析 Diverse human astrocyte and microglial transcriptional responses to Alzheimer’s pathology Acta Neuropathologica (2022) 143:75–91 IF=17 https://doi.org/10.1007/s00401-021-02372-6 1、测序样本 24...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2022-04-10 00:00:00 +0000 UTC'>2022-04-10</span>&nbsp;|&nbsp;Update:&nbsp;2022-04-10&nbsp;|&nbsp;Words:&nbsp;1983&nbsp;|&nbsp;4 min&nbsp;|&nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 文献--AD星形胶质与小胶质细胞的单细胞数据分析" href="https://lishensuo.github.io/posts/basic/100%E6%96%87%E7%8C%AE--ad%E6%98%9F%E5%BD%A2%E8%83%B6%E8%B4%A8%E7%BB%86%E8%83%9E%E4%B8%8E%E5%B0%8F%E8%83%B6%E8%B4%A8%E7%BB%86%E8%83%9E%E7%9A%84%E5%8D%95%E7%BB%86%E8%83%9E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>文献--AD小鼠空间转录组数据分析
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>Spatial Transcriptomics and In Situ Sequencing to Study Alzheimer’s Disease Cell. 2020 Aug 20 | IF=41.5 DOI: 10.1016/j.cell.2020.06.038 这是关于AD的第一次空间转录组学的相关研究。如下为该文章中涉及空间转录组分析部分的简要笔记，具体可参看原...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2022-06-10 00:00:00 +0000 UTC'>2022-06-10</span>&nbsp;|&nbsp;Update:&nbsp;2022-06-10&nbsp;|&nbsp;Words:&nbsp;2887&nbsp;|&nbsp;6 min&nbsp;|&nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 文献--AD小鼠空间转录组数据分析" href="https://lishensuo.github.io/posts/basic/101%E6%96%87%E7%8C%AE--ad%E5%B0%8F%E9%BC%A0%E7%A9%BA%E9%97%B4%E8%BD%AC%E5%BD%95%E7%BB%84%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>文献--小鼠缺血性中风单细胞数据分析
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>题目：Single-cell RNA-seq reveals the transcriptional landscape in ischemic stroke 期刊/日期：ournal of Cerebral Blood Flow &amp; Metabolism / 24 May 2021 DOI：10.1177/0271678X211026...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2022-12-11 00:00:00 +0000 UTC'>2022-12-11</span>&nbsp;|&nbsp;Update:&nbsp;2022-12-11&nbsp;|&nbsp;Words:&nbsp;1311&nbsp;|&nbsp;3 min&nbsp;|&nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 文献--小鼠缺血性中风单细胞数据分析" href="https://lishensuo.github.io/posts/basic/105%E6%96%87%E7%8C%AE--%E5%B0%8F%E9%BC%A0%E7%BC%BA%E8%A1%80%E6%80%A7%E4%B8%AD%E9%A3%8E%E5%8D%95%E7%BB%86%E8%83%9E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>文献--小鼠前列腺癌单细胞数据分析
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>题目：Defining cellular population dynamics at single-cell resolution during prostate cancer progression 期刊 | 日期 ：eLife | November 2022 DOI：https://doi.org/10.7554/eLife.7...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2023-01-10 00:00:00 +0000 UTC'>2023-01-10</span>&nbsp;|&nbsp;Update:&nbsp;2022-01-10&nbsp;|&nbsp;Words:&nbsp;2776&nbsp;|&nbsp;6 min&nbsp;|&nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 文献--小鼠前列腺癌单细胞数据分析" href="https://lishensuo.github.io/posts/basic/107%E6%96%87%E7%8C%AE--%E5%B0%8F%E9%BC%A0%E5%89%8D%E5%88%97%E8%85%BA%E7%99%8C%E5%8D%95%E7%BB%86%E8%83%9E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>文献--32种乳腺癌细胞系单细胞转录组图谱
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>A single-cell analysis of breast cancer cell lines to study tumour heterogeneity and drug response Nature Communications | 31 March 2022 DOI: https://doi.org/10.1038/s41467-022-29358-6 这篇文章对来自32个乳腺癌细胞系的35276个细胞进行了单细胞转录组测序(Drop-seq)，...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2022-07-06 00:00:00 +0000 UTC'>2022-07-06</span>&nbsp;|&nbsp;Update:&nbsp;2022-07-06&nbsp;|&nbsp;Words:&nbsp;1779&nbsp;|&nbsp;4 min&nbsp;|&nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 文献--32种乳腺癌细胞系单细胞转录组图谱" href="https://lishensuo.github.io/posts/basic/171%E6%96%87%E7%8C%AE--32%E7%A7%8D%E4%B9%B3%E8%85%BA%E7%99%8C%E7%BB%86%E8%83%9E%E7%B3%BB%E5%8D%95%E7%BB%86%E8%83%9E%E8%BD%AC%E5%BD%95%E7%BB%84%E5%9B%BE%E8%B0%B1/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>文献--乳腺癌单细胞转录组图谱
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>A single-cell and spatially resolved atlas of human breast cancers NatGenet. 2021 September 1、scRNAseq测序样本 文章对26个乳腺癌样本进行了单细胞测序，包括11 ER&#43;，5 HER2&#43;，10 TNBC。 对...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2022-08-06 00:00:00 +0000 UTC'>2022-08-06</span>&nbsp;|&nbsp;Update:&nbsp;2022-08-06&nbsp;|&nbsp;Words:&nbsp;1819&nbsp;|&nbsp;4 min&nbsp;|&nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 文献--乳腺癌单细胞转录组图谱" href="https://lishensuo.github.io/posts/basic/172%E6%96%87%E7%8C%AE--%E4%B9%B3%E8%85%BA%E7%99%8C%E5%8D%95%E7%BB%86%E8%83%9E%E4%B8%8E%E7%A9%BA%E9%97%B4%E8%BD%AC%E5%BD%95%E7%BB%84%E5%9B%BE%E8%B0%B1/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>文献--肝癌空间转录组数据分析
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>Comprehensive analysis of spatial architecture in primary liver cancer Sci Adv. 2021 Dec 17 Doi: 10.1126/sciadv.abg3750. 简单摘要: 这是一篇资源型的文章，应该是第一篇较大规模的肝癌空间转录组测序文献。基于ST的所包含的空间信息，本...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2022-10-08 00:00:00 +0000 UTC'>2022-10-08</span>&nbsp;|&nbsp;Update:&nbsp;2022-10-08&nbsp;|&nbsp;Words:&nbsp;2425&nbsp;|&nbsp;5 min&nbsp;|&nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 文献--肝癌空间转录组数据分析" href="https://lishensuo.github.io/posts/basic/173%E6%96%87%E7%8C%AE--%E8%82%9D%E7%99%8C%E7%A9%BA%E9%97%B4%E8%BD%AC%E5%BD%95%E7%BB%84%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/"></a>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://lishensuo.github.io">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>
