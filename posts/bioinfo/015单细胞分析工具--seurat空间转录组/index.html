@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>使用Seurat包分析空间转录组数据 | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="">
+<meta name="keywords" content="单细胞分析">
 <meta name="description" content="单细胞数据分析常用的Seurat包也集成了空间转录组的分析流程。 https://satijalab.org/seurat/articles/">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/bioinfo/015%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--seurat%E7%A9%BA%E9%97%B4%E8%BD%AC%E5%BD%95%E7%BB%84/">
@@ -102,7 +102,7 @@
   "name": "使用Seurat包分析空间转录组数据",
   "description": "单细胞数据分析常用的Seurat包也集成了空间转录组的分析流程。 https://satijalab.org/seurat/articles/",
   "keywords": [
-    
+    "单细胞分析"
   ],
   "articleBody": " 单细胞数据分析常用的Seurat包也集成了空间转录组的分析流程。\nhttps://satijalab.org/seurat/articles/spatial_vignette.html。\n空间转录组可以简单理解为在2D组织切面的多个采样spot进行测序，同时记录下每个spot在切片中的2维坐标位置。\n在Seurat流程数据分析时可以将一个spot视为一个细胞（实际上还没有达到单细胞分辨率），然后基本可按照一般单细胞数据分析流程。\n 0、数据准备 来自10X官方提供的小鼠脑部空间转录组测序数据，分为anterior与posterior两个切片。\n以其中一张切片所包含的数据为例，可分为两部分数据。\n（1）每个spot的基因表达测序数据，基本类似单细胞测序结果格式可以是三元组或者h5格式等\n1 2 3 4 5 6 7 8  list.files(\"posterior/\", recursive = TRUE) # [1] \"filtered_feature_bc_matrix.h5\"  # [2] \"filtered_feature_bc_matrix/barcodes.tsv.gz\" # [3] \"filtered_feature_bc_matrix/features.tsv.gz\" # [4] \"filtered_feature_bc_matrix/matrix.mtx.gz\"  # [5] \"spatial/scalefactors_json.json\"  # [6] \"spatial/tissue_lowres_image.png\"  # [7] \"spatial/tissue_positions_list.csv\"   （2）每个spot在组织切片中的位置信息\n 首先是组织切片图片(tissue_lowres_image.png)，需要查看确认一下图片的分辨率。如下示例图片为600×600 然后是每个spot在实际测序过程中的位置信息。(tissue_positions_list.csv)  第一列：spot的名字，对应于测序数据的spot ID 第二列：1/0，表示是否为组织测序区域 第三、四列：每个spot的相对位置坐标 第五、六列：每个spot在组织图片中的绝对位置（像素单位）    1 2 3 4 5 6 7  spot_meta = read.csv(\"posterior/spatial/tissue_positions_list.csv\",  header = FALSE) head(spot_meta) #tissue row col imagerow imagecol # V1 V2 V3 V4 V5 V6 # 1 ACGCCTGACACGCGCT-1 0 0 0 1419 1432 # 2 TACCGATCCAACACTT-1 0 1 1 1538 1501 # 3 ATTAAAGCGGACGAGC-1 0 0 2 1419 1570    最后是一个json文件(scalefactors_json.json)，用于记录tissue_positions_list.csv所记录的spot绝对坐标与tissue_lowres_image.png图片的比例关系。以及spot的直径大小。  例如 (1419, 1432)*0.0516=(73.2204, 73.8912)即为在tissue_lowres_image.png中的坐标位置。    1 2 3 4  { \"fiducial_diameter_fullres\": 144.59793566029023, \"tissue_lowres_scalef\": 0.051635113 }    https://github.com/satijalab/seurat/issues/4993\nThere are four scaling factors that 10X provides, but we generally only use the lowres factor. If you’re using your own, non-10X data, simply create a fake scalefactors object with scalefactors, making sure that you use the correct factor for lowres. If you coordinates match 1:1 with your image, then your lowres scale factor would be 1\n 1、创建Seurat对象 思路：先根据spot基因表达数据创建Seurat对象，然后加入组织图片以及spot的位置信息。\n1.1 分步创建 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40  ##(1)构建传统seurat对象 sce = Read10X(\"posterior/filtered_feature_bc_matrix/\") %%  CreateSeuratObject(assay = \"Spot\") #将assay名设置为Spatial # sce %  # CreateSeuratObject(assay = \"Spatial\") dim(sce) # [1] 32285 3355 # 3355个spot的32285个基因的表达 sce@assays$Spot@counts[1:4,1:4] # 4 x 4 sparse Matrix of class \"dgCMatrix\" # AAACAAGTATCTCCCA-1 AAACACCAATAACTGC-1 AAACAGAGCGACTCCT-1 AAACAGCTTTCAGAAG-1 # Xkr4 . . . . # Gm1992 . . . . # Gm19938 . 1 . . # Gm37381 . . . . head(sce@meta.data) # orig.ident nCount_Spot nFeature_Spot # AAACAAGTATCTCCCA-1 SeuratProject 9195 3089 # AAACACCAATAACTGC-1 SeuratProject 33655 6468 # AAACAGAGCGACTCCT-1 SeuratProject 19619 5245  ##(2)加入image信息 image \"posterior/spatial/\") image@image %% dim() # [1] 600 600 3 #image image@coordinates %% head() # tissue row col imagerow imagecol # TGGGACCATTGGGAGT-1 1 7 5 2257 1776 # CCGGTGCGAGTGATAG-1 1 7 7 2257 1914 # TAGCCAGAGGGTCCGG-1 1 7 9 2257 2052 image@scale.factors #储存json信息 DefaultAssay(image) \"Spot\" DefaultAssay(image) sce[[\"posterior\"]] sce # An object of class Seurat  # 32285 features across 3355 samples within 1 assay  # Active assay: Spot (32285 features, 0 variable features) # 1 image present: posterior   1.2 一步创建 Load10X_Spatial()函数支持在准备好相应的文件基础上，一步创建出包含image信息的seurat对象\n  测序表达数据的h5文件\n1  # [1] \"filtered_feature_bc_matrix.h5\"      图片及位置信息的spatial文件夹\n1 2  list.files(\"posterior/spatial/\") # [1] \"scalefactors_json.json\" \"tissue_lowres_image.png\" \"tissue_positions_list.csv\"     1 2 3 4 5  sce = Load10X_Spatial(data.dir = \"./posterior/\",slice = \"posterior\") # An object of class Seurat  # 32285 features across 3355 samples within 1 assay  # Active assay: Spatial (32285 features, 0 variable features) # 1 image present: posterior   2、分析流程与可视化 之后的分析可基本参考Seurat单细胞数据分析流程，完成spot的过滤、标准化、聚类分群、差异分析等；就不过多介绍了。\n主要会在可视化方面有空间转录组自身独特的展示方式。\n2.1 常规分析流程 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18  ##标准化 sce \"Spot\")  ##降维 sce sce 1:30, label = T)  ##聚类分群 sce 1:20) sce 0.1) table(sce$seurat_clusters) # 0 1 2 3 4 5 6  # 1161 659 483 396 235 230 191  ##差异分析 dif \"Spot\", only.pos = T) sig.dif %group_by(cluster) %% top_n(n = 5,wt = avg_log2FC) genes   2.2 可视化 这里主要记录空间转录组自身独特的展示方式：以测序组织图片为背景，展示spot的聚类信息或者特定基因在每个spot的表达信息。\n1 2 3 4 5 6 7  SpatialDimPlot(sce, alpha = 0.5) SpatialDimPlot(sce,  cells.highlight = CellsByIdentities(sce,idents = \"1\")) SpatialDimPlot(sce,cells.highlight = CellsByIdentities(sce,idents = c(\"0\",\"2\")),  facet.highlight = T) SpatialDimPlot(sce,cells.highlight = CellsByIdentities(sce,idents = c(\"0\",\"2\",\"3\")),  facet.highlight = T)   1  LinkedDimPlot(sce,reduction = \"umap\")   1 2  SpatialFeaturePlot(sce,features = genes[1:2],interactive = F) SpatialFeaturePlot(sce,features = genes[1],pt.size=1.5,alpha=c(0.1,1),interactive = T)   1  LinkedFeaturePlot(sce, feature = \"Stx1a\")   3、合并多个切片分析 类似合并多个单细胞测序样本分析，此时每个Seurat对象都要有自己的image信息。必要时也可以使用批次校正等工具。\n1 2 3 4 5 6 7 8 9 10 11  anterior1 \"./Anterior\",slice = \"anterior\") posterior1 \"./posterior/\",slice = \"posterior\") dim(anterior1) dim(posterior1)   st \"ante\",\"post\")) #st SpatialDimPlot(st,label = T,label.size = 3, images = \"anterior\") SpatialDimPlot(st,label = T,label.size = 3, images = \"posterior\") SpatialDimPlot(st,label = T,label.size = 3, images = c(\"anterior\",\"posterior\"))   ",
   "wordCount" : "1831",
@@ -682,16 +682,19 @@ Create:&nbsp;<span title='2022-06-05 00:00:00 +0000 UTC'>2022-06-05</span>&nbsp;
   </div>
 
   <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/tags/%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90/">单细胞分析</a></li>
+    </ul>
 <nav class="paginav">
-  <a class="prev" href="https://lishensuo.github.io/posts/program/015python-lambda%E5%87%BD%E6%95%B0%E8%A1%A8%E8%BE%BE%E5%BC%8F/">
+  <a class="prev" href="https://lishensuo.github.io/posts/bioinfo/011%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--palantir%E8%BD%A8%E8%BF%B9%E5%88%86%E6%9E%90-/">
     <span class="title">« Prev Page</span>
     <br>
-    <span>Python-lambda函数表达式</span>
+    <span>单细胞分析工具--Palantir轨迹分析</span>
   </a>
-  <a class="next" href="https://lishensuo.github.io/posts/program/016python-threading%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
+  <a class="next" href="https://lishensuo.github.io/posts/bioinfo/016%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--hdwgcna%E5%85%B1%E8%A1%A8%E8%BE%BE%E7%BD%91%E7%BB%9C/">
     <span class="title">Next Page »</span>
     <br>
-    <span>Python-threading多线程</span>
+    <span>单细胞分析工具--hdWGCNA共表达网络</span>
   </a>
 </nav>
 
