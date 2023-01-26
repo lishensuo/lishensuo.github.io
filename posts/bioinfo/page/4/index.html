@@ -173,6 +173,70 @@
 <article class="post-entry">
 	<div class="post-info">  
 		<header class="entry-header">
+			<h2>clusterProfiler包富集分析与可视化
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1、背景知识 （1）两种富集分析 基于超几何检验的ORA(over representation analysis)富集分析 ① 假设对转录组分组测序的10000个基因表达数据进...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2023-01-14 00:00:00 +0000 UTC'>2023-01-14</span>&nbsp;|&nbsp;Update:&nbsp;2023-01-14&nbsp;|&nbsp;Words:&nbsp;3217&nbsp;|&nbsp;7 min&nbsp;|&nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to clusterProfiler包富集分析与可视化" href="https://lishensuo.github.io/posts/bioinfo/056clusterprofiler%E5%8C%85%E5%AF%8C%E9%9B%86%E5%88%86%E6%9E%90%E4%B8%8E%E5%8F%AF%E8%A7%86%E5%8C%96/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>富集通路可视化方式
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>0、示例数据 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 library(clusterProfiler) library(org.Hs.eg.db) data(geneList, package=&#34;DOSE&#34;) str(geneList) # Named num [1:12495] 4.57 4.51 4.42 4.14 3.88 ... # - attr(*, &#34;names&#34;)= chr [1:12495] &#34;4312&#34; &#34;8318&#34; &#34;10874&#34; &#34;55143&#34; ... gene_ids&lt;-AnnotationDbi::select(org.Hs.eg.db, keys=as.character(names(gene_list)), columns=&#34;SYMBOL&#34;, #目标格式 keytype=&#34;ENTREZID&#34;)...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2023-01-14 00:00:00 +0000 UTC'>2023-01-14</span>&nbsp;|&nbsp;Update:&nbsp;2023-01-14&nbsp;|&nbsp;Words:&nbsp;1008&nbsp;|&nbsp;3 min&nbsp;|&nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 富集通路可视化方式" href="https://lishensuo.github.io/posts/bioinfo/057%E5%AF%8C%E9%9B%86%E9%80%9A%E8%B7%AF%E5%8F%AF%E8%A7%86%E5%8C%96%E6%96%B9%E5%BC%8F/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
 			<h2>WGCNA基因加权共表达网络分析
 			</h2>
 		</header>
@@ -420,70 +484,6 @@ Create:&nbsp;<span title='2022-06-30 00:00:00 +0000 UTC'>2022-06-30</span>&nbsp;
 Create:&nbsp;<span title='2022-04-10 00:00:00 +0000 UTC'>2022-04-10</span>&nbsp;|&nbsp;Update:&nbsp;2022-07-01&nbsp;|&nbsp;Words:&nbsp;1297&nbsp;|&nbsp;3 min&nbsp;|&nbsp;Lishensuo</footer>
 	</div>   
   <a class="entry-link" aria-label="post link to 机器学习基于R包mlr3(2)--分类--逻辑回归.md" href="https://lishensuo.github.io/posts/bioinfo/101%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr32--%E5%88%86%E7%B1%BB--%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/"></a>
-</article>
-
-
-
-
-
-<article class="post-entry">
-	<div class="post-info">  
-		<header class="entry-header">
-			<h2>机器学习基于R包mlr3(3)--分类--LDA与QDA
-			</h2>
-		</header>
-		<section class="entry-content">
-			<p>1、概述 LDA与QDA可以简单理解为有监督的降维，将多个预测变量信息压缩成少数（类别数-1）新的预测变量。 每一个新的预测变量称之为判别函数，...</p>
-		</section>
-		<footer class="entry-footer">
-
-
-
-
-
-
-
-
-
-
-
-
-
-Create:&nbsp;<span title='2022-04-10 00:00:00 +0000 UTC'>2022-04-10</span>&nbsp;|&nbsp;Update:&nbsp;2022-07-01&nbsp;|&nbsp;Words:&nbsp;1278&nbsp;|&nbsp;3 min&nbsp;|&nbsp;Lishensuo</footer>
-	</div>   
-  <a class="entry-link" aria-label="post link to 机器学习基于R包mlr3(3)--分类--LDA与QDA" href="https://lishensuo.github.io/posts/bioinfo/102%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr33--%E5%88%86%E7%B1%BB--lda%E4%B8%8Eqda/"></a>
-</article>
-
-
-
-
-
-<article class="post-entry">
-	<div class="post-info">  
-		<header class="entry-header">
-			<h2>机器学习基于R包mlr3(4)--分类--朴素贝叶斯
-			</h2>
-		</header>
-		<section class="entry-content">
-			<p>1、朴素贝叶斯简介 Naive Bayes：预测样本属于每一类别的概率，取概率最高的类别。包含四个概念：后验概率、似然、先验概率以及全概率。如下图示例 例...</p>
-		</section>
-		<footer class="entry-footer">
-
-
-
-
-
-
-
-
-
-
-
-
-
-Create:&nbsp;<span title='2022-04-10 00:00:00 +0000 UTC'>2022-04-10</span>&nbsp;|&nbsp;Update:&nbsp;2022-07-01&nbsp;|&nbsp;Words:&nbsp;1160&nbsp;|&nbsp;3 min&nbsp;|&nbsp;Lishensuo</footer>
-	</div>   
-  <a class="entry-link" aria-label="post link to 机器学习基于R包mlr3(4)--分类--朴素贝叶斯" href="https://lishensuo.github.io/posts/bioinfo/103%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr34--%E5%88%86%E7%B1%BB--%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

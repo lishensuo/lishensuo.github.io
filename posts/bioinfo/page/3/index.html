@@ -173,6 +173,70 @@
 <article class="post-entry">
 	<div class="post-info">  
 		<header class="entry-header">
+			<h2>TCGAbiolinks包-TCGA数据下载与差异分析
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>TCGAbiolinks包是一站式分析TCGA数据的R包工具，它集成了TCGA数据下载、分析、可视化的全部流程。此次系列笔记主要跟着 TCGA...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2022-04-30 00:00:00 +0000 UTC'>2022-04-30</span>&nbsp;|&nbsp;Update:&nbsp;2022-05-06&nbsp;|&nbsp;Words:&nbsp;4785&nbsp;|&nbsp;10 min&nbsp;|&nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to TCGAbiolinks包-TCGA数据下载与差异分析" href="https://lishensuo.github.io/posts/bioinfo/046tcgabiolinks%E5%8C%85-tcga%E6%95%B0%E6%8D%AE%E4%B8%8B%E8%BD%BD%E4%B8%8E%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>表达矩阵TPM,FPKM标准化
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1、计算公式 sample 1 sample 2 …….. sample k Gene 1 10 12 30 Gene 2 20 25 60 …… … … … … Gene n 0 0 … 1 对于(n*k)表达矩阵中k个样本的n个基因的count表达数据。 在任意样...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2022-04-30 00:00:00 +0000 UTC'>2022-04-30</span>&nbsp;|&nbsp;Update:&nbsp;2022-04-30&nbsp;|&nbsp;Words:&nbsp;934&nbsp;|&nbsp;2 min&nbsp;|&nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 表达矩阵TPM,FPKM标准化" href="https://lishensuo.github.io/posts/bioinfo/047%E8%A1%A8%E8%BE%BE%E7%9F%A9%E9%98%B5tpmfpkm%E6%A0%87%E5%87%86%E5%8C%96/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
 			<h2>从GEO下载芯片或RNAseq测序数据
 			</h2>
 		</header>
@@ -420,70 +484,6 @@ Create:&nbsp;<span title='2022-05-28 00:00:00 +0000 UTC'>2022-05-28</span>&nbsp;
 Create:&nbsp;<span title='2023-01-13 00:00:00 +0000 UTC'>2023-01-13</span>&nbsp;|&nbsp;Update:&nbsp;2023-01-13&nbsp;|&nbsp;Words:&nbsp;1154&nbsp;|&nbsp;3 min&nbsp;|&nbsp;Lishensuo</footer>
 	</div>   
   <a class="entry-link" aria-label="post link to GSEA富集分析工具" href="https://lishensuo.github.io/posts/bioinfo/055gsea%E5%AF%8C%E9%9B%86%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7/"></a>
-</article>
-
-
-
-
-
-<article class="post-entry">
-	<div class="post-info">  
-		<header class="entry-header">
-			<h2>clusterProfiler包富集分析与可视化
-			</h2>
-		</header>
-		<section class="entry-content">
-			<p>1、背景知识 （1）两种富集分析 基于超几何检验的ORA(over representation analysis)富集分析 ① 假设对转录组分组测序的10000个基因表达数据进...</p>
-		</section>
-		<footer class="entry-footer">
-
-
-
-
-
-
-
-
-
-
-
-
-
-Create:&nbsp;<span title='2023-01-14 00:00:00 +0000 UTC'>2023-01-14</span>&nbsp;|&nbsp;Update:&nbsp;2023-01-14&nbsp;|&nbsp;Words:&nbsp;3217&nbsp;|&nbsp;7 min&nbsp;|&nbsp;Lishensuo</footer>
-	</div>   
-  <a class="entry-link" aria-label="post link to clusterProfiler包富集分析与可视化" href="https://lishensuo.github.io/posts/bioinfo/056clusterprofiler%E5%8C%85%E5%AF%8C%E9%9B%86%E5%88%86%E6%9E%90%E4%B8%8E%E5%8F%AF%E8%A7%86%E5%8C%96/"></a>
-</article>
-
-
-
-
-
-<article class="post-entry">
-	<div class="post-info">  
-		<header class="entry-header">
-			<h2>富集通路可视化方式
-			</h2>
-		</header>
-		<section class="entry-content">
-			<p>0、示例数据 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 library(clusterProfiler) library(org.Hs.eg.db) data(geneList, package=&#34;DOSE&#34;) str(geneList) # Named num [1:12495] 4.57 4.51 4.42 4.14 3.88 ... # - attr(*, &#34;names&#34;)= chr [1:12495] &#34;4312&#34; &#34;8318&#34; &#34;10874&#34; &#34;55143&#34; ... gene_ids&lt;-AnnotationDbi::select(org.Hs.eg.db, keys=as.character(names(gene_list)), columns=&#34;SYMBOL&#34;, #目标格式 keytype=&#34;ENTREZID&#34;)...</p>
-		</section>
-		<footer class="entry-footer">
-
-
-
-
-
-
-
-
-
-
-
-
-
-Create:&nbsp;<span title='2023-01-14 00:00:00 +0000 UTC'>2023-01-14</span>&nbsp;|&nbsp;Update:&nbsp;2023-01-14&nbsp;|&nbsp;Words:&nbsp;1008&nbsp;|&nbsp;3 min&nbsp;|&nbsp;Lishensuo</footer>
-	</div>   
-  <a class="entry-link" aria-label="post link to 富集通路可视化方式" href="https://lishensuo.github.io/posts/bioinfo/057%E5%AF%8C%E9%9B%86%E9%80%9A%E8%B7%AF%E5%8F%AF%E8%A7%86%E5%8C%96%E6%96%B9%E5%BC%8F/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
