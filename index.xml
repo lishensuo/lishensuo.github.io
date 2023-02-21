@@ -6,7 +6,7 @@
     <description>Recent content on Li&#39;s Bioinfo-Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 19 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://lishensuo.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 21 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://lishensuo.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>统计学基础--统计描述指标与常见统计分布</title>
       <link>https://lishensuo.github.io/posts/basic/001%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%9F%BA%E7%A1%80--%E7%BB%9F%E8%AE%A1%E6%8F%8F%E8%BF%B0%E6%8C%87%E6%A0%87%E4%B8%8E%E5%B8%B8%E8%A7%81%E7%BB%9F%E8%AE%A1%E5%88%86%E5%B8%83/</link>
@@ -404,7 +404,7 @@
     </item>
     
     <item>
-      <title>031单细胞分析工具--Scissor表型相关亚群鉴定</title>
+      <title>单细胞分析工具--Scissor表型相关亚群鉴定</title>
       <link>https://lishensuo.github.io/posts/bioinfo/031%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--scissor%E8%A1%A8%E5%9E%8B%E7%9B%B8%E5%85%B3%E4%BA%9A%E7%BE%A4%E9%89%B4%E5%AE%9A/</link>
       <pubDate>Sun, 19 Feb 2023 00:00:00 +0000</pubDate>
       
@@ -585,10 +585,10 @@
     
     <item>
       <title>xCell与CIBERSORT等免疫浸润分析</title>
-      <link>https://lishensuo.github.io/posts/bioinfo/072xcell%E4%B8%8Ecibersort%E9%A2%84%E6%B5%8Bbulkrnaseq%E7%BB%86%E8%83%9E%E7%BB%84%E6%88%90/</link>
+      <link>https://lishensuo.github.io/posts/bioinfo/072xcell%E4%B8%8Ecibersort%E7%AD%89%E5%85%8D%E7%96%AB%E6%B5%B8%E6%B6%A6%E5%88%86%E6%9E%90/</link>
       <pubDate>Mon, 25 Apr 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://lishensuo.github.io/posts/bioinfo/072xcell%E4%B8%8Ecibersort%E9%A2%84%E6%B5%8Bbulkrnaseq%E7%BB%86%E8%83%9E%E7%BB%84%E6%88%90/</guid>
+      <guid>https://lishensuo.github.io/posts/bioinfo/072xcell%E4%B8%8Ecibersort%E7%AD%89%E5%85%8D%E7%96%AB%E6%B5%B8%E6%B6%A6%E5%88%86%E6%9E%90/</guid>
       <description>xCell xCell包 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 devtools::install_github(&amp;#39;dviraran/xCell&amp;#39;) library(xCell) data(&amp;#34;xCell.data&amp;#34;) ##查看支持的64种细胞类型，同下图 colnames(xCell.data$spill$K) ##预测函数的关键参数解释 ?xCellAnalysis() # expr = 交代表达矩阵； ##</description>
     </item>
     
@@ -1400,6 +1400,15 @@
       
       <guid>https://lishensuo.github.io/posts/bioinfo/703%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0d2l--03--k%E6%8A%98%E4%BA%A4%E5%8F%89%E9%AA%8C%E8%AF%81%E7%9A%84torch%E8%AE%AD%E7%BB%83%E5%9F%BA%E7%A1%80%E6%B5%81%E7%A8%8B/</guid>
       <description>1、加载库 1 2 3 4 5 6 7 import pandas as pd import torch from torch import nn from torch.nn import functional as F from torch.utils import data import itertools 2、示例数据 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 # http://d2l-data.s3-accelerate.amazonaws.com/kaggle_house_pred_train.csv # http://d2l-data.s3-accelerate.amazonaws.com/kaggle_house_pred_test.csv train_data = pd.read_csv(&amp;#34;../data/kaggle_house_pred_train.csv&amp;#34;) test_data = pd.read_csv(&amp;#34;../data/kaggle_house_pred_test.csv&amp;#34;) train_data.shape,</description>
+    </item>
+    
+    <item>
+      <title>深度学习--VAE变分自动编码器</title>
+      <link>https://lishensuo.github.io/posts/bioinfo/704%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0--vae%E5%8F%98%E5%88%86%E8%87%AA%E5%8A%A8%E7%BC%96%E7%A0%81%E5%99%A8/</link>
+      <pubDate>Tue, 21 Feb 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/posts/bioinfo/704%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0--vae%E5%8F%98%E5%88%86%E8%87%AA%E5%8A%A8%E7%BC%96%E7%A0%81%E5%99%A8/</guid>
+      <description>自动编码器（AE, autoencoder）是应用神经网络进行数据降维的有效方，其结构分为编码器（encoder）与解码器（decoder）两</description>
     </item>
     
     <item>
