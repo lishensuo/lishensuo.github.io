@@ -6,7 +6,7 @@
     <description>Recent content in 📖 生信数据分析--分析流程，工具包等 on Li&#39;s Bioinfo-Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 19 Mar 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://lishensuo.github.io/posts/bioinfo/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 20 Mar 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://lishensuo.github.io/posts/bioinfo/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>conda环境下载管理软件、R包</title>
       <link>https://lishensuo.github.io/posts/bioinfo/002conda%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%BD%BD%E7%AE%A1%E7%90%86%E8%BD%AF%E4%BB%B6r%E5%8C%85/</link>
@@ -341,11 +341,11 @@
     </item>
     
     <item>
-      <title>基因ID等转换</title>
-      <link>https://lishensuo.github.io/posts/bioinfo/054%E5%9F%BA%E5%9B%A0id%E7%AD%89%E8%BD%AC%E6%8D%A2/</link>
+      <title>基因-蛋白-化合物ID转换</title>
+      <link>https://lishensuo.github.io/posts/bioinfo/054%E5%9F%BA%E5%9B%A0-%E8%9B%8B%E7%99%BD-%E5%8C%96%E5%90%88%E7%89%A9id%E8%BD%AC%E6%8D%A2/</link>
       <pubDate>Sat, 28 May 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://lishensuo.github.io/posts/bioinfo/054%E5%9F%BA%E5%9B%A0id%E7%AD%89%E8%BD%AC%E6%8D%A2/</guid>
+      <guid>https://lishensuo.github.io/posts/bioinfo/054%E5%9F%BA%E5%9B%A0-%E8%9B%8B%E7%99%BD-%E5%8C%96%E5%90%88%E7%89%A9id%E8%BD%AC%E6%8D%A2/</guid>
       <description>1、不同基因ID转换 1.1 org.Hs.eg.db包 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 library(dplyr) library(org.Hs.eg.db) keytypes(org.Hs.eg.db) # [1] &amp;#34;ACCNUM&amp;#34; &amp;#34;ALIAS&amp;#34; &amp;#34;ENSEMBL&amp;#34; &amp;#34;ENSEMBLPROT&amp;#34; &amp;#34;ENSEMBLTRANS&amp;#34; &amp;#34;ENTREZID&amp;#34; # [7] &amp;#34;ENZYME&amp;#34; &amp;#34;EVIDENCE&amp;#34; &amp;#34;EVIDENCEALL&amp;#34;</description>
     </item>
     
@@ -692,12 +692,12 @@
     </item>
     
     <item>
-      <title>rdkit生成化合物指纹并计算相似度</title>
-      <link>https://lishensuo.github.io/posts/bioinfo/501rdkit%E7%94%9F%E6%88%90%E5%8C%96%E5%90%88%E7%89%A9%E6%8C%87%E7%BA%B9%E5%B9%B6%E8%AE%A1%E7%AE%97%E7%9B%B8%E4%BC%BC%E5%BA%A6/</link>
-      <pubDate>Sat, 18 Jun 2022 00:00:00 +0000</pubDate>
+      <title>化合物指纹与描述符生成系列工具</title>
+      <link>https://lishensuo.github.io/posts/bioinfo/501%E5%8C%96%E5%90%88%E7%89%A9%E6%8C%87%E7%BA%B9%E4%B8%8E%E6%8F%8F%E8%BF%B0%E7%AC%A6%E7%94%9F%E6%88%90%E7%B3%BB%E5%88%97%E5%B7%A5%E5%85%B7/</link>
+      <pubDate>Mon, 20 Mar 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://lishensuo.github.io/posts/bioinfo/501rdkit%E7%94%9F%E6%88%90%E5%8C%96%E5%90%88%E7%89%A9%E6%8C%87%E7%BA%B9%E5%B9%B6%E8%AE%A1%E7%AE%97%E7%9B%B8%E4%BC%BC%E5%BA%A6/</guid>
-      <description>rdkit是一个化学信息学的python工具包，可用于计算化合物的结构相似性。 https://www.rdkit.org/docs/GettingStartedInPython.html#fingerprinting-and-molecular-similarity 1 conda install -c conda-forge rdkit 1 2 3 4 from rdkit import Chem from rdkit.Chem import MACCSkeys from rdkit import DataStructs from rdkit.Chem import Draw 1、生成</description>
+      <guid>https://lishensuo.github.io/posts/bioinfo/501%E5%8C%96%E5%90%88%E7%89%A9%E6%8C%87%E7%BA%B9%E4%B8%8E%E6%8F%8F%E8%BF%B0%E7%AC%A6%E7%94%9F%E6%88%90%E7%B3%BB%E5%88%97%E5%B7%A5%E5%85%B7/</guid>
+      <description>1、rdkit 1 2 3 4 5 6 # conda install -c conda-forge rdkit from rdkit import Chem from rdkit.Chem import MACCSkeys from rdkit import DataStructs from rdkit.Chem import Draw 1.1 指纹编码式 （1）Topological Fingerprints 1 2 3 4 5 6 7 8 m = Chem.MolFromSmiles(&amp;#39;CCOC&amp;#39;) # Chem.MolToSmiles(mol) fp</description>
     </item>
     
     <item>
@@ -707,15 +707,6 @@
       
       <guid>https://lishensuo.github.io/posts/bioinfo/502%E6%95%B0%E6%8D%AE%E5%BA%93--%E5%8C%96%E5%90%88%E7%89%A9%E6%95%8F%E6%84%9F%E5%BA%A6gdsc_ctrl/</guid>
       <description>一、GDSC GDSC : https://www.cancerrxgene.org/，已上传至阿里云盘 1、原始数据整理 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16</description>
-    </item>
-    
-    <item>
-      <title>PaDEL计算化合物的分子指纹与描述符</title>
-      <link>https://lishensuo.github.io/posts/bioinfo/503padel%E8%AE%A1%E7%AE%97%E5%8C%96%E5%90%88%E7%89%A9%E7%9A%84%E5%88%86%E5%AD%90%E6%8C%87%E7%BA%B9%E4%B8%8E%E6%8F%8F%E8%BF%B0%E7%AC%A6/</link>
-      <pubDate>Fri, 10 Feb 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://lishensuo.github.io/posts/bioinfo/503padel%E8%AE%A1%E7%AE%97%E5%8C%96%E5%90%88%E7%89%A9%E7%9A%84%E5%88%86%E5%AD%90%E6%8C%87%E7%BA%B9%E4%B8%8E%E6%8F%8F%E8%BF%B0%E7%AC%A6/</guid>
-      <description>PaDEL-descriptor工具用于计算化合物的分子指纹(molecular fingerprint)与分子描述符(molecular descriptor) https://github.com/ecrl/padelpy</description>
     </item>
     
     <item>

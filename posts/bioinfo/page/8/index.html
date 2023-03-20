@@ -365,11 +365,11 @@ Create:&nbsp;<span title='2022-04-16 00:00:00 +0000 UTC'>2022-04-16</span>&nbsp;
 <article class="post-entry">
 	<div class="post-info">  
 		<header class="entry-header">
-			<h2>rdkit生成化合物指纹并计算相似度
+			<h2>化合物指纹与描述符生成系列工具
 			</h2>
 		</header>
 		<section class="entry-content">
-			<p>rdkit是一个化学信息学的python工具包，可用于计算化合物的结构相似性。 https://www.rdkit.org/docs/GettingStartedInPython.html#fingerprinting-and-molecular-similarity 1 conda install -c conda-forge rdkit 1 2 3 4 from rdkit import Chem from rdkit.Chem import MACCSkeys from rdkit import DataStructs from rdkit.Chem import Draw 1、生成...</p>
+			<p>1、rdkit 1 2 3 4 5 6 # conda install -c conda-forge rdkit from rdkit import Chem from rdkit.Chem import MACCSkeys from rdkit import DataStructs from rdkit.Chem import Draw 1.1 指纹编码式 （1）Topological Fingerprints 1 2 3 4 5 6 7 8 m = Chem.MolFromSmiles(&#39;CCOC&#39;) # Chem.MolToSmiles(mol) fp...</p>
 		</section>
 		<footer class="entry-footer">
 
@@ -385,9 +385,9 @@ Create:&nbsp;<span title='2022-04-16 00:00:00 +0000 UTC'>2022-04-16</span>&nbsp;
 
 
 
-Create:&nbsp;<span title='2022-06-18 00:00:00 +0000 UTC'>2022-06-18</span>&nbsp;|&nbsp;Update:&nbsp;2022-06-18&nbsp;|&nbsp;Words:&nbsp;312&nbsp;|&nbsp;1 min&nbsp;|&nbsp;Lishensuo</footer>
+Create:&nbsp;<span title='2023-03-20 00:00:00 +0000 UTC'>2023-03-20</span>&nbsp;|&nbsp;Update:&nbsp;2023-03-20&nbsp;|&nbsp;Words:&nbsp;1070&nbsp;|&nbsp;3 min&nbsp;|&nbsp;Lishensuo</footer>
 	</div>   
-  <a class="entry-link" aria-label="post link to rdkit生成化合物指纹并计算相似度" href="https://lishensuo.github.io/posts/bioinfo/501rdkit%E7%94%9F%E6%88%90%E5%8C%96%E5%90%88%E7%89%A9%E6%8C%87%E7%BA%B9%E5%B9%B6%E8%AE%A1%E7%AE%97%E7%9B%B8%E4%BC%BC%E5%BA%A6/"></a>
+  <a class="entry-link" aria-label="post link to 化合物指纹与描述符生成系列工具" href="https://lishensuo.github.io/posts/bioinfo/501%E5%8C%96%E5%90%88%E7%89%A9%E6%8C%87%E7%BA%B9%E4%B8%8E%E6%8F%8F%E8%BF%B0%E7%AC%A6%E7%94%9F%E6%88%90%E7%B3%BB%E5%88%97%E5%B7%A5%E5%85%B7/"></a>
 </article>
 
 
@@ -429,38 +429,6 @@ Create:&nbsp;<span title='2022-10-09 00:00:00 +0000 UTC'>2022-10-09</span>&nbsp;
 <article class="post-entry">
 	<div class="post-info">  
 		<header class="entry-header">
-			<h2>PaDEL计算化合物的分子指纹与描述符
-			</h2>
-		</header>
-		<section class="entry-content">
-			<p>PaDEL-descriptor工具用于计算化合物的分子指纹(molecular fingerprint)与分子描述符(molecular descriptor) https://github.com/ecrl/padelpy...</p>
-		</section>
-		<footer class="entry-footer">
-
-
-
-
-
-
-
-
-
-
-
-
-
-Create:&nbsp;<span title='2023-02-10 00:00:00 +0000 UTC'>2023-02-10</span>&nbsp;|&nbsp;Update:&nbsp;2023-02-10&nbsp;|&nbsp;Words:&nbsp;616&nbsp;|&nbsp;2 min&nbsp;|&nbsp;Lishensuo</footer>
-	</div>   
-  <a class="entry-link" aria-label="post link to PaDEL计算化合物的分子指纹与描述符" href="https://lishensuo.github.io/posts/bioinfo/503padel%E8%AE%A1%E7%AE%97%E5%8C%96%E5%90%88%E7%89%A9%E7%9A%84%E5%88%86%E5%AD%90%E6%8C%87%E7%BA%B9%E4%B8%8E%E6%8F%8F%E8%BF%B0%E7%AC%A6/"></a>
-</article>
-
-
-
-
-
-<article class="post-entry">
-	<div class="post-info">  
-		<header class="entry-header">
 			<h2>深度学习D2L--01--线性回归
 			</h2>
 		</header>
@@ -484,6 +452,38 @@ Create:&nbsp;<span title='2023-02-10 00:00:00 +0000 UTC'>2023-02-10</span>&nbsp;
 Create:&nbsp;<span title='2022-07-31 00:00:00 +0000 UTC'>2022-07-31</span>&nbsp;|&nbsp;Update:&nbsp;2022-07-31&nbsp;|&nbsp;Words:&nbsp;642&nbsp;|&nbsp;2 min&nbsp;|&nbsp;Lishensuo</footer>
 	</div>   
   <a class="entry-link" aria-label="post link to 深度学习D2L--01--线性回归" href="https://lishensuo.github.io/posts/bioinfo/701%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0d2l--01--%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>深度学习D2L--02--softmax多分类
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>一、从零实现 1 2 3 4 import torch import torchvision from torch.utils import data from torchvision import transforms 1、示例数据 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 ##数据集为fashion_minist，10类...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2022-07-31 00:00:00 +0000 UTC'>2022-07-31</span>&nbsp;|&nbsp;Update:&nbsp;2022-07-31&nbsp;|&nbsp;Words:&nbsp;1277&nbsp;|&nbsp;3 min&nbsp;|&nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 深度学习D2L--02--softmax多分类" href="https://lishensuo.github.io/posts/bioinfo/702%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0d2l--02--softmax%E5%A4%9A%E5%88%86%E7%B1%BB/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
