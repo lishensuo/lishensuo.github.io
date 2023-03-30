@@ -104,8 +104,8 @@
   "keywords": [
     
   ],
-  "articleBody": "1、shell脚本 1.1 脚本执行   （1）命令行直接执行\n如下示例：脚本第一行设置脚本解释器的路径，如写错或没写，系统会调用默认解释器执行。然后在运行脚本时，需要先赋予可执行权限。（下同）\n  1 2 3 4 5 6 7 8  cat  test.sh #!/bin/bash echo \"Hello World!\"   chmod u+x test.sh ./test.sh # Hello World!    （2）bash命令执行  1 2 3 4 5 6  cat  test.sh echo \"Hello World!\"   bash ./test.sh # Hello World!   1.2 脚本传参  $0 脚本名 $1 第一个参数 $2 第二个参数… $@ 全部参数 $# 输入参数个数  1 2 3 4 5 6  cat  plus.sh num1=$1 num2=$2 echo \"${num1}+${num2}\" | bc  bash ./plus.sh 1 2   2、python脚本 2.1 脚本执行  （1）命令行直接执行  1 2 3 4 5 6 7  cat  test.py #!/usr/bin/python print(\"Hello World!\")   chmod u+x test.py ./test.py    （2）python命令执行  1 2 3 4 5  cat  test.py print(\"Hello world\")   python test.py   2.2 脚本传参  一般使用sys模块传参,储存在sys.argv列表里，第0个元素表示脚本名，第一个元素表示第一个参数..  1 2 3 4 5 6 7  cat  test.py import sys num1 = sys.argv[1] num2 = sys.argv[2] print(int(num1) + int(num2))  python test.py 1 2   3、R脚本 3.1 脚本执行  （1）命令行直接执行  1 2 3 4 5 6 7  cat  test.r #!/usr/bin/Rscript print(\"Hello world\")   chmod u+x test.r ./test.r    （2）Rscript命令执行  1 2 3 4 5  cat  test.r print(\"Hello world\")   Rscript test.r   3.2 脚本传参  使用commandArgs()函数传参  1 2 3 4 5 6 7  cat  test.r args num1=args[1] num2=args[2] print(as.numeric(num1)+as.numeric(num2))  Rscript test.r 1 2   ",
-  "wordCount" : "457",
+  "articleBody": "1、shell脚本 1.1 脚本执行   （1）命令行直接执行\n如下示例：脚本第一行设置脚本解释器的路径，如写错或没写，系统会调用默认解释器执行。然后在运行脚本时，需要先赋予可执行权限。（下同）\n  1 2 3 4 5 6 7 8  cat  test.sh #!/bin/bash echo \"Hello World!\"   chmod u+x test.sh ./test.sh # Hello World!    （2）bash命令执行  1 2 3 4 5 6  cat  test.sh echo \"Hello World!\"   bash ./test.sh # Hello World!   1.2 脚本传参  $0 脚本名 $1 第一个参数 $2 第二个参数… $@ 全部参数 $# 输入参数个数  1 2 3 4 5 6  cat  plus.sh num1=$1 num2=$2 echo \"${num1}+${num2}\" | bc  bash ./plus.sh 1 2   2、python脚本 2.1 脚本执行  （1）命令行直接执行  1 2 3 4 5 6 7  cat  test.py #!/usr/bin/python print(\"Hello World!\")   chmod u+x test.py ./test.py    （2）python命令执行  1 2 3 4 5  cat  test.py print(\"Hello world\")   python test.py   2.2 脚本传参  一般使用sys模块传参,储存在sys.argv列表里，第0个元素表示脚本名，第一个元素表示第一个参数..  1 2 3 4 5 6 7  cat  test.py import sys num1 = sys.argv[1] num2 = sys.argv[2] print(int(num1) + int(num2))  python test.py 1 2   3、R脚本 3.1 脚本执行  （1）命令行直接执行  1 2 3 4 5 6 7  cat  test.r #!/usr/bin/Rscript print(\"Hello world\")   chmod u+x test.r ./test.r    （2）Rscript命令执行  1 2 3 4 5  cat  test.r print(\"Hello world\")   Rscript test.r   3.2 脚本传参  使用commandArgs()函数传参  1 2 3 4 5 6 7  cat  test.r args num1=args[1] num2=args[2] print(as.numeric(num1)+as.numeric(num2))  Rscript test.r 1 2    nohup后台运行，以python脚本为例：\n1  nohup python drug_fp.py 1 ./drug_fp.log 2\u00261 \u0026    ",
+  "wordCount" : "487",
   "inLanguage": "en",
   "datePublished": "2023-03-25T00:00:00Z",
   "dateModified": "2023-03-25T00:00:00Z",
@@ -225,7 +225,7 @@
 
 
 
-Create:&nbsp;<span title='2023-03-25 00:00:00 +0000 UTC'>2023-03-25</span>&nbsp;|&nbsp;Update:&nbsp;2023-03-25&nbsp;|&nbsp;Words:&nbsp;457&nbsp;|&nbsp;1 min&nbsp;|&nbsp;Lishensuo
+Create:&nbsp;<span title='2023-03-25 00:00:00 +0000 UTC'>2023-03-25</span>&nbsp;|&nbsp;Update:&nbsp;2023-03-25&nbsp;|&nbsp;Words:&nbsp;487&nbsp;|&nbsp;1 min&nbsp;|&nbsp;Lishensuo
 
 |  Viewers: <span id="busuanzi_value_page_pv"></span> 
 	  
@@ -549,7 +549,18 @@ Create:&nbsp;<span title='2023-03-25 00:00:00 +0000 UTC'>2023-03-25</span>&nbsp;
 </span></span><span style="display:flex;"><span>Rscript test.r <span style="color:#ff0;font-weight:bold">1</span> <span style="color:#ff0;font-weight:bold">2</span>
 </span></span></code></pre></td></tr></table>
 </div>
+</div><blockquote>
+<p>nohup后台运行，以python脚本为例：</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>nohup python drug_fp.py 1&gt; ./drug_fp.log 2&gt;&amp;<span style="color:#ff0;font-weight:bold">1</span> &amp;
+</span></span></code></pre></td></tr></table>
 </div>
+</div></blockquote>
+
 
   </div>
 
