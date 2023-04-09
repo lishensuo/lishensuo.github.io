@@ -6,7 +6,7 @@
     <description>Recent content on Li&#39;s Bioinfo-Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 02 Apr 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://lishensuo.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 09 Apr 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://lishensuo.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>统计学基础--统计描述指标与常见统计分布</title>
       <link>https://lishensuo.github.io/posts/basic/001%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%9F%BA%E7%A1%80--%E7%BB%9F%E8%AE%A1%E6%8F%8F%E8%BF%B0%E6%8C%87%E6%A0%87%E4%B8%8E%E5%B8%B8%E8%A7%81%E7%BB%9F%E8%AE%A1%E5%88%86%E5%B8%83/</link>
@@ -662,6 +662,15 @@
       
       <guid>https://lishensuo.github.io/posts/bioinfo/075%E7%94%9F%E4%BF%A1%E7%9B%B8%E5%85%B3%E7%BD%91%E7%AB%99%E6%95%B0%E6%8D%AE%E5%BA%93%E9%9B%86%E9%94%A6/</guid>
       <description>1、HPA HPA：the Human Protein Atlas，由2003年来自瑞典的科研机构发起，旨在绘制综合性人类蛋白质图谱。 https://www.proteinatlas.org/ 蛋白质表达数据库，常见用途包括：</description>
+    </item>
+    
+    <item>
+      <title>TCGA的SNV数据下载与maftools可视化</title>
+      <link>https://lishensuo.github.io/posts/bioinfo/076tcga%E7%9A%84snv%E6%95%B0%E6%8D%AE%E4%B8%8B%E8%BD%BD%E4%B8%8Emaftools%E5%8F%AF%E8%A7%86%E5%8C%96/</link>
+      <pubDate>Sun, 09 Apr 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/posts/bioinfo/076tcga%E7%9A%84snv%E6%95%B0%E6%8D%AE%E4%B8%8B%E8%BD%BD%E4%B8%8Emaftools%E5%8F%AF%E8%A7%86%E5%8C%96/</guid>
+      <description>1、TCGAbiolinks下载数据 使用TCGAbiolinks下载特定肿瘤类型的SNV数据 https://bioconductor.org/packages/release/bioc/vignettes/TCGAbiolinks/inst/doc/mutation.html 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23</description>
     </item>
     
     <item>
@@ -1328,6 +1337,15 @@
       
       <guid>https://lishensuo.github.io/posts/program/224r-%E5%8F%AF%E8%A7%86%E5%8C%96--corrplot%E7%9B%B8%E5%85%B3%E6%80%A7%E7%BB%98%E5%9B%BE/</guid>
       <description>1 2 3 4 5 6 # install.packages(&amp;#34;corrplot&amp;#34;) library(corrplot) # 计算相关性矩阵 M&amp;lt;-cor(mtcars) dim(M) # [1] 11 11 1、可视化R系数方式 method参数提供了如下6种可视化方式 circle(default), square, ellipse, number, shade, color, pie 1 corrplot(M, method=&amp;#34;ellipse&amp;#34;) 2、对称布局方</description>
+    </item>
+    
+    <item>
+      <title>R-可视化--ggplot绘制散点图添加边际图</title>
+      <link>https://lishensuo.github.io/posts/program/225r-%E5%8F%AF%E8%A7%86%E5%8C%96--ggplot%E7%BB%98%E5%88%B6%E6%95%A3%E7%82%B9%E5%9B%BE%E6%B7%BB%E5%8A%A0%E8%BE%B9%E9%99%85%E5%9B%BE/</link>
+      <pubDate>Sun, 09 Apr 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/posts/program/225r-%E5%8F%AF%E8%A7%86%E5%8C%96--ggplot%E7%BB%98%E5%88%B6%E6%95%A3%E7%82%B9%E5%9B%BE%E6%B7%BB%E5%8A%A0%E8%BE%B9%E9%99%85%E5%9B%BE/</guid>
+      <description>示例数据 1 2 3 4 5 6 7 8 9 10 11 12 data(&amp;#34;mtcars&amp;#34;) df &amp;lt;- mtcars df$name &amp;lt;- rownames(df) df$cyl &amp;lt;- as.factor(df$cyl) head(df[,c(&amp;#34;name&amp;#34;,&amp;#34;cyl&amp;#34;,&amp;#34;mpg&amp;#34;,&amp;#34;wt&amp;#34;)]) # name cyl mpg wt # Mazda RX4 Mazda RX4 6 21.0 2.620 # Mazda RX4 Wag Mazda RX4 Wag 6 21.0 2.875 # Datsun 710 Datsun 710 4 22.8 2.320 # Hornet 4 Drive Hornet 4 Drive 6 21.4 3.215 # Hornet</description>
     </item>
     
     <item>
