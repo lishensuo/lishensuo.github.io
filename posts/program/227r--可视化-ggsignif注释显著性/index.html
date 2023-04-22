@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>R--可视化-ggsignif注释显著性 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="R可视化">
+<meta name="description" content="Github tutorial：https://github.com/const-ae/ggsignif 1 2 library(ggplot2) library(ggsignif) 1、comparisons设置分组，计算">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/posts/program/227r--%E5%8F%AF%E8%A7%86%E5%8C%96-ggsignif%E6%B3%A8%E9%87%8A%E6%98%BE%E8%91%97%E6%80%A7/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.1abf8254c205953f8beb228727a5e0a5541f0bc42f68f2762e2e594e7b213985.css" integrity="sha256-Gr&#43;CVMIFlT&#43;L6yKHJ6XgpVQfC8QvaPJ2Li5ZTnshOYU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.4dcb3c4f38462f66c6b6137227726f5543cb934cca9788f041c087e374491df2.js" integrity="sha256-Tcs8TzhGL2bGthNyJ3JvVUPLk0zKl4jwQcCH43RJHfI="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="R--可视化-ggsignif注释显著性" />
+<meta property="og:description" content="Github tutorial：https://github.com/const-ae/ggsignif 1 2 library(ggplot2) library(ggsignif) 1、comparisons设置分组，计算" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/posts/program/227r--%E5%8F%AF%E8%A7%86%E5%8C%96-ggsignif%E6%B3%A8%E9%87%8A%E6%98%BE%E8%91%97%E6%80%A7/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-04-22T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2023-04-22T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="R--可视化-ggsignif注释显著性"/>
+<meta name="twitter:description" content="Github tutorial：https://github.com/const-ae/ggsignif 1 2 library(ggplot2) library(ggsignif) 1、comparisons设置分组，计算"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "📖 R\u0026Python\u0026Shell --- 编程基础、可视化等",
+      "item": "https://lishensuo.github.io/posts/program/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "R--可视化-ggsignif注释显著性",
+      "item": "https://lishensuo.github.io/posts/program/227r--%E5%8F%AF%E8%A7%86%E5%8C%96-ggsignif%E6%B3%A8%E9%87%8A%E6%98%BE%E8%91%97%E6%80%A7/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "R--可视化-ggsignif注释显著性",
+  "name": "R--可视化-ggsignif注释显著性",
+  "description": "Github tutorial：https://github.com/const-ae/ggsignif 1 2 library(ggplot2) library(ggsignif) 1、comparisons设置分组，计算",
+  "keywords": [
+    "R可视化"
+  ],
+  "articleBody": " Github tutorial：https://github.com/const-ae/ggsignif\n 1 2  library(ggplot2) library(ggsignif)    1、comparisons设置分组，计算并标注P值  1 2 3 4 5 6 7 8 9 10 11 12 13 14  ggplot(mpg, aes(class, hwy)) +  geom_boxplot() +  geom_signif(  comparisons = list(c(\"compact\", \"midsize\"),  c(\"minivan\", \"suv\")),  map_signif_level = TRUE, textsize = 6,  test = \"t.test\", # c(\"wilcox.test\",\"t.test\")  vjust = -0.5 # 标签相对位置  ) +  ylim(NA, 48)  # map_signif_level： 将P值映射为等级 # test： 设置差异分析方法 # size、textsize分别设置线与标签的颜色    annotation直接交代P值/标签，手动设置  1 2 3 4 5 6 7 8 9 10 11 12 13  anno  iris$Sepal.Width[iris$Species==\"versicolor\"],  iris$Sepal.Width[iris$Species == \"virginica\"] )$p.value # [1] 0.001819483  ggplot(iris, aes(x = Species, y = Sepal.Width, fill = Species)) +  geom_boxplot(position = \"dodge\") +  geom_signif(  annotation = c(formatC(anno, digits = 1),\"***\"),  y_position = c(4, 4.5), xmin = c(2,1), xmax = c(3,2), # 位置  tip_length = 0.02,  )    混合叠加多次注释  1 2 3 4 5 6 7 8 9 10 11  ggplot(dat, aes(Group, Value)) +  geom_bar(aes(fill = Sub), stat = \"identity\", position = \"dodge\", width = .5) +  geom_signif(  y_position = c(5.3, 8.3), xmin = c(0.8, 1.8), xmax = c(1.2, 2.2),  annotation = c(\"**\", \"NS\"), tip_length = 0  ) +  geom_signif(  comparisons = list(c(\"S1\", \"S2\")),  y_position = 9.3, tip_length = 0, vjust = 0.2  ) +  scale_fill_manual(values = c(\"grey80\", \"grey20\"))   ",
+  "wordCount" : "357",
+  "inLanguage": "en",
+  "datePublished": "2023-04-22T00:00:00Z",
+  "dateModified": "2023-04-22T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/posts/program/227r--%E5%8F%AF%E8%A7%86%E5%8C%96-ggsignif%E6%B3%A8%E9%87%8A%E6%98%BE%E8%91%97%E6%80%A7/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/posts/program/">📖 R&amp;Python&amp;Shell --- 编程基础、可视化等</a></div>
+    <h1 class="post-title">
+      R--可视化-ggsignif注释显著性
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2023-04-22 00:00:00 +0000 UTC'>2023-04-22</span>&nbsp;|&nbsp;Update:&nbsp;2023-04-22&nbsp;|&nbsp;Words:&nbsp;357&nbsp;|&nbsp;1 min&nbsp;|&nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> 
+
+
+  <div class="post-content"><blockquote>
+<p>Github tutorial：https://github.com/const-ae/ggsignif</p>
+</blockquote>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>library(ggplot2)
+</span></span><span style="display:flex;"><span>library(ggsignif)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>1、<code>comparisons</code>设置分组，计算并标注P值</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>ggplot(mpg, aes(class, hwy)) +
+</span></span><span style="display:flex;"><span>  geom_boxplot() +
+</span></span><span style="display:flex;"><span>  geom_signif(
+</span></span><span style="display:flex;"><span>    comparisons = list(c(<span style="color:#0ff;font-weight:bold">&#34;compact&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;midsize&#34;</span>), 
+</span></span><span style="display:flex;"><span>    				   c(<span style="color:#0ff;font-weight:bold">&#34;minivan&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;suv&#34;</span>)),
+</span></span><span style="display:flex;"><span>    map_signif_level = <span style="color:#fff;font-weight:bold">TRUE</span>, textsize = <span style="color:#ff0;font-weight:bold">6</span>,
+</span></span><span style="display:flex;"><span>    test = <span style="color:#0ff;font-weight:bold">&#34;t.test&#34;</span>,  <span style="color:#007f7f"># c(&#34;wilcox.test&#34;,&#34;t.test&#34;)</span>
+</span></span><span style="display:flex;"><span>    vjust = <span style="color:#ff0;font-weight:bold">-0.5</span> <span style="color:#007f7f"># 标签相对位置</span>
+</span></span><span style="display:flex;"><span>  ) +
+</span></span><span style="display:flex;"><span>  ylim(<span style="color:#fff;font-weight:bold">NA</span>, <span style="color:#ff0;font-weight:bold">48</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># map_signif_level： 将P值映射为等级</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># test： 设置差异分析方法</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># size、textsize分别设置线与标签的颜色</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230422092438688.png" alt="image-20230422092438688" style="zoom:50%;" />
+<ul>
+<li><code>annotation</code>直接交代P值/标签，手动设置</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>anno &lt;- t.test(
+</span></span><span style="display:flex;"><span>  iris$Sepal.Width[iris$Species==<span style="color:#0ff;font-weight:bold">&#34;versicolor&#34;</span>],
+</span></span><span style="display:flex;"><span>  iris$Sepal.Width[iris$Species == <span style="color:#0ff;font-weight:bold">&#34;virginica&#34;</span>]
+</span></span><span style="display:flex;"><span>)$p.value
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] 0.001819483</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ggplot(iris, aes(x = Species, y = Sepal.Width, fill = Species)) +
+</span></span><span style="display:flex;"><span>  geom_boxplot(position = <span style="color:#0ff;font-weight:bold">&#34;dodge&#34;</span>) +
+</span></span><span style="display:flex;"><span>  geom_signif(
+</span></span><span style="display:flex;"><span>    annotation = c(formatC(anno, digits = <span style="color:#ff0;font-weight:bold">1</span>),<span style="color:#0ff;font-weight:bold">&#34;***&#34;</span>),
+</span></span><span style="display:flex;"><span>    y_position = c(<span style="color:#ff0;font-weight:bold">4</span>, <span style="color:#ff0;font-weight:bold">4.5</span>), xmin = c(<span style="color:#ff0;font-weight:bold">2</span>,<span style="color:#ff0;font-weight:bold">1</span>), xmax = c(<span style="color:#ff0;font-weight:bold">3</span>,<span style="color:#ff0;font-weight:bold">2</span>), <span style="color:#007f7f"># 位置</span>
+</span></span><span style="display:flex;"><span>    tip_length = <span style="color:#ff0;font-weight:bold">0.02</span>,
+</span></span><span style="display:flex;"><span>  )
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230422092724964.png" alt="image-20230422092724964" style="zoom: 67%;" />
+<ul>
+<li>混合叠加多次注释</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>ggplot(dat, aes(Group, Value)) +
+</span></span><span style="display:flex;"><span>  geom_bar(aes(fill = Sub), stat = <span style="color:#0ff;font-weight:bold">&#34;identity&#34;</span>, position = <span style="color:#0ff;font-weight:bold">&#34;dodge&#34;</span>, width = <span style="color:#ff0;font-weight:bold">.5</span>) +
+</span></span><span style="display:flex;"><span>  geom_signif(
+</span></span><span style="display:flex;"><span>    y_position = c(<span style="color:#ff0;font-weight:bold">5.3</span>, <span style="color:#ff0;font-weight:bold">8.3</span>), xmin = c(<span style="color:#ff0;font-weight:bold">0.8</span>, <span style="color:#ff0;font-weight:bold">1.8</span>), xmax = c(<span style="color:#ff0;font-weight:bold">1.2</span>, <span style="color:#ff0;font-weight:bold">2.2</span>),
+</span></span><span style="display:flex;"><span>    annotation = c(<span style="color:#0ff;font-weight:bold">&#34;**&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;NS&#34;</span>), tip_length = <span style="color:#ff0;font-weight:bold">0</span>
+</span></span><span style="display:flex;"><span>  ) +
+</span></span><span style="display:flex;"><span>  geom_signif(
+</span></span><span style="display:flex;"><span>    comparisons = list(c(<span style="color:#0ff;font-weight:bold">&#34;S1&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;S2&#34;</span>)),
+</span></span><span style="display:flex;"><span>    y_position = <span style="color:#ff0;font-weight:bold">9.3</span>, tip_length = <span style="color:#ff0;font-weight:bold">0</span>, vjust = <span style="color:#ff0;font-weight:bold">0.2</span>
+</span></span><span style="display:flex;"><span>  ) +
+</span></span><span style="display:flex;"><span>  scale_fill_manual(values = c(<span style="color:#0ff;font-weight:bold">&#34;grey80&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;grey20&#34;</span>))
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230422093043189.png" alt="image-20230422093043189" style="zoom: 67%;" />
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/tags/r%E5%8F%AF%E8%A7%86%E5%8C%96/">R可视化</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/posts/program/226r--%E5%8F%AF%E8%A7%86%E5%8C%96-ggbeeswarm%E7%BB%98%E5%88%B6%E8%9C%82%E7%BE%A4%E5%9B%BE/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>R--可视化-ggbeeswarm绘制蜂群图</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/posts/program/250r%E8%AF%AD%E8%A8%80rselenium%E7%88%AC%E8%99%AB/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>R语言RSelenium爬虫.md</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://lishensuo.github.io">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>
