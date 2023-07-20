@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>ChemmineR处理化合物信息的基础工具R包 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="药物化合物">
+<meta name="description" content="ChemmineR是使用R语言实现化合物基础操作的工具包，现根据其官方文档学习其主要用法如下： https://www.bioconductor.org/packages/release/bioc/vignettes/ChemmineR/inst/doc/ChemmineR.html 1 2 3 4 5 6 if (!requireNamespace(&#34;BiocManager&#34;, quietly=TRUE)) install.packages(&#34;BiocManager&#34;) BiocManager::install(&#34;ChemmineR&#34;) library(&#34;ChemmineR&#34;) # library(&#34;ChemmineOB&#34;) 1. SDFset格">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/posts/bioinfo/503chemminer%E5%A4%84%E7%90%86%E5%8C%96%E5%90%88%E7%89%A9%E4%BF%A1%E6%81%AF%E7%9A%84%E5%9F%BA%E7%A1%80%E5%B7%A5%E5%85%B7r%E5%8C%85/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.1abf8254c205953f8beb228727a5e0a5541f0bc42f68f2762e2e594e7b213985.css" integrity="sha256-Gr&#43;CVMIFlT&#43;L6yKHJ6XgpVQfC8QvaPJ2Li5ZTnshOYU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.4dcb3c4f38462f66c6b6137227726f5543cb934cca9788f041c087e374491df2.js" integrity="sha256-Tcs8TzhGL2bGthNyJ3JvVUPLk0zKl4jwQcCH43RJHfI="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="ChemmineR处理化合物信息的基础工具R包" />
+<meta property="og:description" content="ChemmineR是使用R语言实现化合物基础操作的工具包，现根据其官方文档学习其主要用法如下： https://www.bioconductor.org/packages/release/bioc/vignettes/ChemmineR/inst/doc/ChemmineR.html 1 2 3 4 5 6 if (!requireNamespace(&#34;BiocManager&#34;, quietly=TRUE)) install.packages(&#34;BiocManager&#34;) BiocManager::install(&#34;ChemmineR&#34;) library(&#34;ChemmineR&#34;) # library(&#34;ChemmineOB&#34;) 1. SDFset格" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/posts/bioinfo/503chemminer%E5%A4%84%E7%90%86%E5%8C%96%E5%90%88%E7%89%A9%E4%BF%A1%E6%81%AF%E7%9A%84%E5%9F%BA%E7%A1%80%E5%B7%A5%E5%85%B7r%E5%8C%85/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-07-20T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2022-07-20T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="ChemmineR处理化合物信息的基础工具R包"/>
+<meta name="twitter:description" content="ChemmineR是使用R语言实现化合物基础操作的工具包，现根据其官方文档学习其主要用法如下： https://www.bioconductor.org/packages/release/bioc/vignettes/ChemmineR/inst/doc/ChemmineR.html 1 2 3 4 5 6 if (!requireNamespace(&#34;BiocManager&#34;, quietly=TRUE)) install.packages(&#34;BiocManager&#34;) BiocManager::install(&#34;ChemmineR&#34;) library(&#34;ChemmineR&#34;) # library(&#34;ChemmineOB&#34;) 1. SDFset格"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "📖 生信数据分析--分析流程，工具包等",
+      "item": "https://lishensuo.github.io/posts/bioinfo/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "ChemmineR处理化合物信息的基础工具R包",
+      "item": "https://lishensuo.github.io/posts/bioinfo/503chemminer%E5%A4%84%E7%90%86%E5%8C%96%E5%90%88%E7%89%A9%E4%BF%A1%E6%81%AF%E7%9A%84%E5%9F%BA%E7%A1%80%E5%B7%A5%E5%85%B7r%E5%8C%85/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "ChemmineR处理化合物信息的基础工具R包",
+  "name": "ChemmineR处理化合物信息的基础工具R包",
+  "description": "ChemmineR是使用R语言实现化合物基础操作的工具包，现根据其官方文档学习其主要用法如下： https://www.bioconductor.org/packages/release/bioc/vignettes/ChemmineR/inst/doc/ChemmineR.html 1 2 3 4 5 6 if (!requireNamespace(\u0026#34;BiocManager\u0026#34;, quietly=TRUE)) install.packages(\u0026#34;BiocManager\u0026#34;) BiocManager::install(\u0026#34;ChemmineR\u0026#34;) library(\u0026#34;ChemmineR\u0026#34;) # library(\u0026#34;ChemmineOB\u0026#34;) 1. SDFset格",
+  "keywords": [
+    "药物化合物"
+  ],
+  "articleBody": " ChemmineR是使用R语言实现化合物基础操作的工具包，现根据其官方文档学习其主要用法如下：\n https://www.bioconductor.org/packages/release/bioc/vignettes/ChemmineR/inst/doc/ChemmineR.html   1 2 3 4 5 6  if (!requireNamespace(\"BiocManager\", quietly=TRUE))  install.packages(\"BiocManager\") BiocManager::install(\"ChemmineR\")  library(\"ChemmineR\") # library(\"ChemmineOB\")   1. SDFset格式  ChemmineR基础操作是围绕SDFset对象展开的，其表示多个SDF格式的化合物集合  1 2 3 4 5 6 7 8 9  data(sdfsample) sdfset = sdfsample # valid # sdfset  class(sdfset) # SDFset length(sdfset) # 100 c(sdfset[1:4], sdfset[5:8]) # 合并 sdfset[1:4] # 子集    每个SDFset集合是由单个SDF对象组成的，主要由4部分构成     1 2 3 4 5 6 7 8 9 10 11 12 13 14 15  sdfset[[1]] as(sdfset[[1]], \"list\")  ## ID cid(sdfset[1:2]) # slot ID sdfid(sdfset[1:2]) # header ID cid(sdfset) = sdfid(sdfset)  ## Component header(sdfset[[1]]) # character atomblock(sdfset[[1]]) # matrix bondblock(sdfset[[1]]) # matrix datablock(sdfset[[1]]) # character  blockmatrix = datablock2ma(datablock(sdfset[1:2]))    补充：ChemmineR提供一些函数可计算化合物的基本属性信息，例如分子量等。此外ChemmineOB也可以实现类似功能。\n1 2 3 4 5 6 7 8 9 10 11 12 13  ## ChemmineR propma FALSE), MW=MW(sdfset, addH=FALSE),  Ncharges=sapply(bonds(sdfset, type=\"charge\"), length),  atomcountMA(sdfset, addH=FALSE),  groups(sdfset, type=\"countMA\"),  rings(sdfset, upper=6, type=\"count\", arom=TRUE)) ## based on ChemmineOB propma = propOB(sdfset[1]) colnames(propma) # [1] \"cansmi\" \"cansmiNS\" \"formula\" \"title\" \"InChI\" \"HBA1\" \"HBA2\"  # [8] \"HBD\" \"logP\" \"MR\" \"MW\" \"nF\" \"TPSA\"  # datablock(sdfset)    2. 格式转换（smi）  SDFset → SMIset  1 2 3  smiles 2]) class(smiles) cid(smiles)    SMIset → smiles string  1  as.character(smiles)    smiles string → SMIset/SDFset  1 2 3  sdf \"CC(=O)OC1=CC=CC=C1C(=O)O\")  as(as.character(smiles), \"SMIset\")    此外ChemmineOB支持更多化合物格式间的转换  1 2 3 4 5 6 7 8 9  ## R object convertFormat(\"smi\",\"sdf\",\"CC(=O)OC1=CC=CC=C1C(=O)O\") convertFormat(\"smi\",\"mol2\",\"CC(=O)OC1=CC=CC=C1C(=O)O\")  ## File ## 将smi文件(第一列smi，第二列optional ID)转换为sdf文件 convertFormatFile(\"smi\",\"sdf\",\"example.smi\",\"example.sdf\")  # 可参见obabel的笔记了解其支持的全部格式   3. 导出与读入  SDF  1 2 3 4 5 6 7 8 9 10 11 12  # 一般导出 write.SDF(sdfset[1:4], file=\"sub.sdf\")  # 分批导出 write.SDFsplit(x=sdfstr, filetag=\"myfile\", nmol=10)  # 对于大量分子，可保存为二进制rda，减少文件大小 save(sdfstr, file=\"sdfstr.rda\")   # 读入为SDFset subsdfset \"sub.sdf\")    SMI  1 2 3 4 5  data(smisample) smiset write.SMI(smiset[1:4], file=\"sub.smi\")  smiset \"sub.smi\")   4. AP/FP特征  AP表示原子对特征(Atom Pair Descriptors)。APset 表示若干化合物的AP特征集合  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17  sdfset = sdfsample  ap # single apset # many(common)  ## 计算特定两两相似度 cmp.similarity(apset[1],apset[2]) # [1] 0.2637037  ## 批量计算 cmp.search(apset,apset[1], type=3, cutoff = 0.3, quiet=TRUE) # index cid scores # 1 1 CMP1 1.0000000 # 2 96 CMP96 0.3516643 # 3 67 CMP67 0.3117569 # 4 88 CMP88 0.3094629 # 5 15 CMP15 0.3010753    FP表示指纹编码特征(Fingerprints)。FPset表示若干化合物的FP特征集合。  （1）ChemmineR内置了一种根据APset计算FP的函数\n1 2 3 4 5  ?desc2fp  fpset 1024, type=\"FPset\") fpma 512, type=\"matrix\") fpch 64, type=\"character\")   （2）ChemmineOB支持计算化合物的ECFP、SMARTs等指纹类型(详见obabel笔记)\n1 2  fpset \"FP2\") fpset \"ECFP10\")   （3）计算化合物间FP的相似度\n1  fpSim(fpset[1], fpset, method=\"Tanimoto\")   5. Pubchem接口  fingerprintR提供简单的pubchem api调用，用于特征场景的查询  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15  # (1) PID → SDFset sdfset_01 111,123))  # (2) inchikeys → SDFset inchikeys \"ZFUYDSOHVJVQNB-FZERPYLPSA-N\", \"KONGRWVLXLWGDV-BYGOPZEFSA-N\", \"AANKDJLVHZQCFG-WLIQWNBFSA-N\", \"SNFRINMTRPQQLE-JQWAAABSSA-N\" ) inchikey_query  sdfset_02 = inchikey_query$sdf_set sdfid(sdfset_02) # [1] \"162880185\" \"11276107\" \"442060\"   ",
+  "wordCount" : "1052",
+  "inLanguage": "en",
+  "datePublished": "2023-07-20T00:00:00Z",
+  "dateModified": "2022-07-20T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/posts/bioinfo/503chemminer%E5%A4%84%E7%90%86%E5%8C%96%E5%90%88%E7%89%A9%E4%BF%A1%E6%81%AF%E7%9A%84%E5%9F%BA%E7%A1%80%E5%B7%A5%E5%85%B7r%E5%8C%85/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/posts/bioinfo/">📖 生信数据分析--分析流程，工具包等</a></div>
+    <h1 class="post-title">
+      ChemmineR处理化合物信息的基础工具R包
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2023-07-20 00:00:00 +0000 UTC'>2023-07-20</span>&nbsp;|&nbsp;Update:&nbsp;2022-07-20&nbsp;|&nbsp;Words:&nbsp;1052&nbsp;|&nbsp;3 min&nbsp;|&nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#1-sdfset%e6%a0%bc%e5%bc%8f" aria-label="1. SDFset格式">1. SDFset格式</a></li>
+                    <li>
+                        <a href="#2-%e6%a0%bc%e5%bc%8f%e8%bd%ac%e6%8d%a2smi" aria-label="2. 格式转换（smi）">2. 格式转换（smi）</a></li>
+                    <li>
+                        <a href="#3-%e5%af%bc%e5%87%ba%e4%b8%8e%e8%af%bb%e5%85%a5" aria-label="3. 导出与读入">3. 导出与读入</a></li>
+                    <li>
+                        <a href="#4-apfp%e7%89%b9%e5%be%81" aria-label="4. AP/FP特征">4. AP/FP特征</a></li>
+                    <li>
+                        <a href="#5-pubchem%e6%8e%a5%e5%8f%a3" aria-label="5. Pubchem接口">5. Pubchem接口</a>
+                    </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><blockquote>
+<p>ChemmineR是使用R语言实现化合物基础操作的工具包，现根据其官方文档学习其主要用法如下：</p>
+<ul>
+<li><a href="https://www.bioconductor.org/packages/release/bioc/vignettes/ChemmineR/inst/doc/ChemmineR.html">https://www.bioconductor.org/packages/release/bioc/vignettes/ChemmineR/inst/doc/ChemmineR.html</a></li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230720110642101.png" alt="image-20230720110642101" style="zoom:50%;" />
+</blockquote>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>if (!requireNamespace(<span style="color:#0ff;font-weight:bold">&#34;BiocManager&#34;</span>, quietly=<span style="color:#fff;font-weight:bold">TRUE</span>))
+</span></span><span style="display:flex;"><span>    install.packages(<span style="color:#0ff;font-weight:bold">&#34;BiocManager&#34;</span>)
+</span></span><span style="display:flex;"><span>BiocManager::install(<span style="color:#0ff;font-weight:bold">&#34;ChemmineR&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>library(<span style="color:#0ff;font-weight:bold">&#34;ChemmineR&#34;</span>) 
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># library(&#34;ChemmineOB&#34;)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="1-sdfset格式">1. SDFset格式<a hidden class="anchor" aria-hidden="true" href="#1-sdfset格式">#</a></h2>
+<ul>
+<li>ChemmineR基础操作是围绕SDFset对象展开的，其表示多个SDF格式的化合物集合</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>data(sdfsample)
+</span></span><span style="display:flex;"><span>sdfset = sdfsample
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># valid &lt;- validSDF(sdfset)</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># sdfset &lt;- sdfset[valid]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>class(sdfset)  <span style="color:#007f7f"># SDFset</span>
+</span></span><span style="display:flex;"><span>length(sdfset) <span style="color:#007f7f"># 100</span>
+</span></span><span style="display:flex;"><span>c(sdfset[1:<span style="color:#ff0;font-weight:bold">4</span>], sdfset[5:<span style="color:#ff0;font-weight:bold">8</span>]) <span style="color:#007f7f"># 合并</span>
+</span></span><span style="display:flex;"><span>sdfset[1:<span style="color:#ff0;font-weight:bold">4</span>]    <span style="color:#007f7f"># 子集</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>每个SDFset集合是由单个SDF对象组成的，主要由4部分构成
+<ul>
+<li>&lt;&lt;header&raquo; : 化合物id等基本信息</li>
+<li>&lt;&lt;atomblock&raquo; : 原子信息，&lt;&lt;bondblock&raquo;:  键信息</li>
+<li>&lt;&lt;datablock&raquo; : 化合物的属性/其它注释信息</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>sdfset[[1]]
+</span></span><span style="display:flex;"><span>as(sdfset[[1]], <span style="color:#0ff;font-weight:bold">&#34;list&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## ID</span>
+</span></span><span style="display:flex;"><span>cid(sdfset[1:<span style="color:#ff0;font-weight:bold">2</span>])       <span style="color:#007f7f"># slot ID</span>
+</span></span><span style="display:flex;"><span>sdfid(sdfset[1:<span style="color:#ff0;font-weight:bold">2</span>])     <span style="color:#007f7f"># header ID</span>
+</span></span><span style="display:flex;"><span>cid(sdfset) =  sdfid(sdfset)  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## Component</span>
+</span></span><span style="display:flex;"><span>header(sdfset[[1]])    <span style="color:#007f7f"># character</span>
+</span></span><span style="display:flex;"><span>atomblock(sdfset[[1]]) <span style="color:#007f7f"># matrix</span>
+</span></span><span style="display:flex;"><span>bondblock(sdfset[[1]]) <span style="color:#007f7f"># matrix</span>
+</span></span><span style="display:flex;"><span>datablock(sdfset[[1]]) <span style="color:#007f7f"># character</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>blockmatrix = datablock2ma(datablock(sdfset[1:<span style="color:#ff0;font-weight:bold">2</span>])) 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>补充：ChemmineR提供一些函数可计算化合物的基本属性信息，例如分子量等。此外ChemmineOB也可以实现类似功能。</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">## ChemmineR</span>
+</span></span><span style="display:flex;"><span>propma &lt;- data.frame(MF=MF(sdfset, addH=<span style="color:#fff;font-weight:bold">FALSE</span>), MW=MW(sdfset, addH=<span style="color:#fff;font-weight:bold">FALSE</span>),
+</span></span><span style="display:flex;"><span>                     Ncharges=sapply(bonds(sdfset, type=<span style="color:#0ff;font-weight:bold">&#34;charge&#34;</span>), length),
+</span></span><span style="display:flex;"><span>                     atomcountMA(sdfset, addH=<span style="color:#fff;font-weight:bold">FALSE</span>), 
+</span></span><span style="display:flex;"><span>                     groups(sdfset, type=<span style="color:#0ff;font-weight:bold">&#34;countMA&#34;</span>), 
+</span></span><span style="display:flex;"><span>                     rings(sdfset, upper=<span style="color:#ff0;font-weight:bold">6</span>, type=<span style="color:#0ff;font-weight:bold">&#34;count&#34;</span>, arom=<span style="color:#fff;font-weight:bold">TRUE</span>))
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## based on ChemmineOB</span>
+</span></span><span style="display:flex;"><span>propma = propOB(sdfset[1])
+</span></span><span style="display:flex;"><span>colnames(propma)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] &#34;cansmi&#34;   &#34;cansmiNS&#34; &#34;formula&#34;  &#34;title&#34;    &#34;InChI&#34;    &#34;HBA1&#34;     &#34;HBA2&#34;    </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [8] &#34;HBD&#34;      &#34;logP&#34;     &#34;MR&#34;       &#34;MW&#34;       &#34;nF&#34;       &#34;TPSA&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># datablock(sdfset) &lt;- cbind(datablock(sdfset), propma) </span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></blockquote>
+<h2 id="2-格式转换smi">2. 格式转换（smi）<a hidden class="anchor" aria-hidden="true" href="#2-格式转换smi">#</a></h2>
+<ul>
+<li><strong>SDFset → SMIset</strong></li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>smiles &lt;- sdf2smiles(sdfset[1:<span style="color:#ff0;font-weight:bold">2</span>]) 
+</span></span><span style="display:flex;"><span>class(smiles)
+</span></span><span style="display:flex;"><span>cid(smiles)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><strong>SMIset → smiles string</strong></li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>as.character(smiles)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><strong>smiles string → SMIset/SDFset</strong></li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>sdf &lt;- smiles2sdf(<span style="color:#0ff;font-weight:bold">&#34;CC(=O)OC1=CC=CC=C1C(=O)O&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>as(as.character(smiles), <span style="color:#0ff;font-weight:bold">&#34;SMIset&#34;</span>) 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>此外ChemmineOB支持更多化合物格式间的转换</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">## R object</span>
+</span></span><span style="display:flex;"><span>convertFormat(<span style="color:#0ff;font-weight:bold">&#34;smi&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;sdf&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;CC(=O)OC1=CC=CC=C1C(=O)O&#34;</span>) 
+</span></span><span style="display:flex;"><span>convertFormat(<span style="color:#0ff;font-weight:bold">&#34;smi&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;mol2&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;CC(=O)OC1=CC=CC=C1C(=O)O&#34;</span>) 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## File</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## 将smi文件(第一列smi，第二列optional ID)转换为sdf文件</span>
+</span></span><span style="display:flex;"><span>convertFormatFile(<span style="color:#0ff;font-weight:bold">&#34;smi&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;sdf&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;example.smi&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;example.sdf&#34;</span>) 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 可参见obabel的笔记了解其支持的全部格式</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="3-导出与读入">3. 导出与读入<a hidden class="anchor" aria-hidden="true" href="#3-导出与读入">#</a></h2>
+<ul>
+<li><strong>SDF</strong></li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f"># 一般导出</span>
+</span></span><span style="display:flex;"><span>write.SDF(sdfset[1:<span style="color:#ff0;font-weight:bold">4</span>], file=<span style="color:#0ff;font-weight:bold">&#34;sub.sdf&#34;</span>) 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 分批导出</span>
+</span></span><span style="display:flex;"><span>write.SDFsplit(x=sdfstr, filetag=<span style="color:#0ff;font-weight:bold">&#34;myfile&#34;</span>, nmol=<span style="color:#ff0;font-weight:bold">10</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 对于大量分子，可保存为二进制rda，减少文件大小</span>
+</span></span><span style="display:flex;"><span>save(sdfstr, file=<span style="color:#0ff;font-weight:bold">&#34;sdfstr.rda&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 读入为SDFset</span>
+</span></span><span style="display:flex;"><span>subsdfset &lt;- read.SDFset(<span style="color:#0ff;font-weight:bold">&#34;sub.sdf&#34;</span>) 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><strong>SMI</strong></li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>data(smisample)
+</span></span><span style="display:flex;"><span>smiset &lt;- smisample
+</span></span><span style="display:flex;"><span>write.SMI(smiset[1:<span style="color:#ff0;font-weight:bold">4</span>], file=<span style="color:#0ff;font-weight:bold">&#34;sub.smi&#34;</span>) 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>smiset &lt;- read.SMIset(<span style="color:#0ff;font-weight:bold">&#34;sub.smi&#34;</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="4-apfp特征">4. AP/FP特征<a hidden class="anchor" aria-hidden="true" href="#4-apfp特征">#</a></h2>
+<ul>
+<li>AP表示原子对特征(Atom Pair Descriptors)。APset 表示若干化合物的AP特征集合</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>sdfset = sdfsample
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ap &lt;- sdf2ap(sdfset[[1]]) <span style="color:#007f7f"># single</span>
+</span></span><span style="display:flex;"><span>apset &lt;- sdf2ap(sdfset)   <span style="color:#007f7f"># many(common)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## 计算特定两两相似度</span>
+</span></span><span style="display:flex;"><span>cmp.similarity(apset[1],apset[2])
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] 0.2637037</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## 批量计算</span>
+</span></span><span style="display:flex;"><span>cmp.search(apset,apset[1], type=<span style="color:#ff0;font-weight:bold">3</span>, cutoff = <span style="color:#ff0;font-weight:bold">0.3</span>, quiet=<span style="color:#fff;font-weight:bold">TRUE</span>) 
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   index   cid    scores</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1     1  CMP1 1.0000000</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2    96 CMP96 0.3516643</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3    67 CMP67 0.3117569</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 4    88 CMP88 0.3094629</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 5    15 CMP15 0.3010753</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>FP表示指纹编码特征(Fingerprints)。FPset表示若干化合物的FP特征集合。</li>
+</ul>
+<p>（1）ChemmineR内置了一种根据APset计算FP的函数</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>?desc2fp
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>fpset &lt;- desc2fp(apset, descnames=<span style="color:#ff0;font-weight:bold">1024</span>, type=<span style="color:#0ff;font-weight:bold">&#34;FPset&#34;</span>) 
+</span></span><span style="display:flex;"><span>fpma &lt;- desc2fp(apset, descnames=<span style="color:#ff0;font-weight:bold">512</span>, type=<span style="color:#0ff;font-weight:bold">&#34;matrix&#34;</span>) 
+</span></span><span style="display:flex;"><span>fpch &lt;- desc2fp(apset, descnames=<span style="color:#ff0;font-weight:bold">64</span>, type=<span style="color:#0ff;font-weight:bold">&#34;character&#34;</span>) 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>（2）ChemmineOB支持计算化合物的ECFP、SMARTs等指纹类型(详见obabel笔记)</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>fpset &lt;-fingerprintOB(sdfset,<span style="color:#0ff;font-weight:bold">&#34;FP2&#34;</span>)
+</span></span><span style="display:flex;"><span>fpset &lt;-fingerprintOB(sdfset,<span style="color:#0ff;font-weight:bold">&#34;ECFP10&#34;</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>（3）计算化合物间FP的相似度</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>fpSim(fpset[1], fpset, method=<span style="color:#0ff;font-weight:bold">&#34;Tanimoto&#34;</span>) 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="5-pubchem接口">5. Pubchem接口<a hidden class="anchor" aria-hidden="true" href="#5-pubchem接口">#</a></h2>
+<ul>
+<li>fingerprintR提供简单的pubchem api调用，用于特征场景的查询</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f"># (1) PID → SDFset</span>
+</span></span><span style="display:flex;"><span>sdfset_01 &lt;- pubchemCidToSDF(c(<span style="color:#ff0;font-weight:bold">111</span>,<span style="color:#ff0;font-weight:bold">123</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># (2) inchikeys  → SDFset</span>
+</span></span><span style="display:flex;"><span>inchikeys &lt;- c(
+</span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold">&#34;ZFUYDSOHVJVQNB-FZERPYLPSA-N&#34;</span>,
+</span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold">&#34;KONGRWVLXLWGDV-BYGOPZEFSA-N&#34;</span>,
+</span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold">&#34;AANKDJLVHZQCFG-WLIQWNBFSA-N&#34;</span>,
+</span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold">&#34;SNFRINMTRPQQLE-JQWAAABSSA-N&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>inchikey_query &lt;- pubchemInchikey2sdf(inchikeys)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sdfset_02 = inchikey_query$sdf_set
+</span></span><span style="display:flex;"><span>sdfid(sdfset_02)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] &#34;162880185&#34; &#34;11276107&#34;  &#34;442060&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/tags/%E8%8D%AF%E7%89%A9%E5%8C%96%E5%90%88%E7%89%A9/">药物化合物</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/posts/program/502%E5%9C%A8linux%E7%B3%BB%E7%BB%9F%E9%87%8C%E9%83%A8%E7%BD%B2jupyter%E7%8E%AF%E5%A2%83/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>在Linux系统里部署Jupyter环境</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/posts/program/503linux%E7%9A%84parallel%E5%B9%B6%E8%A1%8C%E6%96%B9%E6%B3%95/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>Linux的parallel并行方法</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://lishensuo.github.io">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>
