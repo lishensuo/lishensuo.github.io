@@ -333,11 +333,11 @@ Create:&nbsp;<span title='2023-08-13 00:00:00 +0000 UTC'>2023-08-13</span>&nbsp;
 <article class="post-entry">
 	<div class="post-info">  
 		<header class="entry-header">
-			<h2>UCSCXenaShiny development tutorials(231119)
+			<h2>Shiny-basic-1-IO
 			</h2>
 		</header>
 		<section class="entry-content">
-			<p>Recently, we have added some new modules for general TCGA data analysis and visualization. Here, we will provide the tutorials for easy use. Please note it is not the latest version and we are still in the stage of development. Therefore, if you have any question, please do not hesitate to contact us on GitHub or email (lishensuo@163.com) which could greatly contribute to UCSCXenaShiny V2.0 process. The temporary tutorial is...</p>
+			<p>参考教程：https://mastering-shiny.org/ 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 # Part1 加载shiny包和其他可能需要的包 library(shiny) #...</p>
 		</section>
 		<footer class="entry-footer">
 
@@ -353,9 +353,9 @@ Create:&nbsp;<span title='2023-08-13 00:00:00 +0000 UTC'>2023-08-13</span>&nbsp;
 
 
 
-Create:&nbsp;<span title='2023-11-19 00:00:00 +0000 UTC'>2023-11-19</span>&nbsp;|&nbsp;Update:&nbsp;2023-11-19&nbsp;|&nbsp;Words:&nbsp;1198&nbsp;|&nbsp;3 min&nbsp;|&nbsp;Lishensuo</footer>
+Create:&nbsp;<span title='2024-03-31 00:00:00 +0000 UTC'>2024-03-31</span>&nbsp;|&nbsp;Update:&nbsp;2024-03-31&nbsp;|&nbsp;Words:&nbsp;1442&nbsp;|&nbsp;3 min&nbsp;|&nbsp;Lishensuo</footer>
 	</div>   
-  <a class="entry-link" aria-label="post link to UCSCXenaShiny development tutorials(231119)" href="https://lishensuo.github.io/posts/program/300ucscxenashiny-dev-tutorials--231119/"></a>
+  <a class="entry-link" aria-label="post link to Shiny-basic-1-IO" href="https://lishensuo.github.io/posts/program/255shiny-basic-1-io/"></a>
 </article>
 
 
@@ -365,11 +365,11 @@ Create:&nbsp;<span title='2023-11-19 00:00:00 +0000 UTC'>2023-11-19</span>&nbsp;
 <article class="post-entry">
 	<div class="post-info">  
 		<header class="entry-header">
-			<h2>shell基础--变量名字符串操作
+			<h2>Shiny-basic-2-Layout
 			</h2>
 		</header>
 		<section class="entry-content">
-			<p>1 2 3 4 5 6 7 8 test=&#34;https://www.baidu.com&#34; #打印字符串内容 echo ${test} #https://www.baidu.com #打印字符串长度 echo ${#test} #21 1、截取 （1）指定截取字符串的起始位置与长度 对于字符串的起始位置定义：如果是从...</p>
+			<p>1. 基本页面 1 2 3 4 fluidPage() # 最基本，最常用 fixedPage() # fixed maximum width fillPage() # fill the full page 经典布局 1 2 3 4 5 6 7 fluidPage( titlePanel(), #标题栏 sidebarLayout( sidebarPanel(), #侧边栏 mainPanel() #主要界面 ) ) 行列堆叠 1 2 3 4 5 6...</p>
 		</section>
 		<footer class="entry-footer">
 
@@ -385,9 +385,9 @@ Create:&nbsp;<span title='2023-11-19 00:00:00 +0000 UTC'>2023-11-19</span>&nbsp;
 
 
 
-Create:&nbsp;<span title='2022-04-16 00:00:00 +0000 UTC'>2022-04-16</span>&nbsp;|&nbsp;Update:&nbsp;2022-04-16&nbsp;|&nbsp;Words:&nbsp;531&nbsp;|&nbsp;2 min&nbsp;|&nbsp;Lishensuo</footer>
+Create:&nbsp;<span title='2024-03-31 00:00:00 +0000 UTC'>2024-03-31</span>&nbsp;|&nbsp;Update:&nbsp;2024-03-31&nbsp;|&nbsp;Words:&nbsp;654&nbsp;|&nbsp;2 min&nbsp;|&nbsp;Lishensuo</footer>
 	</div>   
-  <a class="entry-link" aria-label="post link to shell基础--变量名字符串操作" href="https://lishensuo.github.io/posts/program/400shell%E5%9F%BA%E7%A1%80--%E5%8F%98%E9%87%8F%E5%90%8D%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C/"></a>
+  <a class="entry-link" aria-label="post link to Shiny-basic-2-Layout" href="https://lishensuo.github.io/posts/program/256shiny-basic-2-layout/"></a>
 </article>
 
 
@@ -397,11 +397,11 @@ Create:&nbsp;<span title='2022-04-16 00:00:00 +0000 UTC'>2022-04-16</span>&nbsp;
 <article class="post-entry">
 	<div class="post-info">  
 		<header class="entry-header">
-			<h2>shell基础--find查找文件
+			<h2>Shiny-basic-3-Reactive
 			</h2>
 		</header>
 		<section class="entry-content">
-			<p>1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 # 第一个参数交待查找路径，默认为当前路径 # -name 参数指定需要查找的文件名，支持正则表达式 find -name &#39;*.txt&#39; find ./dir1/ -name &#39;*.txt&#39; #...</p>
+			<p>在server端的代码，主要由多个reactive类型的代码块组成。 1 2 3 server &lt;- function(input, output, session) { } 1. render系列 计算输出结果 1 2 3 4 5 6 7 8 9 10 11...</p>
 		</section>
 		<footer class="entry-footer">
 
@@ -417,9 +417,9 @@ Create:&nbsp;<span title='2022-04-16 00:00:00 +0000 UTC'>2022-04-16</span>&nbsp;
 
 
 
-Create:&nbsp;<span title='2022-04-16 00:00:00 +0000 UTC'>2022-04-16</span>&nbsp;|&nbsp;Update:&nbsp;2022-04-16&nbsp;|&nbsp;Words:&nbsp;219&nbsp;|&nbsp;1 min&nbsp;|&nbsp;Lishensuo</footer>
+Create:&nbsp;<span title='2024-03-31 00:00:00 +0000 UTC'>2024-03-31</span>&nbsp;|&nbsp;Update:&nbsp;2024-03-31&nbsp;|&nbsp;Words:&nbsp;507&nbsp;|&nbsp;2 min&nbsp;|&nbsp;Lishensuo</footer>
 	</div>   
-  <a class="entry-link" aria-label="post link to shell基础--find查找文件" href="https://lishensuo.github.io/posts/program/401shell%E5%9F%BA%E7%A1%80--find%E6%9F%A5%E6%89%BE%E6%96%87%E4%BB%B6/"></a>
+  <a class="entry-link" aria-label="post link to Shiny-basic-3-Reactive" href="https://lishensuo.github.io/posts/program/257shiny-basic-3-reactive/"></a>
 </article>
 
 
@@ -429,11 +429,11 @@ Create:&nbsp;<span title='2022-04-16 00:00:00 +0000 UTC'>2022-04-16</span>&nbsp;
 <article class="post-entry">
 	<div class="post-info">  
 		<header class="entry-header">
-			<h2>shell基础--tar.gz相关、gzip压缩与pigz多线程
+			<h2>Shiny-basic-4-Feedback
 			</h2>
 		</header>
 		<section class="entry-content">
-			<p>tar相关 1 2 3 4 5 6 7 8 9 10 11 #(1) 将多个文件打包为 .tar文件 tar -cvf test.tar dir1 file4 #(2) 将多个文件打包并压缩为 .tar.gz tar -czvf test.tar.gz dir1 file4 #(3) 将 .tar文件拆包 tar -xvf test.tar #(4) 将 ....</p>
+			<p>1. req() 中止执行，非常适用于一些输入控件textInput/selectInput/fileInput中，初始值为空的情况， 1 2 3 4 5 6 7 req() # 值...</p>
 		</section>
 		<footer class="entry-footer">
 
@@ -449,9 +449,9 @@ Create:&nbsp;<span title='2022-04-16 00:00:00 +0000 UTC'>2022-04-16</span>&nbsp;
 
 
 
-Create:&nbsp;<span title='2022-04-16 00:00:00 +0000 UTC'>2022-04-16</span>&nbsp;|&nbsp;Update:&nbsp;2022-04-16&nbsp;|&nbsp;Words:&nbsp;413&nbsp;|&nbsp;1 min&nbsp;|&nbsp;Lishensuo</footer>
+Create:&nbsp;<span title='2024-03-31 00:00:00 +0000 UTC'>2024-03-31</span>&nbsp;|&nbsp;Update:&nbsp;2024-03-31&nbsp;|&nbsp;Words:&nbsp;1337&nbsp;|&nbsp;3 min&nbsp;|&nbsp;Lishensuo</footer>
 	</div>   
-  <a class="entry-link" aria-label="post link to shell基础--tar.gz相关、gzip压缩与pigz多线程" href="https://lishensuo.github.io/posts/program/402sehll%E5%9F%BA%E7%A1%80--gzip%E5%8E%8B%E7%BC%A9%E4%B8%8Epigz%E5%A4%9A%E7%BA%BF%E7%A8%8B/"></a>
+  <a class="entry-link" aria-label="post link to Shiny-basic-4-Feedback" href="https://lishensuo.github.io/posts/program/258shiny-basic-4-feedback/"></a>
 </article>
 
 
@@ -461,11 +461,11 @@ Create:&nbsp;<span title='2022-04-16 00:00:00 +0000 UTC'>2022-04-16</span>&nbsp;
 <article class="post-entry">
 	<div class="post-info">  
 		<header class="entry-header">
-			<h2>shell基础--grep等文本处理命令
+			<h2>Shiny-basic-5-Module
 			</h2>
 		</header>
 		<section class="entry-content">
-			<p>1、grep 主要功能：查询符合条件的行 1 2 3 4 5 6 7 8 9 10 11 12 13 14 #返回符合条件的行,可使用正则表达式 who | grep &#34;wuyt&#34; # -n参数：返回符合条件的行，...</p>
+			<p>1. 基本形式 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 # module file module_UI = function(id){ ns &lt;- NS(id) tagList( XXXInput(ns(&#34;var&#34;),&#34;label&#34;,...) ) } module_Server = function(id){ moduleServer(id, function(input, output, session){ ns &lt;- session$ns reactive({input$var}) ... }) } 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 # App.R library(shiny) source(&#34;module.R&#34;) #加...</p>
 		</section>
 		<footer class="entry-footer">
 
@@ -481,9 +481,9 @@ Create:&nbsp;<span title='2022-04-16 00:00:00 +0000 UTC'>2022-04-16</span>&nbsp;
 
 
 
-Create:&nbsp;<span title='2022-04-16 00:00:00 +0000 UTC'>2022-04-16</span>&nbsp;|&nbsp;Update:&nbsp;2022-04-16&nbsp;|&nbsp;Words:&nbsp;1483&nbsp;|&nbsp;3 min&nbsp;|&nbsp;Lishensuo</footer>
+Create:&nbsp;<span title='2024-03-31 00:00:00 +0000 UTC'>2024-03-31</span>&nbsp;|&nbsp;Update:&nbsp;2024-03-31&nbsp;|&nbsp;Words:&nbsp;478&nbsp;|&nbsp;1 min&nbsp;|&nbsp;Lishensuo</footer>
 	</div>   
-  <a class="entry-link" aria-label="post link to shell基础--grep等文本处理命令" href="https://lishensuo.github.io/posts/program/403shell%E5%9F%BA%E7%A1%80--grep%E7%AD%89%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4/"></a>
+  <a class="entry-link" aria-label="post link to Shiny-basic-5-Module" href="https://lishensuo.github.io/posts/program/259shiny-basic-5-module/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
@@ -494,7 +494,7 @@ Create:&nbsp;<span title='2022-04-16 00:00:00 +0000 UTC'>2022-04-16</span>&nbsp;
     </main>
     
 <footer class="footer">
-    <span>&copy; 2023 <a href="https://lishensuo.github.io">Li&#39;s Bioinfo-Blog</a></span>
+    <span>&copy; 2024 <a href="https://lishensuo.github.io">Li&#39;s Bioinfo-Blog</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
