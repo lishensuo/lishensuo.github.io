@@ -7,7 +7,7 @@
 <meta name="robots" content="index, follow">
 <title>Shiny-pkg-2-shinyJS | Li&#39;s Bioinfo-Blog</title>
 <meta name="keywords" content="shiny">
-<meta name="description" content="shinyJS包主要提供了些个性化控制控件的函数 Tips: 使用该包提供的功能时，需要在ui部分声明useShinyjs()语句，对于Shiny Das">
+<meta name="description" content="Shiny Basic系列: 参考教程：https://mastering-shiny.org/ （1）IO控件 （2）Layout布局 （3）Reactiv">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/program/261shiny-pkg-2-shinyjs/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.min.1abf8254c205953f8beb228727a5e0a5541f0bc42f68f2762e2e594e7b213985.css" integrity="sha256-Gr&#43;CVMIFlT&#43;L6yKHJ6XgpVQfC8QvaPJ2Li5ZTnshOYU=" rel="preload stylesheet" as="style">
@@ -57,7 +57,7 @@
 
     </style>
 </noscript><meta property="og:title" content="Shiny-pkg-2-shinyJS" />
-<meta property="og:description" content="shinyJS包主要提供了些个性化控制控件的函数 Tips: 使用该包提供的功能时，需要在ui部分声明useShinyjs()语句，对于Shiny Das" />
+<meta property="og:description" content="Shiny Basic系列: 参考教程：https://mastering-shiny.org/ （1）IO控件 （2）Layout布局 （3）Reactiv" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://lishensuo.github.io/posts/program/261shiny-pkg-2-shinyjs/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2024-03-31T00:00:00&#43;00:00" />
@@ -65,7 +65,7 @@
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Shiny-pkg-2-shinyJS"/>
-<meta name="twitter:description" content="shinyJS包主要提供了些个性化控制控件的函数 Tips: 使用该包提供的功能时，需要在ui部分声明useShinyjs()语句，对于Shiny Das"/>
+<meta name="twitter:description" content="Shiny Basic系列: 参考教程：https://mastering-shiny.org/ （1）IO控件 （2）Layout布局 （3）Reactiv"/>
 
 
 <script type="application/ld+json">
@@ -100,12 +100,12 @@
   "@type": "BlogPosting",
   "headline": "Shiny-pkg-2-shinyJS",
   "name": "Shiny-pkg-2-shinyJS",
-  "description": "shinyJS包主要提供了些个性化控制控件的函数 Tips: 使用该包提供的功能时，需要在ui部分声明useShinyjs()语句，对于Shiny Das",
+  "description": "Shiny Basic系列: 参考教程：https://mastering-shiny.org/ （1）IO控件 （2）Layout布局 （3）Reactiv",
   "keywords": [
     "shiny"
   ],
-  "articleBody": "shinyJS包主要提供了些个性化控制控件的函数\n Tips: 使用该包提供的功能时，需要在ui部分声明useShinyjs()语句，对于Shiny Dashboards或者navbarPage layout有特殊的放置要求，详见教程文档的Advanced部分。\n  https://github.com/daattali/shinyjs https://deanattali.com/shinyjs/overview 教程文档 https://daattali.com/shiny/shinyjs-basic/ 示例demo  1. 控件失效/激活 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21  disable() #控件（包括输入控件/动作按钮等）失效 enable() #控件恢复  ## 示例：当文本输入为空时，submit按钮为失效状态 ui = fluidPage(  useShinyjs(), # Set up shinyjs  textInput(\"name\",\"Give your name\"),  actionButton(\"submit\", \"Click me\") )  server = function(input, output, session) {  observe({  if (is.null(input$name) || input$name == \"\") {  shinyjs::disable(\"submit\")  } else {  shinyjs::enable(\"submit\")  }  }) }  shinyApp(ui, server)   1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45  toggleState() #可以进行更简单的控件状态转换  ## 示例1：当文本输入为空时，submit按钮为失效状态 ui = fluidPage(  useShinyjs(), # Set up shinyjs  textInput(\"name\",\"Give your name\"),  actionButton(\"submit\", \"Click me\") ) server = function(input, output, session) {  observe({  shinyjs::toggleState(\"submit\", !is.null(input$name) \u0026\u0026 input$name != \"\")  }) }  shinyApp(ui, server)  ## 示例2：控制输入栏的失效与恢复 ui = fluidPage(  useShinyjs(),  actionButton(\"btn\", \"Click me\"),  textInput(\"element\", \"Watch what happens to me\") ) server = function(input, output, session) {  observeEvent(input$btn, {  toggleState(\"element\")  }) }  shinyApp(ui, server)  ## 示例3：disabled() 初始状态设置为失效状态 ui = fluidPage(  useShinyjs(),  actionButton(\"btn\", \"Click me\"),  disabled(  textInput(\"element\", \"Watch what happens to me\")  ) ) server = function(input, output, session) {  observeEvent(input$btn, {  toggleState(\"element\")  }) }  shinyApp(ui, server)   2. UI的显示/隐藏 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20  hide() show()  # 示例 ui = fluidPage(  useShinyjs(), # Set up shinyjs  actionButton(\"btn\", \"Click me\"),  textInput(\"text\", \"Text\") ) server = function(input, output, session) {  observe({  if(input$btn %% 2 ==0){ #点击1次消失，再点击一次出现  show(\"text\")  } else {  hide(\"text\")  }  }) }  shinyApp(ui, server)   1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34  toggle() #可以进行更简单的控件显示与隐藏  ## 示例1 ui = fluidPage(  useShinyjs(), # Set up shinyjs  actionButton(\"btn\", \"Click me\"),  textInput(\"text\", \"Text\") ) server = function(input, output, session) {  observeEvent(input$btn, {  toggle(\"text\")  }) }  shinyApp(ui, server)  ## 示例2：hidden() 设置UI初始的隐藏状态 ui = fluidPage(  useShinyjs(), # Set up shinyjs  actionButton(\"btn\", \"Click me\"),  hidden(  div( #包裹在div或其它等  id = \"this_div\",  textInput(\"text\", \"Text\")  )  ) ) server = function(input, output, session) {  observeEvent(input$btn, {  toggle(\"this_div\")  }) }  shinyApp(ui, server)   ",
-  "wordCount" : "708",
+  "articleBody": "Shiny Basic系列:\n 参考教程：https://mastering-shiny.org/\n （1）IO控件\n（2）Layout布局\n（3）Reactive用法\n（4）Feedback提醒\n（5）Module模块\nShiny Package系列:\n（1）shinyWidgets\n（2）shinyJS\n（3）shinydashboard\n（4）shinydashboardPlus\n（5）bslib\n（6）Other pkgs\n shinyJS包主要提供了些个性化控制控件的函数\n Tips: 使用该包提供的功能时，需要在ui部分声明useShinyjs()语句，对于Shiny Dashboards或者navbarPage layout有特殊的放置要求，详见教程文档的Advanced部分。\n  https://github.com/daattali/shinyjs https://deanattali.com/shinyjs/overview 教程文档 https://daattali.com/shiny/shinyjs-basic/ 示例demo  1. 控件失效/激活 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21  disable() #控件（包括输入控件/动作按钮等）失效 enable() #控件恢复  ## 示例：当文本输入为空时，submit按钮为失效状态 ui = fluidPage(  useShinyjs(), # Set up shinyjs  textInput(\"name\",\"Give your name\"),  actionButton(\"submit\", \"Click me\") )  server = function(input, output, session) {  observe({  if (is.null(input$name) || input$name == \"\") {  shinyjs::disable(\"submit\")  } else {  shinyjs::enable(\"submit\")  }  }) }  shinyApp(ui, server)   1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45  toggleState() #可以进行更简单的控件状态转换  ## 示例1：当文本输入为空时，submit按钮为失效状态 ui = fluidPage(  useShinyjs(), # Set up shinyjs  textInput(\"name\",\"Give your name\"),  actionButton(\"submit\", \"Click me\") ) server = function(input, output, session) {  observe({  shinyjs::toggleState(\"submit\", !is.null(input$name) \u0026\u0026 input$name != \"\")  }) }  shinyApp(ui, server)  ## 示例2：控制输入栏的失效与恢复 ui = fluidPage(  useShinyjs(),  actionButton(\"btn\", \"Click me\"),  textInput(\"element\", \"Watch what happens to me\") ) server = function(input, output, session) {  observeEvent(input$btn, {  toggleState(\"element\")  }) }  shinyApp(ui, server)  ## 示例3：disabled() 初始状态设置为失效状态 ui = fluidPage(  useShinyjs(),  actionButton(\"btn\", \"Click me\"),  disabled(  textInput(\"element\", \"Watch what happens to me\")  ) ) server = function(input, output, session) {  observeEvent(input$btn, {  toggleState(\"element\")  }) }  shinyApp(ui, server)   2. UI的显示/隐藏 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20  hide() show()  # 示例 ui = fluidPage(  useShinyjs(), # Set up shinyjs  actionButton(\"btn\", \"Click me\"),  textInput(\"text\", \"Text\") ) server = function(input, output, session) {  observe({  if(input$btn %% 2 ==0){ #点击1次消失，再点击一次出现  show(\"text\")  } else {  hide(\"text\")  }  }) }  shinyApp(ui, server)   1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34  toggle() #可以进行更简单的控件显示与隐藏  ## 示例1 ui = fluidPage(  useShinyjs(), # Set up shinyjs  actionButton(\"btn\", \"Click me\"),  textInput(\"text\", \"Text\") ) server = function(input, output, session) {  observeEvent(input$btn, {  toggle(\"text\")  }) }  shinyApp(ui, server)  ## 示例2：hidden() 设置UI初始的隐藏状态 ui = fluidPage(  useShinyjs(), # Set up shinyjs  actionButton(\"btn\", \"Click me\"),  hidden(  div( #包裹在div或其它等  id = \"this_div\",  textInput(\"text\", \"Text\")  )  ) ) server = function(input, output, session) {  observeEvent(input$btn, {  toggle(\"this_div\")  }) }  shinyApp(ui, server)   ",
+  "wordCount" : "896",
   "inLanguage": "en",
   "datePublished": "2024-03-31T00:00:00Z",
   "dateModified": "2024-03-31T00:00:00Z",
@@ -225,7 +225,7 @@
 
 
 
-Create:&nbsp;<span title='2024-03-31 00:00:00 +0000 UTC'>2024-03-31</span>&nbsp;|&nbsp;Update:&nbsp;2024-03-31&nbsp;|&nbsp;Words:&nbsp;708&nbsp;|&nbsp;2 min&nbsp;|&nbsp;Lishensuo
+Create:&nbsp;<span title='2024-03-31 00:00:00 +0000 UTC'>2024-03-31</span>&nbsp;|&nbsp;Update:&nbsp;2024-03-31&nbsp;|&nbsp;Words:&nbsp;896&nbsp;|&nbsp;2 min&nbsp;|&nbsp;Lishensuo
 
 |  Viewers: <span id="busuanzi_value_page_pv"></span> 
 	  
@@ -309,7 +309,24 @@ Create:&nbsp;<span title='2024-03-31 00:00:00 +0000 UTC'>2024-03-31</span>&nbsp;
 </script>
 
 
-  <div class="post-content"><p><code>shinyJS</code>包主要提供了些个性化控制控件的函数</p>
+  <div class="post-content"><p><strong>Shiny Basic系列:</strong></p>
+<blockquote>
+<p>参考教程：https://mastering-shiny.org/</p>
+</blockquote>
+<p>（1）<a href="https://lishensuo.github.io/posts/program/255shiny-basic-1-io/">IO控件</a></p>
+<p>（2）<a href="https://lishensuo.github.io/posts/program/256shiny-basic-2-layout/">Layout布局</a></p>
+<p>（3）<a href="https://lishensuo.github.io/posts/program/257shiny-basic-3-reactive/">Reactive用法</a></p>
+<p>（4）<a href="https://lishensuo.github.io/posts/program/258shiny-basic-4-feedback/">Feedback提醒</a></p>
+<p>（5）<a href="https://lishensuo.github.io/posts/program/259shiny-basic-5-module/">Module模块</a></p>
+<p><strong>Shiny Package系列:</strong></p>
+<p>（1）<a href="https://lishensuo.github.io/posts/program/260shiny-pkg-1-shinywidgets/">shinyWidgets</a></p>
+<p>（2）<a href="https://lishensuo.github.io/posts/program/261shiny-pkg-2-shinyjs/">shinyJS</a></p>
+<p>（3）<a href="https://lishensuo.github.io/posts/program/262shiny-pkg-3-shinydashboard/">shinydashboard</a></p>
+<p>（4）<a href="https://lishensuo.github.io/posts/program/263shiny-pkg-4-shinydashboardplus/">shinydashboardPlus</a></p>
+<p>（5）<a href="https://lishensuo.github.io/posts/program/264shiny-pkg-5-bslib/">bslib</a></p>
+<p>（6）<a href="https://lishensuo.github.io/posts/program/265shiny-pkg-6-others/">Other pkgs</a></p>
+<hr>
+<p><code>shinyJS</code>包主要提供了些个性化控制控件的函数</p>
 <blockquote>
 <p>Tips: 使用该包提供的功能时，需要在ui部分声明<code>useShinyjs()</code>语句，对于Shiny Dashboards或者navbarPage layout有特殊的放置要求，详见教程文档的Advanced部分。</p>
 </blockquote>

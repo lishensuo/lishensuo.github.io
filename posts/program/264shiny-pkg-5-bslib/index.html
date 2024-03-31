@@ -7,7 +7,7 @@
 <meta name="robots" content="index, follow">
 <title>Shiny-pkg-5-bslib | Li&#39;s Bioinfo-Blog</title>
 <meta name="keywords" content="shiny">
-<meta name="description" content="bslib包与shinydashboard包类似，提供了大量定制化的排版布局函数，方便快速搭建简洁的app。 https://github.com/rstudio/bslib https://rstudio.github.io/bslib/index.html 1 2 3 library(shiny) # v0.7.2 library(bslib) # v0.6.2 library(htmltools) 1. 基本U">
+<meta name="description" content="Shiny Basic系列: 参考教程：https://mastering-shiny.org/ （1）IO控件 （2）Layout布局 （3）Reactiv">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/program/264shiny-pkg-5-bslib/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.min.1abf8254c205953f8beb228727a5e0a5541f0bc42f68f2762e2e594e7b213985.css" integrity="sha256-Gr&#43;CVMIFlT&#43;L6yKHJ6XgpVQfC8QvaPJ2Li5ZTnshOYU=" rel="preload stylesheet" as="style">
@@ -57,7 +57,7 @@
 
     </style>
 </noscript><meta property="og:title" content="Shiny-pkg-5-bslib" />
-<meta property="og:description" content="bslib包与shinydashboard包类似，提供了大量定制化的排版布局函数，方便快速搭建简洁的app。 https://github.com/rstudio/bslib https://rstudio.github.io/bslib/index.html 1 2 3 library(shiny) # v0.7.2 library(bslib) # v0.6.2 library(htmltools) 1. 基本U" />
+<meta property="og:description" content="Shiny Basic系列: 参考教程：https://mastering-shiny.org/ （1）IO控件 （2）Layout布局 （3）Reactiv" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://lishensuo.github.io/posts/program/264shiny-pkg-5-bslib/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2024-03-31T00:00:00&#43;00:00" />
@@ -65,7 +65,7 @@
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Shiny-pkg-5-bslib"/>
-<meta name="twitter:description" content="bslib包与shinydashboard包类似，提供了大量定制化的排版布局函数，方便快速搭建简洁的app。 https://github.com/rstudio/bslib https://rstudio.github.io/bslib/index.html 1 2 3 library(shiny) # v0.7.2 library(bslib) # v0.6.2 library(htmltools) 1. 基本U"/>
+<meta name="twitter:description" content="Shiny Basic系列: 参考教程：https://mastering-shiny.org/ （1）IO控件 （2）Layout布局 （3）Reactiv"/>
 
 
 <script type="application/ld+json">
@@ -100,12 +100,12 @@
   "@type": "BlogPosting",
   "headline": "Shiny-pkg-5-bslib",
   "name": "Shiny-pkg-5-bslib",
-  "description": "bslib包与shinydashboard包类似，提供了大量定制化的排版布局函数，方便快速搭建简洁的app。 https://github.com/rstudio/bslib https://rstudio.github.io/bslib/index.html 1 2 3 library(shiny) # v0.7.2 library(bslib) # v0.6.2 library(htmltools) 1. 基本U",
+  "description": "Shiny Basic系列: 参考教程：https://mastering-shiny.org/ （1）IO控件 （2）Layout布局 （3）Reactiv",
   "keywords": [
     "shiny"
   ],
-  "articleBody": "bslib包与shinydashboard包类似，提供了大量定制化的排版布局函数，方便快速搭建简洁的app。\n https://github.com/rstudio/bslib https://rstudio.github.io/bslib/index.html  1 2 3  library(shiny) # v0.7.2 library(bslib) # v0.6.2 library(htmltools)   1. 基本UI 1.1 Card面板   https://rstudio.github.io/bslib/articles/cards/index.html\n  主要由card_header()）与card_body()两部分组成；\n  一个card可以包括多个body；一个body内部可以由复杂的多个UI元素排版。\n  card内的元素默认是fillable（自适应填充），即根据其内容，自动调整其高度；可通过参数限制其最大最小高度（scroll滚动栏）\n  1 2 3 4 5 6 7 8 9 10 11 12 13  card(  full_screen = TRUE, #全屏展示按钮  card_header(  \"This is the header\"  ),  card_body(  p(\"This is the body.\"),  p(\"This is still the body.\")  ),  card_footer(  \"This is the footer\"  ) )   1.2 Value box  https://rstudio.github.io/bslib/articles/value-boxes/index.html 定制化布局的面板，用于展示关键的数字与文字 其中value参数的值可动态更新  1 2 3 4 5 6 7 8  value_box(  title = \"I got\",  value = \"99 problems\", #关键词展示  # value = textOutput(\"time\"),  showcase = bs_icon(\"music-note-beamed\"), #图标  p(\"bslib ain't one\", bs_icon(\"emoji-smile\")), #foot  p(\"hit me\", bs_icon(\"suit-spade\")) )   1.3 窗口弹出提示  https://rstudio.github.io/bslib/articles/tooltips-popovers/index.html tooltip(): 悬浮式文字弹出—适用于文本帮助信息提示  1 2 3 4 5  actionButton(  \"btn_tip\",  \"Focus/hover here for tooltip\" ) |  tooltip(\"Tooltip message\")    popover(): 点击触发弹出—适用于放置一些输入控件用以设置绘图参数等  1 2 3 4 5 6 7 8  actionButton(  \"btn_pop\",  \"Click here for popover\" ) |  popover(  \"Popover message\",  title = \"Popover title\"  )   2. 布局排版 2.1 侧边栏式面板   https://rstudio.github.io/bslib/articles/sidebars/index.html\n  layout_sidebar()/sidebar()\n  使用可弹出式的侧边栏增加控件展示的灵活性\n  此外，也可以作为card()的body部分\n  1 2 3 4  layout_sidebar(  sidebar = sidebar(\"Sidebar\"),  \"Main contents\" )   2.2 column列式面板   https://rstudio.github.io/bslib/articles/column-layout/index.html\n  将card()基本元素按照列column排版。其特点之一是在整体page宽度调整过程中，一行的多列card若太“拥挤”，会自动调整为2行\n  layout_columns(): 指定每个card的宽度\n  1 2 3 4 5 6 7 8  x \"A simple card\")  layout_columns(x, x, x, x)  layout_columns(  col_widths = c(6, 6, 12),  x, x, x )    layout_column_wrap()：每个card等宽，等高布局  1 2 3 4 5 6 7  layout_column_wrap(  width = \"200px\", #每个card的宽度均为200px  # width = 1/2, #每行设置两个card  height = 300,  fixed_width = TRUE,  card1, card2, card3 )   2.3 navset多面板组合   https://rstudio.github.io/bslib/reference/navset.html#details\n  navset_xxx()一般由多个nav_panel()组成；可通过nav_menu()/nav_item()设置二级子面板\n  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24  navset_tab() navset_pill() navset_underline() navset_pill_list() navset_hidden() navset_bar()  # card样式 navset_card_tab() navset_card_pill() navset_card_underline()  ## 简单示例 navset_tab(  nav_panel(title = \"One\", p(\"First tab content.\")),  nav_panel(title = \"Two\", p(\"Second tab content.\")),  nav_panel(title = \"Three\", p(\"Third tab content\")),  nav_spacer(), # 标题栏面板之间的空间  nav_menu(  title = \"Links\",  nav_item(link_shiny),  nav_item(link_posit)  ) )   2.4 accordion手风琴式  accordion()/accordion_panel() 将多个面板折叠式堆放 open以及multiple参数可设置初始的面板打开状态  1 2 3 4 5 6  accordion(  accordion_panel(\"Section A\", \"Some narrative for section A\"),  accordion_panel(\"Section B\", \"Some narrative for section B\"),  accordion_panel(\"Section C\", \"Some narrative for section C\"),  open = \"Section B\" )   2.5 Page-level排版 1 2 3 4 5 6 7 8  # 侧边栏式页面 page_sidebar()  # 多面板组合式页面 page_navbar()  # 自适应式页面（特征之一：没有scroll滚动条） page_fillable()    主题设置：bs_theme()\n https://rstudio.github.io/bslib/articles/bs5-variables/index.html   ",
-  "wordCount" : "1057",
+  "articleBody": "Shiny Basic系列:\n 参考教程：https://mastering-shiny.org/\n （1）IO控件\n（2）Layout布局\n（3）Reactive用法\n（4）Feedback提醒\n（5）Module模块\nShiny Package系列:\n（1）shinyWidgets\n（2）shinyJS\n（3）shinydashboard\n（4）shinydashboardPlus\n（5）bslib\n（6）Other pkgs\n bslib包与shinydashboard包类似，提供了大量定制化的排版布局函数，方便快速搭建简洁的app。\n https://github.com/rstudio/bslib https://rstudio.github.io/bslib/index.html  1 2 3  library(shiny) # v0.7.2 library(bslib) # v0.6.2 library(htmltools)   1. 基本UI 1.1 Card面板   https://rstudio.github.io/bslib/articles/cards/index.html\n  主要由card_header()）与card_body()两部分组成；\n  一个card可以包括多个body；一个body内部可以由复杂的多个UI元素排版。\n  card内的元素默认是fillable（自适应填充），即根据其内容，自动调整其高度；可通过参数限制其最大最小高度（scroll滚动栏）\n  1 2 3 4 5 6 7 8 9 10 11 12 13  card(  full_screen = TRUE, #全屏展示按钮  card_header(  \"This is the header\"  ),  card_body(  p(\"This is the body.\"),  p(\"This is still the body.\")  ),  card_footer(  \"This is the footer\"  ) )   1.2 Value box  https://rstudio.github.io/bslib/articles/value-boxes/index.html 定制化布局的面板，用于展示关键的数字与文字 其中value参数的值可动态更新  1 2 3 4 5 6 7 8  value_box(  title = \"I got\",  value = \"99 problems\", #关键词展示  # value = textOutput(\"time\"),  showcase = bs_icon(\"music-note-beamed\"), #图标  p(\"bslib ain't one\", bs_icon(\"emoji-smile\")), #foot  p(\"hit me\", bs_icon(\"suit-spade\")) )   1.3 窗口弹出提示  https://rstudio.github.io/bslib/articles/tooltips-popovers/index.html tooltip(): 悬浮式文字弹出—适用于文本帮助信息提示  1 2 3 4 5  actionButton(  \"btn_tip\",  \"Focus/hover here for tooltip\" ) |  tooltip(\"Tooltip message\")    popover(): 点击触发弹出—适用于放置一些输入控件用以设置绘图参数等  1 2 3 4 5 6 7 8  actionButton(  \"btn_pop\",  \"Click here for popover\" ) |  popover(  \"Popover message\",  title = \"Popover title\"  )   2. 布局排版 2.1 侧边栏式面板   https://rstudio.github.io/bslib/articles/sidebars/index.html\n  layout_sidebar()/sidebar()\n  使用可弹出式的侧边栏增加控件展示的灵活性\n  此外，也可以作为card()的body部分\n  1 2 3 4  layout_sidebar(  sidebar = sidebar(\"Sidebar\"),  \"Main contents\" )   2.2 column列式面板   https://rstudio.github.io/bslib/articles/column-layout/index.html\n  将card()基本元素按照列column排版。其特点之一是在整体page宽度调整过程中，一行的多列card若太“拥挤”，会自动调整为2行\n  layout_columns(): 指定每个card的宽度\n  1 2 3 4 5 6 7 8  x \"A simple card\")  layout_columns(x, x, x, x)  layout_columns(  col_widths = c(6, 6, 12),  x, x, x )    layout_column_wrap()：每个card等宽，等高布局  1 2 3 4 5 6 7  layout_column_wrap(  width = \"200px\", #每个card的宽度均为200px  # width = 1/2, #每行设置两个card  height = 300,  fixed_width = TRUE,  card1, card2, card3 )   2.3 navset多面板组合   https://rstudio.github.io/bslib/reference/navset.html#details\n  navset_xxx()一般由多个nav_panel()组成；可通过nav_menu()/nav_item()设置二级子面板\n  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24  navset_tab() navset_pill() navset_underline() navset_pill_list() navset_hidden() navset_bar()  # card样式 navset_card_tab() navset_card_pill() navset_card_underline()  ## 简单示例 navset_tab(  nav_panel(title = \"One\", p(\"First tab content.\")),  nav_panel(title = \"Two\", p(\"Second tab content.\")),  nav_panel(title = \"Three\", p(\"Third tab content\")),  nav_spacer(), # 标题栏面板之间的空间  nav_menu(  title = \"Links\",  nav_item(link_shiny),  nav_item(link_posit)  ) )   2.4 accordion手风琴式  accordion()/accordion_panel() 将多个面板折叠式堆放 open以及multiple参数可设置初始的面板打开状态  1 2 3 4 5 6  accordion(  accordion_panel(\"Section A\", \"Some narrative for section A\"),  accordion_panel(\"Section B\", \"Some narrative for section B\"),  accordion_panel(\"Section C\", \"Some narrative for section C\"),  open = \"Section B\" )   2.5 Page-level排版 1 2 3 4 5 6 7 8  # 侧边栏式页面 page_sidebar()  # 多面板组合式页面 page_navbar()  # 自适应式页面（特征之一：没有scroll滚动条） page_fillable()    主题设置：bs_theme()\n https://rstudio.github.io/bslib/articles/bs5-variables/index.html   ",
+  "wordCount" : "1245",
   "inLanguage": "en",
   "datePublished": "2024-03-31T00:00:00Z",
   "dateModified": "2024-03-31T00:00:00Z",
@@ -225,7 +225,7 @@
 
 
 
-Create:&nbsp;<span title='2024-03-31 00:00:00 +0000 UTC'>2024-03-31</span>&nbsp;|&nbsp;Update:&nbsp;2024-03-31&nbsp;|&nbsp;Words:&nbsp;1057&nbsp;|&nbsp;3 min&nbsp;|&nbsp;Lishensuo
+Create:&nbsp;<span title='2024-03-31 00:00:00 +0000 UTC'>2024-03-31</span>&nbsp;|&nbsp;Update:&nbsp;2024-03-31&nbsp;|&nbsp;Words:&nbsp;1245&nbsp;|&nbsp;3 min&nbsp;|&nbsp;Lishensuo
 
 |  Viewers: <span id="busuanzi_value_page_pv"></span> 
 	  
@@ -330,7 +330,24 @@ Create:&nbsp;<span title='2024-03-31 00:00:00 +0000 UTC'>2024-03-31</span>&nbsp;
 </script>
 
 
-  <div class="post-content"><p><code>bslib</code>包与<code>shinydashboard</code>包类似，提供了大量定制化的排版布局函数，方便快速搭建简洁的app。</p>
+  <div class="post-content"><p><strong>Shiny Basic系列:</strong></p>
+<blockquote>
+<p>参考教程：https://mastering-shiny.org/</p>
+</blockquote>
+<p>（1）<a href="https://lishensuo.github.io/posts/program/255shiny-basic-1-io/">IO控件</a></p>
+<p>（2）<a href="https://lishensuo.github.io/posts/program/256shiny-basic-2-layout/">Layout布局</a></p>
+<p>（3）<a href="https://lishensuo.github.io/posts/program/257shiny-basic-3-reactive/">Reactive用法</a></p>
+<p>（4）<a href="https://lishensuo.github.io/posts/program/258shiny-basic-4-feedback/">Feedback提醒</a></p>
+<p>（5）<a href="https://lishensuo.github.io/posts/program/259shiny-basic-5-module/">Module模块</a></p>
+<p><strong>Shiny Package系列:</strong></p>
+<p>（1）<a href="https://lishensuo.github.io/posts/program/260shiny-pkg-1-shinywidgets/">shinyWidgets</a></p>
+<p>（2）<a href="https://lishensuo.github.io/posts/program/261shiny-pkg-2-shinyjs/">shinyJS</a></p>
+<p>（3）<a href="https://lishensuo.github.io/posts/program/262shiny-pkg-3-shinydashboard/">shinydashboard</a></p>
+<p>（4）<a href="https://lishensuo.github.io/posts/program/263shiny-pkg-4-shinydashboardplus/">shinydashboardPlus</a></p>
+<p>（5）<a href="https://lishensuo.github.io/posts/program/264shiny-pkg-5-bslib/">bslib</a></p>
+<p>（6）<a href="https://lishensuo.github.io/posts/program/265shiny-pkg-6-others/">Other pkgs</a></p>
+<hr>
+<p><code>bslib</code>包与<code>shinydashboard</code>包类似，提供了大量定制化的排版布局函数，方便快速搭建简洁的app。</p>
 <ul>
 <li><a href="https://github.com/rstudio/bslib">https://github.com/rstudio/bslib</a></li>
 <li><a href="https://rstudio.github.io/bslib/index.html">https://rstudio.github.io/bslib/index.html</a></li>

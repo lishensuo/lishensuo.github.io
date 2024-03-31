@@ -7,7 +7,7 @@
 <meta name="robots" content="index, follow">
 <title>Shiny-basic-3-Reactive | Li&#39;s Bioinfo-Blog</title>
 <meta name="keywords" content="shiny">
-<meta name="description" content="在server端的代码，主要由多个reactive类型的代码块组成。 1 2 3 server &lt;- function(input, output, session) { } 1. render系列 计算输出结果 1 2 3 4 5 6 7 8 9 10 11">
+<meta name="description" content="Shiny Basic系列: 参考教程：https://mastering-shiny.org/ （1）IO控件 （2）Layout布局 （3）Reactiv">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/program/257shiny-basic-3-reactive/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.min.1abf8254c205953f8beb228727a5e0a5541f0bc42f68f2762e2e594e7b213985.css" integrity="sha256-Gr&#43;CVMIFlT&#43;L6yKHJ6XgpVQfC8QvaPJ2Li5ZTnshOYU=" rel="preload stylesheet" as="style">
@@ -57,7 +57,7 @@
 
     </style>
 </noscript><meta property="og:title" content="Shiny-basic-3-Reactive" />
-<meta property="og:description" content="在server端的代码，主要由多个reactive类型的代码块组成。 1 2 3 server &lt;- function(input, output, session) { } 1. render系列 计算输出结果 1 2 3 4 5 6 7 8 9 10 11" />
+<meta property="og:description" content="Shiny Basic系列: 参考教程：https://mastering-shiny.org/ （1）IO控件 （2）Layout布局 （3）Reactiv" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://lishensuo.github.io/posts/program/257shiny-basic-3-reactive/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2024-03-31T00:00:00&#43;00:00" />
@@ -65,7 +65,7 @@
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Shiny-basic-3-Reactive"/>
-<meta name="twitter:description" content="在server端的代码，主要由多个reactive类型的代码块组成。 1 2 3 server &lt;- function(input, output, session) { } 1. render系列 计算输出结果 1 2 3 4 5 6 7 8 9 10 11"/>
+<meta name="twitter:description" content="Shiny Basic系列: 参考教程：https://mastering-shiny.org/ （1）IO控件 （2）Layout布局 （3）Reactiv"/>
 
 
 <script type="application/ld+json">
@@ -100,12 +100,12 @@
   "@type": "BlogPosting",
   "headline": "Shiny-basic-3-Reactive",
   "name": "Shiny-basic-3-Reactive",
-  "description": "在server端的代码，主要由多个reactive类型的代码块组成。 1 2 3 server \u0026lt;- function(input, output, session) { } 1. render系列 计算输出结果 1 2 3 4 5 6 7 8 9 10 11",
+  "description": "Shiny Basic系列: 参考教程：https://mastering-shiny.org/ （1）IO控件 （2）Layout布局 （3）Reactiv",
   "keywords": [
     "shiny"
   ],
-  "articleBody": "在server端的代码，主要由多个reactive类型的代码块组成。\n1 2 3  server  }   1. render系列 计算输出结果\n1 2 3 4 5 6 7 8 9 10 11 12  output$Var1 = renderXXX({  ......  input$Var1  ...... })  renderText() # → textOutput renderPrint() # → verbatimTextOutput renderTable() # → tableOutput renderDataTable() # → dataTableOutput renderPlot() # → plotOutput renderImage() # → plotOutput    可renderXXX内的expression中的特定variable，通过isolate()函数包裹，使该变量值的变化不会引起renderXXX内的全部重新计算，以提高效率。\n1 2 3 4 5 6 7  output$Var1 = renderXXX({  ......  isolate(input$Var1) #Var1变化不会触发更新  input$Var2 #Var2变化会触发更新  ...... }) # 也同样适用于下面的reactive({}), observe({})    2. reactive表达式  reactiveVal() 单个值  1 2 3 4  x 10) x() x(20) #修改 x()    reactiveValues() list类型  1 2 3 4  r 10, y = \"a\") r$x r$x 20 #修改 r$x    reactive()表达式  1 2 3 4 5  mid_var = reactive({  ...  isolate()  ... })    observe()与reactive类似，区别在于不返回结果，仅运算表达式，可用于更新reactive value；update widget等场景  1 2 3 4 5  observe({  ...  isolate()  ... })   3. 动作触发 通过监督特定值（通常为button）是否发生变化，来控制是否表达式里的计算过程。\n此时表达式里包括的input值变化，不会触发表达式的重新计算\n eventReactive()  1 2 3  mid_var = eventReactive(input$XXX, {  })    observeEvent()  1 2 3  observeEvent(input$XXX, {  })   ",
-  "wordCount" : "507",
+  "articleBody": "Shiny Basic系列:\n 参考教程：https://mastering-shiny.org/\n （1）IO控件\n（2）Layout布局\n（3）Reactive用法\n（4）Feedback提醒\n（5）Module模块\nShiny Package系列:\n（1）shinyWidgets\n（2）shinyJS\n（3）shinydashboard\n（4）shinydashboardPlus\n（5）bslib\n（6）Other pkgs\n 在server端的代码，主要由多个reactive类型的代码块组成。\n1 2 3  server  }   1. render系列 计算输出结果\n1 2 3 4 5 6 7 8 9 10 11 12  output$Var1 = renderXXX({  ......  input$Var1  ...... })  renderText() # → textOutput renderPrint() # → verbatimTextOutput renderTable() # → tableOutput renderDataTable() # → dataTableOutput renderPlot() # → plotOutput renderImage() # → plotOutput    可renderXXX内的expression中的特定variable，通过isolate()函数包裹，使该变量值的变化不会引起renderXXX内的全部重新计算，以提高效率。\n1 2 3 4 5 6 7  output$Var1 = renderXXX({  ......  isolate(input$Var1) #Var1变化不会触发更新  input$Var2 #Var2变化会触发更新  ...... }) # 也同样适用于下面的reactive({}), observe({})    2. reactive表达式  reactiveVal() 单个值  1 2 3 4  x 10) x() x(20) #修改 x()    reactiveValues() list类型  1 2 3 4  r 10, y = \"a\") r$x r$x 20 #修改 r$x    reactive()表达式  1 2 3 4 5  mid_var = reactive({  ...  isolate()  ... })    observe()与reactive类似，区别在于不返回结果，仅运算表达式，可用于更新reactive value；update widget等场景  1 2 3 4 5  observe({  ...  isolate()  ... })   3. 动作触发 通过监督特定值（通常为button）是否发生变化，来控制是否表达式里的计算过程。\n此时表达式里包括的input值变化，不会触发表达式的重新计算\n eventReactive()  1 2 3  mid_var = eventReactive(input$XXX, {  })    observeEvent()  1 2 3  observeEvent(input$XXX, {  })   ",
+  "wordCount" : "695",
   "inLanguage": "en",
   "datePublished": "2024-03-31T00:00:00Z",
   "dateModified": "2024-03-31T00:00:00Z",
@@ -225,7 +225,7 @@
 
 
 
-Create:&nbsp;<span title='2024-03-31 00:00:00 +0000 UTC'>2024-03-31</span>&nbsp;|&nbsp;Update:&nbsp;2024-03-31&nbsp;|&nbsp;Words:&nbsp;507&nbsp;|&nbsp;2 min&nbsp;|&nbsp;Lishensuo
+Create:&nbsp;<span title='2024-03-31 00:00:00 +0000 UTC'>2024-03-31</span>&nbsp;|&nbsp;Update:&nbsp;2024-03-31&nbsp;|&nbsp;Words:&nbsp;695&nbsp;|&nbsp;2 min&nbsp;|&nbsp;Lishensuo
 
 |  Viewers: <span id="busuanzi_value_page_pv"></span> 
 	  
@@ -311,7 +311,24 @@ Create:&nbsp;<span title='2024-03-31 00:00:00 +0000 UTC'>2024-03-31</span>&nbsp;
 </script>
 
 
-  <div class="post-content"><p>在server端的代码，主要由多个reactive类型的代码块组成。</p>
+  <div class="post-content"><p><strong>Shiny Basic系列:</strong></p>
+<blockquote>
+<p>参考教程：https://mastering-shiny.org/</p>
+</blockquote>
+<p>（1）<a href="https://lishensuo.github.io/posts/program/255shiny-basic-1-io/">IO控件</a></p>
+<p>（2）<a href="https://lishensuo.github.io/posts/program/256shiny-basic-2-layout/">Layout布局</a></p>
+<p>（3）<a href="https://lishensuo.github.io/posts/program/257shiny-basic-3-reactive/">Reactive用法</a></p>
+<p>（4）<a href="https://lishensuo.github.io/posts/program/258shiny-basic-4-feedback/">Feedback提醒</a></p>
+<p>（5）<a href="https://lishensuo.github.io/posts/program/259shiny-basic-5-module/">Module模块</a></p>
+<p><strong>Shiny Package系列:</strong></p>
+<p>（1）<a href="https://lishensuo.github.io/posts/program/260shiny-pkg-1-shinywidgets/">shinyWidgets</a></p>
+<p>（2）<a href="https://lishensuo.github.io/posts/program/261shiny-pkg-2-shinyjs/">shinyJS</a></p>
+<p>（3）<a href="https://lishensuo.github.io/posts/program/262shiny-pkg-3-shinydashboard/">shinydashboard</a></p>
+<p>（4）<a href="https://lishensuo.github.io/posts/program/263shiny-pkg-4-shinydashboardplus/">shinydashboardPlus</a></p>
+<p>（5）<a href="https://lishensuo.github.io/posts/program/264shiny-pkg-5-bslib/">bslib</a></p>
+<p>（6）<a href="https://lishensuo.github.io/posts/program/265shiny-pkg-6-others/">Other pkgs</a></p>
+<hr>
+<p>在server端的代码，主要由多个reactive类型的代码块组成。</p>
 <div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
