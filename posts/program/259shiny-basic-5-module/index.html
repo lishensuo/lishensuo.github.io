@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>Shiny-basic-5-Module | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="shiny">
+<meta name="keywords" content="Shiny">
 <meta name="description" content="Shiny Basic系列: 参考教程：https://mastering-shiny.org/ （1）IO控件 （2）Layout布局 （3）Reactiv">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/program/259shiny-basic-5-module/">
@@ -102,7 +102,7 @@
   "name": "Shiny-basic-5-Module",
   "description": "Shiny Basic系列: 参考教程：https://mastering-shiny.org/ （1）IO控件 （2）Layout布局 （3）Reactiv",
   "keywords": [
-    "shiny"
+    "Shiny"
   ],
   "articleBody": "Shiny Basic系列:\n 参考教程：https://mastering-shiny.org/\n （1）IO控件\n（2）Layout布局\n（3）Reactive用法\n（4）Feedback提醒\n（5）Module模块\nShiny Package系列:\n（1）shinyWidgets\n（2）shinyJS\n（3）shinydashboard\n（4）shinydashboardPlus\n（5）bslib\n（6）Other pkgs\n 1. 基本形式 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17  # module file  module_UI = function(id){  ns  tagList(  XXXInput(ns(\"var\"),\"label\",...)  ) }  module_Server = function(id){  moduleServer(id, function(input, output, session){  ns   reactive({input$var})  ...  }) }   1 2 3 4 5 6 7 8 9 10 11 12 13 14 15  # App.R  library(shiny)  source(\"module.R\") #加载模块文件  ui  histogramUI(\"hist1\") #使用模块的UI )  server  histogramServer(\"hist1\") #使用模块的server }  shinyApp(ui, server)   2. 其它参数  定义模块的UI/Server时，均可以设置额外的参数  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22  module_UI = function(id, params = NULL){  ns   tagList(  XXXInput(ns(\"var\"),\"label\",...)  ) }  ## 对于module server函数的参数可以是普通值，也可以是reactive值 ## 可结合stopifnot()检查是否为预期的类型  module_Server = function(id, param_A, param_B){ \tstopifnot(is.reactive(data))  stopifnot(!is.reactive(filter))   moduleServer(id, function(input, output, session){  ns   reactive({input$var})  ...  }) }   2. reactive返回值  符合function()函数逻辑，默认返回最后一个语句对应的值  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21  # 返回单个值 datasetServer  moduleServer(id, function(input, output, session) {  ......  reactive(get(input$dataset, \"package:datasets\"))  }) }  # 返回一个list所包括的多个值 datasetServer  moduleServer(id, function(input, output, session) {  ns  \t......  list(  name = reactive(input$var),  value = reactive(data()[[input$var]])  )  }) } # res$name, res$value   3. 模块嵌套 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17  # module file selectDataVarUI  ns   tagList(  datasetInput(ns(\"data\"), filter = is.data.frame), #嵌套模块-1  selectVarInput(ns(\"var\")) #嵌套模块-2  ) }  selectDataVarServer  moduleServer(id, function(input, output, session) {  data \"data\") #嵌套模块-1  var \"var\", data, filter = filter) #嵌套模块-2  var  }) }   ",
   "wordCount" : "666",
@@ -560,7 +560,7 @@ Create:&nbsp;<span title='2024-03-31 00:00:00 +0000 UTC'>2024-03-31</span>&nbsp;
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://lishensuo.github.io/tags/shiny/">shiny</a></li>
+      <li><a href="https://lishensuo.github.io/tags/shiny/">Shiny</a></li>
     </ul>
 <nav class="paginav">
   <a class="prev" href="https://lishensuo.github.io/posts/program/258shiny-basic-4-feedback/">

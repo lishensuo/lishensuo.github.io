@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>单细胞分析工具--sccode综合差异分析 | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="单细胞分析">
+<meta name="keywords" content="scRNA-seq">
 <meta name="description" content="scCODE( single-cell consensus optimization of differentially expressed gene detection)是由复旦大学附属金山医院邹欣等人开发的R包工具，于2022年12月发表于Briefing in Bioinfo">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/bioinfo/037%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--sccode%E7%BB%BC%E5%90%88%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/">
@@ -102,7 +102,7 @@
   "name": "单细胞分析工具--sccode综合差异分析",
   "description": "scCODE( single-cell consensus optimization of differentially expressed gene detection)是由复旦大学附属金山医院邹欣等人开发的R包工具，于2022年12月发表于Briefing in Bioinfo",
   "keywords": [
-    "单细胞分析"
+    "scRNA-seq"
   ],
   "articleBody": " scCODE( single-cell consensus optimization of differentially expressed gene detection)是由复旦大学附属金山医院邹欣等人开发的R包工具，于2022年12月发表于Briefing in Bioinformatics；该工具对多种差异基因分析策略进行了集成、整合，用于鉴定鲁棒性的单细胞差异基因。用法比较简单，简单记录如下。\n Paper：https://academic.oup.com/bib/article-abstract/23/5/bbac180/6590434?redirectedFrom=fulltext Github：https://github.com/XZouProjects/scCODE   1、安装R包 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33  necessary1 'doParallel', 'samr','doSNOW','pls')  installed 'Package']   if (length(necessary1[!installed]) =1){   install.packages(necessary1[!installed])   }  necessary2'DESeq2', 'DEsingle',  'edgeR', 'limma', 'MAST', 'S4Vectors', 'scDD', 'scmap', 'SingleCellExperiment', 'SummarizedExperiment')   installed 'Package']   if (length(necessary2[!installed]) =1){   if (!requireNamespace(\"BiocManager\", quietly = TRUE))   install.packages(\"BiocManager\")   library(BiocManager)   BiocManager::install(necessary2[!installed])   }  install.packages(\"BPSC_0.99.2.tar.gz\", repos = NULL, type=\"source\") install.packages(\"OGFSC_0.2.3.tar.gz\", repos = NULL, type=\"source\") install.packages(\"scCODE_1.2.0.0.tar.gz\", repos = NULL, type=\"source\")   2、差异基因分析  （1）准备两组单细胞样本的count表达矩阵  1 2 3 4 5 6 7 8 9 10 11 12 13  library(scCODE) data1data1[1:4,1:4] # [,1] [,2] [,3] [,4] # Gnai3 12336.737462 0 0 5399.62 # Cdc45 0.000000 0 0 0.00 # Narf 0.000000 0 0 0.00 # Scmh1 8.639172 0 0 0.00 dim(data1) # [1] 13045 139 data2dim(data2) # [1] 13045 323    （2）差异分析   默认light模式下，使用5种策略进行分析；再统计每种策略的判断结果。\n  如果一个基因的5种结果均判断为显著差异基因，则相对更可靠。\n  在linux端使用时，出现类似OpenBLAS blas_thread_init: pthread_create failed for thread 60 of 128: Resource temporarily unavailable报错，经查在shell命令行设置如下参数可正常使用。\n1 2 3  export OPENBLAS_NUM_THREADS=2 export GOTO_NUM_THREADS=2 export OMP_NUM_THREADS=2       1 2 3 4 5 6  resultsTRUE,top_ranked=5) deg = results$DE_results table(deg$Detected_times) # 1 2 3 4 5  # 360 1287 132 496 917  head(deg)   ",
   "wordCount" : "631",
@@ -479,7 +479,7 @@ Create:&nbsp;<span title='2023-04-30 00:00:00 +0000 UTC'>2023-04-30</span>&nbsp;
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://lishensuo.github.io/tags/%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90/">单细胞分析</a></li>
+      <li><a href="https://lishensuo.github.io/tags/scrna-seq/">scRNA-seq</a></li>
     </ul>
 <nav class="paginav">
   <a class="prev" href="https://lishensuo.github.io/posts/program/030python-%E5%8F%AF%E8%A7%86%E5%8C%96-pandas%E7%BB%98%E5%9B%BE/">

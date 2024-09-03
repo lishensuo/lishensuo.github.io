@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>单细胞分析工具--scSTAR挖掘分组样本细胞亚型 | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="单细胞分析">
+<meta name="keywords" content="scRNA-seq">
 <meta name="description" content="scSTAR是由复旦大学附属中山医院郝洁研究员等人开发的单细胞分析工具包，于2023年2月发表在Briefings in Bioinformati">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/bioinfo/035%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--scstar%E6%8C%96%E6%8E%98%E5%88%86%E7%BB%84%E6%A0%B7%E6%9C%AC%E7%BB%86%E8%83%9E%E4%BA%9A%E5%9E%8B/">
@@ -102,7 +102,7 @@
   "name": "单细胞分析工具--scSTAR挖掘分组样本细胞亚型",
   "description": "scSTAR是由复旦大学附属中山医院郝洁研究员等人开发的单细胞分析工具包，于2023年2月发表在Briefings in Bioinformati",
   "keywords": [
-    "单细胞分析"
+    "scRNA-seq"
   ],
   "articleBody": " scSTAR是由复旦大学附属中山医院郝洁研究员等人开发的单细胞分析工具包，于2023年2月发表在Briefings in Bioinformatics。该包更加准确地实现同一细胞类型在不同组(正常/疾病)的变化情况下，细胞内部亚型异质性的变化捕捉，在单细胞数据挖掘领域提供新的视角。\n Paper：https://doi.org/10.1093/bib/bbad062 Github：https://github.com/Hao-Zou-lab/scSTAR   1、文章概述 示例1：小鼠年老过程中CD4+ T细胞的亚型变化过程\n  naive CD4+ T cells from youg and old mice\n  使用scSTRA分为5类亚群\n Tcm Tem：main in young mice Texh: main in old mice 其它两类    结论： a shift from effective to exhausted functions during ageing.\n  示例2：小鼠年老过程中某一T细胞亚型的比例分布\n activated CD4+ T cells from young and old mice 根据Cdc23基因是否表达，进一步分为Cdc23+ 与 Cdc23- 两类 使用scSTAR分成3个亚群：scS_0/scS_1/scS_2 scS_1主要包括了Cdc23+，并且主要来自young mice scS_2主要包括了Cdc23-，并且主要来自oldmice 结论：Cdc23 may play a role in antiageing activities.  示例3：鉴定出促癌作用的eTreg亚型\n 从正常组织与肺腺癌数据中提取了739个Treg细胞 使用scSTAR分为5个亚群：C1-C5 C1与C3亚群的marker基因与病人生存具有较好的相关性 在肝癌数据中得到了相似的发现 结论：active Treg subtypes in the tumour microenvironment  示例4：预测黑色素瘤免疫治疗反应的相关亚型\n 经免疫治疗前后的黑色素瘤样本中的5410个CD8+ T细胞； 使用scSTAR将治疗前的CD8+ T分为6个亚群 在non-responder组中(C4+C6)/(C1+C2+C5)比值远高于responder组 结论：(C4+C6)/(C1+C2+C5)比值对于免疫治疗预后相关  2、R包用法  本质用法可以理解为对来自两个样本(正常/疾病)的单细胞数据进行“校正批次”\n  （1）安装、加载相关R包  1 2 3 4 5 6  library(R.matlab) library(tsne) library(pls) # https://github.com/Hao-Zou-lab/scSTAR/blob/main/scSTAR_0.1.1.0.tar.gz # install.packages(\"scSTAR_0.1.1.0.tar.gz\", repos = NULL, type=\"source\") library(scSTAR)    （2）准备log2处理的count矩阵。这里使用示例数据  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15  extdir = system.file(\"extdata\",package=\"scSTAR\") data = readMat(paste0(extdir,'/demo_data.mat')) geneList = as.matrix(unlist(data$geneList))  data1 = as.matrix((data$data1)) dim(data1) # [1] 18825 1078 rownames(data1) = geneList colnames(data1) = paste0(\"d1_cell\",seq(ncol(data1)))  data2 = as.matrix((data$data2)) dim(data2) # [1] 18825 1388 rownames(data2) = geneList colnames(data2) = paste0(\"d2_cell\",seq(ncol(data2)))    （3）scSTAR分析步骤  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18  ## step-1: 挑选基因 data = cbind(data1, data2) idx_OGFSC = filter_gene(data, nBins = 20, plot_option = 1)$OGFSC_idx length(idx_OGFSC) # [1] 6683 head(idx_OGFSC) # [1] 5 6 10 11 12 17 Ctr_filtered = data1[idx_OGFSC,] Case_filtered = data2[idx_OGFSC,]  ## step-2: 鉴定细胞并\"校正\" anchorCells = findAnchors(Ctr_filtered, Case_filtered, 3) # When PLScomp = 0, the number of PLScomp can be automatically estimated. # suggest 3-5 out = scSTAR(Ctr_filtered, Case_filtered, anchorCells, PLScomp = 4) names(out) # [1] \"Case_kinetics\" \"idx_DE_up\" \"Ctr_corrected\" \"Case_corrected\" \"Ctr_kinetics\" \"idx_DE_down\" # 查看函数帮助文档，了解每个的含义    （4）使用Seurat进行聚类等相关分析  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21  data2 = cbind(out$Case_kinetics, out$Ctr_kinetics) rownames(data2) = geneList[idx_OGFSC] dim(data2) # [1] 6683 2466  library(Seurat) library(tidyverse) sce = Seurat::CreateSeuratObject(data2) sce@assays$RNA@data = data2 sce = sce %%  FindVariableFeatures() %%  ScaleData() %%  RunPCA() %%  RunUMAP(dims = 1:30)  # DimPlot(sce, reduction = \"umap\")  sce = sce %%  FindNeighbors(dims = 1:30) %%  FindClusters(resolution = c(0.01, 0.05, 0.1)) diff_wilcox = FindAllMarkers(sce, assay = \"RNA\", slot = \"data\")   ",
   "wordCount" : "1152",
@@ -532,7 +532,7 @@ Create:&nbsp;<span title='2023-04-17 00:00:00 +0000 UTC'>2023-04-17</span>&nbsp;
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://lishensuo.github.io/tags/%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90/">单细胞分析</a></li>
+      <li><a href="https://lishensuo.github.io/tags/scrna-seq/">scRNA-seq</a></li>
     </ul>
 <nav class="paginav">
   <a class="prev" href="https://lishensuo.github.io/posts/bioinfo/028%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--%E5%9F%BA%E4%BA%8E%E6%96%87%E7%8C%AE%E7%9A%84%E7%BB%86%E8%83%9E%E7%B1%BB%E5%9E%8B%E6%B3%A8%E9%87%8Amarker/">

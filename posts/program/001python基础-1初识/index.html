@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>Python基础-(1)初识 | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="Python, Python基础">
+<meta name="keywords" content="Python">
 <meta name="description" content="print()打印 1 2 3 4 5 6 7 8 print(&#34;Hello, world!&#34;) #打印多个字符串，默认用空格链接 print(&#34;A&#34;, &#34;B&#34;, &#34;C&#34;) print(&#34;A&#34;, &#34;B&#34;, &#34;C&#34;,sep=&#34;,&#34;) #`&#43;`可直接拼接字符串 print(&#34;A&#34;&#43;&#34;B&#34;,&#34;C&#34;) #AB C input()取用户输入 1 2">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/program/001python%E5%9F%BA%E7%A1%80-1%E5%88%9D%E8%AF%86/">
@@ -102,7 +102,7 @@
   "name": "Python基础-(1)初识",
   "description": "print()打印 1 2 3 4 5 6 7 8 print(\u0026#34;Hello, world!\u0026#34;) #打印多个字符串，默认用空格链接 print(\u0026#34;A\u0026#34;, \u0026#34;B\u0026#34;, \u0026#34;C\u0026#34;) print(\u0026#34;A\u0026#34;, \u0026#34;B\u0026#34;, \u0026#34;C\u0026#34;,sep=\u0026#34;,\u0026#34;) #`+`可直接拼接字符串 print(\u0026#34;A\u0026#34;+\u0026#34;B\u0026#34;,\u0026#34;C\u0026#34;) #AB C input()取用户输入 1 2",
   "keywords": [
-    "Python", "Python基础"
+    "Python"
   ],
   "articleBody": "print()打印 1 2 3 4 5 6 7 8  print(\"Hello, world!\")  #打印多个字符串，默认用空格链接 print(\"A\", \"B\", \"C\") print(\"A\", \"B\", \"C\",sep=\",\") #`+`可直接拼接字符串 print(\"A\"+\"B\",\"C\") #AB C   input()取用户输入 1 2  x = int(input(\"请输入x：\")) print(x)   关于python脚本程序 1 2 3 4 5 6 7 8 9  # 方式一：使用shell的python命令显示运行python脚本 python hello.py  # 方式二：在python脚本首行指定python解释器，如下所示 #!/usr/bin/env python #然后可执行 chmod a+x hello.py #直接运行 ./hello.py   关于反斜杠\\ 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15  ### (1) 转义符 print('Let\\'s, go') print(\"Let's, go\")  ### (2) 转义转义符:将转义符当作普通的转斜杠字符 # \\n 表示换行 print(\"Hello, \\nworld\") # 将 `\\n`当作普通字符打印 print(r'Hello, \\nworld')  ### (3) 字符串/表达式/语句换行 print(\"Hello, \\ world!\") print \\ (\"Hello, world!\")   赋值语句与序列解包 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19  #简单用法 x = 1  #序列解包 x, y, z = 1, 2, 3 ## 其实上面表达式右边本质是一个元组序列 print(x,y,z)  x, y, z = [1, 2, 3] print(x,y,z)  #一般来说左右两边的元素数要相同，但可以使用星号运算符收集多余的值 x, y, *z = 1,2,3,4,5 print(x, y) ## 1 2  x, *y, z = 1,2,3,4,5 print(x, y, z) ## 1 [2, 3, 4] 5   ",
   "wordCount" : "435",
@@ -463,7 +463,6 @@ Create:&nbsp;<span title='2022-04-10 00:00:00 +0000 UTC'>2022-04-10</span>&nbsp;
   <footer class="post-footer">
     <ul class="post-tags">
       <li><a href="https://lishensuo.github.io/tags/python/">Python</a></li>
-      <li><a href="https://lishensuo.github.io/tags/python%E5%9F%BA%E7%A1%80/">Python基础</a></li>
     </ul>
 <nav class="paginav">
   <a class="prev" href="https://lishensuo.github.io/posts/basic/001%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%9F%BA%E7%A1%80--%E7%BB%9F%E8%AE%A1%E6%8F%8F%E8%BF%B0%E6%8C%87%E6%A0%87%E4%B8%8E%E5%B8%B8%E8%A7%81%E7%BB%9F%E8%AE%A1%E5%88%86%E5%B8%83/">

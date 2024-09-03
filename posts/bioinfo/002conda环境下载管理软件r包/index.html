@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>conda环境下载管理软件、R包 | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="linux基础">
+<meta name="keywords" content="Linux, R">
 <meta name="description" content="conda开源包管理系统和环境管理系统 ，包括多种语言的包安装，运行，更新，删除，最重要的是可以解决包依赖问题。在做生信分析时，感觉就是一个软">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/bioinfo/002conda%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%BD%BD%E7%AE%A1%E7%90%86%E8%BD%AF%E4%BB%B6r%E5%8C%85/">
@@ -102,7 +102,7 @@
   "name": "conda环境下载管理软件、R包",
   "description": "conda开源包管理系统和环境管理系统 ，包括多种语言的包安装，运行，更新，删除，最重要的是可以解决包依赖问题。在做生信分析时，感觉就是一个软",
   "keywords": [
-    "linux基础"
+    "Linux", "R"
   ],
   "articleBody": " conda开源包管理系统和环境管理系统 ，包括多种语言的包安装，运行，更新，删除，最重要的是可以解决包依赖问题。在做生信分析时，感觉就是一个软件管家一样的存在，在安装生信软件等方面上十分方便。下面小结一下conda的基础操作\n  后面介绍的所有conda命令都可以替换为如下的mamba命令，从而实现高速的下载等操作  1  conda install -c conda-forge mamba   1、下载、安装miniconda包 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15  wget https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/Miniconda3-latest-Linux-x86_64.sh bash Miniconda3-latest-Linux-x86_64.sh # 开始安装，过程中根据提示回车或者yes就行了~ # source ~/.bashrc  # 配置国内镜像源，提高以后下载软件速度 conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/bioconda conda config --set show_channel_urls yes  conda config --get #查看已设置的channels  # 如果想要删除某镜像源 # conda config --remove channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free    如果出现conda命令找不到的情况，可按下法操作。不过现在安装，好像一般都会自动添加了。\n1 2 3 4 5 6 7 8 9  cat ~/.bashrc #此时应该没有miniconda的路径 nano ~/.bashrc #将下面一行代码输入到最后 echo ‘export PATH=“home/user/miniconda3/bin:$PATH”’  ~/.bashrc #保存退出 cat ~/.bashrc #此时应该是修改好的版本了 source ~/.bashrc #更新一下，然后下面的操作就可以顺利进行了。    2、环境管理 类似Linux系统是一个大庭院，我们专门为做一件事情（需要一系列软件）而设置的一个房间（环境），这样就会使这个大庭院干净利落很多，不会很乱。做一件事，到相应的房间（conda环境）去使用软件就行。这些软件的命令都是可以直接使用的，这就很方便了\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26  #创建一个名为rna-seq的环境 conda create -n rna-seq  #进入该环境，此时可以看到命令行提示符前缀已经发生了变化 conda activate rna-seq  #退出环境 conda deactivate  #查看系统有哪些环境（房间） conda info --envs  #删除名字为name的环境 conda remove -n name --all  #环境重命名：先复制改名，再删除旧的 conda create -n newname --clone oldname conda remove -n oldname --all  #复制环境到新电脑 ## 先进入目标环境 conda activate myconda ## 然后生成yaml文件 conda env export  myconda.yaml ## 传递该yaml文件到目标电脑，再安装即可 conda env create -f myconda.yaml   3、下载、管理软件 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16  #搜索软件 conda search fastqc  #下载软件， ## -y 参数表自动安装 ## -c 指定软件下载的channal源 conda install -c bioconda fastqc -y  #下载指定版本的软件 conda install -c bioconda fastqc=0.11.7  #查看当前环境下的所有软件 conda list  #卸载软件 conda remove fastqc -y   4、安装R包  CRAN的R包：r-package；不区分大小写  1 2 3  mamba install -c r r-base mamba install -c r r-essentials mamba install -c r r-ggplot2   安装r-base之后，就可以进入R环境，使用R的命令安装包。\n（1）有时R的命令安装不了的包，使用conda可以安装成功。\n（2）但是conda安装包的版本往往具有滞后性\n Bioconductor的生信包：bioconductor-package；不区分大小写  1  mamba install -c r bioconductor-deseq2 bioconductor-edger     Rstudio\n在conda里也可以安装自己的rstudio，相关网页参见：https://anaconda.org/r/rstudio\n经过实践尝试之后，发现最新只提供到1.1.456的Rstudio版本（目前已经更新到1.4版本了），与之对应的就只能使用3.6的R\n  1 2 3 4 5 6 7 8 9 10  #单独创建一个rstudio环境 conda activate rstudio #这一步会默认安装最新版的R(4.0) mamba install -c r r-essentials r-base #首先会默认安装1.0版本的rstudio，会自动把r降到3.2的版本 conda install -c r rstudio #然后再指定升级rstudio至1.1.456版本，会自动把r升到3.6的版本 conda install -c r rstudio=1.1.456 #启动rstudio界面 rstudio    安装rstudio时并没有使用mamba安装，因为失败了。使用conda安装，也需要等待较长时间，甚至多试几次。但最终还是可以滴。   关于设置R包下载镜像地址：https://www.jianshu.com/p/9940fb1864c3  ",
   "wordCount" : "1505",
@@ -568,7 +568,8 @@ Create:&nbsp;<span title='2022-04-16 00:00:00 +0000 UTC'>2022-04-16</span>&nbsp;
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://lishensuo.github.io/tags/linux%E5%9F%BA%E7%A1%80/">linux基础</a></li>
+      <li><a href="https://lishensuo.github.io/tags/linux/">Linux</a></li>
+      <li><a href="https://lishensuo.github.io/tags/r/">R</a></li>
     </ul>
 <nav class="paginav">
   <a class="prev" href="https://lishensuo.github.io/posts/basic/002%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%9F%BA%E7%A1%80--%E4%BB%A5t%E6%A3%80%E9%AA%8C%E4%B8%BA%E4%BE%8B%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8E%E4%B8%AD%E5%BF%83%E6%9E%81%E9%99%90%E5%AE%9A%E7%90%86%E7%9A%84%E5%81%87%E8%AE%BE%E6%A3%80%E9%AA%8C/">

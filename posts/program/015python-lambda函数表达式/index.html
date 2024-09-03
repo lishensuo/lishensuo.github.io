@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>Python-lambda函数表达式 | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="Python, Python基础">
+<meta name="keywords" content="Python">
 <meta name="description" content="lambda表达式可用于定义简单的一行式函数，并且可搭配其它函数时有多种衍生用法。 https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.apply.html https://www.learncodewithmike.com/2019/12/python-lambda-functions.html https://pythonviz.com/pandas/3-ways-to-use-pandas-apply-in-python/ 1、基础用法 如下所示，lambda表达式有3个组分 关">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/program/015python-lambda%E5%87%BD%E6%95%B0%E8%A1%A8%E8%BE%BE%E5%BC%8F/">
@@ -102,7 +102,7 @@
   "name": "Python-lambda函数表达式",
   "description": "lambda表达式可用于定义简单的一行式函数，并且可搭配其它函数时有多种衍生用法。 https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.apply.html https://www.learncodewithmike.com/2019/12/python-lambda-functions.html https://pythonviz.com/pandas/3-ways-to-use-pandas-apply-in-python/ 1、基础用法 如下所示，lambda表达式有3个组分 关",
   "keywords": [
-    "Python", "Python基础"
+    "Python"
   ],
   "articleBody": " lambda表达式可用于定义简单的一行式函数，并且可搭配其它函数时有多种衍生用法。\n  https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.apply.html\n  https://www.learncodewithmike.com/2019/12/python-lambda-functions.html\n  https://pythonviz.com/pandas/3-ways-to-use-pandas-apply-in-python/\n   1、基础用法 如下所示，lambda表达式有3个组分\n 关键字 lambda 函数所需的参数，根据需要可以有多个 函数表达式，通常就是一行。  1 2 3 4 5 6 7  x = lambda a : a + 10 print(x(5))  x = lambda a, b : a * b print(x(5, 6))  (lambda a, b : a * b)(4, 3)   2、搭配用法 2.1 map()迭代 map()接受两个参数：逐元素进行某个函数的计算，返回相应的结果\n 函数，可以使用简洁的lambda表达式 待迭代对象，例如列表  1 2 3  number = [1, 2, 3, 4, 5] list(map(lambda x : x + 5, number)) # [6, 7, 8, 9, 10]   2.2 filter()筛选 map()同样接受两个参数：根据函数的计算的逻辑值结果判断是否保留元素(True)\n 函数，输出结果为逻辑值 待筛选对象，例如列表  1 2 3  number = [1, 2, 3, 4, 5] list(filter(lambda x : x  3, number)) # [4, 5]   2.3 pandas的apply()  类似R语言中的apply(), pandas表格的apply()函数可实现逐行，或者逐列操作 常用的还是逐行操作，例如根据表格已有列的值新增或者修改列。 axis = 1 逐行操作 → 将表格的每一行作为参数传入函数 → 得到对应计算结果，变成一列值  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29  df = np.random.randint(0,10,(3,2)) df = pd.DataFrame(df, columns=[\"col_1\",\"col_2\"]) # col_1 col_2 # 0 5 3 # 1 3 6 # 2 1 2   #(1)基本用法 df[\"new_col\"] = df.apply(lambda x: x[\"col_1\"] + x[\"col_2\"], axis=1) df.apply(lambda x: x[0] + x[1], axis=1) #与上面等价  #(2)关于result_type参数 df.apply(lambda x: [x[0]+10, x[1]-2], axis=1) # 0 [15, 1] # 1 [13, 4] # 2 [11, 0] df.apply(lambda x: [x[0]+10, x[1]-2], axis=1, result_type=\"expand\") # 0 1 # 0 15 1 # 1 13 4 # 2 11 0 df.apply(lambda x: [x[0], x[1]] if x[0]x[1] else [x[1], x[0]],  axis=1, result_type='expand')  #(3)关于raw参数，默认为False传入的一行式Series格式；改为True则为numpy数组格式 df.apply(lambda x: np.sort(x), axis=1, raw=True)  ## axis=0 则是逐列操作，使用的不多，逻辑相同。    上述使用lambda的地方都可改为传统的自定义函数，完成更加复杂的计算需求。\n ",
   "wordCount" : "718",
@@ -477,7 +477,6 @@ Create:&nbsp;<span title='2022-09-17 00:00:00 +0000 UTC'>2022-09-17</span>&nbsp;
   <footer class="post-footer">
     <ul class="post-tags">
       <li><a href="https://lishensuo.github.io/tags/python/">Python</a></li>
-      <li><a href="https://lishensuo.github.io/tags/python%E5%9F%BA%E7%A1%80/">Python基础</a></li>
     </ul>
 <nav class="paginav">
   <a class="prev" href="https://lishensuo.github.io/posts/bioinfo/017%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--ecaugt%E6%8F%90%E5%8F%96heca%E6%95%B0%E6%8D%AE/">

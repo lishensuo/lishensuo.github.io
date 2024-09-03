@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>文献--椎间盘退行性疾病bulk与scRNA-seq数据挖掘 | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="文献-套路">
+<meta name="keywords" content="文献-挖掘">
 <meta name="description" content="文章题目：Revealing the Key MSCs Niches and Pathogenic Genes in Influencing CEP Homeostasis: A Conjoint Analysis of Single-Cell and WGCNA 杂志/日期：Front. Immunol. / 27 June 2022 DOI：10.3389/fimmu.202">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/basic/104%E6%96%87%E7%8C%AE--%E6%A4%8E%E9%97%B4%E7%9B%98%E9%80%80%E8%A1%8C%E6%80%A7%E7%96%BE%E7%97%85bulk%E4%B8%8Escrna-seq%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/">
@@ -102,7 +102,7 @@
   "name": "文献--椎间盘退行性疾病bulk与scRNA-seq数据挖掘",
   "description": "文章题目：Revealing the Key MSCs Niches and Pathogenic Genes in Influencing CEP Homeostasis: A Conjoint Analysis of Single-Cell and WGCNA 杂志/日期：Front. Immunol. / 27 June 2022 DOI：10.3389/fimmu.202",
   "keywords": [
-    "文献-套路"
+    "文献-挖掘"
   ],
   "articleBody": " 文章题目：Revealing the Key MSCs Niches and Pathogenic Genes in Influencing CEP Homeostasis: A Conjoint Analysis of Single-Cell and WGCNA\n杂志/日期：Front. Immunol. / 27 June 2022\nDOI：10.3389/fimmu.2022.933721\n  由于对这一领域不甚了解，主要记录、学习文章的分析方法与技术路线。简单记录相关术语如下：\n Degenerative disc disease (DDD)：椎间盘退行性疾病 nucleus pulposus (NP)：髓核 annulus fibrosis (AF)：纤维环 cartilage endplate (CEP)：软骨终板 mesenchymal stem cells：间充质干细胞   0、文献概要 如标题所述，这篇文献旨在分析软骨终板细胞中与DDD发生相关的关键基因与细胞类型。主要分为两个方面：首先通过WGCNA分析得到DDD相关的模块，围绕模块展开系列分析。其次结合单细胞数据以MSC细胞类型为核心展开多角度分析。\n1、流程总结 结合自己的理解对文献的结果部分进行总结，具体流程与图表可参看原文\n1.1 WGCNA部分 （1）从GSE153761的6个样本中（3疾病3对照）进行常规WGCNA流程分析，发现与疾病分组的核心模块，进行通路分析；\n（2）通过STRING的PPI进一步鉴定出两个子模块与5个hub基因，进行通路分析，\n（3）由于上述富集通路涉及免疫信号，文章进一步补充了CIBERSORT免疫浸润分析，发现显著差异的免疫细胞\n 这一步部分的核心结论是发现了5个与degenerative CEP高度相关的5个signature gene。\n 1.2 scRNA-seq部分 （1）从GSE160756收集人椎间盘CEP部位的26209个细胞测序数据，进行质控、去批次、降维、分群、细胞类型注释、亚群分析等常规步骤。共得到13个cluster，6大类细胞；其中对于mesenchymal chondrocytes得到3个亚群。\n（2）对6类细胞分析得到的marker gene进行功能注释分析；\n（3）对mesenchymal chondrocytes的3个亚型细胞命运(cytoTRACE)与轨迹分析(Monocle2)\n（4）使用CellPhoneDB对CEP的6类细胞（包括mesenchymal chondrocytes的3个亚型）进行配受体对水平的细胞通讯分析。\n 这一部分的核心结论是发现了mesenchymal chondrocytes中的两个亚群在CEP稳态或恶化过程中起到关键的作用。\n  个人体会：研究从两个方面独立展开，分别研究与DDD相关的基因（模块）与细胞类型。分析手段多种多样，绘图可视化值得学习，但研究的样本量较小，也并没有将两方面很好地结合起来。如文章所说，可能这方面的数据本身就偏少，也是首次在该领域进行类似的数据挖掘。\n",
   "wordCount" : "1042",
@@ -372,7 +372,7 @@ Create:&nbsp;<span title='2022-12-01 00:00:00 +0000 UTC'>2022-12-01</span>&nbsp;
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://lishensuo.github.io/tags/%E6%96%87%E7%8C%AE-%E5%A5%97%E8%B7%AF/">文献-套路</a></li>
+      <li><a href="https://lishensuo.github.io/tags/%E6%96%87%E7%8C%AE-%E6%8C%96%E6%8E%98/">文献-挖掘</a></li>
     </ul>
 <nav class="paginav">
   <a class="prev" href="https://lishensuo.github.io/posts/bioinfo/103%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr34--%E5%88%86%E7%B1%BB--%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF/">

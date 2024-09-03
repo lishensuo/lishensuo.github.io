@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>docker初学 | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="">
+<meta name="keywords" content="计算机基础">
 <meta name="description" content="docker介绍 docker可以理解为轻量级的虚拟机，创建一个独立的环境，应用于特定的分析流程。 docker的镜像是一个定制的环境模板，而容">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/program/501docker%E5%88%9D%E5%AD%A6/">
@@ -102,7 +102,7 @@
   "name": "docker初学",
   "description": "docker介绍 docker可以理解为轻量级的虚拟机，创建一个独立的环境，应用于特定的分析流程。 docker的镜像是一个定制的环境模板，而容",
   "keywords": [
-    
+    "计算机基础"
   ],
   "articleBody": "docker介绍  docker可以理解为轻量级的虚拟机，创建一个独立的环境，应用于特定的分析流程。 docker的镜像是一个定制的环境模板，而容器则是镜像实例化而得到的，可供实际分析的“虚拟机” 可以自己编辑dockfile创建一个镜像，或者下载安装别人写好的镜像(Docker Hub)。    docker的安装、使用需要sudo权限；但后续使用可通过下述命令使普通用户可以使用docker命令\n1 2 3 4  sudo groupadd docker #添加docker用户组 sudo gpasswd -a $USER docker #将登陆用户加入到docker用户组中 newgrp docker #更新用户组 docker ps #测试docker命令是否可以使用sudo正常使用     podman是类似docker，但是安装后的使用不需要root权限，也可以通过conda安装。使用方式只需要将下面的docker换为podman即可。\n1  conda install -c conda-forge podman     镜像命令 1 2 3 4 5 6 7 8 9 10 11 12  # https://registry.hub.docker.com/ ##(1) search搜索镜像 docker search ubuntu  ##(2) pull下载镜像 docker pull ubuntu #默认最新版本  ##(3) images查看已安装的镜像 docker images  ##(4) rmi删除镜像 docker rmi ubuntu   容器命令 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58  ##(1) run创建容器示例 docker run -it --name \"ubuntu001\" ubuntu /bin/bash  ## -it 交互模式运行容器 ## -d 后台运行容器 ## --name 自定义容器实例名  ## -v 关联宿主机目录与容器虚拟机目录() docker run -it \\ -v $(pwd)/v01:/mydat1 \\ -v $(pwd)/v02:/mydat2 \\ -v $(pwd)/v03:/mydat3 \\ ubuntu /bin/bash  ## -p 指定端口 宿主机端口:容器端口 #jupyter/datascience-notebook只开放8888端口 docker pull jupyter/datascience-notebook docker run -d -p 8080:8888 jupyter/datascience-notebook   ##(2) 退出交互模式容器 # exit命令 或者 CTRL+D 退出，并停止容器 # CTRL+P+Q 退出，但不停止容器（把前台容器放到后台）  ##(3) ps查看正在运行的容器 docker ps #当前正在运行的容器，第一列为容器ID docker ps -a #所有容器包括正在运行的，历史运行过的 docker ps -aq  ##(4) 停止/启动容器 docker stop 7d97d76e6f04 docker start 7d97d76e6f04  ##(5) 进入被放到后台的容器 # attach 进入容器后，exit命令会停止容器 docker attach af55cfa46000 # exec 相当于容器的新进程，不影响正在运行的进程 docker exec -it af55cfa46000 /bin/bash  ##(6) 宿主机与容器的文件复制 #将容器内的文件复制到本地 docker cp 68a6b45156a4:/home/jovyan/yyyy.txt . #将本地的文件复制到容器内 docker cp ./file 68a6b45156a4:/home/jovyan/   ##(7) 删除容器 #删除容器 docker rm 7d97d76e6f04 #删除所有容器 docker rm $(docker ps -aq) #强制删除正在运行的容器 docker rm -f e91439d11fa6   ##(8) 查看容器日志 docker logs 7d97d76e6f04 docker logs -f 7d97d76e6f04   1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16  su #当前工作目录切换为root #切换到root权限及root目录 #查看所有用户 cat /etc/passwd  #新建用户 useradd -s /bin/bash -m xiaobei #修改用户密码 passwd xiaobei  cat /etc/passwd  #切换用户 su - xiaobei  #删除用户 userdel -r xiaobei   ",
   "wordCount" : "1009",
@@ -545,6 +545,9 @@ Create:&nbsp;<span title='2022-05-14 00:00:00 +0000 UTC'>2022-05-14</span>&nbsp;
   </div>
 
   <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/">计算机基础</a></li>
+    </ul>
 <nav class="paginav">
   <a class="prev" href="https://lishensuo.github.io/posts/bioinfo/501%E5%8C%96%E5%90%88%E7%89%A9%E6%8C%87%E7%BA%B9%E4%B8%8E%E6%8F%8F%E8%BF%B0%E7%AC%A6%E7%94%9F%E6%88%90%E7%B3%BB%E5%88%97%E5%B7%A5%E5%85%B7/">
     <span class="title">« Prev Page</span>

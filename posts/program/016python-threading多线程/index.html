@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>Python-threading多线程 | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="Python, Python基础">
+<meta name="keywords" content="Python">
 <meta name="description" content="python内置的threading模块可以实现多任务的多线程并行处理，如下简单记录一下用法。 参考链接 https://zhuanlan.zhihu.com/p/34004179 https://www.runoob.com/python3/python3-multithreading.html 1、threading 1 2 3 4 5 6">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/program/016python-threading%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
@@ -102,7 +102,7 @@
   "name": "Python-threading多线程",
   "description": "python内置的threading模块可以实现多任务的多线程并行处理，如下简单记录一下用法。 参考链接 https://zhuanlan.zhihu.com/p/34004179 https://www.runoob.com/python3/python3-multithreading.html 1、threading 1 2 3 4 5 6",
   "keywords": [
-    "Python", "Python基础"
+    "Python"
   ],
   "articleBody": " python内置的threading模块可以实现多任务的多线程并行处理，如下简单记录一下用法。\n参考链接\n https://zhuanlan.zhihu.com/p/34004179 https://www.runoob.com/python3/python3-multithreading.html   1、threading 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39  import threading import random import time  def calculate(result):  t1 = random.randint(2, 10)  t2 = t1-1  print(threading.current_thread().name, \": waiting time is\", t2) #查看当前线程名  time.sleep(t2)  threadLock = threading.Lock()  threadLock.acquire() #上锁  result.append(t2) #保证只有一个线程对result进行操作  threadLock.release() #解锁  ths = [] #线程列表 result = [] #储存所有线程的结果  print(time.ctime(time.time())) for i in range(5): #相当于调用5个线程  th = threading.Thread(target = calculate, args=(result,),  name = 'thread {}'.format(i)) #args参数用于传参  th.start()  ths.append(th)  # 如下循环语句常用来等待所有线程结束后，再执行后面的命令； # 如果不加此语句，会直接继续后面的命令，但之后result也可以得到相同的结果 for th in ths:  th.join() print(time.ctime(time.time())) print(result)  # Mon Sep 19 10:28:23 2022 #开始时间 # thread 0 : waiting time is 2 # thread 1 : waiting time is 4 # thread 2 : waiting time is 7 # thread 3 : waiting time is 3 # thread 4 : waiting time is 8 # Mon Sep 19 10:28:31 2022 #结束时间，即运行时间为8s # [2, 3, 4, 7, 8]    上面的例子作用是：随机初始化一个数，等待相应的时间后，再加入到同一个列表中。\n（先完成的线程先将初始数加入到列表中）\n  threading.Thread(): 用于定义新的线程，包括线程任务，开始线程等  1 2 3 4 5 6 7 8  # 实例化一个新的线程 ## target参数定义任务函数， args参数提供函数的特定参数， name参数定义该线程的名字 th = threading.Thread(target = , args= , name=)  ## start()方法用于启动线程, 之后会默默运行直至结束；可继续后面的命令(可以理解为放后台了) th.start() ## join()方法用于阻塞线程，直至对应线程任务结束后，才可以继续后面的命令 th.join()    threading.current_thread(): 当前线程的信息，常放置在任务语句中  1 2  # 查看当前线程的名字 threading.current_thread().name     threading.Lock() 线程锁\n当多个线程会对同一个全局变量进行修改时，为避免可能的冲突矛盾时，发挥作用；放置任务语句中需要修改全局变量的语句中。\n1 2 3 4 5 6  threadLock = threading.Lock() threadLock.acquire() #上锁 # 相关修改全局变量的语句 threadLock.release() #解锁  #在上锁与解锁之间的执行，相当于单线程运行     2、multiprocessing 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21  from multiprocessing import Pool import pandas as pd  ## 定义函数 def func(i): \tprint(f\"No.{i}\") \ti2 = i*i \treturn [i, i2]  ## 多线程执行 def multi_process():  pool = Pool(5)  outputs = pool.map(func, range(20))  # print(f\"outputs:{outputs}\")  return(outputs)  res = multi_process()  ## 返回结果 res_df = pd.DataFrame(res, columns=[\"v1\",\"v2\"]) res_df.head()   ",
   "wordCount" : "848",
@@ -528,7 +528,6 @@ Create:&nbsp;<span title='2022-09-19 00:00:00 +0000 UTC'>2022-09-19</span>&nbsp;
   <footer class="post-footer">
     <ul class="post-tags">
       <li><a href="https://lishensuo.github.io/tags/python/">Python</a></li>
-      <li><a href="https://lishensuo.github.io/tags/python%E5%9F%BA%E7%A1%80/">Python基础</a></li>
     </ul>
 <nav class="paginav">
   <a class="prev" href="https://lishensuo.github.io/posts/bioinfo/020%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--%E7%BB%86%E8%83%9E%E5%91%A8%E6%9C%9F%E5%88%86%E6%9E%90/">

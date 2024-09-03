@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>文献--机器学习模型预测药物肾毒性-1 | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="文献-药物预测">
+<meta name="keywords" content="文献-算法">
 <meta name="description" content="题目：In Silico Prediction and Insights Into the Structural Basis of Drug Induced Nephrotoxicity 期刊 | 日期：05 January 2022 DOI: 10.3389/fphar.2021.793332 简括：建立机器学习模型的经典流程，值得注意的是包括化合物特征提取，模型建立/评价都">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/basic/200%E6%96%87%E7%8C%AE--%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%A2%84%E6%B5%8B%E8%8D%AF%E7%89%A9%E8%82%BE%E6%AF%92%E6%80%A7-1/">
@@ -102,7 +102,7 @@
   "name": "文献--机器学习模型预测药物肾毒性-1",
   "description": "题目：In Silico Prediction and Insights Into the Structural Basis of Drug Induced Nephrotoxicity 期刊 | 日期：05 January 2022 DOI: 10.3389/fphar.2021.793332 简括：建立机器学习模型的经典流程，值得注意的是包括化合物特征提取，模型建立/评价都",
   "keywords": [
-    "文献-药物预测"
+    "文献-算法"
   ],
   "articleBody": " 题目：In Silico Prediction and Insights Into the Structural Basis of Drug Induced Nephrotoxicity\n期刊 | 日期：05 January 2022\nDOI: 10.3389/fphar.2021.793332\n简括：建立机器学习模型的经典流程，值得注意的是包括化合物特征提取，模型建立/评价都是在online chemical database and modeling environment (OCHEM)平台完成的。文章建立的模型也上传到该平台中：https://ochem.eu/article/140251\n 1、收集数据 1.1 标签数据 如下，最终收集到565个药物(287, 278)\n（1）阳性数据，即肾毒性药物，收集自SIDER数据库：drugs with nephrotoxicity related ADRs with frequency ≥0.1%；\n（2）阴性数据，即无肾毒性药物参考2019年Zhang等预测模型所使用的阴性药物；\n（3）筛选不合适的药物：去重、混合物主要成分、salt → parent form\n1.2 特征数据 基于OCHEM平台，计算8种分子描述符(molecular descriptors)\n Chemaxon descriptors (Chemaxon, 499 descriptors) Fragmentor GSFrag descriptors (GSFrag, 1,138 descriptors) MORDRED descriptors (MORDRED, 1826 descriptors), PyDescriptor (1,624 descriptors), QNPR descriptors (QNPR) RDKit descriptors (RDKit) alvaDesc descriptors (5,666 descriptors)   对于深度学习模型，直接使用SMILES字符串作为每个化合物输入\n 2、训练模型 2.1 模型算法 （1）5种机器学习模型\n associative neural network (ASNN) support vector machine (SVM) C4.5 decision tree random forest (RFR) extreme gradient boosting (XGBoost)  （2）5种深度学习模型\n convolutional neural network fingerprint (CNF) transformer convolutional neural network (TRANSNN) TEXTCNN algorithm available from DeepChem (TEXTCNN) Graph Isomorphism Network (GIN) edge attention based multirelational graph convolutional networks (EAGCNG)  2.3 评价指标 AUC\ntotal accuracy(Q)\nsensitivity(SE)\nspecificity(SP)\nenrichment factor(EF)\nMatthews correlation coefficient(MCC)\n2.2 数据集划分 （1）如下划分出训练集与验证集：\n（2）经降维分析，发现两组数据分布均匀。\n2.3 训练模型  使用训练集，经5折交叉验证训练出40个机器学习模型(5×8)与5个深度学习模型 基于Q0.7, AUC0.8发现3个最优模型：2个ML(XGBoost_QNPR, RFR_QNPR)与1个DL(CNF) 使用上述3个Top模型进行consensus modeling，即3个模型预测结果的均值，性能有较大提示。  2.4 验证模型  对上述3个Top模型以及consensus模型进行测试集验证，发现还是consensus模型较优。  ",
   "wordCount" : "737",
@@ -404,7 +404,7 @@ Create:&nbsp;<span title='2023-02-10 00:00:00 +0000 UTC'>2023-02-10</span>&nbsp;
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://lishensuo.github.io/tags/%E6%96%87%E7%8C%AE-%E8%8D%AF%E7%89%A9%E9%A2%84%E6%B5%8B/">文献-药物预测</a></li>
+      <li><a href="https://lishensuo.github.io/tags/%E6%96%87%E7%8C%AE-%E7%AE%97%E6%B3%95/">文献-算法</a></li>
     </ul>
 <nav class="paginav">
   <a class="prev" href="https://lishensuo.github.io/posts/basic/178%E6%96%87%E7%8C%AE--%E6%B5%86%E7%BB%86%E8%83%9Eplasma-cells%E5%9C%A8%E8%86%80%E8%83%B1%E7%99%8Cbladder-cancer%E4%B8%AD%E7%9A%84%E9%A2%84%E5%90%8E%E5%88%86%E6%9E%90/">

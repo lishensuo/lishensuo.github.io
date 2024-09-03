@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>D2L | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="李申锁的博客，记录生信学习过程。R/Python/Shell">
+<meta name="author" content="">
+<link rel="canonical" href="https://lishensuo.github.io/tags/d2l/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.1abf8254c205953f8beb228727a5e0a5541f0bc42f68f2762e2e594e7b213985.css" integrity="sha256-Gr&#43;CVMIFlT&#43;L6yKHJ6XgpVQfC8QvaPJ2Li5ZTnshOYU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="https://lishensuo.github.io/tags/d2l/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="D2L" />
+<meta property="og:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://lishensuo.github.io/tags/d2l/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="D2L"/>
+<meta name="twitter:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell"/>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header"><div class="breadcrumbs"><a href="https://lishensuo.github.io">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/tags/">Tags</a></div>
+  <h1>D2L</h1>
+</header>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>深度学习D2L--01--线性回归
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>深度学习组成要素 线性回归可以认为是最简单的一层深度神经网络 一、从零实现 1 2 3 import numpy as np import torch import random 1、示例数据 模拟样本特征与标签数据，并分成小批量...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2022-07-31 00:00:00 +0000 UTC'>2022-07-31</span>&nbsp;|&nbsp;Update:&nbsp;2022-07-31&nbsp;|&nbsp;Words:&nbsp;642&nbsp;|&nbsp;2 min&nbsp;|&nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 深度学习D2L--01--线性回归" href="https://lishensuo.github.io/posts/bioinfo/701%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0d2l--01--%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>深度学习D2L--02--softmax多分类
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>一、从零实现 1 2 3 4 import torch import torchvision from torch.utils import data from torchvision import transforms 1、示例数据 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 ##数据集为fashion_minist，10类...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2022-07-31 00:00:00 +0000 UTC'>2022-07-31</span>&nbsp;|&nbsp;Update:&nbsp;2022-07-31&nbsp;|&nbsp;Words:&nbsp;1277&nbsp;|&nbsp;3 min&nbsp;|&nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 深度学习D2L--02--softmax多分类" href="https://lishensuo.github.io/posts/bioinfo/702%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0d2l--02--softmax%E5%A4%9A%E5%88%86%E7%B1%BB/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>深度学习D2L--03--K折交叉验证的torch训练基础流程
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1、加载库 1 2 3 4 5 6 7 import pandas as pd import torch from torch import nn from torch.nn import functional as F from torch.utils import data import itertools 2、示例数据 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 # http://d2l-data.s3-accelerate.amazonaws.com/kaggle_house_pred_train.csv # http://d2l-data.s3-accelerate.amazonaws.com/kaggle_house_pred_test.csv train_data = pd.read_csv(&#34;../data/kaggle_house_pred_train.csv&#34;) test_data = pd.read_csv(&#34;../data/kaggle_house_pred_test.csv&#34;) train_data.shape,...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2022-08-23 00:00:00 +0000 UTC'>2022-08-23</span>&nbsp;|&nbsp;Update:&nbsp;2022-08-23&nbsp;|&nbsp;Words:&nbsp;882&nbsp;|&nbsp;2 min&nbsp;|&nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 深度学习D2L--03--K折交叉验证的torch训练基础流程" href="https://lishensuo.github.io/posts/bioinfo/703%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0d2l--03--k%E6%8A%98%E4%BA%A4%E5%8F%89%E9%AA%8C%E8%AF%81%E7%9A%84torch%E8%AE%AD%E7%BB%83%E5%9F%BA%E7%A1%80%E6%B5%81%E7%A8%8B/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>D2L--第二章预备知识
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1. 数据操作 1.1 入门 张量：具有多个维度（轴）的数组。 具有一个轴的张量，对应数学上的向量； 具有两个轴的张量，对应数学上的矩阵。 创建张量 1 2 3 4 5 6...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2024-07-21 00:00:00 +0000 UTC'>2024-07-21</span>&nbsp;|&nbsp;Update:&nbsp;2024-07-21&nbsp;|&nbsp;Words:&nbsp;2515&nbsp;|&nbsp;6 min&nbsp;|&nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to D2L--第二章预备知识" href="https://lishensuo.github.io/posts/bioinfo/705d2l-%E7%AC%AC%E4%BA%8C%E7%AB%A0%E9%A2%84%E5%A4%87%E7%9F%A5%E8%AF%86/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>D2L--第三章线性神经网络
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1. 线性回归 1.1 线性回归的基本元素 线性模型：目标(y)可以表示为输入特征的加权和，参数包括权重向量w和偏置b 损失函数：表示目标的实际值与预测值之...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2024-07-21 00:00:00 +0000 UTC'>2024-07-21</span>&nbsp;|&nbsp;Update:&nbsp;2024-07-21&nbsp;|&nbsp;Words:&nbsp;4277&nbsp;|&nbsp;9 min&nbsp;|&nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to D2L--第三章线性神经网络" href="https://lishensuo.github.io/posts/bioinfo/706d2l-%E7%AC%AC%E4%B8%89%E7%AB%A0%E7%BA%BF%E6%80%A7%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>D2L--第四章多层感知机
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1. 多层感知机 1.1 隐藏层 之前所学的线性模型意味着单调假设，并不适用于更复杂的建模问题，例如体温与疾病；图片某个像素点的强度与猫或狗的关系等； 多层...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2024-07-28 00:00:00 +0000 UTC'>2024-07-28</span>&nbsp;|&nbsp;Update:&nbsp;2024-07-28&nbsp;|&nbsp;Words:&nbsp;4159&nbsp;|&nbsp;9 min&nbsp;|&nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to D2L--第四章多层感知机" href="https://lishensuo.github.io/posts/bioinfo/707d2l-%E7%AC%AC%E5%9B%9B%E7%AB%A0%E5%A4%9A%E5%B1%82%E6%84%9F%E7%9F%A5%E6%9C%BA/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>D2L--第五章深度学习计算
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1. 层和块 1.1 自定义块 块/模块（block）可以描述单个层、由多个层（lay）组成的组件或整个神经网络模型本身。 复杂的模块也可以由简单的模块组成...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2024-07-28 00:00:00 +0000 UTC'>2024-07-28</span>&nbsp;|&nbsp;Update:&nbsp;2024-07-28&nbsp;|&nbsp;Words:&nbsp;2955&nbsp;|&nbsp;6 min&nbsp;|&nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to D2L--第五章深度学习计算" href="https://lishensuo.github.io/posts/bioinfo/708d2l-%E7%AC%AC%E4%BA%94%E7%AB%A0%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%AE%A1%E7%AE%97/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>D2L--第六章卷积神经网络
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1. 从全连接层到卷积 1.1 不变性 假设一个场景：需要制作一个检测器，在一张图片中检测一种特定物体。需要满足两个性质： 平移不变性：无论该物品在图片的哪...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2024-08-04 00:00:00 +0000 UTC'>2024-08-04</span>&nbsp;|&nbsp;Update:&nbsp;2024-08-04&nbsp;|&nbsp;Words:&nbsp;4105&nbsp;|&nbsp;9 min&nbsp;|&nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to D2L--第六章卷积神经网络" href="https://lishensuo.github.io/posts/bioinfo/709d2l-%E7%AC%AC%E5%85%AD%E7%AB%A0%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>D2L--第七章现代卷积神经网络
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1. 深度卷积神经网络(AlexNet) 1.1 学习表征 LeNet提出后，卷积神经网络并未占据主流，而是往往由其它机器学习方法所超越，如SVM。一个主...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2024-08-04 00:00:00 +0000 UTC'>2024-08-04</span>&nbsp;|&nbsp;Update:&nbsp;2024-08-04&nbsp;|&nbsp;Words:&nbsp;7080&nbsp;|&nbsp;15 min&nbsp;|&nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to D2L--第七章现代卷积神经网络" href="https://lishensuo.github.io/posts/bioinfo/710d2l-%E7%AC%AC%E4%B8%83%E7%AB%A0%E7%8E%B0%E4%BB%A3%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>D2L--第八章循环神经网络
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1. 序列模型 1.1 自回归模型 （1）自回归模型：对于一个包含T个’时间’节点的输入序列，若预测其中的第t个数据，则依赖于该节...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2024-08-11 00:00:00 +0000 UTC'>2024-08-11</span>&nbsp;|&nbsp;Update:&nbsp;2024-08-11&nbsp;|&nbsp;Words:&nbsp;7881&nbsp;|&nbsp;16 min&nbsp;|&nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to D2L--第八章循环神经网络" href="https://lishensuo.github.io/posts/bioinfo/711d2l-%E7%AC%AC%E5%85%AB%E7%AB%A0%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="next" href="https://lishensuo.github.io/tags/d2l/page/2/">Next Page »</a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2024 <a href="https://lishensuo.github.io">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

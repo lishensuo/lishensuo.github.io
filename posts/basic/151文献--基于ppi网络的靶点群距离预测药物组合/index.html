@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>基于PPI网络的靶点群距离预测药物组合 | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="文献-药物发现">
+<meta name="keywords" content="文献-算法">
 <meta name="description" content="Network-based prediction of drug combinations Nature communication 2019 / 03 IF=15 https://doi.org/10.1038/s41467-019-09186-x 文章使用数据 1、PPI high-quality protein-protein interactions (PPIs) 原文说有243,603 PPIs connecting 16,677 unique proteins ，但是根据文章附件链接只有217160 PPIs, 涉及15970">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/basic/151%E6%96%87%E7%8C%AE--%E5%9F%BA%E4%BA%8Eppi%E7%BD%91%E7%BB%9C%E7%9A%84%E9%9D%B6%E7%82%B9%E7%BE%A4%E8%B7%9D%E7%A6%BB%E9%A2%84%E6%B5%8B%E8%8D%AF%E7%89%A9%E7%BB%84%E5%90%88/">
@@ -102,7 +102,7 @@
   "name": "基于PPI网络的靶点群距离预测药物组合",
   "description": "Network-based prediction of drug combinations Nature communication 2019 / 03 IF=15 https://doi.org/10.1038/s41467-019-09186-x 文章使用数据 1、PPI high-quality protein-protein interactions (PPIs) 原文说有243,603 PPIs connecting 16,677 unique proteins ，但是根据文章附件链接只有217160 PPIs, 涉及15970",
   "keywords": [
-    "文献-药物发现"
+    "文献-算法"
   ],
   "articleBody": " Network-based prediction of drug combinations\nNature communication 2019 / 03 IF=15\nhttps://doi.org/10.1038/s41467-019-09186-x\n 文章使用数据 1、PPI high-quality protein-protein interactions (PPIs)\n原文说有243,603 PPIs connecting 16,677 unique proteins ，但是根据文章附件链接只有217160 PPIs, 涉及15970个蛋白质\nhttps://static-content.springer.com/esm/art%3A10.1038%2Fs41467-019-09186-x/MediaObjects/41467_2019_9186_MOESM3_ESM.xlsx\n2、药物数据 （1）药物组方：DCDB\n1,363 clinically reported drug combinations for 904 distinctive components\nhttp://public.synergylab.cn/dcdb/index.jsf\n在本文，作者仅关注 pairwise drug combinations ：681 combinations connnecting 362 drugs\n（2）TTD数据库\nhttp://db.idrblab.net/ttd/\ndrug, target, and drug-target pathway information\n3、疾病靶点 （1）OMIM：The OMIM database (Online Mendelian Inheritance in Man)\nhttp://www.omim.org/\nliterature-curated human disease genes with various high-quality experimental evidences.\n（2）CTD：The Comparative Toxicogenomics Database\nhttp://ctdbase.org/\nonly manually curated gene-disease interactions from the literatures were used.\n（3）ClinVar：relationships among sequence variation and various human phenotypes\nhttps://www.ncbi.nlm.nih.gov/clinvar/\ncardiovascular[Disease/Phenotype]\n（4）GWAS\nhttps://www.ebi.ac.uk/gwas/\nunbiased SNP-disease associations with genome-wide significance\np （5）GWASdb\nhttp://jjwanglab.org/gwasdb NOT USED\nSNP-trait associations from GWAS for PubMed and other resource\np （6）PheWAS Catalog\nhttps://phewascatalog.org/phewas\nphewas.mc.vanderbilt.edu\nSNP-trait associations identified by the phenome-wide association study (PheWAS) paradigm within electronic medical records\np （7）HuGE Navigator\nhttps://phgkb.cdc.gov/PHGKB/phgHome.action?action=home\nan integrated disease candidate gene database based on the core data from PubMed abstracts using text mining algorithms\nliterature-reported disease-gene annotation data with known PubMed IDs\n（8）DisGeNET\n16,000 genes and 13,000 diseases\nonly expert-curated data\n附件上传的数据\nThe publicly available human protein–protein interactome (Supplementary Data 1)\nexperimentally validated drug–target interactions (Supplementary Data 2)\nexperimentally validated drug combinations (Supplementary Data 3)\n分析思路 1、药物靶点群与疾病群距离   假设：Disease proteins are not scattered randomly in the interactome, but tend to form localized neighborhoods, known as disease modules\n  计算药物与疾病的Network-based proximity\n  $$ d(X,Y) = \\frac{1}{||Y||}\\sum_{y\\in{Y}}min_{x\\in{X}}d(x,y) $$\n 计算相同数量size与连接度degree的靶点群与疾病靶点群的距离，拟合高斯分布，进行Z值转换。由此判断药物距离与疾病距离是否足够近(z 2、计算药物靶点群与药物靶点群的距离  药物靶点的数目通常比较少（FDA批准的1978个药物中，平均靶点为3。由上公式计算的药物与药物间距离的随机化不符合正态分布。 进一步改进计算公式，考虑两个药物的影响范围。同第一点，进行Z值转换。  $$ s_{AB} = d_{AB} - \\frac{d_{AA} + d_{BB}}{2} $$\n通过药物组合实验数据、药物性质以及药物距离的关系\n（1）两个药物靶模块之间的拓扑关系也反映了生物和药理学关系。\n（2）FDA批准的两两药物组合之间的距离比较近。如下图A\n3、药物-药物-靶点群关系  文章分为6种药物-药物-靶点群关系 结合已知药物组合数据发现：only drug pairs that have Complementary Exposure relationship to the disease module(下图B) show a statistically significant efficacy for drug combination therapies   最后文章利用Complementary Exposure relationship，预测、筛选具有抗高血压的药物组合。发现预测显著的结果有相应的研究数据支持，表明这种药物组合发现模式的准确性。   前期准备好数据很重要。不仅仅是用于预测的数据，还要有支持验证的数据。\n ",
   "wordCount" : "980",
@@ -431,7 +431,7 @@ $$</p>
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://lishensuo.github.io/tags/%E6%96%87%E7%8C%AE-%E8%8D%AF%E7%89%A9%E5%8F%91%E7%8E%B0/">文献-药物发现</a></li>
+      <li><a href="https://lishensuo.github.io/tags/%E6%96%87%E7%8C%AE-%E7%AE%97%E6%B3%95/">文献-算法</a></li>
     </ul>
 <nav class="paginav">
   <a class="prev" href="https://lishensuo.github.io/posts/basic/150%E6%96%87%E7%8C%AE--%E5%9B%9B%E9%80%86%E6%95%A3%E4%B8%8E%E9%9D%9E%E9%85%92%E7%B2%BE%E6%80%A7%E8%84%82%E8%82%AA%E8%82%9D%E7%BD%91%E8%8D%AF%E5%88%86%E6%9E%90/">

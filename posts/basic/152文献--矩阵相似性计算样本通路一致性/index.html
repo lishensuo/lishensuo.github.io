@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>矩阵相似性计算样本通路一致性 | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="文献-计算工具">
+<meta name="keywords" content="文献-算法">
 <meta name="description" content="本次的两篇文章属于同一团队，第一篇文章侧重提出计算方法；第二篇文章侧重于应用方法，发现生物学规律 Paper1：提出方法 SIGN: similarity identification in gene expression Bioinformatics 2019 / 2 IF">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/basic/152%E6%96%87%E7%8C%AE--%E7%9F%A9%E9%98%B5%E7%9B%B8%E4%BC%BC%E6%80%A7%E8%AE%A1%E7%AE%97%E6%A0%B7%E6%9C%AC%E9%80%9A%E8%B7%AF%E4%B8%80%E8%87%B4%E6%80%A7/">
@@ -102,7 +102,7 @@
   "name": "矩阵相似性计算样本通路一致性",
   "description": "本次的两篇文章属于同一团队，第一篇文章侧重提出计算方法；第二篇文章侧重于应用方法，发现生物学规律 Paper1：提出方法 SIGN: similarity identification in gene expression Bioinformatics 2019 / 2 IF",
   "keywords": [
-    "文献-计算工具"
+    "文献-算法"
   ],
   "articleBody": "本次的两篇文章属于同一团队，第一篇文章侧重提出计算方法；第二篇文章侧重于应用方法，发现生物学规律\nPaper1：提出方法  SIGN: similarity identification in gene expression\nBioinformatics 2019 / 2 IF = 7\n 1.1 TSC score 文章根据2009年学者提出的modified RV coefficient，使用transcriptional similarity coefficient(TSC)分数，用以表征两个矩阵的相似性。计算公式如下：其中P1矩阵与P2矩阵的纵轴(Gene Row)需要保持一致，而两个矩阵的样本数(Sample Column)没有要求。 $$ TSC(P_1,P_2) = \\frac{\\sum_{i}(P_{10}×P_{20}){ij}} {{\\sqrt{\\sum{ij}(P_{10}){ij}^2}}× {\\sqrt{\\sum{ij}(P_{20})_{ij}^2}}} $$\n 其中Pm0的计算公式如下。 P'表示原始P矩阵的转置矩阵，Diagonal()方法仅保存原始矩阵的主对角线值，其余值标记为0。  $$ P_{m0} = P_m × P’_m - Diagonal(P_m × P’_m) $$\n计算的TSC score范围在[-1, 1]之间，值越高表明两个样本(群)具有相同的基因表达模式。\n根据RV coefficient，符合以下特征规律：\n 举例计算，实现需要了解矩阵乘法的原理。\n 1.2 简单应用 1.2.1 乳腺癌分型 文章根据一个乳腺癌数据集表达矩阵，计算其中两两样本间分别关于ESR1、ERBB2相关基因集的相似性。基于此计算样本间的欧几里得距离(详见原文代码)，用于层次聚类。\n根据样本已知注释评价聚类结果，如下图所示具有较好的一致性。\n1.2.2 生存分析 同样的数据集，根据不同给药处理分为四组，每组单独分析。在每组中，找到生存最好、最差的10%样本作为标准，计算其余每一样本分别与之的相似性，进行比较，得出Delta结果。 $$ Delta = (similarity,to,good,survival,cohort) - (similarity,to,poor,survival,cohort) $$ 如果Delta0, 表示该样本与生存良好的样本集更接近；反之Delta然后根据Delta正负性对每组样本进行分组生存分析，用以评价Delta的生存预后价值。\n1.3 数据分享 1.3.1 SIGN包 文章编写了一个R包 SIGN(Similarity Identiﬁcation in Gene expressioN)用于计算两个基因表达矩阵的相似性，已经上传到CRAN。\n其核心代码如下\n1 2 3 4 5 6 7 8  TSC  AA  BB  AA0  BB0  TSC  return(TSC) }   1.3.2 codeocean 文章已将绘制Fig2的代码、数据上传到 CodeOcean，可通过http://bit.ly/2PMwegY访问，进行复现分析。\nPaper2：应用发现  Pathway-Based Drug Response Prediction Using Similarity Identification in Gene Expression\nFrontiers in Genetics 2020 / 09 IF=4.6\n 2.1 应用思路   拉帕替尼(Lapatinib)和曲妥珠单抗(trastuzumab)是针对HER2+型乳腺癌的药物，但并非所有HER2+型乳腺癌患者均有效(40%)。\n  因此文章想鉴定出根据患者的基因表达情况可以预测HER2+型乳腺癌患者对上述药物是否响应的biomaker。\n  一方面考虑单基因作为biomarker的区分效果，另一方面使用上面提及的TSC score方法评价通路作为biomarker的预测效果。\n  2.2 研究步骤 2.2.1 数据与方法   使用来自NeoALTTO clinical trial数据集，根据治疗方式分为Lapatinib、Trastuzumab，以及联用组。并进一步根据ER状态分为阴性组与阳性组。\n   Relying on the common knowledge on ER being one of the main drivers in breast cancer development and progression (Fuqua,1997), we stratified our analyses based on the ER status.\n   根据Rate of pathological complete response (pCR)，将患者分为Responders，与Non-responders。相当于贴标签。\n  使用C-index(concordance index)值用于评价gene/pathway的预测分类性能\n  2.2.2 单基因biomarker分析 根据患者的基因表达与响应状态关系，计算C-index。使用置换检验评价结果的显著性。\n结果发现最好的单基因C-index值为0.68，即使是marker基因ERBB2的C-index值仅为0.59。\n2.2.3 通路biomaker分析   通路选择：GO term中基因数10~30之前的通路\n  TSC预测：对于每一组来说，选择其中一个病人进行预测。分别计算其与剩余所有Responder与Non-responders 的相似度。\n将该样本定位为距离相距较近的一组。对所有样本逐一按此法预测。\n  留一法交叉验证：选择一个病人，分别计算其与剩余样本中任意5个Responder的通路相似度，以及任意5个Non-Responder的通路相似度，比较二者结果的中位数，贴标签；重复100次取众数。计算C-index。\n   结果发现，每组的Top通路的C-index可达到0.8，优于其它机器学习的预测结果。  ",
   "wordCount" : "1807",
@@ -481,7 +481,7 @@ $$
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://lishensuo.github.io/tags/%E6%96%87%E7%8C%AE-%E8%AE%A1%E7%AE%97%E5%B7%A5%E5%85%B7/">文献-计算工具</a></li>
+      <li><a href="https://lishensuo.github.io/tags/%E6%96%87%E7%8C%AE-%E7%AE%97%E6%B3%95/">文献-算法</a></li>
     </ul>
 <nav class="paginav">
   <a class="prev" href="https://lishensuo.github.io/posts/bioinfo/151%E6%95%B0%E6%8D%AE%E5%BA%93--%E8%8D%AF%E7%89%A9%E5%B9%B2%E6%89%B0%E8%BD%AC%E5%BD%95%E7%BB%84cmap/">

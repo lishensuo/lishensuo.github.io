@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>文献--挖掘AD单细胞数据分析NK浸润 | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="文献-套路">
+<meta name="keywords" content="文献-挖掘">
 <meta name="description" content="Expression of Immune Related Genes and Possible Regulatory Mechanisms in Alzheimer’s Disease doi: 10.3389/fimmu.2021.768966 05 November 2021 核心结论：AD病人外周血中的NK细胞浸润到大脑中参与AD病理过程的免疫反应。 1、公共数">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/basic/102%E6%96%87%E7%8C%AE--%E6%8C%96%E6%8E%98ad%E5%8D%95%E7%BB%86%E8%83%9E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90nk%E6%B5%B8%E6%B6%A6/">
@@ -102,7 +102,7 @@
   "name": "文献--挖掘AD单细胞数据分析NK浸润",
   "description": "Expression of Immune Related Genes and Possible Regulatory Mechanisms in Alzheimer’s Disease doi: 10.3389/fimmu.2021.768966 05 November 2021 核心结论：AD病人外周血中的NK细胞浸润到大脑中参与AD病理过程的免疫反应。 1、公共数",
   "keywords": [
-    "文献-套路"
+    "文献-挖掘"
   ],
   "articleBody": "   Expression of Immune Related Genes and Possible Regulatory Mechanisms in Alzheimer’s Disease\n  doi: 10.3389/fimmu.2021.768966\n  05 November 2021\n  核心结论：AD病人外周血中的NK细胞浸润到大脑中参与AD病理过程的免疫反应。\n   1、公共数据 1.1 测序数据集 （1）GSE181279：AD+Control的外周血 scRNA-seq\n（2）GSE33000： AD+Control的脑组织芯片microaray测序\n（3）GSE142853：小鼠AD造模的brain sorted NK cell scRNAseq\n1.2 其它数据集： （1）ImmPort数据库收集的免疫相关基因 https://www.immport.org/shared/home\n（2）HumanTFDB注释的转录调节因子列表 http:// bioinfo.life.hust.edu.cn/HumanTFDB/#!/\n（3）STRING蛋白质相互作用数据\n2、主要分析步骤 1、PBMC单细胞数据分析  （1）质控降维—聚类分群–marker注释细胞   （2） AD的NK细胞比例(5%)显著低于NC细胞类型(21%)   （3） 所有cluster的DEGs中有212个是IRGs(Immune Related Genes)，使用AUCell发现NK与DC细胞类型对于上述IRGs相对表达活性最高。   （4）对于NK细胞相对于其它细胞类型的差异基因进行GO/KEGG通路富集分析，发现与主要与抗原加工、免疫反应等相关。  2、结合AD brain的Bulk测序数据分析  （1） 差异分析得到AD brain中的5339个上调基因与5542个下调基因，富集分析得到与1.4中类似的富集结果。   （2）NK DEG与Brian DEG的交集结果中有70个是IRGs，17个是TF，根据PPI关系，其中STATS3是hub TF   （3）结合3XTg-AD 小鼠的brain sorted NK scRNA-seq进一步确认AD brain中的NK cell(cluster6)多于NC。   小体会：这是一篇纯数据挖掘的文章，主要研究AD相关的NK细胞浸润。这篇是去年11月发表的，主要用到了单细胞测序数据，感觉分析方法都比较基础。这篇文章出彩的地方应该是所关注的问题比较有新意，之前研究相对比较少。\n ",
   "wordCount" : "780",
@@ -398,7 +398,7 @@ Create:&nbsp;<span title='2022-10-30 00:00:00 +0000 UTC'>2022-10-30</span>&nbsp;
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://lishensuo.github.io/tags/%E6%96%87%E7%8C%AE-%E5%A5%97%E8%B7%AF/">文献-套路</a></li>
+      <li><a href="https://lishensuo.github.io/tags/%E6%96%87%E7%8C%AE-%E6%8C%96%E6%8E%98/">文献-挖掘</a></li>
     </ul>
 <nav class="paginav">
   <a class="prev" href="https://lishensuo.github.io/posts/bioinfo/101%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr32--%E5%88%86%E7%B1%BB--%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/">

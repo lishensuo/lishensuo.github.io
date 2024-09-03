@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>文献--四逆散与非酒精性脂肪肝网药分析 | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="文献-套路">
+<meta name="keywords" content="文献-挖掘">
 <meta name="description" content="Network Pharmacology-Based Analysis on the Potential Biological Mechanisms of Sinisan Against Non-Alcoholic Fatty Liver Disease（四逆散&ndash;非酒精性脂肪肝） 27 August 2021 Front Pharmacol, IF=5.8 DOI: 10.3389/fphar.2021.693701 分析思路 文章的流程图 1、数据收集 1.1 TCM数据">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/basic/150%E6%96%87%E7%8C%AE--%E5%9B%9B%E9%80%86%E6%95%A3%E4%B8%8E%E9%9D%9E%E9%85%92%E7%B2%BE%E6%80%A7%E8%84%82%E8%82%AA%E8%82%9D%E7%BD%91%E8%8D%AF%E5%88%86%E6%9E%90/">
@@ -102,7 +102,7 @@
   "name": "文献--四逆散与非酒精性脂肪肝网药分析",
   "description": "Network Pharmacology-Based Analysis on the Potential Biological Mechanisms of Sinisan Against Non-Alcoholic Fatty Liver Disease（四逆散\u0026ndash;非酒精性脂肪肝） 27 August 2021 Front Pharmacol, IF=5.8 DOI: 10.3389/fphar.2021.693701 分析思路 文章的流程图 1、数据收集 1.1 TCM数据",
   "keywords": [
-    "文献-套路"
+    "文献-挖掘"
   ],
   "articleBody": "   Network Pharmacology-Based Analysis on the Potential Biological Mechanisms of Sinisan Against Non-Alcoholic Fatty Liver Disease（四逆散–非酒精性脂肪肝）\n  27 August 2021\n  Front Pharmacol, IF=5.8\n  DOI: 10.3389/fphar.2021.693701\n    分析思路   文章的流程图  1、数据收集 1.1 TCM数据   四味中药：柴胡、白芍、枳实、甘草\n  TCMSP数据库，筛选条件：OB ≥ 30% ; DL ≥ 0.18。\n   OB: systemic bioavailability after oral absorption and distribution;\nDL: structural similarity between compounds and clinically used drugs in the DrugBank database\n   对于筛选的结果，进行文献和其它数据库验证。未明确说哪些数据库，但从上述流程图可知有ETCM，SymMap\n  最后得到137个活性成分，155个作用靶点\n  1.2 疾病数据  DisGeNET 数据库  搜索关键词：“Non-alcoholic Fatty Liver Disease”, “Nonalcoholic Steatohepatitis”, and “Fibrosis, Liver” 过滤掉 BEFREE text mining genes 结果   得到306个NAFLD基因  1.3 PPI数据 文章基于两个数据库建立了两个PPI网络\n （1）dataset constructed by Professor Barabasi’s team  15 commonly used databases with experimental evidence and the inhouse conﬁrmed data without inferred information. https://ccsb.dana-farber.org/interactome-data.html http://www.interactome-atlas.org/download 共得到16677个蛋白的243603条互作关系，简记为Bnet   （2）STRING  Homo sapiens； conﬁdence score ≥0.9 共得到9941个蛋白的227186条互作关系，简记为Snet    2、通路富集分析   ClusterProfiler包\n  TCM与Disease各自的靶点分别进行GO(BP/CC/MF)、KEGG富集分析，比较是否富集到相同的通路。\n  TCM与Disease的交集靶点富集到哪些通路。\n  3、网络分析 3.1 网络接近度计算  如下公式，计算在Bnet中TCM靶点群与Disease靶点群的距离。其中V表示Disease靶点群，T表示TCM靶点群；计算对于TCM靶点群的所有靶点能到Disease靶点群(的任一靶点)的最短距离的均值。  $$ d_c(V,T) = \\frac{1}{||T||}\\sum_{t\\in T}min_{v\\in V}d(v,t) $$\n 为了衡量TCM靶点群到Disease靶点群的距离相对远近，进行Z值标准化。  具体做法是大量模拟任意与TCM靶点群相同数量的蛋白群，同上公式计算其与Disease靶点群的距离；计算均值与方差，再按下公式计算出Z值。    $$ Z_{d_{c}} = \\frac{d_c-\\mu_{d_{c}(V,T)}}{\\sigma_{d_{c}(V,T)}} $$\n 结果 d=1.05，Z=-9.51，显著低于随机分布；表明TCM靶点群到Disease靶点群距离近，具有显著意义  3.2 RWR算法计算hub基因  从全部的PPI数据(Bnet)，提取出仅包含TCM与Disease靶点的 sub-PPI，sub-Bnet。根据PPI关系，计算出Disease靶点群中的哪些靶点最容易收到TCM靶点群的影响。 算法为RWR重启随机游走算法。使用RandomWalkRestartMH包计算，将TCM靶点群视为种子节点，重启概率设为0.75。笔记链接–  $$ p_{t+1}^T = (1-r)Mp_t^T + rP_{0}^T $$\n 得到最易受到影响的Top10节点：STAT3, CTNNB1, MAPK1, MAPK3, AGT, NQO1, TOP2A, FDFT1, ALDH4A1, and KCNH2  3.3 亚群鉴定分析   从全部的PPI数据(Snet)，提取出仅包含TCM与Disease靶点的 sub-PPI，sub-Snet；包含1425条互作关系\n  使用Cytoscape软件的 ClusterMaker 2插件鉴定6个包含TCM与Disease靶点的subcluster；并通过KEGG富集找到每个subcluster最相关的通路。\n  ",
   "wordCount" : "1203",
@@ -465,7 +465,7 @@ $$</p>
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://lishensuo.github.io/tags/%E6%96%87%E7%8C%AE-%E5%A5%97%E8%B7%AF/">文献-套路</a></li>
+      <li><a href="https://lishensuo.github.io/tags/%E6%96%87%E7%8C%AE-%E6%8C%96%E6%8E%98/">文献-挖掘</a></li>
     </ul>
 <nav class="paginav">
   <a class="prev" href="https://lishensuo.github.io/posts/bioinfo/150%E6%95%B0%E6%8D%AE%E5%BA%93--%E8%8D%AF%E7%89%A9%E4%B8%8E%E8%8D%AF%E7%89%A9%E9%9D%B6%E7%82%B9ttd/">

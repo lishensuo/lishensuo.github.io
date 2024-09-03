@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>TCGA的SNV数据下载与maftools可视化 | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="">
+<meta name="keywords" content="多组学">
 <meta name="description" content="1、TCGAbiolinks下载数据 使用TCGAbiolinks下载特定肿瘤类型的SNV数据 https://bioconductor.org/packages/release/bioc/vignettes/TCGAbiolinks/inst/doc/mutation.html 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/bioinfo/076tcga%E7%9A%84snv%E6%95%B0%E6%8D%AE%E4%B8%8B%E8%BD%BD%E4%B8%8Emaftools%E5%8F%AF%E8%A7%86%E5%8C%96/">
@@ -102,7 +102,7 @@
   "name": "TCGA的SNV数据下载与maftools可视化",
   "description": "1、TCGAbiolinks下载数据 使用TCGAbiolinks下载特定肿瘤类型的SNV数据 https://bioconductor.org/packages/release/bioc/vignettes/TCGAbiolinks/inst/doc/mutation.html 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23",
   "keywords": [
-    
+    "多组学"
   ],
   "articleBody": "1、TCGAbiolinks下载数据  使用TCGAbiolinks下载特定肿瘤类型的SNV数据 https://bioconductor.org/packages/release/bioc/vignettes/TCGAbiolinks/inst/doc/mutation.html  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26  library(TCGAbiolinks) query  project = \"TCGA-CHOL\",  data.category = \"Simple Nucleotide Variation\",  access = \"open\",  legacy = FALSE,  data.type = \"Masked Somatic Mutation\") GDCdownload(query) maf dim(maf) # [1] 3764 141  ## (1) 因后续需要，修改Tumor_Sample_Barcode列 maf$long_Barcode = maf$Tumor_Sample_Barcode maf$Tumor_Sample_Barcode = substr(maf$Tumor_Sample_Barcode,1,12) length(unique(maf$Tumor_Sample_Barcode)) # 51  ## (2) 读取临床生存数据 clinical = readxl::read_xlsx(\"TCGA_Pan_Cancer_Clinical_Data_mmc1.xlsx\") clinical_sle = clinical %% \tdplyr::filter(type==\"CHOL\") %% \tdplyr::select(bcr_patient_barcode, OS, OS.time, clinical_stage) %% \tdplyr::rename(Tumor_Sample_Barcode=bcr_patient_barcode) dim(clinical_sle) # 45    2、maftools可视化  https://bioconductor.org/packages/release/bioc/vignettes/maftools/inst/doc/maftools.html https://www.jieandze1314.com/post/cnposts/237/  1 2 3 4 5 6 7 8 9  library(maftools)  maf_obj = read.maf(maf = maf, clinicalData = clinical_sle)  #每个样本的突变情况统计 getSampleSummary(maf_obj)  #每个基因的突变类型统计 getGeneSummary(maf_obj)   2.1概括图 1 2 3  plotmafSummary(maf = maf_obj, rmOutlier = TRUE, \taddStat = 'median', dashboard = TRUE, \ttitvRaw = FALSE)   2.2 基因瀑布图 1 2 3 4 5 6 7 8 9 10 11 12 13  oncoplot(maf = maf_obj, top = 10) # 如下图 ## 添加临床注释  oncoplot(maf = maf_obj, top = 10, \tclinicalFeatures = c('clinical_stage',\"OS\"), \tdraw_titv = TRUE)  ## 选择特定基因集 set.seed(42) genes = sample(maf_obj@data$Hugo_Symbol,10) oncoplot(maf = maf_obj, genes = genes, \tclinicalFeatures = c('clinical_stage',\"OS\"), \tdraw_titv = TRUE)   2.3 转换颠倒统计 1 2 3 4 5  # Transition 转换 ： 嘌呤(AG)或嘧啶(CT)内部之间转换 # Transversions 颠倒：嘌呤与嘧啶间互相转换  maf_obj.titv = titv(maf = maf_obj, plot = FALSE, useSyn = TRUE) plotTiTv(res = maf_obj.titv)   2.4 基因对突变统计 1 2 3 4 5 6 7 8  # green: co-occuring # yellow: mutually exclusive  somaticInteractions(maf = maf_obj, top = 25, pvalue = c(0.05, 0.1))  set.seed(42) genes = sample(maf_obj@data$Hugo_Symbol,25) somaticInteractions(maf = maf_obj, genes = genes , pvalue = c(0.05, 0.1))   2.5 生存分析  根据特定基因是否突变将病人分成WT与Mutant两组  1 2 3 4 5 6 7 8 9 10 11  mafSurvival(maf = maf_obj, genes = 'TP53', \ttime = 'OS.time', Status = 'OS') # Group medianTime N # 1: Mutant 732 4 # 2: WT 650 41  ## 提取信息 # maf_obj@clinical.data %%  # dplyr::mutate(Group=ifelse(Tumor_Sample_Barcode %in%  # subset(maf_obj@data, Hugo_Symbol==\"TP53\")$Barcode, # \"Mutant\",\"WT\"))    2.6 基因对的生存相关性 1 2 3 4 5 6 7 8 9 10  prog_geneset = survGroup(maf = maf_obj, top = 200, geneSetSize = 2, \ttime = \"OS.time\", Status = \"OS\", \tverbose = FALSE,minSamples = 3) prog_geneset # Gene_combination P_value hr WT Mutant # 1: PBRM1_PLXNA4 0.243 2.36e+00 42 3 # 2: PBRM1_PCLO 0.294 3.46e-01 42 3 # 3: PBRM1_TP53 0.320 3.64e-01 42 3 mafSurvGroup(maf = maf_obj, geneSet = c(\"PBRM1\", \"PLXNA4\"), \ttime = \"OS.time\", Status = \"OS\")   ",
   "wordCount" : "608",
@@ -571,6 +571,9 @@ Create:&nbsp;<span title='2023-04-09 00:00:00 +0000 UTC'>2023-04-09</span>&nbsp;
   </div>
 
   <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/tags/%E5%A4%9A%E7%BB%84%E5%AD%A6/">多组学</a></li>
+    </ul>
 <nav class="paginav">
   <a class="prev" href="https://lishensuo.github.io/posts/bioinfo/075%E7%94%9F%E4%BF%A1%E7%9B%B8%E5%85%B3%E7%BD%91%E7%AB%99%E6%95%B0%E6%8D%AE%E5%BA%93%E9%9B%86%E9%94%A6/">
     <span class="title">« Prev Page</span>

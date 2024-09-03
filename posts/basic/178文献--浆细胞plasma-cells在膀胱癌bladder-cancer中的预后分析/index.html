@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>文献--浆细胞(Plasma cells)在膀胱癌(Bladder cancer)中的预后分析 | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="文献-套路">
+<meta name="keywords" content="文献-挖掘">
 <meta name="description" content="题目：The potential crosstalk between tumor and plasma cells and its association with clinical outcome and immunotherapy response in bladder cancer 期刊|日期：Journal of Translational Medicine | 03 May 2023 DOI：https://doi.org/10.11">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/basic/178%E6%96%87%E7%8C%AE--%E6%B5%86%E7%BB%86%E8%83%9Eplasma-cells%E5%9C%A8%E8%86%80%E8%83%B1%E7%99%8Cbladder-cancer%E4%B8%AD%E7%9A%84%E9%A2%84%E5%90%8E%E5%88%86%E6%9E%90/">
@@ -102,7 +102,7 @@
   "name": "文献--浆细胞(Plasma cells)在膀胱癌(Bladder cancer)中的预后分析",
   "description": "题目：The potential crosstalk between tumor and plasma cells and its association with clinical outcome and immunotherapy response in bladder cancer 期刊|日期：Journal of Translational Medicine | 03 May 2023 DOI：https://doi.org/10.11",
   "keywords": [
-    "文献-套路"
+    "文献-挖掘"
   ],
   "articleBody": "  题目：The potential crosstalk between tumor and plasma cells and its association with clinical outcome and immunotherapy response in bladder cancer 期刊|日期：Journal of Translational Medicine | 03 May 2023 DOI：https://doi.org/10.1186/s12967-023-04151-1  这篇文章讨论了浆细胞在膀胱癌免疫微环境的所扮演的作用。相比于传统肿瘤预后类文章，觉得有如下几方面新意：\n（1）除了TCGA数据，引入了独立的免疫治疗相关数据集；在整个分析流程中起到验证作用；\n（2）在单细胞数据的细胞异质性分析中，提供了多角度的衍生分析，充实了数据完整性；\n（3）使用配受体对相关基因作为建模候选基因，理论上可以反应建立在互作水平上的预后意义；\n（4）文章构图很美观，丰富。除了正文部分展示了最重要的7张图，附件中还有10余张附图。\n总体来说是值得借鉴的一篇生信文章，下面简单总结了文章的分析思路。\n 1、PCs水平对BC生存分析  对两个BC数据集(TCGA, IMvigor210)使用Xcell算法进行免疫浸润分析； 在TCGA中，class-switched memory B cells/PCs与较好预后相关； 在IMvigor210中， PCs与较好预后相关；且Response组的PCs水平较高。  2、BC单细胞数据分析 根据PRJNA662018单细胞数据集，首先分析PCs与Tumor cell的异质性；然后进行cellchat细胞通讯分析。\n2.1 两个PCs亚群\n 首先根据CD79A, MZB1表达将cluster11注释为PCs，并进一步鉴定7个亚群； 然后根据抗体相关基因表达，又可将PCs主要分为两个亚群：IGHG1-, IGHA1-； 对这两个亚群进行特征基因(COSG tool)通路分析分析以及拟时序分析阐释二者生物意义。  2.2 六种肿瘤细胞状态\n 根据CNV水平，从上皮细胞中鉴定肿瘤细胞；并使用NMF算法进行降维分析； 基于肿瘤状态基因集打分，定义出处于6种状态下的肿瘤细胞； 对每种状态肿瘤细胞的特征基因(COSG tool)进行通路分析， 生存分析。  2.3 PCs与Tumor通讯分析\n 在总体细胞通讯水平中，PCs主要是基质细胞的receiver；是T细胞与MDCs的sender； 在PCs与肿瘤细胞的通讯分析中， 对一些特征通路，配受体对展开深入的分析，例如MIF通路，APP/CD74配受体； 在其中58个显著配受体对涉及基因中，33个基因在TCGA tumor/normal差异表达；16个基因在IMvigor210 response/nonresponse差异表达； 结合空间转录组数据集(GSE171351)对上述中的两个配受体共表达进行了验证。  3、预后模型系列分析 3.1 构建预后模型\n 基于上述58个配受体对相关基因，采用逐步回归法(My.stepwise R package)，鉴定出由13个基因组成signature； signature衍生的riskscore与TCGA较差预后相关，且预测性能优于其它临床指标； 在IMvigor210数据集中发现riskscore与较差预后相同，同时也与免疫治疗效果负相关。  3.2 模型相关性分析\n  riskscore与Hallmark pathway打分的相关性；\n  riskscore与免疫细胞浸润(Xcell)，评分(ESITIMATE)的相关性；\n  riskscore与TIDE系列打分(https://github.com/jingxinfu/TIDEpy), IPS等的相关性；\n  高低风险分组与不同BC亚型、药物敏感度、基因突变的相关性分析。\n  ",
   "wordCount" : "1402",
@@ -393,7 +393,7 @@ Create:&nbsp;<span title='2023-06-23 00:00:00 +0000 UTC'>2023-06-23</span>&nbsp;
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://lishensuo.github.io/tags/%E6%96%87%E7%8C%AE-%E5%A5%97%E8%B7%AF/">文献-套路</a></li>
+      <li><a href="https://lishensuo.github.io/tags/%E6%96%87%E7%8C%AE-%E6%8C%96%E6%8E%98/">文献-挖掘</a></li>
     </ul>
 <nav class="paginav">
   <a class="prev" href="https://lishensuo.github.io/posts/basic/177%E6%96%87%E7%8C%AE--%E5%9F%BA%E4%BA%8E%E6%B3%9B%E7%99%8Cscrnaseq%E7%9A%84t%E7%BB%86%E8%83%9E%E5%9B%BE%E8%B0%B1%E6%95%B4%E5%90%88%E5%88%86%E6%9E%90/">

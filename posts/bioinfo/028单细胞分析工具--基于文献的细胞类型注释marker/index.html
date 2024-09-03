@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>单细胞分析工具--基于文献的细胞类型注释marker | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="单细胞分析">
+<meta name="keywords" content="scRNA-seq">
 <meta name="description" content="根据平时的文献阅读，汇总前人注释单细胞数据的细胞类型所使用的marker gene，以供后续研究参考。（持续更新） 1、Tumor B cell：C">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/bioinfo/028%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--%E5%9F%BA%E4%BA%8E%E6%96%87%E7%8C%AE%E7%9A%84%E7%BB%86%E8%83%9E%E7%B1%BB%E5%9E%8B%E6%B3%A8%E9%87%8Amarker/">
@@ -102,7 +102,7 @@
   "name": "单细胞分析工具--基于文献的细胞类型注释marker",
   "description": "根据平时的文献阅读，汇总前人注释单细胞数据的细胞类型所使用的marker gene，以供后续研究参考。（持续更新） 1、Tumor B cell：C",
   "keywords": [
-    "单细胞分析"
+    "scRNA-seq"
   ],
   "articleBody": " 根据平时的文献阅读，汇总前人注释单细胞数据的细胞类型所使用的marker gene，以供后续研究参考。（持续更新）\n 1、Tumor   B cell：CD79A*[1-3]，CD79B[1,3]，CD19[1,3]，MS4A1[2,3]，IGKC[1]，MZB1[2]*\n  T cell：CD3C*[1,2]，CD3E[1,2]，TRAG[1]，CD3G[1]，CD2[2]*\n  Epithelial(Tumor) cell：EPCAM*[1,3]，KRT18[1,3]，CD24[1,2]，KRT19[1,3]，PAX8[1]，SCGB2A2[2]，KRT5[3]，KRT15[3]*\n  Fibroblast(CAF)：COL1A1*[1-3]，DCN[1-3]，COL1A2[1]，COL3A1[3]，BGN[1]，POSTN[1]，C1R[2]*\n  Meyloid cell：CD68*[1-3]，LYZ[1-3]，MARCO[1]，AIF1[1]，TYROBP[2]，MS4A6A[3]，CD1E[3]，IL3RA[3]，LAMP3[3]*\n  NK cell：NCR1*[1]，NCAM[1]，KLRC1[1]，KLRC3[1]*\n  Endothelial cell：CLDN5*[1,2]，PECAM1[1]，VWF[1]，FLT1[2]，RAMP2[2]*\n  Mast cell：CPA3*[1,2]，CMA1[1]，MS4A2[1]，TPSAB1[2]，TPSB2[2]*\n   [1] High-grade serous tubo-ovarian cancer refined with single-cell RNA sequencing: specific cell subtypes influence survival and determine molecular subtype classification（DOI: 10.1186/s13073-021-00922-x）34238352\n[2] A single-cell map of intratumoral changes during anti-PD1 treatment of patients with breast cancer（DOI: 10.1038/s41591-021-01323-8） 33958794\n[3] Single-cell transcriptomics reveals regulators underlying immune cell diversity and immune subtypes associated with prognosis in nasopharyngeal carcinoma（DOI: 10.1038/s41422-020-0374-x） 32686767\n 1 2 3 4 5 6 7 8 9 10  ## PBMC genes_to_check = c('CD3D', 'CD3E', 'CD3G', # T cell \t'CD4','CD8A','CD8B', # CD4 /CD8 \t'GZMB', 'GZMK','PRF1', # cytotoxicity \t'CD19', 'CD79A', 'MS4A1', # B cell  'CD68', 'CD163', 'CD14', #Monocytes and macrophages  'S100A9', 'S100A8', 'MMP19',# monocyte  'KLRB1','NCR1', # NK  \t'MZB1' # Plasma cells  \t)   2、Brain  Neuron：SYT1*[1]，SNAP25[1]，GRIN1[1]*  Excitatory：SLC17A7*[1]，CAMK2A[1]，NRGN[1]* Inhibitory：GAD1*[1]，GAD2[1]*   Microglia：CD74*[1]，CSF1R[1]，C3[1]* Astroglia：AQP4*[1]、GFAP[1]* Oligodendrocyte：MBP*[1]，MOBP[1]，PLP1[1]* Endothelial：FLT1*[1]，CLDN5[1]*   [1] Single-cell transcriptomic analysis of Alzheimer’s disease（DOI: 10.1038/s41586-019-1195-2）\n 3、Bowel Immune  Paper ：The landscape of immune dysregulation in Crohn’s disease revealed through single-cell transcriptomic profiling in the ileum and colon\nDOI ：https://doi.org/10.1016/j.immuni.2023.01.002\n （1）Epithelial ：EPCAM, KRT8, KRT18\n Enterocyte肠上皮：RBP2, ANPEP,FABP2 Stem cell：LGR5, ASCL2, SMOC2, RGMB, OLFM4 Goblet cell 杯状细胞：CLCA1, SPDEF, FCGBP, ZG16, MUC2 Paneth cell 潘氏细胞：DEFA5,DEFA6, REG3A Tuft cell 簇细胞：LRMP, SH2D6 Enteroendocrine cell肠内分泌细胞：CHGA, CHGB, NEUROD1 Cycling ：UBE2C, TOP2A, MKI67, HMGB2  （2）Stromal ：CDH5, COL1A1, COL1A2, COL6A2, VWF\n Fibroblast成纤维细胞：ADAMDEC1, PDGFRA, BMP4 Myofibroblasts成肌纤维细胞：TAGLN, ACTG2 Lymphatics淋巴：CCL21, TFF3 Endothelial cell ：CD36, DARC/ACKR1 Pericyte周皮细胞：NOTCH3, MCAM/CD146, RGS5 Glial cell：FOXD3, MPZ, CDH19, PLP1, SOX10, S100B, ERBB3  （3）Immune：CD45/PTPRC, CD3D, CD3G, CD3E, CD79A, CD79B, CD14, CD16, CD68, CD83, CSF1R, FCER1G\n T cell ：CD3D, CD3G, CD3E  CD8 T ：CD8A, CD8B CD4 T ：CD4 Innate lymphoid cells (ILCs)先天性淋巴样细胞：RORC, IL1R1, IL23R, KIT, TNFSF4, PCDH9 NK：EOMES, PRF1, NKG7   B cell ： CD79A, MS4A1/CD20, CD19  Plasma cell ：SDC1, MZB1, SSR4, XBP1 B cell ：BANK, MS4A1/CD30, ADAM28, VPREB3 Germinal Center (GC) 生发中心B cell ：LRMP, GPT2, PAG1   Myeloid ：CD14, CD16, HLA-DR  Mast cell ：GATA2, CPA3, HPGDS classical Macrophages：CD163, C1QB, C1QC classical Monocytes：FCN1, S100A4, S100A6 dendritic cell，DC1 ：CLEC9A, XCR1 dendritic cell，DC2 ： CLEC10A, FCER1A    ",
   "wordCount" : "1705",
@@ -445,7 +445,7 @@ Create:&nbsp;<span title='2023-02-07 00:00:00 +0000 UTC'>2023-02-07</span>&nbsp;
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://lishensuo.github.io/tags/%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90/">单细胞分析</a></li>
+      <li><a href="https://lishensuo.github.io/tags/scrna-seq/">scRNA-seq</a></li>
     </ul>
 <nav class="paginav">
   <a class="prev" href="https://lishensuo.github.io/posts/bioinfo/034%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--asgard%E5%8D%95%E7%BB%86%E8%83%9E%E8%8D%AF%E7%89%A9%E9%87%8D%E5%AE%9A%E5%90%91/">

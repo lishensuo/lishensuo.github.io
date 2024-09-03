@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>文献--基于药物干扰转录组建立距离网络用于药物重定向 | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="文献-药物发现">
+<meta name="keywords" content="文献-算法">
 <meta name="description" content="Discovery of drug mode of action and drug repositioning from transcriptional responses August 2, 2010 | PNAS | IF=11.2 10.1073/pnas.1000138107 1、合并PRL cMap 1309种化合物作用于5种细胞系的6100个干扰转录组的差异基因结果。对于同一种化合">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/basic/155%E6%96%87%E7%8C%AE--%E5%9F%BA%E4%BA%8E%E8%8D%AF%E7%89%A9%E5%B9%B2%E6%89%B0%E8%BD%AC%E5%BD%95%E7%BB%84%E5%BB%BA%E7%AB%8B%E8%B7%9D%E7%A6%BB%E7%BD%91%E7%BB%9C%E7%94%A8%E4%BA%8E%E8%8D%AF%E7%89%A9%E9%87%8D%E5%AE%9A%E5%90%91/">
@@ -102,7 +102,7 @@
   "name": "文献--基于药物干扰转录组建立距离网络用于药物重定向",
   "description": "Discovery of drug mode of action and drug repositioning from transcriptional responses August 2, 2010 | PNAS | IF=11.2 10.1073/pnas.1000138107 1、合并PRL cMap 1309种化合物作用于5种细胞系的6100个干扰转录组的差异基因结果。对于同一种化合",
   "keywords": [
-    "文献-药物发现"
+    "文献-算法"
   ],
   "articleBody": " Discovery of drug mode of action and drug repositioning from transcriptional responses\nAugust 2, 2010 | PNAS | IF=11.2\n10.1073/pnas.1000138107\n 1、合并PRL cMap 1309种化合物作用于5种细胞系的6100个干扰转录组的差异基因结果。对于同一种化合物由于不同浓度，或者作用于不同细胞系会得到多个差异基因列表（下面简称list）。\n为了得到一种化合物的综合差异基因列表，根据如下步骤通过合并多个原始的list(由up到down的降序ranked list)，得到Prototype Ranked List (PRL)。\n  （1）计算同一化合物所有list两两间的相似性，文章具体使用的是Spearman’s Footrule系数。\n  （2）对于最相似的两个list，使用Borda Merging Method方法合并产生一个新的list，代替原有旧的两个list。\n  （3）重复上述步骤（1）、（2）直至只剩下一个list，即为该化合物的PRL。\n  对于PRL排名最靠前的基因，表示被化合物显著上调的基因；排名靠后的基因，表示被化合物显著下调的基因。\n RankAggreg包\n 2、计算PRL距离 基于富集分析原理，计算两个PRL的距离(相似性)\n如下公式：对于药物d的PRL，p表示排名靠前的Top N个基因，q表示排名靠后的Last N个基因。\n分别计算p与q相对于药物x的PRL富集分数(Enrichment score)\n ES0, 表示富集到PRL的排名靠前部分 ES 如果对于p的ES接近1，q的ES接近-1，则TES结果接近0，那么说明药物d的PRL距药物x的PRL较近(相似)。\n如果对于p的ES接近-1，q的ES接近1，则TES结果接近2，那么说明药物d的PRL距药物x的PRL较远(不相似)。 $$ TES_{d,x} = 1-\\frac{ES^p_x-ES^q_x}{2} $$ 同理可计算药物x的PRL距药物d的PRL的远近程度。\n 药物d至x的距离不一定等于药物x至d的距离。\n 最后有两种方式评价两个药物的综合距离\n（1）平均TES $$ D = \\frac{TES_{A,B}+TES_{B,A}}{2} $$ （2）最近距离 $$ D = \\frac{min(TES_{A,B},TES_{B,A})}{2} $$\n3、构建网络并分群 3.1 构建网络  根据所有化合物间两两距离(1309种化合物的856086个两两距离)，筛选Top5%的距离关系。(Top5%聚类作为threshold) 然后构建有1302个药物作为节点，41047条距离作为权重的边的Drug Network。  3.2 分群鉴定  基于 affinity propagation算法，对Drug Network进行分群，鉴定community以及每个community的exemplar核心节点。 共鉴定得到106个community   R包apcluster可实现affinity propagation算法：https://cran.r-project.org/web/packages/apcluster/vignettes/apcluster.pdf\n 3.3 分群验证 （1）在同一群的药物是否具有相同的MOA（包括ATC、Target、pathway）以随机分布作为背景，计算odd ratios\n 共有77个community具有显著富集的MOA（odd ratios1）  （2）文章进一步说明了具有相同的MOA的化合物是否分到一个community里\n4、小分子MOA预测 4.1 预测流程 在如上建立了drug network并鉴定出具有MOA意义的community之后，可通过此网络预测新的小分子的MOA。\n（1）得到新的小分子干扰实验的PRL\n（2）计算该小分子与网络中所有节点的距离，保留距离低于阈值的边。\n（3）计算该小分子分别与网络中所有community的距离→weighted geometric average of the distances\n 如下公式，计算药物x到与community C的距离，|Cx|表示community C的组成节点数。(Π表示累乘符号)  $$ \\sqrt[|C_x|]{\\Pi_{d\\in C_x} D(d,x)/|C_x|} $$ 4.2 可行性验证 文章以9个已知MOA的化合物作为输入，用于验证可行性。\n如下图所示，三个测试化合物MMS-Tanespimycin、NMS-E973、NVP-AUY922为已知的HSP90抑制剂。\n根据上述方式计算，相距最近的community为 n.28，该community主要有HSP900抑制剂组成；其次接近的为n40、n104。\n最后也通过WB实验验证了上述预测的预测结果。\n",
   "wordCount" : "1647",
@@ -426,7 +426,7 @@ $$
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://lishensuo.github.io/tags/%E6%96%87%E7%8C%AE-%E8%8D%AF%E7%89%A9%E5%8F%91%E7%8E%B0/">文献-药物发现</a></li>
+      <li><a href="https://lishensuo.github.io/tags/%E6%96%87%E7%8C%AE-%E7%AE%97%E6%B3%95/">文献-算法</a></li>
     </ul>
 <nav class="paginav">
   <a class="prev" href="https://lishensuo.github.io/posts/basic/154%E6%96%87%E7%8C%AE--%E5%9F%BA%E4%BA%8E%E9%80%9A%E8%B7%AF%E5%AF%8C%E9%9B%86%E7%9A%84%E8%8D%AF%E7%89%A9%E9%87%8D%E5%AE%9A%E5%90%91%E4%BB%A5ad%E8%8D%AF%E7%89%A9%E4%B8%BA%E4%BE%8B/">

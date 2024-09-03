@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>单细胞分析工具--COSG鉴定marker基因 | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="单细胞分析">
+<meta name="keywords" content="scRNA-seq">
 <meta name="description" content="COSG(COSine similarity-based marker Gene identification)是由来自哈佛医学院和Broad研究所博后Ming Dai等人开发，旨在从余弦相似度的角度鉴定cluste">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/bioinfo/039%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--cosg%E9%89%B4%E5%AE%9Amarker%E5%9F%BA%E5%9B%A0/">
@@ -102,7 +102,7 @@
   "name": "单细胞分析工具--COSG鉴定marker基因",
   "description": "COSG(COSine similarity-based marker Gene identification)是由来自哈佛医学院和Broad研究所博后Ming Dai等人开发，旨在从余弦相似度的角度鉴定cluste",
   "keywords": [
-    "单细胞分析"
+    "scRNA-seq"
   ],
   "articleBody": " COSG(COSine similarity-based marker Gene identification)是由来自哈佛医学院和Broad研究所博后Ming Dai等人开发，旨在从余弦相似度的角度鉴定cluster的marker gene，于2021年12月被Briefings in Bioinformatics接收。目前已将此方法分别包装为R包与Python包，分别对应Seurat与Scanny分析流程。\n Paper：https://doi.org/10.1093/bib/bbab579 Github：https://github.com/genecell/COSG， https://github.com/genecell/COSGR   1、分析思路 （1）准备好数据， 即标准化后的单细胞表达矩阵，并完成细胞聚类分析(scATAC， ST同理)；\n（2）对cluster K模拟一个ideal marker gene(仅在k表达，其余cluster不表达)；\n（3）计算所有真实基因分别与该基因的余弦相似度，并进一步计算出COSG score；\n（4）COSG score取值范围为0~1。值越大，表示为cluster specific marker gene；\n（5）同理依次计算出其余cluster的marker gene。\n2、性能比较 文章主要与常用的Wilcoxon-test等分析方式在多种数据集上进行比较，概括如下：\n（1）在模拟的单细胞数据集中，COSG方法可以最大程度发现每个clutser的marker gene；\n（2）在大规模单细胞数据中， COSG在保持精度的同时分析速度很快；\n（3）COSG在scATAC以及空间转录组数据上也同样具有较优的表现\n3、代码实操 1 2 3 4 5 6 7 8 9 10 11 12 13 14  remotes::install_github(repo = 'genecell/COSGR')  library(COSG) library(Seurat)  ## 输入数据 data('pbmc_small',package='COSG')  dim(pbmc_small@assays$RNA@data) #标准化矩阵 # [1] 230 80  table(Idents(pbmc_small)) #聚类分群结果 # 0 1 2  # 36 25 19     R包的分析函数即为cosg()，默认参数如下  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21  marker_cosg  pbmc_small,  groups='all', #考虑全部分组  assay='RNA',  slot='data',  mu=1, #惩罚项参数，值越大  remove_lowly_expressed=TRUE, #是否过滤低表达基因  expressed_pct=0.1, #设置低表达的阈值  n_genes_user=100 #每个cluster定义Top-N个marker gene )  head(marker_cosg$names,3) # 0 1 2 # 1 CD7 S100A8 MS4A1 # 2 CCL5 TYMP CD79A # 3 GNLY S100A9 TCL1A head(marker_cosg$scores,3) # 0 1 2 # 1 0.6391917 0.8954042 0.6922908 # 2 0.6391267 0.8312083 0.5832425 # 3 0.6328148 0.8120045 0.5757478    简单可视化一下  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15  top_listfor (group in colnames(marker_cosg$names)){  top_i5,1]  top_list}  DotPlot(pbmc_small,  assay = 'RNA',  # scale=TRUE,  features = unique(top_list)) + RotatedAxis()  pbmc_small DoHeatmap(pbmc_small,  assay = 'RNA',  features = top_list)   ",
   "wordCount" : "894",
@@ -465,7 +465,7 @@ Create:&nbsp;<span title='2023-07-01 00:00:00 +0000 UTC'>2023-07-01</span>&nbsp;
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://lishensuo.github.io/tags/%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90/">单细胞分析</a></li>
+      <li><a href="https://lishensuo.github.io/tags/scrna-seq/">scRNA-seq</a></li>
     </ul>
 <nav class="paginav">
   <a class="prev" href="https://lishensuo.github.io/posts/bioinfo/038%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--sccoda%E7%BB%86%E8%83%9E%E7%BB%84%E6%88%90%E6%AF%94%E8%BE%83/">

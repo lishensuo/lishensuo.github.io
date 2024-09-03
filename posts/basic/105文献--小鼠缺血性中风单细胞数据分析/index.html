@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>文献--小鼠缺血性中风单细胞数据分析 | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="文献-组学">
+<meta name="keywords" content="文献-挖掘">
 <meta name="description" content="题目：Single-cell RNA-seq reveals the transcriptional landscape in ischemic stroke 期刊/日期：ournal of Cerebral Blood Flow &amp; Metabolism / 24 May 2021 DOI：10.1177/0271678X211026">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/basic/105%E6%96%87%E7%8C%AE--%E5%B0%8F%E9%BC%A0%E7%BC%BA%E8%A1%80%E6%80%A7%E4%B8%AD%E9%A3%8E%E5%8D%95%E7%BB%86%E8%83%9E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/">
@@ -102,7 +102,7 @@
   "name": "文献--小鼠缺血性中风单细胞数据分析",
   "description": "题目：Single-cell RNA-seq reveals the transcriptional landscape in ischemic stroke 期刊/日期：ournal of Cerebral Blood Flow \u0026amp; Metabolism / 24 May 2021 DOI：10.1177/0271678X211026",
   "keywords": [
-    "文献-组学"
+    "文献-挖掘"
   ],
   "articleBody": " 题目：Single-cell RNA-seq reveals the transcriptional landscape in ischemic stroke\n期刊/日期：ournal of Cerebral Blood Flow \u0026 Metabolism / 24 May 2021\nDOI：10.1177/0271678X211026770\n   Ischemic stroke (IS)：缺血性中风\n  MCAO (middle cerebral artery occlusion)：大脑中动脉闭塞\n  概要简介：\n  文章对IS造模与对照小鼠样本进行单细胞测序，结合多种单细胞数据分析策略，发现细胞水平中与IS炎症高度相关的biomarker与细胞亚群。（测序数据已上传至GSE174574）\n  分析策略除单细胞基础分析流程外，还涉及（1）细胞比例分析（2）细胞亚群鉴定（3）转录因子分析（4）轨迹分析+BEAM（5）细胞通讯分析。由于包含疾病与对照组，上述分析均不同程度增加了两组差异对比的维度。\n  分析结果：\n对文章结果进行简单的总结，对文章细节的结果与结论感兴趣的可参看原文。\n1、单细胞测序与细胞注释 （1）对3个MCAO(24h)与3个对照小鼠样本的左脑半球(left cerebral hemispheres)进行单细胞测序；\n（2）对原始数据进行常规预处理，包括质控、去批次、降维分群等，结合marker基因注释得到17类细胞群（如下）；\n（3）初步分析在MCAO组中细胞比例明显提高或者下降的细胞类型，例如MdC从sham的2%到MCAO的16%。\n vascular smooth muscle cells (SMC); perivascular fibroblast-like cells (FB); central nervous system (CNS)-associated macrophages (CAM); monocyte-derived cells (MdC); venous endothelial cells (vEC); capillary endothelial cells (capEC); arterial endothelial cells (aEC); pericytes (PC); choroid plexus capillary endothelial cells (CPC); ependymocytes (EPC); microglia (MG); neutrophils (NEUT); astrocytes (ASC); oligodendrocytes (OLG); neural progenitor cells (NPC);lymphocytes(LYM); red blood cell (RBC)\n 2、MCAO细胞类型marker基因 主要围绕MCAO组中不同细胞类型相对于对照组相应细胞类型的差异基因展开不同角度分析\n（1）通路富集分析，以发现不同细胞类型对于疾病的响应功能特征；\n（2）哪一种细胞类型的差异基因数目最多，以表示受疾病的影响最大；\n（3）不同细胞类型特异的或者共享的差异基因，以分析细胞类型的unique或者general变化特征；\n（4）对于部分差异基因，进行湿实验水平的验证。\n3、细胞亚型分析 文章选取了若干种IS过程中比较重要的细胞类型进行亚型鉴定以及相关衍生分析，这里简单提一下其中两个例子。\n1） microglia  文章共鉴定出5种小胶质细胞亚型，结合每种亚型的marker基因注释其潜在的生物学功能； 进行SCENIC转录因子分析，发现每种亚型distinct转录因子。  2）外周浸润免疫细胞  对monocyte-derived cells (MdC)主要注释出3大类亚型，分别包括monocytes/macrophages(Mon/Mψ)，dendritic cells(DCs) and lymphocytes (T, B and NK cells) 其中Mon/Mψ根据不同亚群的marker注释得到不同表型的子类，并结合monecle轨迹分析推测其分化发育关系。  4、细胞通讯分析 文章最后使用CellPhoneDB进行了细胞通讯分析，阐述疾病组相对正常组特异变化的通讯类型，例如：疾病组中， FB与其它细胞类型的通讯程度减弱；microglia与CAM的通讯程度加强等。\n小体会：\n从测序数据来看，本文自测的6个样本单细胞数据（动物模型），应该是一笔不小花费。大体来看分析内容是很充实的，从单细胞基础分析到高级分析，并结合部分湿实验验证。但可能就像很多资源类型文章一样结论很多就是凸显不出重点（可能重点就是数据本身）。不过觉得挺适合作为初学者学习单细胞数据分析的示例数据集。\n",
   "wordCount" : "1311",
@@ -388,7 +388,7 @@ Create:&nbsp;<span title='2022-12-11 00:00:00 +0000 UTC'>2022-12-11</span>&nbsp;
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://lishensuo.github.io/tags/%E6%96%87%E7%8C%AE-%E7%BB%84%E5%AD%A6/">文献-组学</a></li>
+      <li><a href="https://lishensuo.github.io/tags/%E6%96%87%E7%8C%AE-%E6%8C%96%E6%8E%98/">文献-挖掘</a></li>
     </ul>
 <nav class="paginav">
   <a class="prev" href="https://lishensuo.github.io/posts/bioinfo/104%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr35--%E5%88%86%E7%B1%BB--svm/">

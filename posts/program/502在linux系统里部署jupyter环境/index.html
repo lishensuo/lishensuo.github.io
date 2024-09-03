@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>在Linux系统里部署Jupyter环境 | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="">
+<meta name="keywords" content="Linux">
 <meta name="description" content="之前就了解过Jupyter notebook，是调试python代码的简洁、高效软件。现在大致整理下目前学到的在Linux系统里部署Jupyt">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/program/502%E5%9C%A8linux%E7%B3%BB%E7%BB%9F%E9%87%8C%E9%83%A8%E7%BD%B2jupyter%E7%8E%AF%E5%A2%83/">
@@ -102,7 +102,7 @@
   "name": "在Linux系统里部署Jupyter环境",
   "description": "之前就了解过Jupyter notebook，是调试python代码的简洁、高效软件。现在大致整理下目前学到的在Linux系统里部署Jupyt",
   "keywords": [
-    
+    "Linux"
   ],
   "articleBody": " 之前就了解过Jupyter notebook，是调试python代码的简洁、高效软件。现在大致整理下目前学到的在Linux系统里部署Jupyter环境的小流程，以供之后自己学习python及相关分析时使用。\n 1、安装Jupyter  这里假设已经对conda环境有一定了解，并已在linux里安装； 官方安装教程 https://jupyter.org/install，推荐使用conda安装  1  conda install -c conda-forge notebook    tips：先暂时在base环境里安装，之后会介绍如何通用于其它环境。\n  查看版本  1 2  jupyter notebook --version # 6.4.5    调用jupyter(不推荐这么使用)  1  # jupyter notebook   2、本地端口登录  如上虽然可以直接在Linux默认的浏览器里调用Jupyter页面，但之前发现不仅启动慢，而且使用过程也很不流畅；应该是Linux调用默认浏览器的原因。可以通过如下方式，在本地电脑端口使用\n 2.1 生成jupyter notebook 配置文件 1  jupyter notebook --generate-config   2.2 设置登录密码  需要两次确认  1  jupyter notebook password    如上就会在.jupyter隐藏文件夹下生成两个文件：jupyter_notebook_config.json与jupyter_notebook_config.py\n 2.3 在Linux端启动jupyter 需要设置两个参数：指定端口号，不在Linux浏览器里启动\n1  jupyter notebook --port=8889 --no-browser   2.4 在本地电脑端设置链接端口 1 2 3  # Win + r 进入本地电脑命令行模式 ssh -L localhost:8889:localhost:8889 user_name@xxx.xxx.xxx.xxx -p 22 # 根据提示输入用户的密码即可进行关联   2.5 在本地任意浏览器登录  在浏览器网址栏输入：localhost:8889；在根据提示输入之前设置的密码即可在本地电脑端登入Linux系统里的Jupyter notebook软件，流畅得使用了。    参考教程 （1）远程访问服务器Jupyter Notebook的两种方法 https://www.jianshu.com/p/8fc3cd032d3c （2）关于Jupyter notebook远程连接服务器踩坑记 https://zhuanlan.zhihu.com/p/161221247\n 3、Jupyter 基本使用   如下图所示 Jupyter是由一个个单元格Cell组成，可以是Python的代码块，也可以是支持Rmarkown模式的注释文档；默认为代码块，可通过功能栏的下拉列表进行切换。\n  很多快捷键的用法，例如：\n Esc + H 快捷键大全 Esc + M 将单元格切换到markdown模式 Esc + Y 将单元格切换为代码code模式 Shift + Enter 运行当前单元格的内容，并选中下一个单元格的内容； Ctrl + Enter 运行当前单元格的内容，光标保留在当前单元格。     最后需要注意的是Jupyter保存的文件格式后缀为：.ipynb（即ipython notebook缩写）   Jupyter使用教程：https://cloud.tencent.com/developer/article/1091924\n 4、切换conda环境  在第一步里有介绍是在base环境中安装的Jupyter。通过安装nb_conda_kernels，可以实现建立基于某一特定conda环境的python脚本(前提是该conda环境已经安装好jupyter)  1 2  # 在base环境安装 conda install nb_conda_kernels   之后在，新建文件时，可以选择在基于哪一个conda环境下创建，非常方便 5、jupyter插件之jupyter-contrib-nbextensions jupyter-contrib-nbextensions提供了很多jupyter的插件，其中有些还是非常实用的。\n5.1 安装 jupyter_contrib_nbextensions 1  conda install -c conda-forge jupyter_contrib_nbextensions   5.2 配置 nbextension 1  jupyter contrib nbextension install --user   5.3 启用插件  如上述第2步的方法，在本地端口登陆Linux里的Jupyter Edit → 选择新增的Nbextensions，勾选想启用的插件功能即可。 我这里主要设置了三个插件 （1）Table of Contents(2)：根据rmarkdown注释的标题文档，在右边显示实时的目录信息； （2）Codefolding：可将python代码块里的函数、循环语句等折叠起来； （3）Variable Inspector：查看当前Python环境里所定义的变量信息。    参考教程 （1）Jupyter Notebook——如何显示目录的导航栏（安装 Jupyter Notebook extension） https://www.jianshu.com/p/61562bc5988b （2）工具篇-Jupyter Notebook效率提升小技巧 https://zhuanlan.zhihu.com/p/68328243 （3）真香！Jupyter Notebook 五大效率插件！ https://zhuanlan.zhihu.com/p/434052042\n  报错记录 （1）20220329 最近遇到一个问题，遇到的问题是在localhost无法打开ipynb文件，在linux端显示的报错如下：Permission denied: '/usr/local/share/jupyter/conf.json' 在localhost端则显示的500:internal server error。 后来经查询一番https://discourse.jupyter.org/t/500-internal-server-error-while-trying-to-open-python-notebook-on-jupyterhub/9738发现是nbconvert软件的版本的问题，安装指定的5.6.1版本后问题就解决了。 1  conda install nbconvent=5.6.1   ",
   "wordCount" : "1947",
@@ -548,6 +548,9 @@ Create:&nbsp;<span title='2022-05-15 00:00:00 +0000 UTC'>2022-05-15</span>&nbsp;
   </div>
 
   <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/tags/linux/">Linux</a></li>
+    </ul>
 <nav class="paginav">
   <a class="prev" href="https://lishensuo.github.io/posts/bioinfo/502%E6%95%B0%E6%8D%AE%E5%BA%93--%E5%8C%96%E5%90%88%E7%89%A9%E6%95%8F%E6%84%9F%E5%BA%A6gdsc_ctrl/">
     <span class="title">« Prev Page</span>

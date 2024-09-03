@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>Shiny-basic-3-Reactive | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="shiny">
+<meta name="keywords" content="Shiny">
 <meta name="description" content="Shiny Basic系列: 参考教程：https://mastering-shiny.org/ （1）IO控件 （2）Layout布局 （3）Reactiv">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/program/257shiny-basic-3-reactive/">
@@ -102,7 +102,7 @@
   "name": "Shiny-basic-3-Reactive",
   "description": "Shiny Basic系列: 参考教程：https://mastering-shiny.org/ （1）IO控件 （2）Layout布局 （3）Reactiv",
   "keywords": [
-    "shiny"
+    "Shiny"
   ],
   "articleBody": "Shiny Basic系列:\n 参考教程：https://mastering-shiny.org/\n （1）IO控件\n（2）Layout布局\n（3）Reactive用法\n（4）Feedback提醒\n（5）Module模块\nShiny Package系列:\n（1）shinyWidgets\n（2）shinyJS\n（3）shinydashboard\n（4）shinydashboardPlus\n（5）bslib\n（6）Other pkgs\n 在server端的代码，主要由多个reactive类型的代码块组成。\n1 2 3  server  }   1. render系列 计算输出结果\n1 2 3 4 5 6 7 8 9 10 11 12  output$Var1 = renderXXX({  ......  input$Var1  ...... })  renderText() # → textOutput renderPrint() # → verbatimTextOutput renderTable() # → tableOutput renderDataTable() # → dataTableOutput renderPlot() # → plotOutput renderImage() # → plotOutput    可renderXXX内的expression中的特定variable，通过isolate()函数包裹，使该变量值的变化不会引起renderXXX内的全部重新计算，以提高效率。\n1 2 3 4 5 6 7  output$Var1 = renderXXX({  ......  isolate(input$Var1) #Var1变化不会触发更新  input$Var2 #Var2变化会触发更新  ...... }) # 也同样适用于下面的reactive({}), observe({})    2. reactive表达式  reactiveVal() 单个值  1 2 3 4  x 10) x() x(20) #修改 x()    reactiveValues() list类型  1 2 3 4  r 10, y = \"a\") r$x r$x 20 #修改 r$x    reactive()表达式  1 2 3 4 5  mid_var = reactive({  ...  isolate()  ... })    observe()与reactive类似，区别在于不返回结果，仅运算表达式，可用于更新reactive value；update widget等场景  1 2 3 4 5  observe({  ...  isolate()  ... })   3. 动作触发 通过监督特定值（通常为button）是否发生变化，来控制是否表达式里的计算过程。\n此时表达式里包括的input值变化，不会触发表达式的重新计算\n eventReactive()  1 2 3  mid_var = eventReactive(input$XXX, {  })    observeEvent()  1 2 3  observeEvent(input$XXX, {  })   ",
   "wordCount" : "695",
@@ -508,7 +508,7 @@ Create:&nbsp;<span title='2024-03-31 00:00:00 +0000 UTC'>2024-03-31</span>&nbsp;
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://lishensuo.github.io/tags/shiny/">shiny</a></li>
+      <li><a href="https://lishensuo.github.io/tags/shiny/">Shiny</a></li>
     </ul>
 <nav class="paginav">
   <a class="prev" href="https://lishensuo.github.io/posts/program/256shiny-basic-2-layout/">

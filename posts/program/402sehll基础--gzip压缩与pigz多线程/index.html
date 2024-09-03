@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>shell基础--tar.gz相关、gzip压缩与pigz多线程 | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="shell基础">
+<meta name="keywords" content="Linux">
 <meta name="description" content="tar相关 1 2 3 4 5 6 7 8 9 10 11 #(1) 将多个文件打包为 .tar文件 tar -cvf test.tar dir1 file4 #(2) 将多个文件打包并压缩为 .tar.gz tar -czvf test.tar.gz dir1 file4 #(3) 将 .tar文件拆包 tar -xvf test.tar #(4) 将 .">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/program/402sehll%E5%9F%BA%E7%A1%80--gzip%E5%8E%8B%E7%BC%A9%E4%B8%8Epigz%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
@@ -102,7 +102,7 @@
   "name": "shell基础--tar.gz相关、gzip压缩与pigz多线程",
   "description": "tar相关 1 2 3 4 5 6 7 8 9 10 11 #(1) 将多个文件打包为 .tar文件 tar -cvf test.tar dir1 file4 #(2) 将多个文件打包并压缩为 .tar.gz tar -czvf test.tar.gz dir1 file4 #(3) 将 .tar文件拆包 tar -xvf test.tar #(4) 将 .",
   "keywords": [
-    "shell基础"
+    "Linux"
   ],
   "articleBody": " tar相关  1 2 3 4 5 6 7 8 9 10 11  #(1) 将多个文件打包为 .tar文件 tar -cvf test.tar dir1 file4  #(2) 将多个文件打包并压缩为 .tar.gz tar -czvf test.tar.gz dir1 file4  #(3) 将 .tar文件拆包 tar -xvf test.tar  #(4) 将 .tar.gz文件解压拆包 tar -xzvf test.tar.gz     gzip压缩是的文件多为file.gz, 对应的linux命令为：\n（1）压缩：gzip; （2）解压缩：gunzip\n1 2 3 4 5 6 7  #压缩 gzip f1.txt # f1.txt.gz  #解压缩 gunzip f1.txt.gz # f1.txt     但是gzip压缩仅支持单个文件。如果是文件夹或者多个文件则需要tar归档为一个文件\n  1 2 3 4 5 6 7  #先将dir1 file1归档为test.tar包，然后再进行gzip压缩 tar -czvf test.tar.gz dir1 file1 # test.tar.gz  #解压缩再解包 tar -xzvf test.tar.gz # dir1 file1    pigz软件可提供并行gzip压缩/解压缩过程  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17  #conda安装 conda install -c conda-forge pigz pigz # 参数 -p设置进程数，默认为8  #pigz单文件压缩 pigz f1.txt #pigz归档压缩 tar -cvf - dir1/ file1 | pigz -p 8  test.tar.gz  #pigz解压 ## -d 参数表示解压缩 pigz -d test.gz  ## 如果是tar.gz，需要先解压，再拆包 pigz -d test.tar.gz tar -xvf test.tar   ",
   "wordCount" : "413",
@@ -362,7 +362,7 @@ Create:&nbsp;<span title='2022-04-16 00:00:00 +0000 UTC'>2022-04-16</span>&nbsp;
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://lishensuo.github.io/tags/shell%E5%9F%BA%E7%A1%80/">shell基础</a></li>
+      <li><a href="https://lishensuo.github.io/tags/linux/">Linux</a></li>
     </ul>
 <nav class="paginav">
   <a class="prev" href="https://lishensuo.github.io/posts/program/401shell%E5%9F%BA%E7%A1%80--find%E6%9F%A5%E6%89%BE%E6%96%87%E4%BB%B6/">

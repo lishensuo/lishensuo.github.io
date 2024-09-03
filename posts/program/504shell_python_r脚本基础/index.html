@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>Shell_Python_R脚本基础 | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="">
+<meta name="keywords" content="R, Python, Linux">
 <meta name="description" content="1、shell脚本 1.1 脚本执行 （1）命令行直接执行 如下示例：脚本第一行设置脚本解释器的路径，如写错或没写，系统会调用默认解释器执行。然后在运行">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/program/504shell_python_r%E8%84%9A%E6%9C%AC%E5%9F%BA%E7%A1%80/">
@@ -102,7 +102,7 @@
   "name": "Shell_Python_R脚本基础",
   "description": "1、shell脚本 1.1 脚本执行 （1）命令行直接执行 如下示例：脚本第一行设置脚本解释器的路径，如写错或没写，系统会调用默认解释器执行。然后在运行",
   "keywords": [
-    
+    "R", "Python", "Linux"
   ],
   "articleBody": "1、shell脚本 1.1 脚本执行   （1）命令行直接执行\n如下示例：脚本第一行设置脚本解释器的路径，如写错或没写，系统会调用默认解释器执行。然后在运行脚本时，需要先赋予可执行权限。（下同）\n  1 2 3 4 5 6 7 8  cat  test.sh #!/bin/bash echo \"Hello World!\"   chmod u+x test.sh ./test.sh # Hello World!    （2）bash命令执行  1 2 3 4 5 6  cat  test.sh echo \"Hello World!\"   bash ./test.sh # Hello World!   1.2 脚本传参  $0 脚本名 $1 第一个参数 $2 第二个参数… $@ 全部参数 $# 输入参数个数  1 2 3 4 5 6  cat  plus.sh num1=$1 num2=$2 echo \"${num1}+${num2}\" | bc  bash ./plus.sh 1 2   2、python脚本 2.1 脚本执行  （1）命令行直接执行  1 2 3 4 5 6 7  cat  test.py #!/usr/bin/python print(\"Hello World!\")   chmod u+x test.py ./test.py    （2）python命令执行  1 2 3 4 5  cat  test.py print(\"Hello world\")   python test.py   2.2 脚本传参  一般使用sys模块传参,储存在sys.argv列表里，第0个元素表示脚本名，第一个元素表示第一个参数..  1 2 3 4 5 6 7  cat  test.py import sys num1 = sys.argv[1] num2 = sys.argv[2] print(int(num1) + int(num2))  python test.py 1 2   3、R脚本 3.1 脚本执行  （1）命令行直接执行  1 2 3 4 5 6 7  cat  test.r #!/usr/bin/Rscript print(\"Hello world\")   chmod u+x test.r ./test.r    （2）Rscript命令执行  1 2 3 4 5  cat  test.r print(\"Hello world\")   Rscript test.r   3.2 脚本传参  使用commandArgs()函数传参  1 2 3 4 5 6 7  cat  test.r args num1=args[1] num2=args[2] print(as.numeric(num1)+as.numeric(num2))  Rscript test.r 1 2    nohup后台运行，以python脚本为例：\n1  nohup python drug_fp.py 1 ./drug_fp.log 2\u00261 \u0026    ",
   "wordCount" : "487",
@@ -565,6 +565,11 @@ Create:&nbsp;<span title='2023-03-25 00:00:00 +0000 UTC'>2023-03-25</span>&nbsp;
   </div>
 
   <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/tags/r/">R</a></li>
+      <li><a href="https://lishensuo.github.io/tags/python/">Python</a></li>
+      <li><a href="https://lishensuo.github.io/tags/linux/">Linux</a></li>
+    </ul>
 <nav class="paginav">
   <a class="prev" href="https://lishensuo.github.io/posts/program/503linux%E7%9A%84parallel%E5%B9%B6%E8%A1%8C%E6%96%B9%E6%B3%95/">
     <span class="title">« Prev Page</span>

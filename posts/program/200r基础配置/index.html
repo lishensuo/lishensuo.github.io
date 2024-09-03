@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>R基础配置 | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="R基础">
+<meta name="keywords" content="R">
 <meta name="description" content="1、R镜像设置 （1）临时设置，重启R之后会重置 1 2 3 4 options(BioC_mirror=&#34;http://mirrors.tuna.tsinghua.edu.cn/bioconductor/&#34;) options(&#34;repos&#34; = c(CRAN=&#34;https://mirrors.tuna.tsinghua.edu.cn/CRAN/&#34;)) options()$repos options()$BioC_mirror （2）通过设置.Rprofile文件永久设置 linux 1 2 3 4 5 6 7 #进入家目录 cd">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/program/200r%E5%9F%BA%E7%A1%80%E9%85%8D%E7%BD%AE/">
@@ -102,7 +102,7 @@
   "name": "R基础配置",
   "description": "1、R镜像设置 （1）临时设置，重启R之后会重置 1 2 3 4 options(BioC_mirror=\u0026#34;http://mirrors.tuna.tsinghua.edu.cn/bioconductor/\u0026#34;) options(\u0026#34;repos\u0026#34; = c(CRAN=\u0026#34;https://mirrors.tuna.tsinghua.edu.cn/CRAN/\u0026#34;)) options()$repos options()$BioC_mirror （2）通过设置.Rprofile文件永久设置 linux 1 2 3 4 5 6 7 #进入家目录 cd",
   "keywords": [
-    "R基础"
+    "R"
   ],
   "articleBody": "1、R镜像设置 （1）临时设置，重启R之后会重置\n1 2 3 4  options(BioC_mirror=\"http://mirrors.tuna.tsinghua.edu.cn/bioconductor/\") options(\"repos\" = c(CRAN=\"https://mirrors.tuna.tsinghua.edu.cn/CRAN/\")) options()$repos options()$BioC_mirror   （2）通过设置.Rprofile文件永久设置\n linux  1 2 3 4 5 6 7  #进入家目录 cd ~ vi ~/.Rprofile #输入下面两行代码 options(repos=structure(c(CRAN=\"https://mirrors.tuna.tsinghua.edu.cn/CRAN/\"))) options(BioC_mirror=\"https://mirrors.tuna.tsinghua.edu.cn/bioconductor\") #保存退出    window  第①步：打开记事本或者其他文本编辑软件； 第②步：输入默认设置（内容同上述linux案例）； 第③步：保存文件到 “此电脑文档” /.Rprofile； 第④步：重新进入R/RStudio即可。\n .Rprofile文件为启动R时自动加载的文件，可以继续添加其它命令，例如管道符号library(magrittr)\n ",
   "wordCount" : "244",
@@ -363,7 +363,7 @@ Create:&nbsp;<span title='2022-04-16 00:00:00 +0000 UTC'>2022-04-16</span>&nbsp;
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://lishensuo.github.io/tags/r%E5%9F%BA%E7%A1%80/">R基础</a></li>
+      <li><a href="https://lishensuo.github.io/tags/r/">R</a></li>
     </ul>
 <nav class="paginav">
   <a class="prev" href="https://lishensuo.github.io/posts/bioinfo/201%E9%87%8D%E5%90%AF%E9%9A%8F%E6%9C%BA%E6%B8%B8%E8%B5%B0%E7%AE%97%E6%B3%95%E4%B8%8Erandomwalkrestartmh%E5%8C%85/">

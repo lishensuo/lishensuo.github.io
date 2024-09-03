@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>shell基础--grep等文本处理命令 | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="shell基础">
+<meta name="keywords" content="Linux">
 <meta name="description" content="1、grep 主要功能：查询符合条件的行 1 2 3 4 5 6 7 8 9 10 11 12 13 14 #返回符合条件的行,可使用正则表达式 who | grep &#34;wuyt&#34; # -n参数：返回符合条件的行，">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/program/403shell%E5%9F%BA%E7%A1%80--grep%E7%AD%89%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4/">
@@ -102,7 +102,7 @@
   "name": "shell基础--grep等文本处理命令",
   "description": "1、grep 主要功能：查询符合条件的行 1 2 3 4 5 6 7 8 9 10 11 12 13 14 #返回符合条件的行,可使用正则表达式 who | grep \u0026#34;wuyt\u0026#34; # -n参数：返回符合条件的行，",
   "keywords": [
-    "shell基础"
+    "Linux"
   ],
   "articleBody": "1、grep  主要功能：查询符合条件的行  1 2 3 4 5 6 7 8 9 10 11 12 13 14  #返回符合条件的行,可使用正则表达式 who | grep \"wuyt\"  # -n参数：返回符合条件的行，及其在原文件中的位置 who | grep -n \"wuyt\"  # -c参数：仅返回符合条件的行数 who | grep -c \"wuyt\"  # -v参数：反选 who | grep -v \"wuyt\"  # -E参数：符合多个条件之一 who | grep -E \"wuyt|ssli\"   2、sed  主要功能：增删改查  （1）删除\n1 2 3 4 5 6 7 8  #删除第一行 who | sed '1d'  #删除最后一行 who | sed '$d'  #删除第3-5行 who | sed '3,5d'   （2）查看\n1 2 3 4 5 6 7 8  #显示第一行 who | sed -n '1p'  #显示最后一行 who | sed -n '$p'  #显示第3-5行 who | sed -n '3,5p'   （3）增加/插入\n1 2 3 4 5  #在第一行前插入  who | sed '1i this is the new first line'  #在最后一行后插入 who | sed '$a this is the new last line'   （4）修改/替换\n1 2 3 4 5 6 7 8 9  #将第一行替换为其它内容 who | sed '1c this line has been changed'  #替换--整体替换 who | sed 's/ssli/abc/g'  #替换--一一替换 who | sed 'y/abc/ABC/' ##替换为空值即为删除   3、awk  主要功能：筛选符合条件的行  （1）打印指定列。默认分割符为空格或者Tab键,输出分隔符为单个空格。\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17  #打印第1列 who | awk '{print $1}'  #打印第2列 who | awk '{print $1,$2}'  #打印第1,2列，中间以逗号为分隔符 who | awk '{print $1\",\"$2}'  # -v FS= 指定输入分隔符 head /etc/passwd | awk -v FS=\":\" '{print $1}' # -v OFS= 指定输出分隔符 # $NF 最后一列 # $(NF-1) 倒数第二列 # $0 表示原文件的行内容  head /etc/passwd | awk -v FS=\":\" -v OFS=\"\\t\" '{print $1,$2,$(NF-1),$NF}'   （2）按照列的特征筛选行\n1 2 3 4 5 6 7 8 9 10 11 12 13  #第四列值大于0的行 #比较下面两个命令的差异，$0表示原文件的行内容 head /etc/passwd | awk -v FS=\":\" -v OFS=\"\\t\" '$4  0{print $0}' head /etc/passwd | awk -v FS=\":\" -v OFS=\"\\t\" '$4  0{print $1,$2,$4}'  #第六列值内容为 \"/sbin\"的行 head /etc/passwd | awk -v FS=\":\" -v OFS=\"\\t\" '$6 == \"/sbin\" {print $1,$2,$6}'  #最后一列值内容包含 \"nologin\"的行 head /etc/passwd | awk -v FS=\":\" -v OFS=\"\\t\" '$NF ~ nologin {print $1,$2,$NF}'  ## 可使用 \u0026\u0026 || 将多个筛选条件结合起来进行筛选 ## 还有更多更复杂的筛选方法，具体需要用到时在做学习   4、cut （1）截取每行指定位置的字符(串)\n1 2 3 4 5 6 7 8  #截取第3个字符 who | cut -b 3  #截取第3,4,5,7个字符串 who | cut -b 3-5,7  #截取第3个字符至末尾的字符串 who | cut -b 3-   （2）指定分隔符(-d)，取指定片段的字符串(-f)\n1 2 3 4 5 6 7 8 9 10 11 12 13 14  ##只能指定单个字符为分隔符 #以冒号为分隔符，取第一列 head /etc/passwd | cut -d : -f 1  #以冒号为分割符，取第2,4,6列 head /etc/passwd | cut -d : -f 2,4-6  #以单个空格为分隔符 who | cut -d ' ' -f 1  ##cut默认制表符为分隔符。可使用sed语句判断不确定的空白是制表符还是空格 printf 'a b\\n' | sed -n l printf 'a\\tb\\n' | sed -n l printf 'a\\tb\\n' | cut -f 1   5、sort  主要功能：对单列字符串排序  1 2 3 4 5 6 7 8 9 10 11 12 13 14  #正序 head /etc/passwd | cut -d : -f 1 | sort  # -r 逆序 head /etc/passwd | cut -d : -f 1 | sort -r  # -u 去重 who | cut -d ' ' -f 1 | sort -u  # -n 按数值排序 head /etc/passwd | cut -d : -f 4 | sort -n  #按照某一列(-t指定分隔符)顺序调整每行的顺序；输出仍为行文本内容 head /etc/passwd | sort -n -t ':' -k 4   6、uniq  主要功能：搭配sort计算频率  1 2 3 4 5 6 7 8 9 10 11  #uniq只会对相邻的重复值进行去重处理 head /etc/passwd | cut -d : -f 4 | uniq head /etc/passwd | cut -d : -f 4 | sort | uniq  # -c 统计频数 head /etc/passwd | cut -d : -f 4 | sort | uniq -c #按频数排序 head /etc/passwd | cut -d : -f 4 | sort | uniq -c | sort -n  # -d 只显示有重复的行 head /etc/passwd | cut -d : -f 4 | sort | uniq -dc   7、tr  主要功能：单个字符一一替换  1 2 3 4 5 6 7 8 9 10  who | tr 'abc' '123' who | tr 'a-z' 'A-Z'  #替换分隔符 head /etc/passwd | tr ':' ',' head /etc/passwd | tr ':' '\\t'  #单个字符删除 -d who | tr -d 'a-z' who | tr -d 'a'   8、cat，paste，join  cat：纵向合并文件  1  cat f1.txt f2.txt  f3.txt    paste：横向合并文件  1 2 3 4 5 6 7  paste f1.txt f2.txt  # -d 可指定分隔符 paste -d ',' f1.txt f2.txt  #每两行合并为一行,以制表符为分隔符 cat f1.txt | paste - -    此外 join 可按公共列纵向合并文件。类似R中join系列函数\n ",
   "wordCount" : "1483",
@@ -732,7 +732,7 @@ Create:&nbsp;<span title='2022-04-16 00:00:00 +0000 UTC'>2022-04-16</span>&nbsp;
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://lishensuo.github.io/tags/shell%E5%9F%BA%E7%A1%80/">shell基础</a></li>
+      <li><a href="https://lishensuo.github.io/tags/linux/">Linux</a></li>
     </ul>
 <nav class="paginav">
   <a class="prev" href="https://lishensuo.github.io/posts/program/402sehll%E5%9F%BA%E7%A1%80--gzip%E5%8E%8B%E7%BC%A9%E4%B8%8Epigz%E5%A4%9A%E7%BA%BF%E7%A8%8B/">

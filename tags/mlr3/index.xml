@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>mlr3 on Li&#39;s Bioinfo-Blog</title>
+    <link>https://lishensuo.github.io/tags/mlr3/</link>
+    <description>Recent content in mlr3 on Li&#39;s Bioinfo-Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 18 Jun 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://lishensuo.github.io/tags/mlr3/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>机器学习基于R(0)--mlr3基本流程 V2</title>
+      <link>https://lishensuo.github.io/posts/bioinfo/099%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr30--mlr3%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B_v2/</link>
+      <pubDate>Tue, 18 Jun 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/posts/bioinfo/099%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr30--mlr3%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B_v2/</guid>
+      <description>https://mlr3book.mlr-org.com/ 1 2 3 4 5 6 7 8 9 10 library(mlr3verse) library(tidyverse) tsks() #预置数据任务 lrns() #机器学习算法 msrs() #性能评价指标 as.data.table() 1. Task 任务 https://mlr3book.mlr-org.com/chapters/chapter2/data_and_basic_modeling.html 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 tsk() #预置数据任务 as.data.table(tsk()) tsk(&amp;#34;mtcars&amp;#34;) #</description>
+    </item>
+    
+    <item>
+      <title>机器学习基于R(0)--mlr3基本流程</title>
+      <link>https://lishensuo.github.io/posts/bioinfo/099%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr30--mlr3%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B/</link>
+      <pubDate>Sun, 26 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/posts/bioinfo/099%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr30--mlr3%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B/</guid>
+      <description>1 2 library(mlr3verse) library(tidyverse) 1、Task训练数据与目的 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 ## 分类任务 task_classif = as_task_classif(data, target = &amp;#34;col_target&amp;#34;) #根据预测结果又可分为：twoclass二分类, mul</description>
+    </item>
+    
+    <item>
+      <title>机器学习基于R包mlr3(1)--分类--KNN</title>
+      <link>https://lishensuo.github.io/posts/bioinfo/100%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr31--%E5%88%86%E7%B1%BB--knn/</link>
+      <pubDate>Thu, 30 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/posts/bioinfo/100%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr31--%E5%88%86%E7%B1%BB--knn/</guid>
+      <description>KNN&amp;ndash;K近邻 1、KNN的步骤 （1）计算输入数据与训练数据的距离（一般欧几里得距离）； （2）从训练集中，选取距离输入数据点最近的</description>
+    </item>
+    
+    <item>
+      <title>机器学习基于R包mlr3(2)--分类--逻辑回归.md</title>
+      <link>https://lishensuo.github.io/posts/bioinfo/101%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr32--%E5%88%86%E7%B1%BB--%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/</link>
+      <pubDate>Sun, 10 Apr 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/posts/bioinfo/101%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr32--%E5%88%86%E7%B1%BB--%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/</guid>
+      <description>1、逻辑回归的算法理解 逻辑回归 = 线性回归 + Sigmoid函数 与线性回归相同的是同样需要学习变量的权重(系数)与偏置(截距)；与线性回归不同的</description>
+    </item>
+    
+    <item>
+      <title>机器学习基于R包mlr3(3)--分类--LDA与QDA</title>
+      <link>https://lishensuo.github.io/posts/bioinfo/102%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr33--%E5%88%86%E7%B1%BB--lda%E4%B8%8Eqda/</link>
+      <pubDate>Sun, 10 Apr 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/posts/bioinfo/102%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr33--%E5%88%86%E7%B1%BB--lda%E4%B8%8Eqda/</guid>
+      <description>1、概述 LDA与QDA可以简单理解为有监督的降维，将多个预测变量信息压缩成少数（类别数-1）新的预测变量。 每一个新的预测变量称之为判别函数，</description>
+    </item>
+    
+    <item>
+      <title>机器学习基于R包mlr3(4)--分类--朴素贝叶斯</title>
+      <link>https://lishensuo.github.io/posts/bioinfo/103%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr34--%E5%88%86%E7%B1%BB--%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF/</link>
+      <pubDate>Sun, 10 Apr 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/posts/bioinfo/103%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr34--%E5%88%86%E7%B1%BB--%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF/</guid>
+      <description>1、朴素贝叶斯简介 Naive Bayes：预测样本属于每一类别的概率，取概率最高的类别。包含四个概念：后验概率、似然、先验概率以及全概率。如下图示例 例</description>
+    </item>
+    
+    <item>
+      <title>机器学习基于R包mlr3(5)--分类--SVM</title>
+      <link>https://lishensuo.github.io/posts/bioinfo/104%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr35--%E5%88%86%E7%B1%BB--svm/</link>
+      <pubDate>Sun, 10 Apr 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/posts/bioinfo/104%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr35--%E5%88%86%E7%B1%BB--svm/</guid>
+      <description>1、SVM相关 基本概念 超平面：比数据集的变量少一个维度的平面，也称为决策边界； 间隔：（对于硬间隔）训练数据中最接近决策边界的样本点与决策边界</description>
+    </item>
+    
+    <item>
+      <title>机器学习基于R包mlr3(6)--分类--决策树与随机森林</title>
+      <link>https://lishensuo.github.io/posts/bioinfo/105%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr36--%E5%88%86%E7%B1%BB--%E5%86%B3%E7%AD%96%E6%A0%91%E4%B8%8E%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97/</link>
+      <pubDate>Sat, 16 Apr 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/posts/bioinfo/105%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr36--%E5%88%86%E7%B1%BB--%E5%86%B3%E7%AD%96%E6%A0%91%E4%B8%8E%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97/</guid>
+      <description>1、决策树基础 1.1 决策树的构成 （1）决策树由节点组成，可分为决策节点(Decision tree)与叶节点(leaf node)。 （2）从上到下的</description>
+    </item>
+    
+    <item>
+      <title>机器学习基于R包mlr3(8)--回归--线性回归</title>
+      <link>https://lishensuo.github.io/posts/bioinfo/107%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr38--%E5%9B%9E%E5%BD%92--%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/</link>
+      <pubDate>Fri, 22 Apr 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/posts/bioinfo/107%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr38--%E5%9B%9E%E5%BD%92--%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/</guid>
+      <description>1、关于线性回归 1.1 公式理解 由于实际问题很少遇到单变量线性回归，所以更常见的表示为通用线性模型： $$ y = \beta_0 + \beta_1x_1 + \beta_2x_2 + &amp;hellip;+\beta_kx_k + \epsilon $$ （1）β0表示截距，</description>
+    </item>
+    
+    <item>
+      <title>机器学习基于R包mlr3(9)--回归--GAM非线性回归</title>
+      <link>https://lishensuo.github.io/posts/bioinfo/108%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr39--%E5%9B%9E%E5%BD%92--gam%E9%9D%9E%E7%BA%BF%E5%9B%9E%E5%BD%92/</link>
+      <pubDate>Wed, 27 Apr 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/posts/bioinfo/108%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr39--%E5%9B%9E%E5%BD%92--gam%E9%9D%9E%E7%BA%BF%E5%9B%9E%E5%BD%92/</guid>
+      <description>1、关于GAM非线性回归 (1) n阶多项式 如前所说，线性回归的假设是每个预测变量与输出变量之间为线性相关。即类似 y = ax + b。 当预测变量与输出变量之</description>
+    </item>
+    
+    <item>
+      <title>机器学习基于R包mlr3(10)--回归--岭回归&#43;LASSO回归&#43;弹性网络</title>
+      <link>https://lishensuo.github.io/posts/bioinfo/109%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr310--%E5%9B%9E%E5%BD%92--%E5%B2%AD%E5%9B%9E%E5%BD%92&#43;lasson%E5%9B%9E%E5%BD%92&#43;%E5%BC%B9%E6%80%A7%E7%BD%91%E7%BB%9C/</link>
+      <pubDate>Sat, 07 May 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/posts/bioinfo/109%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr310--%E5%9B%9E%E5%BD%92--%E5%B2%AD%E5%9B%9E%E5%BD%92&#43;lasson%E5%9B%9E%E5%BD%92&#43;%E5%BC%B9%E6%80%A7%E7%BD%91%E7%BB%9C/</guid>
+      <description>在建立通用线性模型时，当模型参数即斜率值绝对值过大时，容易存在过拟合的风险。可通过下面介绍的3种正则化方法将每个预测变量的斜率参数缩小为0或</description>
+    </item>
+    
+    <item>
+      <title>机器学习基于R包mlr3(11)--回归--kNN&#43;随机森林&#43;XGBboost</title>
+      <link>https://lishensuo.github.io/posts/bioinfo/110%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr311--%E5%9B%9E%E5%BD%92--knn&#43;%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97&#43;xgboost/</link>
+      <pubDate>Sun, 08 May 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/posts/bioinfo/110%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr311--%E5%9B%9E%E5%BD%92--knn&#43;%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97&#43;xgboost/</guid>
+      <description>1 2 library(mlr3verse) library(tidyverse) 0、示例数据 1 2 3 4 5 6 7 8 9 10 11 12 13 data(Iowa, package = &amp;#34;lasso2&amp;#34;) head(Iowa) # Year Rain0 Temp1 Rain1 Temp2 Rain2 Temp3 Rain3 Temp4 Yield # 1 1930 17.75 60.2 5.83 69.0 1.49 77.9 2.42 74.4 34.0 # 2 1931 14.76 57.5 3.83 75.0 2.72 77.2 3.30 72.6 32.9 # 3 1932 27.99 62.3 5.17 72.0</description>
+    </item>
+    
+    <item>
+      <title>机器学习基于R包mlr3(12)--降维--PCA</title>
+      <link>https://lishensuo.github.io/posts/bioinfo/111%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr312--%E9%99%8D%E7%BB%B4--pca/</link>
+      <pubDate>Thu, 12 May 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/posts/bioinfo/111%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr312--%E9%99%8D%E7%BB%B4--pca/</guid>
+      <description>降维是指在保留尽可能多原始数据条件下，将许多变量(成百上千)转换为少数的、不相关的变量，从而有利于后序的数据分析与可视化。而主成分分析(PC</description>
+    </item>
+    
+    <item>
+      <title>机器学习基于R包mlr3(13)--降维t-SNE与UMAP</title>
+      <link>https://lishensuo.github.io/posts/bioinfo/112%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr313--%E9%99%8D%E7%BB%B4t-sne%E4%B8%8Eumap/</link>
+      <pubDate>Sat, 21 May 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/posts/bioinfo/112%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr313--%E9%99%8D%E7%BB%B4t-sne%E4%B8%8Eumap/</guid>
+      <description>算法简介 t-SNE 正态分布密度函数 ，其中σ表示标准差，μ表示均值 第一步：计算高维空间中任意两样本点的欧几里得距离。 第二步：对于任一特定节点，将其余节</description>
+    </item>
+    
+    <item>
+      <title>机器学习基于R包mlr3(14)--聚类-k均值</title>
+      <link>https://lishensuo.github.io/posts/bioinfo/113%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr314--%E8%81%9A%E7%B1%BB-k%E5%9D%87%E5%80%BC/</link>
+      <pubDate>Wed, 06 Jul 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/posts/bioinfo/113%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr314--%E8%81%9A%E7%B1%BB-k%E5%9D%87%E5%80%BC/</guid>
+      <description>1、算法简介 1.1 不同种K均值算法 k均值是常用的聚类算法之一。 （1）首先需要预先定义样本集中存在多少种聚类（假设为k），即数据集中处在K个真正意</description>
+    </item>
+    
+    <item>
+      <title>机器学习基于R包mlr3(15)--聚类-层次聚类</title>
+      <link>https://lishensuo.github.io/posts/bioinfo/114%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr315--%E8%81%9A%E7%B1%BB-%E5%B1%82%E6%AC%A1%E8%81%9A%E7%B1%BB/</link>
+      <pubDate>Sat, 18 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/posts/bioinfo/114%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr315--%E8%81%9A%E7%B1%BB-%E5%B1%82%E6%AC%A1%E8%81%9A%E7%B1%BB/</guid>
+      <description>1、层次聚类简介 1.1 计算步骤 层次聚类hierarchical clustering常用的是自下而上的聚合法(Agglomerative)。与之相</description>
+    </item>
+    
+    <item>
+      <title>机器学习基于R包mlr3(16)--聚类-EM混合分布</title>
+      <link>https://lishensuo.github.io/posts/bioinfo/115%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr316--%E8%81%9A%E7%B1%BB-em%E6%B7%B7%E5%90%88%E5%88%86%E5%B8%83/</link>
+      <pubDate>Sat, 18 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/posts/bioinfo/115%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr316--%E8%81%9A%E7%B1%BB-em%E6%B7%B7%E5%90%88%E5%88%86%E5%B8%83/</guid>
+      <description>1、算法与工具简介 1.1 EM算法 EM， Expectation-Maximization 期望最大化算法 混合分布：来自两种或两种以上概率分布(高斯分布最典型)的随机数据组成的一组混合数据所形成的</description>
+    </item>
+    
+  </channel>
+</rss>

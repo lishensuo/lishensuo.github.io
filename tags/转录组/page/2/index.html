@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>转录组 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="李申锁的博客，记录生信学习过程。R/Python/Shell">
+<meta name="author" content="">
+<link rel="canonical" href="https://lishensuo.github.io/tags/%E8%BD%AC%E5%BD%95%E7%BB%84/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.1abf8254c205953f8beb228727a5e0a5541f0bc42f68f2762e2e594e7b213985.css" integrity="sha256-Gr&#43;CVMIFlT&#43;L6yKHJ6XgpVQfC8QvaPJ2Li5ZTnshOYU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="https://lishensuo.github.io/tags/%E8%BD%AC%E5%BD%95%E7%BB%84/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="转录组" />
+<meta property="og:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://lishensuo.github.io/tags/%E8%BD%AC%E5%BD%95%E7%BB%84/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="转录组"/>
+<meta name="twitter:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell"/>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header"><div class="breadcrumbs"><a href="https://lishensuo.github.io">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/tags/">Tags</a></div>
+  <h1>转录组</h1>
+</header>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>xCell与CIBERSORT等免疫浸润分析
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>xCell xCell包 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 devtools::install_github(&#39;dviraran/xCell&#39;) library(xCell) data(&#34;xCell.data&#34;) ##查看支持的64种细胞类型，同下图 colnames(xCell.data$spill$K) ##预测函数的关键参数解释 ?xCellAnalysis() # expr = 交代表达矩阵； ##...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2022-04-25 00:00:00 +0000 UTC'>2022-04-25</span>&nbsp;|&nbsp;Update:&nbsp;2023-02-18&nbsp;|&nbsp;Words:&nbsp;2554&nbsp;|&nbsp;6 min&nbsp;|&nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to xCell与CIBERSORT等免疫浸润分析" href="https://lishensuo.github.io/posts/bioinfo/072xcell%E4%B8%8Ecibersort%E7%AD%89%E5%85%8D%E7%96%AB%E6%B5%B8%E6%B6%A6%E5%88%86%E6%9E%90/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>ClusterGVis包绘制基因表达矩阵热图
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>ClusterGVis包是中国药科大学Jun Zhang博士开发的系列可视化工具包之一，可以基因表达矩阵进行高级的热图可视化分析。如下根据其g...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2023-03-19 00:00:00 +0000 UTC'>2023-03-19</span>&nbsp;|&nbsp;Update:&nbsp;2023-03-19&nbsp;|&nbsp;Words:&nbsp;1261&nbsp;|&nbsp;3 min&nbsp;|&nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to ClusterGVis包绘制基因表达矩阵热图" href="https://lishensuo.github.io/posts/bioinfo/073clustergvis%E5%8C%85%E7%BB%98%E5%88%B6%E5%9F%BA%E5%9B%A0%E8%A1%A8%E8%BE%BE%E7%9F%A9%E9%98%B5%E7%83%AD%E5%9B%BE/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>MuSiC包根据scRNAseq预测Bulk细胞组成
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>MuSiC(MUlti-Subject SIngle Cell deconvolution)是来自宾夕法尼亚大学Biostatistics, Epidemiology and Informatics系的Mingyao Li课题组于2...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2023-03-26 00:00:00 +0000 UTC'>2023-03-26</span>&nbsp;|&nbsp;Update:&nbsp;2023-03-26&nbsp;|&nbsp;Words:&nbsp;1799&nbsp;|&nbsp;4 min&nbsp;|&nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to MuSiC包根据scRNAseq预测Bulk细胞组成" href="https://lishensuo.github.io/posts/bioinfo/074music%E5%8C%85%E6%A0%B9%E6%8D%AEscrnaseq%E9%A2%84%E6%B5%8Bbulk%E7%BB%86%E8%83%9E%E7%BB%84%E6%88%90/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>从RNAseq的fastq.gz提取表达矩阵
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>RNA-seq数据比对流程主要分为三步（1）整理数据；（2）质控；（3）比对。其中每一步都涉及到若干软件的用法，如下简单整理基本的分析流程。...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2023-01-29 00:00:00 +0000 UTC'>2023-01-29</span>&nbsp;|&nbsp;Update:&nbsp;2023-01-29&nbsp;|&nbsp;Words:&nbsp;2347&nbsp;|&nbsp;5 min&nbsp;|&nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 从RNAseq的fastq.gz提取表达矩阵" href="https://lishensuo.github.io/posts/bioinfo/060%E4%BB%8Ernaseq%E7%9A%84fastq.gz%E6%8F%90%E5%8F%96%E8%A1%A8%E8%BE%BE%E7%9F%A9%E9%98%B5/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>肿瘤亚型分群工具ConsensusClusterPlus
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>ConsensusClusterPlus包是肿瘤分型研究的常用工具，其于2010年发表于Bioinformatics。 Paper：https...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2023-04-20 00:00:00 +0000 UTC'>2023-04-20</span>&nbsp;|&nbsp;Update:&nbsp;2023-04-20&nbsp;|&nbsp;Words:&nbsp;905&nbsp;|&nbsp;2 min&nbsp;|&nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 肿瘤亚型分群工具ConsensusClusterPlus" href="https://lishensuo.github.io/posts/bioinfo/077%E8%82%BF%E7%98%A4%E4%BA%9A%E5%9E%8B%E5%88%86%E7%BE%A4%E5%B7%A5%E5%85%B7consensusclusterplus/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>使用IsoformSwitchAnalyzeR包进行可变剪切分析
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>https://bioconductor.org/packages/release/bioc/html/IsoformSwitchAnalyzeR.html 1、背景知识 The usage of Alternative Transcription Start sites (aTSS可选择转录起始位点), Alternative Splicing (AS可选择剪切位点) and alternative Transcription Termination Sites (aTTS可选择终止位点) are collectively collectively results in the production of different...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2022-04-16 00:00:00 +0000 UTC'>2022-04-16</span>&nbsp;|&nbsp;Update:&nbsp;2022-04-16&nbsp;|&nbsp;Words:&nbsp;3284&nbsp;|&nbsp;7 min&nbsp;|&nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 使用IsoformSwitchAnalyzeR包进行可变剪切分析" href="https://lishensuo.github.io/posts/bioinfo/070%E4%BD%BF%E7%94%A8isoformswitchanalyzer%E5%8C%85%E8%BF%9B%E8%A1%8C%E5%8F%AF%E5%8F%98%E5%89%AA%E5%88%87%E5%88%86%E6%9E%90/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>诺模图或列线图绘制分析
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>肿瘤预后类文章的常规步骤之一是绘制诺模图，并进行相关分析。以下总结了相关基础绘制工具。 示例数据集 1 2 3 4 5 6 library(survival) head(lung) # inst time status age sex ph.ecog ph.karno pat.karno meal.cal wt.loss # 1 3...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2023-04-28 00:00:00 +0000 UTC'>2023-04-28</span>&nbsp;|&nbsp;Update:&nbsp;2023-04-28&nbsp;|&nbsp;Words:&nbsp;585&nbsp;|&nbsp;2 min&nbsp;|&nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 诺模图或列线图绘制分析" href="https://lishensuo.github.io/posts/bioinfo/078%E8%AF%BA%E6%A8%A1%E5%9B%BE%E6%88%96%E5%88%97%E7%BA%BF%E5%9B%BE%E7%BB%98%E5%88%B6%E5%88%86%E6%9E%90/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>EnhancedVolcano包绘制火山图
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>EnhancedVolcano包可根据差异分析结果，基于ggplot2绘图结构，方便地绘制美观的火山图，下面根据自己的理解小结下基本用法。 官...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2022-04-16 00:00:00 +0000 UTC'>2022-04-16</span>&nbsp;|&nbsp;Update:&nbsp;2022-04-16&nbsp;|&nbsp;Words:&nbsp;980&nbsp;|&nbsp;2 min&nbsp;|&nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to EnhancedVolcano包绘制火山图" href="https://lishensuo.github.io/posts/bioinfo/080enhancedvolcano%E5%8C%85%E7%BB%98%E5%88%B6%E7%81%AB%E5%B1%B1%E5%9B%BE/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>IOBR包肿瘤signature打分与免疫浸润分析
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>IOBR包集signature打分与免疫浸润分析为一体的肿瘤数据分析工具，由南方医科大学南方医院廖旺军教授，曾东强博士等人于2021年7月发...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2023-05-15 00:00:00 +0000 UTC'>2023-05-15</span>&nbsp;|&nbsp;Update:&nbsp;2023-05-15&nbsp;|&nbsp;Words:&nbsp;1667&nbsp;|&nbsp;4 min&nbsp;|&nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to IOBR包肿瘤signature打分与免疫浸润分析" href="https://lishensuo.github.io/posts/bioinfo/081iobr%E5%8C%85%E8%82%BF%E7%98%A4signature%E6%89%93%E5%88%86%E4%B8%8E%E5%85%8D%E7%96%AB%E6%B5%B8%E6%B6%A6%E5%88%86%E6%9E%90/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>BayesPrism包根据scRNAseq预测Bulk细胞组成
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>BayesPrism是由美国康奈尔大学Tin Yi Chu等人开发的R包工具，于2022年4月发表在Nature Cancer。简单来说，该方法使用...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2023-06-03 00:00:00 +0000 UTC'>2023-06-03</span>&nbsp;|&nbsp;Update:&nbsp;2023-06-03&nbsp;|&nbsp;Words:&nbsp;1352&nbsp;|&nbsp;3 min&nbsp;|&nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to BayesPrism包根据scRNAseq预测Bulk细胞组成" href="https://lishensuo.github.io/posts/bioinfo/082bayesprism%E5%8C%85%E6%A0%B9%E6%8D%AEscrnaseq%E9%A2%84%E6%B5%8Bbulk%E7%BB%86%E8%83%9E%E7%BB%84%E6%88%90/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="https://lishensuo.github.io/tags/%E8%BD%AC%E5%BD%95%E7%BB%84/">« Prev Page</a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2024 <a href="https://lishensuo.github.io">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

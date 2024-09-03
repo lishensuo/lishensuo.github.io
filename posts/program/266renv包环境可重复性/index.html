@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>renv包环境可重复性 | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="shiny">
+<meta name="keywords" content="R">
 <meta name="description" content="https://rstudio.github.io/renv 记录一个R项目所需的R包来源及其相应的版本号，方便对于其他用户的可重复性分析。 1. 初始化项目 在当前目录下创建一个文件夹，是包含一个R proj">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/program/266renv%E5%8C%85%E7%8E%AF%E5%A2%83%E5%8F%AF%E9%87%8D%E5%A4%8D%E6%80%A7/">
@@ -102,7 +102,7 @@
   "name": "renv包环境可重复性",
   "description": "https://rstudio.github.io/renv 记录一个R项目所需的R包来源及其相应的版本号，方便对于其他用户的可重复性分析。 1. 初始化项目 在当前目录下创建一个文件夹，是包含一个R proj",
   "keywords": [
-    "shiny"
+    "R"
   ],
   "articleBody": " https://rstudio.github.io/renv 记录一个R项目所需的R包来源及其相应的版本号，方便对于其他用户的可重复性分析。  1. 初始化项目  在当前目录下创建一个文件夹，是包含一个R project对象的工作环境； 其中library文件夹是该工作环境安装R包的路径，renv.lock是记录R包及其版本后的重要文件。  1 2 3  renv::init(\"foo_project\") #初始化后会自动切换到该环境下，如果没有可以手动切换 # setwd(\"foo_project\")    在初始化时，会安装一些基本的R包  1 2 3 4 5 6 7 8  dim(installed.packages()) # [1] 30 16 names(installed.packages()[,1]) # [1] \"renv\" \"base\" \"boot\" \"class\" \"cluster\" \"codetools\"  # [7] \"compiler\" \"datasets\" \"foreign\" \"graphics\" \"grDevices\" \"grid\"  # [13] \"KernSmooth\" \"lattice\" \"MASS\" \"Matrix\" \"methods\" \"mgcv\"  # [19] \"nlme\" \"nnet\" \"parallel\" \"rpart\" \"spatial\" \"splines\"  # [25] \"stats\" \"stats4\" \"survival\" \"tcltk\" \"tools\" \"utils\"    2. 安装包  在执行项目过程中，需要安装特定的R包时，建议使用renv::install() 该函数支持下载来自不同repository库来源的R包  1 2 3 4 5 6 7 8 9 10 11 12 13  # (1) CRAN renv::install(\"ggplot2\")  # (2) Bioconductor renv::install(\"BiocManager\") renv::install(\"bioc::limma\") # \"bioc::pkgname\"  # (3) Github renv::install(\"easystats/correlation\")  # (4) 其它更多详细的安装方式，见帮助文档 ?renv::install() # https://rstudio.github.io/renv/articles/package-sources.html   3. 更新lock.file  lock.file文件为json格式，是记录R包工作环境的重要文件。   使用renv::snapshot()将当前环境的R包信息更新到lock.file文件  1 2 3  renv::snapshot() # 如果更新失败，参考文档可自行如下设置后，再次更新 renv::settings$snapshot.type(\"all\")   4. 重复环境  在另一个renv激活的环境中，通过复制上述的lock.file文件进行相同R包环境的重新搭建。  1  renv::restore()   ",
   "wordCount" : "526",
@@ -437,7 +437,7 @@ Create:&nbsp;<span title='2024-04-06 00:00:00 +0000 UTC'>2024-04-06</span>&nbsp;
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://lishensuo.github.io/tags/shiny/">shiny</a></li>
+      <li><a href="https://lishensuo.github.io/tags/r/">R</a></li>
     </ul>
 <nav class="paginav">
   <a class="prev" href="https://lishensuo.github.io/posts/program/265shiny-pkg-6-others/">

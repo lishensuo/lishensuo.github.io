@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>shell基础--变量名字符串操作 | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="shell基础">
+<meta name="keywords" content="Linux">
 <meta name="description" content="1 2 3 4 5 6 7 8 test=&#34;https://www.baidu.com&#34; #打印字符串内容 echo ${test} #https://www.baidu.com #打印字符串长度 echo ${#test} #21 1、截取 （1）指定截取字符串的起始位置与长度 对于字符串的起始位置定义：如果是从">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/program/400shell%E5%9F%BA%E7%A1%80--%E5%8F%98%E9%87%8F%E5%90%8D%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C/">
@@ -102,7 +102,7 @@
   "name": "shell基础--变量名字符串操作",
   "description": "1 2 3 4 5 6 7 8 test=\u0026#34;https://www.baidu.com\u0026#34; #打印字符串内容 echo ${test} #https://www.baidu.com #打印字符串长度 echo ${#test} #21 1、截取 （1）指定截取字符串的起始位置与长度 对于字符串的起始位置定义：如果是从",
   "keywords": [
-    "shell基础"
+    "Linux"
   ],
   "articleBody": "1 2 3 4 5 6 7 8  test=\"https://www.baidu.com\" #打印字符串内容 echo ${test} #https://www.baidu.com  #打印字符串长度 echo ${#test} #21   1、截取 （1）指定截取字符串的起始位置与长度  对于字符串的起始位置定义：如果是从左到右，则第一个字符位置为0； 如果是从右到左，则第一个字符位置为1。\n 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19  # 从第8个字符串开始，截取长度为10的子字符串 echo ${test:8:10} # www.baidu.  # 从第1个字符串开始，截取长度为5的子字符串 echo ${test:0:5} # https  # 从第8个字符串开始，截取后面的所有字符串内容 echo ${test:8} # www.baidu.com  # 从倒数第11个字符串开始，截取后面的所有字符串内容 echo ${test:0-11} # w.baidu.com  # 从倒数第11个字符串开始，截取长度为5的子字符串 echo ${test:0-11:5} # w.bai   （2）指定分隔符进行截取 注意*号的位置！\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15  # 取字符串中第一次出现`.`点号的右边全部内容 echo ${test#*.} # baidu.com  # 取字符串中最后一次出现`.`点号的右边全部内容 echo ${test##*.} # com  # 取字符串中最后一次出现`.`点号的左边全部内容 echo ${test%.*} # https://www.baidu  # 取字符串中第一次出现`.`点号的左边全部内容 echo ${test%%.*} # https://www   2、替换操作 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15  # 将字符串里的第一个点号`.`替换为短横`-` echo ${test/./-} # https://www-baidu.com  # 将字符串里的全部点号`.`替换为短横`-`【与上面的区别是多了一个 / 】 echo ${test//./-} # https://www-baidu-com  # 可配合正则表达式完成自定义的替换方式，例如 echo ${test//[bd]/-} # https://www.-ai-u.com  # 删除字符串 echo ${test//[bd]/} # https://www.aiu.com   ",
   "wordCount" : "531",
@@ -470,7 +470,7 @@ Create:&nbsp;<span title='2022-04-16 00:00:00 +0000 UTC'>2022-04-16</span>&nbsp;
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://lishensuo.github.io/tags/shell%E5%9F%BA%E7%A1%80/">shell基础</a></li>
+      <li><a href="https://lishensuo.github.io/tags/linux/">Linux</a></li>
     </ul>
 <nav class="paginav">
   <a class="prev" href="https://lishensuo.github.io/posts/program/300ucscxenashiny-dev-tutorials--231119/">

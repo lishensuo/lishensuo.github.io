@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>单细胞分析工具--scCustomize包改进Seurat可视化 | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="单细胞分析">
+<meta name="keywords" content="scRNA-seq">
 <meta name="description" content="scCustomize包由来自波士顿儿童医院/哈佛医学院的博士后Samuel E. Marsh编写。该包基于Seurat，提供了若干便捷、高效的可">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/bioinfo/033%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--sccustomize%E5%8C%85%E6%94%B9%E8%BF%9Bseurat%E5%8F%AF%E8%A7%86%E5%8C%96/">
@@ -102,7 +102,7 @@
   "name": "单细胞分析工具--scCustomize包改进Seurat可视化",
   "description": "scCustomize包由来自波士顿儿童医院/哈佛医学院的博士后Samuel E. Marsh编写。该包基于Seurat，提供了若干便捷、高效的可",
   "keywords": [
-    "单细胞分析"
+    "scRNA-seq"
   ],
   "articleBody": " scCustomize包由来自波士顿儿童医院/哈佛医学院的博士后Samuel E. Marsh编写。该包基于Seurat，提供了若干便捷、高效的可视化方法。根据官方教程学习其中感兴趣的用法。\n https://github.com/samuel-marsh/scCustomize/ https://samuel-marsh.github.io/scCustomize/index.html   0、示例数据 1 2 3 4 5 6 7 8 9 10 11 12 13 14  sce sce$sample_id \"sample1\", \"sample2\", \"sample3\"), size = ncol(sce),  replace = TRUE) sce$treatment \"before\", \"after\"), size = ncol(sce),  replace = TRUE) sce = sce %%  NormalizeData() %%  FindVariableFeatures() %%  ScaleData() sce = sce %%  RunPCA() %%  RunUMAP(dims = 1:30) %% #RunTSNE  FindNeighbors(dims = 1:30) %%  FindClusters(resolution = c(0.01, 0.05, 0.1, 0.2, 0.3, 0.5,0.8,1))   1、高变基因  可设置参数，加标签  1 2  VariableFeaturePlot_scCustom(seurat_object = sce, num_features = 5, \tlabel = TRUE, repel = TRUE)   2、小提琴图 1 2 3 4 5 6 7  Idents(sce) = \"RNA_snn_res.0.01\" gene_list_plot 5] p1 = Stacked_VlnPlot(seurat_object = sce, features = gene_list_plot, x_lab_rotate = TRUE) p2 = Stacked_VlnPlot(seurat_object = sce, features = gene_list_plot, plot_spacing = 0.3) p3 = Stacked_VlnPlot(seurat_object = sce, features = gene_list_plot, split.by = \"sample_id\") p4 = Stacked_VlnPlot(seurat_object = sce, features = gene_list_plot, split.by = \"treatment\", split.plot=TRUE) (p1 | p2) / (p3 | p4)   3、聚类点图 1 2 3 4 5 6 7 8  Idents(sce) = \"RNA_snn_res.0.2\" all_markers  top5_markers 5, named_vector = FALSE,  make_unique = TRUE)  Clustered_DotPlot(seurat_object = sce, features = top5_markers) # 左 Clustered_DotPlot(seurat_object = sce, features = top5_markers, k = 6) # 右   4、降维相关可视化  （1）FeaturePlot_scCustom：低于特定阈值的基因不映射连续颜色  1  FeaturePlot_scCustom(seurat_object = sce, features = \"PTPRC\", na_cutoff=2)    （2）DimPlot_scCustom：迷你版坐标轴  1  DimPlot_scCustom(seurat_object = sce, figure_plot = TRUE)    （3）Cluster_Highlight_Plot：单独显示特定细胞群  1 2 3 4 5 6  Idents(sce) = \"RNA_snn_res.0.1\" p1 = Cluster_Highlight_Plot(seurat_object = sce, cluster_name = \"0\", highlight_color = \"red\",  background_color = \"lightgray\") p2 = Cluster_Highlight_Plot(seurat_object = sce, cluster_name = c(2,3), highlight_color = c(\"red\",\"blue\"),  background_color = \"lightgray\") p1 | p2   5、自定义颜色  （1）连续型变量：默认为viridis_plasma_dark_high，其它可选包括  viridis_plasma_light_high viridis_magma_dark_high viridis_magma_light_high viridis_inferno_dark_high viridis_inferno_light_high viridis_dark_high viridis_light_high    1 2  PalettePlot(pal = viridis_plasma_dark_high) # FeaturePlot_scCustom(seurat_object = sce, colors_use = viridis_magma_dark_high, features = \"CD3E\")    （2）离散型变量：单变量-“dodgerblue”；双变量-NavyAndOrange()；36–“varibow”(shuffle)。其它包括  alphabet (24) alphabet2 (24) glasbey (32) polychrome (36) stepped (24) ditto_seq (40) varibow (Dynamic)    1  PalettePlot(pal = DiscretePalette_scCustomize(num_colors = 10, palette = \"polychrome\"))   1  PalettePlot(pal = DiscretePalette_scCustomize(num_colors = 10, palette = \"ditto_seq\", shuffle_pal = TRUE))   ",
   "wordCount" : "735",
@@ -532,7 +532,7 @@ Create:&nbsp;<span title='2023-03-11 00:00:00 +0000 UTC'>2023-03-11</span>&nbsp;
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://lishensuo.github.io/tags/%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90/">单细胞分析</a></li>
+      <li><a href="https://lishensuo.github.io/tags/scrna-seq/">scRNA-seq</a></li>
     </ul>
 <nav class="paginav">
   <a class="prev" href="https://lishensuo.github.io/posts/bioinfo/032%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--marvel%E5%8D%95%E7%BB%86%E8%83%9E%E5%8F%AF%E5%8F%98%E5%89%AA%E5%88%87/">

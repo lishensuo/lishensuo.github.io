@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>Python基础-(7)模块/包 | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="Python, Python基础">
+<meta name="keywords" content="Python">
 <meta name="description" content="1、加载模块 模块简单来说是用来定义函数、类、变量的python脚本文件。 模块的分类 根据来源不同：可分为内置模块、第三方模块以及自建模块。 无论">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/program/007python%E5%9F%BA%E7%A1%80-7%E6%A8%A1%E5%9D%97%E5%9F%BA%E7%A1%80/">
@@ -102,7 +102,7 @@
   "name": "Python基础-(7)模块\/包",
   "description": "1、加载模块 模块简单来说是用来定义函数、类、变量的python脚本文件。 模块的分类 根据来源不同：可分为内置模块、第三方模块以及自建模块。 无论",
   "keywords": [
-    "Python", "Python基础"
+    "Python"
   ],
   "articleBody": "1、加载模块 模块简单来说是用来定义函数、类、变量的python脚本文件。\n模块的分类\n  根据来源不同：可分为内置模块、第三方模块以及自建模块。\n无论哪一种模块，都需要放在正确的路径下，让python可以找到，然后才可以成功加载。\n  1 2 3 4 5 6 7 8 9 10 11 12 13  #查看python解释器默认的寻找目录 import sys, pprint, os pprint.pprint(sys.path) ['',  '/home/shensuo/miniconda3/lib/python38.zip',  '/home/shensuo/miniconda3/lib/python3.8',  '/home/shensuo/miniconda3/lib/python3.8/lib-dynload',  '/home/shensuo/miniconda3/lib/python3.8/site-packages'] ##注意第一个空字符应该表示当前路径  #os.system(\"ls /home/shensuo/miniconda3/lib/python3.8\") #如果是自建模块，需要将模块放到上面的路径之一，或者再另添加新的路径(如下代码) sys.path.append(\"/home/shensuo/python\")    根据组成不同：可分为简单模块和包两类，二者在加载时有一定的区别  （1）简单模块：就是一个python脚本，里面定义了若干函数等\n1 2 3 4 5 6 7 8 9 10 11 12 13 14  #加载方式1：加载模块，使用具体某个函数时-- module.function import copy copy.deepcopy()  import copy as cp #模块重命名 cp.deepcopy()  #加载方式2：加载模块的所有函数，使用具体某个函数时，直接交代函数名 from copy import * deepcopy()  #加载方式3：仅加载模块的指定函数 from copy import deepcopy from copy import deepcopy as dpc #函数重命名   （2）包package：将多个py脚本组织在一个目录下；可以有多层，每一层都需要有一个__init__文件\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29  #包可以理解为复杂的模块,如下创建了具有两层结构的简单的包 tree package/ # package/ # ├── __init__.py # ├── mod1.py # └── subpack # ├── __init__.py # └── mod2.py   #加载第一层 ##(1) #from package import * #第一层的所有模块 from package import mod1 #第一层的指定模块 mod1.print1() ##(2) import package.mod1 package.mod1.print1() ##(3) from package.mod1 import print1 print1()  #加载第二层 ##(1) from package.subpack import mod2 #第二层的指定模块 mod2.print2() ##(2) import package.subpack.mod2 package.subpack.mod2.print2()    作为包的文件结构中必须包含 __init__.py文件。它可以仅仅是空白文件，但必须要有，暂且不提。\n 2、探索模块  模块包含什么  （1）dir(): 可列出对象的所有属性。对于模块来说，列出所定义的函数、类、变量\n1 2 3 4 5 6 7  #需要先加载 import copy dir(copy)  #以下划线开头的，并非给外部使用 [n for n in dir(copy) if not n.startswith(\"_\")] ## ['Error', 'copy', 'deepcopy', 'dispatch_table', 'error']   （2）__all__: 模块自定义变量。返回一个列表，包含for module import *语句所加载的函数\n1 2 3 4  #需要先加载 import copy copy.__all__ ## ['Error', 'copy', 'deepcopy']    查看模块的帮助文档  1 2 3 4 5 6 7 8 9 10 11 12 13  #需要先加载 import copy  ##（1）help() help(copy) #模块的帮助信息 help(copy.copy) #函数的帮助信息  ##（2）__doc__ print(copy.__doc__) #模块的文档 print(copy.copy.__doc__) #函数的文档  ##（3）__file__ print(copy.__file__) #查看模块的源代码文件储存路径   ",
   "wordCount" : "928",
@@ -539,7 +539,6 @@ Create:&nbsp;<span title='2022-04-10 00:00:00 +0000 UTC'>2022-04-10</span>&nbsp;
   <footer class="post-footer">
     <ul class="post-tags">
       <li><a href="https://lishensuo.github.io/tags/python/">Python</a></li>
-      <li><a href="https://lishensuo.github.io/tags/python%E5%9F%BA%E7%A1%80/">Python基础</a></li>
     </ul>
 <nav class="paginav">
   <a class="prev" href="https://lishensuo.github.io/posts/basic/010%E7%BB%9F%E8%AE%A1%E5%AD%A6--%E7%94%9F%E4%BF%A1%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%BB%9F%E8%AE%A1%E6%8C%87%E6%A0%87/">

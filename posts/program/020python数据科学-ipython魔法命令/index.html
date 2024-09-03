@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>Python数据科学-(1)IPython的特点 | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="Python, Python数据科学">
+<meta name="keywords" content="Python">
 <meta name="description" content="Python有不少解释器，默认使用的是CPython。而IPython，interactive python可以提供交互式开发环境；是Jupy">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/program/020python%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6-ipython%E9%AD%94%E6%B3%95%E5%91%BD%E4%BB%A4/">
@@ -102,7 +102,7 @@
   "name": "Python数据科学-(1)IPython的特点",
   "description": "Python有不少解释器，默认使用的是CPython。而IPython，interactive python可以提供交互式开发环境；是Jupy",
   "keywords": [
-    "Python", "Python数据科学"
+    "Python"
   ],
   "articleBody": " Python有不少解释器，默认使用的是CPython。而IPython，interactive python可以提供交互式开发环境；是Jupyter的内核。如果要使用Jupyter，使用的就是IPython开发环境。\n 1、In/Out   ipython的特征之一是命令的前缀类似：In[1]；而输出结果的前缀类似：Out[1]。\n  前者称为输入单元格(input cell)，可以输入单行/多行命令；后者称为输出单元格(output cell)。\n  In对象本质上是个列表，按顺序记录所有的命令；Out对象本质是一个字典，将输入数字映射到相应的输出。\n  1 2 3 4 5 6 7 8 9  In [1]: a=1 In [2]: test=\"hello\" In [3]: 1+1  #如上为历史记录 print(In) # ['', 'a=1', 'test=\"hello\"', '1+1', 'print(In)'] print(Out) # {3: 2}    如上，并不是所有的输入单元格都有输出内容。比较特殊的是print()语句本质是没有输出的，尽管它的功能是打印一些语句。\n 2、?问号 1 2 3 4 5 6 7 8 9 10 11 12  ## (1) 对象名(函数/方法)+?：获取简要帮助文档 len? range? list.append?  ## (2) 正则表达式+?：列出当前命令空间中，所有符合匹配条件的对象名 anynumber = 123 anyway = \"test\" an*? # any # anynumber # anyway   3、%百分号 %command：行魔法；%%command：单元魔法\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17  ## (1) %paste: 复制粘贴别人带有提示符前缀的代码块( %cpaste:交互式多行复制)  ## (2) %run ***.py: 在python环境执行python脚本  ## (3) %timeit: 计算代码运行时间(%%timeit: 计算多行代码运行时间) %timeit print(\"hello, world\") # 12.1 µs ± 137 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)  ## (4) %history 查看历史命令  ## (5) %automagic 是否简化 行魔法 命令的前缀% %automagic # Automagic is ON, % prefix IS NOT needed for line magics.  ## (5) 其它魔法函数 %lsmagic #列出所有的魔法函数 %timeit? #获取某一个魔法函数的帮助文档   4、执行shell命令  之前了解到在python中可使用os模块的system方法执行shell命令。 在ipython解释器中，对于一些常用shell命令，可直接使用%command。例如%cd,%pwd，%mkdir newfolder等等，可通过%lsmagic 查看 在%automagic设置为On的状态下，可以不写前缀%，就完全像shell命令一样  1 2 3 4 5 6 7 8 9 10 11 12 13  %ls # Miniconda3-latest-Linux-x86_64.sh Untitled.ipynb miniconda3/ test/  pwd # '/home/shensuo' nowpath=%pwd print(nowpath) # /home/shensuo  conda info --envs # #conda environments: # # # base * /home/shensuo/miniconda3   ",
   "wordCount" : "899",
@@ -473,7 +473,6 @@ Create:&nbsp;<span title='2022-04-26 00:00:00 +0000 UTC'>2022-04-26</span>&nbsp;
   <footer class="post-footer">
     <ul class="post-tags">
       <li><a href="https://lishensuo.github.io/tags/python/">Python</a></li>
-      <li><a href="https://lishensuo.github.io/tags/python%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6/">Python数据科学</a></li>
     </ul>
 <nav class="paginav">
   <a class="prev" href="https://lishensuo.github.io/posts/bioinfo/024%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--rnavelocity%E9%80%9F%E7%8E%87%E5%88%86%E6%9E%90/">

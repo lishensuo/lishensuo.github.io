@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>Shiny-pkg-6-others | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="shiny">
+<meta name="keywords" content="Shiny">
 <meta name="description" content="Shiny Basic系列: 参考教程：https://mastering-shiny.org/ （1）IO控件 （2）Layout布局 （3）Reactiv">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/program/265shiny-pkg-6-others/">
@@ -102,7 +102,7 @@
   "name": "Shiny-pkg-6-others",
   "description": "Shiny Basic系列: 参考教程：https://mastering-shiny.org/ （1）IO控件 （2）Layout布局 （3）Reactiv",
   "keywords": [
-    "shiny"
+    "Shiny"
   ],
   "articleBody": "Shiny Basic系列:\n 参考教程：https://mastering-shiny.org/\n （1）IO控件\n（2）Layout布局\n（3）Reactive用法\n（4）Feedback提醒\n（5）Module模块\nShiny Package系列:\n（1）shinyWidgets\n（2）shinyJS\n（3）shinydashboard\n（4）shinydashboardPlus\n（5）bslib\n（6）Other pkgs\n 1. shinythemes 定制化主题\n https://github.com/rstudio/shinythemes https://rstudio.github.io/shinythemes/ All themes: help(shinythemes) Live example: https://gallery.shinyapps.io/117-shinythemes/  1 2 3 4 5 6  ## ui.R ## library(shinythemes)  fluidPage(theme = shinytheme(\"cerulean\"),  ... )   2. shinyhelper 浮窗帮助信息（markdown）\n https://github.com/cwthom/shinyhelper  1 2 3 4 5 6 7 8 9 10 11 12 13  library(shinyhelper)  shinyhelper_demo()  ## ui.R ## helper(shiny::actionButton(\"go\", \"click me!\"),  icon = \"exclamation\",  colour = \"red\",  type = \"markdown\",  content = \"ClickHelp\") # looks for 'helpfiles/ClickHelp.md'  ## serve.R ## observe_helpers(help_dir = \"helpfiles\")   3. shinyBS 浮窗帮助信息（popover， tooltip）\n https://ebailey78.github.io/shinyBS/index.html popover， tooltip是两类不同类型的提示浮窗  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23  library(shinyBS)  # 示例 bsExample(\"Tooltips_and_Popovers\")  ## (1) bsTooltip()/bsPopover(): 在UI部分根据目标元素/控件的id直接设置  bsTooltip(id, title, placement = \"bottom\", trigger = \"hover\",  options = NULL) # placement: top, bottom, left, or right # trigger: hover, focus, click, or manual # options: https://getbootstrap.com/docs/4.0/components/popovers/  bsPopover() #包括以下函数的参数与上述基本类似   ## (2) tipify()/popify(): 相比上述二者，更适合于在server端的renderUI()里的元素设置 tipify() popify()  ## (3) addPopover()/addTooltip(): 在server端对output元素设置（例如plot的解释说明） addPopover() addTooltip()   4. waiter   https://github.com/JohnCoene/waiter\n  文档：https://waiter.john-coene.com/\n  Demo：https://shiny.john-coene.com/waiter/ （100+ Spinner）\n  waiter系列主要用于设置spinner悬浮窗\n  waitress系列主要用于设置常规的进度条 （Attendant与之类似，均基于传统的进度条）\n  hostess系列可以用于设置更加多样、个性化进度提醒元素\n  ",
   "wordCount" : "699",
@@ -478,7 +478,7 @@ Create:&nbsp;<span title='2024-03-31 00:00:00 +0000 UTC'>2024-03-31</span>&nbsp;
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://lishensuo.github.io/tags/shiny/">shiny</a></li>
+      <li><a href="https://lishensuo.github.io/tags/shiny/">Shiny</a></li>
     </ul>
 <nav class="paginav">
   <a class="prev" href="https://lishensuo.github.io/posts/program/264shiny-pkg-5-bslib/">

@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>文献--机器学习模型预测药物肾毒性-2 | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="文献-药物预测">
+<meta name="keywords" content="文献-算法">
 <meta name="description" content="题目：In silico prediction of potential drug-induced nephrotoxicity with machine learning methods 期刊 | 日期 ： Journal of Applied Toxicology | 11 April 2022 简介：标准的机器学习模型分析流程，从数据收集到数据整理，从训练模型到评价模型。 1、">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/basic/201%E6%96%87%E7%8C%AE--%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%A2%84%E6%B5%8B%E8%8D%AF%E7%89%A9%E8%82%BE%E6%AF%92%E6%80%A7-2/">
@@ -102,7 +102,7 @@
   "name": "文献--机器学习模型预测药物肾毒性-2",
   "description": "题目：In silico prediction of potential drug-induced nephrotoxicity with machine learning methods 期刊 | 日期 ： Journal of Applied Toxicology | 11 April 2022 简介：标准的机器学习模型分析流程，从数据收集到数据整理，从训练模型到评价模型。 1、",
   "keywords": [
-    "文献-药物预测"
+    "文献-算法"
   ],
   "articleBody": " 题目：In silico prediction of potential drug-induced nephrotoxicity with machine learning methods\n期刊 | 日期 ： Journal of Applied Toxicology | 11 April 2022\n简介：标准的机器学习模型分析流程，从数据收集到数据整理，从训练模型到评价模型。\n 1、数据收集 1.1 标签数据 （1）从SIDER、DrugBank、ChEMBL以及TCM@taiwan等4个数据库收集了1366个标签化合物\n（2）使用PubChem获得每个化合物的PubCID与canonical SMILE；\n（3）使用Pipeline Pilot(https://www.accelrys.com) 筛选无效的化合物\n 无机和有机金属化合物 将salt forms转为parent form 去重  （4）经上一部筛选保留777个化合物\n 125 天然化合物 652 化药化合物  （5）基于文献与最新更新数据，收集70个外部数据集\n 基于文献：29个天然化合物、11个化药化合物 2021FDA最新批准药物：11个。  1.2 特征数据 使用Padel Descriptor software(https://github.com/ecrl/padelpy)软件,计算每个化合物的9种分子指纹。\n Atom Pair 2D fingerprint (AP2DFP, 780 bits) Estate fingerprint (EstateFP, 79 bits) CDK extended fingerprint (ExtFP, 1024 bits) CDK fingerprint (FP, 1024 bits) CDK graph only fingerprint (GraphFP, 1024 bits) Klekota–Roth fingerprint (KRFP, 4860 bits) MACCS fingerprint (MACCSFP, 166 bits) PubChem fingerprint (PubChemFP, 881 bits) substructure fingerprint (SubFP, 307 bits)  2 训练模型 2.1 机器学习算法 （1）使用scikit-learn包提供的8种算法建立机器学习分类模型。\n（2）结合上面的8种指纹特征，共建立得到72个机器学习模型。\n Artificial neural network (ANN) LightGBM Random forest (RF) SVM C4.5 decision tree (DT) KNN naïve Bayes (NB) scalable end-to-end tree boosting system (XGBoost)  2.2 数据集划分 （1）将777个标签数据按照9:1比例，划分成训练集(train)与内部验证集(internal validation)\n（2）结合上面提及的70个标签化合物(external validation)，共有3份数据集。\n（3）检验所有化合物之间特征分布无不平衡情况\n 比较3类数据集的Molecular/AlogP特征分布（左）； 计算化合物两两相似性Tanimoto similarity coefficient（右）  2.3 模型训练 （1）在训练集中，使用10次的10折交叉验证方式优化参数(grid search)\n（2）使用下述多个指标对模型预测结果进行评价\n AUC ：overall predictive performance ACC ：prediction of the overall sample data. SE(sensitivity)：positive sample data SP(specificity)：negative sample data. F1：harmonic mean of recall and precision. MCC(for external validation)  4、模型评价 （1）对于每个优化好的模型(72个)在internal validation set中作第一次验证，优选综合评价最好的6个模型。\n（2）使用这6个模型在external validation set中作第二次验证，分3个角度进行(单独天然药、单独化药、混合数据)。\n5、衍生   模型的适用域applicability domain (AD)\n  分析警示结构 structural alerts（SARpy工具）\n  ",
   "wordCount" : "1073",
@@ -423,7 +423,7 @@ Create:&nbsp;<span title='2023-02-10 00:00:00 +0000 UTC'>2023-02-10</span>&nbsp;
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://lishensuo.github.io/tags/%E6%96%87%E7%8C%AE-%E8%8D%AF%E7%89%A9%E9%A2%84%E6%B5%8B/">文献-药物预测</a></li>
+      <li><a href="https://lishensuo.github.io/tags/%E6%96%87%E7%8C%AE-%E7%AE%97%E6%B3%95/">文献-算法</a></li>
     </ul>
 <nav class="paginav">
   <a class="prev" href="https://lishensuo.github.io/posts/bioinfo/200%E4%BD%BF%E7%94%A8igraph%E5%8C%85%E8%BF%9B%E8%A1%8C%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84%E5%88%86%E6%9E%90%E4%B8%8E%E5%8F%AF%E8%A7%86%E5%8C%96/">

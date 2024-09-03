@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>Python基础-(3)条件与循环语句 | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="Python, Python基础">
+<meta name="keywords" content="Python">
 <meta name="description" content="一、条件语句 1、布尔值 在python中，这些值均为视为假：False, None, 0, &#39;&#39;,(), [], {}。其余所有可能的值都视为真 1 2 3 4 5 6 7 bool(None) # False bool(&#39;&#39;) # False bool(&#34;anything&#34;) # True">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/posts/program/003python%E5%9F%BA%E7%A1%80-3%E6%9D%A1%E4%BB%B6%E4%B8%8E%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5/">
@@ -102,7 +102,7 @@
   "name": "Python基础-(3)条件与循环语句",
   "description": "一、条件语句 1、布尔值 在python中，这些值均为视为假：False, None, 0, '',(), [], {}。其余所有可能的值都视为真 1 2 3 4 5 6 7 bool(None) # False bool(\u0026#39;\u0026#39;) # False bool(\u0026#34;anything\u0026#34;) # True",
   "keywords": [
-    "Python", "Python基础"
+    "Python"
   ],
   "articleBody": "一、条件语句 1、布尔值  在python中，这些值均为视为假：False, None, 0, '',(), [], {}。其余所有可能的值都视为真  1 2 3 4 5 6 7  bool(None) # False bool('') # False  bool(\"anything\") # True   2、if语句结构 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18  thisnum = 6 ##层级1 if thisnum  0:  print(\"This number is positive.\")  ##层级2 if thisnum  0:  print(\"This number is positive.\") else:  print(\"This number is negative.\")  ##层级3 if thisnum  0:  print(\"This number is positive.\") elif thisnum == 0:  print(\"This number is zero.\") else:  print(\"This number is negative.\")   3、运算符  and, or, not  1 2 3 4 5 6 7  thisnum = 5 if thisnum 9 and thisnum  0:  print(\"This is a natural number\")  #也可以使用链式比较 if 0 9:  print(\"This is a natural number\")   二、for循环语句 1、for语句结构 1 2 3 4 5 6  numebrs = [1,2,3,4,5,6] #等价于 numbers = list(range(0,7))  for number in range(0,7):  print(number)   2、迭代方法 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25  #(1)迭代字典 d = {'x':1, 'y':2, 'z':3} ##迭代字典的键 for key in d:  print(key, 'value is', d[key]) ##迭代字典的每一项 for key, value in d.items():  print(key, 'value is', value)  #(2) zip()可缝合多个等长序列，用于迭代 name=['AA',\"BB\",\"CC\"] age=[12,15,11] list(zip(name, age)) ## [('AA', 12), ('BB', 15), ('CC', 11)] for name,age in zip(name, age):  print(name, 'is', age, 'years old')   #(3) enumerate()同时迭代索引 strs = ['A', 'B', 'C'] for index, st in enumerate(strs):  print(index, st) ## 0 A ## 1 B ## 2 C   3、break/continue  break：结束循环  1 2 3 4 5 6  from math import sqrt for n in range(99,0,-1):  root = sqrt(n) #平方根  if root == int(root):  print(n)  break    continue：跳过当前循环  1 2 3 4 5  #打印奇数 for i in range(0,9):  if i%2==0:  continue  print(i)   4、for语句创建列表 1 2 3 4 5 6 7 8 9 10 11 12  [x*x for x in range(5)] # [0, 1, 4, 9, 16]  ##筛选符合条件的变量x [x*x for x in range(5) if x%2==0] # [0, 4, 16]  ##组合两个列表，不同于zip() As = [1,2] Bs = ['a','b'] [(x, y) for x in As for y in Bs] # [(1, 'a'), (1, 'b'), (2, 'a'), (2, 'b')]   三、其它语句   pass 占位符，什么都不做；\n  del 删除（对象的名称）\n  exec/eval 将字符串视为代码执行\n1 2 3 4 5 6 7  exec(\"print('Hello, world')\") # Hello, world  # eval则用于计算字符串表示的Python表达式的值，并返回结果 a = eval('6 + 18*2') a # 42     ",
   "wordCount" : "682",
@@ -613,7 +613,6 @@ Create:&nbsp;<span title='2022-04-10 00:00:00 +0000 UTC'>2022-04-10</span>&nbsp;
   <footer class="post-footer">
     <ul class="post-tags">
       <li><a href="https://lishensuo.github.io/tags/python/">Python</a></li>
-      <li><a href="https://lishensuo.github.io/tags/python%E5%9F%BA%E7%A1%80/">Python基础</a></li>
     </ul>
 <nav class="paginav">
   <a class="prev" href="https://lishensuo.github.io/posts/basic/003%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%9F%BA%E7%A1%80--%E6%96%B9%E5%B7%AE%E5%88%86%E6%9E%90%E4%B8%8E%E5%8D%A1%E6%96%B9%E6%A3%80%E9%AA%8C/">
