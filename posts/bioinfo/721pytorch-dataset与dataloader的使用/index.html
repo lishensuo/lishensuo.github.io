@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Pytorch-Dataset与Dataloader的使用. | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="深度学习">
+<meta name="description" content="在 PyTorch 中，Dataset、DataLoader 和 Sampler 是用于数据加载和处理的核心组件。它们相互配合，使得数据的加载和批处理更加高效和灵活。 Dataset 是一个">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/posts/bioinfo/721pytorch-dataset%E4%B8%8Edataloader%E7%9A%84%E4%BD%BF%E7%94%A8/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.1abf8254c205953f8beb228727a5e0a5541f0bc42f68f2762e2e594e7b213985.css" integrity="sha256-Gr&#43;CVMIFlT&#43;L6yKHJ6XgpVQfC8QvaPJ2Li5ZTnshOYU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.4dcb3c4f38462f66c6b6137227726f5543cb934cca9788f041c087e374491df2.js" integrity="sha256-Tcs8TzhGL2bGthNyJ3JvVUPLk0zKl4jwQcCH43RJHfI="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Pytorch-Dataset与Dataloader的使用." />
+<meta property="og:description" content="在 PyTorch 中，Dataset、DataLoader 和 Sampler 是用于数据加载和处理的核心组件。它们相互配合，使得数据的加载和批处理更加高效和灵活。 Dataset 是一个" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/posts/bioinfo/721pytorch-dataset%E4%B8%8Edataloader%E7%9A%84%E4%BD%BF%E7%94%A8/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-10-16T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2024-10-16T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Pytorch-Dataset与Dataloader的使用."/>
+<meta name="twitter:description" content="在 PyTorch 中，Dataset、DataLoader 和 Sampler 是用于数据加载和处理的核心组件。它们相互配合，使得数据的加载和批处理更加高效和灵活。 Dataset 是一个"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "📖 生信数据分析--分析流程，工具包等",
+      "item": "https://lishensuo.github.io/posts/bioinfo/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "Pytorch-Dataset与Dataloader的使用.",
+      "item": "https://lishensuo.github.io/posts/bioinfo/721pytorch-dataset%E4%B8%8Edataloader%E7%9A%84%E4%BD%BF%E7%94%A8/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Pytorch-Dataset与Dataloader的使用.",
+  "name": "Pytorch-Dataset与Dataloader的使用.",
+  "description": "在 PyTorch 中，Dataset、DataLoader 和 Sampler 是用于数据加载和处理的核心组件。它们相互配合，使得数据的加载和批处理更加高效和灵活。 Dataset 是一个",
+  "keywords": [
+    "深度学习"
+  ],
+  "articleBody": "在 PyTorch 中，Dataset、DataLoader 和 Sampler 是用于数据加载和处理的核心组件。它们相互配合，使得数据的加载和批处理更加高效和灵活。\n Dataset 是一个抽象类，用于表示数据集。 DataLoader 是一个迭代器，用于将数据集分成小批量。 Sampler 可以自定义更加复杂的采样策略。  1. Dataset 将训练数据（如特征和标签）封装为一个可迭代的 PyTorch Dataset 类。有如下两种方式。\n1.1 自定义类 继承 Dataset父类，并实现如下两个方法\n __len__: 返回数据集的大小。 __getitem__: 支持索引操作，返回指定位置的数据和标签。这里可以根据数据类型特点，灵活定义。  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21  import torch from torch.utils.data import Dataset  data = torch.arange(100).reshape(50, 2) # 50个样本，每个样本有2个特征 labels = torch.randint(0, 2, (50,)) # 50个二分类标签   class MyDataset(Dataset):  def __init__(self, data, labels):  self.data = data  self.labels = labels   def __len__(self):  return len(self.data)   def __getitem__(self, idx):  # 返回样本和其对应的标签,可以根据数据特点，灵活定义  return self.data[idx], self.labels[idx]  next(iter(dataset)) # (tensor([0, 1]), tensor(0))   1.2 TensorDataset 对于简单的数组类型数据，可以直接使用TensorDataset(*tensors)\n1 2 3 4 5  from torch.utils.data import TensorDataset dataset_2 = TensorDataset(data, labels)  next(iter(dataset_2)) # (tensor([0, 1]), tensor(0))   2. Dataloader  将数据集拆分为小批量，用于后续的迭代训练  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22  from torch.utils.data import DataLoader # dataset: 要加载的数据集，通常是 Dataset 的实例。 # batch_size: 每个批次的数据量。 # shuffle: 是否在每个 epoch 开始时打乱数据。 # num_workers: 使用多少子进程来加载数据，默认仅使用当前进程。 # drop_last: 如果数据集大小不能被批次大小整除，是否丢弃最后一个不完整的批次。默认为False  dataloader = DataLoader(dataset,  batch_size=4,  shuffle=True,  num_workers=2)  next(iter(dataloader)) # [tensor([[14, 15], # [22, 23], # [70, 71], # [40, 41]]), # tensor([0, 1, 0, 0])]  for batch_data, batch_labels in dataloader:  # 处理每个批次的数据  pass   2.1 collate_fn 参数  默认情况下，DataLoader 会将多个样本的数据直接拼接成一个批次。 collate_fn 是一个函数参数，用于在批处理时进行数据转换或预处理，以更好地适应训练要求。  1 2 3 4 5 6 7 8 9 10 11 12  def custom_collate_fn(batch):  # 假设 batch 是一个列表，包含多个 (features, labels) 元组  features = [item[0] for item in batch]  labels = [item[1] for item in batch]   # 在这里可以进行序列填充或其他预处理  # 例如，将序列填充到相同长度  padded_features = pad_sequence(features, batch_first=True)   return padded_features, torch.tensor(labels)  dataloader = DataLoader(dataset, batch_size=4, collate_fn=custom_collate_fn)   2.2 sampler 参数 使用 sampler 参数可以实现复杂的采样逻辑，适用于需要特定采样策略的场景，如不均衡数据处理、分布式训练等。\n SequentialSampler: 顺序采样，按照数据集的顺序返回样本索引。 RandomSampler: 随机采样，打乱数据集顺序返回样本索引。 SubsetRandomSampler: 从数据集的一个子集随机采样。 WeightedRandomSampler: 根据指定的权重随机采样，适用于不平衡数据集。 DistributedSampler，用于在分布式训练中对数据进行采样。  1 2 3 4 5 6 7 8 9 10 11 12  ## 简单示例 # 随机采样 from torch.utils.data import RandomSampler sampler = RandomSampler(dataset) dataloader = DataLoader(dataset, sampler=sampler)  # 子集采样 from torch.utils.data import SubsetRandomSampler import numpy as np indices = np.random.permutation(len(dataset))[:subset_size] sampler = SubsetRandomSampler(indices) #参数为子集的index dataloader = DataLoader(dataset, sampler=sampler)   ",
+  "wordCount" : "1006",
+  "inLanguage": "en",
+  "datePublished": "2024-10-16T00:00:00Z",
+  "dateModified": "2024-10-16T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/posts/bioinfo/721pytorch-dataset%E4%B8%8Edataloader%E7%9A%84%E4%BD%BF%E7%94%A8/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/posts/bioinfo/">📖 生信数据分析--分析流程，工具包等</a></div>
+    <h1 class="post-title">
+      Pytorch-Dataset与Dataloader的使用.
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2024-10-16 00:00:00 +0000 UTC'>2024-10-16</span>&nbsp;|&nbsp;Update:&nbsp;2024-10-16&nbsp;|&nbsp;Words:&nbsp;1006&nbsp;|&nbsp;3 min&nbsp;|&nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#1-dataset" aria-label="1. Dataset">1. Dataset</a><ul>
+                            
+                    <li>
+                        <a href="#11-%e8%87%aa%e5%ae%9a%e4%b9%89%e7%b1%bb" aria-label="1.1 自定义类">1.1 自定义类</a></li>
+                    <li>
+                        <a href="#12-tensordataset" aria-label="1.2 TensorDataset">1.2 TensorDataset</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#2-dataloader" aria-label="2. Dataloader">2. Dataloader</a><ul>
+                            
+                    <li>
+                        <a href="#21-collate_fn-%e5%8f%82%e6%95%b0" aria-label="2.1 collate_fn 参数">2.1 <code>collate_fn</code> 参数</a></li>
+                    <li>
+                        <a href="#22-sampler-%e5%8f%82%e6%95%b0" aria-label="2.2 sampler 参数">2.2 <code>sampler</code> 参数</a>
+                    </li>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><p>在 PyTorch 中，<code>Dataset</code>、<code>DataLoader</code> 和 <code>Sampler</code> 是用于数据加载和处理的核心组件。它们相互配合，使得数据的加载和批处理更加高效和灵活。</p>
+<ul>
+<li><code>Dataset</code> 是一个抽象类，用于表示数据集。</li>
+<li><code>DataLoader</code> 是一个迭代器，用于将数据集分成小批量。</li>
+<li><code>Sampler</code> 可以自定义更加复杂的采样策略。</li>
+</ul>
+<h1 id="1-dataset">1. Dataset<a hidden class="anchor" aria-hidden="true" href="#1-dataset">#</a></h1>
+<p>将训练数据（如特征和标签）封装为一个可迭代的 PyTorch <code>Dataset</code> 类。有如下两种方式。</p>
+<h2 id="11-自定义类">1.1 自定义类<a hidden class="anchor" aria-hidden="true" href="#11-自定义类">#</a></h2>
+<p>继承 <code>Dataset</code>父类，并实现如下两个方法</p>
+<ul>
+<li><code>__len__</code>: 返回数据集的大小。</li>
+<li><code>__getitem__</code>: 支持索引操作，返回指定位置的数据和标签。这里可以根据数据类型特点，灵活定义。</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> torch
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">from</span> torch.utils.data <span style="color:#fff;font-weight:bold">import</span> Dataset
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>data = torch.arange(<span style="color:#ff0;font-weight:bold">100</span>).reshape(<span style="color:#ff0;font-weight:bold">50</span>, <span style="color:#ff0;font-weight:bold">2</span>)  <span style="color:#007f7f"># 50个样本，每个样本有2个特征</span>
+</span></span><span style="display:flex;"><span>labels = torch.randint(<span style="color:#ff0;font-weight:bold">0</span>, <span style="color:#ff0;font-weight:bold">2</span>, (<span style="color:#ff0;font-weight:bold">50</span>,))     <span style="color:#007f7f"># 50个二分类标签</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">class</span> MyDataset(Dataset):
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">def</span> __init__(self, data, labels):
+</span></span><span style="display:flex;"><span>        self.data = data
+</span></span><span style="display:flex;"><span>        self.labels = labels
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">def</span> __len__(self):
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">len</span>(self.data)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">def</span> __getitem__(self, idx):
+</span></span><span style="display:flex;"><span>        <span style="color:#007f7f"># 返回样本和其对应的标签,可以根据数据特点，灵活定义</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span> self.data[idx], self.labels[idx]
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">next</span>(<span style="color:#fff;font-weight:bold">iter</span>(dataset))
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># (tensor([0, 1]), tensor(0))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="12-tensordataset">1.2 TensorDataset<a hidden class="anchor" aria-hidden="true" href="#12-tensordataset">#</a></h2>
+<p>对于简单的数组类型数据，可以直接使用<code>TensorDataset(*tensors)</code></p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">from</span> torch.utils.data <span style="color:#fff;font-weight:bold">import</span> TensorDataset
+</span></span><span style="display:flex;"><span>dataset_2 = TensorDataset(data, labels)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">next</span>(<span style="color:#fff;font-weight:bold">iter</span>(dataset_2))
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># (tensor([0, 1]), tensor(0))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="2-dataloader">2. Dataloader<a hidden class="anchor" aria-hidden="true" href="#2-dataloader">#</a></h1>
+<ul>
+<li>将数据集拆分为小批量，用于后续的迭代训练</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">from</span> torch.utils.data <span style="color:#fff;font-weight:bold">import</span> DataLoader
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># dataset: 要加载的数据集，通常是 Dataset 的实例。</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># batch_size: 每个批次的数据量。</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># shuffle: 是否在每个 epoch 开始时打乱数据。</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># num_workers: 使用多少子进程来加载数据，默认仅使用当前进程。</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># drop_last: 如果数据集大小不能被批次大小整除，是否丢弃最后一个不完整的批次。默认为False</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>dataloader = DataLoader(dataset, 
+</span></span><span style="display:flex;"><span>                        batch_size=<span style="color:#ff0;font-weight:bold">4</span>, 
+</span></span><span style="display:flex;"><span>                        shuffle=<span style="color:#fff;font-weight:bold">True</span>, 
+</span></span><span style="display:flex;"><span>                        num_workers=<span style="color:#ff0;font-weight:bold">2</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">next</span>(<span style="color:#fff;font-weight:bold">iter</span>(dataloader))
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [tensor([[14, 15],</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#          [22, 23],</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#          [70, 71],</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#          [40, 41]]),</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  tensor([0, 1, 0, 0])]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">for</span> batch_data, batch_labels in dataloader:
+</span></span><span style="display:flex;"><span>    <span style="color:#007f7f"># 处理每个批次的数据</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">pass</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="21-collate_fn-参数">2.1 <code>collate_fn</code> 参数<a hidden class="anchor" aria-hidden="true" href="#21-collate_fn-参数">#</a></h2>
+<ul>
+<li>默认情况下，<code>DataLoader</code> 会将多个样本的数据直接拼接成一个批次。</li>
+<li><code>collate_fn</code> 是一个函数参数，用于在批处理时进行数据转换或预处理，以更好地适应训练要求。</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">def</span> custom_collate_fn(batch):
+</span></span><span style="display:flex;"><span>    <span style="color:#007f7f"># 假设 batch 是一个列表，包含多个 (features, labels) 元组</span>
+</span></span><span style="display:flex;"><span>    features = [item[<span style="color:#ff0;font-weight:bold">0</span>] <span style="color:#fff;font-weight:bold">for</span> item in batch]
+</span></span><span style="display:flex;"><span>    labels = [item[<span style="color:#ff0;font-weight:bold">1</span>] <span style="color:#fff;font-weight:bold">for</span> item in batch]
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#007f7f"># 在这里可以进行序列填充或其他预处理</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#007f7f"># 例如，将序列填充到相同长度</span>
+</span></span><span style="display:flex;"><span>    padded_features = pad_sequence(features, batch_first=<span style="color:#fff;font-weight:bold">True</span>)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> padded_features, torch.tensor(labels)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>dataloader = DataLoader(dataset, batch_size=<span style="color:#ff0;font-weight:bold">4</span>, collate_fn=custom_collate_fn)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="22-sampler-参数">2.2 <code>sampler</code> 参数<a hidden class="anchor" aria-hidden="true" href="#22-sampler-参数">#</a></h2>
+<p>使用 sampler 参数可以实现复杂的采样逻辑，适用于需要特定采样策略的场景，如不均衡数据处理、分布式训练等。</p>
+<ul>
+<li><code>SequentialSampler</code>: 顺序采样，按照数据集的顺序返回样本索引。</li>
+<li><code>RandomSampler</code>: 随机采样，打乱数据集顺序返回样本索引。</li>
+<li><code>SubsetRandomSampler</code>: 从数据集的一个子集随机采样。</li>
+<li><code>WeightedRandomSampler</code>: 根据指定的权重随机采样，适用于不平衡数据集。</li>
+<li><code>DistributedSampler</code>，用于在分布式训练中对数据进行采样。</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#007f7f">## 简单示例</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 随机采样</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">from</span> torch.utils.data <span style="color:#fff;font-weight:bold">import</span> RandomSampler
+</span></span><span style="display:flex;"><span>sampler = RandomSampler(dataset)
+</span></span><span style="display:flex;"><span>dataloader = DataLoader(dataset, sampler=sampler)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 子集采样</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">from</span> torch.utils.data <span style="color:#fff;font-weight:bold">import</span> SubsetRandomSampler
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> numpy <span style="color:#fff;font-weight:bold">as</span> np
+</span></span><span style="display:flex;"><span>indices = np.random.permutation(<span style="color:#fff;font-weight:bold">len</span>(dataset))[:subset_size]
+</span></span><span style="display:flex;"><span>sampler = SubsetRandomSampler(indices)  <span style="color:#007f7f">#参数为子集的index</span>
+</span></span><span style="display:flex;"><span>dataloader = DataLoader(dataset, sampler=sampler)
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/posts/bioinfo/720torchtext%E6%9E%84%E5%BB%BAvocab%E8%AF%8D%E8%A1%A8/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>Torchtext构建Vocab词表</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/posts/bioinfo/722pytorch-%E5%B8%B8%E7%94%A8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%B1%82/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>Pytorch-常用神经网络层</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2024 <a href="https://lishensuo.github.io">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>单细胞分析工具--CELLxGENE数据库 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="scRNA-seq">
+<meta name="description" content="网站：https://cellxgene.cziscience.com/ API：https://chanzuckerberg.github.">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/posts/bioinfo/042%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--cellxgene%E6%95%B0%E6%8D%AE%E5%BA%93/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.1abf8254c205953f8beb228727a5e0a5541f0bc42f68f2762e2e594e7b213985.css" integrity="sha256-Gr&#43;CVMIFlT&#43;L6yKHJ6XgpVQfC8QvaPJ2Li5ZTnshOYU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.4dcb3c4f38462f66c6b6137227726f5543cb934cca9788f041c087e374491df2.js" integrity="sha256-Tcs8TzhGL2bGthNyJ3JvVUPLk0zKl4jwQcCH43RJHfI="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="单细胞分析工具--CELLxGENE数据库" />
+<meta property="og:description" content="网站：https://cellxgene.cziscience.com/ API：https://chanzuckerberg.github." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/posts/bioinfo/042%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--cellxgene%E6%95%B0%E6%8D%AE%E5%BA%93/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-10-16T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2024-10-16T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="单细胞分析工具--CELLxGENE数据库"/>
+<meta name="twitter:description" content="网站：https://cellxgene.cziscience.com/ API：https://chanzuckerberg.github."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "📖 生信数据分析--分析流程，工具包等",
+      "item": "https://lishensuo.github.io/posts/bioinfo/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "单细胞分析工具--CELLxGENE数据库",
+      "item": "https://lishensuo.github.io/posts/bioinfo/042%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--cellxgene%E6%95%B0%E6%8D%AE%E5%BA%93/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "单细胞分析工具--CELLxGENE数据库",
+  "name": "单细胞分析工具--CELLxGENE数据库",
+  "description": "网站：https://cellxgene.cziscience.com/ API：https://chanzuckerberg.github.",
+  "keywords": [
+    "scRNA-seq"
+  ],
+  "articleBody": " 网站：https://cellxgene.cziscience.com/\nAPI：https://chanzuckerberg.github.io/cellxgene-census/\nSchema：https://github.com/chanzuckerberg/single-cell-curation/blob/main/schema/3.0.0/schema.md\n CELLxGENE 是一套工具，可帮助科学家查找、下载、探索、分析、注释和发布单细胞数据集。它包含几个功能强大的工具，具有各种功能，可帮助您处理单细胞数据。\n Chan Zuckerberg Initiative（CZI）是由马克·扎克伯格（Mark Zuckerberg）和妻子普莉希拉·陈（Priscilla Chan）于2015年创立的慈善组织。其使命是通过支持科学、教育和社区发展来推动人类潜能和促进平等。\n 其核心是整合了大量的单细胞转录组数据集于一体，具有如下特点\n 物种来源主要是Homo sapiens, Mus musculus; 样本主要来自大多数组织的正常细胞(Normal, 即non-disease); 数据类型是未标准化的原始Counts表达数据; 在目前最新的版本(20240701)中，细胞总量已分别达到74M(human), 41M(mouse)   Note that the Census RNA data includes duplicate cells present across multiple datasets. Duplicate cells can be filtered in or out using the cell metadata variable is_primary_data which is described in the Census schema.\n CELLxGENE基于这些数据资源主要提供两类功能，Download (下载) \u0026 Explore (分析)。下面将主要学习下数据获取的方式。\n方式1（如上图）：从网站的Datasets页面，根据提供的多种filter筛选目标数据集，然后点击下载按钮；提供了h5ad与rds两种格式，可分别用于Python的scanpy(v0.8)分析以及R的Seurat分析(v5)\n方式2：使用网站提供的API接口进行定制化下载，如下主要记录对于Python端的简单学习。\n简单来说，可以将census视为CELLxGENE将所有细胞数据进行的整合。我们可以基于特定的cell或者gene metadata条件(Slice)，筛选目标的单细胞数据。\n1 2  # pip install -U cellxgene-census import cellxgene_census    查看所有的cell metadata类型（2023-05-15版本）  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24  census = cellxgene_census.open_soma(census_version=\"2023-05-15\") keys = list(census[\"census_data\"][\"homo_sapiens\"].obs.keys()) keys # ['soma_joinid', # 'dataset_id', # 'assay', # 'assay_ontology_term_id', # 'cell_type', # 'cell_type_ontology_term_id', # 'development_stage', # 'development_stage_ontology_term_id', # 'disease', # 'disease_ontology_term_id', # 'donor_id', # 'is_primary_data', # 'self_reported_ethnicity', # 'self_reported_ethnicity_ontology_term_id', # 'sex', # 'sex_ontology_term_id', # 'suspension_type', # 'tissue', # 'tissue_ontology_term_id', # 'tissue_general', # 'tissue_general_ontology_term_id']    获取该版本所有细胞的metadata（建议使用特定条件筛选，这里仅为了下面探索全部的类别信息）  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43  with cellxgene_census.open_soma(census_version=\"2023-05-15\") as census:  # Reads SOMADataFrame as a slice  cell_metadata = census[\"census_data\"][\"homo_sapiens\"].obs.read(  # value_filter = \"sex == 'female' and cell_type in ['microglial cell', 'neuron']\",  # column_names = [\"assay\", \"cell_type\", \"tissue\", \"tissue_general\", \"suspension_type\", \"disease\"]  # value_filter = \"tissue_general == 'prostate gland'\"  )  # Concatenates results to pyarrow.Table  cell_metadata = cell_metadata.concat()  # Converts to pandas.DataFrame  cell_metadata = cell_metadata.to_pandas() # 1m31.6s  cell_metadata.shape # (53794728, 21)  cell_metadata['dataset_id'][:200000].drop_duplicates() # 0 9d8e5dca-03a3-457d-b7fb-844c75735c83 # 72335 a6388a6f-6076-401b-9b30-7d4306a20035 # 103124 842c6f5d-4a94-4eef-8510-8c792d1124bc # Name: dataset_id, dtype: object  cell_metadata['donor_id'][:10000].drop_duplicates() # 0 donor-GOLD # 869 donor-BOAT # 4369 donor-KEYS # 8675 donor-PINK # Name: donor_id, dtype: object  # 统计其它metadata的类别分布情况 from pathlib import Path filtered_keys = [item for item in keys if item not in ['soma_joinid','dataset_id','donor_id']] for item in filtered_keys:  # cell_metadata[item].value_counts()  file_name = f'stat_{item}.txt'  file_path = Path('census_20230515') / file_name  print(file_path)  cell_metadata[item].value_counts().to_csv(file_path, sep = '\\t') ## e.g. stat_sex.txt # sex\tcount # male\t28197731 # female\t22513226 # unknown\t3083771     详见：https://github.com/lishensuo/utils/tree/main/CELLxGene/census_20230515\n  获取目前最新版本(20240701)所有细胞的metadata  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29  census = cellxgene_census.open_soma(census_version=\"2024-07-01\") # The \"stable\" release is currently 2024-07-01.  # Specify 'census_version=\"2024-07-01\"' in future calls to open_soma() to ensure data consistency. keys_latest = list(census[\"census_data\"][\"homo_sapiens\"].obs.keys()) list(set(keys_latest) - set(keys)) # ['raw_mean_nnz', # 'observation_joinid', # 'raw_variance_nnz', # 'raw_sum', # 'tissue_type', # 'n_measured_vars',  # 'nnz'] #类似 质控相关的指标  with cellxgene_census.open_soma() as census:  cell_metadata_latest = census[\"census_data\"][\"homo_sapiens\"].obs.read()  cell_metadata_latest = cell_metadata_latest.concat()  cell_metadata_latest = cell_metadata_latest.to_pandas() #2m30s  cell_metadata_latest.shape # (74322510, 28)  filtered_keys = [item for item in keys if item not in ['soma_joinid','dataset_id','donor_id']] for item in filtered_keys:  # cell_metadata[item].value_counts()  file_name = f'stat_{item}.txt'  file_path = Path('census_20240701') / file_name  print(file_path)  cell_metadata_latest[item].value_counts().to_csv(file_path, sep = '\\t')    详见：https://github.com/lishensuo/utils/tree/main/CELLxGene/census_20240701\n  下面简单探索前列腺细胞(Prostate gland cells)的metadata  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34  with cellxgene_census.open_soma(census_version=\"2024-07-01\") as census:  # Reads SOMADataFrame as a slice  cell_metadata = census[\"census_data\"][\"homo_sapiens\"].obs.read(  # value_filter = \"sex == 'female' and cell_type in ['microglial cell', 'neuron']\",  # column_names = [\"assay\", \"cell_type\", \"tissue\", \"tissue_general\", \"suspension_type\", \"disease\"]  value_filter = \"tissue_general == 'prostate gland'\"  )  # Concatenates results to pyarrow.Table  cell_metadata = cell_metadata.concat()  # Converts to pandas.DataFrame  cell_metadata = cell_metadata.to_pandas()  cell_metadata.shape # (348664, 28)  cell_metadata['disease'].value_counts()[lambda x: x  0] # disease # normal 227680 # benign prostatic hyperplasia 120984 # Name: count, dtype: int64  cell_metadata['cell_type'].value_counts()[lambda x: x  0].head(10) # cell_type # basal cell of prostate epithelium 138418 # luminal cell of prostate epithelium 29128 # epithelial cell of urethra 23634 # epithelial cell 20552 # secretory cell 16662 # prostate gland microvascular endothelial cell 14230 # smooth muscle cell of prostate 8702 # fibroblast of connective tissue of nonglandular part of prostate 7654 # basal epithelial cell of prostatic duct 7295 # CD1c-positive myeloid dendritic cell 7210 # Name: count, dtype: int64    单细胞数据下载，以上面前列腺组织的fibroblast (669 cells)为例  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31  with cellxgene_census.open_soma(census_version=\"2024-07-01\") as census:  adata = cellxgene_census.get_anndata(  census = census,  organism = \"Homo sapiens\",  var_value_filter = \"feature_id in ['ENSG00000161798', 'ENSG00000188229']\",  obs_value_filter = \"sex == 'female' and cell_type in ['microglial cell', 'neuron']\",  column_names = {\"obs\": [\"assay\", \"cell_type\", \"tissue\", \"tissue_general\", \"suspension_type\", \"disease\"]},  )   print(adata) # 2m58s adata # AnnData object with n_obs × n_vars = 669 × 60530 # obs: 'soma_joinid', 'dataset_id', 'assay', 'assay_ontology_term_id', 'cell_type', 'cell_type_ontology_term_id', 'development_stage', 'development_stage_ontology_term_id', 'disease', 'disease_ontology_term_id', 'donor_id',  # 'is_primary_data', 'observation_joinid', 'self_reported_ethnicity', 'self_reported_ethnicity_ontology_term_id', 'sex', 'sex_ontology_term_id', 'suspension_type', 'tissue', 'tissue_ontology_term_id',  # 'tissue_type', 'tissue_general', 'tissue_general_ontology_term_id', 'raw_sum', 'nnz', 'raw_mean_nnz', 'raw_variance_nnz', 'n_measured_vars' # var: 'soma_joinid', 'feature_id', 'feature_name', 'feature_length', 'nnz', 'n_measured_obs'  adata.var.head() # soma_joinid feature_id feature_name feature_length nnz n_measured_obs # 0 ENSG00000000003 TSPAN6 4530 4530448 73855064 # 1 ENSG00000000005 TNMD 1476 236059 61201828 # 2 ENSG00000000419 DPM1 9276 17576462 74159149 # 3 ENSG00000000457 SCYL3 6883 9117322 73988868 # 4 ENSG00000000460 C1orf112 5970 6287794 73636201  adata.layers['counts'] = adata.X.copy() adata.layers['counts'] # # with 1591668 stored elements and shape (669, 60530) adata.write_h5ad(\"cellxgene_prostate.h5ad\")    另外的下载方式（scGPT采用）  首先查询目标细胞的soma_joinid数据 然后直接根据上述ID，获取对应细胞的表达数据    1 2 3 4 5 6 7 8 9 10 11 12 13 14  with cellxgene_census.open_soma(census_version=\"2024-07-01\") as census:  cell_metadata = census[\"census_data\"][\"homo_sapiens\"].obs.read(  value_filter = \"tissue_general == 'prostate gland' and cell_type == 'fibroblast'\"  )  cell_metadata = cell_metadata.concat()  cell_metadata = cell_metadata.to_pandas()   adata2 = cellxgene_census.get_anndata(  census = census,  organism = \"Homo sapiens\",  # obs_value_filter = \"tissue_general == 'prostate gland' and cell_type == 'fibroblast'\"  obs_coords = list(cell_metadata['soma_joinid'])  ) # 2m52s    API的下载速度目前体验下来，比较不稳定，有时非常慢。在时间允许的情况下，可以编写脚本，在后台慢慢下载。\n ",
+  "wordCount" : "2160",
+  "inLanguage": "en",
+  "datePublished": "2024-10-16T00:00:00Z",
+  "dateModified": "2024-10-16T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/posts/bioinfo/042%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--cellxgene%E6%95%B0%E6%8D%AE%E5%BA%93/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/posts/bioinfo/">📖 生信数据分析--分析流程，工具包等</a></div>
+    <h1 class="post-title">
+      单细胞分析工具--CELLxGENE数据库
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2024-10-16 00:00:00 +0000 UTC'>2024-10-16</span>&nbsp;|&nbsp;Update:&nbsp;2024-10-16&nbsp;|&nbsp;Words:&nbsp;2160&nbsp;|&nbsp;5 min&nbsp;|&nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> 
+
+
+  <div class="post-content"><blockquote>
+<p>网站：https://cellxgene.cziscience.com/</p>
+<p>API：https://chanzuckerberg.github.io/cellxgene-census/</p>
+<p>Schema：https://github.com/chanzuckerberg/single-cell-curation/blob/main/schema/3.0.0/schema.md</p>
+</blockquote>
+<p>CELLxGENE 是一套工具，可帮助科学家查找、下载、探索、分析、注释和发布单细胞数据集。它包含几个功能强大的工具，具有各种功能，可帮助您处理单细胞数据。</p>
+<blockquote>
+<p>Chan Zuckerberg Initiative（CZI）是由马克·扎克伯格（Mark Zuckerberg）和妻子普莉希拉·陈（Priscilla Chan）于2015年创立的慈善组织。其使命是通过支持科学、教育和社区发展来推动人类潜能和促进平等。</p>
+</blockquote>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241010122823513.png" alt="image-20241010122823513"  />
+</p>
+<p>其核心是整合了大量的单细胞转录组数据集于一体，具有如下特点</p>
+<ul>
+<li>物种来源主要是Homo sapiens, Mus musculus;</li>
+<li>样本主要来自大多数组织的正常细胞(Normal, 即non-disease);</li>
+<li>数据类型是未标准化的原始Counts表达数据;</li>
+<li>在目前最新的版本(20240701)中，细胞总量已分别达到74M(human), 41M(mouse)</li>
+</ul>
+<blockquote>
+<p>Note that the Census RNA data includes duplicate cells present across multiple datasets. Duplicate cells can be filtered in or out using the cell metadata variable <code>is_primary_data</code> which is described in the <a href="https://github.com/chanzuckerberg/cellxgene-census/blob/main/docs/cellxgene_census_schema.md#repeated-data">Census schema</a>.</p>
+</blockquote>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241010123328975.png" alt="image-20241010123328975"  />
+</p>
+<p>CELLxGENE基于这些数据资源主要提供两类功能，Download (下载) &amp; Explore (分析)。下面将主要学习下数据获取的方式。</p>
+<p>方式1（如上图）：从网站的<code>Datasets</code>页面，根据提供的多种filter筛选目标数据集，然后点击下载按钮；提供了h5ad与rds两种格式，可分别用于Python的scanpy(v0.8)分析以及R的Seurat分析(v5)</p>
+<p>方式2：使用网站提供的API接口进行定制化下载，如下主要记录对于Python端的简单学习。</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241010125712780.png" alt="image-20241010125712780" style="zoom:67%;" />
+<p>简单来说，可以将census视为CELLxGENE将所有细胞数据进行的整合。我们可以基于特定的cell或者gene metadata条件(Slice)，筛选目标的单细胞数据。</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#007f7f"># pip install -U cellxgene-census</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> cellxgene_census
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>查看所有的cell metadata类型（2023-05-15版本）</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>census = cellxgene_census.open_soma(census_version=<span style="color:#0ff;font-weight:bold">&#34;2023-05-15&#34;</span>)
+</span></span><span style="display:flex;"><span>keys = <span style="color:#fff;font-weight:bold">list</span>(census[<span style="color:#0ff;font-weight:bold">&#34;census_data&#34;</span>][<span style="color:#0ff;font-weight:bold">&#34;homo_sapiens&#34;</span>].obs.keys())
+</span></span><span style="display:flex;"><span>keys
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [&#39;soma_joinid&#39;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  &#39;dataset_id&#39;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  &#39;assay&#39;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  &#39;assay_ontology_term_id&#39;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  &#39;cell_type&#39;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  &#39;cell_type_ontology_term_id&#39;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  &#39;development_stage&#39;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  &#39;development_stage_ontology_term_id&#39;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  &#39;disease&#39;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  &#39;disease_ontology_term_id&#39;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  &#39;donor_id&#39;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  &#39;is_primary_data&#39;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  &#39;self_reported_ethnicity&#39;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  &#39;self_reported_ethnicity_ontology_term_id&#39;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  &#39;sex&#39;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  &#39;sex_ontology_term_id&#39;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  &#39;suspension_type&#39;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  &#39;tissue&#39;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  &#39;tissue_ontology_term_id&#39;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  &#39;tissue_general&#39;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  &#39;tissue_general_ontology_term_id&#39;]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>获取该版本所有细胞的metadata（建议使用特定条件筛选，这里仅为了下面探索全部的类别信息）</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">27
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">28
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">29
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">30
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">31
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">32
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">33
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">34
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">35
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">36
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">37
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">38
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">39
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">40
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">41
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">42
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">43
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">with</span> cellxgene_census.open_soma(census_version=<span style="color:#0ff;font-weight:bold">&#34;2023-05-15&#34;</span>) <span style="color:#fff;font-weight:bold">as</span> census:
+</span></span><span style="display:flex;"><span>    <span style="color:#007f7f"># Reads SOMADataFrame as a slice</span>
+</span></span><span style="display:flex;"><span>    cell_metadata = census[<span style="color:#0ff;font-weight:bold">&#34;census_data&#34;</span>][<span style="color:#0ff;font-weight:bold">&#34;homo_sapiens&#34;</span>].obs.read(
+</span></span><span style="display:flex;"><span>        <span style="color:#007f7f"># value_filter = &#34;sex == &#39;female&#39; and cell_type in [&#39;microglial cell&#39;, &#39;neuron&#39;]&#34;,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#007f7f"># column_names = [&#34;assay&#34;, &#34;cell_type&#34;, &#34;tissue&#34;, &#34;tissue_general&#34;, &#34;suspension_type&#34;, &#34;disease&#34;]</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#007f7f"># value_filter = &#34;tissue_general == &#39;prostate gland&#39;&#34;</span>
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>    <span style="color:#007f7f"># Concatenates results to pyarrow.Table</span>
+</span></span><span style="display:flex;"><span>    cell_metadata = cell_metadata.concat()
+</span></span><span style="display:flex;"><span>    <span style="color:#007f7f"># Converts to pandas.DataFrame</span>
+</span></span><span style="display:flex;"><span>    cell_metadata = cell_metadata.to_pandas()
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1m31.6s</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>cell_metadata.shape
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># (53794728, 21)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cell_metadata[<span style="color:#0ff;font-weight:bold">&#39;dataset_id&#39;</span>][:<span style="color:#ff0;font-weight:bold">200000</span>].drop_duplicates()
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 0         9d8e5dca-03a3-457d-b7fb-844c75735c83</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 72335     a6388a6f-6076-401b-9b30-7d4306a20035</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 103124    842c6f5d-4a94-4eef-8510-8c792d1124bc</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Name: dataset_id, dtype: object</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cell_metadata[<span style="color:#0ff;font-weight:bold">&#39;donor_id&#39;</span>][:<span style="color:#ff0;font-weight:bold">10000</span>].drop_duplicates()
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 0       donor-GOLD</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 869     donor-BOAT</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 4369    donor-KEYS</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 8675    donor-PINK</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Name: donor_id, dtype: object</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 统计其它metadata的类别分布情况</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">from</span> pathlib <span style="color:#fff;font-weight:bold">import</span> Path
+</span></span><span style="display:flex;"><span>filtered_keys = [item <span style="color:#fff;font-weight:bold">for</span> item in keys <span style="color:#fff;font-weight:bold">if</span> item not in [<span style="color:#0ff;font-weight:bold">&#39;soma_joinid&#39;</span>,<span style="color:#0ff;font-weight:bold">&#39;dataset_id&#39;</span>,<span style="color:#0ff;font-weight:bold">&#39;donor_id&#39;</span>]]
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">for</span> item in filtered_keys:
+</span></span><span style="display:flex;"><span>    <span style="color:#007f7f"># cell_metadata[item].value_counts()</span>
+</span></span><span style="display:flex;"><span>    file_name = <span style="color:#0ff;font-weight:bold">f</span><span style="color:#0ff;font-weight:bold">&#39;stat_</span><span style="color:#0ff;font-weight:bold">{</span>item<span style="color:#0ff;font-weight:bold">}</span><span style="color:#0ff;font-weight:bold">.txt&#39;</span>
+</span></span><span style="display:flex;"><span>    file_path = Path(<span style="color:#0ff;font-weight:bold">&#39;census_20230515&#39;</span>) / file_name
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">print</span>(file_path)
+</span></span><span style="display:flex;"><span>    cell_metadata[item].value_counts().to_csv(file_path, sep = <span style="color:#0ff;font-weight:bold">&#39;</span><span style="color:#0ff;font-weight:bold">\t</span><span style="color:#0ff;font-weight:bold">&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## e.g. stat_sex.txt</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># sex	count</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># male	28197731</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># female	22513226</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># unknown	3083771 </span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>详见：https://github.com/lishensuo/utils/tree/main/CELLxGene/census_20230515</p>
+</blockquote>
+<ul>
+<li>获取目前最新版本(20240701)所有细胞的metadata</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">27
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">28
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">29
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>census = cellxgene_census.open_soma(census_version=<span style="color:#0ff;font-weight:bold">&#34;2024-07-01&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># The &#34;stable&#34; release is currently 2024-07-01. </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Specify &#39;census_version=&#34;2024-07-01&#34;&#39; in future calls to open_soma() to ensure data consistency.</span>
+</span></span><span style="display:flex;"><span>keys_latest = <span style="color:#fff;font-weight:bold">list</span>(census[<span style="color:#0ff;font-weight:bold">&#34;census_data&#34;</span>][<span style="color:#0ff;font-weight:bold">&#34;homo_sapiens&#34;</span>].obs.keys())
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">list</span>(<span style="color:#fff;font-weight:bold">set</span>(keys_latest) - <span style="color:#fff;font-weight:bold">set</span>(keys))
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [&#39;raw_mean_nnz&#39;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  &#39;observation_joinid&#39;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  &#39;raw_variance_nnz&#39;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  &#39;raw_sum&#39;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  &#39;tissue_type&#39;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  &#39;n_measured_vars&#39;, </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  &#39;nnz&#39;]  #类似 质控相关的指标</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">with</span> cellxgene_census.open_soma() <span style="color:#fff;font-weight:bold">as</span> census:
+</span></span><span style="display:flex;"><span>    cell_metadata_latest = census[<span style="color:#0ff;font-weight:bold">&#34;census_data&#34;</span>][<span style="color:#0ff;font-weight:bold">&#34;homo_sapiens&#34;</span>].obs.read()
+</span></span><span style="display:flex;"><span>    cell_metadata_latest = cell_metadata_latest.concat()
+</span></span><span style="display:flex;"><span>    cell_metadata_latest = cell_metadata_latest.to_pandas()
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#2m30s</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cell_metadata_latest.shape
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># (74322510, 28)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>filtered_keys = [item <span style="color:#fff;font-weight:bold">for</span> item in keys <span style="color:#fff;font-weight:bold">if</span> item not in [<span style="color:#0ff;font-weight:bold">&#39;soma_joinid&#39;</span>,<span style="color:#0ff;font-weight:bold">&#39;dataset_id&#39;</span>,<span style="color:#0ff;font-weight:bold">&#39;donor_id&#39;</span>]]
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">for</span> item in filtered_keys:
+</span></span><span style="display:flex;"><span>    <span style="color:#007f7f"># cell_metadata[item].value_counts()</span>
+</span></span><span style="display:flex;"><span>    file_name = <span style="color:#0ff;font-weight:bold">f</span><span style="color:#0ff;font-weight:bold">&#39;stat_</span><span style="color:#0ff;font-weight:bold">{</span>item<span style="color:#0ff;font-weight:bold">}</span><span style="color:#0ff;font-weight:bold">.txt&#39;</span>
+</span></span><span style="display:flex;"><span>    file_path = Path(<span style="color:#0ff;font-weight:bold">&#39;census_20240701&#39;</span>) / file_name
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">print</span>(file_path)
+</span></span><span style="display:flex;"><span>    cell_metadata_latest[item].value_counts().to_csv(file_path, sep = <span style="color:#0ff;font-weight:bold">&#39;</span><span style="color:#0ff;font-weight:bold">\t</span><span style="color:#0ff;font-weight:bold">&#39;</span>) 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>详见：https://github.com/lishensuo/utils/tree/main/CELLxGene/census_20240701</p>
+</blockquote>
+<ul>
+<li>下面简单探索前列腺细胞(Prostate gland cells)的metadata</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">27
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">28
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">29
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">30
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">31
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">32
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">33
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">34
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">with</span> cellxgene_census.open_soma(census_version=<span style="color:#0ff;font-weight:bold">&#34;2024-07-01&#34;</span>) <span style="color:#fff;font-weight:bold">as</span> census:
+</span></span><span style="display:flex;"><span>    <span style="color:#007f7f"># Reads SOMADataFrame as a slice</span>
+</span></span><span style="display:flex;"><span>    cell_metadata = census[<span style="color:#0ff;font-weight:bold">&#34;census_data&#34;</span>][<span style="color:#0ff;font-weight:bold">&#34;homo_sapiens&#34;</span>].obs.read(
+</span></span><span style="display:flex;"><span>        <span style="color:#007f7f"># value_filter = &#34;sex == &#39;female&#39; and cell_type in [&#39;microglial cell&#39;, &#39;neuron&#39;]&#34;,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#007f7f"># column_names = [&#34;assay&#34;, &#34;cell_type&#34;, &#34;tissue&#34;, &#34;tissue_general&#34;, &#34;suspension_type&#34;, &#34;disease&#34;]</span>
+</span></span><span style="display:flex;"><span>        value_filter = <span style="color:#0ff;font-weight:bold">&#34;tissue_general == &#39;prostate gland&#39;&#34;</span>
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>    <span style="color:#007f7f"># Concatenates results to pyarrow.Table</span>
+</span></span><span style="display:flex;"><span>    cell_metadata = cell_metadata.concat()
+</span></span><span style="display:flex;"><span>    <span style="color:#007f7f"># Converts to pandas.DataFrame</span>
+</span></span><span style="display:flex;"><span>    cell_metadata = cell_metadata.to_pandas()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cell_metadata.shape
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># (348664, 28)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cell_metadata[<span style="color:#0ff;font-weight:bold">&#39;disease&#39;</span>].value_counts()[<span style="color:#fff;font-weight:bold">lambda</span> x: x &gt; <span style="color:#ff0;font-weight:bold">0</span>]
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># disease</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># normal                          227680</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># benign prostatic hyperplasia    120984</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Name: count, dtype: int64</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cell_metadata[<span style="color:#0ff;font-weight:bold">&#39;cell_type&#39;</span>].value_counts()[<span style="color:#fff;font-weight:bold">lambda</span> x: x &gt; <span style="color:#ff0;font-weight:bold">0</span>].head(<span style="color:#ff0;font-weight:bold">10</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># cell_type</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># basal cell of prostate epithelium                                   138418</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># luminal cell of prostate epithelium                                  29128</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># epithelial cell of urethra                                           23634</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># epithelial cell                                                      20552</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># secretory cell                                                       16662</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># prostate gland microvascular endothelial cell                        14230</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># smooth muscle cell of prostate                                        8702</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># fibroblast of connective tissue of nonglandular part of prostate      7654</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># basal epithelial cell of prostatic duct                               7295</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># CD1c-positive myeloid dendritic cell                                  7210</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Name: count, dtype: int64</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>单细胞数据下载，以上面前列腺组织的fibroblast (669 cells)为例</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">27
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">28
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">29
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">30
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">31
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">with</span> cellxgene_census.open_soma(census_version=<span style="color:#0ff;font-weight:bold">&#34;2024-07-01&#34;</span>) <span style="color:#fff;font-weight:bold">as</span> census:
+</span></span><span style="display:flex;"><span>    adata = cellxgene_census.get_anndata(
+</span></span><span style="display:flex;"><span>        census = census,
+</span></span><span style="display:flex;"><span>        organism = <span style="color:#0ff;font-weight:bold">&#34;Homo sapiens&#34;</span>,
+</span></span><span style="display:flex;"><span>        var_value_filter = <span style="color:#0ff;font-weight:bold">&#34;feature_id in [&#39;ENSG00000161798&#39;, &#39;ENSG00000188229&#39;]&#34;</span>,
+</span></span><span style="display:flex;"><span>        obs_value_filter = <span style="color:#0ff;font-weight:bold">&#34;sex == &#39;female&#39; and cell_type in [&#39;microglial cell&#39;, &#39;neuron&#39;]&#34;</span>,
+</span></span><span style="display:flex;"><span>        column_names = {<span style="color:#0ff;font-weight:bold">&#34;obs&#34;</span>: [<span style="color:#0ff;font-weight:bold">&#34;assay&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;cell_type&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;tissue&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;tissue_general&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;suspension_type&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;disease&#34;</span>]},
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">print</span>(adata)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2m58s</span>
+</span></span><span style="display:flex;"><span>adata
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># AnnData object with n_obs × n_vars = 669 × 60530</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#     obs: &#39;soma_joinid&#39;, &#39;dataset_id&#39;, &#39;assay&#39;, &#39;assay_ontology_term_id&#39;, &#39;cell_type&#39;, &#39;cell_type_ontology_term_id&#39;, &#39;development_stage&#39;, &#39;development_stage_ontology_term_id&#39;, &#39;disease&#39;, &#39;disease_ontology_term_id&#39;, &#39;donor_id&#39;, </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#          &#39;is_primary_data&#39;, &#39;observation_joinid&#39;, &#39;self_reported_ethnicity&#39;, &#39;self_reported_ethnicity_ontology_term_id&#39;, &#39;sex&#39;, &#39;sex_ontology_term_id&#39;, &#39;suspension_type&#39;, &#39;tissue&#39;, &#39;tissue_ontology_term_id&#39;, </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#          &#39;tissue_type&#39;, &#39;tissue_general&#39;, &#39;tissue_general_ontology_term_id&#39;, &#39;raw_sum&#39;, &#39;nnz&#39;, &#39;raw_mean_nnz&#39;, &#39;raw_variance_nnz&#39;, &#39;n_measured_vars&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#     var: &#39;soma_joinid&#39;, &#39;feature_id&#39;, &#39;feature_name&#39;, &#39;feature_length&#39;, &#39;nnz&#39;, &#39;n_measured_obs&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>adata.var.head()
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   soma_joinid  feature_id       feature_name  feature_length    nnz         n_measured_obs</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   0            ENSG00000000003  TSPAN6        4530              4530448     73855064</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   1            ENSG00000000005  TNMD          1476              236059      61201828</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   2            ENSG00000000419  DPM1          9276              17576462    74159149</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   3            ENSG00000000457  SCYL3         6883              9117322     73988868</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   4            ENSG00000000460  C1orf112      5970              6287794     73636201</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>adata.layers[<span style="color:#0ff;font-weight:bold">&#39;counts&#39;</span>] = adata.X.copy() 
+</span></span><span style="display:flex;"><span>adata.layers[<span style="color:#0ff;font-weight:bold">&#39;counts&#39;</span>]
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># &lt;Compressed Sparse Row sparse matrix of dtype &#39;float32&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 	with 1591668 stored elements and shape (669, 60530)&gt;</span>
+</span></span><span style="display:flex;"><span>adata.write_h5ad(<span style="color:#0ff;font-weight:bold">&#34;cellxgene_prostate.h5ad&#34;</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>另外的下载方式（scGPT采用）
+<ul>
+<li>首先查询目标细胞的soma_joinid数据</li>
+<li>然后直接根据上述ID，获取对应细胞的表达数据</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">with</span> cellxgene_census.open_soma(census_version=<span style="color:#0ff;font-weight:bold">&#34;2024-07-01&#34;</span>) <span style="color:#fff;font-weight:bold">as</span> census:
+</span></span><span style="display:flex;"><span>    cell_metadata = census[<span style="color:#0ff;font-weight:bold">&#34;census_data&#34;</span>][<span style="color:#0ff;font-weight:bold">&#34;homo_sapiens&#34;</span>].obs.read(
+</span></span><span style="display:flex;"><span>        value_filter = <span style="color:#0ff;font-weight:bold">&#34;tissue_general == &#39;prostate gland&#39; and cell_type == &#39;fibroblast&#39;&#34;</span>
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>    cell_metadata = cell_metadata.concat()
+</span></span><span style="display:flex;"><span>    cell_metadata = cell_metadata.to_pandas()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    adata2 = cellxgene_census.get_anndata(
+</span></span><span style="display:flex;"><span>        census = census,
+</span></span><span style="display:flex;"><span>        organism = <span style="color:#0ff;font-weight:bold">&#34;Homo sapiens&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#007f7f"># obs_value_filter = &#34;tissue_general == &#39;prostate gland&#39; and cell_type == &#39;fibroblast&#39;&#34;</span>
+</span></span><span style="display:flex;"><span>        obs_coords = <span style="color:#fff;font-weight:bold">list</span>(cell_metadata[<span style="color:#0ff;font-weight:bold">&#39;soma_joinid&#39;</span>])
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2m52s</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>API的下载速度目前体验下来，比较不稳定，有时非常慢。在时间允许的情况下，可以编写脚本，在后台慢慢下载。</p>
+</blockquote>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/tags/scrna-seq/">scRNA-seq</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/posts/bioinfo/041%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--seurat5%E5%9F%BA%E7%A1%80%E7%94%A8%E6%B3%95/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>单细胞分析工具--Seurat5基础用法</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/posts/bioinfo/038%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--sccoda%E7%BB%86%E8%83%9E%E7%BB%84%E6%88%90%E6%AF%94%E8%BE%83/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>单细胞分析工具--sccoda细胞组成比较</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2024 <a href="https://lishensuo.github.io">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>
