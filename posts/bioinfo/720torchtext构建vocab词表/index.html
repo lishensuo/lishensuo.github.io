@@ -104,8 +104,8 @@
   "keywords": [
     "深度学习"
   ],
-  "articleBody": "torchtext.vocab 1  from torchtext.vocab import vocab   1. 定义词汇表  基于词元的频率统计表，OrderedDict 对象  1 2 3 4  vocab(ordered_dict = , #一个 OrderedDict 对象，包含词汇和它们的频率。  min_freq = 1, #指定词汇表中词出现的最小频率。  specials = None, #一个列表，包含特殊标记（如 , , ,  等）。  special_first = True) #一个布尔值，决定特殊标记是否在词汇表的开头。   1 2 3 4 5 6 7 8 9 10 11 12 13 14 15  from collections import Counter, OrderedDict  counter = Counter([\"a\", \"a\", \"b\", \"b\", \"b\"]) counter # Counter({'b': 3, 'a': 2})  sorted_by_freq_tuples = sorted(counter.items(), key=lambda x: x[1], reverse=True) sorted_by_freq_tuples # [('b', 3), ('a', 2)]  ordered_dict = OrderedDict(sorted_by_freq_tuples) # OrderedDict([('b', 3), ('a', 2)])  v1 = vocab(ordered_dict) # Vocab()    直接基于可迭代对象  1 2 3 4 5 6 7  build_vocab_from_iterator(  iterator = , # Iterator used to build Vocab. Must yield list or iterator of tokens.  min_freq = ,  specials = ,  special_first = , \tmax_tokens =None #最多引入多少个词元 )   1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21  from torchtext.vocab import build_vocab_from_iterator  # 定义一个简单的迭代器 # yield关键字，用于定义生成器函数。惰性取值：按需生成值，而不是一次性生成所有值，适合处理大数据集。 def yield_tokens(data_iter):  for text in data_iter:  yield text.split()  # 示例数据 data = [\"this is a sentence\", \"this is another sentence\"]  # 构建词汇表 v2 = build_vocab_from_iterator(yield_tokens(data), min_freq=1, specials=['', ''], special_first=True)  ### 直接使用token list作为输入 token_lists = [  [\"this\", \"is\", \"a\", \"sentence\"],  [\"this\", \"is\", \"another\", \"sentence\"] ] # 构建词汇表 v3 = build_vocab_from_iterator(token_lists)   2. 查询词汇表 1 2 3 4 5 6 7 8 9 10  # 1. 查看词元的索引 v1['a'], v1['b']  # 2. 设置当查询不在词汇表的新词元时，返回的索引 v2.set_default_index(v2[unk_token]) v2['sss']  # 3. 查询索引对应的词元 v2.get_itos()[:3] # v2['out of vocab'] is v2[unk_token]   ",
-  "wordCount" : "477",
+  "articleBody": "torchtext.vocab 1  from torchtext.vocab import vocab   1. 定义词汇表  基于词元的频率统计表，OrderedDict 对象  1 2 3 4  vocab(ordered_dict = , #一个 OrderedDict 对象，包含词汇和它们的频率。  min_freq = 1, #指定词汇表中词出现的最小频率。  specials = None, #一个列表，包含特殊标记（如 , , ,  等）。  special_first = True) #一个布尔值，决定特殊标记是否在词汇表的开头。   1 2 3 4 5 6 7 8 9 10 11 12 13 14 15  from collections import Counter, OrderedDict  counter = Counter([\"a\", \"a\", \"b\", \"b\", \"b\"]) counter # Counter({'b': 3, 'a': 2})  sorted_by_freq_tuples = sorted(counter.items(), key=lambda x: x[1], reverse=True) sorted_by_freq_tuples # [('b', 3), ('a', 2)]  ordered_dict = OrderedDict(sorted_by_freq_tuples) # OrderedDict([('b', 3), ('a', 2)])  v1 = vocab(ordered_dict) # Vocab()    直接基于可迭代对象  1 2 3 4 5 6 7  build_vocab_from_iterator(  iterator = , # Iterator used to build Vocab. Must yield list or iterator of tokens.  min_freq = ,  specials = ,  special_first = , \tmax_tokens =None #最多引入多少个词元 )   1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21  from torchtext.vocab import build_vocab_from_iterator  # 定义一个简单的迭代器 # yield关键字，用于定义生成器函数。惰性取值：按需生成值，而不是一次性生成所有值，适合处理大数据集。 def yield_tokens(data_iter):  for text in data_iter:  yield text.split()  # 示例数据 data = [\"this is a sentence\", \"this is another sentence\"]  # 构建词汇表 v2 = build_vocab_from_iterator(yield_tokens(data), min_freq=1, specials=['', ''], special_first=True)  ### 直接使用token list作为输入 token_lists = [  [\"this\", \"is\", \"a\", \"sentence\"],  [\"this\", \"is\", \"another\", \"sentence\"] ] # 构建词汇表 v3 = build_vocab_from_iterator(token_lists)   2. 查询词汇表 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19  # 1. 查看词元的索引 v1['a'], v1['b']  # 2. 设置当查询不在词汇表的新词元时，返回的索引 v2.set_default_index(v2[unk_token]) v2['sss']  # 3. 查询索引对应的词元 v2.get_itos()[:3] # v2['out of vocab'] is v2[unk_token]  v2.get_stoi() # {'a': 5, # 'this': 4, # 'another': 6, # 'sentence': 3, # 'is': 2, # '': 1, # '': 0}   ",
+  "wordCount" : "508",
   "inLanguage": "en",
   "datePublished": "2024-10-16T00:00:00Z",
   "dateModified": "2024-10-16T00:00:00Z",
@@ -225,7 +225,7 @@
 
 
 
-Create:&nbsp;<span title='2024-10-16 00:00:00 +0000 UTC'>2024-10-16</span>&nbsp;|&nbsp;Update:&nbsp;2024-10-16&nbsp;|&nbsp;Words:&nbsp;477&nbsp;|&nbsp;1 min&nbsp;|&nbsp;Lishensuo
+Create:&nbsp;<span title='2024-10-16 00:00:00 +0000 UTC'>2024-10-16</span>&nbsp;|&nbsp;Update:&nbsp;2024-10-16&nbsp;|&nbsp;Words:&nbsp;508&nbsp;|&nbsp;2 min&nbsp;|&nbsp;Lishensuo
 
 |  Viewers: <span id="busuanzi_value_page_pv"></span> 
 	  
@@ -461,6 +461,15 @@ Create:&nbsp;<span title='2024-10-16 00:00:00 +0000 UTC'>2024-10-16</span>&nbsp;
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#007f7f"># 1. 查看词元的索引</span>
@@ -473,6 +482,15 @@ Create:&nbsp;<span title='2024-10-16 00:00:00 +0000 UTC'>2024-10-16</span>&nbsp;
 </span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3. 查询索引对应的词元</span>
 </span></span><span style="display:flex;"><span>v2.get_itos()[:<span style="color:#ff0;font-weight:bold">3</span>]
 </span></span><span style="display:flex;"><span><span style="color:#007f7f"># v2[&#39;out of vocab&#39;] is v2[unk_token]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>v2.get_stoi()
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># {&#39;a&#39;: 5,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  &#39;this&#39;: 4,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  &#39;another&#39;: 6,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  &#39;sentence&#39;: 3,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  &#39;is&#39;: 2,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  &#39;&lt;pad&gt;&#39;: 1,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  &#39;&lt;unk&gt;&#39;: 0}</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div>

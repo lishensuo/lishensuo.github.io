@@ -104,8 +104,8 @@
   "keywords": [
     "深度学习"
   ],
-  "articleBody": "1 2  import torch import torch.nn as nn   1. 线性层 1 2 3 4 5  input = torch.randn(3, 4) #3个样本，每个样本4个特征  linear = nn.Linear(in_features=4, out_features=2) linear(input).shape # torch.Size([3, 2])   2. 正则化层 2.1 dropout 1 2 3 4 5 6 7  dropout = nn.Dropout(p=0.5)  input = torch.randn(3, 4) dropout(input) # tensor([[ 0.0000, -0.0000, -0.5670, -0.0000], # [ 4.7224, -4.0010, 0.0000, -0.0000], # [-0.9960, 0.0000, 0.6658, -0.0000]])   2.2 批归一化  对每个特征（在不同样本的分布）进行归一化  1 2 3 4 5 6 7  batchnorm = nn.BatchNorm1d(num_features=4) batchnorm(input).shape # (batch_size, emb_len) # torch.Size([3, 4])  input2 = torch.randn(2, 4, 3) # (batch_size, emb_len, seq_len) batchnorm(input2).shape # torch.Size([2, 4, 3])   2.3 层归一化  对每个样本的所有特征分布进行归一化  1 2 3 4 5 6 7 8  layer_norm = nn.LayerNorm(normalized_shape=4)  layer_norm(input).shape # torch.Size([3, 4])  input2 = torch.randn(2, 3, 4) # (batch_size, seq_len, emb_len) layer_norm(input2).shape # torch.Size([2, 3, 4])   3. 激活函数 1 2 3  relu = nn.ReLU() sigmoid = nn.Sigmoid() softmax = nn.Softmax(dim=1) #对轴1进行softmax转换，使其和为1   4. 嵌入层 为每个离散的整型索引返回一个固定大小的向量，通常用于自然语言处理中的词嵌入。\n1 2 3 4 5 6 7  embedding = nn.Embedding(num_embeddings=1000, embedding_dim=64) # num_embeddings表示词汇表的大小，即共有多少个不同的词元 # embedding_dim表示嵌入向量的长度  input_indices = torch.tensor([1, 2, 3, 4]) embedding(input_indices).shape # torch.Size([4, 64])   5. Transformer  定义一个Transformer块  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21  d_model = 512 # 输入特征维度 nhead = 8 # 注意力头数  # d_model: 输入和输出的特征维度  # nhead: 注意力头数 # dim_feedforward: FFN的神经元个数（MLP） # dropout: 丢失率，默认0.1 # batch_first: 默认为False，即输入为(seq, batch, feature); 设置为True，则输入为(batch, seq, feature)  # norm_first: 默认为False，即在Attention和FFN之前进行norm # activation: 前馈网络中使用的激活函数，默认是 relu，可以选择其他激活函数如 gelu。  # 创建 Transformer 编码器层 encoder_layer = nn.TransformerEncoderLayer(d_model=d_model,  nhead=nhead,  dim_feedforward=d_model*2,  dropout=0.1,  batch_first=True)  input = torch.randn(2, 10, 512) # (批量大小, 序列长度, 特征维度) encoder_layer(input).shape # torch.Size([2, 10, 512])    堆叠多个Transformer块，组成编码器  1 2 3 4  num_layers = 12 transformer_encoder = nn.TransformerEncoder(encoder_layer, num_layers=num_layers) transformer_encoder(input).shape # torch.Size([2, 10, 512])   ",
-  "wordCount" : "648",
+  "articleBody": "1 2  import torch import torch.nn as nn   1. 线性层 1 2 3 4 5  input = torch.randn(3, 4) #3个样本，每个样本4个特征  linear = nn.Linear(in_features=4, out_features=2) linear(input).shape # torch.Size([3, 2])   2. 正则化层 2.1 dropout 1 2 3 4 5 6 7  dropout = nn.Dropout(p=0.5)  input = torch.randn(3, 4) dropout(input) # tensor([[ 0.0000, -0.0000, -0.5670, -0.0000], # [ 4.7224, -4.0010, 0.0000, -0.0000], # [-0.9960, 0.0000, 0.6658, -0.0000]])   2.2 批归一化  对每个特征（在不同样本的分布）进行归一化  1 2 3 4 5 6 7  batchnorm = nn.BatchNorm1d(num_features=4) batchnorm(input).shape # (batch_size, emb_len) # torch.Size([3, 4])  input2 = torch.randn(2, 4, 3) # (batch_size, emb_len, seq_len) batchnorm(input2).shape # torch.Size([2, 4, 3])   2.3 层归一化  对每个样本的所有特征分布进行归一化  1 2 3 4 5 6 7 8  layer_norm = nn.LayerNorm(normalized_shape=4)  layer_norm(input).shape # torch.Size([3, 4])  input2 = torch.randn(2, 3, 4) # (batch_size, seq_len, emb_len) layer_norm(input2).shape # torch.Size([2, 3, 4])   3. 激活函数 1 2 3  relu = nn.ReLU() sigmoid = nn.Sigmoid() softmax = nn.Softmax(dim=1) #对轴1进行softmax转换，使其和为1   4. 嵌入层 为每个离散的整型索引返回一个固定大小的向量，通常用于自然语言处理中的词嵌入。\n1 2 3 4 5 6 7  embedding = nn.Embedding(num_embeddings=1000, embedding_dim=64) # num_embeddings表示词汇表的大小，即共有多少个不同的词元 # embedding_dim表示嵌入向量的长度  input_indices = torch.tensor([1, 2, 3, 4]) embedding(input_indices).shape # torch.Size([4, 64])   5. Transformer  定义一个Transformer块  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21  d_model = 512 # 输入特征维度 nhead = 8 # 注意力头数  # d_model: 输入和输出的特征维度  # nhead: 注意力头数 # dim_feedforward: FFN的神经元个数（MLP） # dropout: 丢失率，默认0.1 # batch_first: 默认为False，即输入为(seq, batch, feature); 设置为True，则输入为(batch, seq, feature)  # norm_first: 默认为False，即在Attention和FFN之前进行norm # activation: 前馈网络中使用的激活函数，默认是 relu，可以选择其他激活函数如 gelu。  # 创建 Transformer 编码器层 encoder_layer = nn.TransformerEncoderLayer(d_model=d_model,  nhead=nhead,  dim_feedforward=d_model*2,  dropout=0.1,  batch_first=True)  input = torch.randn(2, 10, 512) # (批量大小, 序列长度, 特征维度) encoder_layer(input).shape # torch.Size([2, 10, 512])    堆叠多个Transformer块，组成编码器  1 2 3 4  num_layers = 12 transformer_encoder = nn.TransformerEncoder(encoder_layer, num_layers=num_layers) transformer_encoder(input).shape # torch.Size([2, 10, 512])    统计model模型的参数量：\n1 2  num_parameters = sum(p.numel() for p in model.parameters()) print(f\"模型参数量: {num_parameters}\")    https://blog.csdn.net/weixin_43135178/article/details/140313635   ",
+  "wordCount" : "691",
   "inLanguage": "en",
   "datePublished": "2024-10-16T00:00:00Z",
   "dateModified": "2024-10-16T00:00:00Z",
@@ -225,7 +225,7 @@
 
 
 
-Create:&nbsp;<span title='2024-10-16 00:00:00 +0000 UTC'>2024-10-16</span>&nbsp;|&nbsp;Update:&nbsp;2024-10-16&nbsp;|&nbsp;Words:&nbsp;648&nbsp;|&nbsp;2 min&nbsp;|&nbsp;Lishensuo
+Create:&nbsp;<span title='2024-10-16 00:00:00 +0000 UTC'>2024-10-16</span>&nbsp;|&nbsp;Update:&nbsp;2024-10-16&nbsp;|&nbsp;Words:&nbsp;691&nbsp;|&nbsp;2 min&nbsp;|&nbsp;Lishensuo
 
 |  Viewers: <span id="busuanzi_value_page_pv"></span> 
 	  
@@ -526,7 +526,25 @@ Create:&nbsp;<span title='2024-10-16 00:00:00 +0000 UTC'>2024-10-16</span>&nbsp;
 </span></span><span style="display:flex;"><span><span style="color:#007f7f"># torch.Size([2, 10, 512])</span>
 </span></span></code></pre></td></tr></table>
 </div>
+</div><blockquote>
+<p>统计model模型的<strong>参数量</strong>：</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>num_parameters = <span style="color:#fff;font-weight:bold">sum</span>(p.numel() <span style="color:#fff;font-weight:bold">for</span> p in model.parameters())
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">print</span>(<span style="color:#0ff;font-weight:bold">f</span><span style="color:#0ff;font-weight:bold">&#34;模型参数量: </span><span style="color:#0ff;font-weight:bold">{</span>num_parameters<span style="color:#0ff;font-weight:bold">}</span><span style="color:#0ff;font-weight:bold">&#34;</span>)
+</span></span></code></pre></td></tr></table>
 </div>
+</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241020124053839.png" alt="image-20241020124053839"  />
+</p>
+<ul>
+<li><a href="https://blog.csdn.net/weixin_43135178/article/details/140313635">https://blog.csdn.net/weixin_43135178/article/details/140313635</a></li>
+</ul>
+</blockquote>
+
 
   </div>
 
@@ -540,10 +558,10 @@ Create:&nbsp;<span title='2024-10-16 00:00:00 +0000 UTC'>2024-10-16</span>&nbsp;
     <br>
     <span>Pytorch-Dataset与Dataloader的使用.</span>
   </a>
-  <a class="next" href="https://lishensuo.github.io/posts/bioinfo/801%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9Cdgl-01dgl%E5%9F%BA%E7%A1%80/">
+  <a class="next" href="https://lishensuo.github.io/posts/bioinfo/723gpucuda%E4%BB%A5%E5%8F%8Apytorch%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB/">
     <span class="title">Next Page »</span>
     <br>
-    <span>图神经网络DGL-01-DGL基础</span>
+    <span>GPU,CUDA以及Pytorch之间的关系</span>
   </a>
 </nav>
 
