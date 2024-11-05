@@ -104,8 +104,8 @@
   "keywords": [
     "深度学习"
   ],
-  "articleBody": " https://pytorch.org/get-started/locally/\n 1. 概念 GPU（图形处理单元）是执行并行计算的硬件。\n 具有不同的型号，例如GeForce RTX 3080、Tesla V100等 https://www.topcpu.net/gpu-r/fp32-float  CUDA是NVIDIA 提供的并行计算软件平台，使开发者能够利用 GPU 的强大计算能力\n 每个GPU设备都需要安装合适版本的CUDA（通常指CUDA Toolkit） 可通过nvidia-smi命令查找，如下图表示当前GPU驱动支持的最大CUDA版本为12.2（可向下兼容）  PyTorch 是一个开源的深度学习框架\n CUDA 是连接 PyTorch 和 GPU 的桥梁。PyTorch 可利用 CUDA 将计算任务放到 GPU，从而加速深度学习模型的训练和推理。 Pytorch的版本与CUDA的版本也要匹配，每个Pytorch版本可以支持多个CUDA版本，具体可查看 https://pytorch.org/get-started/previous-versions/  2. 安装顺序  首先检查当前服务器，有无GPU设备，以及型号数量，支持的CUDA版本等信息,  1  nvidia-smi    然后根据上述信息，安装合适版本的cuda-toolkit （optional but recommended）  1 2 3 4 5 6 7 8 9  # 可使用mamba加速 conda install nvidia::cuda-toolkit  conda install nvidia/label/cuda-11.8.0::cuda-toolkit  # https://github.com/microsoft/DeepSpeed/issues/2772 conda install nvidia/label/cuda-11.8.0::cuda-compiler  conda install -c conda-forge cudatoolkit-dev # max 11.7    最后，安装合适版本的Pytorch框架（一般已包含cuda和cudnn）  1 2  # 可使用mamba加速 conda install pytorch==2.3.0 torchvision==0.18.0 torchaudio==2.3.0 pytorch-cuda=11.8 -c pytorch -c nvidia    检查上述是否安装成功  1 2 3 4 5 6 7 8 9 10  import torch  print(\"CUDA available:\", torch.cuda.is_available()) # CUDA available: True  print(\"CUDA version:\", torch.version.cuda) # CUDA version: 11.8  print(\"cuDNN version:\", torch.backends.cudnn.version()) # cuDNN version: 8700   ",
-  "wordCount" : "541",
+  "articleBody": " https://pytorch.org/get-started/locally/\n 1. 概念 GPU（图形处理单元）是执行并行计算的硬件。\n 具有不同的型号，例如GeForce RTX 3080、Tesla V100等 https://www.topcpu.net/gpu-r/fp32-float  CUDA是NVIDIA 提供的并行计算软件平台，使开发者能够利用 GPU 的强大计算能力\n 每个GPU设备都需要安装合适版本的CUDA（通常指CUDA Toolkit） 可通过nvidia-smi命令查找，如下图表示当前GPU驱动支持的最大CUDA版本为12.2（可向下兼容）   nvidia-smi shows the highest version of CUDA supported by your driver.\nhttps://stackoverflow.com/questions/53422407/different-cuda-versions-shown-by-nvcc-and-nvidia-smi\n（但后来发现有时安装12.4的cuda也依旧可以进行pytorch运算）\n PyTorch 是一个开源的深度学习框架\n CUDA 是连接 PyTorch 和 GPU 的桥梁。PyTorch 可利用 CUDA 将计算任务放到 GPU，从而加速深度学习模型的训练和推理。 Pytorch的版本与CUDA的版本也要匹配，每个Pytorch版本可以支持多个CUDA版本，具体可查看 https://pytorch.org/get-started/previous-versions/  2. 安装顺序  首先检查当前服务器，有无GPU设备，以及型号数量，支持的CUDA版本等信息,  1  nvidia-smi    然后根据上述信息，安装合适版本的cuda-toolkit （optional but recommended）  1 2 3 4 5 6 7 8 9  # 可使用mamba加速 conda install nvidia::cuda-toolkit  conda install cudatoolkit==11.8 -c nvidia  # https://github.com/microsoft/DeepSpeed/issues/2772 conda install nvidia/label/cuda-11.8.0::cuda-compiler  conda install -c conda-forge cudatoolkit-dev # max 11.7    最后，安装合适版本的Pytorch框架（一般已包含cuda和cudnn）  1 2  # 可使用mamba加速 conda install pytorch==2.3.0 torchvision==0.18.0 torchaudio==2.3.0 pytorch-cuda=11.8 -c pytorch -c nvidia    检查上述是否安装成功  1 2 3 4 5 6 7 8 9 10  import torch  print(\"CUDA available:\", torch.cuda.is_available()) # CUDA available: True  print(\"CUDA version:\", torch.version.cuda) # CUDA version: 11.8  print(\"cuDNN version:\", torch.backends.cudnn.version()) # cuDNN version: 8700   ",
+  "wordCount" : "591",
   "inLanguage": "en",
   "datePublished": "2024-10-28T00:00:00Z",
   "dateModified": "2024-10-28T00:00:00Z",
@@ -225,7 +225,7 @@
 
 
 
-Create:&nbsp;<span title='2024-10-28 00:00:00 +0000 UTC'>2024-10-28</span>&nbsp;|&nbsp;Update:&nbsp;2024-10-28&nbsp;|&nbsp;Words:&nbsp;541&nbsp;|&nbsp;2 min&nbsp;|&nbsp;Lishensuo
+Create:&nbsp;<span title='2024-10-28 00:00:00 +0000 UTC'>2024-10-28</span>&nbsp;|&nbsp;Update:&nbsp;2024-10-28&nbsp;|&nbsp;Words:&nbsp;591&nbsp;|&nbsp;2 min&nbsp;|&nbsp;Lishensuo
 
 |  Viewers: <span id="busuanzi_value_page_pv"></span> 
 	  
@@ -327,6 +327,11 @@ Create:&nbsp;<span title='2024-10-28 00:00:00 +0000 UTC'>2024-10-28</span>&nbsp;
 </ul>
 <p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241028210335850.png" alt="image-20241028210335850"  />
 </p>
+<blockquote>
+<p><code>nvidia-smi</code> shows the highest version of CUDA supported by your driver.</p>
+<p><a href="https://stackoverflow.com/questions/53422407/different-cuda-versions-shown-by-nvcc-and-nvidia-smi">https://stackoverflow.com/questions/53422407/different-cuda-versions-shown-by-nvcc-and-nvidia-smi</a></p>
+<p>（但后来发现有时安装12.4的cuda也依旧可以进行pytorch运算）</p>
+</blockquote>
 <p>PyTorch 是一个开源的深度学习框架</p>
 <ul>
 <li><strong>CUDA</strong> 是连接 PyTorch 和 GPU 的桥梁。PyTorch 可利用 CUDA 将计算任务放到 GPU，从而加速深度学习模型的训练和推理。</li>
@@ -363,7 +368,7 @@ Create:&nbsp;<span title='2024-10-28 00:00:00 +0000 UTC'>2024-10-28</span>&nbsp;
 <pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#007f7f"># 可使用mamba加速</span>
 </span></span><span style="display:flex;"><span>conda install nvidia::cuda-toolkit
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>conda install nvidia/label/cuda-11.8.0::cuda-toolkit
+</span></span><span style="display:flex;"><span>conda install cudatoolkit==11.8 -c nvidia
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#007f7f"># https://github.com/microsoft/DeepSpeed/issues/2772</span>
 </span></span><span style="display:flex;"><span>conda install nvidia/label/cuda-11.8.0::cuda-compiler

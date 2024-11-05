@@ -5,11 +5,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Shell_Python_R脚本基础 | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="R, Python, Linux">
-<meta name="description" content="1、shell脚本 1.1 脚本执行 （1）命令行直接执行 如下示例：脚本第一行设置脚本解释器的路径，如写错或没写，系统会调用默认解释器执行。然后在运行">
+<title>torch张量的维度操作 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="深度学习">
+<meta name="description" content="在深度学习的前向传播中，最重要的是理解每个计算步骤的输入前与输入后的维度形状。与之对应的时需要熟悉一些常见的维度操作方法，根据项目的学习总结">
 <meta name="author" content="Lishensuo">
-<link rel="canonical" href="https://lishensuo.github.io/posts/program/504shell_python_r%E8%84%9A%E6%9C%AC%E5%9F%BA%E7%A1%80/">
+<link rel="canonical" href="https://lishensuo.github.io/posts/bioinfo/727torch%E5%BC%A0%E9%87%8F%E7%9A%84%E7%BB%B4%E5%BA%A6%E6%93%8D%E4%BD%9C/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.min.1abf8254c205953f8beb228727a5e0a5541f0bc42f68f2762e2e594e7b213985.css" integrity="sha256-Gr&#43;CVMIFlT&#43;L6yKHJ6XgpVQfC8QvaPJ2Li5ZTnshOYU=" rel="preload stylesheet" as="style">
 <script defer crossorigin="anonymous" src="/assets/js/highlight.min.4dcb3c4f38462f66c6b6137227726f5543cb934cca9788f041c087e374491df2.js" integrity="sha256-Tcs8TzhGL2bGthNyJ3JvVUPLk0zKl4jwQcCH43RJHfI="
     onload="hljs.initHighlightingOnLoad();"></script>
@@ -56,16 +56,16 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="Shell_Python_R脚本基础" />
-<meta property="og:description" content="1、shell脚本 1.1 脚本执行 （1）命令行直接执行 如下示例：脚本第一行设置脚本解释器的路径，如写错或没写，系统会调用默认解释器执行。然后在运行" />
+</noscript><meta property="og:title" content="torch张量的维度操作" />
+<meta property="og:description" content="在深度学习的前向传播中，最重要的是理解每个计算步骤的输入前与输入后的维度形状。与之对应的时需要熟悉一些常见的维度操作方法，根据项目的学习总结" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://lishensuo.github.io/posts/program/504shell_python_r%E8%84%9A%E6%9C%AC%E5%9F%BA%E7%A1%80/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2023-03-25T00:00:00&#43;00:00" />
-<meta property="article:modified_time" content="2023-03-25T00:00:00&#43;00:00" />
+<meta property="og:url" content="https://lishensuo.github.io/posts/bioinfo/727torch%E5%BC%A0%E9%87%8F%E7%9A%84%E7%BB%B4%E5%BA%A6%E6%93%8D%E4%BD%9C/" /><meta property="article:section" content="posts" />
+
+
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Shell_Python_R脚本基础"/>
-<meta name="twitter:description" content="1、shell脚本 1.1 脚本执行 （1）命令行直接执行 如下示例：脚本第一行设置脚本解释器的路径，如写错或没写，系统会调用默认解释器执行。然后在运行"/>
+<meta name="twitter:title" content="torch张量的维度操作"/>
+<meta name="twitter:description" content="在深度学习的前向传播中，最重要的是理解每个计算步骤的输入前与输入后的维度形状。与之对应的时需要熟悉一些常见的维度操作方法，根据项目的学习总结"/>
 
 
 <script type="application/ld+json">
@@ -82,14 +82,14 @@
     {
       "@type": "ListItem",
       "position":  3 ,
-      "name": "📖 R\u0026Python\u0026Shell --- 编程基础、可视化等",
-      "item": "https://lishensuo.github.io/posts/program/"
+      "name": "📖 生信数据分析--分析流程，工具包等",
+      "item": "https://lishensuo.github.io/posts/bioinfo/"
     }, 
     {
       "@type": "ListItem",
       "position":  4 ,
-      "name": "Shell_Python_R脚本基础",
-      "item": "https://lishensuo.github.io/posts/program/504shell_python_r%E8%84%9A%E6%9C%AC%E5%9F%BA%E7%A1%80/"
+      "name": "torch张量的维度操作",
+      "item": "https://lishensuo.github.io/posts/bioinfo/727torch%E5%BC%A0%E9%87%8F%E7%9A%84%E7%BB%B4%E5%BA%A6%E6%93%8D%E4%BD%9C/"
     }
   ]
 }
@@ -98,24 +98,24 @@
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "Shell_Python_R脚本基础",
-  "name": "Shell_Python_R脚本基础",
-  "description": "1、shell脚本 1.1 脚本执行 （1）命令行直接执行 如下示例：脚本第一行设置脚本解释器的路径，如写错或没写，系统会调用默认解释器执行。然后在运行",
+  "headline": "torch张量的维度操作",
+  "name": "torch张量的维度操作",
+  "description": "在深度学习的前向传播中，最重要的是理解每个计算步骤的输入前与输入后的维度形状。与之对应的时需要熟悉一些常见的维度操作方法，根据项目的学习总结",
   "keywords": [
-    "R", "Python", "Linux"
+    "深度学习"
   ],
-  "articleBody": "1、shell脚本 1.1 脚本执行   （1）命令行直接执行\n如下示例：脚本第一行设置脚本解释器的路径，如写错或没写，系统会调用默认解释器执行。然后在运行脚本时，需要先赋予可执行权限。（下同）\n  1 2 3 4 5 6 7 8  cat  test.sh #!/bin/bash echo \"Hello World!\"   chmod u+x test.sh ./test.sh # Hello World!    （2）bash命令执行  1 2 3 4 5 6  cat  test.sh echo \"Hello World!\"   bash ./test.sh # Hello World!   1.2 脚本传参  $0 脚本名 $1 第一个参数 $2 第二个参数… $@ 全部参数 $# 输入参数个数  1 2 3 4 5 6  cat  plus.sh num1=$1 num2=$2 echo \"${num1}+${num2}\" | bc  bash ./plus.sh 1 2   2、python脚本 2.1 脚本执行  （1）命令行直接执行  1 2 3 4 5 6 7  cat  test.py #!/usr/bin/python print(\"Hello World!\")   chmod u+x test.py ./test.py    （2）python命令执行  1 2 3 4 5  cat  test.py print(\"Hello world\")   python test.py   2.2 脚本传参  一般使用sys模块传参,储存在sys.argv列表里，第0个元素表示脚本名，第一个元素表示第一个参数..  1 2 3 4 5 6 7  cat  test.py import sys num1 = sys.argv[1] num2 = sys.argv[2] print(int(num1) + int(num2))  python test.py 1 2   3、R脚本 3.1 脚本执行  （1）命令行直接执行  1 2 3 4 5 6 7  cat  test.r #!/usr/bin/Rscript print(\"Hello world\")   chmod u+x test.r ./test.r    （2）Rscript命令执行  1 2 3 4 5  cat  test.r print(\"Hello world\")   Rscript test.r   3.2 脚本传参  使用commandArgs()函数传参  1 2 3 4 5 6 7  cat  test.r args num1=args[1] num2=args[2] print(as.numeric(num1)+as.numeric(num2))  Rscript test.r 1 2    nohup后台运行，以python脚本为例：\n1  nohup python drug_fp.py 1 ./drug_fp.log 2\u00261 \u0026    ",
-  "wordCount" : "487",
+  "articleBody": " 在深度学习的前向传播中，最重要的是理解每个计算步骤的输入前与输入后的维度形状。与之对应的时需要熟悉一些常见的维度操作方法，根据项目的学习总结记录如下：\n 1. torch方法 1 2 3 4  import torch data = torch.randn(32, 100, 8, 128) # c(batch_size, seq_len, head_num, head_embed) data.shape # torch.Size([32, 100, 8, 128])    transpose 交换指定的两个维度  1 2  data.transpose(2, 0).shape # torch.Size([8, 100, 32, 128])    permute 指定所有维度的新顺序。  1 2  data.permute(0, 2, 1, 3).shape # torch.Size([32, 8, 100, 128])    reshape/view 变更张量的维度  1 2 3 4 5 6  data.reshape(32 * 8, 100, 128).shape # torch.Size([256, 100, 128])  # -1表示根据已设置维度，计算该维度的大小 data.reshape(32 * 8, -1).shape # torch.Size([256, 12800])    .view与.reshape操作基本一致，前者要求输入张量是内存连续的。\n  squeeze/unsqueeze 管理大小为1的维度  1 2 3 4 5  x = torch.randn(1, 3, 1, 4) y = x.squeeze() # 移除所有大小为1的维度，结果为 (3, 4) y1 = x.squeeze(0) # 结果为 (3, 1, 4) z = x.unsqueeze(2) # 在第2维添加一个维度，结果为 (1, 3, 1, 1, 4) z1 = x.unsqueeze(-1) # 结果为 (1, 3, 1, 1, 4, 1)    repeat : 沿指定维度重复张量  1 2 3 4  x = torch.tensor([[1, 2, 3]]) # (1, 3)  y = x.repeat(2, 3) # 结果为 (2, 9) y1 = x.repeat(1, 3) # 结果为 (1, 9)    cat/stack: 合并多个张量。cat：沿指定维度连接张量；stack：在新维度上堆叠张量。  1 2 3 4 5 6  a = torch.randn(3, 4) b = torch.randn(3, 4)  c = torch.cat((a, b), dim=0) # 结果为 (6, 4) d = torch.stack((a, b), dim=0) # 结果为 (2, 3, 4) d1 = torch.stack((a, b), dim=2) # (3, 4, 2)   2. einops  https://github.com/arogozhnikov/einops  1 2 3 4 5 6  import torch from einops import rearrange  data = torch.randn(32, 100, 8, 128) # c(batch_size, seq_len, head_num, head_embed) data.shape # torch.Size([32, 100, 8, 128])    维度顺序调换  1 2  rearrange(data, 'b s h d - b s h d').shape # torch.Size([32, 100, 8, 128])    可以使用任何符合表示任何维度，但使用常见符号可以让代码更易于理解。例如在LLM模型中，b表示batch，s表示sequence，h表示head number，d表示head dimension\n 1 2  rearrange(data, 'b s h d - b h s d').shape # torch.Size([32, 8, 100, 128])    维度合并与拆分  1 2 3 4 5 6 7 8 9 10 11 12  rearrange(data, 'b s h d - (b s) h d').shape # torch.Size([3200, 8, 128])  # 维度合并的不同顺序会对产生不同的结果（维度拆分同理） rearrange(data, 'b s h d - (s b) h d').shape  rearrange(data, 'b s h d - b (s h d)').shape # torch.Size([32, 102400])  # 维度拆分 rearrange(data, 'b (s s1) h d - b s s1 h d', s1=5) # torch.Size([32, 20, 5, 8, 128])   ",
+  "wordCount" : "715",
   "inLanguage": "en",
-  "datePublished": "2023-03-25T00:00:00Z",
-  "dateModified": "2023-03-25T00:00:00Z",
+  "datePublished": "0001-01-01T00:00:00Z",
+  "dateModified": "0001-01-01T00:00:00Z",
   "author":[{
     "@type": "Person",
     "name": "Lishensuo"
   }],
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://lishensuo.github.io/posts/program/504shell_python_r%E8%84%9A%E6%9C%AC%E5%9F%BA%E7%A1%80/"
+    "@id": "https://lishensuo.github.io/posts/bioinfo/727torch%E5%BC%A0%E9%87%8F%E7%9A%84%E7%BB%B4%E5%BA%A6%E6%93%8D%E4%BD%9C/"
   },
   "publisher": {
     "@type": "Organization",
@@ -207,9 +207,9 @@
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="https://lishensuo.github.io">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/posts/program/">📖 R&amp;Python&amp;Shell --- 编程基础、可视化等</a></div>
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/posts/bioinfo/">📖 生信数据分析--分析流程，工具包等</a></div>
     <h1 class="post-title">
-      Shell_Python_R脚本基础
+      torch张量的维度操作
     </h1>
     <div class="post-meta">
 
@@ -225,7 +225,7 @@
 
 
 
-Create:&nbsp;<span title='2023-03-25 00:00:00 +0000 UTC'>2023-03-25</span>&nbsp;|&nbsp;Update:&nbsp;2023-03-25&nbsp;|&nbsp;Words:&nbsp;487&nbsp;|&nbsp;1 min&nbsp;|&nbsp;Lishensuo
+Update:&nbsp;0001-01-01&nbsp;|&nbsp;Words:&nbsp;715&nbsp;|&nbsp;2 min&nbsp;|&nbsp;Lishensuo
 
 |  Viewers: <span id="busuanzi_value_page_pv"></span> 
 	  
@@ -239,37 +239,10 @@ Create:&nbsp;<span title='2023-03-25 00:00:00 +0000 UTC'>2023-03-25</span>&nbsp;
 
             <div class="inner"><ul>
                     <li>
-                        <a href="#1shell%e8%84%9a%e6%9c%ac" aria-label="1、shell脚本">1、shell脚本</a><ul>
-                            <ul>
-                            
+                        <a href="#1-torch%e6%96%b9%e6%b3%95" aria-label="1. torch方法">1. torch方法</a></li>
                     <li>
-                        <a href="#11-%e8%84%9a%e6%9c%ac%e6%89%a7%e8%a1%8c" aria-label="1.1 脚本执行">1.1 脚本执行</a></li>
-                    <li>
-                        <a href="#12-%e8%84%9a%e6%9c%ac%e4%bc%a0%e5%8f%82" aria-label="1.2 脚本传参">1.2 脚本传参</a></li></ul>
-                        </ul>
+                        <a href="#2-einops" aria-label="2. einops">2. einops</a>
                     </li>
-                    <li>
-                        <a href="#2python%e8%84%9a%e6%9c%ac" aria-label="2、python脚本">2、python脚本</a><ul>
-                            <ul>
-                            
-                    <li>
-                        <a href="#21-%e8%84%9a%e6%9c%ac%e6%89%a7%e8%a1%8c" aria-label="2.1 脚本执行">2.1 脚本执行</a></li>
-                    <li>
-                        <a href="#22-%e8%84%9a%e6%9c%ac%e4%bc%a0%e5%8f%82" aria-label="2.2 脚本传参">2.2 脚本传参</a></li></ul>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#3r%e8%84%9a%e6%9c%ac" aria-label="3、R脚本">3、R脚本</a><ul>
-                            <ul>
-                            
-                    <li>
-                        <a href="#31-%e8%84%9a%e6%9c%ac%e6%89%a7%e8%a1%8c" aria-label="3.1 脚本执行">3.1 脚本执行</a></li>
-                    <li>
-                        <a href="#32-%e8%84%9a%e6%9c%ac%e4%bc%a0%e5%8f%82" aria-label="3.2 脚本传参">3.2 脚本传参</a>
-                    </li>
-                </ul>
-                </ul>
-                </li>
                 </ul>
             </div>
         </details>
@@ -336,198 +309,52 @@ Create:&nbsp;<span title='2023-03-25 00:00:00 +0000 UTC'>2023-03-25</span>&nbsp;
 </script>
 
 
-  <div class="post-content"><h2 id="1shell脚本">1、shell脚本<a hidden class="anchor" aria-hidden="true" href="#1shell脚本">#</a></h2>
-<h4 id="11-脚本执行">1.1 脚本执行<a hidden class="anchor" aria-hidden="true" href="#11-脚本执行">#</a></h4>
-<ul>
-<li>
-<p>（1）命令行直接执行</p>
-<p>如下示例：脚本第一行设置脚本解释器的路径，如写错或没写，系统会调用默认解释器执行。然后在运行脚本时，需要先赋予可执行权限。（下同）</p>
-</li>
-</ul>
+  <div class="post-content"><blockquote>
+<p>在深度学习的前向传播中，最重要的是理解每个计算步骤的输入前与输入后的维度形状。与之对应的时需要熟悉一些常见的维度操作方法，根据项目的学习总结记录如下：</p>
+</blockquote>
+<h1 id="1-torch方法">1. torch方法<a hidden class="anchor" aria-hidden="true" href="#1-torch方法">#</a></h1>
 <div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>cat &gt; test.sh
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">#!/bin/bash</span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">echo</span> <span style="color:#0ff;font-weight:bold">&#34;Hello World!&#34;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>chmod u+x test.sh
-</span></span><span style="display:flex;"><span>./test.sh
-</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Hello World!</span>
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> torch
+</span></span><span style="display:flex;"><span>data = torch.randn(<span style="color:#ff0;font-weight:bold">32</span>, <span style="color:#ff0;font-weight:bold">100</span>, <span style="color:#ff0;font-weight:bold">8</span>, <span style="color:#ff0;font-weight:bold">128</span>) <span style="color:#007f7f"># c(batch_size, seq_len, head_num, head_embed)</span>
+</span></span><span style="display:flex;"><span>data.shape
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># torch.Size([32, 100, 8, 128])</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><ul>
-<li>（2）bash命令执行</li>
+<li><strong>transpose</strong> 交换指定的两个维度</li>
 </ul>
 <div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>cat &gt; test.sh
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">echo</span> <span style="color:#0ff;font-weight:bold">&#34;Hello World!&#34;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>bash ./test.sh
-</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Hello World!</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h4 id="12-脚本传参">1.2 脚本传参<a hidden class="anchor" aria-hidden="true" href="#12-脚本传参">#</a></h4>
-<ul>
-<li>$0  脚本名</li>
-<li>$1  第一个参数</li>
-<li>$2  第二个参数&hellip;</li>
-<li>$@ 全部参数</li>
-<li>$#  输入参数个数</li>
-</ul>
-<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>cat &gt; plus.sh
-</span></span><span style="display:flex;"><span>num1=$1
-</span></span><span style="display:flex;"><span>num2=$2
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">echo</span> <span style="color:#0ff;font-weight:bold">&#34;</span><span style="color:#0ff;font-weight:bold">${</span>num1<span style="color:#0ff;font-weight:bold">}</span><span style="color:#0ff;font-weight:bold">+</span><span style="color:#0ff;font-weight:bold">${</span>num2<span style="color:#0ff;font-weight:bold">}</span><span style="color:#0ff;font-weight:bold">&#34;</span> | bc
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>bash ./plus.sh <span style="color:#ff0;font-weight:bold">1</span> <span style="color:#ff0;font-weight:bold">2</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="2python脚本">2、python脚本<a hidden class="anchor" aria-hidden="true" href="#2python脚本">#</a></h2>
-<h4 id="21-脚本执行">2.1 脚本执行<a hidden class="anchor" aria-hidden="true" href="#21-脚本执行">#</a></h4>
-<ul>
-<li>（1）命令行直接执行</li>
-</ul>
-<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>cat &gt; test.py
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">#!/usr/bin/python</span>
-</span></span><span style="display:flex;"><span>print(<span style="color:#0ff;font-weight:bold">&#34;Hello World!&#34;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>chmod u+x test.py
-</span></span><span style="display:flex;"><span>./test.py
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>data.transpose(<span style="color:#ff0;font-weight:bold">2</span>, <span style="color:#ff0;font-weight:bold">0</span>).shape
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># torch.Size([8, 100, 32, 128])</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><ul>
-<li>（2）python命令执行</li>
+<li><strong>permute</strong> 指定所有维度的新顺序。</li>
 </ul>
 <div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>cat &gt; test.py
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">print</span>(<span style="color:#0ff;font-weight:bold">&#34;Hello world&#34;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>python test.py
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h4 id="22-脚本传参">2.2 脚本传参<a hidden class="anchor" aria-hidden="true" href="#22-脚本传参">#</a></h4>
-<ul>
-<li>一般使用sys模块传参,储存在sys.argv列表里，第0个元素表示脚本名，第一个元素表示第一个参数..</li>
-</ul>
-<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>cat &gt; test.py
-</span></span><span style="display:flex;"><span>import sys
-</span></span><span style="display:flex;"><span>num1 = sys.argv[1]
-</span></span><span style="display:flex;"><span>num2 = sys.argv[2]
-</span></span><span style="display:flex;"><span>print(int(num1) + int(num2))
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>python test.py <span style="color:#ff0;font-weight:bold">1</span> <span style="color:#ff0;font-weight:bold">2</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="3r脚本">3、R脚本<a hidden class="anchor" aria-hidden="true" href="#3r脚本">#</a></h2>
-<h4 id="31-脚本执行">3.1 脚本执行<a hidden class="anchor" aria-hidden="true" href="#31-脚本执行">#</a></h4>
-<ul>
-<li>（1）命令行直接执行</li>
-</ul>
-<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>cat &gt; test.r
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">#!/usr/bin/Rscript</span>
-</span></span><span style="display:flex;"><span>print(<span style="color:#0ff;font-weight:bold">&#34;Hello world&#34;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>chmod u+x test.r
-</span></span><span style="display:flex;"><span>./test.r
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>data.permute(<span style="color:#ff0;font-weight:bold">0</span>, <span style="color:#ff0;font-weight:bold">2</span>, <span style="color:#ff0;font-weight:bold">1</span>, <span style="color:#ff0;font-weight:bold">3</span>).shape
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># torch.Size([32, 8, 100, 128])</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><ul>
-<li>（2）Rscript命令执行</li>
-</ul>
-<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>cat &gt; test.r
-</span></span><span style="display:flex;"><span>print(<span style="color:#0ff;font-weight:bold">&#34;Hello world&#34;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Rscript test.r
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h4 id="32-脚本传参">3.2 脚本传参<a hidden class="anchor" aria-hidden="true" href="#32-脚本传参">#</a></h4>
-<ul>
-<li>使用<code>commandArgs()</code>函数传参</li>
+<li><strong>reshape</strong>/<strong>view</strong> 变更张量的维度</li>
 </ul>
 <div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
@@ -537,49 +364,175 @@ Create:&nbsp;<span title='2023-03-25 00:00:00 +0000 UTC'>2023-03-25</span>&nbsp;
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>cat &gt; test.r
-</span></span><span style="display:flex;"><span>args &lt;- commandArgs(trailingOnly = TRUE)
-</span></span><span style="display:flex;"><span>num1=args[1]
-</span></span><span style="display:flex;"><span>num2=args[2]
-</span></span><span style="display:flex;"><span>print(as.numeric(num1)+as.numeric(num2))
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>data.reshape(<span style="color:#ff0;font-weight:bold">32</span> * <span style="color:#ff0;font-weight:bold">8</span>, <span style="color:#ff0;font-weight:bold">100</span>, <span style="color:#ff0;font-weight:bold">128</span>).shape
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># torch.Size([256, 100, 128])</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Rscript test.r <span style="color:#ff0;font-weight:bold">1</span> <span style="color:#ff0;font-weight:bold">2</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># -1表示根据已设置维度，计算该维度的大小</span>
+</span></span><span style="display:flex;"><span>data.reshape(<span style="color:#ff0;font-weight:bold">32</span> * <span style="color:#ff0;font-weight:bold">8</span>, -<span style="color:#ff0;font-weight:bold">1</span>).shape
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># torch.Size([256, 12800])</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><blockquote>
-<p>nohup后台运行，以python脚本为例：</p>
+<p><code>.view</code>与<code>.reshape</code>操作基本一致，前者要求输入张量是内存连续的。</p>
+</blockquote>
+<ul>
+<li><strong>squeeze</strong>/<strong>unsqueeze</strong> 管理大小为1的维度</li>
+</ul>
 <div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>nohup python drug_fp.py 1&gt; ./drug_fp.log 2&gt;&amp;<span style="color:#ff0;font-weight:bold">1</span> &amp;
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>x = torch.randn(<span style="color:#ff0;font-weight:bold">1</span>, <span style="color:#ff0;font-weight:bold">3</span>, <span style="color:#ff0;font-weight:bold">1</span>, <span style="color:#ff0;font-weight:bold">4</span>)
+</span></span><span style="display:flex;"><span>y = x.squeeze()  <span style="color:#007f7f"># 移除所有大小为1的维度，结果为 (3, 4)</span>
+</span></span><span style="display:flex;"><span>y1 = x.squeeze(<span style="color:#ff0;font-weight:bold">0</span>) <span style="color:#007f7f"># 结果为 (3, 1, 4)</span>
+</span></span><span style="display:flex;"><span>z = x.unsqueeze(<span style="color:#ff0;font-weight:bold">2</span>)  <span style="color:#007f7f"># 在第2维添加一个维度，结果为 (1, 3, 1, 1, 4)</span>
+</span></span><span style="display:flex;"><span>z1 = x.unsqueeze(-<span style="color:#ff0;font-weight:bold">1</span>)  <span style="color:#007f7f"># 结果为 (1, 3, 1, 1, 4, 1)</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div></blockquote>
-
+</div><ul>
+<li><strong>repeat</strong> : 沿指定维度重复张量</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>x = torch.tensor([[<span style="color:#ff0;font-weight:bold">1</span>, <span style="color:#ff0;font-weight:bold">2</span>, <span style="color:#ff0;font-weight:bold">3</span>]]) <span style="color:#007f7f"># (1, 3)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>y = x.repeat(<span style="color:#ff0;font-weight:bold">2</span>, <span style="color:#ff0;font-weight:bold">3</span>)  <span style="color:#007f7f"># 结果为 (2, 9)</span>
+</span></span><span style="display:flex;"><span>y1 = x.repeat(<span style="color:#ff0;font-weight:bold">1</span>, <span style="color:#ff0;font-weight:bold">3</span>) <span style="color:#007f7f"># 结果为 (1, 9)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><strong>cat</strong>/<strong>stack</strong>: 合并多个张量。cat：沿指定维度连接张量；stack：在新维度上堆叠张量。</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>a = torch.randn(<span style="color:#ff0;font-weight:bold">3</span>, <span style="color:#ff0;font-weight:bold">4</span>)
+</span></span><span style="display:flex;"><span>b = torch.randn(<span style="color:#ff0;font-weight:bold">3</span>, <span style="color:#ff0;font-weight:bold">4</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>c = torch.cat((a, b), dim=<span style="color:#ff0;font-weight:bold">0</span>)  <span style="color:#007f7f"># 结果为 (6, 4)</span>
+</span></span><span style="display:flex;"><span>d = torch.stack((a, b), dim=<span style="color:#ff0;font-weight:bold">0</span>)  <span style="color:#007f7f"># 结果为 (2, 3, 4)</span>
+</span></span><span style="display:flex;"><span>d1 = torch.stack((a, b), dim=<span style="color:#ff0;font-weight:bold">2</span>) <span style="color:#007f7f"># (3, 4, 2)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="2-einops">2. einops<a hidden class="anchor" aria-hidden="true" href="#2-einops">#</a></h1>
+<ul>
+<li><a href="https://github.com/arogozhnikov/einops">https://github.com/arogozhnikov/einops</a></li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> torch
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">from</span> einops <span style="color:#fff;font-weight:bold">import</span> rearrange
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>data = torch.randn(<span style="color:#ff0;font-weight:bold">32</span>, <span style="color:#ff0;font-weight:bold">100</span>, <span style="color:#ff0;font-weight:bold">8</span>, <span style="color:#ff0;font-weight:bold">128</span>) <span style="color:#007f7f"># c(batch_size, seq_len, head_num, head_embed)</span>
+</span></span><span style="display:flex;"><span>data.shape
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># torch.Size([32, 100, 8, 128])</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><strong>维度顺序调换</strong></li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>rearrange(data, <span style="color:#0ff;font-weight:bold">&#39;b s h d -&gt; b s h d&#39;</span>).shape
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># torch.Size([32, 100, 8, 128])</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>可以使用任何符合表示任何维度，但使用常见符号可以让代码更易于理解。例如在LLM模型中，b表示batch，s表示sequence，h表示head number，d表示head dimension</p>
+</blockquote>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>rearrange(data, <span style="color:#0ff;font-weight:bold">&#39;b s h d -&gt; b h s d&#39;</span>).shape
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># torch.Size([32, 8, 100, 128])</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><strong>维度合并与拆分</strong></li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>rearrange(data, <span style="color:#0ff;font-weight:bold">&#39;b s h d -&gt; (b s) h d&#39;</span>).shape
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># torch.Size([3200, 8, 128])</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 维度合并的不同顺序会对产生不同的结果（维度拆分同理）</span>
+</span></span><span style="display:flex;"><span>rearrange(data, <span style="color:#0ff;font-weight:bold">&#39;b s h d -&gt; (s b) h d&#39;</span>).shape
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>rearrange(data, <span style="color:#0ff;font-weight:bold">&#39;b s h d -&gt; b (s h d)&#39;</span>).shape
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># torch.Size([32, 102400])</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 维度拆分</span>
+</span></span><span style="display:flex;"><span>rearrange(data, <span style="color:#0ff;font-weight:bold">&#39;b (s s1) h d -&gt; b s s1 h d&#39;</span>, s1=<span style="color:#ff0;font-weight:bold">5</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># torch.Size([32, 20, 5, 8, 128])</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
 
   </div>
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://lishensuo.github.io/tags/r/">R</a></li>
-      <li><a href="https://lishensuo.github.io/tags/python/">Python</a></li>
-      <li><a href="https://lishensuo.github.io/tags/linux/">Linux</a></li>
+      <li><a href="https://lishensuo.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></li>
     </ul>
 <nav class="paginav">
-  <a class="prev" href="https://lishensuo.github.io/posts/program/503linux%E7%9A%84parallel%E5%B9%B6%E8%A1%8C%E6%96%B9%E6%B3%95/">
+  <a class="prev" href="https://lishensuo.github.io/posts/bioinfo/726%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%97%A5%E5%BF%97%E6%8C%87%E6%A0%87log%E8%AE%B0%E5%BD%95/">
     <span class="title">« Prev Page</span>
     <br>
-    <span>Linux的parallel并行方法</span>
+    <span>机器学习日志指标log记录</span>
   </a>
-  <a class="next" href="https://lishensuo.github.io/posts/program/505json%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/">
+  <a class="next" href="https://lishensuo.github.io/posts/bioinfo/801%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9Cdgl-01dgl%E5%9F%BA%E7%A1%80/">
     <span class="title">Next Page »</span>
     <br>
-    <span>Shell_Python_R脚本基础</span>
+    <span>图神经网络DGL-01-DGL基础</span>
   </a>
 </nav>
 
