@@ -104,8 +104,8 @@
   "keywords": [
     "Linux"
   ],
-  "articleBody": "1、关于CPU与线程 1.1 简单理解进程与线程  进程：计算机执行的一个命令或者程序 线程：一般来说一个进程对应一个线程。但是如果进程任务可以分为若干独立子任务独立运行时，可以调用多线程，加快分析速度。  1.2 cpu与核数  CPU(Central Processing Unit)中央处理器，属于硬件。一般window笔记本电脑有一个CPU(physical cpu)   核心（core），又称为内核。一个CPU芯片可以物理技术上集成多个内核，每个内核可以独立运行一个线程，最大化利用CPU资源。 逻辑CPU数，是指通过虚拟化技术每个内核划分为两个虚拟(logical)CPU内核，可以理解为每个内核的超线程数，一般为2。目前window/linux系统都支持。 总逻辑CPU数=物理CPU数 × 每个CPU芯片上的集成内核数 × 每个内核的超线程数  1.3 查看系统CPU属性 1.3.1 Windows系统查看CPU属性 1.3.2 Linux系统查看CPU属性 1 2 3 4 5 6 7 8 9 10 11  ## (1)查看物理CPU个数 cat /proc/cpuinfo| grep \"physical id\"| sort| uniq| wc -l  ## (2)查看每个物理CPU中core的个数(即核数) cat /proc/cpuinfo| grep \"cpu cores\"| uniq  ## (3)查看总逻辑CPU的个数 cat /proc/cpuinfo| grep \"processor\"| wc -l  ## (4)查看每个逻辑CPU的属性 cat /proc/cpuinfo   1.4 CPU与RAM内存 当CPU的运算速度很快，需要执行一个命令时，需要调用储存在硬盘的程序数据进行交互。\n硬盘是计算机的外部储存器，容量大，不易丢失；但是数据读取太慢；\n内存(RAM, Random Access Memory)作为衔接二者之间的桥梁，一方面储存空间少于硬盘(具体看内存条的性能)；但一方面文件读取速度快于硬盘，从而提高CPU的计算效率。断电时，会清空内存数据；而硬盘数据不受影响。\n2、进程管理 2.1 ps：查看进程状态 1 2 3 4 5 6 7 8 9 10  ps au #显示通过终端启动的程序 ps aux #显示所有进程，包括后台启动的程序 ps aux | grep username #查找特定行模式的进程状态  ## USER : 执行进程的用户 ## PID : 进程ID ## %CPU, %MEM : 进程的CPU以及内存占有率 ## TTY, TIME, TIME : 进程在哪个终端，于哪个时间被启动的，已消耗CPU多长时间 ## COMMAND : 具体的进程命令 ## STAT : 表示当前命令的状态，常见的有 R--运行，S--睡眠，T--终止....   2.2 top：实时监控进程信息 1 2 3 4 5 6 7 8 9  top top -d 3 #每隔3秒刷新一次进程状态 top -u usrname #指定用户的进程 top -c #显示全命令 # 快捷键：shift + P 将进程按CPU占有率降序排列(默认) # 快捷键：shift + M 将进程按内存占有率降序排列  ## 上半部分显示系统的CPU与内存状态，可重点关注 第三行 99.8 id表示空闲的CPU；第四行 221232.0 free 表示空闲的内存 ## 下半部分显示进程状态信息，每列字段含义基本同ps   2.3 kill：终止进程。  需要知道进程的PID，可通过ps或者top命令获得。  1 2 3 4  kill PID #默认为 -15, 正常杀死进程 kill PID1 PID2 #杀死多个进程 kill -9 PID #强制杀死进程 kill -1 PID #重新加载进程   3、后台运行进程   快捷键 Ctrl + C终止前台进程；Ctrl + Z 暂停前台进程，并置于后台\n   \u0026 : 在当前终端的后台执行命令。退出该终端后，后台进程也随之终止。\n  nohup  \u0026 : 将在linux后台不挂断的执行命令。即使退出终端，也不影响该进程。\n  jobs : 查看当前终端的后台运行的进程，以及JobID\n  fg  : 将后台进程放到前台\n  bg  : 在后台运行后台暂停的进程\n  3.1 终端后台执行命令 1 2 3 4 5 6 7 8 9 10 11 12  ##(1) 将命令直接放在后台开始执行 sleep 100 \u0026 #[1] 1916159 ##如上仅返回进程PID  jobs # [1]+ Running sleep 100 \u0026  ##(2) 将正在前台运行的命令放到后台运行 sleep 100 #按 Ctrl + Z， 然后执行下述bg命令(以jobid为1示例) bg 1   3.2 不挂断地后台执行 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15  ## (1)nohub  \u0026 命令组合 nohup sleep 300 \u0026 #默认将命令的日志文件输出至当前路径的nohup.out文件中  #如下可将命令的日志文件输出到指定文件 nohup sleep 300 1 command.log 2\u00261 \u0026  ## (2)将正在运行的命令转为不挂断地后台执行 sleep 300 #按 Ctrl + Z， 然后执行下述bg命令(以jobid为1示例) bg 1 disown %1  jobs ps aux | grep 'sleep'   ",
-  "wordCount" : "1549",
+  "articleBody": "1、关于CPU与线程 1.1 简单理解进程与线程  进程：计算机执行的一个命令或者程序 线程：一般来说一个进程对应一个线程。但是如果进程任务可以分为若干独立子任务独立运行时，可以调用多线程，加快分析速度。  1.2 cpu与核数  CPU(Central Processing Unit)中央处理器，属于硬件。一般window笔记本电脑有一个CPU(physical cpu)   核心（core），又称为内核。一个CPU芯片可以物理技术上集成多个内核，每个内核可以独立运行一个线程，最大化利用CPU资源。 逻辑CPU数，是指通过虚拟化技术每个内核划分为两个虚拟(logical)CPU内核，可以理解为每个内核的超线程数，一般为2。目前window/linux系统都支持。 总逻辑CPU数=物理CPU数 × 每个CPU芯片上的集成内核数 × 每个内核的超线程数  1.3 查看系统CPU属性 1.3.1 Windows系统查看CPU属性 1.3.2 Linux系统查看CPU属性 1 2 3 4 5 6 7 8 9 10 11  ## (1)查看物理CPU个数 cat /proc/cpuinfo| grep \"physical id\"| sort| uniq| wc -l  ## (2)查看每个物理CPU中core的个数(即核数) cat /proc/cpuinfo| grep \"cpu cores\"| uniq  ## (3)查看总逻辑CPU的个数 cat /proc/cpuinfo| grep \"processor\"| wc -l  ## (4)查看每个逻辑CPU的属性 cat /proc/cpuinfo   1.4 CPU与RAM内存 当CPU的运算速度很快，需要执行一个命令时，需要调用储存在硬盘的程序数据进行交互。\n硬盘是计算机的外部储存器，容量大，不易丢失；但是数据读取太慢；\n内存(RAM, Random Access Memory)作为衔接二者之间的桥梁，一方面储存空间少于硬盘(具体看内存条的性能)；但一方面文件读取速度快于硬盘，从而提高CPU的计算效率。断电时，会清空内存数据；而硬盘数据不受影响。\n2、进程管理 2.1 ps：查看进程状态 1 2 3 4 5 6 7 8 9 10  ps au #显示通过终端启动的程序 ps aux #显示所有进程，包括后台启动的程序 ps aux | grep username #查找特定行模式的进程状态  ## USER : 执行进程的用户 ## PID : 进程ID ## %CPU, %MEM : 进程的CPU以及内存占有率 ## TTY, TIME, TIME : 进程在哪个终端，于哪个时间被启动的，已消耗CPU多长时间 ## COMMAND : 具体的进程命令 ## STAT : 表示当前命令的状态，常见的有 R--运行，S--睡眠，T--终止....   2.2 top：实时监控进程信息 1 2 3 4 5 6 7 8 9  top top -d 3 #每隔3秒刷新一次进程状态 top -u usrname #指定用户的进程 top -c #显示全命令 # 快捷键：shift + P 将进程按CPU占有率降序排列(默认) # 快捷键：shift + M 将进程按内存占有率降序排列  ## 上半部分显示系统的CPU与内存状态，可重点关注 第三行 99.8 id表示空闲的CPU；第四行 221232.0 free 表示空闲的内存 ## 下半部分显示进程状态信息，每列字段含义基本同ps   2.3 kill：终止进程。  需要知道进程的PID，可通过ps或者top命令获得。  1 2 3 4  kill PID #默认为 -15, 正常杀死进程 kill PID1 PID2 #杀死多个进程 kill -9 PID #强制杀死进程 kill -1 PID #重新加载进程   3、后台运行进程   快捷键 Ctrl + C终止前台进程；Ctrl + Z 暂停前台进程，并置于后台\n   \u0026 : 在当前终端的后台执行命令。退出该终端后，后台进程也随之终止。\n  nohup  \u0026 : 将在linux后台不挂断的执行命令。即使退出终端，也不影响该进程。\n  jobs : 查看当前终端的后台运行的进程，以及JobID\n  fg  : 将后台进程放到前台\n  bg  : 在后台运行后台暂停的进程\n  3.1 终端后台执行命令 1 2 3 4 5 6 7 8 9 10 11 12  ##(1) 将命令直接放在后台开始执行 sleep 100 \u0026 #[1] 1916159 ##如上仅返回进程PID  jobs # [1]+ Running sleep 100 \u0026  ##(2) 将正在前台运行的命令放到后台运行 sleep 100 #按 Ctrl + Z， 然后执行下述bg命令(以jobid为1示例) bg 1   3.2 不挂断地后台执行 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15  ## (1)nohub  \u0026 命令组合 nohup sleep 300 \u0026 #默认将命令的日志文件输出至当前路径的nohup.out文件中  #如下可将命令的日志文件输出到指定文件 nohup sleep 300 1 command.log 2\u00261 \u0026  ## (2)将正在运行的命令转为不挂断地后台执行 sleep 300 #按 Ctrl + Z， 然后执行下述bg命令(以jobid为1示例) bg 1 disown %1  jobs ps aux | grep 'sleep'   Bug records\nFor nohup command to execute python scrip with print(XXXXX) code， it does not write the printed info into the output log. According to the hint from this blog, it can be solved by one python parameter -u. The following is an example:\n1 2 3 4  nohup python -u ./deploy/cal_fi.py 1 ./deploy/cal_fi.log 2\u00261 \u0026  # check the log in real-time mode tail -f ./deploy/cal_fi.log   ",
+  "wordCount" : "1619",
   "inLanguage": "en",
   "datePublished": "2022-05-14T00:00:00Z",
   "dateModified": "2022-05-14T00:00:00Z",
@@ -225,7 +225,7 @@
 
 
 
-Create:&nbsp;<span title='2022-05-14 00:00:00 +0000 UTC'>2022-05-14</span>&nbsp;|&nbsp;Update:&nbsp;2022-05-14&nbsp;|&nbsp;Words:&nbsp;1549&nbsp;|&nbsp;4 min&nbsp;|&nbsp;Lishensuo
+Create:&nbsp;<span title='2022-05-14 00:00:00 +0000 UTC'>2022-05-14</span>&nbsp;|&nbsp;Update:&nbsp;2022-05-14&nbsp;|&nbsp;Words:&nbsp;1619&nbsp;|&nbsp;4 min&nbsp;|&nbsp;Lishensuo
 
 |  Viewers: <span id="busuanzi_value_page_pv"></span> 
 	  
@@ -561,6 +561,22 @@ Create:&nbsp;<span title='2022-05-14 00:00:00 +0000 UTC'>2022-05-14</span>&nbsp;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">jobs</span>
 </span></span><span style="display:flex;"><span>ps aux | grep <span style="color:#0ff;font-weight:bold">&#39;sleep&#39;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>Bug records</strong></p>
+<p>For <code>nohup</code> command to execute python scrip with <code>print(XXXXX)</code> code， it does not write the printed info into the output log. According to the hint from this blog, it can be solved by one python parameter <code>-u</code>.  The following is an example:</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>nohup python -u ./deploy/cal_fi.py  1&gt; ./deploy/cal_fi.log 2&gt;&amp;<span style="color:#ff0;font-weight:bold">1</span> &amp;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># check the log in real-time mode</span>
+</span></span><span style="display:flex;"><span>tail -f ./deploy/cal_fi.log
 </span></span></code></pre></td></tr></table>
 </div>
 </div>
