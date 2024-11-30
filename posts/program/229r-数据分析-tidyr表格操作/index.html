@@ -7,11 +7,11 @@
 <meta name="robots" content="index, follow">
 
 <link rel="icon" href="/favicon.ico" type="image/x-icon"> 
-<title>单细胞分析工具--scanpy基础用法 | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="scRNA-seq">
-<meta name="description" content="scanpy是单细胞数据分析的python工具包，将数据以Anndata对象的格式进行储存。如下将学习Anndata对象操作以及scanpy">
+<title>R--可视化-funkyheatmap绘制table热图 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="R可视化">
+<meta name="description" content="tidyr是tidyverse系列的组成工具包之一，其主要功能侧重于表格的reshaping and organizing. 下面简要学习其几个比较常用的函数。 https://tidyr.tidyverse.org/ https://github.com/rstudio/cheatsheets/blob/main/tidyr.pdf 1 library(tidyverse) 1.">
 <meta name="author" content="Lishensuo">
-<link rel="canonical" href="https://lishensuo.github.io/posts/bioinfo/023%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--scanpy%E5%9F%BA%E7%A1%80%E7%94%A8%E6%B3%95/">
+<link rel="canonical" href="https://lishensuo.github.io/posts/program/229r-%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90-tidyr%E8%A1%A8%E6%A0%BC%E6%93%8D%E4%BD%9C/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.min.1abf8254c205953f8beb228727a5e0a5541f0bc42f68f2762e2e594e7b213985.css" integrity="sha256-Gr&#43;CVMIFlT&#43;L6yKHJ6XgpVQfC8QvaPJ2Li5ZTnshOYU=" rel="preload stylesheet" as="style">
 <script defer crossorigin="anonymous" src="/assets/js/highlight.min.4dcb3c4f38462f66c6b6137227726f5543cb934cca9788f041c087e374491df2.js" integrity="sha256-Tcs8TzhGL2bGthNyJ3JvVUPLk0zKl4jwQcCH43RJHfI="
     onload="hljs.initHighlightingOnLoad();"></script>
@@ -58,16 +58,16 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="单细胞分析工具--scanpy基础用法" />
-<meta property="og:description" content="scanpy是单细胞数据分析的python工具包，将数据以Anndata对象的格式进行储存。如下将学习Anndata对象操作以及scanpy" />
+</noscript><meta property="og:title" content="R--可视化-funkyheatmap绘制table热图" />
+<meta property="og:description" content="tidyr是tidyverse系列的组成工具包之一，其主要功能侧重于表格的reshaping and organizing. 下面简要学习其几个比较常用的函数。 https://tidyr.tidyverse.org/ https://github.com/rstudio/cheatsheets/blob/main/tidyr.pdf 1 library(tidyverse) 1." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://lishensuo.github.io/posts/bioinfo/023%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--scanpy%E5%9F%BA%E7%A1%80%E7%94%A8%E6%B3%95/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2023-01-23T00:00:00&#43;00:00" />
-<meta property="article:modified_time" content="2023-01-23T00:00:00&#43;00:00" />
+<meta property="og:url" content="https://lishensuo.github.io/posts/program/229r-%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90-tidyr%E8%A1%A8%E6%A0%BC%E6%93%8D%E4%BD%9C/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-11-30T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2024-11-30T00:00:00&#43;00:00" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="单细胞分析工具--scanpy基础用法"/>
-<meta name="twitter:description" content="scanpy是单细胞数据分析的python工具包，将数据以Anndata对象的格式进行储存。如下将学习Anndata对象操作以及scanpy"/>
+<meta name="twitter:title" content="R--可视化-funkyheatmap绘制table热图"/>
+<meta name="twitter:description" content="tidyr是tidyverse系列的组成工具包之一，其主要功能侧重于表格的reshaping and organizing. 下面简要学习其几个比较常用的函数。 https://tidyr.tidyverse.org/ https://github.com/rstudio/cheatsheets/blob/main/tidyr.pdf 1 library(tidyverse) 1."/>
 
 
 <script type="application/ld+json">
@@ -84,14 +84,14 @@
     {
       "@type": "ListItem",
       "position":  3 ,
-      "name": "📖 生信数据分析--分析流程，工具包等",
-      "item": "https://lishensuo.github.io/posts/bioinfo/"
+      "name": "📖 R\u0026Python\u0026Shell --- 编程基础、可视化等",
+      "item": "https://lishensuo.github.io/posts/program/"
     }, 
     {
       "@type": "ListItem",
       "position":  4 ,
-      "name": "单细胞分析工具--scanpy基础用法",
-      "item": "https://lishensuo.github.io/posts/bioinfo/023%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--scanpy%E5%9F%BA%E7%A1%80%E7%94%A8%E6%B3%95/"
+      "name": "R--可视化-funkyheatmap绘制table热图",
+      "item": "https://lishensuo.github.io/posts/program/229r-%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90-tidyr%E8%A1%A8%E6%A0%BC%E6%93%8D%E4%BD%9C/"
     }
   ]
 }
@@ -100,24 +100,24 @@
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "单细胞分析工具--scanpy基础用法",
-  "name": "单细胞分析工具--scanpy基础用法",
-  "description": "scanpy是单细胞数据分析的python工具包，将数据以Anndata对象的格式进行储存。如下将学习Anndata对象操作以及scanpy",
+  "headline": "R--可视化-funkyheatmap绘制table热图",
+  "name": "R--可视化-funkyheatmap绘制table热图",
+  "description": "tidyr是tidyverse系列的组成工具包之一，其主要功能侧重于表格的reshaping and organizing. 下面简要学习其几个比较常用的函数。 https://tidyr.tidyverse.org/ https://github.com/rstudio/cheatsheets/blob/main/tidyr.pdf 1 library(tidyverse) 1.",
   "keywords": [
-    "scRNA-seq"
+    "R可视化"
   ],
-  "articleBody": " scanpy是单细胞数据分析的python工具包，将数据以Anndata对象的格式进行储存。如下将学习Anndata对象操作以及scanpy分析的基础用法。\n 1 2 3  import numpy as np import pandas as pd import anndata as ad   1、数据导入  （1）10X的三件套数据  1 2 3 4 5 6 7 8 9 10  # !wget http://cf.10xgenomics.com/samples/cell-exp/1.1.0/pbmc3k/pbmc3k_filtered_gene_bc_matrices.tar.gz # tar -xzf pbmc3k_filtered_gene_bc_matrices.tar.gz   adata = sc.read_10x_mtx(  'filtered_gene_bc_matrices/hg19/', # the directory with the `.mtx` file  var_names='gene_symbols') # use gene symbols for the variable names (variables-axis index) adata # AnnData object with n_obs × n_vars = 2700 × 32738 # var: 'gene_ids'     （2）Seurat对象转换\nhttps://github.com/LuckyMD/Code_snippets/blob/master/Seurat_to_anndata.ipynb\n  1 2 3 4 5 6 7 8 9 10 11 12 13 14  ## 同样是上述示例数据，先用R包Seurat处理，储存结果 library(Seurat) pbmc.data = Read10X(data.dir = \"filtered_gene_bc_matrices/hg19/\") pbmc = CreateSeuratObject(counts = pbmc.data, project = \"pbmc3k\") pbmc = NormalizeData(pbmc) %%  FindVariableFeatures() pbmc = pbmc %%  ScaleData() %%  RunPCA() %%  RunUMAP(dims = 1:30) %%  FindNeighbors(dims = 1:30) %%  FindClusters(resolution = 0.1) head(pbmc@meta.data) saveRDS(pbmc, file = \"pbmc.rds\")   1 2 3 4 5 6 7 8 9  ## 准备Python环境 import scanpy as sc import numpy as np import anndata2ri # Activate the anndata2ri conversion between SingleCellExperiment and AnnData anndata2ri.activate() #Loading the rpy2 extension enables cell magic to be used #This runs R code in jupyter notebook cells %load_ext rpy2.ipython   1 2 3 4 5  ## 读入对象 %%R library(Seurat) pbmc = readRDS(\"pbmc.rds\") pbmc   1 2 3 4 5  ## 转换对象 %%R -o pbmc_sce #convert the Seurat object to a SingleCellExperiment object pbmc_sce as.SingleCellExperiment(pbmc) pbmc_sce   1 2 3 4 5 6  ## 查看转换后的anndata对象 pbmc_sce # AnnData object with n_obs × n_vars = 2700 × 32738 # obs: 'orig.ident', 'nCount_RNA', 'nFeature_RNA', 'RNA_snn_res.0.1', 'seurat_clusters', 'ident' # obsm: 'X_pca', 'X_umap' # layers: 'logcounts'   2、Anndata结构 https://anndata-tutorials.readthedocs.io/en/latest/getting-started.html\n以上述1.2的pbmc_sce对象为例学习anndata结构组成\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29  adata = pbmc_sce  # (1) 矩阵 # ！注意：行是细胞，列是基因。与Seurat读取结果相反！ adata.obs_names #行名(细胞名) adata.var_names #列名(基因名) ## 原始信息以稀疏矩阵形式储存 adata.X print(adata.X) adata.X.todense()  adata.layers[\"log_transformed\"] = np.log1p(adata.X) adata.to_df(layer=\"log_transformed\") adata.layers[\"X\"] = adata.X adata.to_df(layer=\"X\")   # (2) metadata，按pd.Dataframe格式储存 adata.obs # 细胞的metadata(常用) adata.var # 基因的metadata  # (3) 降维数据：多是数组格式，按字典逻辑储存 adata.obsm adata.obsm.keys adata.obsm[\"X_umap\"]  # (4) subset子集 adata[[\"Cell_1\", \"Cell_10\"], [\"Gene_5\", \"Gene_1900\"]] adata[adata.obs.cell_type == \"B\"]   3、scanpy基础分析 https://scanpy-tutorials.readthedocs.io/en/latest/pbmc3k.html\n以上述1.1的原始读取结果adata对象为例\n （1）质控过滤  1 2 3 4 5 6 7 8 9 10 11  sc.pp.filter_cells(adata, min_genes=200) sc.pp.filter_genes(adata, min_cells=3)  adata.var['mt'] = adata.var_names.str.startswith('MT-') sc.pp.calculate_qc_metrics(adata, qc_vars=['mt'],  percent_top=None, log1p=False, inplace=True) # sc.pl.violin(adata,  # ['n_genes_by_counts', 'total_counts', 'pct_counts_mt'], # jitter=0.4, multi_panel=True) adata = adata[adata.obs.n_genes_by_counts 2500, :] adata = adata[adata.obs.pct_counts_mt 5, :]    （2）标准化  1 2 3 4  sc.pp.normalize_total(adata, target_sum=1e4) sc.pp.log1p(adata) sc.pp.scale(adata, max_value=10) sc.pp.regress_out(adata, ['total_counts', 'pct_counts_mt'])    （3）降维分群  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19  ## 高变基因 sc.pp.highly_variable_genes(adata) adata.var  ## PCA降维 sc.tl.pca(adata) adata.obsm[\"X_pca\"].shape sc.pl.pca(adata) # 默认按X_pca的降维结果可视化 sc.pl.pca(adata, color='CST3')  ## UMAP降维 sc.pp.neighbors(adata, n_neighbors=10, n_pcs=40) sc.tl.umap(adata) sc.pl.umap(adata)  ## 分群 sc.tl.leiden(adata, resolution=0.5,key_added=\"cluster\") adata.obs sc.pl.umap(adata, color=['cluster'])    （4）保存  1  adata.write(\"your_data.h5ad\")   ",
-  "wordCount" : "857",
+  "articleBody": "tidyr是tidyverse系列的组成工具包之一，其主要功能侧重于表格的reshaping and organizing. 下面简要学习其几个比较常用的函数。\n  https://tidyr.tidyverse.org/\n  https://github.com/rstudio/cheatsheets/blob/main/tidyr.pdf\n  1  library(tidyverse)   1. 表格长宽转换 类似reshape2包\n1 2 3 4 5 6 7 8 9 10 11  df  id = paste0(\"sample_\",1:3),  time1 = c(10, 20, 30),  time2 = c(15, 25, 35),  time3 = c(20, 30, 40) ) df # id time1 time2 time3 # 1 sample_1 10 15 20 # 2 sample_2 20 25 30 # 3 sample_3 30 35 40   1.1 pivot_longer()  宽变长  1 2 3 4 5 6 7 8 9 10 11 12 13 14  df_long %  pivot_longer(cols = starts_with(\"time\"),  names_to = \"time_point\",  values_to = \"value\") head(df_long) # # A tibble: 6 × 3 # id time_point value #    # 1 sample_1 time1 10 # 2 sample_1 time2 15 # 3 sample_1 time3 20 # 4 sample_2 time1 20 # 5 sample_2 time2 25 # 6 sample_2 time3 30   1.2 pivot_wider()  长变宽  1 2 3 4 5 6 7 8 9  df_wide %  pivot_wider(names_from = \"time_point\", values_from = \"value\") df_wide # # A tibble: 3 × 4 # id time1 time2 time3 #     # 1 sample_1 10 15 20 # 2 sample_2 20 25 30 # 3 sample_3 30 35 40   2. 表格单列分割 1 2 3 4 5 6 7 8 9  df  id = 1:3,  info = c(\"sp1_2010\", \"sp2_2020\", \"sp3_2025\") ) df # id info # 1 1 sp1_2010 # 2 2 sp2_2020 # 3 3 sp3_2025   2.1 separate_longer_delim()  纵向分割–变长  1 2 3 4 5 6 7 8 9  df %%  separate_longer_delim(info, delim = \"_\") # id info # 1 1 sp1 # 2 1 2010 # 3 2 sp2 # 4 2 2020 # 5 3 sp3 # 6 3 2025   2.2 separate_wider_delim()  横向分割–变宽  1 2 3 4 5 6 7 8  df %%  separate_wider_delim(info, delim = \"_\", names =c(\"col_1\", \"col_2\")) # # A tibble: 3 × 3 # id col_1 col_2 #    # 1 1 sp1 2010  # 2 2 sp2 2020  # 3 3 sp3 2025    3. expand()排列组合  生成两（or more）组向量的所有排列组合  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24  samples = c(\"sp1\",\"sp2\",\"sp3\") years = c(1999, 1999, 2020)  df = data.frame(  col_1 = samples,  col_2 = years ) df # col_1 col_2 # 1 sp1 1999 # 2 sp2 1999 # 3 sp3 2020  df %%  tidyr::expand(col_1, col_2) # # A tibble: 6 × 2 # col_1 col_2 #   # 1 sp1 1999 # 2 sp1 2020 # 3 sp2 1999 # 4 sp2 2020 # 5 sp3 1999 # 6 sp3 2020    Alternative ways  1 2 3 4 5 6 7 8 9 10 11 12 13  samples = c(\"sp1\",\"sp2\",\"sp3\") years = c(1999, 2020) # keep with same length length(years) = 3 years # [1] 1999 2020 NA df = data.frame(  col_1 = samples,  col_2 = years ) df %%  tidyr::expand(col_1, col_2) %%  na.omit()    R语言基础函数实现  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15  samples = c(\"sp1\",\"sp2\",\"sp3\") years = c(1999, 2020) expand.grid(samples, years) # Var1 Var2 # 1 sp1 1999 # 2 sp2 1999 # 3 sp3 1999 # 4 sp1 2020 # 5 sp2 2020 # 6 sp3 2020  combn(samples, m = 2) # [,1] [,2] [,3]  # [1,] \"sp1\" \"sp1\" \"sp2\" # [2,] \"sp2\" \"sp3\" \"sp3\"   ",
+  "wordCount" : "708",
   "inLanguage": "en",
-  "datePublished": "2023-01-23T00:00:00Z",
-  "dateModified": "2023-01-23T00:00:00Z",
+  "datePublished": "2024-11-30T00:00:00Z",
+  "dateModified": "2024-11-30T00:00:00Z",
   "author":[{
     "@type": "Person",
     "name": "Lishensuo"
   }],
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://lishensuo.github.io/posts/bioinfo/023%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--scanpy%E5%9F%BA%E7%A1%80%E7%94%A8%E6%B3%95/"
+    "@id": "https://lishensuo.github.io/posts/program/229r-%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90-tidyr%E8%A1%A8%E6%A0%BC%E6%93%8D%E4%BD%9C/"
   },
   "publisher": {
     "@type": "Organization",
@@ -209,9 +209,9 @@
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="https://lishensuo.github.io">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/posts/bioinfo/">📖 生信数据分析--分析流程，工具包等</a></div>
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/posts/program/">📖 R&amp;Python&amp;Shell --- 编程基础、可视化等</a></div>
     <h1 class="post-title">
-      单细胞分析工具--scanpy基础用法
+      R--可视化-funkyheatmap绘制table热图
     </h1>
     <div class="post-meta">
 
@@ -227,7 +227,7 @@
 
 
 
-Create:&nbsp;<span title='2023-01-23 00:00:00 +0000 UTC'>2023-01-23</span>&nbsp;|&nbsp;Update:&nbsp;2023-01-23&nbsp;|&nbsp;Words:&nbsp;857&nbsp;|&nbsp;2 min&nbsp;|&nbsp;Lishensuo
+Create:&nbsp;<span title='2024-11-30 00:00:00 +0000 UTC'>2024-11-30</span>&nbsp;|&nbsp;Update:&nbsp;2024-11-30&nbsp;|&nbsp;Words:&nbsp;708&nbsp;|&nbsp;2 min&nbsp;|&nbsp;Lishensuo
 
 |  Viewers: <span id="busuanzi_value_page_pv"></span> 
 	  
@@ -241,11 +241,23 @@ Create:&nbsp;<span title='2023-01-23 00:00:00 +0000 UTC'>2023-01-23</span>&nbsp;
 
             <div class="inner"><ul>
                     <li>
-                        <a href="#1%e6%95%b0%e6%8d%ae%e5%af%bc%e5%85%a5" aria-label="1、数据导入">1、数据导入</a></li>
+                        <a href="#1-%e8%a1%a8%e6%a0%bc%e9%95%bf%e5%ae%bd%e8%bd%ac%e6%8d%a2" aria-label="1. 表格长宽转换">1. 表格长宽转换</a><ul>
+                            
                     <li>
-                        <a href="#2anndata%e7%bb%93%e6%9e%84" aria-label="2、Anndata结构">2、Anndata结构</a></li>
+                        <a href="#11-pivot_longer" aria-label="1.1 pivot_longer()">1.1 pivot_longer()</a></li>
                     <li>
-                        <a href="#3scanpy%e5%9f%ba%e7%a1%80%e5%88%86%e6%9e%90" aria-label="3、scanpy基础分析">3、scanpy基础分析</a>
+                        <a href="#12-pivot_wider" aria-label="1.2 pivot_wider()">1.2 pivot_wider()</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#2-%e8%a1%a8%e6%a0%bc%e5%8d%95%e5%88%97%e5%88%86%e5%89%b2" aria-label="2. 表格单列分割">2. 表格单列分割</a><ul>
+                            
+                    <li>
+                        <a href="#21-separate_longer_delim" aria-label="2.1 separate_longer_delim()">2.1 separate_longer_delim()</a></li>
+                    <li>
+                        <a href="#22-separate_wider_delim" aria-label="2.2 separate_wider_delim()">2.2 separate_wider_delim()</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#3-expand%e6%8e%92%e5%88%97%e7%bb%84%e5%90%88" aria-label="3. expand()排列组合">3. expand()排列组合</a>
                     </li>
                 </ul>
             </div>
@@ -313,25 +325,25 @@ Create:&nbsp;<span title='2023-01-23 00:00:00 +0000 UTC'>2023-01-23</span>&nbsp;
 </script>
 
 
-  <div class="post-content"><blockquote>
-<p>scanpy是单细胞数据分析的python工具包，将数据以Anndata对象的格式进行储存。如下将学习Anndata对象操作以及scanpy分析的基础用法。</p>
-</blockquote>
+  <div class="post-content"><p>tidyr是<strong>tidyverse</strong>系列的组成工具包之一，其主要功能侧重于表格的reshaping and organizing. 下面简要学习其几个比较常用的函数。</p>
+<ul>
+<li>
+<p><a href="https://tidyr.tidyverse.org/">https://tidyr.tidyverse.org/</a></p>
+</li>
+<li>
+<p><a href="https://github.com/rstudio/cheatsheets/blob/main/tidyr.pdf">https://github.com/rstudio/cheatsheets/blob/main/tidyr.pdf</a></p>
+</li>
+</ul>
 <div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> numpy <span style="color:#fff;font-weight:bold">as</span> np
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> pandas <span style="color:#fff;font-weight:bold">as</span> pd
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> anndata <span style="color:#fff;font-weight:bold">as</span> ad
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>library(tidyverse)
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="1数据导入">1、数据导入<a hidden class="anchor" aria-hidden="true" href="#1数据导入">#</a></h2>
-<ul>
-<li>（1）10X的三件套数据</li>
-</ul>
+</div><h1 id="1-表格长宽转换">1. 表格长宽转换<a hidden class="anchor" aria-hidden="true" href="#1-表格长宽转换">#</a></h1>
+<p>类似reshape2包</p>
 <div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
@@ -344,25 +356,25 @@ Create:&nbsp;<span title='2023-01-23 00:00:00 +0000 UTC'>2023-01-23</span>&nbsp;
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#007f7f"># !wget http://cf.10xgenomics.com/samples/cell-exp/1.1.0/pbmc3k/pbmc3k_filtered_gene_bc_matrices.tar.gz</span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f"># tar -xzf pbmc3k_filtered_gene_bc_matrices.tar.gz</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>adata = sc.read_10x_mtx(
-</span></span><span style="display:flex;"><span>    <span style="color:#0ff;font-weight:bold">&#39;filtered_gene_bc_matrices/hg19/&#39;</span>,  <span style="color:#007f7f"># the directory with the `.mtx` file</span>
-</span></span><span style="display:flex;"><span>    var_names=<span style="color:#0ff;font-weight:bold">&#39;gene_symbols&#39;</span>)           <span style="color:#007f7f"># use gene symbols for the variable names (variables-axis index)</span>
-</span></span><span style="display:flex;"><span>adata
-</span></span><span style="display:flex;"><span><span style="color:#007f7f"># AnnData object with n_obs × n_vars = 2700 × 32738</span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">#     var: &#39;gene_ids&#39;</span>
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>df &lt;- data.frame(
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">id</span> = paste0(<span style="color:#0ff;font-weight:bold">&#34;sample_&#34;</span>,<span style="color:#ff0;font-weight:bold">1</span>:<span style="color:#ff0;font-weight:bold">3</span>),
+</span></span><span style="display:flex;"><span>  time1 = c(<span style="color:#ff0;font-weight:bold">10</span>, <span style="color:#ff0;font-weight:bold">20</span>, <span style="color:#ff0;font-weight:bold">30</span>),
+</span></span><span style="display:flex;"><span>  time2 = c(<span style="color:#ff0;font-weight:bold">15</span>, <span style="color:#ff0;font-weight:bold">25</span>, <span style="color:#ff0;font-weight:bold">35</span>),
+</span></span><span style="display:flex;"><span>  time3 = c(<span style="color:#ff0;font-weight:bold">20</span>, <span style="color:#ff0;font-weight:bold">30</span>, <span style="color:#ff0;font-weight:bold">40</span>)
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>df
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#         id time1 time2 time3</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1 sample_1    10    15    20</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2 sample_2    20    25    30</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3 sample_3    30    35    40</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><ul>
-<li>
-<p>（2）Seurat对象转换</p>
-<p><a href="https://github.com/LuckyMD/Code_snippets/blob/master/Seurat_to_anndata.ipynb">https://github.com/LuckyMD/Code_snippets/blob/master/Seurat_to_anndata.ipynb</a></p>
-</li>
+</div><h2 id="11-pivot_longer">1.1 pivot_longer()<a hidden class="anchor" aria-hidden="true" href="#11-pivot_longer">#</a></h2>
+<ul>
+<li>宽变长</li>
 </ul>
 <div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
@@ -382,23 +394,27 @@ Create:&nbsp;<span title='2023-01-23 00:00:00 +0000 UTC'>2023-01-23</span>&nbsp;
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">## 同样是上述示例数据，先用R包Seurat处理，储存结果</span>
-</span></span><span style="display:flex;"><span>library(Seurat)
-</span></span><span style="display:flex;"><span>pbmc.data = Read10X(data.dir = <span style="color:#0ff;font-weight:bold">&#34;filtered_gene_bc_matrices/hg19/&#34;</span>)
-</span></span><span style="display:flex;"><span>pbmc = CreateSeuratObject(counts = pbmc.data, project = <span style="color:#0ff;font-weight:bold">&#34;pbmc3k&#34;</span>)
-</span></span><span style="display:flex;"><span>pbmc = NormalizeData(pbmc) %&gt;% 
-</span></span><span style="display:flex;"><span>  FindVariableFeatures()
-</span></span><span style="display:flex;"><span>pbmc = pbmc %&gt;% 
-</span></span><span style="display:flex;"><span>  ScaleData() %&gt;% 
-</span></span><span style="display:flex;"><span>  RunPCA() %&gt;% 
-</span></span><span style="display:flex;"><span>  RunUMAP(dims = <span style="color:#ff0;font-weight:bold">1</span>:<span style="color:#ff0;font-weight:bold">30</span>) %&gt;% 
-</span></span><span style="display:flex;"><span>  FindNeighbors(dims = <span style="color:#ff0;font-weight:bold">1</span>:<span style="color:#ff0;font-weight:bold">30</span>) %&gt;%
-</span></span><span style="display:flex;"><span>  FindClusters(resolution = <span style="color:#ff0;font-weight:bold">0.1</span>)
-</span></span><span style="display:flex;"><span>head(pbmc@meta.data)
-</span></span><span style="display:flex;"><span>saveRDS(pbmc, file = <span style="color:#0ff;font-weight:bold">&#34;pbmc.rds&#34;</span>)
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>df_long &lt;- df %&gt;%
+</span></span><span style="display:flex;"><span>  pivot_longer(cols = starts_with(<span style="color:#0ff;font-weight:bold">&#34;time&#34;</span>), 
+</span></span><span style="display:flex;"><span>               names_to = <span style="color:#0ff;font-weight:bold">&#34;time_point&#34;</span>, 
+</span></span><span style="display:flex;"><span>               values_to = <span style="color:#0ff;font-weight:bold">&#34;value&#34;</span>)
+</span></span><span style="display:flex;"><span>head(df_long)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># # A tibble: 6 × 3</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   id       time_point value</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   &lt;chr&gt;    &lt;chr&gt;      &lt;dbl&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1 sample_1 time1         10</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2 sample_1 time2         15</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3 sample_1 time3         20</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 4 sample_2 time1         20</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 5 sample_2 time2         25</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 6 sample_2 time3         30</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+</div><h2 id="12-pivot_wider">1.2 pivot_wider()<a hidden class="anchor" aria-hidden="true" href="#12-pivot_wider">#</a></h2>
+<ul>
+<li>长变宽</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
@@ -411,50 +427,19 @@ Create:&nbsp;<span title='2023-01-23 00:00:00 +0000 UTC'>2023-01-23</span>&nbsp;
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">9
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#007f7f">## 准备Python环境</span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> scanpy <span style="color:#fff;font-weight:bold">as</span> sc
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> numpy <span style="color:#fff;font-weight:bold">as</span> np
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> anndata2ri
-</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Activate the anndata2ri conversion between SingleCellExperiment and AnnData</span>
-</span></span><span style="display:flex;"><span>anndata2ri.activate()
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">#Loading the rpy2 extension enables cell magic to be used</span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">#This runs R code in jupyter notebook cells</span>
-</span></span><span style="display:flex;"><span>%load_ext rpy2.ipython
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>df_wide &lt;- df_long %&gt;%
+</span></span><span style="display:flex;"><span>  pivot_wider(names_from = <span style="color:#0ff;font-weight:bold">&#34;time_point&#34;</span>, values_from = <span style="color:#0ff;font-weight:bold">&#34;value&#34;</span>)
+</span></span><span style="display:flex;"><span>df_wide
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># # A tibble: 3 × 4</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   id       time1 time2 time3</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1 sample_1    10    15    20</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2 sample_2    20    25    30</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3 sample_3    30    35    40</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#007f7f">## 读入对象</span>
-</span></span><span style="display:flex;"><span>%%R
-</span></span><span style="display:flex;"><span>library(Seurat)
-</span></span><span style="display:flex;"><span>pbmc = readRDS(<span style="color:#0ff;font-weight:bold">&#34;pbmc.rds&#34;</span>)
-</span></span><span style="display:flex;"><span>pbmc
-</span></span></code></pre></td></tr></table>
-</div>
-</div><div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#007f7f">## 转换对象</span>
-</span></span><span style="display:flex;"><span>%%R -o pbmc_sce
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">#convert the Seurat object to a SingleCellExperiment object</span>
-</span></span><span style="display:flex;"><span>pbmc_sce &lt;- <span style="color:#fff;font-weight:bold">as</span>.SingleCellExperiment(pbmc)
-</span></span><span style="display:flex;"><span>pbmc_sce
-</span></span></code></pre></td></tr></table>
-</div>
-</div><div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+</div><h1 id="2-表格单列分割">2. 表格单列分割<a hidden class="anchor" aria-hidden="true" href="#2-表格单列分割">#</a></h1>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
@@ -462,19 +447,80 @@ Create:&nbsp;<span title='2023-01-23 00:00:00 +0000 UTC'>2023-01-23</span>&nbsp;
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">9
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#007f7f">## 查看转换后的anndata对象</span>
-</span></span><span style="display:flex;"><span>pbmc_sce
-</span></span><span style="display:flex;"><span><span style="color:#007f7f"># AnnData object with n_obs × n_vars = 2700 × 32738</span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">#     obs: &#39;orig.ident&#39;, &#39;nCount_RNA&#39;, &#39;nFeature_RNA&#39;, &#39;RNA_snn_res.0.1&#39;, &#39;seurat_clusters&#39;, &#39;ident&#39;</span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">#     obsm: &#39;X_pca&#39;, &#39;X_umap&#39;</span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">#     layers: &#39;logcounts&#39;</span>
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>df &lt;- data.frame(
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">id</span> = <span style="color:#ff0;font-weight:bold">1</span>:<span style="color:#ff0;font-weight:bold">3</span>,
+</span></span><span style="display:flex;"><span>  info = c(<span style="color:#0ff;font-weight:bold">&#34;sp1_2010&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;sp2_2020&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;sp3_2025&#34;</span>)
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>df
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   id     info</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1  1 sp1_2010</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2  2 sp2_2020</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3  3 sp3_2025</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="2anndata结构">2、Anndata结构<a hidden class="anchor" aria-hidden="true" href="#2anndata结构">#</a></h2>
-<p><a href="https://anndata-tutorials.readthedocs.io/en/latest/getting-started.html">https://anndata-tutorials.readthedocs.io/en/latest/getting-started.html</a></p>
-<p>以上述1.2的<code>pbmc_sce</code>对象为例学习anndata结构组成</p>
+</div><h2 id="21-separate_longer_delim">2.1 separate_longer_delim()<a hidden class="anchor" aria-hidden="true" href="#21-separate_longer_delim">#</a></h2>
+<ul>
+<li>纵向分割&ndash;变长</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>df %&gt;%
+</span></span><span style="display:flex;"><span>  separate_longer_delim(info, delim = <span style="color:#0ff;font-weight:bold">&#34;_&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   id info</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1  1  sp1</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2  1 2010</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3  2  sp2</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 4  2 2020</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 5  3  sp3</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 6  3 2025</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="22-separate_wider_delim">2.2 separate_wider_delim()<a hidden class="anchor" aria-hidden="true" href="#22-separate_wider_delim">#</a></h2>
+<ul>
+<li>横向分割&ndash;变宽</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>df %&gt;%
+</span></span><span style="display:flex;"><span>  separate_wider_delim(info, delim = <span style="color:#0ff;font-weight:bold">&#34;_&#34;</span>, names =c(<span style="color:#0ff;font-weight:bold">&#34;col_1&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;col_2&#34;</span>))
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># # A tibble: 3 × 3</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#     id col_1 col_2</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   &lt;int&gt; &lt;chr&gt; &lt;chr&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1     1 sp1   2010 </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2     2 sp2   2020 </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3     3 sp3   2025 </span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="3-expand排列组合">3. expand()排列组合<a hidden class="anchor" aria-hidden="true" href="#3-expand排列组合">#</a></h1>
+<ul>
+<li>生成两（or more）组向量的所有排列组合</li>
+</ul>
 <div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
@@ -501,49 +547,36 @@ Create:&nbsp;<span title='2023-01-23 00:00:00 +0000 UTC'>2023-01-23</span>&nbsp;
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">27
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">28
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">29
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>adata = pbmc_sce
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>samples = c(<span style="color:#0ff;font-weight:bold">&#34;sp1&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;sp2&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;sp3&#34;</span>)
+</span></span><span style="display:flex;"><span>years = c(<span style="color:#ff0;font-weight:bold">1999</span>, <span style="color:#ff0;font-weight:bold">1999</span>, <span style="color:#ff0;font-weight:bold">2020</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f"># (1) 矩阵</span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f"># ！注意：行是细胞，列是基因。与Seurat读取结果相反！</span>
-</span></span><span style="display:flex;"><span>adata.obs_names <span style="color:#007f7f">#行名(细胞名)</span>
-</span></span><span style="display:flex;"><span>adata.var_names <span style="color:#007f7f">#列名(基因名)</span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">## 原始信息以稀疏矩阵形式储存</span>
-</span></span><span style="display:flex;"><span>adata.X
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">print</span>(adata.X)
-</span></span><span style="display:flex;"><span>adata.X.todense()
+</span></span><span style="display:flex;"><span>df = data.frame(
+</span></span><span style="display:flex;"><span>  col_1 = samples,
+</span></span><span style="display:flex;"><span>  col_2 = years
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>df
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   col_1 col_2</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1   sp1  1999</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2   sp2  1999</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3   sp3  2020</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>adata.layers[<span style="color:#0ff;font-weight:bold">&#34;log_transformed&#34;</span>] = np.log1p(adata.X)
-</span></span><span style="display:flex;"><span>adata.to_df(layer=<span style="color:#0ff;font-weight:bold">&#34;log_transformed&#34;</span>)
-</span></span><span style="display:flex;"><span>adata.layers[<span style="color:#0ff;font-weight:bold">&#34;X&#34;</span>] = adata.X
-</span></span><span style="display:flex;"><span>adata.to_df(layer=<span style="color:#0ff;font-weight:bold">&#34;X&#34;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f"># (2) metadata，按pd.Dataframe格式储存</span>
-</span></span><span style="display:flex;"><span>adata.obs  <span style="color:#007f7f"># 细胞的metadata(常用)</span>
-</span></span><span style="display:flex;"><span>adata.var  <span style="color:#007f7f"># 基因的metadata</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f"># (3) 降维数据：多是数组格式，按字典逻辑储存</span>
-</span></span><span style="display:flex;"><span>adata.obsm
-</span></span><span style="display:flex;"><span>adata.obsm.keys
-</span></span><span style="display:flex;"><span>adata.obsm[<span style="color:#0ff;font-weight:bold">&#34;X_umap&#34;</span>]
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f"># (4) subset子集</span>
-</span></span><span style="display:flex;"><span>adata[[<span style="color:#0ff;font-weight:bold">&#34;Cell_1&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;Cell_10&#34;</span>], [<span style="color:#0ff;font-weight:bold">&#34;Gene_5&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;Gene_1900&#34;</span>]]
-</span></span><span style="display:flex;"><span>adata[adata.obs.cell_type == <span style="color:#0ff;font-weight:bold">&#34;B&#34;</span>]
+</span></span><span style="display:flex;"><span>df %&gt;% 
+</span></span><span style="display:flex;"><span>  tidyr::expand(col_1, col_2)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># # A tibble: 6 × 2</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   col_1 col_2</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   &lt;chr&gt; &lt;dbl&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1 sp1    1999</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2 sp1    2020</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3 sp2    1999</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 4 sp2    2020</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 5 sp3    1999</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 6 sp3    2020</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="3scanpy基础分析">3、scanpy基础分析<a hidden class="anchor" aria-hidden="true" href="#3scanpy基础分析">#</a></h2>
-<p><a href="https://scanpy-tutorials.readthedocs.io/en/latest/pbmc3k.html">https://scanpy-tutorials.readthedocs.io/en/latest/pbmc3k.html</a></p>
-<p>以上述1.1的原始读取结果<code>adata</code>对象为例</p>
-<ul>
-<li>（1）质控过滤</li>
+</div><ul>
+<li>Alternative ways</li>
 </ul>
 <div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
@@ -558,40 +591,27 @@ Create:&nbsp;<span title='2023-01-23 00:00:00 +0000 UTC'>2023-01-23</span>&nbsp;
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>sc.pp.filter_cells(adata, min_genes=<span style="color:#ff0;font-weight:bold">200</span>)
-</span></span><span style="display:flex;"><span>sc.pp.filter_genes(adata, min_cells=<span style="color:#ff0;font-weight:bold">3</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>adata.var[<span style="color:#0ff;font-weight:bold">&#39;mt&#39;</span>] = adata.var_names.str.startswith(<span style="color:#0ff;font-weight:bold">&#39;MT-&#39;</span>) 
-</span></span><span style="display:flex;"><span>sc.pp.calculate_qc_metrics(adata, qc_vars=[<span style="color:#0ff;font-weight:bold">&#39;mt&#39;</span>], 
-</span></span><span style="display:flex;"><span>                           percent_top=<span style="color:#fff;font-weight:bold">None</span>, log1p=<span style="color:#fff;font-weight:bold">False</span>, inplace=<span style="color:#fff;font-weight:bold">True</span>)
-</span></span><span style="display:flex;"><span><span style="color:#007f7f"># sc.pl.violin(adata, </span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 			 [&#39;n_genes_by_counts&#39;, &#39;total_counts&#39;, &#39;pct_counts_mt&#39;],</span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">#              jitter=0.4, multi_panel=True)</span>
-</span></span><span style="display:flex;"><span>adata = adata[adata.obs.n_genes_by_counts &lt; <span style="color:#ff0;font-weight:bold">2500</span>, :]
-</span></span><span style="display:flex;"><span>adata = adata[adata.obs.pct_counts_mt &lt; <span style="color:#ff0;font-weight:bold">5</span>, :]
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>samples = c(<span style="color:#0ff;font-weight:bold">&#34;sp1&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;sp2&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;sp3&#34;</span>)
+</span></span><span style="display:flex;"><span>years = c(<span style="color:#ff0;font-weight:bold">1999</span>, <span style="color:#ff0;font-weight:bold">2020</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># keep with same length</span>
+</span></span><span style="display:flex;"><span>length(years) = <span style="color:#ff0;font-weight:bold">3</span>
+</span></span><span style="display:flex;"><span>years
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] 1999  2020   NA</span>
+</span></span><span style="display:flex;"><span>df = data.frame(
+</span></span><span style="display:flex;"><span>  col_1 = samples,
+</span></span><span style="display:flex;"><span>  col_2 = years
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>df %&gt;% 
+</span></span><span style="display:flex;"><span>  tidyr::expand(col_1, col_2) %&gt;% 
+</span></span><span style="display:flex;"><span>  na.omit()
 </span></span></code></pre></td></tr></table>
 </div>
 </div><ul>
-<li>（2）标准化</li>
-</ul>
-<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>sc.pp.normalize_total(adata, target_sum=<span style="color:#ff0;font-weight:bold">1e4</span>)
-</span></span><span style="display:flex;"><span>sc.pp.log1p(adata)
-</span></span><span style="display:flex;"><span>sc.pp.scale(adata, max_value=<span style="color:#ff0;font-weight:bold">10</span>)
-</span></span><span style="display:flex;"><span>sc.pp.regress_out(adata, [<span style="color:#0ff;font-weight:bold">&#39;total_counts&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;pct_counts_mt&#39;</span>])
-</span></span></code></pre></td></tr></table>
-</div>
-</div><ul>
-<li>（3）降维分群</li>
+<li>R语言基础函数实现</li>
 </ul>
 <div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
@@ -610,42 +630,23 @@ Create:&nbsp;<span title='2023-01-23 00:00:00 +0000 UTC'>2023-01-23</span>&nbsp;
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#007f7f">## 高变基因</span>
-</span></span><span style="display:flex;"><span>sc.pp.highly_variable_genes(adata)
-</span></span><span style="display:flex;"><span>adata.var
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>samples = c(<span style="color:#0ff;font-weight:bold">&#34;sp1&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;sp2&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;sp3&#34;</span>)
+</span></span><span style="display:flex;"><span>years = c(<span style="color:#ff0;font-weight:bold">1999</span>, <span style="color:#ff0;font-weight:bold">2020</span>)
+</span></span><span style="display:flex;"><span>expand.grid(samples, years)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   Var1 Var2</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1  sp1 1999</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2  sp2 1999</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3  sp3 1999</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 4  sp1 2020</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 5  sp2 2020</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 6  sp3 2020</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">## PCA降维</span>
-</span></span><span style="display:flex;"><span>sc.tl.pca(adata)
-</span></span><span style="display:flex;"><span>adata.obsm[<span style="color:#0ff;font-weight:bold">&#34;X_pca&#34;</span>].shape 
-</span></span><span style="display:flex;"><span>sc.pl.pca(adata) <span style="color:#007f7f"># 默认按X_pca的降维结果可视化</span>
-</span></span><span style="display:flex;"><span>sc.pl.pca(adata, color=<span style="color:#0ff;font-weight:bold">&#39;CST3&#39;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">## UMAP降维</span>
-</span></span><span style="display:flex;"><span>sc.pp.neighbors(adata, n_neighbors=<span style="color:#ff0;font-weight:bold">10</span>, n_pcs=<span style="color:#ff0;font-weight:bold">40</span>)
-</span></span><span style="display:flex;"><span>sc.tl.umap(adata)
-</span></span><span style="display:flex;"><span>sc.pl.umap(adata)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">## 分群</span>
-</span></span><span style="display:flex;"><span>sc.tl.leiden(adata, resolution=<span style="color:#ff0;font-weight:bold">0.5</span>,key_added=<span style="color:#0ff;font-weight:bold">&#34;cluster&#34;</span>)
-</span></span><span style="display:flex;"><span>adata.obs
-</span></span><span style="display:flex;"><span>sc.pl.umap(adata, color=[<span style="color:#0ff;font-weight:bold">&#39;cluster&#39;</span>])
-</span></span></code></pre></td></tr></table>
-</div>
-</div><ul>
-<li>（4）保存</li>
-</ul>
-<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>adata.write(<span style="color:#0ff;font-weight:bold">&#34;your_data.h5ad&#34;</span>)
+</span></span><span style="display:flex;"><span>combn(samples, m = <span style="color:#ff0;font-weight:bold">2</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#       [,1]  [,2]  [,3] </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1,] &#34;sp1&#34; &#34;sp1&#34; &#34;sp2&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [2,] &#34;sp2&#34; &#34;sp3&#34; &#34;sp3&#34;</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div>
@@ -654,18 +655,18 @@ Create:&nbsp;<span title='2023-01-23 00:00:00 +0000 UTC'>2023-01-23</span>&nbsp;
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://lishensuo.github.io/tags/scrna-seq/">scRNA-seq</a></li>
+      <li><a href="https://lishensuo.github.io/tags/r%E5%8F%AF%E8%A7%86%E5%8C%96/">R可视化</a></li>
     </ul>
 <nav class="paginav">
-  <a class="prev" href="https://lishensuo.github.io/posts/bioinfo/018%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--infercnv%E6%8B%B7%E8%B4%9D%E6%95%B0%E5%8F%98%E5%BC%82%E9%89%B4%E5%AE%9A/">
+  <a class="prev" href="https://lishensuo.github.io/posts/program/228r--%E5%8F%AF%E8%A7%86%E5%8C%96-funkyheatmap%E7%BB%98%E5%88%B6table%E7%83%AD%E5%9B%BE/">
     <span class="title">« Prev Page</span>
     <br>
-    <span>单细胞分析工具--infercnv拷贝数变异鉴定</span>
+    <span>R--可视化-funkyheatmap绘制table热图</span>
   </a>
-  <a class="next" href="https://lishensuo.github.io/posts/bioinfo/019%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--singler%E7%BB%86%E8%83%9E%E7%B1%BB%E5%9E%8B%E6%B3%A8%E9%87%8A/">
+  <a class="next" href="https://lishensuo.github.io/posts/program/250r%E8%AF%AD%E8%A8%80rselenium%E7%88%AC%E8%99%AB/">
     <span class="title">Next Page »</span>
     <br>
-    <span>单细胞分析工具--SingleR细胞类型注释</span>
+    <span>R语言RSelenium爬虫.md</span>
   </a>
 </nav>
 

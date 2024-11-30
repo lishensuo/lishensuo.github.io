@@ -5,6 +5,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
 <title>机器学习基于sklearn(2)--交叉验证与超参数优化 | Li&#39;s Bioinfo-Blog</title>
 <meta name="keywords" content="机器学习">
 <meta name="description" content="1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 import pandas as pd from sklearn.datasets import load_wine from sklearn.preprocessing import StandardScaler from sklearn.model_selection import train_test_split from sklearn.tree import DecisionTreeClassifier tree_classif = DecisionTreeClassifier() wine = load_wine() # 字典 feats = wine[&#34;data&#34;] feats_name = wine[&#34;feature_names&#34;] feats_df = pd.DataFrame(feats, columns=feats_name) targets = wine[&#34;target&#34;].reshape((-1,1)) #feats_df.shape, targets.shape train_X, test_X, train_y, test_y = train_test_split(feats_df, targets, test_size=0.2, random_state=42) train_X.shape,">

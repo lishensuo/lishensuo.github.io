@@ -5,6 +5,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
 <title>富集通路可视化方式 | Li&#39;s Bioinfo-Blog</title>
 <meta name="keywords" content="转录组">
 <meta name="description" content="0、示例数据 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 library(clusterProfiler) library(org.Hs.eg.db) data(geneList, package=&#34;DOSE&#34;) str(geneList) # Named num [1:12495] 4.57 4.51 4.42 4.14 3.88 ... # - attr(*, &#34;names&#34;)= chr [1:12495] &#34;4312&#34; &#34;8318&#34; &#34;10874&#34; &#34;55143&#34; ... gene_ids&lt;-AnnotationDbi::select(org.Hs.eg.db, keys=as.character(names(gene_list)), columns=&#34;SYMBOL&#34;, #目标格式 keytype=&#34;ENTREZID&#34;)">

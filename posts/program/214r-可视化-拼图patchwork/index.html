@@ -5,6 +5,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
 <title>R-可视化-拼图patchwork | Li&#39;s Bioinfo-Blog</title>
 <meta name="keywords" content="R可视化">
 <meta name="description" content="一、ggplot2组图 0、安装包及示例图 1 2 3 4 5 6 7 8 9 10 # #install.packages(&#34;devtools&#34;) # devtools::install_github(&#34;thomasp85/patchwork&#34;) library(ggplot2) library(patchwork) p1 &lt;- ggplot(mtcars) &#43; geom_point(aes(mpg, disp)) p2 &lt;- ggplot(mtcars) &#43; geom_boxplot(aes(gear, disp, group = gear)) p3 &lt;- ggplot(mtcars) &#43; geom_bar(aes(gear)) &#43; facet_wrap(~cyl) p4 &lt;- ggplot(mtcars) &#43; geom_bar(aes(carb)) p5 &lt;- ggplot(mtcars) &#43; geom_violin(aes(cyl, mpg, group">
