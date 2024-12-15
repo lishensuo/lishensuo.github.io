@@ -410,6 +410,38 @@ Create:&nbsp;<span title='2024-11-09 00:00:00 +0000 UTC'>2024-11-09</span>&nbsp;
 <article class="post-entry tag-entry">
 	<div class="post-info">  
 		<header class="entry-header">
+			<h2>torch模型组成模块参数查询、管理、保存
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1. 示例模型 两层MLP的神经网络 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 import torch import torch.nn as nn import torch.nn.functional as F class SimpleMLP(nn.Module): def __init__(self, input_size, hidden_size, output_size): super(SimpleMLP, self).__init__() self.fc1 = nn.Linear(input_size, hidden_size) self.fc2 = nn.Linear(hidden_size, output_size) def forward(self, x): x = F.relu(self.fc1(x)) x...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2024-12-14 00:00:00 +0000 UTC'>2024-12-14</span>&nbsp;|&nbsp;Update:&nbsp;2024-12-14&nbsp;|&nbsp;Words:&nbsp;668&nbsp;|&nbsp;2 min&nbsp;|&nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to torch模型组成模块参数查询、管理、保存" href="https://lishensuo.github.io/posts/bioinfo/729torch%E6%A8%A1%E5%9E%8B%E7%BB%84%E6%88%90%E6%A8%A1%E5%9D%97%E5%8F%82%E6%95%B0%E6%9F%A5%E8%AF%A2%E7%AE%A1%E7%90%86%E4%BF%9D%E5%AD%98/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
 			<h2>图神经网络DGL-01-DGL基础
 			</h2>
 		</header>
@@ -433,38 +465,6 @@ Create:&nbsp;<span title='2024-11-09 00:00:00 +0000 UTC'>2024-11-09</span>&nbsp;
 Create:&nbsp;<span title='2022-07-31 00:00:00 +0000 UTC'>2022-07-31</span>&nbsp;|&nbsp;Update:&nbsp;2022-07-31&nbsp;|&nbsp;Words:&nbsp;1335&nbsp;|&nbsp;3 min&nbsp;|&nbsp;Lishensuo</footer>
 	</div>   
   <a class="entry-link" aria-label="post link to 图神经网络DGL-01-DGL基础" href="https://lishensuo.github.io/posts/bioinfo/801%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9Cdgl-01dgl%E5%9F%BA%E7%A1%80/"></a>
-</article>
-
-
-
-
-
-<article class="post-entry tag-entry">
-	<div class="post-info">  
-		<header class="entry-header">
-			<h2>图神经网络DGL-02同构图_节点分类
-			</h2>
-		</header>
-		<section class="entry-content">
-			<p>1 2 3 4 5 6 7 8 import dgl import dgl.nn as dglnn import torch import torch.nn as nn import torch.nn.functional as F import numpy as np 0、预测任务与数据 预测论文属于哪一种类别，即为多分类问题 1 2 3 4 5 6 7 8 9 10 11 12 13 14...</p>
-		</section>
-		<footer class="entry-footer">
-
-
-
-
-
-
-
-
-
-
-
-
-
-Create:&nbsp;<span title='2022-08-28 00:00:00 +0000 UTC'>2022-08-28</span>&nbsp;|&nbsp;Update:&nbsp;2022-08-28&nbsp;|&nbsp;Words:&nbsp;1681&nbsp;|&nbsp;4 min&nbsp;|&nbsp;Lishensuo</footer>
-	</div>   
-  <a class="entry-link" aria-label="post link to 图神经网络DGL-02同构图_节点分类" href="https://lishensuo.github.io/posts/bioinfo/802%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9Cdgl-02%E5%90%8C%E6%9E%84%E5%9B%BE_%E8%8A%82%E7%82%B9%E5%88%86%E7%B1%BB/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
