@@ -106,8 +106,8 @@
   "keywords": [
     "深度学习"
   ],
-  "articleBody": " https://pytorch.org/get-started/locally/\n 1. 概念 GPU（图形处理单元）是执行并行计算的硬件。\n 具有不同的型号，例如GeForce RTX 3080、Tesla V100等 https://www.topcpu.net/gpu-r/fp32-float  CUDA是NVIDIA 提供的并行计算软件平台，使开发者能够利用 GPU 的强大计算能力\n 每个GPU设备都需要安装合适版本的CUDA（通常指CUDA Toolkit） 可通过nvidia-smi命令查找，如下图表示当前GPU驱动支持的最大CUDA版本为12.2（可向下兼容）   nvidia-smi shows the highest version of CUDA supported by your driver.\nhttps://stackoverflow.com/questions/53422407/different-cuda-versions-shown-by-nvcc-and-nvidia-smi\n（但后来发现有时安装12.4的cuda也依旧可以进行pytorch运算）\n PyTorch 是一个开源的深度学习框架\n CUDA 是连接 PyTorch 和 GPU 的桥梁。PyTorch 可利用 CUDA 将计算任务放到 GPU，从而加速深度学习模型的训练和推理。 Pytorch的版本与CUDA的版本也要匹配，每个Pytorch版本可以支持多个CUDA版本，具体可查看 https://pytorch.org/get-started/previous-versions/  2. 安装顺序  首先检查当前服务器，有无GPU设备，以及型号数量，支持的CUDA版本等信息,  1  nvidia-smi    然后根据上述信息，安装合适版本的cuda-toolkit （optional but recommended）  1 2 3 4 5 6 7 8 9  # 可使用mamba加速 conda install nvidia::cuda-toolkit  conda install cudatoolkit==11.8 -c nvidia  # https://github.com/microsoft/DeepSpeed/issues/2772 conda install nvidia/label/cuda-11.8.0::cuda-compiler  conda install -c conda-forge cudatoolkit-dev # max 11.7    最后，安装合适版本的Pytorch框架（一般已包含cuda和cudnn）  1 2  # 可使用mamba加速 conda install pytorch==2.3.0 torchvision==0.18.0 torchaudio==2.3.0 pytorch-cuda=11.8 -c pytorch -c nvidia    检查上述是否安装成功  1 2 3 4 5 6 7 8 9 10  import torch  print(\"CUDA available:\", torch.cuda.is_available()) # CUDA available: True  print(\"CUDA version:\", torch.version.cuda) # CUDA version: 11.8  print(\"cuDNN version:\", torch.backends.cudnn.version()) # cuDNN version: 8700   ",
-  "wordCount" : "591",
+  "articleBody": " https://pytorch.org/get-started/locally/\n 1. 概念 GPU（图形处理单元）是执行并行计算的硬件。\n 具有不同的型号，例如GeForce RTX 3080、Tesla V100等 https://www.topcpu.net/gpu-r/fp32-float  CUDA是NVIDIA 提供的并行计算软件平台，使开发者能够利用 GPU 的强大计算能力\n 每个GPU设备都需要安装合适版本的CUDA（通常指CUDA Toolkit） 可通过nvidia-smi命令查找，如下图表示当前GPU驱动支持的最大CUDA版本为12.2（可向下兼容）   nvidia-smi shows the highest version of CUDA supported by your driver.\nhttps://stackoverflow.com/questions/53422407/different-cuda-versions-shown-by-nvcc-and-nvidia-smi\n（但后来发现有时安装12.4的cuda也依旧可以进行pytorch运算）\n PyTorch 是一个开源的深度学习框架\n CUDA 是连接 PyTorch 和 GPU 的桥梁。PyTorch 可利用 CUDA 将计算任务放到 GPU，从而加速深度学习模型的训练和推理。 Pytorch的版本与CUDA的版本也要匹配，每个Pytorch版本可以支持多个CUDA版本，具体可查看 https://pytorch.org/get-started/previous-versions/  2. 最简安装顺序  首先检查当前服务器，有无GPU设备驱动，以及型号数量，支持的CUDA版本等信息,  1  nvidia-smi    再根据上述信息，直接打包安装合适版本的torch+cuda环境，https://pytorch.org/get-started/previous-versions/ 这里选择选择了cuda 11.8, torch 2.3的版本组合  1 2  # 可使用mamba加速 conda install pytorch==2.3.0 torchvision==0.18.0 torchaudio==2.3.0 pytorch-cuda=11.8 -c pytorch -c nvidia    最后，检查上述是否安装成功  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15  import torch  print(\"CUDA available:\", torch.cuda.is_available()) # CUDA available: True  print(\"CUDA version:\", torch.version.cuda) # CUDA version: 11.8  print(\"cuDNN version:\", torch.backends.cudnn.version()) # cuDNN version: 8700  # 此时是没有安装cuda开发环境的 nvcc -V # Command 'nvcc' not found ls /home01/liss/miniconda3/envs/cuda_env/include | grep '^cuda' # 没有cuda_runtime.h等文件   3. 安装cuda开发环境  有些情况下，我们需要安装cuda的开发编译环境。由于上述安装方式中是在系统安装了cuda驱动软件时，再通过conda将pytorch+cuda打包安装，并非是在linux系统直接安装cuda。 好处是：通过conda环境很方便地设置多个独立、不同cuda版本； 坏处是：对于cuda编译环境需要格外注意，因为一般是假设Linux系统层面安装好了cuda。可能会遇到cuda_runtime.h: No such file or directory，cublas_v2.h: No such file or directory等报错。 主要原因是默认cuda path在根路径的/usr目录下。 下面将演示如何使用conda安装开发环境，并结合一个例子进行演示。  安装方式1: cudatoolkit-dev 不太推荐。因为其最近的一次更新还是一年前，只到了cuda11.7版本\n1  conda install -c conda-forge cudatoolkit-dev # max 11.7   安装方式2: nvidia::cuda 比较推荐，但有一点注意。如果采用默认官方给的指定版本安装命令，发现总是安装最新的cuda版本。 通过搜索他人的记录分享，使用如下方式，可以成功安装指定版本。\n1  conda install nvidia/label/cuda-11.8.0::cuda --channel nvidia/label/cuda-11.8.0   1 2 3 4 5 6 7 8 9 10 11 12  # 安装成功后 nvcc -V # nvcc: NVIDIA (R) Cuda compiler driver # Copyright (c) 2005-2022 NVIDIA Corporation # Built on Wed_Sep_21_10:33:58_PDT_2022 # Cuda compilation tools, release 11.8, V11.8.89 # Build cuda_11.8.r11.8/compiler.31833905_0  ls /home01/liss/miniconda3/envs/cuda_env/include | grep '^cuda' # 有了cuda_runtime.h等文件  cuda_path=/home01/liss/miniconda3/envs/cuda_env    案例 Github上的gpu-burn项目可以用来对GPU进行压力测试。  1 2 3 4 5 6 7 8 9 10 11 12  # (1) 下载并解压缩：https://github.com/wilicc/gpu-burn unzip gpu-burn-master.zip  # (2) make编译报错了 cd gpu-burn-master make # g++ -O3 -Wno-unused-result -I/usr/local/cuda/include -std=c++11 -c gpu_burn-drv.cpp # gpu_burn-drv.cpp:62:10: fatal error: cublas_v2.h: No such file or directory # 62 | #include \"cublas_v2.h\" # | ^~~~~~~~~~~~~ # compilation terminated. # make: *** [Makefile:39: gpu_burn-drv.o] Error 1   在该仓库中，也有类似的issue。解决方式就是采用上述的cuda开发环境安装方式，然后修改Makefile文件。\n1 2 3 4 5 6  # head of original Makefile ifneq (\"$(wildcard /usr/bin/nvcc)\", \"\") CUDAPATH ?= /usr else ifneq (\"$(wildcard /usr/local/cuda/bin/nvcc)\", \"\") CUDAPATH ?= /usr/local/cuda endif   将上述设置进行注释后，将cuda路径指定为conda环境\n1 2  # head of modified Makefile CUDAPATH ?= /home01/liss/miniconda3/envs/cuda_env_5   1 2 3 4 5  # (2) 成功编译，产生一个可执行文件 gpu_burn make  # (3) 对GPU进行100s的压力测试 ./gpu_burn 100   ",
+  "wordCount" : "1456",
   "inLanguage": "en",
   "datePublished": "2024-10-28T00:00:00Z",
   "dateModified": "2024-10-28T00:00:00Z",
@@ -227,7 +227,7 @@
 
 
 
-Create:&nbsp;<span title='2024-10-28 00:00:00 +0000 UTC'>2024-10-28</span>&nbsp;|&nbsp;Update:&nbsp;2024-10-28&nbsp;|&nbsp;Words:&nbsp;591&nbsp;|&nbsp;2 min&nbsp;|&nbsp;Lishensuo
+Create:&nbsp;<span title='2024-10-28 00:00:00 +0000 UTC'>2024-10-28</span>&nbsp;|&nbsp;Update:&nbsp;2024-10-28&nbsp;|&nbsp;Words:&nbsp;1456&nbsp;|&nbsp;3 min&nbsp;|&nbsp;Lishensuo
 
 |  Viewers: <span id="busuanzi_value_page_pv"></span> 
 	  
@@ -243,7 +243,9 @@ Create:&nbsp;<span title='2024-10-28 00:00:00 +0000 UTC'>2024-10-28</span>&nbsp;
                     <li>
                         <a href="#1-%e6%a6%82%e5%bf%b5" aria-label="1. 概念">1. 概念</a></li>
                     <li>
-                        <a href="#2-%e5%ae%89%e8%a3%85%e9%a1%ba%e5%ba%8f" aria-label="2. 安装顺序">2. 安装顺序</a>
+                        <a href="#2-%e6%9c%80%e7%ae%80%e5%ae%89%e8%a3%85%e9%a1%ba%e5%ba%8f" aria-label="2. 最简安装顺序">2. 最简安装顺序</a></li>
+                    <li>
+                        <a href="#3-%e5%ae%89%e8%a3%85cuda%e5%bc%80%e5%8f%91%e7%8e%af%e5%a2%83" aria-label="3. 安装cuda开发环境">3. 安装cuda开发环境</a>
                     </li>
                 </ul>
             </div>
@@ -339,9 +341,9 @@ Create:&nbsp;<span title='2024-10-28 00:00:00 +0000 UTC'>2024-10-28</span>&nbsp;
 <li><strong>CUDA</strong> 是连接 PyTorch 和 GPU 的桥梁。PyTorch 可利用 CUDA 将计算任务放到 GPU，从而加速深度学习模型的训练和推理。</li>
 <li>Pytorch的版本与CUDA的版本也要匹配，每个Pytorch版本可以支持多个CUDA版本，具体可查看 <a href="https://pytorch.org/get-started/previous-versions/">https://pytorch.org/get-started/previous-versions/</a></li>
 </ul>
-<h1 id="2-安装顺序">2. 安装顺序<a hidden class="anchor" aria-hidden="true" href="#2-安装顺序">#</a></h1>
+<h1 id="2-最简安装顺序">2. 最简安装顺序<a hidden class="anchor" aria-hidden="true" href="#2-最简安装顺序">#</a></h1>
 <ul>
-<li>首先检查当前服务器，有无GPU设备，以及型号数量，支持的<strong>CUDA版本</strong>等信息,</li>
+<li>首先检查当前服务器，有无GPU设备驱动，以及型号数量，支持的<strong>CUDA版本</strong>等信息,</li>
 </ul>
 <div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
@@ -352,34 +354,8 @@ Create:&nbsp;<span title='2024-10-28 00:00:00 +0000 UTC'>2024-10-28</span>&nbsp;
 </span></span></code></pre></td></tr></table>
 </div>
 </div><ul>
-<li>然后根据上述信息，安装合适版本的cuda-toolkit （optional but recommended）</li>
-</ul>
-<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">9
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#007f7f"># 可使用mamba加速</span>
-</span></span><span style="display:flex;"><span>conda install nvidia::cuda-toolkit
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>conda install cudatoolkit==11.8 -c nvidia
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f"># https://github.com/microsoft/DeepSpeed/issues/2772</span>
-</span></span><span style="display:flex;"><span>conda install nvidia/label/cuda-11.8.0::cuda-compiler
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>conda install -c conda-forge cudatoolkit-dev <span style="color:#007f7f"># max 11.7</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><ul>
-<li>最后，安装合适版本的Pytorch框架（一般已包含cuda和cudnn）</li>
+<li>再根据上述信息，直接打包安装合适版本的torch+cuda环境，https://pytorch.org/get-started/previous-versions/
+这里选择选择了cuda 11.8, torch 2.3的版本组合</li>
 </ul>
 <div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
@@ -392,7 +368,7 @@ Create:&nbsp;<span title='2024-10-28 00:00:00 +0000 UTC'>2024-10-28</span>&nbsp;
 </span></span></code></pre></td></tr></table>
 </div>
 </div><ul>
-<li>检查上述是否安装成功</li>
+<li>最后，检查上述是否安装成功</li>
 </ul>
 <div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
@@ -406,6 +382,11 @@ Create:&nbsp;<span title='2024-10-28 00:00:00 +0000 UTC'>2024-10-28</span>&nbsp;
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> torch
@@ -418,6 +399,150 @@ Create:&nbsp;<span title='2024-10-28 00:00:00 +0000 UTC'>2024-10-28</span>&nbsp;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">print</span>(<span style="color:#0ff;font-weight:bold">&#34;cuDNN version:&#34;</span>, torch.backends.cudnn.version())
 </span></span><span style="display:flex;"><span><span style="color:#007f7f"># cuDNN version: 8700</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 此时是没有安装cuda开发环境的</span>
+</span></span><span style="display:flex;"><span>nvcc -V  <span style="color:#007f7f"># Command &#39;nvcc&#39; not found</span>
+</span></span><span style="display:flex;"><span>ls /home01/liss/miniconda3/envs/cuda_env/include | grep <span style="color:#0ff;font-weight:bold">&#39;^cuda&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 没有cuda_runtime.h等文件</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="3-安装cuda开发环境">3. 安装cuda开发环境<a hidden class="anchor" aria-hidden="true" href="#3-安装cuda开发环境">#</a></h1>
+<ul>
+<li>有些情况下，我们需要安装cuda的开发编译环境。由于上述安装方式中是在系统安装了cuda驱动软件时，再通过conda将pytorch+cuda打包安装，并非是在linux系统直接安装cuda。</li>
+<li><strong>好处</strong>是：通过conda环境很方便地设置多个独立、不同cuda版本；</li>
+<li><strong>坏处</strong>是：对于cuda编译环境需要格外注意，因为一般是假设Linux系统层面安装好了cuda。可能会遇到<code>cuda_runtime.h: No such file or directory</code>，<code>cublas_v2.h: No such file or directory</code>等报错。
+主要原因是默认cuda path在根路径的<code>/usr</code>目录下。
+下面将演示如何使用conda安装开发环境，并结合一个例子进行演示。</li>
+</ul>
+<p><code>安装方式1</code>:  <code>cudatoolkit-dev</code>
+不太推荐。因为其最近的一次更新还是一年前，只到了cuda11.7版本</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>conda install -c conda-forge cudatoolkit-dev <span style="color:#007f7f"># max 11.7</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>安装方式2</code>: <code>nvidia::cuda</code>
+比较推荐，但有一点注意。如果采用默认官方给的指定版本安装命令，发现总是安装最新的cuda版本。
+通过搜索他人的<a href="https://blog.csdn.net/weixin_43933424/article/details/139304567">记录分享</a>，使用如下方式，可以成功安装指定版本。</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>conda install nvidia/label/cuda-11.8.0::cuda --channel nvidia/label/cuda-11.8.0
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#007f7f"># 安装成功后</span>
+</span></span><span style="display:flex;"><span>nvcc -V 
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># nvcc: NVIDIA (R) Cuda compiler driver</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Copyright (c) 2005-2022 NVIDIA Corporation</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Built on Wed_Sep_21_10:33:58_PDT_2022</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Cuda compilation tools, release 11.8, V11.8.89</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Build cuda_11.8.r11.8/compiler.31833905_0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ls /home01/liss/miniconda3/envs/cuda_env/include | grep <span style="color:#0ff;font-weight:bold">&#39;^cuda&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 有了cuda_runtime.h等文件</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cuda_path=/home01/liss/miniconda3/envs/cuda_env
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>案例
+Github上的<a href="https://github.com/wilicc/gpu-burn">gpu-burn项目</a>可以用来对GPU进行压力测试。</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#007f7f"># (1) 下载并解压缩：https://github.com/wilicc/gpu-burn</span>
+</span></span><span style="display:flex;"><span>unzip gpu-burn-master.zip
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># (2) make编译报错了</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">cd</span> gpu-burn-master
+</span></span><span style="display:flex;"><span>make 
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># g++  -O3 -Wno-unused-result -I/usr/local/cuda/include -std=c++11 -c gpu_burn-drv.cpp</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># gpu_burn-drv.cpp:62:10: fatal error: cublas_v2.h: No such file or directory</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#    62 | #include &#34;cublas_v2.h&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#       |          ^~~~~~~~~~~~~</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># compilation terminated.</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># make: *** [Makefile:39: gpu_burn-drv.o] Error 1</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在该仓库中，也有类似的<a href="https://github.com/wilicc/gpu-burn/issues/91">issue</a>。解决方式就是采用上述的cuda开发环境安装方式，然后修改Makefile文件。</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-makefile" data-lang="makefile"><span style="display:flex;"><span><span style="color:#007f7f"># head of original Makefile
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#f00">ifneq</span> <span style="color:#f00">(</span><span style="color:#0ff;font-weight:bold">&#34;$(wildcard /usr/bin/nvcc)&#34;</span><span style="color:#f00">,</span> <span style="color:#0ff;font-weight:bold">&#34;&#34;</span><span style="color:#f00">)</span>
+</span></span><span style="display:flex;"><span>CUDAPATH ?= /usr
+</span></span><span style="display:flex;"><span><span style="color:#f00">else</span> <span style="color:#f00">ifneq</span> <span style="color:#f00">(</span><span style="color:#0ff;font-weight:bold">&#34;$(wildcard /usr/local/cuda/bin/nvcc)&#34;</span><span style="color:#f00">,</span> <span style="color:#0ff;font-weight:bold">&#34;&#34;</span><span style="color:#f00">)</span>
+</span></span><span style="display:flex;"><span>CUDAPATH ?= /usr/local/cuda
+</span></span><span style="display:flex;"><span><span style="color:#f00">endif</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>将上述设置进行注释后，将cuda路径指定为conda环境</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-makefile" data-lang="makefile"><span style="display:flex;"><span><span style="color:#007f7f"># head of modified Makefile
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>CUDAPATH ?= /home01/liss/miniconda3/envs/cuda_env_5
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#007f7f"># (2) 成功编译，产生一个可执行文件 gpu_burn</span>
+</span></span><span style="display:flex;"><span>make
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># (3) 对GPU进行100s的压力测试</span>
+</span></span><span style="display:flex;"><span>./gpu_burn <span style="color:#ff0;font-weight:bold">100</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div>
