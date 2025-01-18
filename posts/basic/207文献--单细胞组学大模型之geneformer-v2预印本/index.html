@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>文献--单细胞组学大模型之Geneformer V2[预印本] | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="文献-算法">
+<meta name="description" content="Quantized multi-task learning for context-specific representations of gene network dynamics 2024.8.19, bioRxiv 【预印本】 https://doi.org/10.1101/2024.08.16.608180 通讯作者：Christina Theodoris （2021 Geneformer的一作，现在应该是独立的PI了） https://gladstone.org/people/christina-theodoris 背景知识 算">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/posts/basic/207%E6%96%87%E7%8C%AE--%E5%8D%95%E7%BB%86%E8%83%9E%E7%BB%84%E5%AD%A6%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B9%8Bgeneformer-v2%E9%A2%84%E5%8D%B0%E6%9C%AC/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.1abf8254c205953f8beb228727a5e0a5541f0bc42f68f2762e2e594e7b213985.css" integrity="sha256-Gr&#43;CVMIFlT&#43;L6yKHJ6XgpVQfC8QvaPJ2Li5ZTnshOYU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.4dcb3c4f38462f66c6b6137227726f5543cb934cca9788f041c087e374491df2.js" integrity="sha256-Tcs8TzhGL2bGthNyJ3JvVUPLk0zKl4jwQcCH43RJHfI="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="文献--单细胞组学大模型之Geneformer V2[预印本]" />
+<meta property="og:description" content="Quantized multi-task learning for context-specific representations of gene network dynamics 2024.8.19, bioRxiv 【预印本】 https://doi.org/10.1101/2024.08.16.608180 通讯作者：Christina Theodoris （2021 Geneformer的一作，现在应该是独立的PI了） https://gladstone.org/people/christina-theodoris 背景知识 算" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/posts/basic/207%E6%96%87%E7%8C%AE--%E5%8D%95%E7%BB%86%E8%83%9E%E7%BB%84%E5%AD%A6%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B9%8Bgeneformer-v2%E9%A2%84%E5%8D%B0%E6%9C%AC/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2025-01-18T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2025-01-18T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="文献--单细胞组学大模型之Geneformer V2[预印本]"/>
+<meta name="twitter:description" content="Quantized multi-task learning for context-specific representations of gene network dynamics 2024.8.19, bioRxiv 【预印本】 https://doi.org/10.1101/2024.08.16.608180 通讯作者：Christina Theodoris （2021 Geneformer的一作，现在应该是独立的PI了） https://gladstone.org/people/christina-theodoris 背景知识 算"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "📖 科研基础 -- 读文献、看教材",
+      "item": "https://lishensuo.github.io/posts/basic/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "文献--单细胞组学大模型之Geneformer V2[预印本]",
+      "item": "https://lishensuo.github.io/posts/basic/207%E6%96%87%E7%8C%AE--%E5%8D%95%E7%BB%86%E8%83%9E%E7%BB%84%E5%AD%A6%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B9%8Bgeneformer-v2%E9%A2%84%E5%8D%B0%E6%9C%AC/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "文献--单细胞组学大模型之Geneformer V2[预印本]",
+  "name": "文献--单细胞组学大模型之Geneformer V2[预印本]",
+  "description": "Quantized multi-task learning for context-specific representations of gene network dynamics 2024.8.19, bioRxiv 【预印本】 https://doi.org/10.1101/2024.08.16.608180 通讯作者：Christina Theodoris （2021 Geneformer的一作，现在应该是独立的PI了） https://gladstone.org/people/christina-theodoris 背景知识 算",
+  "keywords": [
+    "文献-算法"
+  ],
+  "articleBody": "  Quantized multi-task learning for context-specific representations of gene network dynamics 2024.8.19, bioRxiv 【预印本】 https://doi.org/10.1101/2024.08.16.608180   通讯作者：Christina Theodoris （2021 Geneformer的一作，现在应该是独立的PI了）\nhttps://gladstone.org/people/christina-theodoris\n背景知识 算法角度\n Multi-task learning 多任务学习  设置多个任务，每个任务会计算一个独立的损失函数，总损失函数则是所有任务损失的加权和。 训练过程中，共享预训练模型参数，微调模型参数各不相同。 multi-task learning enables context-specific disease modeling that can yield contextual predictions of candidate therapeutic targets for human disease.   Continual learning 持续学习  机器学习模型在不断接收新任务或新数据时，能够持续学习和更新其知识。分为三类：Class/Task/Domain incremental continual learning 挑战：catastrophic forgetting https://neptune.ai/blog/continual-learning-methods-and-application    性能角度- QLoRA: Quantization | Low-Rank Adapters\n Model Quantization 模型量化 ：4-bit字节压缩预训练模型  https://huggingface.co/docs/transformers/main_classes/quantization https://huggingface.co/blog/4bit-transformers-bitsandbytes   Low-Rank Adapters 低秩适配器  微调部分的参数层通过LoRA低秩矩阵分解降低需要更新参数量   微调/推理过程 Resource-efficient  1. 第一次预训练   数据量：~103M human scRNA-seq\n 经质控筛选(e.g. 去除肿瘤细胞)后，保留95M 词汇表：20275 (1) 20271 protein coding genes; (2) 4 special tokens (PAD, MASK, CLS, EOS )    模型框架（gf-12L-95M-i4096）\n 最大序列长度：4096，此外在有效序列的前后增加了CLS与EOS 注意力层：12 | Embedding size: 512 | Heads: 8 Masked ratio: 15% | 最大学习率：5e-4 (warmup steps 5000) | Batch: 1 (梯度累计：4) 44 hours, 8 H100 GPUs 还有4个版本：GF-6L-30M-I2048, GF-12L-30M-I2048, GF-12L-95M-I2048, GF-20L95M-I4096    Zero-shot性能：基于上述预训练模型获得cell/gene的zero-shot Embedding（不更新模型参数），相比Geneformer v1在多个微调任务中表现具有优势。\n 值得一提的是：这里的cell embedding是来自倒数第二层的CLS Embedding，后面的MTL以及ISP，都是来自最后一层的CLS Embedding 在Geneformer V1版本中， Cell Embedding是所有基因Embedding的均值。 微调性能结果是基于25次超参数寻参得到的（例如不同的学习率等）     模型量化：使用量化模型（e.g. 4-bit, rank16）可以使得微调任务性能影响不大的情况下，显著降低了成本（时间，内存）。  full fine-tuning：超参数包括被冻结的层数，top 0/7/14 layers quantized fine-tuning：同上 zero-shot (指上面的结果)    2. 多任务微调学习  背景：疾病的发生过程可能与多个角度相关（例如cell type, tissue, developmental stage..）。基于单任务学习（例如Geneformer v1基于细胞类型）得到的cell/gene表示，缺少全面性，尤其是应用在ISP 数据量：~43M annotated cells from CELLxGENE，  71 cell types，38 tissues，68 diseases， 3 developmental stages   MTL设计：5个细胞分类微调任务的损失之和作为总损失更新模型  cell types/tissue/disease types/disease vs normal/developmental stage 在每个任务的类别存在不平衡时，采用多种采样策略【详见method】 最终发现在5个任务中均表现良好，此时得到的cell Embedding更具有代表性（用于后续的ISP）     基于微调后的MTL模型，采用量化技术得到的cell embedding信息没有丢失，同时推理成本较低。  在ISP方面，量化模型的基因模拟敲除所发生的shift趋势相同，同样成本降低    3. 第二次预训练及对应微调  Domain-specific continual learning：肿瘤单细胞特征 数据量： ~14M cells from cancer studies  包括1%的第一阶段训练数据，以避免 “catastrophic forgetting”   训练方式与第一阶段相同，采用15% masked gene的自监督学习。其中包括三种学习率的设置方式。  如下图b，左侧绿线表示第一次预训练的学习率变；而右侧三条线便是3种学习率设置方案的continual learning 结合图c，发现其中最优的一种方案（是与第一次的预训练最大学习率相同）     接下来继续对上述预训练模型，设计一个MTL细胞分类微调任务：  在结直肠癌单细胞数据下的3个任务：MMR status/cell type/cell subtype 发现在cell subtype存在上皮细胞的亚型注释时，二次预训练模型表现更好    4. 基于TME的ISP实验 基于上述的微调模型，进行了两次结直肠癌相关的ISP实验\nTASK-1：\n In silico overexpression from epithelial cancer cells to normal epithelial (下图的e-f)  TASK-2：\n In silico overexpression from quiescent T cell to activated T cell state 与已报道的CRISPR结果相一致  ",
+  "wordCount" : "1607",
+  "inLanguage": "en",
+  "datePublished": "2025-01-18T00:00:00Z",
+  "dateModified": "2025-01-18T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/posts/basic/207%E6%96%87%E7%8C%AE--%E5%8D%95%E7%BB%86%E8%83%9E%E7%BB%84%E5%AD%A6%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B9%8Bgeneformer-v2%E9%A2%84%E5%8D%B0%E6%9C%AC/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/posts/basic/">📖 科研基础 -- 读文献、看教材</a></div>
+    <h1 class="post-title">
+      文献--单细胞组学大模型之Geneformer V2[预印本]
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2025-01-18 00:00:00 +0000 UTC'>2025-01-18</span>&nbsp;|&nbsp;Update:&nbsp;2025-01-18&nbsp;|&nbsp;Words:&nbsp;1607&nbsp;|&nbsp;4 min&nbsp;|&nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#%e8%83%8c%e6%99%af%e7%9f%a5%e8%af%86" aria-label="背景知识">背景知识</a></li>
+                    <li>
+                        <a href="#1-%e7%ac%ac%e4%b8%80%e6%ac%a1%e9%a2%84%e8%ae%ad%e7%bb%83" aria-label="1. 第一次预训练">1. 第一次预训练</a></li>
+                    <li>
+                        <a href="#2-%e5%a4%9a%e4%bb%bb%e5%8a%a1%e5%be%ae%e8%b0%83%e5%ad%a6%e4%b9%a0" aria-label="2. 多任务微调学习">2. 多任务微调学习</a></li>
+                    <li>
+                        <a href="#3-%e7%ac%ac%e4%ba%8c%e6%ac%a1%e9%a2%84%e8%ae%ad%e7%bb%83%e5%8f%8a%e5%af%b9%e5%ba%94%e5%be%ae%e8%b0%83" aria-label="3. 第二次预训练及对应微调">3. 第二次预训练及对应微调</a></li>
+                    <li>
+                        <a href="#4-%e5%9f%ba%e4%ba%8etme%e7%9a%84isp%e5%ae%9e%e9%aa%8c" aria-label="4. 基于TME的ISP实验">4. 基于TME的ISP实验</a>
+                    </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><blockquote>
+<ul>
+<li>Quantized multi-task learning for context-specific representations of gene network dynamics</li>
+<li>2024.8.19, bioRxiv 【预印本】</li>
+<li><a href="https://doi.org/10.1101/2024.08.16.608180">https://doi.org/10.1101/2024.08.16.608180</a></li>
+</ul>
+</blockquote>
+<p><strong>通讯作者</strong>：Christina Theodoris （2021 Geneformer的一作，现在应该是独立的PI了）</p>
+<p><a href="https://gladstone.org/people/christina-theodoris">https://gladstone.org/people/christina-theodoris</a></p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20250118123335727.png" alt="image-20250118123335727"  />
+</p>
+<h1 id="背景知识">背景知识<a hidden class="anchor" aria-hidden="true" href="#背景知识">#</a></h1>
+<p><strong>算法角度</strong></p>
+<ul>
+<li>Multi-task learning 多任务学习
+<ul>
+<li>设置多个任务，每个任务会计算一个独立的损失函数，总损失函数则是所有任务损失的加权和。</li>
+<li>训练过程中，共享预训练模型参数，微调模型参数各不相同。</li>
+<li>multi-task learning enables context-specific disease modeling that can yield contextual predictions of candidate therapeutic targets for human disease.</li>
+</ul>
+</li>
+<li>Continual learning 持续学习
+<ul>
+<li>机器学习模型在不断接收新任务或新数据时，能够持续学习和更新其知识。分为三类：Class/Task/<strong>Domain</strong> incremental continual learning</li>
+<li>挑战：catastrophic forgetting</li>
+<li><a href="https://neptune.ai/blog/continual-learning-methods-and-application">https://neptune.ai/blog/continual-learning-methods-and-application</a></li>
+</ul>
+</li>
+</ul>
+<p><strong>性能角度</strong>- QLoRA: Quantization | Low-Rank Adapters</p>
+<ul>
+<li>Model Quantization 模型量化 ：4-bit字节压缩预训练模型
+<ul>
+<li><a href="https://huggingface.co/docs/transformers/main_classes/quantization">https://huggingface.co/docs/transformers/main_classes/quantization</a></li>
+<li><a href="https://huggingface.co/blog/4bit-transformers-bitsandbytes">https://huggingface.co/blog/4bit-transformers-bitsandbytes</a></li>
+</ul>
+</li>
+<li>Low-Rank Adapters 低秩适配器
+<ul>
+<li>微调部分的参数层通过LoRA低秩矩阵分解降低需要更新参数量</li>
+</ul>
+</li>
+<li>微调/推理过程 Resource-efficient</li>
+</ul>
+<h1 id="1-第一次预训练">1. 第一次预训练<a hidden class="anchor" aria-hidden="true" href="#1-第一次预训练">#</a></h1>
+<ul>
+<li>
+<p>数据量：~103M human scRNA-seq</p>
+<ul>
+<li>经质控筛选(e.g. 去除肿瘤细胞)后，保留95M</li>
+<li>词汇表：20275 (1) 20271 protein coding genes; (2) 4 special tokens (PAD, MASK, CLS, EOS )</li>
+</ul>
+</li>
+<li>
+<p>模型框架（gf-12L-95M-i4096）</p>
+<ul>
+<li>最大序列长度：4096，此外在有效序列的前后增加了CLS与EOS</li>
+<li>注意力层：12 | Embedding size: 512 | Heads: 8</li>
+<li>Masked ratio: 15% | 最大学习率：5e-4 (warmup steps 5000) | Batch: 1 (梯度累计：4)</li>
+<li>44 hours, 8 H100 GPUs</li>
+<li>还有4个版本：GF-6L-30M-I2048, GF-12L-30M-I2048, GF-12L-95M-I2048, GF-20L95M-I4096</li>
+</ul>
+</li>
+<li>
+<p>Zero-shot性能：基于上述预训练模型获得cell/gene的zero-shot Embedding（不更新模型参数），相比Geneformer v1在多个微调任务中表现具有优势。</p>
+<ul>
+<li>值得一提的是：这里的cell embedding是来自倒数第二层的CLS Embedding，后面的MTL以及ISP，都是来自最后一层的CLS Embedding</li>
+<li>在Geneformer V1版本中， Cell Embedding是所有基因Embedding的均值。</li>
+<li>微调性能结果是基于25次超参数寻参得到的（例如不同的学习率等）</li>
+</ul>
+</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20250118090649761.png" alt="image-20250118090649761"  />
+</p>
+<ul>
+<li>模型量化：使用量化模型（e.g. 4-bit, rank16）可以使得微调任务性能影响不大的情况下，显著降低了成本（时间，内存）。
+<ul>
+<li>full fine-tuning：超参数包括被冻结的层数，top 0/7/14 layers</li>
+<li>quantized fine-tuning：同上</li>
+<li>zero-shot (指上面的结果)</li>
+</ul>
+</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20250118100823168.png" alt="image-20250118100823168"  />
+</p>
+<h1 id="2-多任务微调学习">2. 多任务微调学习<a hidden class="anchor" aria-hidden="true" href="#2-多任务微调学习">#</a></h1>
+<ul>
+<li>背景：疾病的发生过程可能与多个角度相关（例如cell type, tissue, developmental stage..）。基于单任务学习（例如Geneformer v1基于细胞类型）得到的cell/gene表示，缺少全面性，尤其是应用在ISP</li>
+<li>数据量：~43M annotated cells from CELLxGENE，
+<ul>
+<li>71 cell types，38 tissues，68 diseases， 3 developmental stages</li>
+</ul>
+</li>
+<li>MTL设计：5个细胞分类微调任务的损失之和作为总损失更新模型
+<ul>
+<li>cell types/tissue/disease types/disease vs normal/developmental stage</li>
+<li>在每个任务的类别存在不平衡时，采用多种采样策略【详见method】</li>
+<li>最终发现在5个任务中均表现良好，此时得到的cell Embedding更具有代表性（用于后续的ISP）</li>
+</ul>
+</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20250118102441154.png" alt="image-20250118102441154"  />
+</p>
+<ul>
+<li>基于微调后的MTL模型，采用量化技术得到的cell embedding信息没有丢失，同时推理成本较低。
+<ul>
+<li>在ISP方面，量化模型的基因模拟敲除所发生的shift趋势相同，同样成本降低</li>
+</ul>
+</li>
+</ul>
+<h1 id="3-第二次预训练及对应微调">3. 第二次预训练及对应微调<a hidden class="anchor" aria-hidden="true" href="#3-第二次预训练及对应微调">#</a></h1>
+<ul>
+<li>Domain-specific continual learning：肿瘤单细胞特征</li>
+<li>数据量： ~14M cells from cancer studies
+<ul>
+<li>包括1%的第一阶段训练数据，以避免 &ldquo;catastrophic forgetting&rdquo;</li>
+</ul>
+</li>
+<li>训练方式与第一阶段相同，采用15% masked gene的自监督学习。其中包括三种学习率的设置方式。
+<ul>
+<li>如下图b，左侧绿线表示第一次预训练的学习率变；而右侧三条线便是3种学习率设置方案的continual learning</li>
+<li>结合图c，发现其中最优的一种方案（是与第一次的预训练最大学习率相同）</li>
+</ul>
+</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20250118105722186.png" alt="image-20250118105722186" style="zoom: 67%;" />
+<ul>
+<li>接下来继续对上述预训练模型，设计一个MTL细胞分类微调任务：
+<ul>
+<li>在结直肠癌单细胞数据下的3个任务：MMR status/cell type/cell subtype</li>
+<li>发现在cell subtype存在上皮细胞的亚型注释时，二次预训练模型表现更好</li>
+</ul>
+</li>
+</ul>
+<h1 id="4-基于tme的isp实验">4. 基于TME的ISP实验<a hidden class="anchor" aria-hidden="true" href="#4-基于tme的isp实验">#</a></h1>
+<p>基于上述的微调模型，进行了两次结直肠癌相关的ISP实验</p>
+<p>TASK-1：</p>
+<ul>
+<li>In silico overexpression</li>
+<li>from epithelial cancer cells to normal epithelial (下图的e-f)</li>
+</ul>
+<p>TASK-2：</p>
+<ul>
+<li>In silico overexpression</li>
+<li>from quiescent T cell to activated T cell state</li>
+<li>与已报道的CRISPR结果相一致</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20250118110850234.png" alt="image-20250118110850234"  />
+</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/tags/%E6%96%87%E7%8C%AE-%E7%AE%97%E6%B3%95/">文献-算法</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/posts/basic/206%E6%96%87%E7%8C%AE--%E5%8D%95%E7%BB%86%E8%83%9E%E7%BB%84%E5%AD%A6%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B9%8Bgenecompass/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>文献--单细胞组学大模型之Genecompass</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/posts/program/210r-%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90-dplyr%E8%A1%A8%E6%A0%BC%E6%93%8D%E4%BD%9C/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>R-数据分析-dplyr表格操作</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>
