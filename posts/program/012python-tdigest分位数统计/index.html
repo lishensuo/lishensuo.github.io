@@ -7,11 +7,11 @@
 <meta name="robots" content="index, follow">
 
 <link rel="icon" href="/favicon.ico" type="image/x-icon"> 
-<title>R基础配置 | Li&#39;s Bioinfo-Blog</title>
-<meta name="keywords" content="R">
-<meta name="description" content="1、R镜像设置 （1）临时设置，重启R之后会重置 1 2 3 4 options(BioC_mirror=&#34;http://mirrors.tuna.tsinghua.edu.cn/bioconductor/&#34;) options(&#34;repos&#34; = c(CRAN=&#34;https://mirrors.tuna.tsinghua.edu.cn/CRAN/&#34;)) options()$repos options()$BioC_mirror （2）通过设置.Rprofile文件永久设置 linux 1 2 3 4 5 6 7 #进入家目录 cd">
+<title>012Python-tdigest分位数统计 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="Python">
+<meta name="description" content="tdigest python工具 是一种用于高效计算近似分位数的数据结构和算法。相较于传统的分位数计算方法，tdigest可以实现以较小的内存开销和较快的计">
 <meta name="author" content="Lishensuo">
-<link rel="canonical" href="https://lishensuo.github.io/posts/program/200r%E5%9F%BA%E7%A1%80%E9%85%8D%E7%BD%AE/">
+<link rel="canonical" href="https://lishensuo.github.io/posts/program/012python-tdigest%E5%88%86%E4%BD%8D%E6%95%B0%E7%BB%9F%E8%AE%A1/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.min.1abf8254c205953f8beb228727a5e0a5541f0bc42f68f2762e2e594e7b213985.css" integrity="sha256-Gr&#43;CVMIFlT&#43;L6yKHJ6XgpVQfC8QvaPJ2Li5ZTnshOYU=" rel="preload stylesheet" as="style">
 <script defer crossorigin="anonymous" src="/assets/js/highlight.min.4dcb3c4f38462f66c6b6137227726f5543cb934cca9788f041c087e374491df2.js" integrity="sha256-Tcs8TzhGL2bGthNyJ3JvVUPLk0zKl4jwQcCH43RJHfI="
     onload="hljs.initHighlightingOnLoad();"></script>
@@ -58,16 +58,16 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="R基础配置" />
-<meta property="og:description" content="1、R镜像设置 （1）临时设置，重启R之后会重置 1 2 3 4 options(BioC_mirror=&#34;http://mirrors.tuna.tsinghua.edu.cn/bioconductor/&#34;) options(&#34;repos&#34; = c(CRAN=&#34;https://mirrors.tuna.tsinghua.edu.cn/CRAN/&#34;)) options()$repos options()$BioC_mirror （2）通过设置.Rprofile文件永久设置 linux 1 2 3 4 5 6 7 #进入家目录 cd" />
+</noscript><meta property="og:title" content="012Python-tdigest分位数统计" />
+<meta property="og:description" content="tdigest python工具 是一种用于高效计算近似分位数的数据结构和算法。相较于传统的分位数计算方法，tdigest可以实现以较小的内存开销和较快的计" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://lishensuo.github.io/posts/program/200r%E5%9F%BA%E7%A1%80%E9%85%8D%E7%BD%AE/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2022-04-16T00:00:00&#43;00:00" />
-<meta property="article:modified_time" content="2022-04-16T00:00:00&#43;00:00" />
+<meta property="og:url" content="https://lishensuo.github.io/posts/program/012python-tdigest%E5%88%86%E4%BD%8D%E6%95%B0%E7%BB%9F%E8%AE%A1/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2025-01-23T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2025-01-23T00:00:00&#43;00:00" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="R基础配置"/>
-<meta name="twitter:description" content="1、R镜像设置 （1）临时设置，重启R之后会重置 1 2 3 4 options(BioC_mirror=&#34;http://mirrors.tuna.tsinghua.edu.cn/bioconductor/&#34;) options(&#34;repos&#34; = c(CRAN=&#34;https://mirrors.tuna.tsinghua.edu.cn/CRAN/&#34;)) options()$repos options()$BioC_mirror （2）通过设置.Rprofile文件永久设置 linux 1 2 3 4 5 6 7 #进入家目录 cd"/>
+<meta name="twitter:title" content="012Python-tdigest分位数统计"/>
+<meta name="twitter:description" content="tdigest python工具 是一种用于高效计算近似分位数的数据结构和算法。相较于传统的分位数计算方法，tdigest可以实现以较小的内存开销和较快的计"/>
 
 
 <script type="application/ld+json">
@@ -90,8 +90,8 @@
     {
       "@type": "ListItem",
       "position":  4 ,
-      "name": "R基础配置",
-      "item": "https://lishensuo.github.io/posts/program/200r%E5%9F%BA%E7%A1%80%E9%85%8D%E7%BD%AE/"
+      "name": "012Python-tdigest分位数统计",
+      "item": "https://lishensuo.github.io/posts/program/012python-tdigest%E5%88%86%E4%BD%8D%E6%95%B0%E7%BB%9F%E8%AE%A1/"
     }
   ]
 }
@@ -100,24 +100,24 @@
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "R基础配置",
-  "name": "R基础配置",
-  "description": "1、R镜像设置 （1）临时设置，重启R之后会重置 1 2 3 4 options(BioC_mirror=\u0026#34;http://mirrors.tuna.tsinghua.edu.cn/bioconductor/\u0026#34;) options(\u0026#34;repos\u0026#34; = c(CRAN=\u0026#34;https://mirrors.tuna.tsinghua.edu.cn/CRAN/\u0026#34;)) options()$repos options()$BioC_mirror （2）通过设置.Rprofile文件永久设置 linux 1 2 3 4 5 6 7 #进入家目录 cd",
+  "headline": "012Python-tdigest分位数统计",
+  "name": "012Python-tdigest分位数统计",
+  "description": "tdigest python工具 是一种用于高效计算近似分位数的数据结构和算法。相较于传统的分位数计算方法，tdigest可以实现以较小的内存开销和较快的计",
   "keywords": [
-    "R"
+    "Python"
   ],
-  "articleBody": "1、R镜像设置 （1）临时设置，重启R之后会重置\n1 2 3 4  options(BioC_mirror=\"http://mirrors.tuna.tsinghua.edu.cn/bioconductor/\") options(\"repos\" = c(CRAN=\"https://mirrors.tuna.tsinghua.edu.cn/CRAN/\")) options()$repos options()$BioC_mirror   （2）通过设置.Rprofile文件永久设置\n linux  1 2 3 4 5 6 7  #进入家目录 cd ~ vi ~/.Rprofile #输入下面两行代码 options(repos=structure(c(CRAN=\"https://mirrors.tuna.tsinghua.edu.cn/CRAN/\"))) options(BioC_mirror=\"https://mirrors.tuna.tsinghua.edu.cn/bioconductor\") #保存退出    window  第①步：打开记事本或者其他文本编辑软件； 第②步：输入默认设置（内容同上述linux案例）； 第③步：保存文件到 “此电脑文档” /.Rprofile； 第④步：重新进入R/RStudio即可。\n .Rprofile文件为启动R时自动加载的文件，可以继续添加其它命令，例如管道符号library(magrittr)\n ",
-  "wordCount" : "244",
+  "articleBody": "tdigest python工具 是一种用于高效计算近似分位数的数据结构和算法。相较于传统的分位数计算方法，tdigest可以实现以较小的内存开销和较快的计算速度，提供近似但足够精确的分位数估计。\n  https://github.com/CamDavidsonPilon/tdigest\n  安装\n  1  pip install tdigest    创建对象  1 2 3  from tdigest import TDigest  digest = TDigest()    更新对象  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16  from numpy.random import random import numpy as np  # (1) 逐一更新值 for x in range(100):  digest.update(random()) digest #  digest.n # 100  # (2) 批量更新值 digest.batch_update([1, 2, 3]) #  digest.batch_update(np.random.randn(5)) #     统计分布  1 2 3 4 5 6 7  # 中位数 digest.percentile(50) # 0.4839611675217064   # 平均数 digest.trimmed_mean(0, 100)    保存并加载tdigest对象  1 2 3 4 5 6 7  # save json.dumps(digest.to_dict()) # load digest.update_from_dict({'K': 25, 'delta': 0.01,  'centroids': [{'c': 1.0, 'm': 1.0},  {'c': 1.0, 'm': 2.0},  {'c': 1.0, 'm': 3.0}]})   ",
+  "wordCount" : "245",
   "inLanguage": "en",
-  "datePublished": "2022-04-16T00:00:00Z",
-  "dateModified": "2022-04-16T00:00:00Z",
+  "datePublished": "2025-01-23T00:00:00Z",
+  "dateModified": "2025-01-23T00:00:00Z",
   "author":[{
     "@type": "Person",
     "name": "Lishensuo"
   }],
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://lishensuo.github.io/posts/program/200r%E5%9F%BA%E7%A1%80%E9%85%8D%E7%BD%AE/"
+    "@id": "https://lishensuo.github.io/posts/program/012python-tdigest%E5%88%86%E4%BD%8D%E6%95%B0%E7%BB%9F%E8%AE%A1/"
   },
   "publisher": {
     "@type": "Organization",
@@ -211,7 +211,7 @@
   <header class="post-header">
     <div class="breadcrumbs"><a href="https://lishensuo.github.io">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/posts/program/">📖 R&amp;Python&amp;Shell --- 编程基础、可视化等</a></div>
     <h1 class="post-title">
-      R基础配置
+      012Python-tdigest分位数统计
     </h1>
     <div class="post-meta">
 
@@ -227,107 +227,89 @@
 
 
 
-Create:&nbsp;<span title='2022-04-16 00:00:00 +0000 UTC'>2022-04-16</span>&nbsp;|&nbsp;Update:&nbsp;2022-04-16&nbsp;|&nbsp;Words:&nbsp;244&nbsp;|&nbsp;1 min&nbsp;|&nbsp;Lishensuo
+Create:&nbsp;<span title='2025-01-23 00:00:00 +0000 UTC'>2025-01-23</span>&nbsp;|&nbsp;Update:&nbsp;2025-01-23&nbsp;|&nbsp;Words:&nbsp;245&nbsp;|&nbsp;1 min&nbsp;|&nbsp;Lishensuo
 
 |  Viewers: <span id="busuanzi_value_page_pv"></span> 
 	  
     </div>
-  </header> <aside id="toc-container" class="toc-container wide">
-    <div class="toc">
-        <details  open>
-            <summary accesskey="c" title="(Alt + C)">
-                <span class="details">Table of Contents</span>
-            </summary>
-
-            <div class="inner"><ul>
-                    <li>
-                        <a href="#1r%e9%95%9c%e5%83%8f%e8%ae%be%e7%bd%ae" aria-label="1、R镜像设置">1、R镜像设置</a>
-                    </li>
-                </ul>
-            </div>
-        </details>
-    </div>
-</aside>
-<script>
-    let activeElement;
-    let elements;
-    window.addEventListener('DOMContentLoaded', function (event) {
-        checkTocPosition();
-
-        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
-         
-         activeElement = elements[0];
-         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
-         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
-     }, false);
-
-    window.addEventListener('resize', function(event) {
-        checkTocPosition();
-    }, false);
-
-    window.addEventListener('scroll', () => {
-        
-        activeElement = Array.from(elements).find((element) => {
-            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
-                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
-                return element;
-            }
-        }) || activeElement
-
-        elements.forEach(element => {
-             const id = encodeURI(element.getAttribute('id')).toLowerCase();
-             if (element === activeElement){
-                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
-             } else {
-                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
-             }
-         })
-     }, false);
-
-    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
-    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
-    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
-
-    function checkTocPosition() {
-        const width = document.body.scrollWidth;
-
-        if (width - main - (toc * 2) - (gap * 4) > 0) {
-            document.getElementById("toc-container").classList.add("wide");
-        } else {
-            document.getElementById("toc-container").classList.remove("wide");
-        }
-    }
-
-    function getOffsetTop(element) {
-        if (!element.getClientRects().length) {
-            return 0;
-        }
-        let rect = element.getBoundingClientRect();
-        let win = element.ownerDocument.defaultView;
-        return rect.top + win.pageYOffset;   
-    }
-</script>
+  </header> 
 
 
-  <div class="post-content"><h1 id="1r镜像设置">1、R镜像设置<a hidden class="anchor" aria-hidden="true" href="#1r镜像设置">#</a></h1>
-<p>（1）临时设置，重启R之后会重置</p>
+  <div class="post-content"><p><code>tdigest</code> python工具  是一种用于高效计算近似分位数的数据结构和算法。相较于传统的分位数计算方法，tdigest可以实现以较小的内存开销和较快的计算速度，提供近似但足够精确的分位数估计。</p>
+<ul>
+<li>
+<p><a href="https://github.com/CamDavidsonPilon/tdigest">https://github.com/CamDavidsonPilon/tdigest</a></p>
+</li>
+<li>
+<p>安装</p>
+</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>pip install tdigest
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>创建对象</li>
+</ul>
 <div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>options(BioC_mirror=<span style="color:#0ff;font-weight:bold">&#34;http://mirrors.tuna.tsinghua.edu.cn/bioconductor/&#34;</span>)
-</span></span><span style="display:flex;"><span>options(<span style="color:#0ff;font-weight:bold">&#34;repos&#34;</span> = c(CRAN=<span style="color:#0ff;font-weight:bold">&#34;https://mirrors.tuna.tsinghua.edu.cn/CRAN/&#34;</span>))
-</span></span><span style="display:flex;"><span>options()$repos 
-</span></span><span style="display:flex;"><span>options()$BioC_mirror
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">from</span> tdigest <span style="color:#fff;font-weight:bold">import</span> TDigest
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>digest = TDigest()
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>（2）通过设置<code>.Rprofile</code>文件永久设置</p>
-<ul>
-<li>linux</li>
+</div><ul>
+<li>更新对象</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">from</span> numpy.random <span style="color:#fff;font-weight:bold">import</span> random
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> numpy <span style="color:#fff;font-weight:bold">as</span> np
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># (1) 逐一更新值</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">for</span> x in <span style="color:#fff;font-weight:bold">range</span>(<span style="color:#ff0;font-weight:bold">100</span>):
+</span></span><span style="display:flex;"><span>    digest.update(random())
+</span></span><span style="display:flex;"><span>digest
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># &lt;T-Digest: n=100, centroids=100&gt;</span>
+</span></span><span style="display:flex;"><span>digest.n
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 100</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># (2) 批量更新值</span>
+</span></span><span style="display:flex;"><span>digest.batch_update([<span style="color:#ff0;font-weight:bold">1</span>, <span style="color:#ff0;font-weight:bold">2</span>, <span style="color:#ff0;font-weight:bold">3</span>])
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># &lt;T-Digest: n=103, centroids=103&gt;</span>
+</span></span><span style="display:flex;"><span>digest.batch_update(np.random.randn(<span style="color:#ff0;font-weight:bold">5</span>))
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># &lt;T-Digest: n=108, centroids=108&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><strong>统计分布</strong></li>
 </ul>
 <div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
@@ -340,43 +322,56 @@ Create:&nbsp;<span title='2022-04-16 00:00:00 +0000 UTC'>2022-04-16</span>&nbsp;
 </span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#007f7f">#进入家目录</span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">cd</span> ~
-</span></span><span style="display:flex;"><span>vi ~/.Rprofile
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">#输入下面两行代码</span>
-</span></span><span style="display:flex;"><span>options(repos=structure(c(CRAN=<span style="color:#0ff;font-weight:bold">&#34;https://mirrors.tuna.tsinghua.edu.cn/CRAN/&#34;</span>))) 
-</span></span><span style="display:flex;"><span>options(BioC_mirror=<span style="color:#0ff;font-weight:bold">&#34;https://mirrors.tuna.tsinghua.edu.cn/bioconductor&#34;</span>)
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">#保存退出</span>
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#007f7f"># 中位数</span>
+</span></span><span style="display:flex;"><span>digest.percentile(<span style="color:#ff0;font-weight:bold">50</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 0.4839611675217064</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 平均数</span>
+</span></span><span style="display:flex;"><span>digest.trimmed_mean(<span style="color:#ff0;font-weight:bold">0</span>, <span style="color:#ff0;font-weight:bold">100</span>)
 </span></span></code></pre></td></tr></table>
 </div>
 </div><ul>
-<li>window</li>
+<li>保存并加载tdigest对象</li>
 </ul>
-<p><strong>第①步</strong>：打开记事本或者其他文本编辑软件；
-<strong>第②步</strong>：输入默认设置（内容同上述linux案例）；
-<strong>第③步</strong>：保存文件到 “此电脑&gt;文档” /.Rprofile；
-<strong>第④步</strong>：重新进入R/RStudio即可。</p>
-<blockquote>
-<p><code>.Rprofile</code>文件为启动R时自动加载的文件，可以继续添加其它命令，例如管道符号<code>library(magrittr)</code></p>
-</blockquote>
-
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#007f7f"># save</span>
+</span></span><span style="display:flex;"><span>json.dumps(digest.to_dict())
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># load</span>
+</span></span><span style="display:flex;"><span>digest.update_from_dict({<span style="color:#0ff;font-weight:bold">&#39;K&#39;</span>: <span style="color:#ff0;font-weight:bold">25</span>, <span style="color:#0ff;font-weight:bold">&#39;delta&#39;</span>: <span style="color:#ff0;font-weight:bold">0.01</span>, 
+</span></span><span style="display:flex;"><span>                         <span style="color:#0ff;font-weight:bold">&#39;centroids&#39;</span>: [{<span style="color:#0ff;font-weight:bold">&#39;c&#39;</span>: <span style="color:#ff0;font-weight:bold">1.0</span>, <span style="color:#0ff;font-weight:bold">&#39;m&#39;</span>: <span style="color:#ff0;font-weight:bold">1.0</span>}, 
+</span></span><span style="display:flex;"><span>                                       {<span style="color:#0ff;font-weight:bold">&#39;c&#39;</span>: <span style="color:#ff0;font-weight:bold">1.0</span>, <span style="color:#0ff;font-weight:bold">&#39;m&#39;</span>: <span style="color:#ff0;font-weight:bold">2.0</span>}, 
+</span></span><span style="display:flex;"><span>                                       {<span style="color:#0ff;font-weight:bold">&#39;c&#39;</span>: <span style="color:#ff0;font-weight:bold">1.0</span>, <span style="color:#0ff;font-weight:bold">&#39;m&#39;</span>: <span style="color:#ff0;font-weight:bold">3.0</span>}]})
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
 
   </div>
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://lishensuo.github.io/tags/r/">R</a></li>
+      <li><a href="https://lishensuo.github.io/tags/python/">Python</a></li>
     </ul>
 <nav class="paginav">
-  <a class="prev" href="https://lishensuo.github.io/posts/basic/200%E6%96%87%E7%8C%AE--%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%A2%84%E6%B5%8B%E8%8D%AF%E7%89%A9%E8%82%BE%E6%AF%92%E6%80%A7-1/">
+  <a class="prev" href="https://lishensuo.github.io/posts/bioinfo/011%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--palantir%E8%BD%A8%E8%BF%B9%E5%88%86%E6%9E%90-/">
     <span class="title">« Prev Page</span>
     <br>
-    <span>文献--机器学习模型预测药物肾毒性-1</span>
+    <span>单细胞分析工具--Palantir轨迹分析</span>
   </a>
-  <a class="next" href="https://lishensuo.github.io/posts/bioinfo/200%E4%BD%BF%E7%94%A8igraph%E5%8C%85%E8%BF%9B%E8%A1%8C%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84%E5%88%86%E6%9E%90%E4%B8%8E%E5%8F%AF%E8%A7%86%E5%8C%96/">
+  <a class="next" href="https://lishensuo.github.io/posts/bioinfo/015%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--seurat%E7%A9%BA%E9%97%B4%E8%BD%AC%E5%BD%95%E7%BB%84/">
     <span class="title">Next Page »</span>
     <br>
-    <span>使用igraph包进行网络结构分析与可视化</span>
+    <span>使用Seurat包分析空间转录组数据</span>
   </a>
 </nav>
 
