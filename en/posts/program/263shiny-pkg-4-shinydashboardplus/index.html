@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>Shiny-pkg-4-shinydashboardPlus | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="Shiny">
+<meta name="description" content="Shiny Basic系列:
+
+参考教程：https://mastering-shiny.org/
+（1）IO控件
+（2）Layout布局
+（3）Reactive用法
+（4）Feedback提醒
+（5）Module模块
+Shiny Package系列:">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/program/263shiny-pkg-4-shinydashboardplus/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/program/263shiny-pkg-4-shinydashboardplus/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Shiny-pkg-4-shinydashboardPlus" />
+<meta property="og:description" content="Shiny Basic系列:
+
+参考教程：https://mastering-shiny.org/
+（1）IO控件
+（2）Layout布局
+（3）Reactive用法
+（4）Feedback提醒
+（5）Module模块
+Shiny Package系列:" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/program/263shiny-pkg-4-shinydashboardplus/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-03-31T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2024-03-31T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Shiny-pkg-4-shinydashboardPlus"/>
+<meta name="twitter:description" content="Shiny Basic系列:
+
+参考教程：https://mastering-shiny.org/
+（1）IO控件
+（2）Layout布局
+（3）Reactive用法
+（4）Feedback提醒
+（5）Module模块
+Shiny Package系列:"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 R\u0026Python\u0026Shell --- 编程基础、可视化等",
+      "item": "https://lishensuo.github.io/en/posts/program/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "Shiny-pkg-4-shinydashboardPlus",
+      "item": "https://lishensuo.github.io/en/posts/program/263shiny-pkg-4-shinydashboardplus/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Shiny-pkg-4-shinydashboardPlus",
+  "name": "Shiny-pkg-4-shinydashboardPlus",
+  "description": "Shiny Basic系列:\n参考教程：https://mastering-shiny.org/\n（1）IO控件\n（2）Layout布局\n（3）Reactive用法\n（4）Feedback提醒\n（5）Module模块\nShiny Package系列:\n",
+  "keywords": [
+    "Shiny"
+  ],
+  "articleBody": "Shiny Basic系列:\n参考教程：https://mastering-shiny.org/\n（1）IO控件\n（2）Layout布局\n（3）Reactive用法\n（4）Feedback提醒\n（5）Module模块\nShiny Package系列:\n（1）shinyWidgets\n（2）shinyJS\n（3）shinydashboard\n（4）shinydashboardPlus\n（5）bslib\n（6）Other pkgs\nshinydashboardPlus为shinydashboard包的升级版本，同时兼容shinydashboard的用法\nhttps://github.com/RinteRface/shinydashboardPlus https://shinydashboardplus.rinterface.com/ 1 2 library(shiny) # v1.7.4 library(shinydashboardPlus) # v2.0.3 1. skeleton更新 1.1 Controlbar https://shinydashboardplus.rinterface.com/articles/controlbar 通过dashboardPage()的controlbar参数设置右边侧边栏 具体是在dashboardControlbar()内设置UI控件，可进一步通过controlbarMenu()/controlbarItem()设置多个Tab的内容，建议最多设置5个 可通过updateControlbar以及updateControlbarMenu动态更新显示状态 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 menu \u003c- controlbarMenu( id = \"controlbarMenu\", controlbarItem( \"Tab 1\", \"Welcome to tab 1\" ), controlbarItem( \"Tab 2\", numericInput(\"num\", \"Observations:\", 200, min = 1, max = 1000, step = 100) ) ) ui = dashboardPage( ..., controlbar = dashboardControlbar( menu, ... ) ) 1.2 Footer https://shinydashboardplus.rinterface.com/articles/controlbar 通过dashboardPage()的footer参数设置底边尾注 具体是在dashboardFooter()内设置尾注的文本注释信息 1 2 3 4 5 6 7 8 9 10 ui = dashboardPage( header = dashboardHeader(), sidebar = dashboardSidebar(), body = dashboardBody(), footer = dashboardFooter(left = \"Left content\", right = \"Right content\"), title = \"DashboardPage\" ) server = function(input, output) { } shinyApp(ui, server) 1.3 Header https://shinydashboardplus.rinterface.com/articles/enhanced-header 在shinydashboard包中可使用dropdownMenu在dashboardHeader设置不同类型的文本提醒下拉菜单（默认右侧） 而shinydashboardplus支持在dashboardHeader（leftUI参数）的左侧设置多种类型下拉菜单 来自shinyWidgets的dropdownButton()，可嵌入UI控件 来自shinydashboard的dropdownMenu()，可设置3类文本 来自shinydashboardplus的dropdownBlock()，可嵌入UI控件 1 2 3 4 5 6 7 8 9 10 ui = dashboardPage( ..., header = dashboardHeader( leftUi = tagList( dropdownButton(...), dropdownMenu(...), dropdownBlock(...), ) ) ) 2. box()更新 https://shinydashboardplus.rinterface.com/articles/improved-boxes\n2.1 动作按钮 在设置box的id（例如为\"mybox\"）前提下，有4类动作按钮\ntoggle：折叠或展开box body；(input$mybox$collapsed) remove：隐藏box；(input$mybox$visible为FALSE) restore：恢复box； (input$mybox$visible为TRUE) update：更新box内的content 1 2 3 4 # server.R observeEvent(input$toggle_box, { updateBox(\"mybox\", action = \"toggle\") }) 2.2 右上角装饰UI （1）通过box()函数的参数在box右上角设置多种功能的ui元素：\nlabel参数：通过函数boxLabel()设置，起到类似badge的作用； dropdownMenu参数：通过函数boxDropdown()/boxDropdownItem()设置下拉列表； collapsible参数：折叠box选项 closable参数：隐藏box选项 boxSidebar参数：通过函数boxSidebar()设置侧边栏 （2） descriptionBlock()函数可以在box内展示关键的数字/文本\nhttps://shinydashboardplus.rinterface.com/articles/box-elements 2.3 定制化box userBox()：展示个人信息，也可以通过updateBox()实现动态更新 1 2 3 4 5 6 userDescription( title = \"Nadia Carmichael\", subtitle = \"lead Developer\", type = 2, image = \"https://adminlte.io/themes/AdminLTE/dist/img/user7-128x128.jpg\", ) flipBox()：具有正反面（front/back），可通过updateFlipBox()实现动态更新 3. 其它新增 3.1 accordion()布局 手风琴式布局 https://shinydashboardplus.rinterface.com/articles/extra-elements 每个accordion() 可以包括多个accordionItem()纵向堆叠而成；但只能保持其中一个为open的状态，其余均为collapsed 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 accordion( id = \"accordion1\", accordionItem( title = \"Accordion 1 Item 1\", status = \"danger\", collapsed = TRUE, \"This is some text!\" ), accordionItem( title = \"Accordion 1 Item 2\", status = \"warning\", collapsed = FALSE, \"This is some text!\" ) ) 3.2 skin主题颜色 https://shinydashboardplus.rinterface.com/articles/more-skins 通过dashboardPage()函数的skin参数设置主题颜色，提供6种颜色，2类主题，以及一个黑夜模式 1 2 3 4 skin = c(\"blue\", \"blue-light\", \"black\", \"black-light\", \"purple\", \"purple-light\", \"green\", \"green-light\", \"red\", \"red-light\", \"yellow\", \"yellow-light\", \"midnight\") 此外，也可以通过skinSelector()在右侧控制栏提供所有选择（midnight除外） 1 2 3 4 5 6 7 8 9 10 ui = dashboardPage( header = dashboardHeader(), sidebar = dashboardSidebar(), body = dashboardBody(), controlbar = dashboardControlbar(collapsed = FALSE, skinSelector()), title = \"Skin Selector\" ) server = function(input, output) { } shinyApp(ui, server) 3.3 preloader界面 https://shinydashboardplus.rinterface.com/articles/css-preloader 基于waiter包，在dashboardPage()函数的preloader参数设置app的启动加载悬窗 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 ui = dashboardPage( preloader = list(html = tagList(spin_1(), \"Loading ...\"), color = \"#3c8dbc\"), header = dashboardHeader(), body = dashboardBody( actionButton(\"reload\", \"Reload\") ), sidebar = dashboardSidebar() ) server = function(input, output, session) { observeEvent(input$reload, { session$reload() }) } shinyApp(ui, server) 4. bs4Dash Bootstrap 4 shinydashboard using AdminLTE3 兼容shinydashboard以及shinydashboardPlus的用法。\nhttps://github.com/RinteRface/bs4Dash https://bs4dash.rinterface.com/articles/bs4dash 4.1 Skeleton优化 https://bs4dash.rinterface.com/articles/step-by-step 如下仅列举部分新颖的更新参数，详见上方链接 1 2 3 4 5 6 7 8 9 10 11 12 13 14 library(shiny) # v0.7.2 library(bs4Dash) # v2.3.3 shinyApp( ui = dashboardPage( title = \"Basic Dashboard\", header = dashboardHeader(), sidebar = dashboardSidebar(), controlbar = dashboardControlbar(), footer = dashboardFooter(), body = dashboardBody() ), server = function(input, output) {} ) dashboardPage()\nscrollToTop参数：快速回到顶部按钮 dashboardSidebar()\nminified参数：隐藏侧边栏时，仍保留图标 expandOnHover参数：鼠标触动时，自动展开侧边栏 dashboardHeader()\ntitle参数可通过dashboardBrand设置多元的标题属性 dashboardControlbar()\npinned参数可使右侧边栏保持open状态 dashboardBody()\nbox()内可通过设置maximizable参数添加全屏展示按钮 4.2 Popover, tooltips浮窗 popover()，addPopover()/removePopover() 点击触发式浮窗\ntooltip()，addTooltip()/removeTooltip 接触触发式浮窗\nTips: 上述两类浮窗需要在header栏右侧的help switch开启状态下才能生效\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 # 以tooltip为例，具体可查看每个函数的帮助文档 ui = dashboardPage( header = dashboardHeader(), sidebar = dashboardSidebar(), body = dashboardBody( tooltip( actionButton(\"goButton\", \"Hover to see the tooltip\"), title = \"My tooltip\", placement = \"top\" ) ) ) server = function(input, output, session) {} shinyApp(ui, server) 图片滑动gallery展示效果可通过carousel()/carouselItem()设置，其在bs4Dash与shinydashboardPlus均支持\n",
+  "wordCount" : "2522",
+  "inLanguage": "en",
+  "datePublished": "2024-03-31T00:00:00Z",
+  "dateModified": "2024-03-31T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/program/263shiny-pkg-4-shinydashboardplus/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/program/">📖 R&amp;Python&amp;Shell --- 编程基础、可视化等</a></div>
+    <h1 class="post-title">
+      Shiny-pkg-4-shinydashboardPlus
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-03-31 00:00:00 &#43;0000 UTC&#39;&gt;2024-03-31&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-03-31&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2522&amp;nbsp;|&amp;nbsp;6 min&amp;nbsp;|&amp;nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#1-skeleton%e6%9b%b4%e6%96%b0" aria-label="1. skeleton更新">1. skeleton更新</a><ul>
+                            
+                    <li>
+                        <a href="#11-controlbar" aria-label="1.1 Controlbar">1.1 Controlbar</a></li>
+                    <li>
+                        <a href="#12-footer" aria-label="1.2 Footer">1.2 Footer</a></li>
+                    <li>
+                        <a href="#13-header" aria-label="1.3 Header">1.3 Header</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#2-box%e6%9b%b4%e6%96%b0" aria-label="2. box()更新">2. box()更新</a><ul>
+                            
+                    <li>
+                        <a href="#21-%e5%8a%a8%e4%bd%9c%e6%8c%89%e9%92%ae" aria-label="2.1 动作按钮">2.1 动作按钮</a></li>
+                    <li>
+                        <a href="#22-%e5%8f%b3%e4%b8%8a%e8%a7%92%e8%a3%85%e9%a5%b0ui" aria-label="2.2 右上角装饰UI">2.2 右上角装饰UI</a></li>
+                    <li>
+                        <a href="#23-%e5%ae%9a%e5%88%b6%e5%8c%96box" aria-label="2.3 定制化box">2.3 定制化box</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#3-%e5%85%b6%e5%ae%83%e6%96%b0%e5%a2%9e" aria-label="3. 其它新增">3. 其它新增</a><ul>
+                            
+                    <li>
+                        <a href="#31-accordion%e5%b8%83%e5%b1%80" aria-label="3.1 accordion()布局">3.1 accordion()布局</a></li>
+                    <li>
+                        <a href="#32-skin%e4%b8%bb%e9%a2%98%e9%a2%9c%e8%89%b2" aria-label="3.2 skin主题颜色">3.2 skin主题颜色</a></li>
+                    <li>
+                        <a href="#33-preloader%e7%95%8c%e9%9d%a2" aria-label="3.3 preloader界面">3.3 preloader界面</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#4-bs4dash" aria-label="4. bs4Dash">4. bs4Dash</a><ul>
+                            
+                    <li>
+                        <a href="#41-skeleton%e4%bc%98%e5%8c%96" aria-label="4.1 Skeleton优化">4.1 Skeleton优化</a></li>
+                    <li>
+                        <a href="#42-popover-tooltips%e6%b5%ae%e7%aa%97" aria-label="4.2 Popover, tooltips浮窗">4.2 Popover, tooltips浮窗</a>
+                    </li>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><p><strong>Shiny Basic系列:</strong></p>
+<blockquote>
+<p>参考教程：https://mastering-shiny.org/</p></blockquote>
+<p>（1）<a href="https://lishensuo.github.io/posts/program/255shiny-basic-1-io/">IO控件</a></p>
+<p>（2）<a href="https://lishensuo.github.io/posts/program/256shiny-basic-2-layout/">Layout布局</a></p>
+<p>（3）<a href="https://lishensuo.github.io/posts/program/257shiny-basic-3-reactive/">Reactive用法</a></p>
+<p>（4）<a href="https://lishensuo.github.io/posts/program/258shiny-basic-4-feedback/">Feedback提醒</a></p>
+<p>（5）<a href="https://lishensuo.github.io/posts/program/259shiny-basic-5-module/">Module模块</a></p>
+<p><strong>Shiny Package系列:</strong></p>
+<p>（1）<a href="https://lishensuo.github.io/posts/program/260shiny-pkg-1-shinywidgets/">shinyWidgets</a></p>
+<p>（2）<a href="https://lishensuo.github.io/posts/program/261shiny-pkg-2-shinyjs/">shinyJS</a></p>
+<p>（3）<a href="https://lishensuo.github.io/posts/program/262shiny-pkg-3-shinydashboard/">shinydashboard</a></p>
+<p>（4）<a href="https://lishensuo.github.io/posts/program/263shiny-pkg-4-shinydashboardplus/">shinydashboardPlus</a></p>
+<p>（5）<a href="https://lishensuo.github.io/posts/program/264shiny-pkg-5-bslib/">bslib</a></p>
+<p>（6）<a href="https://lishensuo.github.io/posts/program/265shiny-pkg-6-others/">Other pkgs</a></p>
+<hr>
+<p>shinydashboardPlus为shinydashboard包的升级版本，同时兼容shinydashboard的用法</p>
+<ul>
+<li><a href="https://github.com/RinteRface/shinydashboardPlus">https://github.com/RinteRface/shinydashboardPlus</a></li>
+<li><a href="https://shinydashboardplus.rinterface.com/">https://shinydashboardplus.rinterface.com/</a></li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>library(shiny)   <span style="color:#007f7f"># v1.7.4</span>
+</span></span><span style="display:flex;"><span>library(shinydashboardPlus) <span style="color:#007f7f"># v2.0.3</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="1-skeleton更新">1. skeleton更新<a hidden class="anchor" aria-hidden="true" href="#1-skeleton更新">#</a></h2>
+<h3 id="11-controlbar">1.1 Controlbar<a hidden class="anchor" aria-hidden="true" href="#11-controlbar">#</a></h3>
+<ul>
+<li><a href="https://shinydashboardplus.rinterface.com/articles/controlbar">https://shinydashboardplus.rinterface.com/articles/controlbar</a></li>
+<li>通过dashboardPage()的controlbar参数设置右边侧边栏</li>
+<li>具体是在dashboardControlbar()内设置UI控件，可进一步通过<code>controlbarMenu()/controlbarItem()</code>设置多个Tab的内容，建议最多设置5个</li>
+<li>可通过updateControlbar以及updateControlbarMenu动态更新显示状态</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>menu &lt;- controlbarMenu(
+</span></span><span style="display:flex;"><span>  id = <span style="color:#0ff;font-weight:bold">&#34;controlbarMenu&#34;</span>,
+</span></span><span style="display:flex;"><span>  controlbarItem(
+</span></span><span style="display:flex;"><span>    <span style="color:#0ff;font-weight:bold">&#34;Tab 1&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#0ff;font-weight:bold">&#34;Welcome to tab 1&#34;</span>
+</span></span><span style="display:flex;"><span>  ),
+</span></span><span style="display:flex;"><span>  controlbarItem(
+</span></span><span style="display:flex;"><span>    <span style="color:#0ff;font-weight:bold">&#34;Tab 2&#34;</span>,
+</span></span><span style="display:flex;"><span>    numericInput(<span style="color:#0ff;font-weight:bold">&#34;num&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;Observations:&#34;</span>, <span style="color:#ff0;font-weight:bold">200</span>, min = <span style="color:#ff0;font-weight:bold">1</span>, max = <span style="color:#ff0;font-weight:bold">1000</span>, step = <span style="color:#ff0;font-weight:bold">100</span>)
+</span></span><span style="display:flex;"><span>  )
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ui = dashboardPage(
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">...</span>, 
+</span></span><span style="display:flex;"><span>    controlbar = dashboardControlbar(
+</span></span><span style="display:flex;"><span>    	menu,
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">...</span>
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="12-footer">1.2 Footer<a hidden class="anchor" aria-hidden="true" href="#12-footer">#</a></h3>
+<ul>
+<li><a href="https://shinydashboardplus.rinterface.com/articles/controlbar">https://shinydashboardplus.rinterface.com/articles/controlbar</a></li>
+<li>通过dashboardPage()的footer参数设置底边尾注</li>
+<li>具体是在dashboardFooter()内设置尾注的文本注释信息</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>ui = dashboardPage(
+</span></span><span style="display:flex;"><span>  header = dashboardHeader(),
+</span></span><span style="display:flex;"><span>  sidebar = dashboardSidebar(),
+</span></span><span style="display:flex;"><span>  body = dashboardBody(),
+</span></span><span style="display:flex;"><span>  footer = dashboardFooter(left = <span style="color:#0ff;font-weight:bold">&#34;Left content&#34;</span>, right = <span style="color:#0ff;font-weight:bold">&#34;Right content&#34;</span>),
+</span></span><span style="display:flex;"><span>  title = <span style="color:#0ff;font-weight:bold">&#34;DashboardPage&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>server = <span style="color:#fff;font-weight:bold">function</span>(input, output) { }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>shinyApp(ui, server)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="13-header">1.3 Header<a hidden class="anchor" aria-hidden="true" href="#13-header">#</a></h3>
+<ul>
+<li><a href="https://shinydashboardplus.rinterface.com/articles/enhanced-header">https://shinydashboardplus.rinterface.com/articles/enhanced-header</a></li>
+<li>在shinydashboard包中可使用dropdownMenu在dashboardHeader设置不同类型的文本提醒下拉菜单（默认右侧）</li>
+<li>而shinydashboardplus支持在dashboardHeader（leftUI参数）的左侧设置多种类型下拉菜单
+<ul>
+<li>来自shinyWidgets的dropdownButton()，可嵌入UI控件</li>
+<li>来自shinydashboard的dropdownMenu()，可设置3类文本</li>
+<li>来自shinydashboardplus的dropdownBlock()，可嵌入UI控件</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>ui = dashboardPage(
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">...</span>,
+</span></span><span style="display:flex;"><span>  header = dashboardHeader(
+</span></span><span style="display:flex;"><span>    leftUi = tagList(
+</span></span><span style="display:flex;"><span>      dropdownButton(<span style="color:#fff;font-weight:bold">...</span>),
+</span></span><span style="display:flex;"><span>      dropdownMenu(<span style="color:#fff;font-weight:bold">...</span>),
+</span></span><span style="display:flex;"><span>      dropdownBlock(<span style="color:#fff;font-weight:bold">...</span>),
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>  )
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="2-box更新">2. box()更新<a hidden class="anchor" aria-hidden="true" href="#2-box更新">#</a></h2>
+<p><a href="https://shinydashboardplus.rinterface.com/articles/improved-boxes">https://shinydashboardplus.rinterface.com/articles/improved-boxes</a></p>
+<h3 id="21-动作按钮">2.1 动作按钮<a hidden class="anchor" aria-hidden="true" href="#21-动作按钮">#</a></h3>
+<p>在设置box的id（例如为&quot;mybox&quot;）前提下，有4类动作按钮</p>
+<ul>
+<li>toggle：折叠或展开box body；(input$mybox$collapsed)</li>
+<li>remove：隐藏box；(input$mybox$visible为FALSE)</li>
+<li>restore：恢复box； (input$mybox$visible为TRUE)</li>
+<li>update：更新box内的content</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f"># server.R</span>
+</span></span><span style="display:flex;"><span>observeEvent(input$toggle_box, {
+</span></span><span style="display:flex;"><span>  updateBox(<span style="color:#0ff;font-weight:bold">&#34;mybox&#34;</span>, action = <span style="color:#0ff;font-weight:bold">&#34;toggle&#34;</span>)
+</span></span><span style="display:flex;"><span>})
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="22-右上角装饰ui">2.2 右上角装饰UI<a hidden class="anchor" aria-hidden="true" href="#22-右上角装饰ui">#</a></h3>
+<p>（1）通过box()函数的参数在box右上角设置多种功能的ui元素：</p>
+<ul>
+<li><strong>label</strong>参数：通过函数boxLabel()设置，起到类似badge的作用；</li>
+<li><strong>dropdownMenu</strong>参数：通过函数boxDropdown()/boxDropdownItem()设置下拉列表；</li>
+<li><strong>collapsible</strong>参数：折叠box选项</li>
+<li><strong>closable</strong>参数：隐藏box选项</li>
+<li><strong>boxSidebar</strong>参数：通过函数boxSidebar()设置侧边栏</li>
+</ul>
+<p>（2） descriptionBlock()函数可以在box内展示关键的数字/文本</p>
+<ul>
+<li><a href="https://shinydashboardplus.rinterface.com/articles/box-elements">https://shinydashboardplus.rinterface.com/articles/box-elements</a></li>
+</ul>
+<h3 id="23-定制化box">2.3 定制化box<a hidden class="anchor" aria-hidden="true" href="#23-定制化box">#</a></h3>
+<ul>
+<li><code>userBox()</code>：展示个人信息，也可以通过updateBox()实现动态更新</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>userDescription(
+</span></span><span style="display:flex;"><span>  title = <span style="color:#0ff;font-weight:bold">&#34;Nadia Carmichael&#34;</span>,
+</span></span><span style="display:flex;"><span>  subtitle = <span style="color:#0ff;font-weight:bold">&#34;lead Developer&#34;</span>,
+</span></span><span style="display:flex;"><span>  type = <span style="color:#ff0;font-weight:bold">2</span>,
+</span></span><span style="display:flex;"><span>  image = <span style="color:#0ff;font-weight:bold">&#34;https://adminlte.io/themes/AdminLTE/dist/img/user7-128x128.jpg&#34;</span>,
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>flipBox()</code>：具有正反面（front/back），可通过updateFlipBox()实现动态更新</li>
+</ul>
+<h2 id="3-其它新增">3. 其它新增<a hidden class="anchor" aria-hidden="true" href="#3-其它新增">#</a></h2>
+<h3 id="31-accordion布局">3.1 accordion()布局<a hidden class="anchor" aria-hidden="true" href="#31-accordion布局">#</a></h3>
+<ul>
+<li>手风琴式布局</li>
+<li><a href="https://shinydashboardplus.rinterface.com/articles/extra-elements">https://shinydashboardplus.rinterface.com/articles/extra-elements</a></li>
+<li>每个<code>accordion()</code> 可以包括多个<code>accordionItem()</code>纵向堆叠而成；但只能保持其中一个为open的状态，其余均为collapsed</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>accordion(
+</span></span><span style="display:flex;"><span>  id = <span style="color:#0ff;font-weight:bold">&#34;accordion1&#34;</span>,
+</span></span><span style="display:flex;"><span>  accordionItem(
+</span></span><span style="display:flex;"><span>    title = <span style="color:#0ff;font-weight:bold">&#34;Accordion 1 Item 1&#34;</span>,
+</span></span><span style="display:flex;"><span>    status = <span style="color:#0ff;font-weight:bold">&#34;danger&#34;</span>,
+</span></span><span style="display:flex;"><span>    collapsed = <span style="color:#fff;font-weight:bold">TRUE</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#0ff;font-weight:bold">&#34;This is some text!&#34;</span>
+</span></span><span style="display:flex;"><span>  ),
+</span></span><span style="display:flex;"><span>  accordionItem(
+</span></span><span style="display:flex;"><span>    title = <span style="color:#0ff;font-weight:bold">&#34;Accordion 1 Item 2&#34;</span>,
+</span></span><span style="display:flex;"><span>    status = <span style="color:#0ff;font-weight:bold">&#34;warning&#34;</span>,
+</span></span><span style="display:flex;"><span>    collapsed = <span style="color:#fff;font-weight:bold">FALSE</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#0ff;font-weight:bold">&#34;This is some text!&#34;</span>
+</span></span><span style="display:flex;"><span>  )
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="32-skin主题颜色">3.2 skin主题颜色<a hidden class="anchor" aria-hidden="true" href="#32-skin主题颜色">#</a></h3>
+<ul>
+<li><a href="https://shinydashboardplus.rinterface.com/articles/more-skins">https://shinydashboardplus.rinterface.com/articles/more-skins</a></li>
+<li>通过dashboardPage()函数的skin参数设置主题颜色，提供6种颜色，2类主题，以及一个黑夜模式</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>skin = c(<span style="color:#0ff;font-weight:bold">&#34;blue&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;blue-light&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;black&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;black-light&#34;</span>, 
+</span></span><span style="display:flex;"><span>         <span style="color:#0ff;font-weight:bold">&#34;purple&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;purple-light&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;green&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;green-light&#34;</span>, 
+</span></span><span style="display:flex;"><span>         <span style="color:#0ff;font-weight:bold">&#34;red&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;red-light&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;yellow&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;yellow-light&#34;</span>, 
+</span></span><span style="display:flex;"><span>         <span style="color:#0ff;font-weight:bold">&#34;midnight&#34;</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>此外，也可以通过skinSelector()在右侧控制栏提供所有选择（midnight除外）</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>ui = dashboardPage(
+</span></span><span style="display:flex;"><span>  header = dashboardHeader(),
+</span></span><span style="display:flex;"><span>  sidebar = dashboardSidebar(),
+</span></span><span style="display:flex;"><span>  body = dashboardBody(),
+</span></span><span style="display:flex;"><span>  controlbar = dashboardControlbar(collapsed = <span style="color:#fff;font-weight:bold">FALSE</span>, skinSelector()),
+</span></span><span style="display:flex;"><span>  title = <span style="color:#0ff;font-weight:bold">&#34;Skin Selector&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>server = <span style="color:#fff;font-weight:bold">function</span>(input, output) { }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>shinyApp(ui, server)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="33-preloader界面">3.3 preloader界面<a hidden class="anchor" aria-hidden="true" href="#33-preloader界面">#</a></h3>
+<ul>
+<li><a href="https://shinydashboardplus.rinterface.com/articles/css-preloader">https://shinydashboardplus.rinterface.com/articles/css-preloader</a></li>
+<li>基于waiter包，在dashboardPage()函数的preloader参数设置app的启动加载悬窗</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>ui = dashboardPage(
+</span></span><span style="display:flex;"><span>  preloader = list(html = tagList(spin_1(), <span style="color:#0ff;font-weight:bold">&#34;Loading ...&#34;</span>), color = <span style="color:#0ff;font-weight:bold">&#34;#3c8dbc&#34;</span>),
+</span></span><span style="display:flex;"><span>  header = dashboardHeader(),
+</span></span><span style="display:flex;"><span>  body = dashboardBody(
+</span></span><span style="display:flex;"><span>    actionButton(<span style="color:#0ff;font-weight:bold">&#34;reload&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;Reload&#34;</span>)
+</span></span><span style="display:flex;"><span>  ),
+</span></span><span style="display:flex;"><span>  sidebar = dashboardSidebar()
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>server = <span style="color:#fff;font-weight:bold">function</span>(input, output, session) {
+</span></span><span style="display:flex;"><span>  observeEvent(input$reload, {
+</span></span><span style="display:flex;"><span>    session$reload()
+</span></span><span style="display:flex;"><span>  })
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>shinyApp(ui, server)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="4-bs4dash">4. bs4Dash<a hidden class="anchor" aria-hidden="true" href="#4-bs4dash">#</a></h2>
+<blockquote>
+<p>Bootstrap 4 shinydashboard using AdminLTE3 兼容shinydashboard以及shinydashboardPlus的用法。</p></blockquote>
+<ul>
+<li><a href="https://github.com/RinteRface/bs4Dash">https://github.com/RinteRface/bs4Dash</a></li>
+<li><a href="https://bs4dash.rinterface.com/articles/bs4dash">https://bs4dash.rinterface.com/articles/bs4dash</a></li>
+</ul>
+<h3 id="41-skeleton优化">4.1 Skeleton优化<a hidden class="anchor" aria-hidden="true" href="#41-skeleton优化">#</a></h3>
+<ul>
+<li><a href="https://bs4dash.rinterface.com/articles/step-by-step">https://bs4dash.rinterface.com/articles/step-by-step</a></li>
+<li>如下仅列举部分新颖的更新参数，详见上方链接</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>library(shiny)    <span style="color:#007f7f"># v0.7.2</span>
+</span></span><span style="display:flex;"><span>library(bs4Dash)  <span style="color:#007f7f"># v2.3.3 </span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>shinyApp(
+</span></span><span style="display:flex;"><span>  ui = dashboardPage(
+</span></span><span style="display:flex;"><span>    title = <span style="color:#0ff;font-weight:bold">&#34;Basic Dashboard&#34;</span>,
+</span></span><span style="display:flex;"><span>    header = dashboardHeader(),
+</span></span><span style="display:flex;"><span>    sidebar = dashboardSidebar(),
+</span></span><span style="display:flex;"><span>    controlbar = dashboardControlbar(),
+</span></span><span style="display:flex;"><span>    footer = dashboardFooter(),
+</span></span><span style="display:flex;"><span>    body = dashboardBody()
+</span></span><span style="display:flex;"><span>  ),
+</span></span><span style="display:flex;"><span>  server = <span style="color:#fff;font-weight:bold">function</span>(input, output) {}
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>
+<p>dashboardPage()</p>
+<ul>
+<li>scrollToTop参数：快速回到顶部按钮</li>
+</ul>
+</li>
+<li>
+<p>dashboardSidebar()</p>
+<ul>
+<li>minified参数：隐藏侧边栏时，仍保留图标</li>
+<li>expandOnHover参数：鼠标触动时，自动展开侧边栏</li>
+</ul>
+</li>
+<li>
+<p>dashboardHeader()</p>
+<ul>
+<li>title参数可通过dashboardBrand设置多元的标题属性</li>
+</ul>
+</li>
+<li>
+<p>dashboardControlbar()</p>
+<ul>
+<li>pinned参数可使右侧边栏保持open状态</li>
+</ul>
+</li>
+<li>
+<p>dashboardBody()</p>
+<ul>
+<li>box()内可通过设置maximizable参数添加全屏展示按钮</li>
+</ul>
+</li>
+</ul>
+<h3 id="42-popover-tooltips浮窗">4.2 Popover, tooltips浮窗<a hidden class="anchor" aria-hidden="true" href="#42-popover-tooltips浮窗">#</a></h3>
+<ul>
+<li>
+<p><code>popover()</code>，<code>addPopover()/removePopover()</code> 点击触发式浮窗</p>
+</li>
+<li>
+<p><code>tooltip()</code>，<code>addTooltip()/removeTooltip</code> 接触触发式浮窗</p>
+</li>
+</ul>
+<blockquote>
+<p>Tips: 上述两类浮窗需要在header栏右侧的help switch开启状态下才能生效</p></blockquote>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f"># 以tooltip为例，具体可查看每个函数的帮助文档</span>
+</span></span><span style="display:flex;"><span>ui = dashboardPage(
+</span></span><span style="display:flex;"><span>  header = dashboardHeader(),
+</span></span><span style="display:flex;"><span>  sidebar = dashboardSidebar(),
+</span></span><span style="display:flex;"><span>  body = dashboardBody(
+</span></span><span style="display:flex;"><span>    tooltip(
+</span></span><span style="display:flex;"><span>      actionButton(<span style="color:#0ff;font-weight:bold">&#34;goButton&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;Hover to see the tooltip&#34;</span>),
+</span></span><span style="display:flex;"><span>      title = <span style="color:#0ff;font-weight:bold">&#34;My tooltip&#34;</span>,
+</span></span><span style="display:flex;"><span>      placement = <span style="color:#0ff;font-weight:bold">&#34;top&#34;</span>
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>  )
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>server = <span style="color:#fff;font-weight:bold">function</span>(input, output, session) {}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>shinyApp(ui, server)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>图片滑动gallery展示效果可通过<code>carousel()/carouselItem()</code>设置，其在bs4Dash与shinydashboardPlus均支持</p></blockquote>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/shiny/">Shiny</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/en/posts/program/262shiny-pkg-3-shinydashboard/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>Shiny-pkg-3-shinydashboard</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/en/posts/program/264shiny-pkg-5-bslib/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>Shiny-pkg-5-bslib</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

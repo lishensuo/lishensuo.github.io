@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>文献--综合多种分析建立TNBC预后模型 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="文献-挖掘">
+<meta name="description" content="
+A network approach reveals driver genes associated with survival of patients with triple-negative breast cancer
+April 19, 2021; IF=5.4
+https://doi.org/10.1016/j.isci.2021.102451
+
+
+
+1、WGCNA分析
+（1）对773个来自TCGA的BRCA(包括92个TNBC)的31338个基因表达数据进行WGCNA网络共表达分析">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/basic/120%E6%96%87%E7%8C%AE--%E7%BB%BC%E5%90%88%E5%A4%9A%E7%A7%8D%E5%88%86%E6%9E%90%E5%BB%BA%E7%AB%8Btnbc%E9%A2%84%E5%90%8E%E6%A8%A1%E5%9E%8B/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/basic/120%E6%96%87%E7%8C%AE--%E7%BB%BC%E5%90%88%E5%A4%9A%E7%A7%8D%E5%88%86%E6%9E%90%E5%BB%BA%E7%AB%8Btnbc%E9%A2%84%E5%90%8E%E6%A8%A1%E5%9E%8B/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="文献--综合多种分析建立TNBC预后模型" />
+<meta property="og:description" content="
+A network approach reveals driver genes associated with survival of patients with triple-negative breast cancer
+April 19, 2021; IF=5.4
+https://doi.org/10.1016/j.isci.2021.102451
+
+
+
+1、WGCNA分析
+（1）对773个来自TCGA的BRCA(包括92个TNBC)的31338个基因表达数据进行WGCNA网络共表达分析" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/basic/120%E6%96%87%E7%8C%AE--%E7%BB%BC%E5%90%88%E5%A4%9A%E7%A7%8D%E5%88%86%E6%9E%90%E5%BB%BA%E7%AB%8Btnbc%E9%A2%84%E5%90%8E%E6%A8%A1%E5%9E%8B/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-05-06T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2022-05-06T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="文献--综合多种分析建立TNBC预后模型"/>
+<meta name="twitter:description" content="
+A network approach reveals driver genes associated with survival of patients with triple-negative breast cancer
+April 19, 2021; IF=5.4
+https://doi.org/10.1016/j.isci.2021.102451
+
+
+
+1、WGCNA分析
+（1）对773个来自TCGA的BRCA(包括92个TNBC)的31338个基因表达数据进行WGCNA网络共表达分析"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 科研基础 -- 读文献、看教材",
+      "item": "https://lishensuo.github.io/en/posts/basic/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "文献--综合多种分析建立TNBC预后模型",
+      "item": "https://lishensuo.github.io/en/posts/basic/120%E6%96%87%E7%8C%AE--%E7%BB%BC%E5%90%88%E5%A4%9A%E7%A7%8D%E5%88%86%E6%9E%90%E5%BB%BA%E7%AB%8Btnbc%E9%A2%84%E5%90%8E%E6%A8%A1%E5%9E%8B/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "文献--综合多种分析建立TNBC预后模型",
+  "name": "文献--综合多种分析建立TNBC预后模型",
+  "description": " A network approach reveals driver genes associated with survival of patients with triple-negative breast cancer\nApril 19, 2021; IF=5.4\nhttps://doi.org/10.1016/j.isci.2021.102451\n1、WGCNA分析 （1）对773个来自TCGA的BRCA(包括92个TNBC)的31338个基因表达数据进行WGCNA网络共表达分析\n",
+  "keywords": [
+    "文献-挖掘"
+  ],
+  "articleBody": " A network approach reveals driver genes associated with survival of patients with triple-negative breast cancer\nApril 19, 2021; IF=5.4\nhttps://doi.org/10.1016/j.isci.2021.102451\n1、WGCNA分析 （1）对773个来自TCGA的BRCA(包括92个TNBC)的31338个基因表达数据进行WGCNA网络共表达分析\n计算邻接矩阵的相关性指标选择 bicor(biweight midcorrelation) 得到22个模块，计算模块相关的ME与kME ME：每个样本对于每个模块的特征值 kME：每个基因对于每个模块的相关性 （2）使用方差分析，根据WGCNA鉴定的样本模块ME特征值与BRCA样本的subtype，发现与亚型分型最相关的12个模块\n前期根据每个模块的基因组成进行富集分析，注释每个模块的相关通路(GO BP) 其中M12模块与TNBC分析最正相关(bicor = 0.69)；M2模块与TNBC最负相关(bicor = -0.69) （3）对模块进行聚类分析，发现22个模块可以分为3类；其中的两类与TNBC相关，但相反(anti-correlated)\n对于每个模块的样本ME值与样本TRAIT数据进行相关性分析，其中重点关注与样本的TNBC二分类以及生存时间的相关性。目标是希望找到与TNBC二分类正相关与生存时间负相关的模块。 发现M12为代表的一类模块（M7，M21，M17，M8）与TNBC正相关，生存时间负相关，统称为M12-like module 发现M2为代表的一类模块（M11，M5，M19）与TNBC负相关，与生存时间正相关，统称为M2-like module 综上找到与TNBC分型相关的两大类模块，包括9个模块 与TNBC正相关表明，模块特征值越大，越符合TNBC；与TNBC正相关表明，模块特征值越小，越符合TNBC。\n2、差异分析与生存分析 （1）差异分析：使用T检验，分析TNBC分别与其它三种BRCA subtype的差异基因 BH FDR校正\n取三次差异分析结果中具有相同方向的显著TNBC DEG，共1518个。 （2）模块ME生存分析：基于TCGA的773样本的RFS状态进行生存分析\n首先分析每个模块的ME高低分组与生存的相关性：分为M12-like与M2-like两类模块讨论，总体来说M2-like模块低表达组(lower ME)的样本更容易复发；M12-like模块与之相反。 （3）单基因生存分析：基于GEO的1234个样本的RFS状态进行生存分析\n根据之前的差异分析结果，标记M12 TNBC top20(相对Luminal A)的上调基因；标记M2 TNBC top20(相对Luminal A)的下调基因。进行单基因生存分析。 结果发现M12模块的PSAT1、ART3等5个基因；M2模块的TFF1、SCUBE2等6个基因具有生存显著相关性。 3、GIANT分析 （1）挑选出M2-like、M12-like的hub基因（Top10，kME\u003e0.6）\n（2）使用GIANT数据库(http://giant-v2.princeton.edu/)搜索在乳腺组织中，与这些hub gene高相关的基因。\n对于M2、M12模块也加入哪些虽然不是hub，但是生存高相关的基因。 （3）结果发现M7，M21，M17，M8，M12，M2这6个模块，具有较高的连接度关系\nM12模块的hub基因，PSAT1，YBX1，MTHFD1L具有最高的连接度。 M2模块中整体连接度比较高，hub基因ESR1，TFF1，SCUBE2等基因比较特殊。 4、预后模型 基于GEO的1234个BRCA样本的RFS状态，训练基因组合模型，使用ROC曲线评价模型对于BRCA以及TNBC的预测性能。\n如下式，定义一个score：分子来自与TNBC负相关的M2-like module的基因；分母来自与TNBC正相关的M12-like module的基因。\n分子与分母的基因数保持相同，即基因数比（1:1,2:2,3:3）；每个基因的权重设置为1。\n若M2相关基因的表达值越低、同时M12相关基因的表达越高；则score值就越低→越符合TNBC。\n$$ score = \\frac{M2-like ,gene(s)}{M12-like ,gene(s)} $$\n4.1 第一轮ROC 选用来自第二步中挑选的11个来自M2(5)、M12(6)，与生存相关的TNBC差异基因。\n共有381种模型组合可能； 对BRCA预测最佳模型的基因组合为（ERBB4 + SCUBE2 + TFF1/ART3 + FZD9 + PSAT1），但是在TNBC中表现不佳。 ERBB4/FZD9组合在TNBC的5年生存率预测中效果最佳 4.2 第二轮ROC 扩大基因的选择范围，考虑更多的module 差异基因或者hub基因\n分子包括ERBB4、SCUBE2等24个来自M2-like 模块；分母包括ART3, FZD9,PSAT1等34个来自M12-like 模块；\n共有11385种组合可能（包括1:1, 2:2, 3:3）；\n针对TNBC的Top最佳模型在TNBC中性能明显优于上一轮，但在BRCA数据中预测性能最低；\n最佳基因组合为(BIK +GPRC5C+ SPTLC2/CEBPB + DUSP4 + TPO)，而且大些基因大多出现在Top100 TNBC模型中。\n4.3 第三轮ROC 在第二轮的最佳TNBC模型6基因的基础上，手动根据文献添加补充候选基因； 最终敲定最优的9基因模型对TNBC具有良好的特异性，对BRCA性能一般。 最后在TCGA的BRCA数据上取得了验证。 小结：这篇文章目的是找到一个特异性针对TNBC的预后模型的基因组合。首先使用WGCNA找到与TNBC分型相关的模块，然后结合差异分析、生存分析以及组织间基因相互作用分析从关键模块定位到关键基因。关于模型基因组合，第一次见到本文的计算（类似于传统riskscore）方式，觉得比较新奇；结合三轮ROC分析，不断增加候选基因，筛选了1W+的基因组合，最终获得了一个理想的模型。\n",
+  "wordCount" : "2226",
+  "inLanguage": "en",
+  "datePublished": "2022-05-06T00:00:00Z",
+  "dateModified": "2022-05-06T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/basic/120%E6%96%87%E7%8C%AE--%E7%BB%BC%E5%90%88%E5%A4%9A%E7%A7%8D%E5%88%86%E6%9E%90%E5%BB%BA%E7%AB%8Btnbc%E9%A2%84%E5%90%8E%E6%A8%A1%E5%9E%8B/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/basic/">📖 科研基础 -- 读文献、看教材</a></div>
+    <h1 class="post-title">
+      文献--综合多种分析建立TNBC预后模型
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-05-06 00:00:00 &#43;0000 UTC&#39;&gt;2022-05-06&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-05-06&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2226&amp;nbsp;|&amp;nbsp;5 min&amp;nbsp;|&amp;nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#1wgcna%e5%88%86%e6%9e%90" aria-label="1、WGCNA分析">1、WGCNA分析</a></li>
+                    <li>
+                        <a href="#2%e5%b7%ae%e5%bc%82%e5%88%86%e6%9e%90%e4%b8%8e%e7%94%9f%e5%ad%98%e5%88%86%e6%9e%90" aria-label="2、差异分析与生存分析">2、差异分析与生存分析</a></li>
+                    <li>
+                        <a href="#3giant%e5%88%86%e6%9e%90" aria-label="3、GIANT分析">3、GIANT分析</a></li>
+                    <li>
+                        <a href="#4%e9%a2%84%e5%90%8e%e6%a8%a1%e5%9e%8b" aria-label="4、预后模型">4、预后模型</a><ul>
+                            
+                    <li>
+                        <a href="#41-%e7%ac%ac%e4%b8%80%e8%bd%aeroc" aria-label="4.1 第一轮ROC">4.1 第一轮ROC</a></li>
+                    <li>
+                        <a href="#42-%e7%ac%ac%e4%ba%8c%e8%bd%aeroc" aria-label="4.2 第二轮ROC">4.2 第二轮ROC</a></li>
+                    <li>
+                        <a href="#43-%e7%ac%ac%e4%b8%89%e8%bd%aeroc" aria-label="4.3 第三轮ROC">4.3 第三轮ROC</a>
+                    </li>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><blockquote>
+<p>A network approach reveals driver genes associated with survival of patients with triple-negative breast cancer</p>
+<p>April 19, 2021; IF=5.4</p>
+<p><a href="https://doi.org/10.1016/j.isci.2021.102451">https://doi.org/10.1016/j.isci.2021.102451</a></p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220505144346626.png" alt="image-20220505144346626"  />
+</p></blockquote>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220505144446718.png" alt="image-20220505144446718" style="zoom: 33%;" />
+<h1 id="1wgcna分析">1、WGCNA分析<a hidden class="anchor" aria-hidden="true" href="#1wgcna分析">#</a></h1>
+<p>（1）对<strong>773</strong>个来自TCGA的BRCA(包括92个TNBC)的31338个基因表达数据进行WGCNA网络共表达分析</p>
+<ul>
+<li>计算邻接矩阵的相关性指标选择 <strong>bicor</strong>(biweight midcorrelation)</li>
+<li>得到22个模块，计算模块相关的ME与kME
+<ul>
+<li>ME：每个样本对于每个模块的特征值</li>
+<li>kME：每个基因对于每个模块的相关性</li>
+</ul>
+</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220505152653804.png" alt="image-20220505152653804"  />
+</p>
+<p>（2）使用方差分析，根据WGCNA鉴定的样本模块ME特征值与BRCA样本的subtype，发现与亚型分型最相关的12个模块</p>
+<ul>
+<li>前期根据每个模块的基因组成进行富集分析，注释每个模块的相关通路(GO BP)</li>
+<li>其中<strong>M12</strong>模块与TNBC分析最正相关(bicor = 0.69)；<strong>M2</strong>模块与TNBC最负相关(bicor = -0.69)</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220505153025252.png" alt="image-20220505153025252" style="zoom: 67%;" />
+<p>（3）对模块进行聚类分析，发现22个模块可以分为3类；其中的两类与TNBC相关，但相反(anti-correlated)</p>
+<ul>
+<li>对于每个模块的样本ME值与样本TRAIT数据进行相关性分析，其中重点关注与样本的TNBC二分类以及生存时间的相关性。目标是希望找到与TNBC二分类正相关与生存时间负相关的模块。</li>
+<li>发现M12为代表的一类模块（M7，M21，M17，M8）与TNBC正相关，生存时间负相关，统称为<strong>M12-like module</strong></li>
+<li>发现M2为代表的一类模块（M11，M5，M19）与TNBC负相关，与生存时间正相关，统称为<strong>M2-like module</strong></li>
+<li>综上找到与TNBC分型相关的两大类模块，包括9个模块</li>
+</ul>
+<blockquote>
+<p>与TNBC正相关表明，模块特征值越大，越符合TNBC；与TNBC正相关表明，模块特征值越小，越符合TNBC。</p></blockquote>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220505154030287.png" alt="image-20220505154030287"  />
+</p>
+<h1 id="2差异分析与生存分析">2、差异分析与生存分析<a hidden class="anchor" aria-hidden="true" href="#2差异分析与生存分析">#</a></h1>
+<p>（1）差异分析：使用T检验，分析TNBC分别与其它三种BRCA subtype的差异基因 BH FDR校正</p>
+<ul>
+<li>取三次差异分析结果中具有相同方向的显著TNBC DEG，共1518个。</li>
+</ul>
+<p>（2）模块ME生存分析：基于TCGA的773样本的RFS状态进行生存分析</p>
+<ul>
+<li>首先分析每个模块的ME高低分组与生存的相关性：分为M12-like与M2-like两类模块讨论，总体来说M2-like模块低表达组(lower ME)的样本更容易复发；M12-like模块与之相反。</li>
+</ul>
+<p>（3）单基因生存分析：基于GEO的1234个样本的RFS状态进行生存分析</p>
+<ul>
+<li>根据之前的差异分析结果，标记M12 TNBC top20(相对Luminal A)的上调基因；标记M2 TNBC top20(相对Luminal A)的下调基因。进行单基因生存分析。</li>
+<li>结果发现M12模块的PSAT1、ART3等5个基因；M2模块的TFF1、SCUBE2等6个基因具有生存显著相关性。</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220505161956291.png" alt="image-20220505161956291" style="zoom:50%;" />
+<h1 id="3giant分析">3、GIANT分析<a hidden class="anchor" aria-hidden="true" href="#3giant分析">#</a></h1>
+<p>（1）挑选出M2-like、M12-like的hub基因（Top10，kME&gt;0.6）</p>
+<p>（2）使用GIANT数据库(<a href="http://giant-v2.princeton.edu/">http://giant-v2.princeton.edu/</a>)搜索在乳腺组织中，与这些hub gene高相关的基因。</p>
+<ul>
+<li>对于M2、M12模块也加入哪些虽然不是hub，但是生存高相关的基因。</li>
+</ul>
+<p>（3）结果发现M7，M21，M17，M8，M12，M2这6个模块，具有较高的连接度关系</p>
+<ul>
+<li>M12模块的hub基因，PSAT1，YBX1，MTHFD1L具有最高的连接度。</li>
+<li>M2模块中整体连接度比较高，hub基因ESR1，TFF1，SCUBE2等基因比较特殊。</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220506143725861.png" alt="image-20220506143725861"  />
+</p>
+<h1 id="4预后模型">4、预后模型<a hidden class="anchor" aria-hidden="true" href="#4预后模型">#</a></h1>
+<ul>
+<li>
+<p>基于GEO的1234个BRCA样本的RFS状态，训练基因组合模型，使用ROC曲线评价模型对于BRCA以及TNBC的预测性能。</p>
+</li>
+<li>
+<p>如下式，定义一个score：分子来自与TNBC负相关的M2-like module的基因；分母来自与TNBC正相关的M12-like module的基因。</p>
+<ul>
+<li>
+<p>分子与分母的基因数保持相同，即基因数比（1:1,2:2,3:3）；每个基因的权重设置为1。</p>
+</li>
+<li>
+<p>若M2相关基因的表达值越低、同时M12相关基因的表达越高；则score值就越<strong>低</strong>→越符合TNBC。</p>
+</li>
+</ul>
+<p>$$
+score = \frac{M2-like ,gene(s)}{M12-like ,gene(s)}
+$$</p>
+</li>
+</ul>
+<h2 id="41-第一轮roc">4.1 第一轮ROC<a hidden class="anchor" aria-hidden="true" href="#41-第一轮roc">#</a></h2>
+<p>选用来自第二步中挑选的11个来自M2(5)、M12(6)，与生存相关的TNBC差异基因。</p>
+<ul>
+<li>共有381种模型组合可能；</li>
+<li>对BRCA预测最佳模型的基因组合为（ERBB4 + SCUBE2 + TFF1/ART3 + FZD9 + PSAT1），但是在TNBC中表现不佳。</li>
+<li>ERBB4/FZD9组合在TNBC的5年生存率预测中效果最佳</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220505200128521.png" alt="image-20220505200128521" style="zoom: 50%;" />
+<h2 id="42-第二轮roc">4.2 第二轮ROC<a hidden class="anchor" aria-hidden="true" href="#42-第二轮roc">#</a></h2>
+<p>扩大基因的选择范围，考虑更多的module 差异基因或者hub基因</p>
+<ul>
+<li>
+<p>分子包括ERBB4、SCUBE2等24个来自M2-like 模块；分母包括ART3, FZD9,PSAT1等34个来自M12-like 模块；</p>
+</li>
+<li>
+<p>共有11385种组合可能（包括1:1, 2:2, 3:3）；</p>
+</li>
+<li>
+<p>针对TNBC的Top最佳模型在TNBC中性能明显优于上一轮，但在BRCA数据中预测性能最低；</p>
+</li>
+<li>
+<p>最佳基因组合为(BIK +GPRC5C+ SPTLC2/CEBPB + DUSP4 + TPO)，而且大些基因大多出现在Top100 TNBC模型中。</p>
+</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220505201833858.png" alt="image-20220505201833858" style="zoom:50%;" />
+<h2 id="43-第三轮roc">4.3 第三轮ROC<a hidden class="anchor" aria-hidden="true" href="#43-第三轮roc">#</a></h2>
+<ul>
+<li>在第二轮的最佳TNBC模型6基因的基础上，手动根据文献添加补充候选基因；</li>
+<li>最终敲定最优的9基因模型对TNBC具有良好的特异性，对BRCA性能一般。</li>
+<li>最后在TCGA的BRCA数据上取得了验证。</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220505203823399.png" alt="image-20220505203823399" style="zoom:50%;" />
+<blockquote>
+<p>小结：这篇文章目的是找到一个特异性针对TNBC的预后模型的基因组合。首先使用WGCNA找到与TNBC分型相关的模块，然后结合差异分析、生存分析以及组织间基因相互作用分析从关键模块定位到关键基因。关于模型基因组合，第一次见到本文的计算（类似于传统riskscore）方式，觉得比较新奇；结合三轮ROC分析，不断增加候选基因，筛选了1W+的基因组合，最终获得了一个理想的模型。</p></blockquote>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/%E6%96%87%E7%8C%AE-%E6%8C%96%E6%8E%98/">文献-挖掘</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/en/posts/bioinfo/119%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Esklearn4--%E5%B8%B8%E8%A7%81%E5%9B%9E%E5%BD%92%E4%BB%BB%E5%8A%A1%E5%AD%A6%E4%B9%A0%E5%99%A8/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>机器学习基于sklearn(4)--常见回归任务学习器</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/en/posts/bioinfo/130%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0--%E8%87%AA%E5%8A%A8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B7%A5%E5%85%B7autogluon/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>机器学习--自动机器学习工具autogluon</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

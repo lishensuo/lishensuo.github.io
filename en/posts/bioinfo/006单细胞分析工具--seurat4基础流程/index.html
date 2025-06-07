@@ -1,0 +1,1460 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>单细胞分析工具--Seurat4基础流程 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="scRNA-seq">
+<meta name="description" content="
+
+1
+2
+3
+4
+5
+6
+
+
+packageVersion(&#34;Seurat&#34;)
+# [1] ‘4.0.6’
+library(Seurat)
+library(tidyverse)
+library(ggplot2)
+library(clustree)
+
+
+0、导入数据方式
+（1）cellranger比对结果
+对每个测序样本数据经cellranger上游比对，产生3个文件，分别是：">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/bioinfo/006%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--seurat4%E5%9F%BA%E7%A1%80%E6%B5%81%E7%A8%8B/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/bioinfo/006%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--seurat4%E5%9F%BA%E7%A1%80%E6%B5%81%E7%A8%8B/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="单细胞分析工具--Seurat4基础流程" />
+<meta property="og:description" content="
+
+1
+2
+3
+4
+5
+6
+
+
+packageVersion(&#34;Seurat&#34;)
+# [1] ‘4.0.6’
+library(Seurat)
+library(tidyverse)
+library(ggplot2)
+library(clustree)
+
+
+0、导入数据方式
+（1）cellranger比对结果
+对每个测序样本数据经cellranger上游比对，产生3个文件，分别是：" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/bioinfo/006%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--seurat4%E5%9F%BA%E7%A1%80%E6%B5%81%E7%A8%8B/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-04-16T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2023-01-12T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="单细胞分析工具--Seurat4基础流程"/>
+<meta name="twitter:description" content="
+
+1
+2
+3
+4
+5
+6
+
+
+packageVersion(&#34;Seurat&#34;)
+# [1] ‘4.0.6’
+library(Seurat)
+library(tidyverse)
+library(ggplot2)
+library(clustree)
+
+
+0、导入数据方式
+（1）cellranger比对结果
+对每个测序样本数据经cellranger上游比对，产生3个文件，分别是："/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 生信数据分析--分析流程，工具包等",
+      "item": "https://lishensuo.github.io/en/posts/bioinfo/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "单细胞分析工具--Seurat4基础流程",
+      "item": "https://lishensuo.github.io/en/posts/bioinfo/006%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--seurat4%E5%9F%BA%E7%A1%80%E6%B5%81%E7%A8%8B/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "单细胞分析工具--Seurat4基础流程",
+  "name": "单细胞分析工具--Seurat4基础流程",
+  "description": " 1 2 3 4 5 6 packageVersion(\u0026#34;Seurat\u0026#34;) # [1] ‘4.0.6’ library(Seurat) library(tidyverse) library(ggplot2) library(clustree) 0、导入数据方式 （1）cellranger比对结果 对每个测序样本数据经cellranger上游比对，产生3个文件，分别是：\n",
+  "keywords": [
+    "scRNA-seq"
+  ],
+  "articleBody": " 1 2 3 4 5 6 packageVersion(\"Seurat\") # [1] ‘4.0.6’ library(Seurat) library(tidyverse) library(ggplot2) library(clustree) 0、导入数据方式 （1）cellranger比对结果 对每个测序样本数据经cellranger上游比对，产生3个文件，分别是：\nbarcodes.tsv.gz – 细胞标签 features.tsv.gz – 基因名 matrix.mtx.gz – 表达数据 1 2 3 4 5 6 7 8 9 10 11 12 ## GSE166635为例 dir=\"./data/HCC2/filtered_feature_bc_matrix/\" list.files(dir) #[1] \"barcodes.tsv.gz\" \"features.tsv.gz\" \"matrix.mtx.gz\" #(1) 先使用Read10X()对三文件整合为稀疏表达矩阵 counts \u003c- Read10X(data.dir = dir) #(2) 再使用CreateSeuratObject()创建Seurat对象 scRNA \u003c- CreateSeuratObject(counts = counts) scRNA ## 具体三个文件的格式：https://www.jianshu.com/p/5b26d7bc37b7 （2）直接提供表达矩阵 1 2 3 ## GSE144320为例 scRNA \u003c- CreateSeuratObject(counts = counts) scRNA （3）h5格式文件 1 2 3 4 5 ## GSE138433为例 #(1) 读入表达矩阵 sce \u003c- Read10X_h5(filename = \"GSM4107899_LH16.3814_raw_gene_bc_matrices_h5.h5\") #(2) 转为Seurat对象 sce \u003c- CreateSeuratObject(counts = sce) （4）h5ad格式 需要安装，使用SeuratDisk包的两个函数； 先将后h5ad格式转换为h5seurat格式，再使用LoadH5Seurat()函数读取Seurat对象。 1 2 3 4 5 6 #remotes::install_github(\"mojaveazure/seurat-disk\") library(SeuratDisk) Convert(\"GSE153643_RAW/GSM4648565_liver_raw_counts.h5ad\", \"h5seurat\", overwrite = TRUE,assay = \"RNA\") scRNA \u003c- LoadH5Seurat(\"GSE153643_RAW/GSM4648565_liver_raw_counts.h5seurat\") #注意一下，我之前载入时，表达矩阵被转置了，需要处理一下~ 将Seurat对象转为h5ad格式 1 2 SaveH5Seurat(scRNA, filename = \"scRNA.h5Seurat\") Convert(\"scRNA.h5Seurat\", dest = \"h5ad\") （5）10X PBMC demo https://bioconductor.org/packages/devel/data/experiment/vignettes/TENxPBMCData/inst/doc/TENxPBMCData.html 1 2 3 4 5 6 7 library(TENxPBMCData) library(Seurat) tenx_pbmc3k \u003c- TENxPBMCData(dataset = \"pbmc3k\") counts = as.matrix(assay(tenx_pbmc3k, \"counts\")) rownames(counts) = rowData(tenx_pbmc3k)$Symbol_TENx colnames(counts) = paste0(\"cell-\",1:ncol(counts)) sce = CreateSeuratObject(counts = counts) 1、批量创建Seurat对象 （1）规范化10X文件样本名 每个样本一个文件夹，分别包含三个文件：barcodes.tsv.gz, features.tsv.gz, matrix.mtx.gz\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 list.files(\"GSE139324_RAW/\") # [1] \"GSM4138110_HNSCC_1_PBMC_barcodes.tsv.gz\" \"GSM4138110_HNSCC_1_PBMC_genes.tsv.gz\" \"GSM4138110_HNSCC_1_PBMC_matrix.mtx.gz\" # [4] \"GSM4138112_HNSCC_2_PBMC_barcodes.tsv.gz\" \"GSM4138112_HNSCC_2_PBMC_genes.tsv.gz\" \"GSM4138112_HNSCC_2_PBMC_matrix.mtx.gz\" # [7] \"GSM4138114_HNSCC_3_PBMC_barcodes.tsv.gz\" \"GSM4138114_HNSCC_3_PBMC_genes.tsv.gz\" \"GSM4138114_HNSCC_3_PBMC_matrix.mtx.gz\" fs=list.files('./GSE139324_RAW/','^GSM') samples=str_split(fs,'_',simplify = T)[,1] %\u003e% unique() samples # [1] \"GSM4138110\" \"GSM4138112\" \"GSM4138114\" dir.create(\"data\") for (sp in samples) { # sp = samples[1] sp3 = fs[grepl(sp, fs)] # 顺序很重要 newfolder=paste0(\"data/\", sp) dir.create(newfolder,recursive = T) file.copy(paste0(\"GSE139324_RAW/\",sp3[1]), paste0(newfolder,\"/barcodes.tsv.gz\")) file.copy(paste0(\"GSE139324_RAW/\",sp3[2]), paste0(newfolder,\"/features.tsv.gz\")) file.copy(paste0(\"GSE139324_RAW/\",sp3[3]), paste0(newfolder,\"/matrix.mtx.gz\")) } （2）合并多样本 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 list.files(\"data/\", recursive = T) samples = list.files(\"data/\") # [1] \"GSM4138110\" \"GSM4138112\" \"GSM4138114\" dirs = paste0(\"data/\",samples) scelist = lapply(samples, function(sp){ # sp = samples[1] print(sp) dirs = paste0(\"data/\",sp) sce = Read10X(data.dir = dirs) %\u003e% #读取counts矩阵 CreateSeuratObject(project = sp) %\u003e% #创建seurat对象 RenameCells(add.cell.id = sp) #添加前缀,避免重复 return(sce) }) sce = merge(scelist[[1]], scelist[-1]) head(sce@meta.data) sce = sce %\u003e% PercentageFeatureSet(., \"^MT-\", col.name = \"percent_mito\") %\u003e% #线粒体基因比例 PercentageFeatureSet(., \"^RP[SL]\", col.name = \"percent_ribo\") %\u003e% #核糖体基因比例 PercentageFeatureSet(., \"^HB[^(P)]\", col.name = \"percent_hb\") #血红蛋白基因比例 head(sce@meta.data) （3）过滤细胞/基因 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 dim(sce) #[1] 33694 4899 #过滤细胞 sce = sce %\u003e% subset(., nFeature_RNA \u003e 500) %\u003e% subset(., percent_mito \u003c 10) %\u003e% subset(., percent_ribo \u003e 3) %\u003e% subset(., percent_hb \u003c 0.1) #过滤基因 sce = sce[rowSums(sce@assays$RNA@counts\u003e0)\u003e3,] dim(sce) #[1] 16334 4751 sce # An object of class Seurat # 16334 features across 4751 samples within 1 assay # Active assay: RNA (16334 features, 0 variable features) 2、标归高降维 （1）标归高 标准化–归一化–鉴定高变基因\n1 2 3 4 sce = sce %\u003e% NormalizeData() %\u003e% FindVariableFeatures(nfeatures = 2000) %\u003e% ScaleData(., vars.to.regress = \"percent_mito\") （2）降维聚类分群 1 2 3 4 5 6 7 8 sce = sce %\u003e% RunPCA() %\u003e% RunUMAP(dims = 1:30) %\u003e% #RunTSNE FindNeighbors(dims = 1:30) %\u003e% FindClusters(resolution = c(0.01, 0.05, 0.1, 0.2, 0.3, 0.5,0.8,1)) DimPlot(sce, reduction = \"umap\", group.by = \"orig.ident\") # clustree(sce@meta.data, prefix = \"RNA_snn_res.\") 3、Seurat结构 1 sce = sce_int 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 #####表达矩阵##### sce@assays Assays(sce) # [1] \"RNA\" \"CCA\" DefaultAssay(sce) DefaultAssay(sce) = \"RNA\" DefaultAssay(sce) sce@active.assay GetAssayData(sce[[\"RNA\"]], slot = \"counts\") #####细胞meta信息##### sce@meta.data %\u003e% dim() colnames(sce@meta.data) # [1] \"orig.ident\" \"nCount_RNA\" \"nFeature_RNA\" \"percent_mito\" \"percent_ribo\" \"percent_hb\" # [7] \"RNA_snn_res.0.01\" \"RNA_snn_res.0.05\" \"RNA_snn_res.0.1\" \"RNA_snn_res.0.2\" \"RNA_snn_res.0.3\" \"RNA_snn_res.0.5\" # [13] \"RNA_snn_res.0.8\" \"RNA_snn_res.1\" \"seurat_clusters\" \"CCA_snn_res.0.01\" \"CCA_snn_res.0.05\" \"CCA_snn_res.0.1\" # [19] \"CCA_snn_res.0.2\" \"CCA_snn_res.0.3\" \"CCA_snn_res.0.5\" \"CCA_snn_res.0.8\" \"CCA_snn_res.1\" head(sce[[]]) table(sce@active.ident) sce = SetIdent(sce, value = \"CCA_snn_res.0.1\") Idents(sce_int) \u003c- \"CCA_snn_res.0.05\" #####降维信息##### names(sce@reductions) #[1] \"pca\" \"umap\" DefaultDimReduc(sce) sce@reductions$umap@cell.embeddings %\u003e% head() Embeddings(sce, reduction = \"pca\")[1:3,1:3] sce[[\"pca\"]][1:4,1:4] #####FetchData取关于细胞的任何信息##### FetchData(sce, vars = c(\"UMAP_1\",\"UMAP_2\")) %\u003e% head() FetchData(sce, vars = c(\"nCount_RNA\",\"nFeature_RNA\")) %\u003e% head() DefaultAssay(sce) = \"RNA\" FetchData(sce, vars = c(\"CD4\",\"CD8A\",\"CD8B\"), slot = \"data\") %\u003e% head() 4、Seurat可视化 1 2 DefaultAssay(sce)=\"RNA\" Idents(sce) \u003c- \"CCA_snn_res.0.05\" （1）VlnPlot 1 2 3 4 # cell info VlnPlot(sce, group.by = \"orig.ident\", features = c(\"percent_mito\", \"nFeature_RNA\"), pt.size = 0, ncol = 2) 1 2 3 4 5 6 7 8 9 10 11 12 # gene exp VlnPlot(sce, features = c(\"CD4\",\"CD8A\",\"CD8B\"), assay = \"RNA\", slot = \"data\", pt.size = 0, ncol = 1) ### 修改展示顺序 # levels(sce_int@active.ident) # sce_int@active.ident = factor(sce_int@active.ident, # levels = c(5,4,3,2,1,0)) ### 山脊图 # RidgePlot(sce_int, features = c(\"CD4\",\"CD8A\",\"CD8B\"), # assay = \"RNA\", slot = \"data\") 1 2 3 4 5 6 library(patchwork) VlnPlot(sce,split.by = 'orig.ident', features = c(\"CD4\",\"CD8A\",\"CD8B\"), assay = \"RNA\", slot = \"data\", pt.size = 0,combine = FALSE) %\u003e% wrap_plots(ncol = 1) 1 2 3 4 Idents(sce) = \"RNA_snn_res.0.01\" sce$Group = ifelse(sce$orig.ident==\"GSM4138110\",\"before\",\"after\") #二分组变量 VlnPlot(sce, split.by = \"Group\", split.plot = TRUE, features = c(\"percent_mito\", \"nFeature_RNA\")) （2）DotPlot 1 2 3 4 5 6 DotPlot(sce, features = c(\"CD4\",\"CD8A\",\"CD8B\"), assay = \"RNA\") + coord_flip() ### 修改颜色 # DotPlot(sce, features = c(\"CD4\",\"CD8A\",\"CD8B\"), # assay = \"RNA\", cols = c(\"lightgrey\",\"red\")) 1 2 3 4 genelist = list(set1=c(\"CD3D\",\"CD3E\",\"CD3G\"), set2=c(\"CD4\",\"CD8A\",\"CD8B\")) DotPlot(sce, features = genelist, assay = \"RNA\", scale = FALSE) （3）Dimplot 1 2 DimPlot(sce, reduction = \"umap\", group.by = \"CCA_snn_res.0.01\",label = T) 1 2 3 DimPlot(sce, reduction = \"umap\", group.by = \"CCA_snn_res.0.01\", split.by = \"orig.ident\") \u0026 NoAxes() （4）FeaturePlot 1 FeaturePlot(sce, features = c(\"CD4\",\"CD8A\",\"CD8B\"), ncol = 3) 1 2 3 FeaturePlot(sce, features = c(\"CD4\",\"CD8A\",\"CD8B\"), split.by = \"orig.ident\", ncol = 3, cols = c(\"lightgrey\",\"red\")) 5、注释细胞类型 marker基因：Dotplot 假设根据CCA_snn_res.0.05分群结果，将6个cluster注释为4中细胞类型 1 2 3 4 5 6 7 8 9 10 11 12 13 14 Idents(sce) \u003c- \"CCA_snn_res.0.05\" table(sce@active.ident) # 0 1 2 3 4 5 # 1595 1486 1250 315 56 49 sce$celltype = dplyr::case_when( sce@active.ident %in% c(0,1) ~ \"celltypeA\", sce@active.ident %in% c(2) ~ \"celltypeB\", sce@active.ident %in% c(3,4) ~ \"celltypeC\", sce@active.ident %in% c(5) ~ \"celltypeD\") table(sce$celltype) # celltypeA celltypeB celltypeC celltypeD # 3081 1250 371 49 6、差异分析 1 2 3 DefaultAssay(sce)=\"RNA\" Idents(sce) \u003c- \"CCA_snn_res.0.05\" table(sce@active.ident) （1）FindAllMarkers 1 2 3 4 5 6 7 8 diff_wilcox = FindAllMarkers(sce, assay = \"RNA\", slot = \"data\", only.pos = T) %\u003e% dplyr::group_by(cluster) %\u003e% dplyr::arrange(desc(avg_log2FC), .by_group = T) top_n \u003c- diff_wilcox %\u003e% group_by(cluster) %\u003e% top_n(5, avg_log2FC) DoHeatmap(sce, top_n$gene, size = 3) 1 2 3 4 mapal \u003c- colorRampPalette(RColorBrewer::brewer.pal(11,\"RdBu\"))(256) DoHeatmap(subset(sce, downsample = 100), top_n$gene, angle = 90,size = 3) + scale_fill_gradientn(colours = rev(mapal)) \u0026 NoLegend() （2）FindMarkers 1 2 3 4 5 6 7 8 9 10 11 # 0 vs the other cluster diff_wilcox_cluster0 = FindMarkers(sce, ident.1 = 0, assay = \"RNA\", slot = \"data\") head(diff_wilcox_cluster0) # 0 vs 1 diff_wilcox_cluster0 = FindMarkers(sce, ident.1 = 0, ident.2 = 1, assay = \"RNA\", slot = \"data\") VlnPlot(subset(sce, CCA_snn_res.0.05 %in% c(0,1)), features = c(\"RPL11\",\"CD2\"), assay = \"RNA\", slot = \"data\", group.by = \"CCA_snn_res.0.05\", pt.size = 0) 1 2 3 4 5 6 7 8 9 10 # 某一类细胞（celltypeA）在两个样本(GSM4138110,GSM4138112)的差异基因 Idents(sce)=\"celltype\" markers \u003c- FindMarkers(sce, subset.ident = \"celltypeA\", group.by = \"orig.ident\", ident.1 = \"GSM4138110\", ident.2 = \"GSM4138112\") head(markers) VlnPlot(subset(sce, celltype %in% c(\"celltypeA\") \u0026 orig.ident %in% c(\"GSM4138110\",\"GSM4138112\")), features = c(\"RPS26\",\"IGHA1\"), assay = \"RNA\", slot = \"data\", group.by = \"orig.ident\", pt.size = 0) （3）FindConservedMarkers 1 2 3 4 5 6 7 8 9 10 Idents(sce)=\"celltype\" # 在每个样本中orig.ident， celltypeA与celltypeB相比均差异表达的基因 markers = FindConservedMarkers(sce, ident.1 = \"celltypeA\", ident.2 = \"celltypeB\", assay = \"RNA\", slot = \"data\", grouping.var = \"orig.ident\") # 在每个样本中orig.ident， celltypeA与其它类型细胞相比均差异表达的基因 markers = FindConservedMarkers(sce, ident.1 = \"celltypeA\", assay = \"RNA\", slot = \"data\", grouping.var = \"orig.ident\") 7、多线程 1 2 3 4 5 6 7 8 9 10 11 12 library(future) #查看初始状态 plan() #设置4个线程 plan(\"multiprocess\", workers = 4) options(future.globals.maxSize = 1024^4) plan() #恢复单线程 plan(\"sequential\") plan() 8、基因集打分 1 2 3 4 5 6 7 8 9 10 11 12 13 ## (1) Seurat包自带的`AddModuleScore()`打分函数，结果有正负值 sce_pw_score = AddModuleScore(sce, features=pw.list, seed=42) head(sce_pw_score[[]]) ## (2) AUCell包评价基因集活性,结果在0~1之间 BiocManager::install(\"AUCell\") library(AUCell) # step1: cells_rankings \u003c- AUCell_buildRankings(sce@assays$RNA@data) # step2： cells_AUC \u003c- AUCell_calcAUC(pw.list, cells_rankings, aucMaxRank=nrow(cells_rankings)*0.1, nCores=5) # step3： sce_pw_auc = getAUC(cells_AUC) ",
+  "wordCount" : "2304",
+  "inLanguage": "en",
+  "datePublished": "2022-04-16T00:00:00Z",
+  "dateModified": "2023-01-12T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/bioinfo/006%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--seurat4%E5%9F%BA%E7%A1%80%E6%B5%81%E7%A8%8B/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/bioinfo/">📖 生信数据分析--分析流程，工具包等</a></div>
+    <h1 class="post-title">
+      单细胞分析工具--Seurat4基础流程
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-16 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-16&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-01-12&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2304&amp;nbsp;|&amp;nbsp;5 min&amp;nbsp;|&amp;nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#0%e5%af%bc%e5%85%a5%e6%95%b0%e6%8d%ae%e6%96%b9%e5%bc%8f" aria-label="0、导入数据方式">0、导入数据方式</a><ul>
+                            
+                    <li>
+                        <a href="#1cellranger%e6%af%94%e5%af%b9%e7%bb%93%e6%9e%9c" aria-label="（1）cellranger比对结果">（1）cellranger比对结果</a></li>
+                    <li>
+                        <a href="#2%e7%9b%b4%e6%8e%a5%e6%8f%90%e4%be%9b%e8%a1%a8%e8%be%be%e7%9f%a9%e9%98%b5" aria-label="（2）直接提供表达矩阵">（2）直接提供表达矩阵</a></li>
+                    <li>
+                        <a href="#3h5%e6%a0%bc%e5%bc%8f%e6%96%87%e4%bb%b6" aria-label="（3）h5格式文件">（3）h5格式文件</a></li>
+                    <li>
+                        <a href="#4h5ad%e6%a0%bc%e5%bc%8f" aria-label="（4）h5ad格式">（4）h5ad格式</a><ul>
+                            
+                    <li>
+                        <a href="#510x-pbmc-demo" aria-label="（5）10X PBMC demo">（5）10X PBMC demo</a></li></ul>
+                    </li></ul>
+                    </li>
+                    <li>
+                        <a href="#1%e6%89%b9%e9%87%8f%e5%88%9b%e5%bb%baseurat%e5%af%b9%e8%b1%a1" aria-label="1、批量创建Seurat对象">1、批量创建Seurat对象</a><ul>
+                            <ul>
+                            
+                    <li>
+                        <a href="#1%e8%a7%84%e8%8c%83%e5%8c%9610x%e6%96%87%e4%bb%b6%e6%a0%b7%e6%9c%ac%e5%90%8d" aria-label="（1）规范化10X文件样本名">（1）规范化10X文件样本名</a></li>
+                    <li>
+                        <a href="#2%e5%90%88%e5%b9%b6%e5%a4%9a%e6%a0%b7%e6%9c%ac" aria-label="（2）合并多样本">（2）合并多样本</a></li>
+                    <li>
+                        <a href="#3%e8%bf%87%e6%bb%a4%e7%bb%86%e8%83%9e%e5%9f%ba%e5%9b%a0" aria-label="（3）过滤细胞/基因">（3）过滤细胞/基因</a></li></ul>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#2%e6%a0%87%e5%bd%92%e9%ab%98%e9%99%8d%e7%bb%b4" aria-label="2、标归高降维">2、标归高降维</a><ul>
+                            <ul>
+                            
+                    <li>
+                        <a href="#1%e6%a0%87%e5%bd%92%e9%ab%98" aria-label="（1）标归高">（1）标归高</a></li>
+                    <li>
+                        <a href="#2%e9%99%8d%e7%bb%b4%e8%81%9a%e7%b1%bb%e5%88%86%e7%be%a4" aria-label="（2）降维聚类分群">（2）降维聚类分群</a></li></ul>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#3seurat%e7%bb%93%e6%9e%84" aria-label="3、Seurat结构">3、Seurat结构</a></li>
+                    <li>
+                        <a href="#4seurat%e5%8f%af%e8%a7%86%e5%8c%96" aria-label="4、Seurat可视化">4、Seurat可视化</a><ul>
+                            <ul>
+                            
+                    <li>
+                        <a href="#1vlnplot" aria-label="（1）VlnPlot">（1）VlnPlot</a></li>
+                    <li>
+                        <a href="#2dotplot" aria-label="（2）DotPlot">（2）DotPlot</a></li>
+                    <li>
+                        <a href="#3dimplot" aria-label="（3）Dimplot">（3）Dimplot</a></li>
+                    <li>
+                        <a href="#4featureplot" aria-label="（4）FeaturePlot">（4）FeaturePlot</a></li></ul>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#5%e6%b3%a8%e9%87%8a%e7%bb%86%e8%83%9e%e7%b1%bb%e5%9e%8b" aria-label="5、注释细胞类型">5、注释细胞类型</a></li>
+                    <li>
+                        <a href="#6%e5%b7%ae%e5%bc%82%e5%88%86%e6%9e%90" aria-label="6、差异分析">6、差异分析</a><ul>
+                            <ul>
+                            
+                    <li>
+                        <a href="#1findallmarkers" aria-label="（1）FindAllMarkers">（1）FindAllMarkers</a></li>
+                    <li>
+                        <a href="#2findmarkers" aria-label="（2）FindMarkers">（2）FindMarkers</a></li>
+                    <li>
+                        <a href="#3findconservedmarkers" aria-label="（3）FindConservedMarkers">（3）FindConservedMarkers</a></li></ul>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#7%e5%a4%9a%e7%ba%bf%e7%a8%8b" aria-label="7、多线程">7、多线程</a></li>
+                    <li>
+                        <a href="#8%e5%9f%ba%e5%9b%a0%e9%9b%86%e6%89%93%e5%88%86" aria-label="8、基因集打分">8、基因集打分</a>
+                    </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>packageVersion(<span style="color:#0ff;font-weight:bold">&#34;Seurat&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] ‘4.0.6’</span>
+</span></span><span style="display:flex;"><span>library(Seurat)
+</span></span><span style="display:flex;"><span>library(tidyverse)
+</span></span><span style="display:flex;"><span>library(ggplot2)
+</span></span><span style="display:flex;"><span>library(clustree)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="0导入数据方式">0、导入数据方式<a hidden class="anchor" aria-hidden="true" href="#0导入数据方式">#</a></h3>
+<h4 id="1cellranger比对结果">（1）cellranger比对结果<a hidden class="anchor" aria-hidden="true" href="#1cellranger比对结果">#</a></h4>
+<p>对每个测序样本数据经cellranger上游比对，产生3个文件，分别是：</p>
+<ul>
+<li>barcodes.tsv.gz &ndash; 细胞标签</li>
+<li>features.tsv.gz &ndash; 基因名</li>
+<li>matrix.mtx.gz &ndash; 表达数据</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">## GSE166635为例</span>
+</span></span><span style="display:flex;"><span>dir=<span style="color:#0ff;font-weight:bold">&#34;./data/HCC2/filtered_feature_bc_matrix/&#34;</span>
+</span></span><span style="display:flex;"><span>list.files(dir)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#[1] &#34;barcodes.tsv.gz&#34; &#34;features.tsv.gz&#34; &#34;matrix.mtx.gz&#34; </span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#(1) 先使用Read10X()对三文件整合为稀疏表达矩阵</span>
+</span></span><span style="display:flex;"><span>counts &lt;- Read10X(data.dir = dir)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#(2) 再使用CreateSeuratObject()创建Seurat对象</span>
+</span></span><span style="display:flex;"><span>scRNA &lt;- CreateSeuratObject(counts = counts)
+</span></span><span style="display:flex;"><span>scRNA
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## 具体三个文件的格式：https://www.jianshu.com/p/5b26d7bc37b7</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="2直接提供表达矩阵">（2）直接提供表达矩阵<a hidden class="anchor" aria-hidden="true" href="#2直接提供表达矩阵">#</a></h4>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">## GSE144320为例</span>
+</span></span><span style="display:flex;"><span>scRNA &lt;- CreateSeuratObject(counts = counts)
+</span></span><span style="display:flex;"><span>scRNA
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="3h5格式文件">（3）h5格式文件<a hidden class="anchor" aria-hidden="true" href="#3h5格式文件">#</a></h4>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">## GSE138433为例</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#(1) 读入表达矩阵</span>
+</span></span><span style="display:flex;"><span>sce &lt;- Read10X_h5(filename = <span style="color:#0ff;font-weight:bold">&#34;GSM4107899_LH16.3814_raw_gene_bc_matrices_h5.h5&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#(2) 转为Seurat对象</span>
+</span></span><span style="display:flex;"><span>sce &lt;- CreateSeuratObject(counts = sce)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="4h5ad格式">（4）h5ad格式<a hidden class="anchor" aria-hidden="true" href="#4h5ad格式">#</a></h4>
+<ul>
+<li>需要安装，使用<code>SeuratDisk</code>包的两个函数；</li>
+<li>先将后<code>h5ad</code>格式转换为<code>h5seurat</code>格式，再使用<code>LoadH5Seurat()</code>函数读取Seurat对象。</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">#remotes::install_github(&#34;mojaveazure/seurat-disk&#34;)</span>
+</span></span><span style="display:flex;"><span>library(SeuratDisk)
+</span></span><span style="display:flex;"><span>Convert(<span style="color:#0ff;font-weight:bold">&#34;GSE153643_RAW/GSM4648565_liver_raw_counts.h5ad&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;h5seurat&#34;</span>,
+</span></span><span style="display:flex;"><span>        overwrite = <span style="color:#fff;font-weight:bold">TRUE</span>,assay = <span style="color:#0ff;font-weight:bold">&#34;RNA&#34;</span>)
+</span></span><span style="display:flex;"><span>scRNA &lt;- LoadH5Seurat(<span style="color:#0ff;font-weight:bold">&#34;GSE153643_RAW/GSM4648565_liver_raw_counts.h5seurat&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#注意一下，我之前载入时，表达矩阵被转置了，需要处理一下~</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>将Seurat对象转为h5ad格式</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>SaveH5Seurat(scRNA, filename = <span style="color:#0ff;font-weight:bold">&#34;scRNA.h5Seurat&#34;</span>)
+</span></span><span style="display:flex;"><span>Convert(<span style="color:#0ff;font-weight:bold">&#34;scRNA.h5Seurat&#34;</span>, dest = <span style="color:#0ff;font-weight:bold">&#34;h5ad&#34;</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h5 id="510x-pbmc-demo">（5）10X PBMC demo<a hidden class="anchor" aria-hidden="true" href="#510x-pbmc-demo">#</a></h5>
+<ul>
+<li><a href="https://bioconductor.org/packages/devel/data/experiment/vignettes/TENxPBMCData/inst/doc/TENxPBMCData.html">https://bioconductor.org/packages/devel/data/experiment/vignettes/TENxPBMCData/inst/doc/TENxPBMCData.html</a></li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>library(TENxPBMCData)
+</span></span><span style="display:flex;"><span>library(Seurat)
+</span></span><span style="display:flex;"><span>tenx_pbmc3k &lt;- TENxPBMCData(dataset = <span style="color:#0ff;font-weight:bold">&#34;pbmc3k&#34;</span>)
+</span></span><span style="display:flex;"><span>counts = as.matrix(assay(tenx_pbmc3k, <span style="color:#0ff;font-weight:bold">&#34;counts&#34;</span>))
+</span></span><span style="display:flex;"><span>rownames(counts) = rowData(tenx_pbmc3k)$Symbol_TENx
+</span></span><span style="display:flex;"><span>colnames(counts) = paste0(<span style="color:#0ff;font-weight:bold">&#34;cell-&#34;</span>,<span style="color:#ff0;font-weight:bold">1</span>:ncol(counts))
+</span></span><span style="display:flex;"><span>sce = CreateSeuratObject(counts = counts)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="1批量创建seurat对象">1、批量创建Seurat对象<a hidden class="anchor" aria-hidden="true" href="#1批量创建seurat对象">#</a></h3>
+<h5 id="1规范化10x文件样本名">（1）规范化10X文件样本名<a hidden class="anchor" aria-hidden="true" href="#1规范化10x文件样本名">#</a></h5>
+<p>每个样本一个文件夹，分别包含三个文件：<code>barcodes.tsv.gz</code>, <code>features.tsv.gz</code>, <code>matrix.mtx.gz</code></p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>list.files(<span style="color:#0ff;font-weight:bold">&#34;GSE139324_RAW/&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] &#34;GSM4138110_HNSCC_1_PBMC_barcodes.tsv.gz&#34; &#34;GSM4138110_HNSCC_1_PBMC_genes.tsv.gz&#34;    &#34;GSM4138110_HNSCC_1_PBMC_matrix.mtx.gz&#34;  </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [4] &#34;GSM4138112_HNSCC_2_PBMC_barcodes.tsv.gz&#34; &#34;GSM4138112_HNSCC_2_PBMC_genes.tsv.gz&#34;    &#34;GSM4138112_HNSCC_2_PBMC_matrix.mtx.gz&#34;  </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [7] &#34;GSM4138114_HNSCC_3_PBMC_barcodes.tsv.gz&#34; &#34;GSM4138114_HNSCC_3_PBMC_genes.tsv.gz&#34;    &#34;GSM4138114_HNSCC_3_PBMC_matrix.mtx.gz&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>fs=list.files(<span style="color:#0ff;font-weight:bold">&#39;./GSE139324_RAW/&#39;</span>,<span style="color:#0ff;font-weight:bold">&#39;^GSM&#39;</span>)
+</span></span><span style="display:flex;"><span>samples=str_split(fs,<span style="color:#0ff;font-weight:bold">&#39;_&#39;</span>,simplify = <span style="color:#fff;font-weight:bold">T</span>)[,<span style="color:#ff0;font-weight:bold">1</span>] %&gt;% unique()
+</span></span><span style="display:flex;"><span>samples
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] &#34;GSM4138110&#34; &#34;GSM4138112&#34; &#34;GSM4138114&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>dir.create(<span style="color:#0ff;font-weight:bold">&#34;data&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">for</span> (sp <span style="color:#fff;font-weight:bold">in</span> samples) {
+</span></span><span style="display:flex;"><span>  <span style="color:#007f7f"># sp = samples[1]</span>
+</span></span><span style="display:flex;"><span>  sp3 = fs[grepl(sp, fs)] <span style="color:#007f7f"># 顺序很重要</span>
+</span></span><span style="display:flex;"><span>  newfolder=paste0(<span style="color:#0ff;font-weight:bold">&#34;data/&#34;</span>, sp)
+</span></span><span style="display:flex;"><span>  dir.create(newfolder,recursive = <span style="color:#fff;font-weight:bold">T</span>)
+</span></span><span style="display:flex;"><span>  file.copy(paste0(<span style="color:#0ff;font-weight:bold">&#34;GSE139324_RAW/&#34;</span>,sp3[1]),
+</span></span><span style="display:flex;"><span>            paste0(newfolder,<span style="color:#0ff;font-weight:bold">&#34;/barcodes.tsv.gz&#34;</span>))
+</span></span><span style="display:flex;"><span>  file.copy(paste0(<span style="color:#0ff;font-weight:bold">&#34;GSE139324_RAW/&#34;</span>,sp3[2]),
+</span></span><span style="display:flex;"><span>            paste0(newfolder,<span style="color:#0ff;font-weight:bold">&#34;/features.tsv.gz&#34;</span>))
+</span></span><span style="display:flex;"><span>  file.copy(paste0(<span style="color:#0ff;font-weight:bold">&#34;GSE139324_RAW/&#34;</span>,sp3[3]),
+</span></span><span style="display:flex;"><span>            paste0(newfolder,<span style="color:#0ff;font-weight:bold">&#34;/matrix.mtx.gz&#34;</span>))
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://s2.loli.net/2022/03/13/1tl9RJQZsbofcyN.png" alt="image-20220313105611455"  />
+</p>
+<h5 id="2合并多样本">（2）合并多样本<a hidden class="anchor" aria-hidden="true" href="#2合并多样本">#</a></h5>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>list.files(<span style="color:#0ff;font-weight:bold">&#34;data/&#34;</span>, recursive = <span style="color:#fff;font-weight:bold">T</span>)
+</span></span><span style="display:flex;"><span>samples = list.files(<span style="color:#0ff;font-weight:bold">&#34;data/&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] &#34;GSM4138110&#34; &#34;GSM4138112&#34; &#34;GSM4138114&#34;</span>
+</span></span><span style="display:flex;"><span>dirs = paste0(<span style="color:#0ff;font-weight:bold">&#34;data/&#34;</span>,samples)
+</span></span><span style="display:flex;"><span>scelist = lapply(samples, <span style="color:#fff;font-weight:bold">function</span>(sp){
+</span></span><span style="display:flex;"><span>  <span style="color:#007f7f"># sp = samples[1]</span>
+</span></span><span style="display:flex;"><span>  print(sp)
+</span></span><span style="display:flex;"><span>  dirs = paste0(<span style="color:#0ff;font-weight:bold">&#34;data/&#34;</span>,sp)
+</span></span><span style="display:flex;"><span>  sce = Read10X(data.dir = dirs) %&gt;%  <span style="color:#007f7f">#读取counts矩阵</span>
+</span></span><span style="display:flex;"><span>    CreateSeuratObject(project = sp) %&gt;% <span style="color:#007f7f">#创建seurat对象</span>
+</span></span><span style="display:flex;"><span>    RenameCells(add.cell.id = sp) <span style="color:#007f7f">#添加前缀,避免重复</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">return</span>(sce)
+</span></span><span style="display:flex;"><span>})
+</span></span><span style="display:flex;"><span>sce = merge(scelist[[1]], scelist[<span style="color:#ff0;font-weight:bold">-1</span>])
+</span></span><span style="display:flex;"><span>head(sce@meta.data)
+</span></span><span style="display:flex;"><span>sce = sce %&gt;% 
+</span></span><span style="display:flex;"><span>  PercentageFeatureSet(., <span style="color:#0ff;font-weight:bold">&#34;^MT-&#34;</span>, col.name = <span style="color:#0ff;font-weight:bold">&#34;percent_mito&#34;</span>) %&gt;% <span style="color:#007f7f">#线粒体基因比例</span>
+</span></span><span style="display:flex;"><span>  PercentageFeatureSet(., <span style="color:#0ff;font-weight:bold">&#34;^RP[SL]&#34;</span>, col.name = <span style="color:#0ff;font-weight:bold">&#34;percent_ribo&#34;</span>) %&gt;% <span style="color:#007f7f">#核糖体基因比例</span>
+</span></span><span style="display:flex;"><span>  PercentageFeatureSet(., <span style="color:#0ff;font-weight:bold">&#34;^HB[^(P)]&#34;</span>, col.name = <span style="color:#0ff;font-weight:bold">&#34;percent_hb&#34;</span>) <span style="color:#007f7f">#血红蛋白基因比例</span>
+</span></span><span style="display:flex;"><span>head(sce@meta.data)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h5 id="3过滤细胞基因">（3）过滤细胞/基因<a hidden class="anchor" aria-hidden="true" href="#3过滤细胞基因">#</a></h5>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>dim(sce) 
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#[1] 33694  4899</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#过滤细胞</span>
+</span></span><span style="display:flex;"><span>sce = sce %&gt;% 
+</span></span><span style="display:flex;"><span>  subset(., nFeature_RNA &gt; <span style="color:#ff0;font-weight:bold">500</span>) %&gt;% 
+</span></span><span style="display:flex;"><span>  subset(., percent_mito &lt; <span style="color:#ff0;font-weight:bold">10</span>) %&gt;% 
+</span></span><span style="display:flex;"><span>  subset(., percent_ribo &gt; <span style="color:#ff0;font-weight:bold">3</span>) %&gt;%
+</span></span><span style="display:flex;"><span>  subset(., percent_hb &lt; <span style="color:#ff0;font-weight:bold">0.1</span>) 
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#过滤基因</span>
+</span></span><span style="display:flex;"><span>sce = sce[rowSums(sce@assays$RNA@counts&gt;<span style="color:#ff0;font-weight:bold">0</span>)&gt;<span style="color:#ff0;font-weight:bold">3</span>,]
+</span></span><span style="display:flex;"><span>dim(sce)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#[1] 16334  4751</span>
+</span></span><span style="display:flex;"><span>sce
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># An object of class Seurat </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 16334 features across 4751 samples within 1 assay </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Active assay: RNA (16334 features, 0 variable features)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="2标归高降维">2、标归高降维<a hidden class="anchor" aria-hidden="true" href="#2标归高降维">#</a></h3>
+<h5 id="1标归高">（1）标归高<a hidden class="anchor" aria-hidden="true" href="#1标归高">#</a></h5>
+<p>标准化&ndash;归一化&ndash;鉴定高变基因</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>sce = sce %&gt;%
+</span></span><span style="display:flex;"><span>  NormalizeData() %&gt;%
+</span></span><span style="display:flex;"><span>  FindVariableFeatures(nfeatures = <span style="color:#ff0;font-weight:bold">2000</span>) %&gt;%
+</span></span><span style="display:flex;"><span>  ScaleData(., vars.to.regress = <span style="color:#0ff;font-weight:bold">&#34;percent_mito&#34;</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h5 id="2降维聚类分群">（2）降维聚类分群<a hidden class="anchor" aria-hidden="true" href="#2降维聚类分群">#</a></h5>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>sce = sce %&gt;% 
+</span></span><span style="display:flex;"><span>  RunPCA() %&gt;% 
+</span></span><span style="display:flex;"><span>  RunUMAP(dims = <span style="color:#ff0;font-weight:bold">1</span>:<span style="color:#ff0;font-weight:bold">30</span>) %&gt;%  <span style="color:#007f7f">#RunTSNE</span>
+</span></span><span style="display:flex;"><span>  FindNeighbors(dims = <span style="color:#ff0;font-weight:bold">1</span>:<span style="color:#ff0;font-weight:bold">30</span>) %&gt;% 
+</span></span><span style="display:flex;"><span>  FindClusters(resolution = c(<span style="color:#ff0;font-weight:bold">0.01</span>, <span style="color:#ff0;font-weight:bold">0.05</span>, <span style="color:#ff0;font-weight:bold">0.1</span>, <span style="color:#ff0;font-weight:bold">0.2</span>, <span style="color:#ff0;font-weight:bold">0.3</span>, <span style="color:#ff0;font-weight:bold">0.5</span>,<span style="color:#ff0;font-weight:bold">0.8</span>,<span style="color:#ff0;font-weight:bold">1</span>))
+</span></span><span style="display:flex;"><span>DimPlot(sce, reduction = <span style="color:#0ff;font-weight:bold">&#34;umap&#34;</span>, group.by = <span style="color:#0ff;font-weight:bold">&#34;orig.ident&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># clustree(sce@meta.data, prefix = &#34;RNA_snn_res.&#34;)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://s2.loli.net/2022/03/13/aPebJWl8RYKcmjw.png" alt="image-20220313211829987" style="zoom:50%;" />
+<h3 id="3seurat结构">3、Seurat结构<a hidden class="anchor" aria-hidden="true" href="#3seurat结构">#</a></h3>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>sce = sce_int
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">27
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">28
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">29
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">30
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">31
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">32
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">33
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">34
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">35
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">36
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">37
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">38
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">#####表达矩阵#####</span>
+</span></span><span style="display:flex;"><span>sce@assays
+</span></span><span style="display:flex;"><span>Assays(sce)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] &#34;RNA&#34; &#34;CCA&#34;</span>
+</span></span><span style="display:flex;"><span>DefaultAssay(sce)
+</span></span><span style="display:flex;"><span>DefaultAssay(sce) = <span style="color:#0ff;font-weight:bold">&#34;RNA&#34;</span>
+</span></span><span style="display:flex;"><span>DefaultAssay(sce)
+</span></span><span style="display:flex;"><span>sce@active.assay
+</span></span><span style="display:flex;"><span>GetAssayData(sce[[<span style="color:#0ff;font-weight:bold">&#34;RNA&#34;</span>]], slot = <span style="color:#0ff;font-weight:bold">&#34;counts&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#####细胞meta信息#####</span>
+</span></span><span style="display:flex;"><span>sce@meta.data %&gt;% dim()
+</span></span><span style="display:flex;"><span>colnames(sce@meta.data)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] &#34;orig.ident&#34;       &#34;nCount_RNA&#34;       &#34;nFeature_RNA&#34;     &#34;percent_mito&#34;     &#34;percent_ribo&#34;     &#34;percent_hb&#34;      </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [7] &#34;RNA_snn_res.0.01&#34; &#34;RNA_snn_res.0.05&#34; &#34;RNA_snn_res.0.1&#34;  &#34;RNA_snn_res.0.2&#34;  &#34;RNA_snn_res.0.3&#34;  &#34;RNA_snn_res.0.5&#34; </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [13] &#34;RNA_snn_res.0.8&#34;  &#34;RNA_snn_res.1&#34;    &#34;seurat_clusters&#34;  &#34;CCA_snn_res.0.01&#34; &#34;CCA_snn_res.0.05&#34; &#34;CCA_snn_res.0.1&#34; </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [19] &#34;CCA_snn_res.0.2&#34;  &#34;CCA_snn_res.0.3&#34;  &#34;CCA_snn_res.0.5&#34;  &#34;CCA_snn_res.0.8&#34;  &#34;CCA_snn_res.1&#34; </span>
+</span></span><span style="display:flex;"><span>head(sce[[]])
+</span></span><span style="display:flex;"><span>table(sce@active.ident)
+</span></span><span style="display:flex;"><span>sce = SetIdent(sce, value = <span style="color:#0ff;font-weight:bold">&#34;CCA_snn_res.0.1&#34;</span>)
+</span></span><span style="display:flex;"><span>Idents(sce_int) &lt;- <span style="color:#0ff;font-weight:bold">&#34;CCA_snn_res.0.05&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#####降维信息#####</span>
+</span></span><span style="display:flex;"><span>names(sce@reductions)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#[1] &#34;pca&#34;  &#34;umap&#34;</span>
+</span></span><span style="display:flex;"><span>DefaultDimReduc(sce)
+</span></span><span style="display:flex;"><span>sce@reductions$umap@cell.embeddings %&gt;% head()
+</span></span><span style="display:flex;"><span>Embeddings(sce, reduction = <span style="color:#0ff;font-weight:bold">&#34;pca&#34;</span>)[1:<span style="color:#ff0;font-weight:bold">3</span>,<span style="color:#ff0;font-weight:bold">1</span>:<span style="color:#ff0;font-weight:bold">3</span>]
+</span></span><span style="display:flex;"><span>sce[[<span style="color:#0ff;font-weight:bold">&#34;pca&#34;</span>]][1:<span style="color:#ff0;font-weight:bold">4</span>,<span style="color:#ff0;font-weight:bold">1</span>:<span style="color:#ff0;font-weight:bold">4</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#####FetchData取关于细胞的任何信息#####</span>
+</span></span><span style="display:flex;"><span>FetchData(sce, vars = c(<span style="color:#0ff;font-weight:bold">&#34;UMAP_1&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;UMAP_2&#34;</span>)) %&gt;% head()
+</span></span><span style="display:flex;"><span>FetchData(sce, vars = c(<span style="color:#0ff;font-weight:bold">&#34;nCount_RNA&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;nFeature_RNA&#34;</span>)) %&gt;% head()
+</span></span><span style="display:flex;"><span>DefaultAssay(sce) = <span style="color:#0ff;font-weight:bold">&#34;RNA&#34;</span>
+</span></span><span style="display:flex;"><span>FetchData(sce, vars = c(<span style="color:#0ff;font-weight:bold">&#34;CD4&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;CD8A&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;CD8B&#34;</span>), slot = <span style="color:#0ff;font-weight:bold">&#34;data&#34;</span>) %&gt;% head()
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="4seurat可视化">4、Seurat可视化<a hidden class="anchor" aria-hidden="true" href="#4seurat可视化">#</a></h3>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>DefaultAssay(sce)=<span style="color:#0ff;font-weight:bold">&#34;RNA&#34;</span>
+</span></span><span style="display:flex;"><span>Idents(sce) &lt;- <span style="color:#0ff;font-weight:bold">&#34;CCA_snn_res.0.05&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h5 id="1vlnplot">（1）VlnPlot<a hidden class="anchor" aria-hidden="true" href="#1vlnplot">#</a></h5>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f"># cell info</span>
+</span></span><span style="display:flex;"><span>VlnPlot(sce, group.by = <span style="color:#0ff;font-weight:bold">&#34;orig.ident&#34;</span>, 
+</span></span><span style="display:flex;"><span>        features = c(<span style="color:#0ff;font-weight:bold">&#34;percent_mito&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;nFeature_RNA&#34;</span>), 
+</span></span><span style="display:flex;"><span>        pt.size = <span style="color:#ff0;font-weight:bold">0</span>, ncol = <span style="color:#ff0;font-weight:bold">2</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://s2.loli.net/2022/03/13/fji5oVebMYACNGK.png" alt="image-20220313213356312" style="zoom: 50%;" />
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f"># gene exp</span>
+</span></span><span style="display:flex;"><span>VlnPlot(sce,
+</span></span><span style="display:flex;"><span>        features = c(<span style="color:#0ff;font-weight:bold">&#34;CD4&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;CD8A&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;CD8B&#34;</span>),
+</span></span><span style="display:flex;"><span>        assay = <span style="color:#0ff;font-weight:bold">&#34;RNA&#34;</span>, slot = <span style="color:#0ff;font-weight:bold">&#34;data&#34;</span>, 
+</span></span><span style="display:flex;"><span>        pt.size = <span style="color:#ff0;font-weight:bold">0</span>, ncol = <span style="color:#ff0;font-weight:bold">1</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">### 修改展示顺序</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># levels(sce_int@active.ident)</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># sce_int@active.ident = factor(sce_int@active.ident,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#                               levels = c(5,4,3,2,1,0))</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">### 山脊图</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># RidgePlot(sce_int, features = c(&#34;CD4&#34;,&#34;CD8A&#34;,&#34;CD8B&#34;),</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#           assay = &#34;RNA&#34;, slot = &#34;data&#34;)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://s2.loli.net/2022/03/13/1qnsltTEg8mW5y4.png" alt="image-20220313213549564" style="zoom:50%;" />
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>library(patchwork)
+</span></span><span style="display:flex;"><span>VlnPlot(sce,split.by = <span style="color:#0ff;font-weight:bold">&#39;orig.ident&#39;</span>,
+</span></span><span style="display:flex;"><span>        features = c(<span style="color:#0ff;font-weight:bold">&#34;CD4&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;CD8A&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;CD8B&#34;</span>),
+</span></span><span style="display:flex;"><span>        assay = <span style="color:#0ff;font-weight:bold">&#34;RNA&#34;</span>, slot = <span style="color:#0ff;font-weight:bold">&#34;data&#34;</span>, 
+</span></span><span style="display:flex;"><span>        pt.size = <span style="color:#ff0;font-weight:bold">0</span>,combine = <span style="color:#fff;font-weight:bold">FALSE</span>) %&gt;% 
+</span></span><span style="display:flex;"><span>  wrap_plots(ncol = <span style="color:#ff0;font-weight:bold">1</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://s2.loli.net/2022/03/13/CbyVD3LsOcHFQjr.png" alt="image-20220313213751855" style="zoom:50%;" />
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>Idents(sce) = <span style="color:#0ff;font-weight:bold">&#34;RNA_snn_res.0.01&#34;</span>
+</span></span><span style="display:flex;"><span>sce$Group = ifelse(sce$orig.ident==<span style="color:#0ff;font-weight:bold">&#34;GSM4138110&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;before&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;after&#34;</span>) <span style="color:#007f7f">#二分组变量</span>
+</span></span><span style="display:flex;"><span>VlnPlot(sce, split.by = <span style="color:#0ff;font-weight:bold">&#34;Group&#34;</span>, split.plot = <span style="color:#fff;font-weight:bold">TRUE</span>,
+</span></span><span style="display:flex;"><span>        features = c(<span style="color:#0ff;font-weight:bold">&#34;percent_mito&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;nFeature_RNA&#34;</span>))
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230311083028141.png" alt="image-20230311083028141" style="zoom: 50%;" />
+<h5 id="2dotplot">（2）DotPlot<a hidden class="anchor" aria-hidden="true" href="#2dotplot">#</a></h5>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>DotPlot(sce, features = c(<span style="color:#0ff;font-weight:bold">&#34;CD4&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;CD8A&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;CD8B&#34;</span>),
+</span></span><span style="display:flex;"><span>        assay = <span style="color:#0ff;font-weight:bold">&#34;RNA&#34;</span>) +
+</span></span><span style="display:flex;"><span>  coord_flip()
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">### 修改颜色</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># DotPlot(sce, features = c(&#34;CD4&#34;,&#34;CD8A&#34;,&#34;CD8B&#34;),</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#         assay = &#34;RNA&#34;, cols = c(&#34;lightgrey&#34;,&#34;red&#34;))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://s2.loli.net/2022/03/13/LiFAdJuZHm69SYh.png" alt="image-20220313220121404" style="zoom:50%;" />
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>genelist = list(set1=c(<span style="color:#0ff;font-weight:bold">&#34;CD3D&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;CD3E&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;CD3G&#34;</span>),
+</span></span><span style="display:flex;"><span>                set2=c(<span style="color:#0ff;font-weight:bold">&#34;CD4&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;CD8A&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;CD8B&#34;</span>))
+</span></span><span style="display:flex;"><span>DotPlot(sce, features = genelist,
+</span></span><span style="display:flex;"><span>        assay = <span style="color:#0ff;font-weight:bold">&#34;RNA&#34;</span>, scale = <span style="color:#fff;font-weight:bold">FALSE</span>)    
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://s2.loli.net/2022/03/13/2THe5SRI3kULs4y.png" alt="image-20220313215943287" style="zoom:50%;" />
+<h5 id="3dimplot">（3）Dimplot<a hidden class="anchor" aria-hidden="true" href="#3dimplot">#</a></h5>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>DimPlot(sce, reduction = <span style="color:#0ff;font-weight:bold">&#34;umap&#34;</span>, 
+</span></span><span style="display:flex;"><span>        group.by = <span style="color:#0ff;font-weight:bold">&#34;CCA_snn_res.0.01&#34;</span>,label = <span style="color:#fff;font-weight:bold">T</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://s2.loli.net/2022/03/13/VMHqO6QwJWPo1uC.png" alt="image-20220313220251357" style="zoom:50%;" />
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>DimPlot(sce, reduction = <span style="color:#0ff;font-weight:bold">&#34;umap&#34;</span>, 
+</span></span><span style="display:flex;"><span>        group.by = <span style="color:#0ff;font-weight:bold">&#34;CCA_snn_res.0.01&#34;</span>,
+</span></span><span style="display:flex;"><span>        split.by = <span style="color:#0ff;font-weight:bold">&#34;orig.ident&#34;</span>) &amp;  NoAxes()
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://s2.loli.net/2022/03/13/iz7EjDOUkQut4Z8.png" alt="image-20220313220333500" style="zoom:50%;" />
+<h5 id="4featureplot">（4）FeaturePlot<a hidden class="anchor" aria-hidden="true" href="#4featureplot">#</a></h5>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>FeaturePlot(sce, features = c(<span style="color:#0ff;font-weight:bold">&#34;CD4&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;CD8A&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;CD8B&#34;</span>), ncol = <span style="color:#ff0;font-weight:bold">3</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://s2.loli.net/2022/03/13/WcZoaVSOgjvEPF8.png" alt="image-20220313220532593" style="zoom:50%;" />
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>FeaturePlot(sce, features = c(&#34;CD4&#34;,&#34;CD8A&#34;,&#34;CD8B&#34;), 
+</span></span><span style="display:flex;"><span>            split.by = &#34;orig.ident&#34;,  ncol = 3,
+</span></span><span style="display:flex;"><span>            cols = c(&#34;lightgrey&#34;,&#34;red&#34;))
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://s2.loli.net/2022/03/13/zpJ9iolc3SXOHR1.png" alt="image-20220313220618580"  />
+</p>
+<h3 id="5注释细胞类型">5、注释细胞类型<a hidden class="anchor" aria-hidden="true" href="#5注释细胞类型">#</a></h3>
+<ul>
+<li>marker基因：Dotplot</li>
+<li>假设根据CCA_snn_res.0.05分群结果，将6个cluster注释为4中细胞类型</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>Idents(sce) &lt;- <span style="color:#0ff;font-weight:bold">&#34;CCA_snn_res.0.05&#34;</span>
+</span></span><span style="display:flex;"><span>table(sce@active.ident)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 0    1    2    3    4    5 </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1595 1486 1250  315   56   49</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sce$celltype = dplyr::case_when(
+</span></span><span style="display:flex;"><span>  sce@active.ident %in% c(<span style="color:#ff0;font-weight:bold">0</span>,<span style="color:#ff0;font-weight:bold">1</span>) ~ <span style="color:#0ff;font-weight:bold">&#34;celltypeA&#34;</span>,
+</span></span><span style="display:flex;"><span>  sce@active.ident %in% c(<span style="color:#ff0;font-weight:bold">2</span>) ~ <span style="color:#0ff;font-weight:bold">&#34;celltypeB&#34;</span>,
+</span></span><span style="display:flex;"><span>  sce@active.ident %in% c(<span style="color:#ff0;font-weight:bold">3</span>,<span style="color:#ff0;font-weight:bold">4</span>) ~ <span style="color:#0ff;font-weight:bold">&#34;celltypeC&#34;</span>,
+</span></span><span style="display:flex;"><span>  sce@active.ident %in% c(<span style="color:#ff0;font-weight:bold">5</span>) ~ <span style="color:#0ff;font-weight:bold">&#34;celltypeD&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>table(sce$celltype)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># celltypeA celltypeB celltypeC celltypeD </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3081      1250       371        49</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="6差异分析">6、差异分析<a hidden class="anchor" aria-hidden="true" href="#6差异分析">#</a></h3>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>DefaultAssay(sce)=<span style="color:#0ff;font-weight:bold">&#34;RNA&#34;</span>
+</span></span><span style="display:flex;"><span>Idents(sce) &lt;- <span style="color:#0ff;font-weight:bold">&#34;CCA_snn_res.0.05&#34;</span>
+</span></span><span style="display:flex;"><span>table(sce@active.ident)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h5 id="1findallmarkers">（1）FindAllMarkers<a hidden class="anchor" aria-hidden="true" href="#1findallmarkers">#</a></h5>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>diff_wilcox = FindAllMarkers(sce, assay = &#34;RNA&#34;, slot = &#34;data&#34;, 
+</span></span><span style="display:flex;"><span>                             only.pos = T) %&gt;% 
+</span></span><span style="display:flex;"><span>  dplyr::group_by(cluster) %&gt;%
+</span></span><span style="display:flex;"><span>  dplyr::arrange(desc(avg_log2FC), .by_group = T)
+</span></span><span style="display:flex;"><span>top_n &lt;- diff_wilcox %&gt;% 
+</span></span><span style="display:flex;"><span>  group_by(cluster) %&gt;% 
+</span></span><span style="display:flex;"><span>  top_n(5, avg_log2FC)
+</span></span><span style="display:flex;"><span>DoHeatmap(sce, top_n$gene, size = 3) 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://s2.loli.net/2022/03/13/C4jZg1QROH7NGFy.png" alt="image-20220313221723752" style="zoom:50%;" />
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>mapal &lt;- colorRampPalette(RColorBrewer::brewer.pal(<span style="color:#ff0;font-weight:bold">11</span>,<span style="color:#0ff;font-weight:bold">&#34;RdBu&#34;</span>))(<span style="color:#ff0;font-weight:bold">256</span>)
+</span></span><span style="display:flex;"><span>DoHeatmap(subset(sce, downsample = <span style="color:#ff0;font-weight:bold">100</span>), top_n$gene, 
+</span></span><span style="display:flex;"><span>          angle = <span style="color:#ff0;font-weight:bold">90</span>,size = <span style="color:#ff0;font-weight:bold">3</span>) +
+</span></span><span style="display:flex;"><span>  scale_fill_gradientn(colours = rev(mapal)) &amp; NoLegend()
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://s2.loli.net/2022/03/13/RXmqL4QUuBdZOHb.png" alt="image-20220313221934424" style="zoom:50%;" />
+<h5 id="2findmarkers">（2）FindMarkers<a hidden class="anchor" aria-hidden="true" href="#2findmarkers">#</a></h5>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f"># 0 vs the other cluster</span>
+</span></span><span style="display:flex;"><span>diff_wilcox_cluster0 = FindMarkers(sce, ident.1 = <span style="color:#ff0;font-weight:bold">0</span>,
+</span></span><span style="display:flex;"><span>                                   assay = <span style="color:#0ff;font-weight:bold">&#34;RNA&#34;</span>, slot = <span style="color:#0ff;font-weight:bold">&#34;data&#34;</span>) 
+</span></span><span style="display:flex;"><span>head(diff_wilcox_cluster0)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 0 vs 1</span>
+</span></span><span style="display:flex;"><span>diff_wilcox_cluster0 = FindMarkers(sce, ident.1 = <span style="color:#ff0;font-weight:bold">0</span>, ident.2 = <span style="color:#ff0;font-weight:bold">1</span>,
+</span></span><span style="display:flex;"><span>                                   assay = <span style="color:#0ff;font-weight:bold">&#34;RNA&#34;</span>, slot = <span style="color:#0ff;font-weight:bold">&#34;data&#34;</span>) 
+</span></span><span style="display:flex;"><span>VlnPlot(subset(sce, CCA_snn_res.0.05 %in% c(<span style="color:#ff0;font-weight:bold">0</span>,<span style="color:#ff0;font-weight:bold">1</span>)), features = c(<span style="color:#0ff;font-weight:bold">&#34;RPL11&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;CD2&#34;</span>), 
+</span></span><span style="display:flex;"><span>        assay = <span style="color:#0ff;font-weight:bold">&#34;RNA&#34;</span>, slot = <span style="color:#0ff;font-weight:bold">&#34;data&#34;</span>, group.by = <span style="color:#0ff;font-weight:bold">&#34;CCA_snn_res.0.05&#34;</span>,
+</span></span><span style="display:flex;"><span>        pt.size = <span style="color:#ff0;font-weight:bold">0</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://s2.loli.net/2022/03/13/zFpo6DMdCSHP4mL.png" alt="image-20220313222944096" style="zoom:50%;" />
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f"># 某一类细胞（celltypeA）在两个样本(GSM4138110,GSM4138112)的差异基因</span>
+</span></span><span style="display:flex;"><span>Idents(sce)=<span style="color:#0ff;font-weight:bold">&#34;celltype&#34;</span>
+</span></span><span style="display:flex;"><span>markers &lt;- FindMarkers(sce,  subset.ident = <span style="color:#0ff;font-weight:bold">&#34;celltypeA&#34;</span>, group.by = <span style="color:#0ff;font-weight:bold">&#34;orig.ident&#34;</span>,
+</span></span><span style="display:flex;"><span>                       ident.1 = <span style="color:#0ff;font-weight:bold">&#34;GSM4138110&#34;</span>, ident.2 = <span style="color:#0ff;font-weight:bold">&#34;GSM4138112&#34;</span>)
+</span></span><span style="display:flex;"><span>head(markers)
+</span></span><span style="display:flex;"><span>VlnPlot(subset(sce, celltype %in% c(<span style="color:#0ff;font-weight:bold">&#34;celltypeA&#34;</span>) &amp;
+</span></span><span style="display:flex;"><span>               orig.ident %in% c(<span style="color:#0ff;font-weight:bold">&#34;GSM4138110&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;GSM4138112&#34;</span>)), 
+</span></span><span style="display:flex;"><span>        features = c(<span style="color:#0ff;font-weight:bold">&#34;RPS26&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;IGHA1&#34;</span>), 
+</span></span><span style="display:flex;"><span>        assay = <span style="color:#0ff;font-weight:bold">&#34;RNA&#34;</span>, slot = <span style="color:#0ff;font-weight:bold">&#34;data&#34;</span>, group.by = <span style="color:#0ff;font-weight:bold">&#34;orig.ident&#34;</span>,
+</span></span><span style="display:flex;"><span>        pt.size = <span style="color:#ff0;font-weight:bold">0</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://s2.loli.net/2022/03/13/reIoCkytL4MAJO1.png" alt="image-20220313223137651" style="zoom:50%;" />
+<h5 id="3findconservedmarkers">（3）FindConservedMarkers<a hidden class="anchor" aria-hidden="true" href="#3findconservedmarkers">#</a></h5>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>Idents(sce)=<span style="color:#0ff;font-weight:bold">&#34;celltype&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 在每个样本中orig.ident， celltypeA与celltypeB相比均差异表达的基因</span>
+</span></span><span style="display:flex;"><span>markers = FindConservedMarkers(sce, ident.1 = <span style="color:#0ff;font-weight:bold">&#34;celltypeA&#34;</span>, ident.2 = <span style="color:#0ff;font-weight:bold">&#34;celltypeB&#34;</span>, 
+</span></span><span style="display:flex;"><span>                               assay = <span style="color:#0ff;font-weight:bold">&#34;RNA&#34;</span>, slot = <span style="color:#0ff;font-weight:bold">&#34;data&#34;</span>,
+</span></span><span style="display:flex;"><span>                               grouping.var = <span style="color:#0ff;font-weight:bold">&#34;orig.ident&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 在每个样本中orig.ident， celltypeA与其它类型细胞相比均差异表达的基因</span>
+</span></span><span style="display:flex;"><span>markers = FindConservedMarkers(sce, ident.1 = <span style="color:#0ff;font-weight:bold">&#34;celltypeA&#34;</span>, 
+</span></span><span style="display:flex;"><span>                               assay = <span style="color:#0ff;font-weight:bold">&#34;RNA&#34;</span>, slot = <span style="color:#0ff;font-weight:bold">&#34;data&#34;</span>,
+</span></span><span style="display:flex;"><span>                               grouping.var = <span style="color:#0ff;font-weight:bold">&#34;orig.ident&#34;</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="7多线程">7、多线程<a hidden class="anchor" aria-hidden="true" href="#7多线程">#</a></h3>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>library(future)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#查看初始状态</span>
+</span></span><span style="display:flex;"><span>plan()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#设置4个线程</span>
+</span></span><span style="display:flex;"><span>plan(<span style="color:#0ff;font-weight:bold">&#34;multiprocess&#34;</span>, workers = <span style="color:#ff0;font-weight:bold">4</span>)
+</span></span><span style="display:flex;"><span>options(future.globals.maxSize = <span style="color:#ff0;font-weight:bold">1024</span>^4)
+</span></span><span style="display:flex;"><span>plan()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#恢复单线程</span>
+</span></span><span style="display:flex;"><span>plan(<span style="color:#0ff;font-weight:bold">&#34;sequential&#34;</span>)
+</span></span><span style="display:flex;"><span>plan()
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://s2.loli.net/2022/03/13/8HYauSZyT67dMPA.png" alt="image-20220313224458262"  />
+</p>
+<h3 id="8基因集打分">8、基因集打分<a hidden class="anchor" aria-hidden="true" href="#8基因集打分">#</a></h3>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">## (1) Seurat包自带的`AddModuleScore()`打分函数，结果有正负值</span>
+</span></span><span style="display:flex;"><span>sce_pw_score = AddModuleScore(sce, features=pw.list, seed=<span style="color:#ff0;font-weight:bold">42</span>)
+</span></span><span style="display:flex;"><span>head(sce_pw_score[[]])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## (2) AUCell包评价基因集活性,结果在0~1之间</span>
+</span></span><span style="display:flex;"><span>BiocManager::install(<span style="color:#0ff;font-weight:bold">&#34;AUCell&#34;</span>)
+</span></span><span style="display:flex;"><span>library(AUCell)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># step1:</span>
+</span></span><span style="display:flex;"><span>cells_rankings &lt;- AUCell_buildRankings(sce@assays$RNA@data)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># step2：</span>
+</span></span><span style="display:flex;"><span>cells_AUC &lt;- AUCell_calcAUC(pw.list, cells_rankings, aucMaxRank=nrow(cells_rankings)*<span style="color:#ff0;font-weight:bold">0.1</span>, nCores=<span style="color:#ff0;font-weight:bold">5</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># step3：</span>
+</span></span><span style="display:flex;"><span>sce_pw_auc = getAUC(cells_AUC)
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/scrna-seq/">ScRNA-Seq</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/en/posts/basic/006%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%9F%BA%E7%A1%80--%E9%87%8D%E6%8A%BD%E6%A0%B7bootstrap%E4%B8%8E%E7%BD%AE%E6%8D%A2%E6%A3%80%E9%AA%8Cpermutation-test/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>统计学基础--重抽样Bootstrap与置换检验permutation test</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/en/posts/program/006python%E5%9F%BA%E7%A1%80-6%E5%BC%82%E5%B8%B8error/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>Python基础-(6)捕捉异常Error</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

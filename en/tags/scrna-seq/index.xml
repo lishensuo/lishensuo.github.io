@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>ScRNA-Seq on Li&#39;s Bioinfo-Blog</title>
+    <link>https://lishensuo.github.io/en/tags/scrna-seq/</link>
+    <description>Recent content in ScRNA-Seq on Li&#39;s Bioinfo-Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 05 Nov 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://lishensuo.github.io/en/tags/scrna-seq/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>单细胞分析工具--cellranger</title>
+      <link>https://lishensuo.github.io/en/posts/bioinfo/005%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--cellranger%E6%AF%94%E5%AF%B9/</link>
+      <pubDate>Tue, 24 May 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/en/posts/bioinfo/005%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--cellranger%E6%AF%94%E5%AF%B9/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;单细胞转录组测序技术历经10余年的发展，目前以高通量的Droplet技术广为应用。其中以10X Genomics公司开发的实验及分析系统最为流行。如下简单学习测序原理、结果以及上游比对流程。&lt;img loading=&#34;lazy&#34; src=&#34;https://raw.githubusercontent.com/lishensuo/images/main/01-technologies.jpg&#34; alt=&#34;Tools and techniques for single-cell RNA sequencing data&#34;  /&gt;
+&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>单细胞分析工具--Seurat4基础流程</title>
+      <link>https://lishensuo.github.io/en/posts/bioinfo/006%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--seurat4%E5%9F%BA%E7%A1%80%E6%B5%81%E7%A8%8B/</link>
+      <pubDate>Sat, 16 Apr 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/en/posts/bioinfo/006%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--seurat4%E5%9F%BA%E7%A1%80%E6%B5%81%E7%A8%8B/</guid>
+      <description>&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;3
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;4
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;5
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-R&#34; data-lang=&#34;R&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;packageVersion(&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#34;Seurat&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;# [1] ‘4.0.6’&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;library(Seurat)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;library(tidyverse)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;library(ggplot2)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;library(clustree)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;0导入数据方式&#34;&gt;0、导入数据方式&lt;/h3&gt;
+&lt;h4 id=&#34;1cellranger比对结果&#34;&gt;（1）cellranger比对结果&lt;/h4&gt;
+&lt;p&gt;对每个测序样本数据经cellranger上游比对，产生3个文件，分别是：&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>单细胞分析工具--monocle轨迹分析</title>
+      <link>https://lishensuo.github.io/en/posts/bioinfo/008%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--monocle%E8%BD%A8%E8%BF%B9%E5%88%86%E6%9E%90/</link>
+      <pubDate>Sat, 16 Apr 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/en/posts/bioinfo/008%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--monocle%E8%BD%A8%E8%BF%B9%E5%88%86%E6%9E%90/</guid>
+      <description>&lt;h1 id=&#34;一monocle&#34;&gt;一、monocle&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;参考教程/笔记&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;（1）http://cole-trapnell-lab.github.io/monocle-release/docs/#constructing-single-cell-trajectories&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>单细胞分析工具--CellChat细胞通讯分析</title>
+      <link>https://lishensuo.github.io/en/posts/bioinfo/009%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--cellchat%E7%BB%86%E8%83%9E%E9%80%9A%E8%AE%AF%E5%88%86%E6%9E%90/</link>
+      <pubDate>Sat, 16 Apr 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/en/posts/bioinfo/009%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--cellchat%E7%BB%86%E8%83%9E%E9%80%9A%E8%AE%AF%E5%88%86%E6%9E%90/</guid>
+      <description>&lt;p&gt;主要参考资料：&lt;/p&gt;
+&lt;p&gt;1、https://htmlpreview.github.io/?https://github.com/sqjin/CellChat/blob/master/tutorial/CellChat-vignette.html&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>单细胞分析工具--pySCENIC转录因子分析</title>
+      <link>https://lishensuo.github.io/en/posts/bioinfo/010%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--%E8%BD%AC%E5%BD%95%E5%9B%A0%E5%AD%90pyscenic/</link>
+      <pubDate>Sat, 16 Apr 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/en/posts/bioinfo/010%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--%E8%BD%AC%E5%BD%95%E5%9B%A0%E5%AD%90pyscenic/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;SCENIC全称Single-Cell rEgulatory Network Inference and Clustering，即转录因子分析，用于构建GRN，gene regulatory network基因调控网络。2017年于Nat Methods首次发表R包版本(https://doi:10.1038/nmeth.4463.)，后又于2020年NATURE PROTOCOLS发表python版本(&lt;a href=&#34;https://doi.org/10.1038/s41596-020-0336-2&#34;&gt;https://doi.org/10.1038/s41596-020-0336-2&lt;/a&gt;)，分析速度得到大幅度提升，而分析方法基本相同。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>单细胞分析工具--Palantir轨迹分析</title>
+      <link>https://lishensuo.github.io/en/posts/bioinfo/011%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--palantir%E8%BD%A8%E8%BF%B9%E5%88%86%E6%9E%90-/</link>
+      <pubDate>Thu, 12 Jan 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/en/posts/bioinfo/011%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--palantir%E8%BD%A8%E8%BF%B9%E5%88%86%E6%9E%90-/</guid>
+      <description>&lt;p&gt;Paper：https://www.nature.com/articles/s41587-019-0068-4&lt;/p&gt;
+&lt;p&gt;github：https://github.com/dpeerlab/Palantir&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>使用Seurat包分析空间转录组数据</title>
+      <link>https://lishensuo.github.io/en/posts/bioinfo/015%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--seurat%E7%A9%BA%E9%97%B4%E8%BD%AC%E5%BD%95%E7%BB%84/</link>
+      <pubDate>Sun, 05 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/en/posts/bioinfo/015%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--seurat%E7%A9%BA%E9%97%B4%E8%BD%AC%E5%BD%95%E7%BB%84/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;单细胞数据分析常用的Seurat包也集成了空间转录组的分析流程。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://satijalab.org/seurat/articles/spatial_vignette.html&#34;&gt;https://satijalab.org/seurat/articles/spatial_vignette.html&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;空间转录组可以简单理解为在2D组织切面的多个采样spot进行测序，同时记录下每个spot在切片中的2维坐标位置。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>单细胞分析工具--hdWGCNA共表达网络</title>
+      <link>https://lishensuo.github.io/en/posts/bioinfo/016%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--hdwgcna%E5%85%B1%E8%A1%A8%E8%BE%BE%E7%BD%91%E7%BB%9C/</link>
+      <pubDate>Thu, 07 Jul 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/en/posts/bioinfo/016%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--hdwgcna%E5%85%B1%E8%A1%A8%E8%BE%BE%E7%BD%91%E7%BB%9C/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;WGCNA是适用于大批量样本的array或者Bulk RNAseq数据的加权基因共表达网络分析。由于单细胞数据的稀疏性，不适用于WGCNA直接分析。hdWGCNA包基于WGCNA包提供了一种针对scRNAseq数据的加权基因共表达网络分析策略。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>单细胞分析工具--ECAUGT提取hECA数据</title>
+      <link>https://lishensuo.github.io/en/posts/bioinfo/017%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--ecaugt%E6%8F%90%E5%8F%96heca%E6%95%B0%E6%8D%AE/</link>
+      <pubDate>Thu, 19 Jan 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/en/posts/bioinfo/017%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--ecaugt%E6%8F%90%E5%8F%96heca%E6%95%B0%E6%8D%AE/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;基于先前的hECA文献笔记，学习使用python工具ECAUGHT高效提取特定类型的人类单细胞图谱数据。值得注意的是hECA对不同来源数据集仅进行了测序文库的标准化以及log转换，用户可根据特定应用场景进行适当的批次校正处理。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>单细胞分析工具--细胞周期分析</title>
+      <link>https://lishensuo.github.io/en/posts/bioinfo/020%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--%E7%BB%86%E8%83%9E%E5%91%A8%E6%9C%9F%E5%88%86%E6%9E%90/</link>
+      <pubDate>Sun, 22 Jan 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/en/posts/bioinfo/020%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--%E7%BB%86%E8%83%9E%E5%91%A8%E6%9C%9F%E5%88%86%E6%9E%90/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;A cell cycle is a series of events that takes place in a cell as it grows and divides.即描述细胞生长、分裂整个过程中细胞变化过程。最重要的两个特点就是DNA复制、分裂成两个一样的子细胞。对于单细胞转录组数据，可根据相关marker基因的表达水平判断每一个细胞所处的细胞周期状态。此外在分析多数据集间批次效应时，可根据每个数据集中各个细胞周期比例进行判断与校正。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>单细胞分析工具--多样本批次校正</title>
+      <link>https://lishensuo.github.io/en/posts/bioinfo/021%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--%E5%A4%9A%E6%A0%B7%E6%9C%AC%E6%89%B9%E6%AC%A1%E6%A0%A1%E6%AD%A3/</link>
+      <pubDate>Sun, 22 Jan 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/en/posts/bioinfo/021%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--%E5%A4%9A%E6%A0%B7%E6%9C%AC%E6%89%B9%E6%AC%A1%E6%A0%A1%E6%AD%A3/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;当分析多个样本的单细胞数据集时，其中重要的一步是判断并校正潜在的批次效应。如下简单学习两种单细胞批次效应分析方法，分别基于Seurat与harmony包。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>单细胞分析工具--SingleCellExperiment对象格式</title>
+      <link>https://lishensuo.github.io/en/posts/bioinfo/022%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--singlecellexperiment%E5%AF%B9%E8%B1%A1%E6%A0%BC%E5%BC%8F/</link>
+      <pubDate>Sun, 22 Jan 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/en/posts/bioinfo/022%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--singlecellexperiment%E5%AF%B9%E8%B1%A1%E6%A0%BC%E5%BC%8F/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;SingleCellExperiment&lt;/code&gt;是通过SingleCellExperiment包创建的单细胞数据分析对象，已有几十个单细胞R包支持。&lt;/p&gt;
+&lt;p&gt;其衍生自&lt;a href=&#34;https://bioconductor.org/packages/3.11/bioc/vignettes/SummarizedExperiment/inst/doc/SummarizedExperiment.html&#34;&gt;SummarizedExperiment&lt;/a&gt;，之前在GEO数据挖掘学习时，了解过相关知识，主要是&lt;code&gt;assay&lt;/code&gt;与&lt;code&gt;pData&lt;/code&gt;两个函数的使用。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>单细胞分析工具--infercnv拷贝数变异鉴定</title>
+      <link>https://lishensuo.github.io/en/posts/bioinfo/018%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--infercnv%E6%8B%B7%E8%B4%9D%E6%95%B0%E5%8F%98%E5%BC%82%E9%89%B4%E5%AE%9A/</link>
+      <pubDate>Fri, 20 Jan 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/en/posts/bioinfo/018%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--infercnv%E6%8B%B7%E8%B4%9D%E6%95%B0%E5%8F%98%E5%BC%82%E9%89%B4%E5%AE%9A/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;inferCNV包可根据肿瘤组织相关的单细胞表达数据，推测肿瘤细胞的拷贝数变异情况，从而完成恶性细胞的鉴定。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-R&#34; data-lang=&#34;R&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;BiocManager::install(&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#34;infercnv&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;library(infercnv)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;# 暂时在window安装出现点问题，目前在linux使用conda安装、学习。&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://raw.githubusercontent.com/lishensuo/images/main/infercnv_logo.png&#34; alt=&#34;InferCNV&#34;  /&gt;
+&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>单细胞分析工具--scanpy基础用法(anndata,loom格式)</title>
+      <link>https://lishensuo.github.io/en/posts/bioinfo/023%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--scanpy%E5%9F%BA%E7%A1%80%E7%94%A8%E6%B3%95/</link>
+      <pubDate>Mon, 23 Jan 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/en/posts/bioinfo/023%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--scanpy%E5%9F%BA%E7%A1%80%E7%94%A8%E6%B3%95/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;scanpy是单细胞数据分析的python工具包，将数据以Anndata对象的格式进行储存。如下将学习Anndata对象操作以及scanpy分析的基础用法。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>单细胞分析工具--SingleR细胞类型注释</title>
+      <link>https://lishensuo.github.io/en/posts/bioinfo/019%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--singler%E7%BB%86%E8%83%9E%E7%B1%BB%E5%9E%8B%E6%B3%A8%E9%87%8A/</link>
+      <pubDate>Fri, 20 Jan 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/en/posts/bioinfo/019%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--singler%E7%BB%86%E8%83%9E%E7%B1%BB%E5%9E%8B%E6%B3%A8%E9%87%8A/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;SingleR包是在单细胞数据分析时用于细胞类型自动注释的常用工具。其基本原理是使用已有细胞标签的参考转录组数据集的表达谱，基于相似性原则注释未知单细胞数据的细胞类型。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>单细胞分析工具--RNAvelocity速率分析</title>
+      <link>https://lishensuo.github.io/en/posts/bioinfo/024%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--rnavelocity%E9%80%9F%E7%8E%87%E5%88%86%E6%9E%90/</link>
+      <pubDate>Thu, 26 Jan 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/en/posts/bioinfo/024%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--rnavelocity%E9%80%9F%E7%8E%87%E5%88%86%E6%9E%90/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;RNA velocity(RNA速率)分析是基于单细胞转录组测序数据分析细胞发育状态动力学的方法。简单来说，该模型根据测序read片段属于&lt;strong&gt;unspliced pre-mrna&lt;/strong&gt;以及&lt;strong&gt;spliced mature mrna&lt;/strong&gt;的比例推测单细胞的发育轨迹。 高比例的&lt;strong&gt;unspliced pre-mrna&lt;/strong&gt;的占比越高，velocity速率越大，表明在之后阶段中将产生高表达趋势。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>单细胞分析工具--CytoTRACE轨迹分析</title>
+      <link>https://lishensuo.github.io/en/posts/bioinfo/025%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--cytotrace%E8%BD%A8%E8%BF%B9%E5%88%86%E6%9E%90/</link>
+      <pubDate>Thu, 26 Jan 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/en/posts/bioinfo/025%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--cytotrace%E8%BD%A8%E8%BF%B9%E5%88%86%E6%9E%90/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;CytoTRACE&lt;/strong&gt;是根据单细胞表达矩阵推断细胞分化轨迹的工具，目前提供网页端与R包两种形式。如下。简单学习其R包用法。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;官方手册：https://cytotrace.stanford.edu/&lt;/li&gt;
+&lt;li&gt;发表论文：&lt;a href=&#34;https://doi.org/10.1126/science.aax0249&#34;&gt;DOI: 10.1126/science.aax0249&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;img src=&#34;https://raw.githubusercontent.com/lishensuo/images/main/image-20230126190048340.png&#34; alt=&#34;image-20230126190048340&#34; style=&#34;zoom: 80%;&#34; /&gt;&lt;/blockquote&gt;
+&lt;h2 id=&#34;1安装r包&#34;&gt;1、安装R包&lt;/h2&gt;
+&lt;p&gt;根据官方手册，需要手动R包文件，自行安装。如下笔记在Linux的R环境中进行学习。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>单细胞分析工具--cellphonedb细胞通讯分析</title>
+      <link>https://lishensuo.github.io/en/posts/bioinfo/026%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--cellphonedb%E7%BB%86%E8%83%9E%E9%80%9A%E8%AE%AF%E5%88%86%E6%9E%90/</link>
+      <pubDate>Sat, 28 Jan 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/en/posts/bioinfo/026%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--cellphonedb%E7%BB%86%E8%83%9E%E9%80%9A%E8%AE%AF%E5%88%86%E6%9E%90/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;cellphonedb是基于配受体对表达水平，分析单细胞数据中不同细胞类型间相互作用的Python工具。其于2020年在nature protocols发表，目前工具包版本以更新到3.1.0，配受体数据库已更新到4版本。如下将简单学习该软件的用法及结果可视化方法。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>单细胞分析工具--DoubletFinder识别双细胞</title>
+      <link>https://lishensuo.github.io/en/posts/bioinfo/027%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--doubletfinder%E8%AF%86%E5%88%AB%E5%8F%8C%E7%BB%86%E8%83%9E/</link>
+      <pubDate>Sat, 28 Jan 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/en/posts/bioinfo/027%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--doubletfinder%E8%AF%86%E5%88%AB%E5%8F%8C%E7%BB%86%E8%83%9E/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;R包DoubletFinder可用于检测基于Droplet单细胞测序技术(10X)的双细胞。如下简单学习识别原理以用法。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;原始论文：https://doi.org/10.1016/j.cels.2019.03.003&lt;/li&gt;
+&lt;li&gt;官方手册：https://github.com/chris-mcginnis-ucsf/DoubletFinder&lt;/li&gt;
+&lt;li&gt;视频教程：https://www.youtube.com/watch?v=NqvAS4HgmrE&lt;/li&gt;
+&lt;/ul&gt;&lt;/blockquote&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-R&#34; data-lang=&#34;R&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;remotes::install_github(&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#39;chris-mcginnis-ucsf/DoubletFinder&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;library(DoubletFinder)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;Bug in Seurat v4: could not find function &amp;ldquo;paramSweep_v3&amp;rdquo;
+&lt;a href=&#34;https://github.com/chris-mcginnis-ucsf/DoubletFinder/issues/184&#34;&gt;https://github.com/chris-mcginnis-ucsf/DoubletFinder/issues/184&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>单细胞分析工具--MAST差异基因分析</title>
+      <link>https://lishensuo.github.io/en/posts/bioinfo/030%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--mast%E5%B7%AE%E5%BC%82%E5%9F%BA%E5%9B%A0%E5%88%86%E6%9E%90/</link>
+      <pubDate>Fri, 10 Feb 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/en/posts/bioinfo/030%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--mast%E5%B7%AE%E5%BC%82%E5%9F%BA%E5%9B%A0%E5%88%86%E6%9E%90/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;MAST，全称Model-based Analysis of Single-cell Transcriptomics，是2015年于Genome Biology发表的R包工具，主要用于单细胞数据的差异表达分析。参看官方教程，简单记录用法如下。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>单细胞分析工具--Scissor表型相关亚群鉴定</title>
+      <link>https://lishensuo.github.io/en/posts/bioinfo/031%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--scissor%E8%A1%A8%E5%9E%8B%E7%9B%B8%E5%85%B3%E4%BA%9A%E7%BE%A4%E9%89%B4%E5%AE%9A/</link>
+      <pubDate>Sun, 19 Feb 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/en/posts/bioinfo/031%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--scissor%E8%A1%A8%E5%9E%8B%E7%9B%B8%E5%85%B3%E4%BA%9A%E7%BE%A4%E9%89%B4%E5%AE%9A/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;Scissor是2022年发表在Nature Biotechnology的一个单细胞数据分析工具包。该包通过纳入Bulk表达与表型数据，试图分析与样本表型(正/负)高度相关的单细胞亚群。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>单细胞分析工具--MARVEL单细胞可变剪切</title>
+      <link>https://lishensuo.github.io/en/posts/bioinfo/032%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--marvel%E5%8D%95%E7%BB%86%E8%83%9E%E5%8F%AF%E5%8F%98%E5%89%AA%E5%88%87/</link>
+      <pubDate>Mon, 06 Mar 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/en/posts/bioinfo/032%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--marvel%E5%8D%95%E7%BB%86%E8%83%9E%E5%8F%AF%E5%8F%98%E5%89%AA%E5%88%87/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;R包MARVEL是由牛津大学MRC Weatherall分子医学研究所团队开发的，用于分析单细胞水平的可变剪切事件。相关文章于2023年1月在Nucleic Acids Research期刊发表，在其github页面分享了MARVEL工具的分析流程，在此学习、记录如下。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>单细胞分析工具--scCustomize包改进Seurat可视化</title>
+      <link>https://lishensuo.github.io/en/posts/bioinfo/033%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--sccustomize%E5%8C%85%E6%94%B9%E8%BF%9Bseurat%E5%8F%AF%E8%A7%86%E5%8C%96/</link>
+      <pubDate>Sat, 11 Mar 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/en/posts/bioinfo/033%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--sccustomize%E5%8C%85%E6%94%B9%E8%BF%9Bseurat%E5%8F%AF%E8%A7%86%E5%8C%96/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;scCustomize包由来自波士顿儿童医院/哈佛医学院的博士后Samuel E. Marsh编写。该包基于Seurat，提供了若干便捷、高效的可视化方法。根据官方教程学习其中感兴趣的用法。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>单细胞分析工具--Asgard单细胞药物重定向</title>
+      <link>https://lishensuo.github.io/en/posts/bioinfo/034%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--asgard%E5%8D%95%E7%BB%86%E8%83%9E%E8%8D%AF%E7%89%A9%E9%87%8D%E5%AE%9A%E5%90%91/</link>
+      <pubDate>Sat, 18 Mar 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/en/posts/bioinfo/034%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--asgard%E5%8D%95%E7%BB%86%E8%83%9E%E8%8D%AF%E7%89%A9%E9%87%8D%E5%AE%9A%E5%90%91/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;来自密歇根大学医学院的计算医学与生物信息学部的LanaX.Garmire(拉娜·加米尔)团队近日于Nature Communication发表一篇基于单细胞转录组数据药物重定向研究的研究，并开发了相关R包。如下简单学习下该方法的原理以及R包使用方法。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>单细胞分析工具--基于文献的细胞类型注释marker</title>
+      <link>https://lishensuo.github.io/en/posts/bioinfo/028%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--%E5%9F%BA%E4%BA%8E%E6%96%87%E7%8C%AE%E7%9A%84%E7%BB%86%E8%83%9E%E7%B1%BB%E5%9E%8B%E6%B3%A8%E9%87%8Amarker/</link>
+      <pubDate>Tue, 07 Feb 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/en/posts/bioinfo/028%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--%E5%9F%BA%E4%BA%8E%E6%96%87%E7%8C%AE%E7%9A%84%E7%BB%86%E8%83%9E%E7%B1%BB%E5%9E%8B%E6%B3%A8%E9%87%8Amarker/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;根据平时的文献阅读，汇总前人注释单细胞数据的细胞类型所使用的marker gene，以供后续研究参考。（持续更新）&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h2 id=&#34;1tumor&#34;&gt;1、Tumor&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;B cell&lt;/strong&gt;：CD79A*[1-3]&lt;em&gt;，CD79B&lt;/em&gt;[1,3]&lt;em&gt;，CD19&lt;/em&gt;[1,3]&lt;em&gt;，MS4A1&lt;/em&gt;[2,3]&lt;em&gt;，IGKC&lt;/em&gt;[1]&lt;em&gt;，MZB1&lt;/em&gt;[2]*&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>单细胞分析工具--scSTAR挖掘分组样本细胞亚型</title>
+      <link>https://lishensuo.github.io/en/posts/bioinfo/035%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--scstar%E6%8C%96%E6%8E%98%E5%88%86%E7%BB%84%E6%A0%B7%E6%9C%AC%E7%BB%86%E8%83%9E%E4%BA%9A%E5%9E%8B/</link>
+      <pubDate>Mon, 17 Apr 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/en/posts/bioinfo/035%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--scstar%E6%8C%96%E6%8E%98%E5%88%86%E7%BB%84%E6%A0%B7%E6%9C%AC%E7%BB%86%E8%83%9E%E4%BA%9A%E5%9E%8B/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;scSTAR是由复旦大学附属中山医院郝洁研究员等人开发的单细胞分析工具包，于2023年2月发表在Briefings in Bioinformatics。该包更加准确地实现同一细胞类型在不同组(正常/疾病)的变化情况下，细胞内部亚型异质性的变化捕捉，在单细胞数据挖掘领域提供新的视角。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>单细胞分析工具--NicheNet细胞通讯分析</title>
+      <link>https://lishensuo.github.io/en/posts/bioinfo/029%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--nichenet%E7%BB%86%E8%83%9E%E9%80%9A%E8%AE%AF%E5%88%86%E6%9E%90/</link>
+      <pubDate>Thu, 09 Feb 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/en/posts/bioinfo/029%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--nichenet%E7%BB%86%E8%83%9E%E9%80%9A%E8%AE%AF%E5%88%86%E6%9E%90/</guid>
+      <description>&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原始论文：https://www.nature.com/articles/s41592-019-0667-5&lt;/li&gt;
+&lt;li&gt;官方手册：https://github.com/saeyslab/nichenetr&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-R&#34; data-lang=&#34;R&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;# install.packages(&amp;#34;devtools&amp;#34;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;devtools::install_github(&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#34;saeyslab/nichenetr&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
+&lt;h2 id=&#34;0原理简介&#34;&gt;0、原理简介&lt;/h2&gt;
+&lt;p&gt;（1）NicheNet是2020年于Nature method提出的单细胞数据细胞通讯分析工具。相比于cellphoneDB等工具，NicheNet进一步考虑了受体被激活后的信号传导与下游靶基因的差异表达情况。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>单细胞分析工具--celldancer细胞速率分析</title>
+      <link>https://lishensuo.github.io/en/posts/bioinfo/036%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--celldancer%E7%BB%86%E8%83%9E%E9%80%9F%E7%8E%87%E5%88%86%E6%9E%90/</link>
+      <pubDate>Sat, 22 Apr 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/en/posts/bioinfo/036%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--celldancer%E7%BB%86%E8%83%9E%E9%80%9F%E7%8E%87%E5%88%86%E6%9E%90/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;cellDancer是美国休斯顿卫理公会研究所的助理教授Guangyu Wang团队开发的RNA速率分析新工具，于2023年4月发表于nature biotechnology。该工具基于深度学习框架预测细胞特异的速率参数(α, β and γ)，相较于之前的scvelo等RNA速率分析工具可有效预测 transcriptional boost, multi-lineage forward, multi-lineage backward等复杂情况下的单细胞数据发育预测分析。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>单细胞分析工具--sccode综合差异分析</title>
+      <link>https://lishensuo.github.io/en/posts/bioinfo/037%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--sccode%E7%BB%BC%E5%90%88%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/</link>
+      <pubDate>Sun, 30 Apr 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/en/posts/bioinfo/037%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--sccode%E7%BB%BC%E5%90%88%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;scCODE&lt;/strong&gt;( single-cell consensus optimization of differentially expressed gene detection)是由复旦大学附属金山医院邹欣等人开发的R包工具，于2022年12月发表于Briefing in Bioinformatics；该工具对多种差异基因分析策略进行了集成、整合，用于鉴定鲁棒性的单细胞差异基因。用法比较简单，简单记录如下。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>单细胞分析工具--ShinyCell交互式展示单细胞数据</title>
+      <link>https://lishensuo.github.io/en/posts/bioinfo/040%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--shinycell%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%B1%95%E7%A4%BA%E5%8D%95%E7%BB%86%E8%83%9E%E6%95%B0%E6%8D%AE/</link>
+      <pubDate>Mon, 07 Aug 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/en/posts/bioinfo/040%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--shinycell%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%B1%95%E7%A4%BA%E5%8D%95%E7%BB%86%E8%83%9E%E6%95%B0%E6%8D%AE/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;ShinyCell包是由杜克-新加坡国立大学医学院的John F. Ouyang团队开发的单细胞分析工具包，实现基于shiny网页交互式展示单细胞数据；于2021年3月发表于Bioinformatics杂志。如文章中介绍，ShinyCell相比同类工具具有多个优势，例如直观的side-by-side的降维可视化方式，hdf5格式保存表达矩阵从而读取快速，支持pdf/png保存图片，支持多种常见单细胞数据类型等。参考其教程文档，学习记录如下。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>单细胞分析工具--Seurat5基础用法</title>
+      <link>https://lishensuo.github.io/en/posts/bioinfo/041%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--seurat5%E5%9F%BA%E7%A1%80%E7%94%A8%E6%B3%95/</link>
+      <pubDate>Tue, 17 Sep 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/en/posts/bioinfo/041%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--seurat5%E5%9F%BA%E7%A1%80%E7%94%A8%E6%B3%95/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;Seurat V5版本有一段时间了，由于时间原因未来得及了解。现根据其官方文档简单整理其用法，与V4比较类似的地方就不多叙述了。此外，V5的亮点之一还在于单细胞多组学的整合分析，此次就不做记录了。（PS：中秋快乐~）&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>单细胞分析工具--CELLxGENE数据库</title>
+      <link>https://lishensuo.github.io/en/posts/bioinfo/042%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--cellxgene%E6%95%B0%E6%8D%AE%E5%BA%93/</link>
+      <pubDate>Wed, 16 Oct 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/en/posts/bioinfo/042%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--cellxgene%E6%95%B0%E6%8D%AE%E5%BA%93/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;网站：https://cellxgene.cziscience.com/&lt;/p&gt;
+&lt;p&gt;API：https://chanzuckerberg.github.io/cellxgene-census/&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>单细胞分析工具--scVI去除批次效应</title>
+      <link>https://lishensuo.github.io/en/posts/bioinfo/043%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--scvi%E5%8E%BB%E9%99%A4%E6%89%B9%E6%AC%A1%E6%95%88%E5%BA%94/</link>
+      <pubDate>Tue, 05 Nov 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/en/posts/bioinfo/043%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--scvi%E5%8E%BB%E9%99%A4%E6%89%B9%E6%AC%A1%E6%95%88%E5%BA%94/</guid>
+      <description>&lt;p&gt;scVI (single-cell variational inference)是2018年发表的一项单细胞分析工具。它主要基于VAE变分自编码器的思想，计算去除批次效应后的细胞低维空间表示。而后于2022年被整合到单细胞组学分析工具包scvi-tool中。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>单细胞分析工具--sccoda细胞组成比较</title>
+      <link>https://lishensuo.github.io/en/posts/bioinfo/038%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--sccoda%E7%BB%86%E8%83%9E%E7%BB%84%E6%88%90%E6%AF%94%E8%BE%83/</link>
+      <pubDate>Sun, 30 Apr 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/en/posts/bioinfo/038%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--sccoda%E7%BB%86%E8%83%9E%E7%BB%84%E6%88%90%E6%AF%94%E8%BE%83/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;scCODA&lt;/strong&gt;(single-cell compositional data analysis)是由德国环境健康研究中心计算生物学研究所M Büttner等人基于python开发的单细胞数据分析工具，于2021年11月发表于Nature Communication；主要用于分析不同分组样本的细胞组成的差异。参考官方文档记录用法如下。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>单细胞分析工具--COSG鉴定marker基因</title>
+      <link>https://lishensuo.github.io/en/posts/bioinfo/039%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--cosg%E9%89%B4%E5%AE%9Amarker%E5%9F%BA%E5%9B%A0/</link>
+      <pubDate>Sat, 01 Jul 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://lishensuo.github.io/en/posts/bioinfo/039%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--cosg%E9%89%B4%E5%AE%9Amarker%E5%9F%BA%E5%9B%A0/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;COSG&lt;/strong&gt;(COSine similarity-based marker Gene identification)是由来自哈佛医学院和Broad研究所博后Ming Dai等人开发，旨在从余弦相似度的角度鉴定cluster的marker gene，于2021年12月被Briefings in Bioinformatics接收。目前已将此方法分别包装为R包与Python包，分别对应Seurat与Scanny分析流程。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

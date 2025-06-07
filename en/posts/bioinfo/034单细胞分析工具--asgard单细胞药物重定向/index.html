@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>单细胞分析工具--Asgard单细胞药物重定向 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="scRNA-seq">
+<meta name="description" content="
+来自密歇根大学医学院的计算医学与生物信息学部的LanaX.Garmire(拉娜·加米尔)团队近日于Nature Communication发表一篇基于单细胞转录组数据药物重定向研究的研究，并开发了相关R包。如下简单学习下该方法的原理以及R包使用方法。">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/bioinfo/034%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--asgard%E5%8D%95%E7%BB%86%E8%83%9E%E8%8D%AF%E7%89%A9%E9%87%8D%E5%AE%9A%E5%90%91/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/bioinfo/034%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--asgard%E5%8D%95%E7%BB%86%E8%83%9E%E8%8D%AF%E7%89%A9%E9%87%8D%E5%AE%9A%E5%90%91/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="单细胞分析工具--Asgard单细胞药物重定向" />
+<meta property="og:description" content="
+来自密歇根大学医学院的计算医学与生物信息学部的LanaX.Garmire(拉娜·加米尔)团队近日于Nature Communication发表一篇基于单细胞转录组数据药物重定向研究的研究，并开发了相关R包。如下简单学习下该方法的原理以及R包使用方法。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/bioinfo/034%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--asgard%E5%8D%95%E7%BB%86%E8%83%9E%E8%8D%AF%E7%89%A9%E9%87%8D%E5%AE%9A%E5%90%91/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-03-18T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2023-03-18T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="单细胞分析工具--Asgard单细胞药物重定向"/>
+<meta name="twitter:description" content="
+来自密歇根大学医学院的计算医学与生物信息学部的LanaX.Garmire(拉娜·加米尔)团队近日于Nature Communication发表一篇基于单细胞转录组数据药物重定向研究的研究，并开发了相关R包。如下简单学习下该方法的原理以及R包使用方法。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 生信数据分析--分析流程，工具包等",
+      "item": "https://lishensuo.github.io/en/posts/bioinfo/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "单细胞分析工具--Asgard单细胞药物重定向",
+      "item": "https://lishensuo.github.io/en/posts/bioinfo/034%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--asgard%E5%8D%95%E7%BB%86%E8%83%9E%E8%8D%AF%E7%89%A9%E9%87%8D%E5%AE%9A%E5%90%91/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "单细胞分析工具--Asgard单细胞药物重定向",
+  "name": "单细胞分析工具--Asgard单细胞药物重定向",
+  "description": " 来自密歇根大学医学院的计算医学与生物信息学部的LanaX.Garmire(拉娜·加米尔)团队近日于Nature Communication发表一篇基于单细胞转录组数据药物重定向研究的研究，并开发了相关R包。如下简单学习下该方法的原理以及R包使用方法。\n",
+  "keywords": [
+    "scRNA-seq"
+  ],
+  "articleBody": " 来自密歇根大学医学院的计算医学与生物信息学部的LanaX.Garmire(拉娜·加米尔)团队近日于Nature Communication发表一篇基于单细胞转录组数据药物重定向研究的研究，并开发了相关R包。如下简单学习下该方法的原理以及R包使用方法。\nPaper：ASGARD is A Single-cell Guided Pipeline to Aid Repurposing of Drugs Date：10 February 2023 DOI：https://doi.org/10.1038/s41467-023-36637-3 Github：https://github.com/lanagarmire/Asgard 1、算法简介 （1）基本的计算思路与CMAP方法类似，即疾病的差异基因方向与药物干扰细胞系方向相反；\n（2）使用对照组与疾病组单细胞数据分析每个细胞亚群的差异基因及其候选药物列表；\n（3）合并不同细胞群的结果，得到单药物对于所有细胞群的综合打分，以评价其重定向的潜力。\n（4）单药-单细胞群的打分\n预先将疾病细胞群差异基因由低到高排序，而药物干扰基因由高到低排序。如果排序完全相反则认为药物越好； 该包采用了β分布，计算了同一基因的在疾病/药物的排名最小值/最大值的出现的概率，进而求出P值(Min-P)； 如果P值小的基因越多，表明基因在疾病与药物的排名一致性越好。 设定一定的阈值（默认为0.05）计算所有药物实验结果P值显著的基因数； 由于一个药物可因浓度剂量等涉及多种实验，所以再进一步根据KS统计量计算单药的P值，作为单药对于单细胞群的打分。 （5）单药-多细胞群打分。\n按如下公式计算综合得分，其中考虑3项因素：细胞群比例， 单药对于细胞群的P值，药物可逆转的细胞群差异基因比例。 基于单药对于不同细胞群的P值计算出fisher-based combined P值作为综合得分的P值。 2、文章概述 实验数据集主要包括3个（1）乳腺癌（2）白血病（3）COVID-19\n（1） 差异基因分析方法：文章首先测试对于不同数据哪一种差异基因分析工具最终计算得到的AUC指标最高(FDA或临床报道作为阳性药)\nLimma：Bayes，trend，voom\nSeurat：Wilcox，t-test，LR\nDEseq2：Wald，LRT\nedgeR：LRT，QLF\n如下图发现，limma-bayes方法结果针对3个数据集均较优，后面的差异分析将使用这种分析方法。\n（2）对比基于Bulk RNA-seq数据的重定向方法（CLUE，DrInsight），将单细胞数据转换成pseudobulk RNA-Seq data。\n如下图发现ASGARD在三个数据集中均表现最优。\n（3）对比另外两种同样基于单细胞数据的重定向方法，由于后两者只能针对单独cluster进行预测，所以仅使用ASGARD的cluster预测模式。尽管如此，仍然发现ASGARD在3种数据集中均表现最优。\n（4）之后文章就ASGARD对于上述3种数据集的预测Top药物结合文献、靶点通路等角度说明预测结果的可靠性；具体可参考原文。\n3、R包用法 1 2 3 library(tidyverse) library(Seurat) library(Asgard) 3.1 准备数据 药物数据：下载CMAP数据后，然后按细胞系所属的组织器官系统拆分成若干类 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 ## linux下载 # wget https://ftp.ncbi.nlm.nih.gov/geo/series/GSE70nnn/GSE70138/suppl/GSE70138_Broad_LINCS_cell_info_2017-04-28.txt.gz # wget https://ftp.ncbi.nlm.nih.gov/geo/series/GSE70nnn/GSE70138/suppl/GSE70138_Broad_LINCS_Level5_COMPZ_n118050x12328_2017-03-06.gctx.gz # wget https://ftp.ncbi.nlm.nih.gov/geo/series/GSE70nnn/GSE70138/suppl/GSE70138_Broad_LINCS_sig_info_2017-03-06.txt.gz # wget https://ftp.ncbi.nlm.nih.gov/geo/series/GSE70nnn/GSE70138/suppl/GSE70138_Broad_LINCS_gene_info_2017-03-06.txt.gz # wget https://ftp.ncbi.nlm.nih.gov/geo/series/GSE92nnn/GSE92742/suppl/GSE92742_Broad_LINCS_cell_info.txt.gz # wget https://ftp.ncbi.nlm.nih.gov/geo/series/GSE92nnn/GSE92742/suppl/GSE92742_Broad_LINCS_Level5_COMPZ.MODZ_n473647x12328.gctx.gz # wget https://ftp.ncbi.nlm.nih.gov/geo/series/GSE92nnn/GSE92742/suppl/GSE92742_Broad_LINCS_sig_info.txt.gz ## 拆分数据，只需完成一次即可（已上传至网盘） # PrepareReference(cell.info=\"GSE70138_Broad_LINCS_cell_info_2017-04-28.txt\", # gene.info=\"GSE70138_Broad_LINCS_gene_info_2017-03-06.txt\", # GSE70138.sig.info = \"GSE70138_Broad_LINCS_sig_info_2017-03-06.txt\", # GSE92742.sig.info = \"GSE92742_Broad_LINCS_sig_info.txt\", # GSE70138.gctx = \"GSE70138_Broad_LINCS_Level5_COMPZ_n118050x12328_2017-03-06.gctx\", # GSE92742.gctx = \"GSE92742_Broad_LINCS_Level5_COMPZ.MODZ_n473647x12328.gctx\", # Output.Dir = \"DrugReference/\" # ) 疾病数据：github给了原文分析所用的乳腺癌数据，这里简单以PBMC3K模拟一下 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 #devtools::install_github('satijalab/seurat-data') SeuratData::InstallData(\"pbmc3k\") data(\"pbmc3k\") sce = pbmc3k sce$celltype = as.character(sce$seurat_annotations) # 以其中4种T细胞亚类为例 sce = sce[, str_detect(sce$celltype,\"CD\")] set.seed(42) sce$sample \u003c- sample(c(\"before\", \"after\"), size = ncol(sce), replace = TRUE) table(sce$celltype, sce$sample) # after before # CD14+ Mono 236 244 # CD8 T 133 138 # Memory CD4 T 234 249 # Naive CD4 T 358 339 Case=c(\"before\") Control=c(\"after\") 3.2 细胞亚群DEG 该包Github首页教程中给出了全部4种差异分析的方法，这里以Seurat包的默认方法为例 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 DefaultAssay(sce) \u003c- \"RNA\" Gene.list \u003c- list() C_names \u003c- NULL for(i in unique(sce@meta.data$celltype)){ # i = unique(sce@meta.data$celltype)[1] Idents(sce) \u003c- \"celltype\" c_cells \u003c- subset(sce, celltype == i) Idents(c_cells) \u003c- \"sample\" C_data \u003c- FindMarkers(c_cells, ident.1 = Case, ident.2 = Control) C_data_for_drug \u003c- data.frame(row.names=row.names(C_data),score=C_data$avg_log2FC,adj.P.Val=C_data$p_val_adj,P.Value=C_data$p_val) ##for Seurat version \u003e 4.0, please use avg_log2FC instead of avg_logFC Gene.list[[i]] \u003c- C_data_for_drug C_names \u003c- c(C_names,i) } names(Gene.list) \u003c- C_names lapply(Gene.list, head) 3.3 药物干扰DEG 这里随机以乳腺组织为例 1 2 3 4 5 6 7 my_gene_info\u003c-read.table(file=\"DrugReference/breast_gene_info.txt\",sep=\"\\t\",header = T,quote = \"\") my_drug_info\u003c-read.table(file=\"DrugReference/breast_drug_info.txt\",sep=\"\\t\",header = T,quote = \"\") drug.ref.profiles = GetDrugRef(drug.response.path = 'DrugReference/breast_rankMatrix.txt', probe.to.genes = my_gene_info, drug.info = my_drug_info) # 包含两个元素的列表：[1] 药物的meta信息 [2] 药物的干扰基因排名结果 # 值得注意的是每个药物会因不同浓度，不同剂量等有不同的实验结果 3.4 细胞群药物 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 Drug.ident.res = GetDrug(gene.data = Gene.list, CEG.threshold = 0.05, #判定每个基因是否显著的阈值 drug.ref.profiles = drug.ref.profiles, repurposing.unit = \"drug\", connectivity = \"negative\", #从小到大开始排序 drug.type = \"FDA\") #c(\"FDA\",\"compounds\",\"all\") head(Drug.ident.res[[1]]) # Drug.name Drug.id P.value FDR # 1 imatinib BRD-K92723993 1.491597e-07 0.0001971891 # 2 palbociclib BRD-K51313569 5.449091e-05 0.0360184923 # 3 auranofin BRD-A79465854 5.385982e-04 0.2373422941 # 4 nilotinib BRD-K81528515 8.217091e-04 0.2715748734 # 5 mebendazole BRD-K77987382 2.515145e-03 0.6650042235 # 6 guaifenesin BRD-A90515964 3.726919e-03 0.8211644934 str(Asgard::FDA.drug) # chr [1:4014] \"lepirudin\" \"cetuximab\" \"dornase alfa\" \"denileukin diftitox\" ... 3.5 药物综合分数 由于随机模拟数据的原因，且算法(已经向GITHUB issue)的问题，如下结果的Drug.therapeutic.score均为NAN。 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 GSE92742.gctx.path=\"GSE92742_Broad_LINCS_Level5_COMPZ.MODZ_n473647x12328.gctx\" GSE70138.gctx.path=\"GSE70138_Broad_LINCS_Level5_COMPZ_n118050x12328_2017-03-06.gctx\" Tissue=\"breast\" Drug.score\u003c-DrugScore(SC.integrated=sce, Gene.data=Gene.list, Cell.type=NULL, Drug.data=Drug.ident.res, FDA.drug.only=TRUE, Case=Case, Tissue=Tissue, GSE92742.gctx=GSE92742.gctx.path, GSE70138.gctx=GSE70138.gctx.path) head(Drug.score) # Drug.therapeutic.score P.value FDR # abiraterone NaN 0.1164141 0.999979 # acamprosate NaN 0.3386581 0.999979 # acarbose NaN 0.4719701 0.999979 ",
+  "wordCount" : "1962",
+  "inLanguage": "en",
+  "datePublished": "2023-03-18T00:00:00Z",
+  "dateModified": "2023-03-18T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/bioinfo/034%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--asgard%E5%8D%95%E7%BB%86%E8%83%9E%E8%8D%AF%E7%89%A9%E9%87%8D%E5%AE%9A%E5%90%91/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/bioinfo/">📖 生信数据分析--分析流程，工具包等</a></div>
+    <h1 class="post-title">
+      单细胞分析工具--Asgard单细胞药物重定向
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-03-18 00:00:00 &#43;0000 UTC&#39;&gt;2023-03-18&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-03-18&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1962&amp;nbsp;|&amp;nbsp;4 min&amp;nbsp;|&amp;nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#1%e7%ae%97%e6%b3%95%e7%ae%80%e4%bb%8b" aria-label="1、算法简介">1、算法简介</a></li>
+                    <li>
+                        <a href="#2%e6%96%87%e7%ab%a0%e6%a6%82%e8%bf%b0" aria-label="2、文章概述">2、文章概述</a></li>
+                    <li>
+                        <a href="#3r%e5%8c%85%e7%94%a8%e6%b3%95" aria-label="3、R包用法">3、R包用法</a><ul>
+                            
+                    <li>
+                        <a href="#31-%e5%87%86%e5%a4%87%e6%95%b0%e6%8d%ae" aria-label="3.1 准备数据">3.1 准备数据</a></li>
+                    <li>
+                        <a href="#32-%e7%bb%86%e8%83%9e%e4%ba%9a%e7%be%a4deg" aria-label="3.2 细胞亚群DEG">3.2 细胞亚群DEG</a></li>
+                    <li>
+                        <a href="#33-%e8%8d%af%e7%89%a9%e5%b9%b2%e6%89%b0deg" aria-label="3.3 药物干扰DEG">3.3 药物干扰DEG</a></li>
+                    <li>
+                        <a href="#34-%e7%bb%86%e8%83%9e%e7%be%a4%e8%8d%af%e7%89%a9" aria-label="3.4 细胞群药物">3.4 细胞群药物</a></li>
+                    <li>
+                        <a href="#35-%e8%8d%af%e7%89%a9%e7%bb%bc%e5%90%88%e5%88%86%e6%95%b0" aria-label="3.5 药物综合分数">3.5 药物综合分数</a>
+                    </li>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><blockquote>
+<p>来自密歇根大学医学院的计算医学与生物信息学部的LanaX.Garmire(拉娜·加米尔)团队近日于Nature Communication发表一篇基于单细胞转录组数据药物重定向研究的研究，并开发了相关R包。如下简单学习下该方法的原理以及R包使用方法。</p>
+<ul>
+<li><strong>Paper</strong>：ASGARD is A Single-cell Guided Pipeline to Aid Repurposing of Drugs</li>
+<li><strong>Date</strong>：10 February 2023</li>
+<li><strong>DOI</strong>：https://doi.org/10.1038/s41467-023-36637-3</li>
+<li><strong>Github</strong>：https://github.com/lanagarmire/Asgard</li>
+</ul></blockquote>
+<h2 id="1算法简介">1、算法简介<a hidden class="anchor" aria-hidden="true" href="#1算法简介">#</a></h2>
+<p>（1）基本的计算思路与CMAP方法类似，即疾病的差异基因方向与药物干扰细胞系方向相反；</p>
+<p>（2）使用对照组与疾病组单细胞数据分析每个细胞亚群的差异基因及其候选药物列表；</p>
+<p>（3）合并不同细胞群的结果，得到单药物对于所有细胞群的综合打分，以评价其重定向的潜力。</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230318155942963.png" alt="image-20230318155942963" style="zoom:80%;" />
+<p>（4）单药-单细胞群的打分</p>
+<ul>
+<li>预先将疾病细胞群差异基因<strong>由低到高</strong>排序，而药物干扰基因<strong>由高到低</strong>排序。如果排序完全相反则认为药物越好；</li>
+<li>该包采用了β分布，计算了同一基因的在疾病/药物的排名最小值/最大值的出现的概率，进而求出P值(Min-P)；
+<ul>
+<li>如果P值小的基因越多，表明基因在疾病与药物的排名一致性越好。</li>
+</ul>
+</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230318164402827.png" alt="image-20230318164402827" style="zoom:67%;" />
+<ul>
+<li>设定一定的阈值（默认为0.05）计算所有药物实验结果P值显著的基因数；</li>
+<li>由于一个药物可因浓度剂量等涉及多种实验，所以再进一步根据KS统计量计算单药的P值，作为单药对于单细胞群的打分。</li>
+</ul>
+<p>（5）单药-多细胞群打分。</p>
+<ul>
+<li>按如下公式计算综合得分，其中考虑3项因素：细胞群比例， 单药对于细胞群的P值，药物可逆转的细胞群差异基因比例。</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230318165441882.png" alt="image-20230318165441882"  />
+</p>
+<ul>
+<li>基于单药对于不同细胞群的P值计算出fisher-based combined P值作为综合得分的P值。</li>
+</ul>
+<h2 id="2文章概述">2、文章概述<a hidden class="anchor" aria-hidden="true" href="#2文章概述">#</a></h2>
+<blockquote>
+<p>实验数据集主要包括3个（1）乳腺癌（2）白血病（3）COVID-19</p></blockquote>
+<p>（1） 差异基因分析方法：文章首先测试对于不同数据哪一种差异基因分析工具最终计算得到的AUC指标最高(FDA或临床报道作为阳性药)</p>
+<ul>
+<li>
+<p>Limma：Bayes，trend，voom</p>
+</li>
+<li>
+<p>Seurat：Wilcox，t-test，LR</p>
+</li>
+<li>
+<p>DEseq2：Wald，LRT</p>
+</li>
+<li>
+<p>edgeR：LRT，QLF</p>
+</li>
+</ul>
+<p>如下图发现，limma-bayes方法结果针对3个数据集均较优，后面的差异分析将使用这种分析方法。</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230318190628665.png" alt="image-20230318190628665"  />
+</p>
+<p>（2）对比基于Bulk RNA-seq数据的重定向方法（CLUE，DrInsight），将单细胞数据转换成pseudobulk RNA-Seq data。</p>
+<p>如下图发现ASGARD在三个数据集中均表现最优。</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230318191202719.png" alt="image-20230318191202719"  />
+<p>（3）对比另外两种同样基于单细胞数据的重定向方法，由于后两者只能针对单独cluster进行预测，所以仅使用ASGARD的cluster预测模式。尽管如此，仍然发现ASGARD在3种数据集中均表现最优。</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230318191640687.png" alt="image-20230318191640687" style="zoom:67%;" />
+<p>（4）之后文章就ASGARD对于上述3种数据集的预测Top药物结合文献、靶点通路等角度说明预测结果的可靠性；具体可参考原文。</p>
+<h2 id="3r包用法">3、R包用法<a hidden class="anchor" aria-hidden="true" href="#3r包用法">#</a></h2>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>library(tidyverse)
+</span></span><span style="display:flex;"><span>library(Seurat)
+</span></span><span style="display:flex;"><span>library(Asgard)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="31-准备数据">3.1 准备数据<a hidden class="anchor" aria-hidden="true" href="#31-准备数据">#</a></h3>
+<ul>
+<li>药物数据：下载CMAP数据后，然后按细胞系所属的组织器官系统拆分成若干类</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">## linux下载</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># wget https://ftp.ncbi.nlm.nih.gov/geo/series/GSE70nnn/GSE70138/suppl/GSE70138_Broad_LINCS_cell_info_2017-04-28.txt.gz</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># wget https://ftp.ncbi.nlm.nih.gov/geo/series/GSE70nnn/GSE70138/suppl/GSE70138_Broad_LINCS_Level5_COMPZ_n118050x12328_2017-03-06.gctx.gz</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># wget https://ftp.ncbi.nlm.nih.gov/geo/series/GSE70nnn/GSE70138/suppl/GSE70138_Broad_LINCS_sig_info_2017-03-06.txt.gz</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># wget https://ftp.ncbi.nlm.nih.gov/geo/series/GSE70nnn/GSE70138/suppl/GSE70138_Broad_LINCS_gene_info_2017-03-06.txt.gz</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># wget https://ftp.ncbi.nlm.nih.gov/geo/series/GSE92nnn/GSE92742/suppl/GSE92742_Broad_LINCS_cell_info.txt.gz</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># wget https://ftp.ncbi.nlm.nih.gov/geo/series/GSE92nnn/GSE92742/suppl/GSE92742_Broad_LINCS_Level5_COMPZ.MODZ_n473647x12328.gctx.gz</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># wget https://ftp.ncbi.nlm.nih.gov/geo/series/GSE92nnn/GSE92742/suppl/GSE92742_Broad_LINCS_sig_info.txt.gz</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## 拆分数据，只需完成一次即可（已上传至网盘）</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># PrepareReference(cell.info=&#34;GSE70138_Broad_LINCS_cell_info_2017-04-28.txt&#34;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#                  gene.info=&#34;GSE70138_Broad_LINCS_gene_info_2017-03-06.txt&#34;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#                  GSE70138.sig.info = &#34;GSE70138_Broad_LINCS_sig_info_2017-03-06.txt&#34;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#                  GSE92742.sig.info = &#34;GSE92742_Broad_LINCS_sig_info.txt&#34;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#                  GSE70138.gctx = &#34;GSE70138_Broad_LINCS_Level5_COMPZ_n118050x12328_2017-03-06.gctx&#34;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#                  GSE92742.gctx = &#34;GSE92742_Broad_LINCS_Level5_COMPZ.MODZ_n473647x12328.gctx&#34;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#                  Output.Dir = &#34;DrugReference/&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># )</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>疾病数据：github给了原文分析所用的乳腺癌数据，这里简单以PBMC3K模拟一下</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">#devtools::install_github(&#39;satijalab/seurat-data&#39;)</span>
+</span></span><span style="display:flex;"><span>SeuratData::InstallData(<span style="color:#0ff;font-weight:bold">&#34;pbmc3k&#34;</span>)
+</span></span><span style="display:flex;"><span>data(<span style="color:#0ff;font-weight:bold">&#34;pbmc3k&#34;</span>)
+</span></span><span style="display:flex;"><span>sce = pbmc3k
+</span></span><span style="display:flex;"><span>sce$celltype = as.character(sce$seurat_annotations)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 以其中4种T细胞亚类为例</span>
+</span></span><span style="display:flex;"><span>sce = sce[, str_detect(sce$celltype,<span style="color:#0ff;font-weight:bold">&#34;CD&#34;</span>)]
+</span></span><span style="display:flex;"><span>set.seed(<span style="color:#ff0;font-weight:bold">42</span>)
+</span></span><span style="display:flex;"><span>sce$sample &lt;- sample(c(<span style="color:#0ff;font-weight:bold">&#34;before&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;after&#34;</span>), size = ncol(sce),
+</span></span><span style="display:flex;"><span>                        replace = <span style="color:#fff;font-weight:bold">TRUE</span>)
+</span></span><span style="display:flex;"><span>table(sce$celltype, sce$sample)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#              after before</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># CD14+ Mono     236    244</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># CD8 T          133    138</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Memory CD4 T   234    249</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Naive CD4 T    358    339</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Case=c(<span style="color:#0ff;font-weight:bold">&#34;before&#34;</span>)
+</span></span><span style="display:flex;"><span>Control=c(<span style="color:#0ff;font-weight:bold">&#34;after&#34;</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="32-细胞亚群deg">3.2 细胞亚群DEG<a hidden class="anchor" aria-hidden="true" href="#32-细胞亚群deg">#</a></h3>
+<ul>
+<li>该包Github首页教程中给出了全部4种差异分析的方法，这里以Seurat包的默认方法为例</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>DefaultAssay(sce) &lt;- <span style="color:#0ff;font-weight:bold">&#34;RNA&#34;</span>
+</span></span><span style="display:flex;"><span>Gene.list &lt;- list()
+</span></span><span style="display:flex;"><span>C_names &lt;- <span style="color:#fff;font-weight:bold">NULL</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">for</span>(i <span style="color:#fff;font-weight:bold">in</span> unique(sce@meta.data$celltype)){
+</span></span><span style="display:flex;"><span>  <span style="color:#007f7f"># i = unique(sce@meta.data$celltype)[1]</span>
+</span></span><span style="display:flex;"><span>  Idents(sce) &lt;- <span style="color:#0ff;font-weight:bold">&#34;celltype&#34;</span>
+</span></span><span style="display:flex;"><span>  c_cells &lt;- subset(sce, celltype == i)
+</span></span><span style="display:flex;"><span>  Idents(c_cells) &lt;- <span style="color:#0ff;font-weight:bold">&#34;sample&#34;</span>
+</span></span><span style="display:flex;"><span>  C_data &lt;- FindMarkers(c_cells, ident.1 = Case, ident.2 = Control)
+</span></span><span style="display:flex;"><span>  C_data_for_drug &lt;- data.frame(row.names=row.names(C_data),score=C_data$avg_log2FC,adj.P.Val=C_data$p_val_adj,P.Value=C_data$p_val) <span style="color:#007f7f">##for Seurat version &gt; 4.0, please use avg_log2FC instead of avg_logFC</span>
+</span></span><span style="display:flex;"><span>  Gene.list[[i]] &lt;- C_data_for_drug
+</span></span><span style="display:flex;"><span>  C_names &lt;- c(C_names,i)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>names(Gene.list) &lt;- C_names
+</span></span><span style="display:flex;"><span>lapply(Gene.list, head)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="33-药物干扰deg">3.3 药物干扰DEG<a hidden class="anchor" aria-hidden="true" href="#33-药物干扰deg">#</a></h3>
+<ul>
+<li>这里随机以乳腺组织为例</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>my_gene_info&lt;-read.table(file=<span style="color:#0ff;font-weight:bold">&#34;DrugReference/breast_gene_info.txt&#34;</span>,sep=<span style="color:#0ff;font-weight:bold">&#34;\t&#34;</span>,header = <span style="color:#fff;font-weight:bold">T</span>,quote = <span style="color:#0ff;font-weight:bold">&#34;&#34;</span>)
+</span></span><span style="display:flex;"><span>my_drug_info&lt;-read.table(file=<span style="color:#0ff;font-weight:bold">&#34;DrugReference/breast_drug_info.txt&#34;</span>,sep=<span style="color:#0ff;font-weight:bold">&#34;\t&#34;</span>,header = <span style="color:#fff;font-weight:bold">T</span>,quote = <span style="color:#0ff;font-weight:bold">&#34;&#34;</span>)
+</span></span><span style="display:flex;"><span>drug.ref.profiles = GetDrugRef(drug.response.path = <span style="color:#0ff;font-weight:bold">&#39;DrugReference/breast_rankMatrix.txt&#39;</span>,
+</span></span><span style="display:flex;"><span>                               probe.to.genes = my_gene_info, 
+</span></span><span style="display:flex;"><span>                               drug.info = my_drug_info)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 包含两个元素的列表：[1] 药物的meta信息 [2] 药物的干扰基因排名结果</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 值得注意的是每个药物会因不同浓度，不同剂量等有不同的实验结果</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="34-细胞群药物">3.4 细胞群药物<a hidden class="anchor" aria-hidden="true" href="#34-细胞群药物">#</a></h3>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>Drug.ident.res = GetDrug(gene.data = Gene.list, 
+</span></span><span style="display:flex;"><span>						CEG.threshold = <span style="color:#ff0;font-weight:bold">0.05</span>,  <span style="color:#007f7f">#判定每个基因是否显著的阈值</span>
+</span></span><span style="display:flex;"><span>                        drug.ref.profiles = drug.ref.profiles, 
+</span></span><span style="display:flex;"><span>                        repurposing.unit = <span style="color:#0ff;font-weight:bold">&#34;drug&#34;</span>, 
+</span></span><span style="display:flex;"><span>                        connectivity = <span style="color:#0ff;font-weight:bold">&#34;negative&#34;</span>,    <span style="color:#007f7f">#从小到大开始排序</span>
+</span></span><span style="display:flex;"><span>                        drug.type = <span style="color:#0ff;font-weight:bold">&#34;FDA&#34;</span>) <span style="color:#007f7f">#c(&#34;FDA&#34;,&#34;compounds&#34;,&#34;all&#34;)</span>
+</span></span><span style="display:flex;"><span>head(Drug.ident.res[[1]])
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#     Drug.name       Drug.id      P.value          FDR</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1    imatinib BRD-K92723993 1.491597e-07 0.0001971891</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2 palbociclib BRD-K51313569 5.449091e-05 0.0360184923</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3   auranofin BRD-A79465854 5.385982e-04 0.2373422941</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 4   nilotinib BRD-K81528515 8.217091e-04 0.2715748734</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 5 mebendazole BRD-K77987382 2.515145e-03 0.6650042235</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 6 guaifenesin BRD-A90515964 3.726919e-03 0.8211644934</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>str(Asgard::FDA.drug)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># chr [1:4014] &#34;lepirudin&#34; &#34;cetuximab&#34; &#34;dornase alfa&#34; &#34;denileukin diftitox&#34; ...</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="35-药物综合分数">3.5 药物综合分数<a hidden class="anchor" aria-hidden="true" href="#35-药物综合分数">#</a></h3>
+<ul>
+<li>由于随机模拟数据的原因，且算法(已经向GITHUB issue)的问题，如下结果的Drug.therapeutic.score均为NAN。</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>GSE92742.gctx.path=<span style="color:#0ff;font-weight:bold">&#34;GSE92742_Broad_LINCS_Level5_COMPZ.MODZ_n473647x12328.gctx&#34;</span>
+</span></span><span style="display:flex;"><span>GSE70138.gctx.path=<span style="color:#0ff;font-weight:bold">&#34;GSE70138_Broad_LINCS_Level5_COMPZ_n118050x12328_2017-03-06.gctx&#34;</span>
+</span></span><span style="display:flex;"><span>Tissue=<span style="color:#0ff;font-weight:bold">&#34;breast&#34;</span>
+</span></span><span style="display:flex;"><span>Drug.score&lt;-DrugScore(SC.integrated=sce,
+</span></span><span style="display:flex;"><span>                     Gene.data=Gene.list,
+</span></span><span style="display:flex;"><span>                     Cell.type=<span style="color:#fff;font-weight:bold">NULL</span>, 
+</span></span><span style="display:flex;"><span>                     Drug.data=Drug.ident.res,
+</span></span><span style="display:flex;"><span>                     FDA.drug.only=<span style="color:#fff;font-weight:bold">TRUE</span>,
+</span></span><span style="display:flex;"><span>                     Case=Case, 
+</span></span><span style="display:flex;"><span>                     Tissue=Tissue,
+</span></span><span style="display:flex;"><span>                     GSE92742.gctx=GSE92742.gctx.path,
+</span></span><span style="display:flex;"><span>                     GSE70138.gctx=GSE70138.gctx.path)
+</span></span><span style="display:flex;"><span>head(Drug.score)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#             Drug.therapeutic.score   P.value      FDR</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># abiraterone                    NaN 0.1164141 0.999979</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># acamprosate                    NaN 0.3386581 0.999979</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># acarbose                       NaN 0.4719701 0.999979</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/scrna-seq/">ScRNA-Seq</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/en/posts/bioinfo/033%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--sccustomize%E5%8C%85%E6%94%B9%E8%BF%9Bseurat%E5%8F%AF%E8%A7%86%E5%8C%96/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>单细胞分析工具--scCustomize包改进Seurat可视化</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/en/posts/bioinfo/028%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--%E5%9F%BA%E4%BA%8E%E6%96%87%E7%8C%AE%E7%9A%84%E7%BB%86%E8%83%9E%E7%B1%BB%E5%9E%8B%E6%B3%A8%E9%87%8Amarker/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>单细胞分析工具--基于文献的细胞类型注释marker</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

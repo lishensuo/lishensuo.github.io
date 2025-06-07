@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>生信相关网站数据库集锦 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="生信基础">
+<meta name="description" content="1、HPA
+
+HPA：the Human Protein Atlas，由2003年来自瑞典的科研机构发起，旨在绘制综合性人类蛋白质图谱。
+https://www.proteinatlas.org/
+蛋白质表达数据库，常见用途包括：
+
+（1）查看特定基因在不同组织、脑区，细胞类型，组织细胞类型，疾病（癌症），免疫细胞，肿瘤细胞系等表达情况。
+（2）数据挖掘类文章常使用其进行比较基因在肿瘤部位与相应正常部位的蛋白水平表达差异。
+
+
+
+
+2、ENCORI
+
+ENCORI，The Encyclopedia of RNA Interactomes，由中山大学生命科学学院屈良鹄团队开发，于2014年发表于Nucleic Acids Res。
+https://starbase.sysu.edu.cn/index.php
+miRNA、lncRNA、RBP等多维相互作用网络，常见用途包括
+
+miRNA/RBP的靶标查询(mRNA,lncRNA&hellip;)
+RNA interaction, ceRNA network
+TCGA肿瘤的差异表达，生存分析，相关性等
+
+
+
+
+3、TCIA
+
+TCIA，The Cancer Immunome Database，由来自奥地利的因斯布鲁克大学医学院Zlatko Trajanoski团队开发，于2017年发表于Cell Reports
+https://tcia.at/home
+20种solid cancer的免疫相关分析，例如
+
+免疫基因表达、细胞浸润、肿瘤亚克隆等
+亮点之一是提出Immunophenoscore指标用于预测免疫治疗响应
+
+https://github.com/icbi-lab/Immunophenogram
+
+
+样本临床信息也整理的较为完整
+
+
+
+
+">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/bioinfo/075%E7%94%9F%E4%BF%A1%E7%9B%B8%E5%85%B3%E7%BD%91%E7%AB%99%E6%95%B0%E6%8D%AE%E5%BA%93%E9%9B%86%E9%94%A6/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/bioinfo/075%E7%94%9F%E4%BF%A1%E7%9B%B8%E5%85%B3%E7%BD%91%E7%AB%99%E6%95%B0%E6%8D%AE%E5%BA%93%E9%9B%86%E9%94%A6/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="生信相关网站数据库集锦" />
+<meta property="og:description" content="1、HPA
+
+HPA：the Human Protein Atlas，由2003年来自瑞典的科研机构发起，旨在绘制综合性人类蛋白质图谱。
+https://www.proteinatlas.org/
+蛋白质表达数据库，常见用途包括：
+
+（1）查看特定基因在不同组织、脑区，细胞类型，组织细胞类型，疾病（癌症），免疫细胞，肿瘤细胞系等表达情况。
+（2）数据挖掘类文章常使用其进行比较基因在肿瘤部位与相应正常部位的蛋白水平表达差异。
+
+
+
+
+2、ENCORI
+
+ENCORI，The Encyclopedia of RNA Interactomes，由中山大学生命科学学院屈良鹄团队开发，于2014年发表于Nucleic Acids Res。
+https://starbase.sysu.edu.cn/index.php
+miRNA、lncRNA、RBP等多维相互作用网络，常见用途包括
+
+miRNA/RBP的靶标查询(mRNA,lncRNA&hellip;)
+RNA interaction, ceRNA network
+TCGA肿瘤的差异表达，生存分析，相关性等
+
+
+
+
+3、TCIA
+
+TCIA，The Cancer Immunome Database，由来自奥地利的因斯布鲁克大学医学院Zlatko Trajanoski团队开发，于2017年发表于Cell Reports
+https://tcia.at/home
+20种solid cancer的免疫相关分析，例如
+
+免疫基因表达、细胞浸润、肿瘤亚克隆等
+亮点之一是提出Immunophenoscore指标用于预测免疫治疗响应
+
+https://github.com/icbi-lab/Immunophenogram
+
+
+样本临床信息也整理的较为完整
+
+
+
+
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/bioinfo/075%E7%94%9F%E4%BF%A1%E7%9B%B8%E5%85%B3%E7%BD%91%E7%AB%99%E6%95%B0%E6%8D%AE%E5%BA%93%E9%9B%86%E9%94%A6/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-04-02T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2023-04-02T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="生信相关网站数据库集锦"/>
+<meta name="twitter:description" content="1、HPA
+
+HPA：the Human Protein Atlas，由2003年来自瑞典的科研机构发起，旨在绘制综合性人类蛋白质图谱。
+https://www.proteinatlas.org/
+蛋白质表达数据库，常见用途包括：
+
+（1）查看特定基因在不同组织、脑区，细胞类型，组织细胞类型，疾病（癌症），免疫细胞，肿瘤细胞系等表达情况。
+（2）数据挖掘类文章常使用其进行比较基因在肿瘤部位与相应正常部位的蛋白水平表达差异。
+
+
+
+
+2、ENCORI
+
+ENCORI，The Encyclopedia of RNA Interactomes，由中山大学生命科学学院屈良鹄团队开发，于2014年发表于Nucleic Acids Res。
+https://starbase.sysu.edu.cn/index.php
+miRNA、lncRNA、RBP等多维相互作用网络，常见用途包括
+
+miRNA/RBP的靶标查询(mRNA,lncRNA&hellip;)
+RNA interaction, ceRNA network
+TCGA肿瘤的差异表达，生存分析，相关性等
+
+
+
+
+3、TCIA
+
+TCIA，The Cancer Immunome Database，由来自奥地利的因斯布鲁克大学医学院Zlatko Trajanoski团队开发，于2017年发表于Cell Reports
+https://tcia.at/home
+20种solid cancer的免疫相关分析，例如
+
+免疫基因表达、细胞浸润、肿瘤亚克隆等
+亮点之一是提出Immunophenoscore指标用于预测免疫治疗响应
+
+https://github.com/icbi-lab/Immunophenogram
+
+
+样本临床信息也整理的较为完整
+
+
+
+
+"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 生信数据分析--分析流程，工具包等",
+      "item": "https://lishensuo.github.io/en/posts/bioinfo/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "生信相关网站数据库集锦",
+      "item": "https://lishensuo.github.io/en/posts/bioinfo/075%E7%94%9F%E4%BF%A1%E7%9B%B8%E5%85%B3%E7%BD%91%E7%AB%99%E6%95%B0%E6%8D%AE%E5%BA%93%E9%9B%86%E9%94%A6/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "生信相关网站数据库集锦",
+  "name": "生信相关网站数据库集锦",
+  "description": "1、HPA HPA：the Human Protein Atlas，由2003年来自瑞典的科研机构发起，旨在绘制综合性人类蛋白质图谱。 https://www.proteinatlas.org/ 蛋白质表达数据库，常见用途包括： （1）查看特定基因在不同组织、脑区，细胞类型，组织细胞类型，疾病（癌症），免疫细胞，肿瘤细胞系等表达情况。 （2）数据挖掘类文章常使用其进行比较基因在肿瘤部位与相应正常部位的蛋白水平表达差异。 2、ENCORI ENCORI，The Encyclopedia of RNA Interactomes，由中山大学生命科学学院屈良鹄团队开发，于2014年发表于Nucleic Acids Res。 https://starbase.sysu.edu.cn/index.php miRNA、lncRNA、RBP等多维相互作用网络，常见用途包括 miRNA/RBP的靶标查询(mRNA,lncRNA\u0026hellip;) RNA interaction, ceRNA network TCGA肿瘤的差异表达，生存分析，相关性等 3、TCIA TCIA，The Cancer Immunome Database，由来自奥地利的因斯布鲁克大学医学院Zlatko Trajanoski团队开发，于2017年发表于Cell Reports https://tcia.at/home 20种solid cancer的免疫相关分析，例如 免疫基因表达、细胞浸润、肿瘤亚克隆等 亮点之一是提出Immunophenoscore指标用于预测免疫治疗响应 https://github.com/icbi-lab/Immunophenogram 样本临床信息也整理的较为完整 ",
+  "keywords": [
+    "生信基础"
+  ],
+  "articleBody": "1、HPA HPA：the Human Protein Atlas，由2003年来自瑞典的科研机构发起，旨在绘制综合性人类蛋白质图谱。 https://www.proteinatlas.org/ 蛋白质表达数据库，常见用途包括： （1）查看特定基因在不同组织、脑区，细胞类型，组织细胞类型，疾病（癌症），免疫细胞，肿瘤细胞系等表达情况。 （2）数据挖掘类文章常使用其进行比较基因在肿瘤部位与相应正常部位的蛋白水平表达差异。 2、ENCORI ENCORI，The Encyclopedia of RNA Interactomes，由中山大学生命科学学院屈良鹄团队开发，于2014年发表于Nucleic Acids Res。 https://starbase.sysu.edu.cn/index.php miRNA、lncRNA、RBP等多维相互作用网络，常见用途包括 miRNA/RBP的靶标查询(mRNA,lncRNA…) RNA interaction, ceRNA network TCGA肿瘤的差异表达，生存分析，相关性等 3、TCIA TCIA，The Cancer Immunome Database，由来自奥地利的因斯布鲁克大学医学院Zlatko Trajanoski团队开发，于2017年发表于Cell Reports https://tcia.at/home 20种solid cancer的免疫相关分析，例如 免疫基因表达、细胞浸润、肿瘤亚克隆等 亮点之一是提出Immunophenoscore指标用于预测免疫治疗响应 https://github.com/icbi-lab/Immunophenogram 样本临床信息也整理的较为完整 4、GSCA GSCA，Gene Set Cancer Analysis，由来自华中科技大学的郭安源团队开发/更新，于2022年11月发表于Briefings in Bioinformatics http://bioinfo.life.hust.edu.cn/GSCA/#/ 单基因/基因集与33种癌症在基因表达、免疫浸润、突变变异、药物敏感度等4个方面的综合分析平台 基因集分析主要通过GSVA/GSEA两种方式进行打分，再与临床信息相关联 比较适合基因/基因集的泛癌分析，出图较为精美 提供原始数据可供下载 5、GEPIA2 Gene Expression Profiling Interactive Analysis (V2)，由北京大学张泽民研究团队开发，于2019年7月发表于Nucleic Acids Research http://gepia2.cancer-pku.cn/ 主要功能在基因在多肿瘤/正常组织（TCGA+GTEx）的常规分析 基因为主体 差异分析、生存分析 基因对相关性分析/基因最相关基因分析 特定基因集降维信息 肿瘤为主体 差异基因集、生存相关基因集 ",
+  "wordCount" : "832",
+  "inLanguage": "en",
+  "datePublished": "2023-04-02T00:00:00Z",
+  "dateModified": "2023-04-02T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/bioinfo/075%E7%94%9F%E4%BF%A1%E7%9B%B8%E5%85%B3%E7%BD%91%E7%AB%99%E6%95%B0%E6%8D%AE%E5%BA%93%E9%9B%86%E9%94%A6/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/bioinfo/">📖 生信数据分析--分析流程，工具包等</a></div>
+    <h1 class="post-title">
+      生信相关网站数据库集锦
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-04-02 00:00:00 &#43;0000 UTC&#39;&gt;2023-04-02&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-04-02&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;832&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#1hpa" aria-label="1、HPA">1、HPA</a></li>
+                    <li>
+                        <a href="#2encori" aria-label="2、ENCORI">2、ENCORI</a></li>
+                    <li>
+                        <a href="#3tcia" aria-label="3、TCIA">3、TCIA</a></li>
+                    <li>
+                        <a href="#4gsca" aria-label="4、GSCA">4、GSCA</a></li>
+                    <li>
+                        <a href="#5gepia2" aria-label="5、GEPIA2">5、GEPIA2</a>
+                    </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><h2 id="1hpa">1、HPA<a hidden class="anchor" aria-hidden="true" href="#1hpa">#</a></h2>
+<ul>
+<li>HPA：the Human Protein Atlas，由2003年来自瑞典的科研机构发起，旨在绘制综合性人类蛋白质图谱。</li>
+<li><a href="https://www.proteinatlas.org/">https://www.proteinatlas.org/</a></li>
+<li>蛋白质表达数据库，常见用途包括：
+<ul>
+<li>（1）查看特定基因在不同组织、脑区，细胞类型，组织细胞类型，疾病（癌症），免疫细胞，肿瘤细胞系等表达情况。</li>
+<li>（2）数据挖掘类文章常使用其进行比较基因在肿瘤部位与相应正常部位的蛋白水平表达差异。</li>
+</ul>
+</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230401152922221.png" alt="image-20230401152922221" style="zoom:80%;" />
+<h2 id="2encori">2、ENCORI<a hidden class="anchor" aria-hidden="true" href="#2encori">#</a></h2>
+<ul>
+<li>ENCORI，The Encyclopedia of RNA Interactomes，由中山大学生命科学学院屈良鹄团队开发，于2014年发表于Nucleic Acids Res。</li>
+<li><a href="https://starbase.sysu.edu.cn/index.php">https://starbase.sysu.edu.cn/index.php</a></li>
+<li>miRNA、lncRNA、RBP等多维相互作用网络，常见用途包括
+<ul>
+<li>miRNA/RBP的靶标查询(mRNA,lncRNA&hellip;)</li>
+<li>RNA interaction, ceRNA network</li>
+<li>TCGA肿瘤的差异表达，生存分析，相关性等</li>
+</ul>
+</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230402101214897.png" alt="image-20230402101214897" style="zoom: 80%;" />
+<h2 id="3tcia">3、TCIA<a hidden class="anchor" aria-hidden="true" href="#3tcia">#</a></h2>
+<ul>
+<li>TCIA，The Cancer Immunome Database，由来自奥地利的因斯布鲁克大学医学院Zlatko Trajanoski团队开发，于2017年发表于Cell Reports</li>
+<li><a href="https://tcia.at/home">https://tcia.at/home</a></li>
+<li>20种solid cancer的免疫相关分析，例如
+<ul>
+<li>免疫基因表达、细胞浸润、肿瘤亚克隆等</li>
+<li>亮点之一是提出<strong>Immunophenoscore</strong>指标用于预测免疫治疗响应
+<ul>
+<li><a href="https://github.com/icbi-lab/Immunophenogram">https://github.com/icbi-lab/Immunophenogram</a></li>
+</ul>
+</li>
+<li>样本临床信息也整理的较为完整</li>
+</ul>
+</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230402150744208.png" alt="image-20230402150744208"  />
+</p>
+<h2 id="4gsca">4、GSCA<a hidden class="anchor" aria-hidden="true" href="#4gsca">#</a></h2>
+<ul>
+<li>GSCA，Gene Set Cancer Analysis，由来自华中科技大学的郭安源团队开发/更新，于2022年11月发表于Briefings in Bioinformatics</li>
+<li><a href="http://bioinfo.life.hust.edu.cn/GSCA/#/">http://bioinfo.life.hust.edu.cn/GSCA/#/</a></li>
+<li>单基因/基因集与33种癌症在基因表达、免疫浸润、突变变异、药物敏感度等4个方面的综合分析平台
+<ul>
+<li>基因集分析主要通过GSVA/GSEA两种方式进行打分，再与临床信息相关联</li>
+<li>比较适合基因/基因集的泛癌分析，出图较为精美</li>
+<li>提供原始数据可供下载</li>
+</ul>
+</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230422193621644.png" alt="image-20230422193621644"  />
+</p>
+<h2 id="5gepia2">5、GEPIA2<a hidden class="anchor" aria-hidden="true" href="#5gepia2">#</a></h2>
+<ul>
+<li>Gene Expression Profiling Interactive Analysis (V2)，由北京大学张泽民研究团队开发，于2019年7月发表于Nucleic Acids Research</li>
+<li><a href="http://gepia2.cancer-pku.cn/">http://gepia2.cancer-pku.cn/</a></li>
+<li>主要功能在基因在多肿瘤/正常组织（TCGA+GTEx）的常规分析
+<ul>
+<li>基因为主体
+<ul>
+<li>差异分析、生存分析</li>
+<li>基因对相关性分析/基因最相关基因分析</li>
+<li>特定基因集降维信息</li>
+</ul>
+</li>
+<li>肿瘤为主体
+<ul>
+<li>差异基因集、生存相关基因集</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230422202913199.png" alt="image-20230422202913199"  />
+</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/%E7%94%9F%E4%BF%A1%E5%9F%BA%E7%A1%80/">生信基础</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/en/posts/bioinfo/060%E4%BB%8Ernaseq%E7%9A%84fastq.gz%E6%8F%90%E5%8F%96%E8%A1%A8%E8%BE%BE%E7%9F%A9%E9%98%B5/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>从RNAseq的fastq.gz提取表达矩阵</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/en/posts/bioinfo/076tcga%E7%9A%84snv%E6%95%B0%E6%8D%AE%E4%B8%8B%E8%BD%BD%E4%B8%8Emaftools%E5%8F%AF%E8%A7%86%E5%8C%96/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>TCGA的SNV数据下载与maftools可视化</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>Hugging Face(1)-NLP basic | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="深度学习">
+<meta name="description" content="
+
+Hugging Face是一家专注于自然语言处理（NLP）和人工智能（AI）的公司，可以认为是AI领域的Github。(下面简称HF)
+
+一方面整理、收集了NLP等AI任务常用的数据集，预训练模型；
+另一方面提供系列工具库，用以高效地训练AI模型。具体包括如下几个核心库。
+
+Transformers
+Datasets
+Tokenizers
+
+
+
+1. 获取模型/数据集
+HF提供了大量的公开AI数据集以及预训练数据集，同时也提供了下载的方式">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/bioinfo/717hugging-face1-nlp-basic/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/bioinfo/717hugging-face1-nlp-basic/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Hugging Face(1)-NLP basic" />
+<meta property="og:description" content="
+
+Hugging Face是一家专注于自然语言处理（NLP）和人工智能（AI）的公司，可以认为是AI领域的Github。(下面简称HF)
+
+一方面整理、收集了NLP等AI任务常用的数据集，预训练模型；
+另一方面提供系列工具库，用以高效地训练AI模型。具体包括如下几个核心库。
+
+Transformers
+Datasets
+Tokenizers
+
+
+
+1. 获取模型/数据集
+HF提供了大量的公开AI数据集以及预训练数据集，同时也提供了下载的方式" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/bioinfo/717hugging-face1-nlp-basic/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-10-16T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2024-10-16T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Hugging Face(1)-NLP basic"/>
+<meta name="twitter:description" content="
+
+Hugging Face是一家专注于自然语言处理（NLP）和人工智能（AI）的公司，可以认为是AI领域的Github。(下面简称HF)
+
+一方面整理、收集了NLP等AI任务常用的数据集，预训练模型；
+另一方面提供系列工具库，用以高效地训练AI模型。具体包括如下几个核心库。
+
+Transformers
+Datasets
+Tokenizers
+
+
+
+1. 获取模型/数据集
+HF提供了大量的公开AI数据集以及预训练数据集，同时也提供了下载的方式"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 生信数据分析--分析流程，工具包等",
+      "item": "https://lishensuo.github.io/en/posts/bioinfo/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "Hugging Face(1)-NLP basic",
+      "item": "https://lishensuo.github.io/en/posts/bioinfo/717hugging-face1-nlp-basic/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Hugging Face(1)-NLP basic",
+  "name": "Hugging Face(1)-NLP basic",
+  "description": "\rHugging Face是一家专注于自然语言处理（NLP）和人工智能（AI）的公司，可以认为是AI领域的Github。(下面简称HF)\n一方面整理、收集了NLP等AI任务常用的数据集，预训练模型； 另一方面提供系列工具库，用以高效地训练AI模型。具体包括如下几个核心库。 Transformers Datasets Tokenizers 1. 获取模型/数据集 HF提供了大量的公开AI数据集以及预训练数据集，同时也提供了下载的方式\n",
+  "keywords": [
+    "深度学习"
+  ],
+  "articleBody": "\rHugging Face是一家专注于自然语言处理（NLP）和人工智能（AI）的公司，可以认为是AI领域的Github。(下面简称HF)\n一方面整理、收集了NLP等AI任务常用的数据集，预训练模型； 另一方面提供系列工具库，用以高效地训练AI模型。具体包括如下几个核心库。 Transformers Datasets Tokenizers 1. 获取模型/数据集 HF提供了大量的公开AI数据集以及预训练数据集，同时也提供了下载的方式\n下载数据集 如下，会自动下载https://huggingface.co/datasets/lhoestq/demo1数据集 1 2 from datasets import load_dataset dataset = load_dataset(\"lhoestq/demo1\") 加载模型，会有两种使用场景 调用模型的分词器(tokenizer) 调用预训练模型本身(model checkpoint) 1 2 3 4 5 6 7 from transformers import AutoTokenizer from transformers import AutoModelForSequenceClassification checkpoint = \"bert-base-uncased\" tokenizer = AutoTokenizer.from_pretrained(checkpoint) model = AutoModelForSequenceClassification.from_pretrained(checkpoint, num_labels=2) 如上，至少在国内的下载速度非常慢。可以使用它的镜像源网站，下载数据集/模型到本地。然后在上面的命令中，提供路径参数即可\nhttps://hf-mirror.com/ 1 2 3 4 5 6 7 8 9 10 11 12 13 14 # 下载命令行工具 pip install -U huggingface_hub # 设置环境变量 export HF_ENDPOINT=https://hf-mirror.com # 下载模型 huggingface-cli download \\ --resume-download bert-base-uncased \\ --local-dir path/to/bert-base-uncased # 下载数据集 huggingface-cli download --repo-type dataset \\ --resume-download \\ lhoestq/demo1 --local-dir path/to/lhoestq_demo1 # Note: 该镜像网站还特别开发了hfd.sh工具，相较上述方式可以更加快速、稳定的下载huggingface数据 1 2 3 dataset = load_dataset(\"path/to/lhoestq_demo1\") tokenizer = AutoTokenizer.from_pretrained(\"path/to/bert-base-uncased\") ！下面学习相关用法时，均先将数据集/模型下载到datasets文件夹后，再加载。\n2. 加载模型 2.1 完整模型 HF目前有收集了大量不同NLP任务的微调后模型，可根据微调任务进行分类。详见：https://huggingface.co/docs/transformers/v4.45.2/en/main_classes/pipelines#transformers.pipeline\n可以在https://huggingface.co/models?pipeline_tag=token-classification\u0026sort=trending 查看每种task下，可以调用的模型\n主要可通过pipeline函数调用，执行特定场景的推理任务\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 from transformers import pipeline #示例1 classifier = pipeline(task=\"sentiment-analysis\", model=\"./datasets/sentiment-analysis\") classifier( [ \"I've been waiting for a HuggingFace course my whole life.\", \"I hate this so much!\", ] ) # [{'label': 'POSITIVE', 'score': 0.9598047137260437}, # {'label': 'NEGATIVE', 'score': 0.9994558691978455}] #示例2 pipe = pipeline(task=\"token-classification\", model=\"datasets/Medical-NER\") result = pipe('45 year old woman diagnosed with CAD') 2.2 预训练模型 首先，预训练模型需要接受原始输入的词元化表示（tokenizer） 1 2 3 4 5 6 7 8 9 10 11 12 13 14 from transformers import AutoTokenizer tokenizer = AutoTokenizer.from_pretrained(\"./datasets/sentiment-analysis\") raw_inputs = [ \"I've been waiting for a HuggingFace course my whole life.\", \"I hate this so much!\" ] inputs = tokenizer(raw_inputs, padding=True, truncation=True, return_tensors=\"pt\") print(inputs) # {'input_ids': tensor([[ 101, 1045, 1005, 2310, 2042, 3403, 2005, 1037, 17662, 12172, # 2607, 2026, 2878, 2166, 1012, 102], # [ 101, 1045, 5223, 2023, 2061, 2172, 999, 102, 0, 0, # 0, 0, 0, 0, 0, 0]]), 'attention_mask': tensor([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], # [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0]])} 在对输入序列进行tokenizer词元化处理时，有两个关键参数：\npadding参数进行短序列进行词元补长，此时attention_mask将对于填充词元注意力设置为0； truncation参数限制最大词元长度，此时需要另外通过max_length设置预期最大长度。 1 2 3 4 5 6 7 8 9 # 展示相关计算细节 sequence = \"Using a Transformer network is simple\" tokenizer.tokenize(sequence) # ['using', 'a', 'transform', '##er', 'network', 'is', 'simple'] tokenizer.encode(sequence) # [101, 2478, 1037, 10938, 2121, 2897, 2003, 3722, 102] tokenizer.decode([101, 2478, 1037, 10938, 2121, 2897, 2003, 3722, 102]) # '[CLS] using a transformer network is simple [SEP]' ！model对于输入词元的要求：(1) tensor，(2) list of list。即上面tokenizer()的结果\n加载模型的预训练部分 1 2 3 4 5 6 7 8 9 from transformers import AutoModel model = AutoModel.from_pretrained(\"./datasets/sentiment-analysis\") model # 根据预训练模型，学习每个词元的嵌入表示 outputs = model(**inputs) # 将字典解包为关键字参数，即上面的input_ids, attention_mask print(outputs.last_hidden_state.shape) # torch.Size([2, 16, 768]) 2.3 经典模型 HF的Transformers模块提供了大量经典的AI大模型，涉及test/vision/audio等领域。我们可以很方便的加载其架构，以及预训练参数 例如 Bert：https://huggingface.co/docs/transformers/model_doc/bert （Transformer/API/MODELS/TEXT MODELS/BERT） 1 2 3 4 5 6 7 8 9 from transformers import BertConfig, BertModel config = BertConfig() config model = BertModel(config) #或者 from transformers import BertModel model = BertModel.from_pretrained(\"./datasets/bert-base-cased\") 3. 模型微调 如下演示一个基于bert的微调示例\n加载模型框架 1 2 3 4 5 6 7 8 9 10 from datasets import load_dataset from transformers import AutoTokenizer, DataCollatorWithPadding from transformers import AutoModelForSequenceClassification checkpoint = \"datasets/bert-base-uncased\" model = AutoModelForSequenceClassification.from_pretrained(checkpoint, num_labels=2) import torch device = torch.device(\"cuda\") if torch.cuda.is_available() else torch.device(\"cpu\") model.to(device) AutoModelForSequenceClassification 表示基于预训练模型进行序列分类的微调任务的训练API。此外也有适用其它微调任务的API，参考：https://huggingface.co/transformers/v3.0.2/model_doc/auto.html#\n微调数据集 （1）加载 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 raw_datasets = load_dataset(\"./datasets/glue\", \"mrpc\") # DatasetDict({ # train: Dataset({ # features: ['sentence1', 'sentence2', 'label', 'idx', 'input_ids', 'token_type_ids', 'attention_mask'], # num_rows: 3668 # }) # validation: Dataset({ # features: ['sentence1', 'sentence2', 'label', 'idx', 'input_ids', 'token_type_ids', 'attention_mask'], # num_rows: 408 # }) # test: Dataset({ # features: ['sentence1', 'sentence2', 'label', 'idx', 'input_ids', 'token_type_ids', 'attention_mask'], # num_rows: 1725 # }) # }) （2）词元化处理 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 tokenizer = AutoTokenizer.from_pretrained(checkpoint) # 利用Datasets库的Apache Arrow储存，高效访问 def tokenize_function(example): return tokenizer(example[\"sentence1\"], example[\"sentence2\"], truncation=True) tokenized_datasets = raw_datasets.map(tokenize_function, batched=True) #暂时先不填充 tokenized_datasets[\"train\"].column_names # ['sentence1', # 'sentence2', # 'label', # 'idx', # 'input_ids', # 'token_type_ids', # 'attention_mask'] data_collator = DataCollatorWithPadding(tokenizer=tokenizer) #小批量动态填充 （3）数据清洗 1 2 3 4 5 6 7 8 # 移除多余列 tokenized_datasets = tokenized_datasets.remove_columns([\"sentence1\", \"sentence2\", \"idx\"]) # 列重命名 tokenized_datasets = tokenized_datasets.rename_column(\"label\", \"labels\") # 转为tensor tokenized_datasets.set_format(\"torch\") tokenized_datasets[\"train\"].column_names # ['labels', 'input_ids', 'token_type_ids', 'attention_mask'] （4）小批量迭代器：每次迭代一个字典 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 from torch.utils.data import DataLoader train_dataloader = DataLoader( tokenized_datasets[\"train\"], shuffle=True, batch_size=8, collate_fn=data_collator ) eval_dataloader = DataLoader( tokenized_datasets[\"validation\"], batch_size=8, collate_fn=data_collator ) for batch in train_dataloader: break {k: v.shape for k, v in batch.items()} # {'labels': torch.Size([8]), # 'input_ids': torch.Size([8, 81]), # 'token_type_ids': torch.Size([8, 81]), # 'attention_mask': torch.Size([8, 81])} 训练参数 （1）优化器 1 2 3 from transformers import AdamW # an optimizer optimizer = AdamW(model.parameters(), lr=5e-5) （2）学习率调度器 1 2 3 4 5 6 7 8 9 10 11 from transformers import get_scheduler num_epochs = 3 num_training_steps = num_epochs * len(train_dataloader) lr_scheduler = get_scheduler( \"linear\", # 线性调度 optimizer=optimizer, num_warmup_steps=0, # 指定预热步数为 0，即不使用学习率预热。 num_training_steps=num_training_steps, ) # 如上表示，学习率从初始值线性下降到 0 开始训练 train step 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 from tqdm.auto import tqdm progress_bar = tqdm(range(num_training_steps)) model.train() for epoch in range(num_epochs): for batch in train_dataloader: batch = {k: v.to(device) for k, v in batch.items()} outputs = model(**batch) loss = outputs.loss loss.backward() optimizer.step() lr_scheduler.step() optimizer.zero_grad() progress_bar.update(1) # 1376/1377 [01:12\u003c00:00, 17.79it/s] evaluation step 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 import evaluate # https://github.com/huggingface/evaluate/issues/472 metric = evaluate.load(\"./evaluate/metrics/glue/glue.py\",\"mrpc\") model.eval() for batch in eval_dataloader: batch = {k: v.to(device) for k, v in batch.items()} with torch.no_grad(): outputs = model(**batch) logits = outputs.logits predictions = torch.argmax(logits, dim=-1) metric.add_batch(predictions=predictions, references=batch[\"labels\"]) metric.compute() # {'accuracy': 0.8480392156862745, 'f1': 0.8934707903780069} 此外，TF也提供了accelerate库用于方便的执行分布式训练。但在实操过程中，遇到了如下问题 NotImplementedError: Using RTX 4000 series doesn’t support faster communication broadband via P2P or IB. Please set NCCL_P2P_DISABLE=“1” and NCCL_IB_DISABLE=“1” or use accelerate launch which will do this automatically. 可通过如下方式避免报错\n1 2 3 import os os.environ[\"NCCL_IB_DISABLE\"] = \"1\" os.environ[\"NCCL_P2P_DISABLE\"] = \"1\" https://huggingface.co/learn/nlp-course/chapter3/3?fw=pt\nhttps://huggingface.co/learn/nlp-course/chapter3/4?fw=pt\n",
+  "wordCount" : "2461",
+  "inLanguage": "en",
+  "datePublished": "2024-10-16T00:00:00Z",
+  "dateModified": "2024-10-16T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/bioinfo/717hugging-face1-nlp-basic/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/bioinfo/">📖 生信数据分析--分析流程，工具包等</a></div>
+    <h1 class="post-title">
+      Hugging Face(1)-NLP basic
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-10-16 00:00:00 &#43;0000 UTC&#39;&gt;2024-10-16&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-10-16&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2461&amp;nbsp;|&amp;nbsp;5 min&amp;nbsp;|&amp;nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#1-%e8%8e%b7%e5%8f%96%e6%a8%a1%e5%9e%8b%e6%95%b0%e6%8d%ae%e9%9b%86" aria-label="1. 获取模型/数据集">1. 获取模型/数据集</a></li>
+                    <li>
+                        <a href="#2-%e5%8a%a0%e8%bd%bd%e6%a8%a1%e5%9e%8b" aria-label="2. 加载模型">2. 加载模型</a><ul>
+                            
+                    <li>
+                        <a href="#21-%e5%ae%8c%e6%95%b4%e6%a8%a1%e5%9e%8b" aria-label="2.1 完整模型">2.1 完整模型</a></li>
+                    <li>
+                        <a href="#22-%e9%a2%84%e8%ae%ad%e7%bb%83%e6%a8%a1%e5%9e%8b" aria-label="2.2 预训练模型">2.2 预训练模型</a></li>
+                    <li>
+                        <a href="#23-%e7%bb%8f%e5%85%b8%e6%a8%a1%e5%9e%8b" aria-label="2.3 经典模型">2.3 经典模型</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#3-%e6%a8%a1%e5%9e%8b%e5%be%ae%e8%b0%83" aria-label="3. 模型微调">3. 模型微调</a>
+                    </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241015193100700.png" alt="image-20241015193100700"  />
+</p>
+<p>Hugging Face是一家专注于自然语言处理（NLP）和人工智能（AI）的公司，可以认为是AI领域的Github。(下面简称HF)</p>
+<ul>
+<li>一方面整理、收集了NLP等AI任务常用的<strong>数据集</strong>，预训练<strong>模型</strong>；</li>
+<li>另一方面提供系列<strong>工具库</strong>，用以高效地训练AI模型。具体包括如下几个核心库。
+<ul>
+<li>Transformers</li>
+<li>Datasets</li>
+<li>Tokenizers</li>
+</ul>
+</li>
+</ul>
+<h1 id="1-获取模型数据集">1. 获取模型/数据集<a hidden class="anchor" aria-hidden="true" href="#1-获取模型数据集">#</a></h1>
+<p>HF提供了大量的公开AI数据集以及预训练数据集，同时也提供了下载的方式</p>
+<ul>
+<li>下载数据集
+<ul>
+<li>如下，会自动下载https://huggingface.co/datasets/lhoestq/demo1数据集</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">from</span> datasets <span style="color:#fff;font-weight:bold">import</span> load_dataset
+</span></span><span style="display:flex;"><span>dataset = load_dataset(<span style="color:#0ff;font-weight:bold">&#34;lhoestq/demo1&#34;</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>加载模型，会有两种使用场景
+<ul>
+<li>调用模型的分词器(tokenizer)</li>
+<li>调用预训练模型本身(model checkpoint)</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">from</span> transformers <span style="color:#fff;font-weight:bold">import</span> AutoTokenizer
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">from</span> transformers <span style="color:#fff;font-weight:bold">import</span> AutoModelForSequenceClassification
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>checkpoint = <span style="color:#0ff;font-weight:bold">&#34;bert-base-uncased&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+</span></span><span style="display:flex;"><span>model = AutoModelForSequenceClassification.from_pretrained(checkpoint, num_labels=<span style="color:#ff0;font-weight:bold">2</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如上，至少在国内的下载速度非常慢。可以使用它的镜像源网站，下载数据集/模型到本地。然后在上面的命令中，提供路径参数即可</p>
+<ul>
+<li><a href="https://hf-mirror.com/">https://hf-mirror.com/</a></li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#007f7f"># 下载命令行工具</span>
+</span></span><span style="display:flex;"><span>pip install -U huggingface_hub
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 设置环境变量</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">export</span> HF_ENDPOINT=https://hf-mirror.com
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 下载模型</span>
+</span></span><span style="display:flex;"><span>huggingface-cli download <span style="color:#0ff;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold"></span>--resume-download bert-base-uncased <span style="color:#0ff;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold"></span>--local-dir path/to/bert-base-uncased
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 下载数据集</span>
+</span></span><span style="display:flex;"><span>huggingface-cli download --repo-type dataset <span style="color:#0ff;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold"></span>--resume-download <span style="color:#0ff;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold"></span>lhoestq/demo1 --local-dir path/to/lhoestq_demo1
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Note: 该镜像网站还特别开发了hfd.sh工具，相较上述方式可以更加快速、稳定的下载huggingface数据</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>dataset = load_dataset(<span style="color:#0ff;font-weight:bold">&#34;path/to/lhoestq_demo1&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>tokenizer = AutoTokenizer.from_pretrained(<span style="color:#0ff;font-weight:bold">&#34;path/to/bert-base-uncased&#34;</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>！下面学习相关用法时，均先将数据集/模型下载到datasets文件夹后，再加载。</p></blockquote>
+<h1 id="2-加载模型">2. 加载模型<a hidden class="anchor" aria-hidden="true" href="#2-加载模型">#</a></h1>
+<h2 id="21-完整模型">2.1 完整模型<a hidden class="anchor" aria-hidden="true" href="#21-完整模型">#</a></h2>
+<ul>
+<li>
+<p>HF目前有收集了大量不同NLP任务的微调后模型，可根据微调任务进行分类。详见：https://huggingface.co/docs/transformers/v4.45.2/en/main_classes/pipelines#transformers.pipeline</p>
+</li>
+<li>
+<p>可以在https://huggingface.co/models?pipeline_tag=token-classification&amp;sort=trending 查看每种task下，可以调用的模型</p>
+</li>
+<li>
+<p>主要可通过<code>pipeline</code>函数调用，执行特定场景的推理任务</p>
+</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">from</span> transformers <span style="color:#fff;font-weight:bold">import</span> pipeline
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#示例1</span>
+</span></span><span style="display:flex;"><span>classifier = pipeline(task=<span style="color:#0ff;font-weight:bold">&#34;sentiment-analysis&#34;</span>, model=<span style="color:#0ff;font-weight:bold">&#34;./datasets/sentiment-analysis&#34;</span>)
+</span></span><span style="display:flex;"><span>classifier(
+</span></span><span style="display:flex;"><span>    [
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;I&#39;ve been waiting for a HuggingFace course my whole life.&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;I hate this so much!&#34;</span>,
+</span></span><span style="display:flex;"><span>    ]
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [{&#39;label&#39;: &#39;POSITIVE&#39;, &#39;score&#39;: 0.9598047137260437},</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  {&#39;label&#39;: &#39;NEGATIVE&#39;, &#39;score&#39;: 0.9994558691978455}]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#示例2</span>
+</span></span><span style="display:flex;"><span>pipe = pipeline(task=<span style="color:#0ff;font-weight:bold">&#34;token-classification&#34;</span>, model=<span style="color:#0ff;font-weight:bold">&#34;datasets/Medical-NER&#34;</span>)
+</span></span><span style="display:flex;"><span>result = pipe(<span style="color:#0ff;font-weight:bold">&#39;45 year old woman diagnosed with CAD&#39;</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="22-预训练模型">2.2 预训练模型<a hidden class="anchor" aria-hidden="true" href="#22-预训练模型">#</a></h2>
+<ul>
+<li>首先，预训练模型需要接受原始输入的词元化表示（tokenizer）</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">from</span> transformers <span style="color:#fff;font-weight:bold">import</span> AutoTokenizer
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>tokenizer = AutoTokenizer.from_pretrained(<span style="color:#0ff;font-weight:bold">&#34;./datasets/sentiment-analysis&#34;</span>)
+</span></span><span style="display:flex;"><span>raw_inputs = [
+</span></span><span style="display:flex;"><span>    <span style="color:#0ff;font-weight:bold">&#34;I&#39;ve been waiting for a HuggingFace course my whole life.&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#0ff;font-weight:bold">&#34;I hate this so much!&#34;</span>
+</span></span><span style="display:flex;"><span>]
+</span></span><span style="display:flex;"><span>inputs = tokenizer(raw_inputs, padding=<span style="color:#fff;font-weight:bold">True</span>, truncation=<span style="color:#fff;font-weight:bold">True</span>, return_tensors=<span style="color:#0ff;font-weight:bold">&#34;pt&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">print</span>(inputs)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># {&#39;input_ids&#39;: tensor([[  101,  1045,  1005,  2310,  2042,  3403,  2005,  1037, 17662, 12172,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#           2607,  2026,  2878,  2166,  1012,   102],</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#         [  101,  1045,  5223,  2023,  2061,  2172,   999,   102,     0,     0,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#              0,     0,     0,     0,     0,     0]]), &#39;attention_mask&#39;: tensor([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#         [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0]])}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>在对输入序列进行tokenizer词元化处理时，有两个关键参数：</p>
+<ul>
+<li>padding参数进行短序列进行词元补长，此时attention_mask将对于填充词元注意力设置为0；</li>
+<li>truncation参数限制最大词元长度，此时需要另外通过max_length设置预期最大长度。</li>
+</ul></blockquote>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#007f7f"># 展示相关计算细节</span>
+</span></span><span style="display:flex;"><span>sequence = <span style="color:#0ff;font-weight:bold">&#34;Using a Transformer network is simple&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>tokenizer.tokenize(sequence)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [&#39;using&#39;, &#39;a&#39;, &#39;transform&#39;, &#39;##er&#39;, &#39;network&#39;, &#39;is&#39;, &#39;simple&#39;]</span>
+</span></span><span style="display:flex;"><span>tokenizer.encode(sequence)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [101, 2478, 1037, 10938, 2121, 2897, 2003, 3722, 102]</span>
+</span></span><span style="display:flex;"><span>tokenizer.decode([<span style="color:#ff0;font-weight:bold">101</span>, <span style="color:#ff0;font-weight:bold">2478</span>, <span style="color:#ff0;font-weight:bold">1037</span>, <span style="color:#ff0;font-weight:bold">10938</span>, <span style="color:#ff0;font-weight:bold">2121</span>, <span style="color:#ff0;font-weight:bold">2897</span>, <span style="color:#ff0;font-weight:bold">2003</span>, <span style="color:#ff0;font-weight:bold">3722</span>, <span style="color:#ff0;font-weight:bold">102</span>])
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># &#39;[CLS] using a transformer network is simple [SEP]&#39;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>！model对于输入词元的要求：(1) tensor，(2) list of list。即上面<code>tokenizer()</code>的结果</p></blockquote>
+<ul>
+<li><strong>加载模型的预训练部分</strong></li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">from</span> transformers <span style="color:#fff;font-weight:bold">import</span> AutoModel
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>model = AutoModel.from_pretrained(<span style="color:#0ff;font-weight:bold">&#34;./datasets/sentiment-analysis&#34;</span>)
+</span></span><span style="display:flex;"><span>model
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 根据预训练模型，学习每个词元的嵌入表示</span>
+</span></span><span style="display:flex;"><span>outputs = model(**inputs) <span style="color:#007f7f"># 将字典解包为关键字参数，即上面的input_ids, attention_mask</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">print</span>(outputs.last_hidden_state.shape)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># torch.Size([2, 16, 768])</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="23-经典模型">2.3 经典模型<a hidden class="anchor" aria-hidden="true" href="#23-经典模型">#</a></h2>
+<ul>
+<li>HF的Transformers模块提供了大量经典的AI大模型，涉及test/vision/audio等领域。我们可以很方便的加载其架构，以及预训练参数</li>
+<li>例如 Bert：https://huggingface.co/docs/transformers/model_doc/bert （Transformer/API/MODELS/TEXT MODELS/BERT）</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">from</span> transformers <span style="color:#fff;font-weight:bold">import</span> BertConfig, BertModel
+</span></span><span style="display:flex;"><span>config = BertConfig()
+</span></span><span style="display:flex;"><span>config
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>model = BertModel(config)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#或者</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">from</span> transformers <span style="color:#fff;font-weight:bold">import</span> BertModel
+</span></span><span style="display:flex;"><span>model = BertModel.from_pretrained(<span style="color:#0ff;font-weight:bold">&#34;./datasets/bert-base-cased&#34;</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="3-模型微调">3. 模型微调<a hidden class="anchor" aria-hidden="true" href="#3-模型微调">#</a></h1>
+<p>如下演示一个基于bert的微调示例</p>
+<ol>
+<li><strong>加载模型框架</strong></li>
+</ol>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">from</span> datasets <span style="color:#fff;font-weight:bold">import</span> load_dataset
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">from</span> transformers <span style="color:#fff;font-weight:bold">import</span> AutoTokenizer, DataCollatorWithPadding
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">from</span> transformers <span style="color:#fff;font-weight:bold">import</span> AutoModelForSequenceClassification
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>checkpoint = <span style="color:#0ff;font-weight:bold">&#34;datasets/bert-base-uncased&#34;</span>
+</span></span><span style="display:flex;"><span>model = AutoModelForSequenceClassification.from_pretrained(checkpoint, num_labels=<span style="color:#ff0;font-weight:bold">2</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> torch
+</span></span><span style="display:flex;"><span>device = torch.device(<span style="color:#0ff;font-weight:bold">&#34;cuda&#34;</span>) <span style="color:#fff;font-weight:bold">if</span> torch.cuda.is_available() <span style="color:#fff;font-weight:bold">else</span> torch.device(<span style="color:#0ff;font-weight:bold">&#34;cpu&#34;</span>)
+</span></span><span style="display:flex;"><span>model.to(device)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p><code>AutoModelForSequenceClassification</code> 表示基于预训练模型进行序列分类的微调任务的训练API。此外也有适用其它微调任务的API，参考：https://huggingface.co/transformers/v3.0.2/model_doc/auto.html#</p></blockquote>
+<ol start="2">
+<li><strong>微调数据集</strong></li>
+</ol>
+<ul>
+<li>（1）加载</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>raw_datasets = load_dataset(<span style="color:#0ff;font-weight:bold">&#34;./datasets/glue&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;mrpc&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># DatasetDict({</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#     train: Dataset({</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#         features: [&#39;sentence1&#39;, &#39;sentence2&#39;, &#39;label&#39;, &#39;idx&#39;, &#39;input_ids&#39;, &#39;token_type_ids&#39;, &#39;attention_mask&#39;],</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#         num_rows: 3668</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#     })</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#     validation: Dataset({</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#         features: [&#39;sentence1&#39;, &#39;sentence2&#39;, &#39;label&#39;, &#39;idx&#39;, &#39;input_ids&#39;, &#39;token_type_ids&#39;, &#39;attention_mask&#39;],</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#         num_rows: 408</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#     })</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#     test: Dataset({</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#         features: [&#39;sentence1&#39;, &#39;sentence2&#39;, &#39;label&#39;, &#39;idx&#39;, &#39;input_ids&#39;, &#39;token_type_ids&#39;, &#39;attention_mask&#39;],</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#         num_rows: 1725</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#     })</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># })</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>（2）词元化处理</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 利用Datasets库的Apache Arrow储存，高效访问</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">def</span> tokenize_function(example):
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> tokenizer(example[<span style="color:#0ff;font-weight:bold">&#34;sentence1&#34;</span>], example[<span style="color:#0ff;font-weight:bold">&#34;sentence2&#34;</span>], truncation=<span style="color:#fff;font-weight:bold">True</span>)
+</span></span><span style="display:flex;"><span>tokenized_datasets = raw_datasets.map(tokenize_function, batched=<span style="color:#fff;font-weight:bold">True</span>) <span style="color:#007f7f">#暂时先不填充</span>
+</span></span><span style="display:flex;"><span>tokenized_datasets[<span style="color:#0ff;font-weight:bold">&#34;train&#34;</span>].column_names
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [&#39;sentence1&#39;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  &#39;sentence2&#39;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  &#39;label&#39;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  &#39;idx&#39;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  &#39;input_ids&#39;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  &#39;token_type_ids&#39;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  &#39;attention_mask&#39;]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>data_collator = DataCollatorWithPadding(tokenizer=tokenizer) <span style="color:#007f7f">#小批量动态填充</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>（3）数据清洗</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#007f7f"># 移除多余列</span>
+</span></span><span style="display:flex;"><span>tokenized_datasets = tokenized_datasets.remove_columns([<span style="color:#0ff;font-weight:bold">&#34;sentence1&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;sentence2&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;idx&#34;</span>])
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 列重命名</span>
+</span></span><span style="display:flex;"><span>tokenized_datasets = tokenized_datasets.rename_column(<span style="color:#0ff;font-weight:bold">&#34;label&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;labels&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 转为tensor</span>
+</span></span><span style="display:flex;"><span>tokenized_datasets.set_format(<span style="color:#0ff;font-weight:bold">&#34;torch&#34;</span>)
+</span></span><span style="display:flex;"><span>tokenized_datasets[<span style="color:#0ff;font-weight:bold">&#34;train&#34;</span>].column_names
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [&#39;labels&#39;, &#39;input_ids&#39;, &#39;token_type_ids&#39;, &#39;attention_mask&#39;]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>（4）小批量迭代器：每次迭代一个字典</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">from</span> torch.utils.data <span style="color:#fff;font-weight:bold">import</span> DataLoader
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>train_dataloader = DataLoader(
+</span></span><span style="display:flex;"><span>    tokenized_datasets[<span style="color:#0ff;font-weight:bold">&#34;train&#34;</span>], shuffle=<span style="color:#fff;font-weight:bold">True</span>, batch_size=<span style="color:#ff0;font-weight:bold">8</span>, collate_fn=data_collator
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>eval_dataloader = DataLoader(
+</span></span><span style="display:flex;"><span>    tokenized_datasets[<span style="color:#0ff;font-weight:bold">&#34;validation&#34;</span>], batch_size=<span style="color:#ff0;font-weight:bold">8</span>, collate_fn=data_collator
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">for</span> batch in train_dataloader:
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">break</span>
+</span></span><span style="display:flex;"><span>{k: v.shape <span style="color:#fff;font-weight:bold">for</span> k, v in batch.items()}
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># {&#39;labels&#39;: torch.Size([8]),</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  &#39;input_ids&#39;: torch.Size([8, 81]),</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  &#39;token_type_ids&#39;: torch.Size([8, 81]),</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  &#39;attention_mask&#39;: torch.Size([8, 81])}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="3">
+<li><strong>训练参数</strong></li>
+</ol>
+<ul>
+<li>（1）优化器</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">from</span> transformers <span style="color:#fff;font-weight:bold">import</span> AdamW
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># an optimizer</span>
+</span></span><span style="display:flex;"><span>optimizer = AdamW(model.parameters(), lr=<span style="color:#ff0;font-weight:bold">5e-5</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>（2）学习率调度器</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">from</span> transformers <span style="color:#fff;font-weight:bold">import</span> get_scheduler
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>num_epochs = <span style="color:#ff0;font-weight:bold">3</span>
+</span></span><span style="display:flex;"><span>num_training_steps = num_epochs * <span style="color:#fff;font-weight:bold">len</span>(train_dataloader)
+</span></span><span style="display:flex;"><span>lr_scheduler = get_scheduler(
+</span></span><span style="display:flex;"><span>    <span style="color:#0ff;font-weight:bold">&#34;linear&#34;</span>,     <span style="color:#007f7f"># 线性调度</span>
+</span></span><span style="display:flex;"><span>    optimizer=optimizer,
+</span></span><span style="display:flex;"><span>    num_warmup_steps=<span style="color:#ff0;font-weight:bold">0</span>,  <span style="color:#007f7f"># 指定预热步数为 0，即不使用学习率预热。</span>
+</span></span><span style="display:flex;"><span>    num_training_steps=num_training_steps,
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 如上表示，学习率从初始值线性下降到 0</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="4">
+<li><strong>开始训练</strong></li>
+</ol>
+<ul>
+<li>train step</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">from</span> tqdm.auto <span style="color:#fff;font-weight:bold">import</span> tqdm
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>progress_bar = tqdm(<span style="color:#fff;font-weight:bold">range</span>(num_training_steps))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>model.train()
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">for</span> epoch in <span style="color:#fff;font-weight:bold">range</span>(num_epochs):
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">for</span> batch in train_dataloader:
+</span></span><span style="display:flex;"><span>        batch = {k: v.to(device) <span style="color:#fff;font-weight:bold">for</span> k, v in batch.items()}
+</span></span><span style="display:flex;"><span>        outputs = model(**batch)
+</span></span><span style="display:flex;"><span>        loss = outputs.loss
+</span></span><span style="display:flex;"><span>        loss.backward()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        optimizer.step()
+</span></span><span style="display:flex;"><span>        lr_scheduler.step()
+</span></span><span style="display:flex;"><span>        optimizer.zero_grad()
+</span></span><span style="display:flex;"><span>        progress_bar.update(<span style="color:#ff0;font-weight:bold">1</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  1376/1377 [01:12&lt;00:00, 17.79it/s]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>evaluation step</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> evaluate
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># https://github.com/huggingface/evaluate/issues/472</span>
+</span></span><span style="display:flex;"><span>metric = evaluate.load(<span style="color:#0ff;font-weight:bold">&#34;./evaluate/metrics/glue/glue.py&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;mrpc&#34;</span>)
+</span></span><span style="display:flex;"><span>model.eval()
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">for</span> batch in eval_dataloader:
+</span></span><span style="display:flex;"><span>    batch = {k: v.to(device) <span style="color:#fff;font-weight:bold">for</span> k, v in batch.items()}
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">with</span> torch.no_grad():
+</span></span><span style="display:flex;"><span>        outputs = model(**batch)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    logits = outputs.logits
+</span></span><span style="display:flex;"><span>    predictions = torch.argmax(logits, dim=-<span style="color:#ff0;font-weight:bold">1</span>)
+</span></span><span style="display:flex;"><span>    metric.add_batch(predictions=predictions, references=batch[<span style="color:#0ff;font-weight:bold">&#34;labels&#34;</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>metric.compute()
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># {&#39;accuracy&#39;: 0.8480392156862745, &#39;f1&#39;: 0.8934707903780069}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>此外，TF也提供了accelerate库用于方便的执行分布式训练。但在实操过程中，遇到了如下问题
+<code>NotImplementedError: Using RTX 4000 series doesn’t support faster communication broadband via P2P or IB. Please set NCCL_P2P_DISABLE=“1” and NCCL_IB_DISABLE=“1” or use accelerate launch which will do this automatically.</code> 可通过如下方式避免报错</p></blockquote>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> os
+</span></span><span style="display:flex;"><span>os.environ[<span style="color:#0ff;font-weight:bold">&#34;NCCL_IB_DISABLE&#34;</span>] = <span style="color:#0ff;font-weight:bold">&#34;1&#34;</span>
+</span></span><span style="display:flex;"><span>os.environ[<span style="color:#0ff;font-weight:bold">&#34;NCCL_P2P_DISABLE&#34;</span>] = <span style="color:#0ff;font-weight:bold">&#34;1&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<ul>
+<li>
+<p><a href="https://huggingface.co/learn/nlp-course/chapter3/3?fw=pt">https://huggingface.co/learn/nlp-course/chapter3/3?fw=pt</a></p>
+</li>
+<li>
+<p><a href="https://huggingface.co/learn/nlp-course/chapter3/4?fw=pt">https://huggingface.co/learn/nlp-course/chapter3/4?fw=pt</a></p>
+</li>
+</ul></blockquote>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/en/posts/bioinfo/716%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0--gan%E5%9F%BA%E7%A1%80/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>深度学习--GAN基础</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/en/posts/bioinfo/718hugging-face3-tokenizers%E5%BA%93/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>Hugging Face(3)-Tokenizer库</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>📖 科研基础 -- 读文献、看教材 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="📖 科研基础 -- 读文献、看教材 - Li&#39;s Bioinfo-Blog">
+<meta name="author" content="">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/basic/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="https://lishensuo.github.io/en/posts/basic/index.xml">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/basic/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="📖 科研基础 -- 读文献、看教材" />
+<meta property="og:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/basic/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="📖 科研基础 -- 读文献、看教材"/>
+<meta name="twitter:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 科研基础 -- 读文献、看教材",
+      "item": "https://lishensuo.github.io/en/posts/basic/"
+    }
+  ]
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header"><div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a></div>
+  <h1>📖 科研基础 -- 读文献、看教材</h1>
+</header>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>文献--综合多种分析建立TNBC预后模型
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> A network approach reveals driver genes associated with survival of patients with triple-negative breast cancer
+April 19, 2021; IF=5.4
+https://doi.org/10.1016/j.isci.2021.102451
+1、WGCNA分析 （1）对773个来自TCGA的BRCA(包括92个TNBC)的31338个基因表达数据进行WGCNA网络共表达分析
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-05-06 00:00:00 &#43;0000 UTC&#39;&gt;2022-05-06&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-05-06&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2226&amp;nbsp;|&amp;nbsp;5 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 文献--综合多种分析建立TNBC预后模型" href="https://lishensuo.github.io/en/posts/basic/120%E6%96%87%E7%8C%AE--%E7%BB%BC%E5%90%88%E5%A4%9A%E7%A7%8D%E5%88%86%E6%9E%90%E5%BB%BA%E7%AB%8Btnbc%E9%A2%84%E5%90%8E%E6%A8%A1%E5%9E%8B/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>文献--四逆散与非酒精性脂肪肝网药分析
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> Network Pharmacology-Based Analysis on the Potential Biological Mechanisms of Sinisan Against Non-Alcoholic Fatty Liver Disease（四逆散–非酒精性脂肪肝）
+27 August 2021
+Front Pharmacol, IF=5.8
+DOI: 10.3389/fphar.2021.693701
+分析思路 文章的流程图 1、数据收集 1.1 TCM数据 四味中药：柴胡、白芍、枳实、甘草
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-10 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-10&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-04-28&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1203&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 文献--四逆散与非酒精性脂肪肝网药分析" href="https://lishensuo.github.io/en/posts/basic/150%E6%96%87%E7%8C%AE--%E5%9B%9B%E9%80%86%E6%95%A3%E4%B8%8E%E9%9D%9E%E9%85%92%E7%B2%BE%E6%80%A7%E8%84%82%E8%82%AA%E8%82%9D%E7%BD%91%E8%8D%AF%E5%88%86%E6%9E%90/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>基于PPI网络的靶点群距离预测药物组合
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> Network-based prediction of drug combinations
+Nature communication 2019 / 03 IF=15
+https://doi.org/10.1038/s41467-019-09186-x
+文章使用数据 1、PPI high-quality protein-protein interactions (PPIs)
+原文说有243,603 PPIs connecting 16,677 unique proteins ，但是根据文章附件链接只有217160 PPIs, 涉及15970个蛋白质
+https://static-content.springer.com/esm/art%3A10.1038%2Fs41467-019-09186-x/MediaObjects/41467_2019_9186_MOESM3_ESM.xlsx
+2、药物数据 （1）药物组方：DCDB
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-29 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-29&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-04-29&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;980&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 基于PPI网络的靶点群距离预测药物组合" href="https://lishensuo.github.io/en/posts/basic/151%E6%96%87%E7%8C%AE--%E5%9F%BA%E4%BA%8Eppi%E7%BD%91%E7%BB%9C%E7%9A%84%E9%9D%B6%E7%82%B9%E7%BE%A4%E8%B7%9D%E7%A6%BB%E9%A2%84%E6%B5%8B%E8%8D%AF%E7%89%A9%E7%BB%84%E5%90%88/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>矩阵相似性计算样本通路一致性
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>本次的两篇文章属于同一团队，第一篇文章侧重提出计算方法；第二篇文章侧重于应用方法，发现生物学规律
+Paper1：提出方法 SIGN: similarity identification in gene expression
+Bioinformatics 2019 / 2 IF = 7
+1.1 TSC score 文章根据2009年学者提出的modified RV coefficient，使用transcriptional similarity coefficient(TSC)分数，用以表征两个矩阵的相似性。计算公式如下：其中P1矩阵与P2矩阵的纵轴(Gene Row)需要保持一致，而两个矩阵的样本数(Sample Column)没有要求。 $$ TSC(P_1,P_2) = \frac{\sum_{i}(P_{10}×P_{20}){ij}} {{\sqrt{\sum{ij}(P_{10}){ij}^2}}× {\sqrt{\sum{ij}(P_{20})_{ij}^2}}} $$
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-05-13 00:00:00 &#43;0000 UTC&#39;&gt;2022-05-13&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-05-17&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1807&amp;nbsp;|&amp;nbsp;4 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 矩阵相似性计算样本通路一致性" href="https://lishensuo.github.io/en/posts/basic/152%E6%96%87%E7%8C%AE--%E7%9F%A9%E9%98%B5%E7%9B%B8%E4%BC%BC%E6%80%A7%E8%AE%A1%E7%AE%97%E6%A0%B7%E6%9C%AC%E9%80%9A%E8%B7%AF%E4%B8%80%E8%87%B4%E6%80%A7/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>文献--从相关性网络中鉴定节点间的直接调控关系
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1、算法简介 1.1 关系拆解 通过计算方法( 例如相关性Pearson correlation, 互信息mutual information等)构建的相互关系网络中，节点两两之间的关系通常包括直接关系与间接关系两部分，即如下图所示Total = Direct &#43; Indirect
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-05-19 00:00:00 &#43;0000 UTC&#39;&gt;2022-05-19&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-05-20&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2155&amp;nbsp;|&amp;nbsp;5 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 文献--从相关性网络中鉴定节点间的直接调控关系" href="https://lishensuo.github.io/en/posts/basic/153%E6%96%87%E7%8C%AE--%E4%BB%8E%E7%9B%B8%E5%85%B3%E6%80%A7%E7%BD%91%E7%BB%9C%E4%B8%AD%E9%89%B4%E5%AE%9A%E8%8A%82%E7%82%B9%E9%97%B4%E7%9A%84%E7%9B%B4%E6%8E%A5%E8%B0%83%E6%8E%A7%E5%85%B3%E7%B3%BB/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>文献--基于通路富集的药物重定向(以AD药物为例)
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> （1）Computational Drug Repurposing for Alzheimer’s Disease Using Risk Genes From GWAS and Single-Cell RNA Sequencing Studies
+https://www.frontiersin.org/articles/10.3389/fphar.2021.617537/full
+Front Pharmacol， 2021/06， IF 5.81
+（2）gene2drug: a computational tool for pathway-based rational drug repositioning
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-05-31 00:00:00 &#43;0000 UTC&#39;&gt;2022-05-31&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-05-31&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2095&amp;nbsp;|&amp;nbsp;5 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 文献--基于通路富集的药物重定向(以AD药物为例)" href="https://lishensuo.github.io/en/posts/basic/154%E6%96%87%E7%8C%AE--%E5%9F%BA%E4%BA%8E%E9%80%9A%E8%B7%AF%E5%AF%8C%E9%9B%86%E7%9A%84%E8%8D%AF%E7%89%A9%E9%87%8D%E5%AE%9A%E5%90%91%E4%BB%A5ad%E8%8D%AF%E7%89%A9%E4%B8%BA%E4%BE%8B/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>文献--基于药物干扰转录组建立距离网络用于药物重定向
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> Discovery of drug mode of action and drug repositioning from transcriptional responses
+August 2, 2010 | PNAS | IF=11.2
+10.1073/pnas.1000138107
+1、合并PRL cMap 1309种化合物作用于5种细胞系的6100个干扰转录组的差异基因结果。对于同一种化合物由于不同浓度，或者作用于不同细胞系会得到多个差异基因列表（下面简称list）。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-06-18 00:00:00 &#43;0000 UTC&#39;&gt;2022-06-18&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-06-18&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1647&amp;nbsp;|&amp;nbsp;4 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 文献--基于药物干扰转录组建立距离网络用于药物重定向" href="https://lishensuo.github.io/en/posts/basic/155%E6%96%87%E7%8C%AE--%E5%9F%BA%E4%BA%8E%E8%8D%AF%E7%89%A9%E5%B9%B2%E6%89%B0%E8%BD%AC%E5%BD%95%E7%BB%84%E5%BB%BA%E7%AB%8B%E8%B7%9D%E7%A6%BB%E7%BD%91%E7%BB%9C%E7%94%A8%E4%BA%8E%E8%8D%AF%E7%89%A9%E9%87%8D%E5%AE%9A%E5%90%91/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>文献--synergyfinder包计算协同评价指标
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> DrugCombDB: a comprehensive database of drug combinations toward the discovery of combinatorial therapy
+Nucleic Acids Research | 2020 | IF=17
+1、数据收集 （1）HTS(high-throughput screening)高通量筛选技术可用于快速测得药物作用于癌症细胞系的不同剂量(dose concentrations)下的反应(Response)。其中，反应(Response)的指标常是细胞活力(cell viability)。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-05-27 00:00:00 &#43;0000 UTC&#39;&gt;2022-05-27&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-05-27&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2797&amp;nbsp;|&amp;nbsp;6 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 文献--synergyfinder包计算协同评价指标" href="https://lishensuo.github.io/en/posts/basic/170%E6%96%87%E7%8C%AE--synergyfinder%E5%8C%85%E8%AE%A1%E7%AE%97%E5%8D%8F%E5%90%8C%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>文献--32种乳腺癌细胞系单细胞转录组图谱
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> A single-cell analysis of breast cancer cell lines to study tumour heterogeneity and drug response
+Nature Communications | 31 March 2022
+DOI: https://doi.org/10.1038/s41467-022-29358-6
+这篇文章对来自32个乳腺癌细胞系的35276个细胞进行了单细胞转录组测序(Drop-seq)，数据已上传到 GSE173634。文章具体内容主要是针对测序结果，从多个角度展开衍生的分析。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-07-06 00:00:00 &#43;0000 UTC&#39;&gt;2022-07-06&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-07-06&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1779&amp;nbsp;|&amp;nbsp;4 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 文献--32种乳腺癌细胞系单细胞转录组图谱" href="https://lishensuo.github.io/en/posts/basic/171%E6%96%87%E7%8C%AE--32%E7%A7%8D%E4%B9%B3%E8%85%BA%E7%99%8C%E7%BB%86%E8%83%9E%E7%B3%BB%E5%8D%95%E7%BB%86%E8%83%9E%E8%BD%AC%E5%BD%95%E7%BB%84%E5%9B%BE%E8%B0%B1/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>文献--乳腺癌单细胞转录组图谱
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> A single-cell and spatially resolved atlas of human breast cancers
+NatGenet. 2021 September
+1、scRNAseq测序样本 文章对26个乳腺癌样本进行了单细胞测序，包括11 ER&#43;，5 HER2&#43;，10 TNBC。
+对质控得到的130246个细胞根据marker基因注释为8种主要的细胞类型。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-08-06 00:00:00 &#43;0000 UTC&#39;&gt;2022-08-06&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-08-06&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1819&amp;nbsp;|&amp;nbsp;4 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 文献--乳腺癌单细胞转录组图谱" href="https://lishensuo.github.io/en/posts/basic/172%E6%96%87%E7%8C%AE--%E4%B9%B3%E8%85%BA%E7%99%8C%E5%8D%95%E7%BB%86%E8%83%9E%E4%B8%8E%E7%A9%BA%E9%97%B4%E8%BD%AC%E5%BD%95%E7%BB%84%E5%9B%BE%E8%B0%B1/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="https://lishensuo.github.io/en/posts/basic/page/2/">« Prev Page</a>
+    <a class="next" href="https://lishensuo.github.io/en/posts/basic/page/4/">Next Page »</a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

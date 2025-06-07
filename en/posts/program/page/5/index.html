@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>📖 R&amp;Python&amp;Shell --- 编程基础、可视化等 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="📖 R&amp;Python&amp;Shell --- 编程基础、可视化等 - Li&#39;s Bioinfo-Blog">
+<meta name="author" content="">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/program/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="https://lishensuo.github.io/en/posts/program/index.xml">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/program/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="📖 R&amp;Python&amp;Shell --- 编程基础、可视化等" />
+<meta property="og:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/program/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="📖 R&amp;Python&amp;Shell --- 编程基础、可视化等"/>
+<meta name="twitter:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 R\u0026Python\u0026Shell --- 编程基础、可视化等",
+      "item": "https://lishensuo.github.io/en/posts/program/"
+    }
+  ]
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header"><div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a></div>
+  <h1>📖 R&amp;Python&amp;Shell --- 编程基础、可视化等</h1>
+</header>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>R-可视化--ggplot绘制散点图添加边际图
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 示例数据 1 2 3 4 5 6 7 8 9 10 11 12 data(&#34;mtcars&#34;) df &lt;- mtcars df$name &lt;- rownames(df) df$cyl &lt;- as.factor(df$cyl) head(df[,c(&#34;name&#34;,&#34;cyl&#34;,&#34;mpg&#34;,&#34;wt&#34;)]) # name cyl mpg wt # Mazda RX4 Mazda RX4 6 21.0 2.620 # Mazda RX4 Wag Mazda RX4 Wag 6 21.0 2.875 # Datsun 710 Datsun 710 4 22.8 2.320 # Hornet 4 Drive Hornet 4 Drive 6 21.4 3.215 # Hornet Sportabout Hornet Sportabout 8 18.7 3.440 # Valiant Valiant 6 18.1 3.460 方式1: cowplot 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 library(cowplot) p_main = ggplot(df, aes(x = wt, y = mpg, color = cyl))&#43; geom_point() p_right = axis_canvas(p_main, axis = &#34;x&#34;)&#43; geom_density(data = df, aes(x = wt, fill = cyl), alpha = 0.7, size = 0.2) p_top = axis_canvas(p_main, axis = &#34;y&#34;, coord_flip = TRUE)&#43; geom_density(data = df, aes(x = mpg, fill = cyl), alpha = 0.7, size = 0.2)&#43; coord_flip() p1 = insert_xaxis_grob(p_main, p_right, grid::unit(.2, &#34;null&#34;), position = &#34;top&#34;) p2 = insert_yaxis_grob(p1, p_top, grid::unit(.2, &#34;null&#34;), position = &#34;right&#34;) ggdraw(p2) 方式2: patchwork 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 library(patchwork) p_main = ggplot(df, aes(x = wt, y = mpg, color = cyl)) &#43; geom_point() &#43; theme(legend.position=&#34;bottom&#34;) p_top = ggplot(df, aes(x = wt, color = cyl)) &#43; geom_boxplot() &#43; theme_void() &#43; theme(legend.position = &#34;none&#34;) p_right = ggplot(df, aes(x = mpg, color = cyl)) &#43; geom_boxplot() &#43; theme_void() &#43; theme(legend.position = &#34;none&#34;) &#43; coord_flip() p = p_top &#43; plot_spacer() &#43; p_main &#43; p_right &#43; plot_layout(ncol = 2, nrow = 2, heights = c(1, 5), widths = c(5, 1)) ...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-04-09 00:00:00 &#43;0000 UTC&#39;&gt;2023-04-09&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-04-09&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1525&amp;nbsp;|&amp;nbsp;4 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to R-可视化--ggplot绘制散点图添加边际图" href="https://lishensuo.github.io/en/posts/program/225r-%E5%8F%AF%E8%A7%86%E5%8C%96--ggplot%E6%B7%BB%E5%8A%A0%E5%9B%9B%E5%91%A8%E8%BE%B9%E9%99%85%E5%9B%BE/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>R-可视化--ggbeeswarm绘制蜂群图
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 1 2 3 library(ggplot2) # install.packages(&#34;ggbeeswarm&#34;) library(ggbeeswarm) 0、示例数据 1 2 3 4 5 6 7 8 9 10 11 12 13 14 set.seed(1995) y &lt;- round(rnorm(200), 1) df &lt;- data.frame(y = y, group = sample(c(&#34;G1&#34;, &#34;G2&#34;, &#34;G3&#34;), size = 200, replace = TRUE)) head(df) # y group # 1 1.1 G3 # 2 -0.3 G2 # 3 0.1 G2 # 4 0.4 G1 # 5 1.7 G3 # 6 -0.3 G3 1、基础绘图 1 2 ggplot(df, aes(x = group, y = y)) &#43; geom_beeswarm() 2、cex参数设置点的间距 1 2 ggplot(df, aes(x = group, y = y)) &#43; geom_beeswarm(cex = 3) 3、priority参数设置点的布局方式，
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-04-22 00:00:00 &#43;0000 UTC&#39;&gt;2023-04-22&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-04-22&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;285&amp;nbsp;|&amp;nbsp;1 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to R-可视化--ggbeeswarm绘制蜂群图" href="https://lishensuo.github.io/en/posts/program/226r-%E5%8F%AF%E8%A7%86%E5%8C%96--ggbeeswarm%E7%BB%98%E5%88%B6%E8%9C%82%E7%BE%A4%E5%9B%BE/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>R-可视化--ggsignif注释显著性
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> Github tutorial：https://github.com/const-ae/ggsignif
+1 2 library(ggplot2) library(ggsignif) 1、comparisons设置分组，计算并标注P值 1 2 3 4 5 6 7 8 9 10 11 12 13 14 ggplot(mpg, aes(class, hwy)) &#43; geom_boxplot() &#43; geom_signif( comparisons = list(c(&#34;compact&#34;, &#34;midsize&#34;), c(&#34;minivan&#34;, &#34;suv&#34;)), map_signif_level = TRUE, textsize = 6, test = &#34;t.test&#34;, # c(&#34;wilcox.test&#34;,&#34;t.test&#34;) vjust = -0.5 # 标签相对位置 ) &#43; ylim(NA, 48) # map_signif_level： 将P值映射为等级 # test： 设置差异分析方法 # size、textsize分别设置线与标签的颜色 annotation直接交代P值/标签，手动设置 1 2 3 4 5 6 7 8 9 10 11 12 13 anno &lt;- t.test( iris$Sepal.Width[iris$Species==&#34;versicolor&#34;], iris$Sepal.Width[iris$Species == &#34;virginica&#34;] )$p.value # [1] 0.001819483 ggplot(iris, aes(x = Species, y = Sepal.Width, fill = Species)) &#43; geom_boxplot(position = &#34;dodge&#34;) &#43; geom_signif( annotation = c(formatC(anno, digits = 1),&#34;***&#34;), y_position = c(4, 4.5), xmin = c(2,1), xmax = c(3,2), # 位置 tip_length = 0.02, ) 混合叠加多次注释 1 2 3 4 5 6 7 8 9 10 11 ggplot(dat, aes(Group, Value)) &#43; geom_bar(aes(fill = Sub), stat = &#34;identity&#34;, position = &#34;dodge&#34;, width = .5) &#43; geom_signif( y_position = c(5.3, 8.3), xmin = c(0.8, 1.8), xmax = c(1.2, 2.2), annotation = c(&#34;**&#34;, &#34;NS&#34;), tip_length = 0 ) &#43; geom_signif( comparisons = list(c(&#34;S1&#34;, &#34;S2&#34;)), y_position = 9.3, tip_length = 0, vjust = 0.2 ) &#43; scale_fill_manual(values = c(&#34;grey80&#34;, &#34;grey20&#34;)) </p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-04-22 00:00:00 &#43;0000 UTC&#39;&gt;2023-04-22&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-04-22&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;357&amp;nbsp;|&amp;nbsp;1 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to R-可视化--ggsignif注释显著性" href="https://lishensuo.github.io/en/posts/program/227r-%E5%8F%AF%E8%A7%86%E5%8C%96--ggsignif%E6%B3%A8%E9%87%8A%E6%98%BE%E8%91%97%E6%80%A7/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>R-可视化--funkyheatmap绘制table热图
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> https://github.com/funkyheatmap/funkyheatmap 1 2 3 4 5 6 7 8 # install.packages(&#34;funkyheatmap&#34;) library(funkyheatmap) library(tidyverse) data(&#34;mtcars&#34;) vignette(&#34;dynbenchmark&#34;, &#34;funkyheatmap&#34;) #vignette(&#34;mtcars&#34;, &#34;funkyheatmap&#34;) 1、简单用法 对于文本列，直接显示相应文本；对于数值列，使用几何图形映射数值大小。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-06-13 00:00:00 &#43;0000 UTC&#39;&gt;2023-06-13&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-06-13&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1042&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to R-可视化--funkyheatmap绘制table热图" href="https://lishensuo.github.io/en/posts/program/228r-%E5%8F%AF%E8%A7%86%E5%8C%96--funkyheatmap%E7%BB%98%E5%88%B6table%E7%83%AD%E5%9B%BE/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>R-数据分析--tidyr表格操作
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>tidyr是tidyverse系列的组成工具包之一，其主要功能侧重于表格的reshaping and organizing. 下面简要学习其几个比较常用的函数。
+https://tidyr.tidyverse.org/
+https://github.com/rstudio/cheatsheets/blob/main/tidyr.pdf
+1 library(tidyverse) 1. 表格长宽转换 类似reshape2包
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-11-30 00:00:00 &#43;0000 UTC&#39;&gt;2024-11-30&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-11-30&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;708&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to R-数据分析--tidyr表格操作" href="https://lishensuo.github.io/en/posts/program/229r-%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90--tidyr%E8%A1%A8%E6%A0%BC%E6%93%8D%E4%BD%9C/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>R语言RSelenium爬虫.md
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1、html基础与xpath语法 1.1 html基础 大多数网页内容都是html结构组织的，在我理解就是有众多节点(node)组成的树状结构； 而我们想要爬取的内容就是其中的某个或者某些节点的文本标签或者属性中。 更多可参考： （1）https://www.w3cschool.cn/html/html-basic.html （2）HTML零基础入门教程（详细）_ZONGXP的博客-CSDN博客_html5零基础入门教程 ...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-05-10 00:00:00 &#43;0000 UTC&#39;&gt;2022-05-10&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-05-10&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;4006&amp;nbsp;|&amp;nbsp;8 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to R语言RSelenium爬虫.md" href="https://lishensuo.github.io/en/posts/program/250r%E8%AF%AD%E8%A8%80rselenium%E7%88%AC%E8%99%AB/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>基于Rstudio创建R包
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 总结一下目前学习的，基于Rstudio的创建R包流程。
+Part1：创建R包基本流程 step1：建立开发环境 目的是创建一个文件夹，用于储存编写R包的各种文档；在创建之前想 好R包的名字，以及文件夹的路径。 这里示例R包名为newPackage。 进入Rstudio界面，依次点击File → New project → New Directory → R package,会出现如下界面，填写好R包名字，选择好开发包的工作目录（其它暂时都不用考虑）；最后点击Creat Project即可。 如上操作后，会进入新的工作环境，即R包开发环境；同时已经创建好R包开发所需的所必须的模板文档。主要包括4个部分： （1）R 文件夹：用于存放R函数脚本的文件夹；里面有一个示例文件hello.R （2）man 文件夹：用于存放对应上述R函数的说明文档Rd文件的文件夹；里面有一个示例文件hello.Rd。 （3）DESCRIPTION：关于R包的说明文档。 （4）NAMESPACE：声明R包导出以供外部使用的函数以及R包从其他包导入的外部函数。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-01-22 00:00:00 &#43;0000 UTC&#39;&gt;2023-01-22&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-01-22&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2828&amp;nbsp;|&amp;nbsp;6 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 基于Rstudio创建R包" href="https://lishensuo.github.io/en/posts/program/252%E5%9F%BA%E4%BA%8Erstudio%E5%88%9B%E5%BB%BAr%E5%8C%85/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>shiny包开发网页APP基础
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 主要参考教程 ：https://shiny.rstudio.com/tutorial/written-tutorial/lesson1/
+1、基本框架 （1）ui：布局呈现给用户的输入、输出界面
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-05-22 00:00:00 &#43;0000 UTC&#39;&gt;2022-05-22&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-05-22&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;3329&amp;nbsp;|&amp;nbsp;7 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to shiny包开发网页APP基础" href="https://lishensuo.github.io/en/posts/program/251shiny%E5%8C%85%E5%BC%80%E5%8F%91%E7%BD%91%E9%A1%B5app/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>R包purrr的函数编程
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> purrr包是tidyverse系列中用于函数编程的工具，很多用法类似R base的apply系列函数。现参考相关资料，学习其基本用法。
+https://jennybc.github.io/purrr-tutorial/index.html https://shixiangwang.github.io/home/cn/post/purrr-loop/ ...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-07-09 00:00:00 &#43;0000 UTC&#39;&gt;2023-07-09&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-07-09&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1580&amp;nbsp;|&amp;nbsp;4 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to R包purrr的函数编程" href="https://lishensuo.github.io/en/posts/program/253r%E5%8C%85purrr%E7%9A%84%E5%87%BD%E6%95%B0%E7%BC%96%E7%A8%8B/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>shiny包开发网页APP进阶
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> shiny中server部分的render×××系列函数是生成reactive output的主要方式。只要其内部的任一input$×××输入参数发生变化都会重新将该函数内部代码全部重新计算一遍以更新输出。此外，类似reactive()，observeEvent()等可以帮助实现更加复杂的输入输出控制，下面简单学习记录下。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-08-13 00:00:00 &#43;0000 UTC&#39;&gt;2023-08-13&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-08-13&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1907&amp;nbsp;|&amp;nbsp;4 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to shiny包开发网页APP进阶" href="https://lishensuo.github.io/en/posts/program/254shiny%E5%8C%85%E5%BC%80%E5%8F%91%E7%BD%91%E9%A1%B5app%E8%BF%9B%E9%98%B6/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="https://lishensuo.github.io/en/posts/program/page/4/">« Prev Page</a>
+    <a class="next" href="https://lishensuo.github.io/en/posts/program/page/6/">Next Page »</a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

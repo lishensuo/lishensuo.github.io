@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>计算机基础 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="李申锁的博客，记录生信学习过程。R/Python/Shell">
+<meta name="author" content="">
+<link rel="canonical" href="https://lishensuo.github.io/en/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="https://lishensuo.github.io/en/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/index.xml">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="计算机基础" />
+<meta property="og:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://lishensuo.github.io/en/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="计算机基础"/>
+<meta name="twitter:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell"/>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header"><div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/tags/">Tags</a></div>
+  <h1>计算机基础</h1>
+</header>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>050快捷键
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>shell Ctrl &#43; a : 将光标移到本行的开始处
+Ctrl &#43; e : 将光标移到本行的末尾处
+Backsapce : 删除前一个字符
+Ctrl &#43; d : 删除后一个字符
+Ctrl &#43; k : 从光标开始剪切至行的末尾
+Ctrl &#43; y : 从行的开头剪切光标处
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-26 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-26&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-04-26&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;170&amp;nbsp;|&amp;nbsp;1 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 050快捷键" href="https://lishensuo.github.io/en/posts/program/050%E5%BF%AB%E6%8D%B7%E9%94%AE%E7%B3%BB%E5%88%97/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>正则表达式基础
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 在R、shell，Python等进行字符串处理时，常常使用正则表达式进行高效的文本编辑。下面小结一下关于正则表达式的基础用法
+1、匹配字符（集） . : 可以匹配除换行符外的任意字符
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-16 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-16&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-04-16&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;551&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 正则表达式基础" href="https://lishensuo.github.io/en/posts/program/100%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%9F%BA%E7%A1%80/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>hugo&#43;github搭建我的个人博客
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 博客网页：https://lishensuo.github.io/ github：https://github.com/lishensuo/lishensuo.github.io 1、安装hugo （1）首先下载安装包https://github.com/gohugoio/hugo/releases
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-01-29 00:00:00 &#43;0000 UTC&#39;&gt;2023-01-29&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-01-29&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2509&amp;nbsp;|&amp;nbsp;6 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to hugo&#43;github搭建我的个人博客" href="https://lishensuo.github.io/en/posts/program/101hugo&#43;github%E6%90%AD%E5%BB%BA%E6%88%91%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>window系统快速安装ubuntu子系统
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 最近有在window系统安装linux子系统(WSL, Windows Subsystem for Linux)的需求，搜索发现Microsoft最近(4月8号)提供了更加简便的安装方式。在此记录一下安装过程，的确非常简单。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-22 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-22&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-04-22&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1228&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to window系统快速安装ubuntu子系统" href="https://lishensuo.github.io/en/posts/program/500window%E7%B3%BB%E7%BB%9F%E5%BF%AB%E9%80%9F%E5%AE%89%E8%A3%85ubuntu%E5%AD%90%E7%B3%BB%E7%BB%9F/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>docker初学
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>docker介绍 docker可以理解为轻量级的虚拟机，创建一个独立的环境，应用于特定的分析流程。 docker的镜像是一个定制的环境模板，而容器则是镜像实例化而得到的，可供实际分析的“虚拟机” 可以自己编辑dockfile创建一个镜像，或者下载安装别人写好的镜像(Docker Hub)。 docker的安装、使用需要sudo权限；但后续使用可通过下述命令使普通用户可以使用docker命令
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-05-14 00:00:00 &#43;0000 UTC&#39;&gt;2022-05-14&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-05-14&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1009&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to docker初学" href="https://lishensuo.github.io/en/posts/program/501docker%E5%88%9D%E5%AD%A6/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>Json文件格式
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> JSON (JavaScript Object Notation)：一种轻量级的数据交换格式，易于人类阅读和编写，同时也易于机器解析和生成。它广泛用于网络数据传输和配置文件。 JSON的整体是由花括号{}定义的键值对，值包括字符串、数字、布尔值、对象、数组和 null 1 2 3 4 5 6 7 8 9 10 11 { &#34;name&#34;: &#34;Alice&#34;, &#34;age&#34;: 30, &#34;isStudent&#34;: false, &#34;fruit&#34;: [&#34;apple&#34;, &#34;banana&#34;, &#34;cherry&#34;], &#34;birthday&#34;: { &#34;year&#34;: 2000, &#34;month&#34;: 12, &#34;day&#34;: null } } 在python中，可使用json库高效处理json格式： 键值对（对象） → Python字典 布尔值true/false → Python True/False 数组 → Python 列表list null → Python None 1 import json 1. json对象 json对象 → Python字典 1 2 3 4 5 6 7 8 9 10 # JSON 字符串 json_str = &#39;{&#34;name&#34;: &#34;Alice&#34;, &#34;age&#34;: 30, &#34;isStudent&#34;: false}&#39; # 解析 JSON data = json.loads(json_str) data.items() # dict_items([(&#39;name&#39;, &#39;Alice&#39;), (&#39;age&#39;, 30), (&#39;isStudent&#39;, False)]) data[&#39;birth&#39;] = {&#34;year&#34;:2000, &#39;month&#39;:12, &#34;day&#34;:None} data[&#39;like&#39;] = [&#39;apple&#39;, &#39;banana&#39;, &#39;cherry&#39;] **Python字典 → json对象 ** 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 json_str = json.dumps(data) print(json_str) # {&#34;name&#34;: &#34;Alice&#34;, &#34;age&#34;: 30, &#34;isStudent&#34;: false, &#34;birth&#34;: {&#34;year&#34;: 2000, &#34;month&#34;: 12, &#34;day&#34;: null}, &#34;like&#34;: [&#34;apple&#34;, &#34;banana&#34;, &#34;cherry&#34;]} json_str = json.dumps(data, indent=4) print(json_str) # { # &#34;name&#34;: &#34;Alice&#34;, # &#34;age&#34;: 30, # &#34;isStudent&#34;: false, # &#34;birth&#34;: { # &#34;year&#34;: 2000, # &#34;month&#34;: 12, # &#34;day&#34;: null # }, # &#34;like&#34;: [ # &#34;apple&#34;, # &#34;banana&#34;, # &#34;cherry&#34; # ] # } 2. json文件 保存python字典为json文件 1 2 with open(&#39;demo.json&#39;, &#39;w&#39;) as file: json.dump(data, file, indent=4) 读取json文件为python字典 1 2 with open(&#39;demo.json&#39;, &#39;r&#39;) as file: data = json.load(file) </p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-11-05 00:00:00 &#43;0000 UTC&#39;&gt;2024-11-05&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-11-05&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;452&amp;nbsp;|&amp;nbsp;1 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to Json文件格式" href="https://lishensuo.github.io/en/posts/program/505json%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>MySQL初学
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> MySQL是一个常用的数据库管理系统，关于数据库可以简单理解多个有关联的二维表组成。
+其中SQL(Structured Query Language)指操作关系型数据库的编程语言。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-10-22 00:00:00 &#43;0000 UTC&#39;&gt;2022-10-22&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-10-22&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;5355&amp;nbsp;|&amp;nbsp;11 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to MySQL初学" href="https://lishensuo.github.io/en/posts/program/600mysql%E5%88%9D%E5%AD%A6/"></a>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

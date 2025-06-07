@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>linux进程管理与后台运行 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="Linux">
+<meta name="description" content="1、关于CPU与线程
+1.1 简单理解进程与线程
+
+进程：计算机执行的一个命令或者程序
+线程：一般来说一个进程对应一个线程。但是如果进程任务可以分为若干独立子任务独立运行时，可以调用多线程，加快分析速度。
+
+1.2 cpu与核数
+
+CPU(Central Processing Unit)中央处理器，属于硬件。一般window笔记本电脑有一个CPU(physical cpu)
+
+
+
+核心（core），又称为内核。一个CPU芯片可以物理技术上集成多个内核，每个内核可以独立运行一个线程，最大化利用CPU资源。
+逻辑CPU数，是指通过虚拟化技术每个内核划分为两个虚拟(logical)CPU内核，可以理解为每个内核的超线程数，一般为2。目前window/linux系统都支持。
+总逻辑CPU数=物理CPU数 × 每个CPU芯片上的集成内核数 × 每个内核的超线程数
+
+
+">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/program/450linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E4%B8%8E%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/program/450linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E4%B8%8E%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="linux进程管理与后台运行" />
+<meta property="og:description" content="1、关于CPU与线程
+1.1 简单理解进程与线程
+
+进程：计算机执行的一个命令或者程序
+线程：一般来说一个进程对应一个线程。但是如果进程任务可以分为若干独立子任务独立运行时，可以调用多线程，加快分析速度。
+
+1.2 cpu与核数
+
+CPU(Central Processing Unit)中央处理器，属于硬件。一般window笔记本电脑有一个CPU(physical cpu)
+
+
+
+核心（core），又称为内核。一个CPU芯片可以物理技术上集成多个内核，每个内核可以独立运行一个线程，最大化利用CPU资源。
+逻辑CPU数，是指通过虚拟化技术每个内核划分为两个虚拟(logical)CPU内核，可以理解为每个内核的超线程数，一般为2。目前window/linux系统都支持。
+总逻辑CPU数=物理CPU数 × 每个CPU芯片上的集成内核数 × 每个内核的超线程数
+
+
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/program/450linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E4%B8%8E%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-05-14T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2022-05-14T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="linux进程管理与后台运行"/>
+<meta name="twitter:description" content="1、关于CPU与线程
+1.1 简单理解进程与线程
+
+进程：计算机执行的一个命令或者程序
+线程：一般来说一个进程对应一个线程。但是如果进程任务可以分为若干独立子任务独立运行时，可以调用多线程，加快分析速度。
+
+1.2 cpu与核数
+
+CPU(Central Processing Unit)中央处理器，属于硬件。一般window笔记本电脑有一个CPU(physical cpu)
+
+
+
+核心（core），又称为内核。一个CPU芯片可以物理技术上集成多个内核，每个内核可以独立运行一个线程，最大化利用CPU资源。
+逻辑CPU数，是指通过虚拟化技术每个内核划分为两个虚拟(logical)CPU内核，可以理解为每个内核的超线程数，一般为2。目前window/linux系统都支持。
+总逻辑CPU数=物理CPU数 × 每个CPU芯片上的集成内核数 × 每个内核的超线程数
+
+
+"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 R\u0026Python\u0026Shell --- 编程基础、可视化等",
+      "item": "https://lishensuo.github.io/en/posts/program/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "linux进程管理与后台运行",
+      "item": "https://lishensuo.github.io/en/posts/program/450linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E4%B8%8E%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "linux进程管理与后台运行",
+  "name": "linux进程管理与后台运行",
+  "description": "1、关于CPU与线程 1.1 简单理解进程与线程 进程：计算机执行的一个命令或者程序 线程：一般来说一个进程对应一个线程。但是如果进程任务可以分为若干独立子任务独立运行时，可以调用多线程，加快分析速度。 1.2 cpu与核数 CPU(Central Processing Unit)中央处理器，属于硬件。一般window笔记本电脑有一个CPU(physical cpu) 核心（core），又称为内核。一个CPU芯片可以物理技术上集成多个内核，每个内核可以独立运行一个线程，最大化利用CPU资源。 逻辑CPU数，是指通过虚拟化技术每个内核划分为两个虚拟(logical)CPU内核，可以理解为每个内核的超线程数，一般为2。目前window/linux系统都支持。 总逻辑CPU数=物理CPU数 × 每个CPU芯片上的集成内核数 × 每个内核的超线程数 ",
+  "keywords": [
+    "Linux"
+  ],
+  "articleBody": "1、关于CPU与线程 1.1 简单理解进程与线程 进程：计算机执行的一个命令或者程序 线程：一般来说一个进程对应一个线程。但是如果进程任务可以分为若干独立子任务独立运行时，可以调用多线程，加快分析速度。 1.2 cpu与核数 CPU(Central Processing Unit)中央处理器，属于硬件。一般window笔记本电脑有一个CPU(physical cpu) 核心（core），又称为内核。一个CPU芯片可以物理技术上集成多个内核，每个内核可以独立运行一个线程，最大化利用CPU资源。 逻辑CPU数，是指通过虚拟化技术每个内核划分为两个虚拟(logical)CPU内核，可以理解为每个内核的超线程数，一般为2。目前window/linux系统都支持。 总逻辑CPU数=物理CPU数 × 每个CPU芯片上的集成内核数 × 每个内核的超线程数 1.3 查看系统CPU属性 1.3.1 Windows系统查看CPU属性 1.3.2 Linux系统查看CPU属性 1 2 3 4 5 6 7 8 9 10 11 ## (1)查看物理CPU个数 cat /proc/cpuinfo| grep \"physical id\"| sort| uniq| wc -l ## (2)查看每个物理CPU中core的个数(即核数) cat /proc/cpuinfo| grep \"cpu cores\"| uniq ## (3)查看总逻辑CPU的个数 cat /proc/cpuinfo| grep \"processor\"| wc -l ## (4)查看每个逻辑CPU的属性 cat /proc/cpuinfo 1.4 CPU与RAM内存 当CPU的运算速度很快，需要执行一个命令时，需要调用储存在硬盘的程序数据进行交互。\n硬盘是计算机的外部储存器，容量大，不易丢失；但是数据读取太慢；\n内存(RAM, Random Access Memory)作为衔接二者之间的桥梁，一方面储存空间少于硬盘(具体看内存条的性能)；但一方面文件读取速度快于硬盘，从而提高CPU的计算效率。断电时，会清空内存数据；而硬盘数据不受影响。\n2、进程管理 2.1 ps：查看进程状态 1 2 3 4 5 6 7 8 9 10 ps au #显示通过终端启动的程序 ps aux #显示所有进程，包括后台启动的程序 ps aux | grep username #查找特定行模式的进程状态 ## USER : 执行进程的用户 ## PID : 进程ID ## %CPU, %MEM : 进程的CPU以及内存占有率 ## TTY, TIME, TIME : 进程在哪个终端，于哪个时间被启动的，已消耗CPU多长时间 ## COMMAND : 具体的进程命令 ## STAT : 表示当前命令的状态，常见的有 R--运行，S--睡眠，T--终止.... 2.2 top：实时监控进程信息 1 2 3 4 5 6 7 8 9 top top -d 3 #每隔3秒刷新一次进程状态 top -u usrname #指定用户的进程 top -c #显示全命令 # 快捷键：shift + P 将进程按CPU占有率降序排列(默认) # 快捷键：shift + M 将进程按内存占有率降序排列 ## 上半部分显示系统的CPU与内存状态，可重点关注 第三行 99.8 id表示空闲的CPU；第四行 221232.0 free 表示空闲的内存 ## 下半部分显示进程状态信息，每列字段含义基本同ps 2.3 kill：终止进程。 需要知道进程的PID，可通过ps或者top命令获得。 1 2 3 4 kill PID #默认为 -15, 正常杀死进程 kill PID1 PID2 #杀死多个进程 kill -9 PID #强制杀死进程 kill -1 PID #重新加载进程 3、后台运行进程 快捷键 Ctrl + C终止前台进程；Ctrl + Z 暂停前台进程，并置于后台\n\u0026 : 在当前终端的后台执行命令。退出该终端后，后台进程也随之终止。\nnohup \u0026 : 将在linux后台不挂断的执行命令。即使退出终端，也不影响该进程。\njobs : 查看当前终端的后台运行的进程，以及JobID\nfg : 将后台进程放到前台\nbg : 在后台运行后台暂停的进程\n3.1 终端后台执行命令 1 2 3 4 5 6 7 8 9 10 11 12 ##(1) 将命令直接放在后台开始执行 sleep 100 \u0026 #[1] 1916159 ##如上仅返回进程PID jobs # [1]+ Running sleep 100 \u0026 ##(2) 将正在前台运行的命令放到后台运行 sleep 100 #按 Ctrl + Z， 然后执行下述bg命令(以jobid为1示例) bg 1 3.2 不挂断地后台执行 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 ## (1)nohub \u0026 命令组合 nohup sleep 300 \u0026 #默认将命令的日志文件输出至当前路径的nohup.out文件中 #如下可将命令的日志文件输出到指定文件 nohup sleep 300 1\u003e command.log 2\u003e\u00261 \u0026 ## (2)将正在运行的命令转为不挂断地后台执行 sleep 300 #按 Ctrl + Z， 然后执行下述bg命令(以jobid为1示例) bg 1 disown %1 jobs ps aux | grep 'sleep' Bug records\nFor nohup command to execute python scrip with print(XXXXX) code， it does not write the printed info into the output log. According to the hint from this blog, it can be solved by one python parameter -u. The following is an example:\n1 2 3 4 nohup python -u ./deploy/cal_fi.py 1\u003e ./deploy/cal_fi.log 2\u003e\u00261 \u0026 # check the log in real-time mode tail -f ./deploy/cal_fi.log ",
+  "wordCount" : "1619",
+  "inLanguage": "en",
+  "datePublished": "2022-05-14T00:00:00Z",
+  "dateModified": "2022-05-14T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/program/450linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E4%B8%8E%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/program/">📖 R&amp;Python&amp;Shell --- 编程基础、可视化等</a></div>
+    <h1 class="post-title">
+      linux进程管理与后台运行
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-05-14 00:00:00 &#43;0000 UTC&#39;&gt;2022-05-14&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-05-14&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1619&amp;nbsp;|&amp;nbsp;4 min&amp;nbsp;|&amp;nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#1%e5%85%b3%e4%ba%8ecpu%e4%b8%8e%e7%ba%bf%e7%a8%8b" aria-label="1、关于CPU与线程">1、关于CPU与线程</a><ul>
+                            
+                    <li>
+                        <a href="#11-%e7%ae%80%e5%8d%95%e7%90%86%e8%a7%a3%e8%bf%9b%e7%a8%8b%e4%b8%8e%e7%ba%bf%e7%a8%8b" aria-label="1.1 简单理解进程与线程">1.1 简单理解进程与线程</a></li>
+                    <li>
+                        <a href="#12-cpu%e4%b8%8e%e6%a0%b8%e6%95%b0" aria-label="1.2 cpu与核数">1.2 cpu与核数</a></li>
+                    <li>
+                        <a href="#13-%e6%9f%a5%e7%9c%8b%e7%b3%bb%e7%bb%9fcpu%e5%b1%9e%e6%80%a7" aria-label="1.3 查看系统CPU属性">1.3 查看系统CPU属性</a><ul>
+                            
+                    <li>
+                        <a href="#131-windows%e7%b3%bb%e7%bb%9f%e6%9f%a5%e7%9c%8bcpu%e5%b1%9e%e6%80%a7" aria-label="1.3.1 Windows系统查看CPU属性">1.3.1 Windows系统查看CPU属性</a></li>
+                    <li>
+                        <a href="#132-linux%e7%b3%bb%e7%bb%9f%e6%9f%a5%e7%9c%8bcpu%e5%b1%9e%e6%80%a7" aria-label="1.3.2 Linux系统查看CPU属性">1.3.2 Linux系统查看CPU属性</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#14-cpu%e4%b8%8eram%e5%86%85%e5%ad%98" aria-label="1.4 CPU与RAM内存">1.4 CPU与RAM内存</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#2%e8%bf%9b%e7%a8%8b%e7%ae%a1%e7%90%86" aria-label="2、进程管理">2、进程管理</a><ul>
+                            
+                    <li>
+                        <a href="#21-ps%e6%9f%a5%e7%9c%8b%e8%bf%9b%e7%a8%8b%e7%8a%b6%e6%80%81" aria-label="2.1 ps：查看进程状态">2.1 ps：查看进程状态</a></li>
+                    <li>
+                        <a href="#22-top%e5%ae%9e%e6%97%b6%e7%9b%91%e6%8e%a7%e8%bf%9b%e7%a8%8b%e4%bf%a1%e6%81%af" aria-label="2.2 top：实时监控进程信息">2.2 top：实时监控进程信息</a></li>
+                    <li>
+                        <a href="#23-kill%e7%bb%88%e6%ad%a2%e8%bf%9b%e7%a8%8b" aria-label="2.3 kill：终止进程。">2.3 kill：终止进程。</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#3%e5%90%8e%e5%8f%b0%e8%bf%90%e8%a1%8c%e8%bf%9b%e7%a8%8b" aria-label="3、后台运行进程">3、后台运行进程</a><ul>
+                            
+                    <li>
+                        <a href="#31-%e7%bb%88%e7%ab%af%e5%90%8e%e5%8f%b0%e6%89%a7%e8%a1%8c%e5%91%bd%e4%bb%a4" aria-label="3.1 终端后台执行命令">3.1 终端后台执行命令</a></li>
+                    <li>
+                        <a href="#32-%e4%b8%8d%e6%8c%82%e6%96%ad%e5%9c%b0%e5%90%8e%e5%8f%b0%e6%89%a7%e8%a1%8c" aria-label="3.2 不挂断地后台执行">3.2 不挂断地后台执行</a>
+                    </li>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><h1 id="1关于cpu与线程">1、关于CPU与线程<a hidden class="anchor" aria-hidden="true" href="#1关于cpu与线程">#</a></h1>
+<h2 id="11-简单理解进程与线程">1.1 简单理解进程与线程<a hidden class="anchor" aria-hidden="true" href="#11-简单理解进程与线程">#</a></h2>
+<ul>
+<li>进程：计算机执行的一个命令或者程序</li>
+<li>线程：一般来说一个进程对应一个线程。但是如果进程任务可以分为若干独立子任务独立运行时，可以调用多线程，加快分析速度。</li>
+</ul>
+<h2 id="12-cpu与核数">1.2 cpu与核数<a hidden class="anchor" aria-hidden="true" href="#12-cpu与核数">#</a></h2>
+<ul>
+<li>CPU(Central Processing Unit)中央处理器，属于硬件。一般window笔记本电脑有一个CPU(physical cpu)</li>
+</ul>
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfAH-Rz4sfQuBkCaJ1ZWz_M7oUUZTAgQLUBb4ZYekdFcawewIPG-u8nHySkZfp1OMUFrI&usqp=CAU" alt="電腦CPU多核數和多線程的區別對比！4核8線程和6核6線程哪個好？ - 壹讀" style="zoom:33%;" />
+<ul>
+<li>核心（core），又称为内核。一个CPU芯片可以物理技术上集成多个内核，每个内核可以独立运行一个线程，最大化利用CPU资源。</li>
+<li>逻辑CPU数，是指通过虚拟化技术每个内核划分为两个虚拟(logical)CPU内核，可以理解为每个内核的超线程数，一般为2。目前window/linux系统都支持。</li>
+<li>总逻辑CPU数=物理CPU数 × 每个CPU芯片上的集成内核数 × 每个内核的超线程数</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/aHR0cDovL2hpLmNzZG4ubmV0L2F0dGFjaG1lbnQvMjAxMTA3LzMxLzBfMTMxMjExOTc3OUp0SDUuZ2lm" alt="CPU、核心数、线程数、运行内存、超线程理解_郝少的博客-CSDN博客_超线程数"  />
+</p>
+<h2 id="13-查看系统cpu属性">1.3 查看系统CPU属性<a hidden class="anchor" aria-hidden="true" href="#13-查看系统cpu属性">#</a></h2>
+<h3 id="131-windows系统查看cpu属性">1.3.1 Windows系统查看CPU属性<a hidden class="anchor" aria-hidden="true" href="#131-windows系统查看cpu属性">#</a></h3>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220514115805540.png" alt="image-20220514115805540"  />
+</p>
+<h3 id="132-linux系统查看cpu属性">1.3.2 Linux系统查看CPU属性<a hidden class="anchor" aria-hidden="true" href="#132-linux系统查看cpu属性">#</a></h3>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#007f7f">## (1)查看物理CPU个数</span>
+</span></span><span style="display:flex;"><span>cat /proc/cpuinfo| grep <span style="color:#0ff;font-weight:bold">&#34;physical id&#34;</span>| sort| uniq| wc -l
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## (2)查看每个物理CPU中core的个数(即核数)</span>
+</span></span><span style="display:flex;"><span>cat /proc/cpuinfo| grep <span style="color:#0ff;font-weight:bold">&#34;cpu cores&#34;</span>| uniq
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## (3)查看总逻辑CPU的个数</span>
+</span></span><span style="display:flex;"><span>cat /proc/cpuinfo| grep <span style="color:#0ff;font-weight:bold">&#34;processor&#34;</span>| wc -l
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## (4)查看每个逻辑CPU的属性</span>
+</span></span><span style="display:flex;"><span>cat /proc/cpuinfo
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="14-cpu与ram内存">1.4 CPU与RAM内存<a hidden class="anchor" aria-hidden="true" href="#14-cpu与ram内存">#</a></h2>
+<p>当CPU的运算速度很快，需要执行一个命令时，需要调用储存在硬盘的程序数据进行交互。</p>
+<p>硬盘是计算机的外部储存器，容量大，不易丢失；但是数据读取太慢；</p>
+<p>内存(RAM, Random Access Memory)作为衔接二者之间的桥梁，一方面储存空间少于硬盘(具体看内存条的性能)；但一方面文件读取速度快于硬盘，从而提高CPU的计算效率。断电时，会清空内存数据；而硬盘数据不受影响。</p>
+<img src="https://corp.adata.com/support/quiktips/images/knowledge/02/article_02_P01.jpg" alt="淺談記憶體的功用" style="zoom:33%;" />
+<img src="https://img-blog.csdnimg.cn/20200622154926425.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mjk3NjEzOQ==,size_16,color_FFFFFF,t_70" alt="CPU、内存、硬盘的关系及数据处理过程_菜鸟和大白谁厉害的博客-CSDN博客_cpu 内存硬盘之间的关系" style="zoom:33%;" />
+<h1 id="2进程管理">2、进程管理<a hidden class="anchor" aria-hidden="true" href="#2进程管理">#</a></h1>
+<h2 id="21-ps查看进程状态">2.1 ps：查看进程状态<a hidden class="anchor" aria-hidden="true" href="#21-ps查看进程状态">#</a></h2>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>ps au                   <span style="color:#007f7f">#显示通过终端启动的程序</span>
+</span></span><span style="display:flex;"><span>ps aux                  <span style="color:#007f7f">#显示所有进程，包括后台启动的程序</span>
+</span></span><span style="display:flex;"><span>ps aux | grep username  <span style="color:#007f7f">#查找特定行模式的进程状态</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## USER : 执行进程的用户</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## PID  : 进程ID</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## %CPU, %MEM : 进程的CPU以及内存占有率</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## TTY, TIME, TIME : 进程在哪个终端，于哪个时间被启动的，已消耗CPU多长时间</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## COMMAND : 具体的进程命令</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## STAT : 表示当前命令的状态，常见的有 R--运行，S--睡眠，T--终止....</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220514130033692.png" alt="image-20220514130033692"  />
+</p>
+<h2 id="22-top实时监控进程信息">2.2 top：实时监控进程信息<a hidden class="anchor" aria-hidden="true" href="#22-top实时监控进程信息">#</a></h2>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>top
+</span></span><span style="display:flex;"><span>top -d <span style="color:#ff0;font-weight:bold">3</span>       <span style="color:#007f7f">#每隔3秒刷新一次进程状态</span>
+</span></span><span style="display:flex;"><span>top -u usrname <span style="color:#007f7f">#指定用户的进程</span>
+</span></span><span style="display:flex;"><span>top -c         <span style="color:#007f7f">#显示全命令</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 快捷键：shift + P  将进程按CPU占有率降序排列(默认)</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 快捷键：shift + M  将进程按内存占有率降序排列</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## 上半部分显示系统的CPU与内存状态，可重点关注 第三行 99.8 id表示空闲的CPU；第四行 221232.0 free 表示空闲的内存</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## 下半部分显示进程状态信息，每列字段含义基本同ps</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220514131133773.png" alt="image-20220514131133773"  />
+</p>
+<h2 id="23-kill终止进程">2.3 kill：终止进程。<a hidden class="anchor" aria-hidden="true" href="#23-kill终止进程">#</a></h2>
+<ul>
+<li>需要知道进程的PID，可通过ps或者top命令获得。</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">kill</span> PID       <span style="color:#007f7f">#默认为 -15, 正常杀死进程</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">kill</span> PID1 PID2 <span style="color:#007f7f">#杀死多个进程</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">kill</span> -9 PID    <span style="color:#007f7f">#强制杀死进程</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">kill</span> -1 PID    <span style="color:#007f7f">#重新加载进程</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="3后台运行进程">3、后台运行进程<a hidden class="anchor" aria-hidden="true" href="#3后台运行进程">#</a></h1>
+<ul>
+<li>
+<p>快捷键 <code>Ctrl + C</code>终止前台进程；<code>Ctrl + Z</code> 暂停前台进程，并置于后台</p>
+</li>
+<li>
+<p><code>&lt;command&gt; &amp;</code>  : 在当前终端的后台执行命令。退出该终端后，后台进程也随之终止。</p>
+</li>
+<li>
+<p><code>nohup &lt;command&gt; &amp;</code> : 将在linux后台不挂断的执行命令。即使退出终端，也不影响该进程。</p>
+</li>
+<li>
+<p><code>jobs</code>  : 查看当前终端的后台运行的进程，以及JobID</p>
+</li>
+<li>
+<p><code>fg &lt;JobID&gt;</code>  : 将后台进程放到前台</p>
+</li>
+<li>
+<p><code>bg &lt;JobID&gt;</code>  : 在后台运行后台暂停的进程</p>
+</li>
+</ul>
+<h2 id="31-终端后台执行命令">3.1 终端后台执行命令<a hidden class="anchor" aria-hidden="true" href="#31-终端后台执行命令">#</a></h2>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#007f7f">##(1) 将命令直接放在后台开始执行</span>
+</span></span><span style="display:flex;"><span>sleep <span style="color:#ff0;font-weight:bold">100</span> &amp;
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#[1] 1916159</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##如上仅返回进程PID</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">jobs</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1]+  Running                 sleep 100 &amp;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##(2) 将正在前台运行的命令放到后台运行</span>
+</span></span><span style="display:flex;"><span>sleep <span style="color:#ff0;font-weight:bold">100</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#按 Ctrl + Z， 然后执行下述bg命令(以jobid为1示例)</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">bg</span> <span style="color:#ff0;font-weight:bold">1</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="32-不挂断地后台执行">3.2 不挂断地后台执行<a hidden class="anchor" aria-hidden="true" href="#32-不挂断地后台执行">#</a></h2>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#007f7f">## (1)nohub &lt;command&gt; &amp; 命令组合</span>
+</span></span><span style="display:flex;"><span>nohup sleep <span style="color:#ff0;font-weight:bold">300</span> &amp;
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#默认将命令的日志文件输出至当前路径的nohup.out文件中</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#如下可将命令的日志文件输出到指定文件</span>
+</span></span><span style="display:flex;"><span>nohup sleep <span style="color:#ff0;font-weight:bold">300</span>  1&gt; command.log 2&gt;&amp;<span style="color:#ff0;font-weight:bold">1</span> &amp;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## (2)将正在运行的命令转为不挂断地后台执行</span>
+</span></span><span style="display:flex;"><span>sleep <span style="color:#ff0;font-weight:bold">300</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#按 Ctrl + Z， 然后执行下述bg命令(以jobid为1示例)</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">bg</span> <span style="color:#ff0;font-weight:bold">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">disown</span> %1
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">jobs</span>
+</span></span><span style="display:flex;"><span>ps aux | grep <span style="color:#0ff;font-weight:bold">&#39;sleep&#39;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>Bug records</strong></p>
+<p>For <code>nohup</code> command to execute python scrip with <code>print(XXXXX)</code> code， it does not write the printed info into the output log. According to the hint from this blog, it can be solved by one python parameter <code>-u</code>.  The following is an example:</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>nohup python -u ./deploy/cal_fi.py  1&gt; ./deploy/cal_fi.log 2&gt;&amp;<span style="color:#ff0;font-weight:bold">1</span> &amp;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># check the log in real-time mode</span>
+</span></span><span style="display:flex;"><span>tail -f ./deploy/cal_fi.log
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/linux/">Linux</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/en/posts/program/403shell%E5%9F%BA%E7%A1%80--grep%E7%AD%89%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>shell基础--grep等文本处理命令</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/en/posts/program/451%E5%88%9D%E8%AF%86slurm%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>初识slurm基础操作</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

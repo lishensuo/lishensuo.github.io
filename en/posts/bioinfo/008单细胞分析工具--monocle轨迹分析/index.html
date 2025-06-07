@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>单细胞分析工具--monocle轨迹分析 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="scRNA-seq">
+<meta name="description" content="一、monocle
+
+参考教程/笔记
+
+（1）http://cole-trapnell-lab.github.io/monocle-release/docs/#constructing-single-cell-trajectories">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/bioinfo/008%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--monocle%E8%BD%A8%E8%BF%B9%E5%88%86%E6%9E%90/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/bioinfo/008%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--monocle%E8%BD%A8%E8%BF%B9%E5%88%86%E6%9E%90/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="单细胞分析工具--monocle轨迹分析" />
+<meta property="og:description" content="一、monocle
+
+参考教程/笔记
+
+（1）http://cole-trapnell-lab.github.io/monocle-release/docs/#constructing-single-cell-trajectories" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/bioinfo/008%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--monocle%E8%BD%A8%E8%BF%B9%E5%88%86%E6%9E%90/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-04-16T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2022-04-16T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="单细胞分析工具--monocle轨迹分析"/>
+<meta name="twitter:description" content="一、monocle
+
+参考教程/笔记
+
+（1）http://cole-trapnell-lab.github.io/monocle-release/docs/#constructing-single-cell-trajectories"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 生信数据分析--分析流程，工具包等",
+      "item": "https://lishensuo.github.io/en/posts/bioinfo/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "单细胞分析工具--monocle轨迹分析",
+      "item": "https://lishensuo.github.io/en/posts/bioinfo/008%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--monocle%E8%BD%A8%E8%BF%B9%E5%88%86%E6%9E%90/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "单细胞分析工具--monocle轨迹分析",
+  "name": "单细胞分析工具--monocle轨迹分析",
+  "description": "一、monocle 参考教程/笔记 （1）http://cole-trapnell-lab.github.io/monocle-release/docs/#constructing-single-cell-trajectories\n",
+  "keywords": [
+    "scRNA-seq"
+  ],
+  "articleBody": "一、monocle 参考教程/笔记 （1）http://cole-trapnell-lab.github.io/monocle-release/docs/#constructing-single-cell-trajectories\n（2）http://events.jianshu.io/p/5d6fd4561bc0 单细胞之轨迹分析-2：monocle2 原理解读+实操\n（3）https://www.jianshu.com/p/7c3e4370bd4c\nMonocle introduced the strategy of ordering single cells in pseudotime, placing them along a trajectory corresponding to a biological process such as cell differentiation by taking advantage of individual cell’s asynchronous progression of those processes.\n关于monocle包的安装(20230311) 最近使用monocle包的orderCells() 函数出现了问题，发现有人已在github提出了相应的解决方案，并提供了更新后的包的源代码。\nhttps://github.com/cole-trapnell-lab/monocle-release/issues/434 https://github.com/cole-trapnell-lab/monocle-release/files/10134172/monocle_2.26.0.tar.gz\n基于上述，总结安装经验如下\n1 2 3 4 5 6 7 8 9 # step1：按照正常方式安装monocle包(2.26.0),以安装相关依赖包 BiocManager::install(\"monocle\") # step2：单独卸载monocle包 remove.packages(\"monocle\") # step3: 手动安装上述修改好的monocle包 install.packages(\"monocle_2.26.0.tar.gz\", repos = NULL) library(monocle) 0、Seurat前期分析 建议在完成Seurat对象完成前期的细胞注释等步骤后，再无缝对接monocle的分析流程\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 ## 下载示例数据 download.file(\"https://s3-us-west-2.amazonaws.com/10x.files/samples/cell/pbmc3k/pbmc3k_filtered_gene_bc_matrices.tar.gz\", \"pbmc3k_filtered_gene_bc_matrices.tar.gz\") untar(\"pbmc3k_filtered_gene_bc_matrices.tar.gz\") library(Seurat) sce \u003c- Read10X(data.dir = \"filtered_gene_bc_matrices/hg19/\") sce \u003c- CreateSeuratObject(sce) sce = sce %\u003e% NormalizeData() %\u003e% FindVariableFeatures() %\u003e% ScaleData() sce = sce %\u003e% RunPCA() %\u003e% RunUMAP(dims = 1:30) %\u003e% #RunTSNE FindNeighbors(dims = 1:30) %\u003e% FindClusters(resolution = c(0.1,0.5,0.8)) # 注释细胞类型(随便虚拟命名) Idents(sce)=\"RNA_snn_res.0.5\" table(sce@active.ident) sce$celltype = dplyr::case_when( sce@active.ident %in% c(0,1) ~ \"celltypeA\", sce@active.ident %in% c(2) ~ \"celltypeB\", sce@active.ident %in% c(3,4) ~ \"celltypeC\", sce@active.ident %in% c(5,6,7) ~ \"celltypeD\") table(sce$celltype) # celltypeA celltypeB celltypeC celltypeD # 1678 352 464 206 sce # An object of class Seurat # 32738 features across 2700 samples within 1 assay # Active assay: RNA (32738 features, 2000 variable features) # 2 dimensional reductions calculated: pca, umap 1、构建cds对象 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 library(monocle) library(Seurat) #(1) count表达矩阵 expr_matrix = GetAssayData(sce, slot = \"counts\") #(2) cell meta注释信息 p_data \u003c- sce@meta.data head(p_data) pd \u003c- new('AnnotatedDataFrame', data = p_data) #(3) gene meta注释信息 f_data \u003c- data.frame(gene_short_name = row.names(sce), row.names = row.names(sce)) head(f_data) fd \u003c- new('AnnotatedDataFrame', data = f_data) #构建cds对象 cds_pre \u003c- newCellDataSet(expr_matrix, phenoData = pd, featureData = fd, expressionFamily = negbinomial.size()) ##预处理 # Add Size_Factor文库因子 cds_pre \u003c- estimateSizeFactors(cds_pre) cds_pre$Size_Factor %\u003e% head() # [1] 1.120639 2.269514 1.457618 1.221548 0.454088 1.001678 # 计算基因表达量的离散度 cds_pre \u003c- estimateDispersions(cds_pre) head(dispersionTable(cds_pre)) # gene_id mean_expression dispersion_fit dispersion_empirical # 1 AL627309.1 0.0028784954 117.03316 0 # 2 AP006222.2 0.0009931149 324.98138 0 cds_pre # CellDataSet (storageMode: environment) # assayData: 32738 features, 2700 samples # element names: exprs # protocolData: none # phenoData # sampleNames: AAACATACAACCAC-1 AAACATTGAGCTAC-1 ... TTTGCATGCCTCAC-1 # (2700 total) # varLabels: orig.ident nCount_RNA ... Size_Factor (9 total) # varMetadata: labelDescription # featureData # featureNames: MIR1302-10 FAM138A ... AC002321.1 (32738 total) # fvarLabels: gene_short_name # fvarMetadata: labelDescription # experimentData: use 'experimentData(object)' # Annotation: 2、选取marker基因 有如下三种选取的方法，可以多试试不同的结果，从而得到满意的结果 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 ### 策略1：marker gene by Seurat Idents(sce) = \"celltype\" gene_FAM = FindAllMarkers(sce) gene_sle = gene_FAM %\u003e% dplyr::filter(p_val\u003c0.01) %\u003e% pull(gene) %\u003e% unique() ### 策略2：high dispersion gene by monocle gene_Disp = dispersionTable(cds_pre) gene_sle = gene_Disp %\u003e% dplyr::filter(mean_expression \u003e= 0.1, dispersion_empirical \u003e= dispersion_fit) %\u003e% pull(gene_id) %\u003e% unique() ### 策略3：variable(high dispersion) gene by Seurat gene_sle \u003c- VariableFeatures(sce) ###也可以自定义一些基因集 gene_sle = c(..........) ####标记所选择的基因 cds \u003c- setOrderingFilter(cds_pre, gene_sle) 3、降维排序与可视化 3.1 降维排序 1 2 3 4 5 6 7 8 9 10 11 12 13 14 #降维(关键步骤) cds \u003c- reduceDimension(cds, method = 'DDRTree') #排序,得到轨迹分化相关的若干State cds \u003c- orderCells(cds) #查看发育阶段State与细胞类型的关系 table(cds$State, cds$celltype) # celltypeA celltypeB celltypeC celltypeD # 1 852 3 6 0 # 2 7 334 0 0 # 3 84 4 0 0 # 4 492 10 2 206 # 5 243 1 456 0 查看发育阶段State与拟时间的大致趋势 1 plot(cds$State, cds$Pseudotime) 可以根据上述的探索，自定义认为最适合作为根节点的State 1 2 # cds \u003c- orderCells(cds, root_state = 3) # plot(cds$State, cds$Pseudotime) 3.2 可视化 （1）细胞群 1 2 3 4 5 6 pData(cds) %\u003e% colnames() # [1] \"orig.ident\" \"nCount_RNA\" \"nFeature_RNA\" \"RNA_snn_res.0.1\" # [5] \"RNA_snn_res.0.5\" \"RNA_snn_res.0.8\" \"seurat_clusters\" \"celltype\" # [9] \"Size_Factor\" \"Pseudotime\" \"State\" plot_cell_trajectory(cds, color_by = \"State\") 1 plot_complex_cell_trajectory(cds, color_by = \"State\") 1 2 plot_cell_trajectory(cds, color_by = \"celltype\") + facet_wrap(\"~celltype\", nrow = 1) 1 plot_cell_trajectory(cds, color_by = \"Pseudotime\") （2）基因变化 1 2 3 gene_key = c(\"S100A8\",\"S100A9\") plot_genes_jitter(cds[gene_key,], grouping = \"State\", color_by = \"State\") 1 2 plot_genes_violin(cds[gene_key,], grouping = \"State\", color_by = \"State\") 1 plot_genes_in_pseudotime(cds[gene_key,], color_by = \"State\") 4、差异分析 4.1 鉴定轨迹分化相关基因 1 2 3 4 5 6 7 8 9 diff_pseudo \u003c- differentialGeneTest(cds[gene_sle,], cores = 1, fullModelFormulaStr = \"~sm.ns(Pseudotime)\") head(diff_pseudo) # status family pval qval gene_short_name use_for_ordering # NKG7 OK negbinomial.size 4.773294e-106 4.876296e-104 NKG7 TRUE # CD79B OK negbinomial.size 1.740103e-20 1.431161e-19 CD79B TRUE table(diff_pseudo$qval\u003c0.05) # FALSE TRUE # 568 1373 选取其中最显著的进行可视化 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 diff_pseudo_gene \u003c- diff_pseudo %\u003e% dplyr::arrange(qval) %\u003e% rownames() %\u003e% head(50) p = plot_pseudotime_heatmap(cds[diff_pseudo_gene,], num_clusters = 3, # default 6 return_heatmap=T) #获得具体每个cluster的组成基因 pseudotime_clusters \u003c- cutree(p$tree_row, k = 2) %\u003e% data.frame(gene = names(.), cluster = . ) head(pseudotime_clusters) # gene cluster # S100A9 S100A9 1 # S100A8 S100A8 1 table(pseudotime_clusters$cluster) # 1 2 3 # 45 4 1 4.2 分支点基因变化情况 简单来说，针对某一个分支点(branch)，比较在出现分支后两类细胞的基因表达差异。这类差异包含两个方面（1）与分叉点之前细胞表达的差异；（2）分叉点后的两类细胞间的差异。\n举例来说：对于branch1，出现了State 5与4两个分支点。就来比较相对于State 1,3，这两个分支群细胞的差异性。\n1 2 3 4 5 6 7 BEAM_res \u003c- BEAM(cds[gene_sle], branch_point = 1, cores = 1) BEAM_res \u003c- BEAM_res[order(BEAM_res$qval),] BEAM_res \u003c- BEAM_res[,c(\"gene_short_name\", \"pval\", \"qval\")] head(BEAM_res) # gene_short_name pval qval # GZMB GZMB 1.128213e-111 2.189861e-108 # GNLY GNLY 3.421968e-102 3.321020e-99 可视化理解\n如下图列标注含义理解（1）灰色Pre-branch：分叉点之前的细胞，即State 1,3；（2）红色 Cell fate 1对应State 4（较小的数字State）；（3）蓝色 Cell fate 2对应State 5；\n1 2 3 pData(cds)$gene_sp = log2(exprs(cds)['CD7',]+1) plot_cell_trajectory(cds, color_by = \"gene_sp\") + facet_wrap(\"~State\", nrow = 1) 二、monocle3 0、Seurat前期分析 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 ## 下载示例数据 download.file(\"https://s3-us-west-2.amazonaws.com/10x.files/samples/cell/pbmc3k/pbmc3k_filtered_gene_bc_matrices.tar.gz\", \"pbmc3k_filtered_gene_bc_matrices.tar.gz\") untar(\"pbmc3k_filtered_gene_bc_matrices.tar.gz\") library(Seurat) sce \u003c- Read10X(data.dir = \"filtered_gene_bc_matrices/hg19/\") sce \u003c- CreateSeuratObject(sce) sce = sce %\u003e% NormalizeData() %\u003e% FindVariableFeatures() %\u003e% ScaleData() sce = sce %\u003e% RunPCA() %\u003e% RunUMAP(dims = 1:30) %\u003e% #RunTSNE FindNeighbors(dims = 1:30) %\u003e% FindClusters(resolution = c(0.1,0.5,0.8)) # 注释细胞类型(随便虚拟命名) Idents(sce)=\"RNA_snn_res.0.5\" table(sce@active.ident) sce$celltype = dplyr::case_when( sce@active.ident %in% c(0,1) ~ \"celltypeA\", sce@active.ident %in% c(2) ~ \"celltypeB\", sce@active.ident %in% c(3,4) ~ \"celltypeC\", sce@active.ident %in% c(5,6,7) ~ \"celltypeD\") table(sce$celltype) # celltypeA celltypeB celltypeC celltypeD # 1678 352 464 206 sce # An object of class Seurat # 32738 features across 2700 samples within 1 assay # Active assay: RNA (32738 features, 2000 variable features) # 2 dimensional reductions calculated: pca, umap 1、构建cds对象 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 #count表达矩阵 expr_matrix = GetAssayData(sce, slot = \"counts\") #cell meta注释信息 p_data \u003c- sce@meta.data head(p_data) # gene meta注释信息 f_data \u003c- data.frame(gene_short_name = row.names(sce), row.names = row.names(sce)) pre_cds \u003c- new_cell_data_set(expr_matrix, cell_metadata = p_data, gene_metadata = f_data) pData(pre_cds) %\u003e% colnames() # [1] \"orig.ident\" \"nCount_RNA\" \"nFeature_RNA\" \"RNA_snn_res.0.1\" # [5] \"RNA_snn_res.0.5\" \"RNA_snn_res.0.8\" \"seurat_clusters\" \"celltype\" # [9] \"Size_Factor\" cds \u003c- preprocess_cds(pre_cds) #标准化+PCA降维 2、UMAP降维 UMAP by monocle3 1 2 3 4 5 6 7 8 9 cds \u003c- reduce_dimension(cds, preprocess_method = \"PCA\") head(cds@int_colData$reducedDims$UMAP) # [,1] [,2] # AAACATACAACCAC-1 -3.571852 3.5445674 # AAACATTGAGCTAC-1 -3.765824 -12.2549407 plot_cells(cds, reduction_method=\"UMAP\", show_trajectory_graph = FALSE, label_cell_groups = FALSE, color_cells_by=\"celltype\") UMAP by Seurat 1 2 3 4 5 6 seurat_umap \u003c- Embeddings(sce, reduction = \"umap\")[colnames(cds),] cds@int_colData$reducedDims$UMAP \u003c- seurat_umap head(cds@int_colData$reducedDims$UMAP) # UMAP_1 UMAP_2 # AAACATACAACCAC-1 -3.916352 -8.065296 # AAACATTGAGCTAC-1 -2.270202 20.887603 如果想保持跟之前Seurat的分析可视化结果一致，可以使用第二种结果。后面的分析采用第一种结果\n3、轨迹分析(核心) 1 2 3 4 5 6 7 8 9 10 11 #分群(类似monocle的State) cds \u003c- cluster_cells(cds) #预测轨迹 cds \u003c- learn_graph(cds) #交互式确定root节点，可以选择多个。我这里选择了一个 cds \u003c- order_cells(cds) plot_cells(cds, color_cells_by = \"pseudotime\", label_cell_groups = FALSE, label_leaves = FALSE, label_branch_points = FALSE) 参数设置：（1）label_branch_points=TRUE表示branch分支点，用黑色圆圈，白色边框表示；（2）label_leaves=TRUE表示fate分支终点，用灰色圆圈，黑色边框表示 4、鉴定轨迹分化相关基因 Monocle3 introduces a new approach for finding such genes that draws on a powerful technique in spatial correlation analysis, the Moran’s I test. Moran’s I is a measure of multi-directional and multi-dimensional spatial autocorrelation. The statistic tells you whether cells at nearby positions on a trajectory will have similar (or dissimilar) expression levels for the gene being tested. Although both Pearson correlation and Moran’s I ranges from -1 to 1, the interpretation of Moran’s I is slightly different: +1 means that nearby cells will have perfectly similar expression; 0 represents no correlation, and -1 means that neighboring cells will be anti-correlated.\n1 2 3 4 5 6 7 8 9 10 #相对比较耗时 Track_genes \u003c- graph_test(cds, neighbor_graph=\"principal_graph\") Track_genes \u003c- Track_genes[,c(5,2,3,4,1,6)] %\u003e% dplyr::arrange(desc(morans_I),q_value) head(Track_genes) # gene_short_name p_value morans_test_statistic morans_I status q_value # TYROBP TYROBP 0 148.7535 0.8395583 OK 0 # S100A8 S100A8 0 146.4378 0.8261901 OK 0 plot_genes_in_pseudotime(cds[Track_genes$gene_short_name[1],] , min_expr=0.5) 1 2 3 4 plot_cells(cds, genes=Track_genes$gene_short_name[1:2], show_trajectory_graph=TRUE, label_cell_groups=FALSE, label_leaves=FALSE) ",
+  "wordCount" : "2709",
+  "inLanguage": "en",
+  "datePublished": "2022-04-16T00:00:00Z",
+  "dateModified": "2022-04-16T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/bioinfo/008%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--monocle%E8%BD%A8%E8%BF%B9%E5%88%86%E6%9E%90/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/bioinfo/">📖 生信数据分析--分析流程，工具包等</a></div>
+    <h1 class="post-title">
+      单细胞分析工具--monocle轨迹分析
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-16 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-16&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-04-16&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2709&amp;nbsp;|&amp;nbsp;6 min&amp;nbsp;|&amp;nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#%e4%b8%80monocle" aria-label="一、monocle">一、monocle</a><ul>
+                            <ul>
+                            
+                    <li>
+                        <a href="#0seurat%e5%89%8d%e6%9c%9f%e5%88%86%e6%9e%90" aria-label="0、Seurat前期分析">0、Seurat前期分析</a></li>
+                    <li>
+                        <a href="#1%e6%9e%84%e5%bb%bacds%e5%af%b9%e8%b1%a1" aria-label="1、构建cds对象">1、构建cds对象</a></li>
+                    <li>
+                        <a href="#2%e9%80%89%e5%8f%96marker%e5%9f%ba%e5%9b%a0" aria-label="2、选取marker基因">2、选取marker基因</a></li>
+                    <li>
+                        <a href="#3%e9%99%8d%e7%bb%b4%e6%8e%92%e5%ba%8f%e4%b8%8e%e5%8f%af%e8%a7%86%e5%8c%96" aria-label="3、降维排序与可视化">3、降维排序与可视化</a><ul>
+                            <ul>
+                            
+                    <li>
+                        <a href="#31-%e9%99%8d%e7%bb%b4%e6%8e%92%e5%ba%8f" aria-label="3.1 降维排序">3.1 降维排序</a></li>
+                    <li>
+                        <a href="#32-%e5%8f%af%e8%a7%86%e5%8c%96" aria-label="3.2 可视化">3.2 可视化</a><ul>
+                            
+                    <li>
+                        <a href="#1%e7%bb%86%e8%83%9e%e7%be%a4" aria-label="（1）细胞群">（1）细胞群</a></li>
+                    <li>
+                        <a href="#2%e5%9f%ba%e5%9b%a0%e5%8f%98%e5%8c%96" aria-label="（2）基因变化">（2）基因变化</a></li></ul>
+                    </li></ul>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#4%e5%b7%ae%e5%bc%82%e5%88%86%e6%9e%90" aria-label="4、差异分析">4、差异分析</a><ul>
+                            <ul>
+                            
+                    <li>
+                        <a href="#41-%e9%89%b4%e5%ae%9a%e8%bd%a8%e8%bf%b9%e5%88%86%e5%8c%96%e7%9b%b8%e5%85%b3%e5%9f%ba%e5%9b%a0" aria-label="4.1 鉴定轨迹分化相关基因">4.1 鉴定轨迹分化相关基因</a></li>
+                    <li>
+                        <a href="#42-%e5%88%86%e6%94%af%e7%82%b9%e5%9f%ba%e5%9b%a0%e5%8f%98%e5%8c%96%e6%83%85%e5%86%b5" aria-label="4.2 分支点基因变化情况">4.2 分支点基因变化情况</a></li></ul>
+                        </ul>
+                    </li></ul>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#%e4%ba%8cmonocle3" aria-label="二、monocle3">二、monocle3</a><ul>
+                            <ul>
+                            
+                    <li>
+                        <a href="#0seurat%e5%89%8d%e6%9c%9f%e5%88%86%e6%9e%90-1" aria-label="0、Seurat前期分析">0、Seurat前期分析</a></li>
+                    <li>
+                        <a href="#1%e6%9e%84%e5%bb%bacds%e5%af%b9%e8%b1%a1-1" aria-label="1、构建cds对象">1、构建cds对象</a></li>
+                    <li>
+                        <a href="#2umap%e9%99%8d%e7%bb%b4" aria-label="2、UMAP降维">2、UMAP降维</a></li>
+                    <li>
+                        <a href="#3%e8%bd%a8%e8%bf%b9%e5%88%86%e6%9e%90%e6%a0%b8%e5%bf%83" aria-label="3、轨迹分析(核心)">3、轨迹分析(核心)</a></li>
+                    <li>
+                        <a href="#4%e9%89%b4%e5%ae%9a%e8%bd%a8%e8%bf%b9%e5%88%86%e5%8c%96%e7%9b%b8%e5%85%b3%e5%9f%ba%e5%9b%a0" aria-label="4、鉴定轨迹分化相关基因">4、鉴定轨迹分化相关基因</a>
+                    </li>
+                </ul>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><h1 id="一monocle">一、monocle<a hidden class="anchor" aria-hidden="true" href="#一monocle">#</a></h1>
+<ul>
+<li>参考教程/笔记</li>
+</ul>
+<p>（1）http://cole-trapnell-lab.github.io/monocle-release/docs/#constructing-single-cell-trajectories</p>
+<p>（2）http://events.jianshu.io/p/5d6fd4561bc0 单细胞之轨迹分析-2：monocle2 原理解读+实操</p>
+<p>（3）https://www.jianshu.com/p/7c3e4370bd4c</p>
+<blockquote>
+<p>Monocle introduced the strategy of ordering single cells in <strong>pseudotime</strong>, placing them along a trajectory corresponding to a biological process such as cell differentiation by taking advantage of individual cell&rsquo;s asynchronous progression of those processes.</p></blockquote>
+<ul>
+<li>关于monocle包的安装(20230311)</li>
+</ul>
+<p>最近使用monocle包的<code>orderCells() </code>函数出现了问题，发现有人已在github提出了相应的解决方案，并提供了更新后的包的源代码。</p>
+<p><a href="https://github.com/cole-trapnell-lab/monocle-release/issues/434">https://github.com/cole-trapnell-lab/monocle-release/issues/434</a>
+<a href="https://github.com/cole-trapnell-lab/monocle-release/files/10134172/monocle_2.26.0.tar.gz">https://github.com/cole-trapnell-lab/monocle-release/files/10134172/monocle_2.26.0.tar.gz</a></p>
+<p>基于上述，总结安装经验如下</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f"># step1：按照正常方式安装monocle包(2.26.0),以安装相关依赖包</span>
+</span></span><span style="display:flex;"><span>BiocManager::install(<span style="color:#0ff;font-weight:bold">&#34;monocle&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># step2：单独卸载monocle包</span>
+</span></span><span style="display:flex;"><span>remove.packages(<span style="color:#0ff;font-weight:bold">&#34;monocle&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># step3: 手动安装上述修改好的monocle包</span>
+</span></span><span style="display:flex;"><span>install.packages(<span style="color:#0ff;font-weight:bold">&#34;monocle_2.26.0.tar.gz&#34;</span>, repos = <span style="color:#fff;font-weight:bold">NULL</span>)
+</span></span><span style="display:flex;"><span>library(monocle)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="0seurat前期分析">0、Seurat前期分析<a hidden class="anchor" aria-hidden="true" href="#0seurat前期分析">#</a></h3>
+<p>建议在完成<code>Seurat</code>对象完成前期的细胞注释等步骤后，再无缝对接<code>monocle</code>的分析流程</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">27
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">28
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">29
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">30
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">31
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">32
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">33
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">34
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">## 下载示例数据</span>
+</span></span><span style="display:flex;"><span>download.file(<span style="color:#0ff;font-weight:bold">&#34;https://s3-us-west-2.amazonaws.com/10x.files/samples/cell/pbmc3k/pbmc3k_filtered_gene_bc_matrices.tar.gz&#34;</span>,
+</span></span><span style="display:flex;"><span>              <span style="color:#0ff;font-weight:bold">&#34;pbmc3k_filtered_gene_bc_matrices.tar.gz&#34;</span>)
+</span></span><span style="display:flex;"><span>untar(<span style="color:#0ff;font-weight:bold">&#34;pbmc3k_filtered_gene_bc_matrices.tar.gz&#34;</span>)
+</span></span><span style="display:flex;"><span>library(Seurat)
+</span></span><span style="display:flex;"><span>sce &lt;- Read10X(data.dir = <span style="color:#0ff;font-weight:bold">&#34;filtered_gene_bc_matrices/hg19/&#34;</span>)
+</span></span><span style="display:flex;"><span>sce &lt;- CreateSeuratObject(sce)
+</span></span><span style="display:flex;"><span>sce = sce %&gt;%
+</span></span><span style="display:flex;"><span>  NormalizeData() %&gt;%
+</span></span><span style="display:flex;"><span>  FindVariableFeatures() %&gt;%
+</span></span><span style="display:flex;"><span>  ScaleData()
+</span></span><span style="display:flex;"><span>sce = sce %&gt;% 
+</span></span><span style="display:flex;"><span>  RunPCA() %&gt;% 
+</span></span><span style="display:flex;"><span>  RunUMAP(dims = <span style="color:#ff0;font-weight:bold">1</span>:<span style="color:#ff0;font-weight:bold">30</span>) %&gt;%  <span style="color:#007f7f">#RunTSNE</span>
+</span></span><span style="display:flex;"><span>  FindNeighbors(dims = <span style="color:#ff0;font-weight:bold">1</span>:<span style="color:#ff0;font-weight:bold">30</span>) %&gt;% 
+</span></span><span style="display:flex;"><span>  FindClusters(resolution = c(<span style="color:#ff0;font-weight:bold">0.1</span>,<span style="color:#ff0;font-weight:bold">0.5</span>,<span style="color:#ff0;font-weight:bold">0.8</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 注释细胞类型(随便虚拟命名)</span>
+</span></span><span style="display:flex;"><span>Idents(sce)=<span style="color:#0ff;font-weight:bold">&#34;RNA_snn_res.0.5&#34;</span>
+</span></span><span style="display:flex;"><span>table(sce@active.ident)
+</span></span><span style="display:flex;"><span>sce$celltype = dplyr::case_when(
+</span></span><span style="display:flex;"><span>  sce@active.ident %in% c(<span style="color:#ff0;font-weight:bold">0</span>,<span style="color:#ff0;font-weight:bold">1</span>) ~ <span style="color:#0ff;font-weight:bold">&#34;celltypeA&#34;</span>,
+</span></span><span style="display:flex;"><span>  sce@active.ident %in% c(<span style="color:#ff0;font-weight:bold">2</span>) ~ <span style="color:#0ff;font-weight:bold">&#34;celltypeB&#34;</span>,
+</span></span><span style="display:flex;"><span>  sce@active.ident %in% c(<span style="color:#ff0;font-weight:bold">3</span>,<span style="color:#ff0;font-weight:bold">4</span>) ~ <span style="color:#0ff;font-weight:bold">&#34;celltypeC&#34;</span>,
+</span></span><span style="display:flex;"><span>  sce@active.ident %in% c(<span style="color:#ff0;font-weight:bold">5</span>,<span style="color:#ff0;font-weight:bold">6</span>,<span style="color:#ff0;font-weight:bold">7</span>) ~ <span style="color:#0ff;font-weight:bold">&#34;celltypeD&#34;</span>)
+</span></span><span style="display:flex;"><span>table(sce$celltype)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># celltypeA celltypeB celltypeC celltypeD </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1678       352       464       206</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sce
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># An object of class Seurat </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 32738 features across 2700 samples within 1 assay </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Active assay: RNA (32738 features, 2000 variable features)</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2 dimensional reductions calculated: pca, umap</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="1构建cds对象">1、构建cds对象<a hidden class="anchor" aria-hidden="true" href="#1构建cds对象">#</a></h3>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">27
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">28
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">29
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">30
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">31
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">32
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">33
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">34
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">35
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">36
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">37
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">38
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">39
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">40
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">41
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">42
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">43
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">44
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">45
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">46
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">47
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">48
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">49
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">50
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>library(monocle)
+</span></span><span style="display:flex;"><span>library(Seurat)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#(1) count表达矩阵</span>
+</span></span><span style="display:flex;"><span>expr_matrix = GetAssayData(sce, slot = <span style="color:#0ff;font-weight:bold">&#34;counts&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#(2) cell meta注释信息</span>
+</span></span><span style="display:flex;"><span>p_data &lt;- sce@meta.data 
+</span></span><span style="display:flex;"><span>head(p_data)
+</span></span><span style="display:flex;"><span>pd &lt;- new(<span style="color:#0ff;font-weight:bold">&#39;AnnotatedDataFrame&#39;</span>, data = p_data) 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#(3) gene meta注释信息</span>
+</span></span><span style="display:flex;"><span>f_data &lt;- data.frame(gene_short_name = row.names(sce),
+</span></span><span style="display:flex;"><span>                     row.names = row.names(sce))
+</span></span><span style="display:flex;"><span>head(f_data)
+</span></span><span style="display:flex;"><span>fd &lt;- new(<span style="color:#0ff;font-weight:bold">&#39;AnnotatedDataFrame&#39;</span>, data = f_data)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#构建cds对象</span>
+</span></span><span style="display:flex;"><span>cds_pre &lt;- newCellDataSet(expr_matrix,
+</span></span><span style="display:flex;"><span>                          phenoData = pd,
+</span></span><span style="display:flex;"><span>                          featureData = fd,
+</span></span><span style="display:flex;"><span>                          expressionFamily = negbinomial.size())
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##预处理</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Add Size_Factor文库因子</span>
+</span></span><span style="display:flex;"><span>cds_pre &lt;- estimateSizeFactors(cds_pre)
+</span></span><span style="display:flex;"><span>cds_pre$Size_Factor %&gt;% head()
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] 1.120639 2.269514 1.457618 1.221548 0.454088 1.001678</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 计算基因表达量的离散度</span>
+</span></span><span style="display:flex;"><span>cds_pre &lt;- estimateDispersions(cds_pre)
+</span></span><span style="display:flex;"><span>head(dispersionTable(cds_pre))
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#      gene_id mean_expression dispersion_fit dispersion_empirical</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1    AL627309.1    0.0028784954      117.03316                    0</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2    AP006222.2    0.0009931149      324.98138                    0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cds_pre
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># CellDataSet (storageMode: environment)</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># assayData: 32738 features, 2700 samples </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># element names: exprs </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># protocolData: none</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># phenoData</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># sampleNames: AAACATACAACCAC-1 AAACATTGAGCTAC-1 ... TTTGCATGCCTCAC-1</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># (2700 total)</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># varLabels: orig.ident nCount_RNA ... Size_Factor (9 total)</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># varMetadata: labelDescription</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># featureData</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># featureNames: MIR1302-10 FAM138A ... AC002321.1 (32738 total)</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># fvarLabels: gene_short_name</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># fvarMetadata: labelDescription</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># experimentData: use &#39;experimentData(object)&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Annotation:</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="2选取marker基因">2、选取marker基因<a hidden class="anchor" aria-hidden="true" href="#2选取marker基因">#</a></h3>
+<ul>
+<li>有如下三种选取的方法，可以多试试不同的结果，从而得到满意的结果</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">### 策略1：marker gene by Seurat</span>
+</span></span><span style="display:flex;"><span>Idents(sce) = <span style="color:#0ff;font-weight:bold">&#34;celltype&#34;</span>
+</span></span><span style="display:flex;"><span>gene_FAM = FindAllMarkers(sce)
+</span></span><span style="display:flex;"><span>gene_sle = gene_FAM %&gt;% 
+</span></span><span style="display:flex;"><span>  dplyr::filter(p_val&lt;<span style="color:#ff0;font-weight:bold">0.01</span>) %&gt;% 
+</span></span><span style="display:flex;"><span>  pull(gene) %&gt;% unique()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">### 策略2：high dispersion gene by monocle</span>
+</span></span><span style="display:flex;"><span>gene_Disp = dispersionTable(cds_pre)
+</span></span><span style="display:flex;"><span>gene_sle = gene_Disp %&gt;% 
+</span></span><span style="display:flex;"><span>  dplyr::filter(mean_expression &gt;= <span style="color:#ff0;font-weight:bold">0.1</span>,
+</span></span><span style="display:flex;"><span>                dispersion_empirical &gt;= dispersion_fit) %&gt;% 
+</span></span><span style="display:flex;"><span>  pull(gene_id) %&gt;% unique()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">### 策略3：variable(high dispersion) gene by Seurat</span>
+</span></span><span style="display:flex;"><span>gene_sle &lt;- VariableFeatures(sce)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">###也可以自定义一些基因集</span>
+</span></span><span style="display:flex;"><span>gene_sle = c(..........)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">####标记所选择的基因</span>
+</span></span><span style="display:flex;"><span>cds &lt;- setOrderingFilter(cds_pre, gene_sle)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="3降维排序与可视化">3、降维排序与可视化<a hidden class="anchor" aria-hidden="true" href="#3降维排序与可视化">#</a></h3>
+<h5 id="31-降维排序">3.1 降维排序<a hidden class="anchor" aria-hidden="true" href="#31-降维排序">#</a></h5>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">#降维(关键步骤)</span>
+</span></span><span style="display:flex;"><span>cds &lt;- reduceDimension(cds, method = <span style="color:#0ff;font-weight:bold">&#39;DDRTree&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#排序,得到轨迹分化相关的若干State</span>
+</span></span><span style="display:flex;"><span>cds &lt;- orderCells(cds)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#查看发育阶段State与细胞类型的关系</span>
+</span></span><span style="display:flex;"><span>table(cds$State, cds$celltype)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   celltypeA celltypeB celltypeC celltypeD</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1       852         3         6         0</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2         7       334         0         0</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3        84         4         0         0</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 4       492        10         2       206</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 5       243         1       456         0</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>查看发育阶段State与拟时间的大致趋势</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>plot(cds$State, cds$Pseudotime)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220319155109332.png" alt="image-20220319155109332" style="zoom:50%;" />
+<ul>
+<li>可以根据上述的探索，自定义认为最适合作为根节点的State</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f"># cds &lt;- orderCells(cds, root_state = 3)</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># plot(cds$State, cds$Pseudotime)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220319155627999.png" alt="image-20220319155627999" style="zoom: 80%;" />
+<h5 id="32-可视化">3.2 可视化<a hidden class="anchor" aria-hidden="true" href="#32-可视化">#</a></h5>
+<h6 id="1细胞群">（1）细胞群<a hidden class="anchor" aria-hidden="true" href="#1细胞群">#</a></h6>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>pData(cds) %&gt;% colnames()
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] &#34;orig.ident&#34;      &#34;nCount_RNA&#34;      &#34;nFeature_RNA&#34;    &#34;RNA_snn_res.0.1&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [5] &#34;RNA_snn_res.0.5&#34; &#34;RNA_snn_res.0.8&#34; &#34;seurat_clusters&#34; &#34;celltype&#34;       </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [9] &#34;Size_Factor&#34;     &#34;Pseudotime&#34;      &#34;State&#34;    </span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>plot_cell_trajectory(cds, color_by = <span style="color:#0ff;font-weight:bold">&#34;State&#34;</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220319155922599.png" alt="image-20220319155922599" style="zoom:80%;" />
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>plot_complex_cell_trajectory(cds, color_by = <span style="color:#0ff;font-weight:bold">&#34;State&#34;</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220319160022610.png" alt="image-20220319160022610" style="zoom:80%;" />
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>plot_cell_trajectory(cds, color_by = <span style="color:#0ff;font-weight:bold">&#34;celltype&#34;</span>) +
+</span></span><span style="display:flex;"><span>  facet_wrap(<span style="color:#0ff;font-weight:bold">&#34;~celltype&#34;</span>, nrow = <span style="color:#ff0;font-weight:bold">1</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220319160129724.png" alt="image-20220319160129724"  />
+</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>plot_cell_trajectory(cds, color_by = &#34;Pseudotime&#34;)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220319160225453.png" alt="image-20220319160225453" style="zoom:80%;" />
+<h6 id="2基因变化">（2）基因变化<a hidden class="anchor" aria-hidden="true" href="#2基因变化">#</a></h6>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>gene_key = c(<span style="color:#0ff;font-weight:bold">&#34;S100A8&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;S100A9&#34;</span>)
+</span></span><span style="display:flex;"><span>plot_genes_jitter(cds[gene_key,], 
+</span></span><span style="display:flex;"><span>                  grouping = <span style="color:#0ff;font-weight:bold">&#34;State&#34;</span>, color_by = <span style="color:#0ff;font-weight:bold">&#34;State&#34;</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220319161337986.png" alt="image-20220319161337986" style="zoom:80%;" />
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>plot_genes_violin(cds[gene_key,], 
+</span></span><span style="display:flex;"><span>                  grouping = &#34;State&#34;, color_by = &#34;State&#34;)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220319161417902.png" alt="image-20220319161417902" style="zoom: 80%;" />
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>plot_genes_in_pseudotime(cds[gene_key,], color_by = &#34;State&#34;)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220319161456671.png" alt="image-20220319161456671" style="zoom:80%;" />
+<h3 id="4差异分析">4、差异分析<a hidden class="anchor" aria-hidden="true" href="#4差异分析">#</a></h3>
+<h5 id="41-鉴定轨迹分化相关基因">4.1 鉴定轨迹分化相关基因<a hidden class="anchor" aria-hidden="true" href="#41-鉴定轨迹分化相关基因">#</a></h5>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>diff_pseudo &lt;- differentialGeneTest(cds[gene_sle,], cores = <span style="color:#ff0;font-weight:bold">1</span>, 
+</span></span><span style="display:flex;"><span>                                  fullModelFormulaStr = <span style="color:#0ff;font-weight:bold">&#34;~sm.ns(Pseudotime)&#34;</span>)
+</span></span><span style="display:flex;"><span>head(diff_pseudo)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#          status           family          pval          qval gene_short_name use_for_ordering</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># NKG7         OK negbinomial.size 4.773294e-106 4.876296e-104            NKG7             TRUE</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># CD79B        OK negbinomial.size  1.740103e-20  1.431161e-19           CD79B             TRUE</span>
+</span></span><span style="display:flex;"><span>table(diff_pseudo$qval&lt;<span style="color:#ff0;font-weight:bold">0.05</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># FALSE  TRUE </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   568  1373 </span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>选取其中最显著的进行可视化</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>diff_pseudo_gene &lt;- diff_pseudo %&gt;% 
+</span></span><span style="display:flex;"><span>  dplyr::arrange(qval) %&gt;% 
+</span></span><span style="display:flex;"><span>  rownames() %&gt;% head(<span style="color:#ff0;font-weight:bold">50</span>)
+</span></span><span style="display:flex;"><span>p = plot_pseudotime_heatmap(cds[diff_pseudo_gene,], 
+</span></span><span style="display:flex;"><span>                        num_clusters = <span style="color:#ff0;font-weight:bold">3</span>,  <span style="color:#007f7f"># default 6</span>
+</span></span><span style="display:flex;"><span>                        return_heatmap=<span style="color:#fff;font-weight:bold">T</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#获得具体每个cluster的组成基因</span>
+</span></span><span style="display:flex;"><span>pseudotime_clusters &lt;- cutree(p$tree_row, k = <span style="color:#ff0;font-weight:bold">2</span>) %&gt;% 
+</span></span><span style="display:flex;"><span>  data.frame(gene = names(.), cluster = . )
+</span></span><span style="display:flex;"><span>head(pseudotime_clusters)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#          gene cluster</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># S100A9 S100A9       1</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># S100A8 S100A8       1</span>
+</span></span><span style="display:flex;"><span>table(pseudotime_clusters$cluster)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1  2  3 </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 45  4  1</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/lLCkKhnvdNsEe5U.png" alt="image-20220319161047207"  />
+</p>
+<h5 id="42-分支点基因变化情况">4.2 分支点基因变化情况<a hidden class="anchor" aria-hidden="true" href="#42-分支点基因变化情况">#</a></h5>
+<p>简单来说，针对某一个分支点(branch)，比较在出现分支后两类细胞的基因表达差异。这类差异包含两个方面（1）与分叉点之前细胞表达的差异；（2）分叉点后的两类细胞间的差异。</p>
+<p>举例来说：对于branch1，出现了State 5与4两个分支点。就来比较相对于State 1,3，这两个分支群细胞的差异性。</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/jGT5DQ8PYaCFn3J.png" alt="image-20220320085155673" style="zoom:67%;" />
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>BEAM_res &lt;- BEAM(cds[gene_sle], branch_point = <span style="color:#ff0;font-weight:bold">1</span>, cores = <span style="color:#ff0;font-weight:bold">1</span>)
+</span></span><span style="display:flex;"><span>BEAM_res &lt;- BEAM_res[order(BEAM_res$qval),]
+</span></span><span style="display:flex;"><span>BEAM_res &lt;- BEAM_res[,c(<span style="color:#0ff;font-weight:bold">&#34;gene_short_name&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;pval&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;qval&#34;</span>)]
+</span></span><span style="display:flex;"><span>head(BEAM_res)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#        gene_short_name          pval          qval</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># GZMB              GZMB 1.128213e-111 2.189861e-108</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># GNLY              GNLY 3.421968e-102  3.321020e-99</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>
+<p>可视化理解</p>
+<p>如下图列标注含义理解（1）灰色Pre-branch：分叉点之前的细胞，即State 1,3；（2）红色 Cell fate 1对应State 4（较小的数字State）；（3）蓝色 Cell fate 2对应State 5；</p>
+</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/8GsU4NShtQOdY2a.png" alt="image-20220320085645130" style="zoom:67%;" />
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>pData(cds)$gene_sp = log2(exprs(cds)[<span style="color:#0ff;font-weight:bold">&#39;CD7&#39;</span>,]<span style="color:#ff0;font-weight:bold">+1</span>)
+</span></span><span style="display:flex;"><span>plot_cell_trajectory(cds, color_by = <span style="color:#0ff;font-weight:bold">&#34;gene_sp&#34;</span>)  +
+</span></span><span style="display:flex;"><span>  facet_wrap(<span style="color:#0ff;font-weight:bold">&#34;~State&#34;</span>, nrow = <span style="color:#ff0;font-weight:bold">1</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/Nek8ZdK5DnzFwrP.png" alt="image-20220320090158946" style="zoom:80%;" />
+<h1 id="二monocle3">二、monocle3<a hidden class="anchor" aria-hidden="true" href="#二monocle3">#</a></h1>
+<h3 id="0seurat前期分析-1">0、Seurat前期分析<a hidden class="anchor" aria-hidden="true" href="#0seurat前期分析-1">#</a></h3>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">27
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">28
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">29
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">30
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">31
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">32
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">33
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">34
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">## 下载示例数据</span>
+</span></span><span style="display:flex;"><span>download.file(<span style="color:#0ff;font-weight:bold">&#34;https://s3-us-west-2.amazonaws.com/10x.files/samples/cell/pbmc3k/pbmc3k_filtered_gene_bc_matrices.tar.gz&#34;</span>,
+</span></span><span style="display:flex;"><span>              <span style="color:#0ff;font-weight:bold">&#34;pbmc3k_filtered_gene_bc_matrices.tar.gz&#34;</span>)
+</span></span><span style="display:flex;"><span>untar(<span style="color:#0ff;font-weight:bold">&#34;pbmc3k_filtered_gene_bc_matrices.tar.gz&#34;</span>)
+</span></span><span style="display:flex;"><span>library(Seurat)
+</span></span><span style="display:flex;"><span>sce &lt;- Read10X(data.dir = <span style="color:#0ff;font-weight:bold">&#34;filtered_gene_bc_matrices/hg19/&#34;</span>)
+</span></span><span style="display:flex;"><span>sce &lt;- CreateSeuratObject(sce)
+</span></span><span style="display:flex;"><span>sce = sce %&gt;%
+</span></span><span style="display:flex;"><span>  NormalizeData() %&gt;%
+</span></span><span style="display:flex;"><span>  FindVariableFeatures() %&gt;%
+</span></span><span style="display:flex;"><span>  ScaleData()
+</span></span><span style="display:flex;"><span>sce = sce %&gt;% 
+</span></span><span style="display:flex;"><span>  RunPCA() %&gt;% 
+</span></span><span style="display:flex;"><span>  RunUMAP(dims = <span style="color:#ff0;font-weight:bold">1</span>:<span style="color:#ff0;font-weight:bold">30</span>) %&gt;%  <span style="color:#007f7f">#RunTSNE</span>
+</span></span><span style="display:flex;"><span>  FindNeighbors(dims = <span style="color:#ff0;font-weight:bold">1</span>:<span style="color:#ff0;font-weight:bold">30</span>) %&gt;% 
+</span></span><span style="display:flex;"><span>  FindClusters(resolution = c(<span style="color:#ff0;font-weight:bold">0.1</span>,<span style="color:#ff0;font-weight:bold">0.5</span>,<span style="color:#ff0;font-weight:bold">0.8</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 注释细胞类型(随便虚拟命名)</span>
+</span></span><span style="display:flex;"><span>Idents(sce)=<span style="color:#0ff;font-weight:bold">&#34;RNA_snn_res.0.5&#34;</span>
+</span></span><span style="display:flex;"><span>table(sce@active.ident)
+</span></span><span style="display:flex;"><span>sce$celltype = dplyr::case_when(
+</span></span><span style="display:flex;"><span>  sce@active.ident %in% c(<span style="color:#ff0;font-weight:bold">0</span>,<span style="color:#ff0;font-weight:bold">1</span>) ~ <span style="color:#0ff;font-weight:bold">&#34;celltypeA&#34;</span>,
+</span></span><span style="display:flex;"><span>  sce@active.ident %in% c(<span style="color:#ff0;font-weight:bold">2</span>) ~ <span style="color:#0ff;font-weight:bold">&#34;celltypeB&#34;</span>,
+</span></span><span style="display:flex;"><span>  sce@active.ident %in% c(<span style="color:#ff0;font-weight:bold">3</span>,<span style="color:#ff0;font-weight:bold">4</span>) ~ <span style="color:#0ff;font-weight:bold">&#34;celltypeC&#34;</span>,
+</span></span><span style="display:flex;"><span>  sce@active.ident %in% c(<span style="color:#ff0;font-weight:bold">5</span>,<span style="color:#ff0;font-weight:bold">6</span>,<span style="color:#ff0;font-weight:bold">7</span>) ~ <span style="color:#0ff;font-weight:bold">&#34;celltypeD&#34;</span>)
+</span></span><span style="display:flex;"><span>table(sce$celltype)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># celltypeA celltypeB celltypeC celltypeD </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1678       352       464       206</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sce
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># An object of class Seurat </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 32738 features across 2700 samples within 1 assay </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Active assay: RNA (32738 features, 2000 variable features)</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2 dimensional reductions calculated: pca, umap</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="1构建cds对象-1">1、构建cds对象<a hidden class="anchor" aria-hidden="true" href="#1构建cds对象-1">#</a></h3>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">#count表达矩阵</span>
+</span></span><span style="display:flex;"><span>expr_matrix = GetAssayData(sce, slot = <span style="color:#0ff;font-weight:bold">&#34;counts&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#cell meta注释信息</span>
+</span></span><span style="display:flex;"><span>p_data &lt;- sce@meta.data 
+</span></span><span style="display:flex;"><span>head(p_data)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># gene meta注释信息</span>
+</span></span><span style="display:flex;"><span>f_data &lt;- data.frame(gene_short_name = row.names(sce),
+</span></span><span style="display:flex;"><span>                     row.names = row.names(sce))
+</span></span><span style="display:flex;"><span>pre_cds &lt;- new_cell_data_set(expr_matrix,
+</span></span><span style="display:flex;"><span>                         cell_metadata = p_data,
+</span></span><span style="display:flex;"><span>                         gene_metadata = f_data)
+</span></span><span style="display:flex;"><span>pData(pre_cds) %&gt;% colnames()
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] &#34;orig.ident&#34;      &#34;nCount_RNA&#34;      &#34;nFeature_RNA&#34;    &#34;RNA_snn_res.0.1&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [5] &#34;RNA_snn_res.0.5&#34; &#34;RNA_snn_res.0.8&#34; &#34;seurat_clusters&#34; &#34;celltype&#34;       </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [9] &#34;Size_Factor&#34;</span>
+</span></span><span style="display:flex;"><span>cds &lt;- preprocess_cds(pre_cds)  <span style="color:#007f7f">#标准化+PCA降维</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="2umap降维">2、UMAP降维<a hidden class="anchor" aria-hidden="true" href="#2umap降维">#</a></h3>
+<ul>
+<li>UMAP by monocle3</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>cds &lt;- reduce_dimension(cds, preprocess_method = <span style="color:#0ff;font-weight:bold">&#34;PCA&#34;</span>)
+</span></span><span style="display:flex;"><span>head(cds@int_colData$reducedDims$UMAP)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#                       [,1]        [,2]</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># AAACATACAACCAC-1 -3.571852   3.5445674</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># AAACATTGAGCTAC-1 -3.765824 -12.2549407</span>
+</span></span><span style="display:flex;"><span>plot_cells(cds, reduction_method=<span style="color:#0ff;font-weight:bold">&#34;UMAP&#34;</span>, 
+</span></span><span style="display:flex;"><span>           show_trajectory_graph = <span style="color:#fff;font-weight:bold">FALSE</span>,
+</span></span><span style="display:flex;"><span>           label_cell_groups = <span style="color:#fff;font-weight:bold">FALSE</span>, 
+</span></span><span style="display:flex;"><span>           color_cells_by=<span style="color:#0ff;font-weight:bold">&#34;celltype&#34;</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/U1YJNifBET5vqSt.png" alt="image-20220320095424690"  />
+</p>
+<ul>
+<li>UMAP by Seurat</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>seurat_umap &lt;- Embeddings(sce, reduction = <span style="color:#0ff;font-weight:bold">&#34;umap&#34;</span>)[colnames(cds),]
+</span></span><span style="display:flex;"><span>cds@int_colData$reducedDims$UMAP &lt;- seurat_umap
+</span></span><span style="display:flex;"><span>head(cds@int_colData$reducedDims$UMAP)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#                     UMAP_1    UMAP_2</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># AAACATACAACCAC-1 -3.916352 -8.065296</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># AAACATTGAGCTAC-1 -2.270202 20.887603</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/7OoQabudjKyefGh.png" alt="image-20220320095349288" style="zoom:67%;" />
+<blockquote>
+<p>如果想保持跟之前Seurat的分析可视化结果一致，可以使用第二种结果。后面的分析采用第一种结果</p></blockquote>
+<h3 id="3轨迹分析核心">3、轨迹分析(核心)<a hidden class="anchor" aria-hidden="true" href="#3轨迹分析核心">#</a></h3>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">#分群(类似monocle的State)</span>
+</span></span><span style="display:flex;"><span>cds &lt;- cluster_cells(cds)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#预测轨迹</span>
+</span></span><span style="display:flex;"><span>cds &lt;- learn_graph(cds)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#交互式确定root节点，可以选择多个。我这里选择了一个</span>
+</span></span><span style="display:flex;"><span>cds &lt;- order_cells(cds) 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>plot_cells(cds, color_cells_by = <span style="color:#0ff;font-weight:bold">&#34;pseudotime&#34;</span>, 
+</span></span><span style="display:flex;"><span>           label_cell_groups = <span style="color:#fff;font-weight:bold">FALSE</span>, 
+</span></span><span style="display:flex;"><span>           label_leaves = <span style="color:#fff;font-weight:bold">FALSE</span>,  
+</span></span><span style="display:flex;"><span>           label_branch_points = <span style="color:#fff;font-weight:bold">FALSE</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/sMgWtZBqIK4AV6h.png" alt="image-20220320095958803"  />
+</p>
+<ul>
+<li>参数设置：（1）<code>label_branch_points=TRUE</code>表示branch分支点，用黑色圆圈，白色边框表示；（2）<code>label_leaves=TRUE</code>表示fate分支终点，用灰色圆圈，黑色边框表示</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/bKurx7lhmAnG9zB.png" alt="image-20220320100245828" style="zoom:80%;" />
+<h3 id="4鉴定轨迹分化相关基因">4、鉴定轨迹分化相关基因<a hidden class="anchor" aria-hidden="true" href="#4鉴定轨迹分化相关基因">#</a></h3>
+<blockquote>
+<p>Monocle3 introduces a new approach for finding such genes that draws on a powerful technique in spatial correlation analysis, the <strong>Moran’s I test</strong>. Moran’s I is a measure of multi-directional and multi-dimensional spatial autocorrelation. The statistic tells you whether cells at nearby positions on a trajectory will have similar (or dissimilar) expression levels for the gene being tested. Although both Pearson correlation and Moran’s I ranges from -1 to 1, the interpretation of Moran’s I is slightly different: <u><strong>+1 means that nearby cells will have perfectly similar expression</strong>;</u> 0 represents no correlation, and -1 means that neighboring cells will be anti-correlated.</p></blockquote>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">#相对比较耗时</span>
+</span></span><span style="display:flex;"><span>Track_genes &lt;- graph_test(cds, neighbor_graph=<span style="color:#0ff;font-weight:bold">&#34;principal_graph&#34;</span>)
+</span></span><span style="display:flex;"><span>Track_genes &lt;- Track_genes[,c(<span style="color:#ff0;font-weight:bold">5</span>,<span style="color:#ff0;font-weight:bold">2</span>,<span style="color:#ff0;font-weight:bold">3</span>,<span style="color:#ff0;font-weight:bold">4</span>,<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">6</span>)] %&gt;% 
+</span></span><span style="display:flex;"><span>  dplyr::arrange(desc(morans_I),q_value)
+</span></span><span style="display:flex;"><span>head(Track_genes)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#        gene_short_name p_value morans_test_statistic  morans_I status q_value</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># TYROBP          TYROBP       0              148.7535 0.8395583     OK       0</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># S100A8          S100A8       0              146.4378 0.8261901     OK       0</span>
+</span></span><span style="display:flex;"><span>plot_genes_in_pseudotime(cds[Track_genes$gene_short_name[1],] , 
+</span></span><span style="display:flex;"><span>                         min_expr=<span style="color:#ff0;font-weight:bold">0.5</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/MKGS1p3i8urDRkF.png" alt="image-20220320101133515"  />
+</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>plot_cells(cds, genes=Track_genes$gene_short_name[1:<span style="color:#ff0;font-weight:bold">2</span>],
+</span></span><span style="display:flex;"><span>           show_trajectory_graph=<span style="color:#fff;font-weight:bold">TRUE</span>,
+</span></span><span style="display:flex;"><span>           label_cell_groups=<span style="color:#fff;font-weight:bold">FALSE</span>,
+</span></span><span style="display:flex;"><span>           label_leaves=<span style="color:#fff;font-weight:bold">FALSE</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/8ny2NGVCvs47Yau.png" alt="image-20220320101301846"  />
+</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/scrna-seq/">ScRNA-Seq</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/en/posts/program/008python%E5%9F%BA%E7%A1%80-8%E5%B8%B8%E7%94%A8%E5%86%85%E7%BD%AE%E6%A8%A1%E5%9D%97module/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>Python基础-(8)常用基础模块Module</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/en/posts/program/009python%E5%9F%BA%E7%A1%80-9%E6%96%87%E6%9C%AC%E8%AF%BB%E5%86%99%E4%B8%8Epickle%E4%BF%9D%E5%AD%98/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>Python基础-(9)文本读写与pickle保存</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

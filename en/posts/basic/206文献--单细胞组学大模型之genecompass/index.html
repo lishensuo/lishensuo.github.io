@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>文献--单细胞组学大模型之Genecompass | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="文献-算法">
+<meta name="description" content="
+
+
+GeneCompass: deciphering universal gene regulatory mechanisms with a knowledge-informed cross-species foundation model
+
+
+Cell research | 2024.10
+
+
+https://doi.org/10.1038/s41422-024-01034-y
+https://github.com/xCompass-AI/GeneCompass
+(最后)通讯作者 Xin Li
+
+
+
+
+0. 模型预训练
+0.1 数据规模
+
+
+初始收集126M，经QC后，101M细胞用于训练(53M 人源 / 48M鼠源) [详见原文/Table S1， PS: 觉得其中一个描述有点问题]">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/basic/206%E6%96%87%E7%8C%AE--%E5%8D%95%E7%BB%86%E8%83%9E%E7%BB%84%E5%AD%A6%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B9%8Bgenecompass/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/basic/206%E6%96%87%E7%8C%AE--%E5%8D%95%E7%BB%86%E8%83%9E%E7%BB%84%E5%AD%A6%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B9%8Bgenecompass/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="文献--单细胞组学大模型之Genecompass" />
+<meta property="og:description" content="
+
+
+GeneCompass: deciphering universal gene regulatory mechanisms with a knowledge-informed cross-species foundation model
+
+
+Cell research | 2024.10
+
+
+https://doi.org/10.1038/s41422-024-01034-y
+https://github.com/xCompass-AI/GeneCompass
+(最后)通讯作者 Xin Li
+
+
+
+
+0. 模型预训练
+0.1 数据规模
+
+
+初始收集126M，经QC后，101M细胞用于训练(53M 人源 / 48M鼠源) [详见原文/Table S1， PS: 觉得其中一个描述有点问题]" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/basic/206%E6%96%87%E7%8C%AE--%E5%8D%95%E7%BB%86%E8%83%9E%E7%BB%84%E5%AD%A6%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B9%8Bgenecompass/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2025-01-12T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2025-01-12T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="文献--单细胞组学大模型之Genecompass"/>
+<meta name="twitter:description" content="
+
+
+GeneCompass: deciphering universal gene regulatory mechanisms with a knowledge-informed cross-species foundation model
+
+
+Cell research | 2024.10
+
+
+https://doi.org/10.1038/s41422-024-01034-y
+https://github.com/xCompass-AI/GeneCompass
+(最后)通讯作者 Xin Li
+
+
+
+
+0. 模型预训练
+0.1 数据规模
+
+
+初始收集126M，经QC后，101M细胞用于训练(53M 人源 / 48M鼠源) [详见原文/Table S1， PS: 觉得其中一个描述有点问题]"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 科研基础 -- 读文献、看教材",
+      "item": "https://lishensuo.github.io/en/posts/basic/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "文献--单细胞组学大模型之Genecompass",
+      "item": "https://lishensuo.github.io/en/posts/basic/206%E6%96%87%E7%8C%AE--%E5%8D%95%E7%BB%86%E8%83%9E%E7%BB%84%E5%AD%A6%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B9%8Bgenecompass/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "文献--单细胞组学大模型之Genecompass",
+  "name": "文献--单细胞组学大模型之Genecompass",
+  "description": " GeneCompass: deciphering universal gene regulatory mechanisms with a knowledge-informed cross-species foundation model\nCell research | 2024.10\nhttps://doi.org/10.1038/s41422-024-01034-y\nhttps://github.com/xCompass-AI/GeneCompass\n(最后)通讯作者 Xin Li\n0. 模型预训练 0.1 数据规模 初始收集126M，经QC后，101M细胞用于训练(53M 人源 / 48M鼠源) [详见原文/Table S1， PS: 觉得其中一个描述有点问题]\n",
+  "keywords": [
+    "文献-算法"
+  ],
+  "articleBody": " GeneCompass: deciphering universal gene regulatory mechanisms with a knowledge-informed cross-species foundation model\nCell research | 2024.10\nhttps://doi.org/10.1038/s41422-024-01034-y\nhttps://github.com/xCompass-AI/GeneCompass\n(最后)通讯作者 Xin Li\n0. 模型预训练 0.1 数据规模 初始收集126M，经QC后，101M细胞用于训练(53M 人源 / 48M鼠源) [详见原文/Table S1， PS: 觉得其中一个描述有点问题]\n包括了正常细胞以及disease cells/cancer cells/immortalize cell lines\n词汇表包括36092个基因，其中17465个为人/鼠同源基因，其余species-specific基因使用Ensembl ID\n0.2 模型框架\n输入数据：每个细胞样本由2048个基因（Token）组成 Token Embedding：将Gene ID，Expression Value，以及四种基因先验知识(promoter/GRN/gene family/co-expression)拼接在一起，再投射到768维 Position Embedding表示每个基因的RANK位置，与上述进行矩阵加法 一个特殊的token，用于标记物种类型[推测应该是指cls标记] 存疑：Method并没有提到基因表达的标准化方式。Gene value与Position rank某种程度上是不是信息重复了\nTransformer\nL =12; H = 12; D = 768 （参数量\u003e100M） 两个自监督任务：预测掩码基因的Expression（MSE loss）与ID (Cross-entropy loss) Train config\nBatch=10 LR = 0.00005, Warm-up=10000 3 Epochs (直至loss不再降低|并没有设置验证集，Geneformer也没有) Cost 9 days using 4×8 A800 GPUs 小规模的消融实验\n数据：human cells (55M) 模型： L = 6; H = 4; D = 256 比较是否加入先验知识对模型的下游任务影响 1. Gene embedding 初步探索 跨物种的同源基因的相似度较高（相比同物种的不同基因）； 贡献：Attention \u003e Prior knowledge 模拟基因(GATA4/TBX5)敲除会显著影响其直接靶基因的状态。 模拟敲除转录因子，观察其靶基因 不同物种观察到相似的结果 In silico perturbation refer to scGPT(基于注意力) 2. Cell embedding 细胞注释 下游的细胞注释效果越好 预训练细胞量越多； 结合跨物种数据由于单物种数据 12注意力层优于6注意力 优于其它类型模型 GeneCompass without pretraining TOSICA Geneformer 作为CAME（一个图神经网络，用于跨物种细胞类型注释）的初始输入，可以增强其最终的预测效果 ​\n3. 基于Gene Embedding的衍生任务 3.1 GRN推断 根据Gene Embedding的相似度得到邻接矩阵，作为DeepSEM模型的输入 效果优于来自Geneformer、scGPT的Gene Embedding，以及vanilla DeepSEM 3.2 Drug Response预测 预测基因在不同种类和浓度扰动条件下的表达情况 分别用GeneCompass，Geneformer，scGPT计算的Gene Embedding替换CPA(单基因预测/drug dose response prediction)、DeepCE(全基因预测/gene expression profiling)的初始输入。Genecompass均能取得较好的结果。[药物扰动] 3.3 Dosage-Sensitive Gene预测 基于Gene Embdding的二分类微调任务 效果优于Geneformer，以及没有预训练的Genecompass 4. 基因扰动预测 预测特定基因突变条件下，其余基因表达的变化情况 基于GEARS框架，将Genecompass的Gene Embedding替换GEARS原有的基于共表达的Gene Embedding表示，观察到性能有明显提升。 5. ISP (In silico perturbation) 验证性分析\n过表达OSKM使得成纤维细胞向iPSC状态变化 敲除维持干性的转录因子(Zbtb11, Zfp131)，使得鼠源胚胎干细胞向内胚层变化。 筛选应用\n逐一过表达ESC细胞的基因，筛选可以将ESC向Progenitor (前体细胞)或者更加成熟的Leydig (激素分泌细胞)状态变化的调控因子。取二者的交集，最终发现了5个。 通过湿实验/测序，证实了其中NR5A1与GATA4的效果 ",
+  "wordCount" : "1495",
+  "inLanguage": "en",
+  "datePublished": "2025-01-12T00:00:00Z",
+  "dateModified": "2025-01-12T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/basic/206%E6%96%87%E7%8C%AE--%E5%8D%95%E7%BB%86%E8%83%9E%E7%BB%84%E5%AD%A6%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B9%8Bgenecompass/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/basic/">📖 科研基础 -- 读文献、看教材</a></div>
+    <h1 class="post-title">
+      文献--单细胞组学大模型之Genecompass
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2025-01-12 00:00:00 &#43;0000 UTC&#39;&gt;2025-01-12&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2025-01-12&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1495&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#0-%e6%a8%a1%e5%9e%8b%e9%a2%84%e8%ae%ad%e7%bb%83" aria-label="0. 模型预训练">0. 模型预训练</a><ul>
+                            
+                    <li>
+                        <a href="#01-%e6%95%b0%e6%8d%ae%e8%a7%84%e6%a8%a1" aria-label="0.1 数据规模">0.1 数据规模</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#1-gene-embedding-%e5%88%9d%e6%ad%a5%e6%8e%a2%e7%b4%a2" aria-label="1. Gene embedding 初步探索">1. Gene embedding 初步探索</a></li>
+                    <li>
+                        <a href="#2-cell-embedding-%e7%bb%86%e8%83%9e%e6%b3%a8%e9%87%8a" aria-label="2. Cell embedding 细胞注释">2. Cell embedding 细胞注释</a></li>
+                    <li>
+                        <a href="#3-%e5%9f%ba%e4%ba%8egene-embedding%e7%9a%84%e8%a1%8d%e7%94%9f%e4%bb%bb%e5%8a%a1" aria-label="3. 基于Gene Embedding的衍生任务">3. 基于Gene Embedding的衍生任务</a><ul>
+                            
+                    <li>
+                        <a href="#31-grn%e6%8e%a8%e6%96%ad" aria-label="3.1 GRN推断">3.1 GRN推断</a></li>
+                    <li>
+                        <a href="#32-drug-response%e9%a2%84%e6%b5%8b" aria-label="3.2 Drug Response预测">3.2 Drug Response预测</a></li>
+                    <li>
+                        <a href="#33-dosage-sensitive-gene%e9%a2%84%e6%b5%8b" aria-label="3.3 Dosage-Sensitive Gene预测">3.3 Dosage-Sensitive Gene预测</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#4-%e5%9f%ba%e5%9b%a0%e6%89%b0%e5%8a%a8%e9%a2%84%e6%b5%8b" aria-label="4. 基因扰动预测">4. 基因扰动预测</a></li>
+                    <li>
+                        <a href="#5-isp-in-silico-perturbation" aria-label="5. ISP (In silico perturbation)">5. ISP (In silico perturbation)</a>
+                    </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><blockquote>
+<ul>
+<li>
+<p>GeneCompass: deciphering universal gene regulatory mechanisms with a knowledge-informed cross-species foundation model</p>
+</li>
+<li>
+<p><em>Cell research | 2024.10</em></p>
+</li>
+</ul>
+<p><a href="https://doi.org/10.1038/s41422-024-01034-y">https://doi.org/10.1038/s41422-024-01034-y</a></p>
+<p><a href="https://github.com/xCompass-AI/GeneCompass">https://github.com/xCompass-AI/GeneCompass</a></p></blockquote>
+<p><strong>(最后)通讯作者</strong> Xin Li</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20250112124344122.png" alt="image-20250112124344122"  />
+</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20250112123919615.png" alt="image-20250112123919615"  />
+</p>
+<h1 id="0-模型预训练">0. 模型预训练<a hidden class="anchor" aria-hidden="true" href="#0-模型预训练">#</a></h1>
+<h2 id="01-数据规模">0.1 数据规模<a hidden class="anchor" aria-hidden="true" href="#01-数据规模">#</a></h2>
+<ul>
+<li>
+<p>初始收集126M，经QC后，101M细胞用于训练(53M 人源 / 48M鼠源) [详见原文/Table S1， PS: 觉得其中一个描述有点问题]</p>
+</li>
+<li>
+<p>包括了正常细胞以及disease cells/cancer cells/immortalize cell lines</p>
+</li>
+<li>
+<p>词汇表包括36092个基因，其中17465个为人/鼠同源基因，其余species-specific基因使用Ensembl ID</p>
+</li>
+</ul>
+<p><strong>0.2 模型框架</strong></p>
+<ul>
+<li>输入数据：每个细胞样本由2048个基因（Token）组成
+<ul>
+<li>Token Embedding：将Gene ID，Expression Value，以及四种基因先验知识(promoter/GRN/gene family/co-expression)拼接在一起，再投射到768维</li>
+<li>Position Embedding表示每个基因的RANK位置，与上述进行矩阵加法</li>
+<li>一个特殊的token，用于标记物种类型[推测应该是指cls标记]</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p><strong>存疑</strong>：Method并没有提到基因表达的标准化方式。Gene value与Position rank某种程度上是不是信息重复了</p></blockquote>
+<ul>
+<li>
+<p>Transformer</p>
+<ul>
+<li>L =12; H = 12; D = 768 （参数量&gt;100M）</li>
+<li>两个自监督任务：预测掩码基因的Expression（MSE loss）与ID (Cross-entropy loss)</li>
+</ul>
+</li>
+<li>
+<p>Train config</p>
+<ul>
+<li>Batch=10</li>
+<li>LR = 0.00005, Warm-up=10000</li>
+<li>3 Epochs (直至loss不再降低|并没有设置验证集，Geneformer也没有)</li>
+<li>Cost 9 days using 4×8 A800 GPUs</li>
+</ul>
+</li>
+<li>
+<p>小规模的消融实验</p>
+<ul>
+<li>数据：human cells (55M)   模型： L = 6; H = 4; D = 256</li>
+<li>比较是否加入先验知识对模型的下游任务影响</li>
+</ul>
+</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20250112123508023.png" alt="image-20250112123508023" style="zoom:80%;" />
+<h1 id="1-gene-embedding-初步探索">1. Gene embedding 初步探索<a hidden class="anchor" aria-hidden="true" href="#1-gene-embedding-初步探索">#</a></h1>
+<ul>
+<li>跨物种的同源基因的相似度较高（相比同物种的不同基因）；
+<ul>
+<li>贡献：Attention &gt; Prior knowledge</li>
+</ul>
+</li>
+<li>模拟基因(GATA4/TBX5)敲除会显著影响其直接靶基因的状态。
+<ul>
+<li>模拟敲除转录因子，观察其靶基因</li>
+<li>不同物种观察到相似的结果</li>
+<li>In silico perturbation refer to scGPT(基于注意力)</li>
+</ul>
+</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20250111225403409.png" alt="image-20250111225403409" style="zoom:80%;" />
+<h1 id="2-cell-embedding-细胞注释">2. Cell embedding 细胞注释<a hidden class="anchor" aria-hidden="true" href="#2-cell-embedding-细胞注释">#</a></h1>
+<ul>
+<li>下游的细胞注释效果越好
+<ul>
+<li>预训练细胞量越多；</li>
+<li>结合跨物种数据由于单物种数据</li>
+<li>12注意力层优于6注意力</li>
+</ul>
+</li>
+<li>优于其它类型模型
+<ul>
+<li>GeneCompass without pretraining</li>
+<li>TOSICA</li>
+<li>Geneformer</li>
+</ul>
+</li>
+<li>作为CAME（一个图神经网络，用于跨物种细胞类型注释）的初始输入，可以增强其最终的预测效果</li>
+</ul>
+<p>​</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20250112085222033.png" alt="image-20250112085222033" style="zoom:80%;" />
+<h1 id="3-基于gene-embedding的衍生任务">3. 基于Gene Embedding的衍生任务<a hidden class="anchor" aria-hidden="true" href="#3-基于gene-embedding的衍生任务">#</a></h1>
+<h2 id="31-grn推断">3.1 GRN推断<a hidden class="anchor" aria-hidden="true" href="#31-grn推断">#</a></h2>
+<ul>
+<li>根据Gene Embedding的相似度得到邻接矩阵，作为DeepSEM模型的输入</li>
+<li>效果优于来自Geneformer、scGPT的Gene Embedding，以及vanilla DeepSEM</li>
+</ul>
+<h2 id="32-drug-response预测">3.2 Drug Response预测<a hidden class="anchor" aria-hidden="true" href="#32-drug-response预测">#</a></h2>
+<ul>
+<li>预测基因在不同种类和浓度扰动条件下的表达情况</li>
+<li>分别用GeneCompass，Geneformer，scGPT计算的Gene Embedding替换CPA(单基因预测/drug dose response prediction)、DeepCE(全基因预测/gene expression profiling)的初始输入。Genecompass均能取得较好的结果。[药物扰动]</li>
+</ul>
+<h2 id="33-dosage-sensitive-gene预测">3.3 Dosage-Sensitive Gene预测<a hidden class="anchor" aria-hidden="true" href="#33-dosage-sensitive-gene预测">#</a></h2>
+<ul>
+<li>基于Gene Embdding的二分类微调任务</li>
+<li>效果优于Geneformer，以及没有预训练的Genecompass</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20250112094131205.png" alt="image-20250112094131205" style="zoom:80%;" />
+<h1 id="4-基因扰动预测">4. 基因扰动预测<a hidden class="anchor" aria-hidden="true" href="#4-基因扰动预测">#</a></h1>
+<ul>
+<li>预测特定基因突变条件下，其余基因表达的变化情况</li>
+<li>基于GEARS框架，将Genecompass的Gene Embedding替换GEARS原有的基于共表达的Gene Embedding表示，观察到性能有明显提升。</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20250112095224198.png" alt="image-20250112095224198"  />
+</p>
+<h1 id="5-isp-in-silico-perturbation">5. ISP (In silico perturbation)<a hidden class="anchor" aria-hidden="true" href="#5-isp-in-silico-perturbation">#</a></h1>
+<p><strong>验证性分析</strong></p>
+<ul>
+<li>过表达OSKM使得成纤维细胞向iPSC状态变化</li>
+<li>敲除维持干性的转录因子(Zbtb11, Zfp131)，使得鼠源胚胎干细胞向内胚层变化。</li>
+</ul>
+<p><strong>筛选应用</strong></p>
+<ul>
+<li>逐一过表达ESC细胞的基因，筛选可以将ESC向Progenitor (前体细胞)或者更加成熟的Leydig (激素分泌细胞)状态变化的调控因子。取二者的交集，最终发现了5个。</li>
+<li>通过湿实验/测序，证实了其中NR5A1与GATA4的效果</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20250112102636580.png" alt="image-20250112102636580"  />
+</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/%E6%96%87%E7%8C%AE-%E7%AE%97%E6%B3%95/">文献-算法</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/en/posts/basic/205%E6%96%87%E7%8C%AE--%E5%8D%95%E7%BB%86%E8%83%9E%E7%BB%84%E5%AD%A6%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B9%8Bgeneformer/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>文献--单细胞组学大模型之Geneformer</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/en/posts/basic/207%E6%96%87%E7%8C%AE--%E5%8D%95%E7%BB%86%E8%83%9E%E7%BB%84%E5%AD%A6%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B9%8Bgeneformer-v2%E9%A2%84%E5%8D%B0%E6%9C%AC/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>文献--单细胞组学大模型之Geneformer V2[预印本]</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

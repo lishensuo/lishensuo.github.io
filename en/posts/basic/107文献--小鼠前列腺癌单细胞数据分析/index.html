@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>文献--小鼠前列腺癌单细胞数据分析 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="文献-组学">
+<meta name="description" content="
+题目：Defining cellular population dynamics at single-cell resolution during prostate cancer progression
+期刊 | 日期 ：eLife | November 2022
+DOI：https://doi.org/10.7554/eLife.79076">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/basic/107%E6%96%87%E7%8C%AE--%E5%B0%8F%E9%BC%A0%E5%89%8D%E5%88%97%E8%85%BA%E7%99%8C%E5%8D%95%E7%BB%86%E8%83%9E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/basic/107%E6%96%87%E7%8C%AE--%E5%B0%8F%E9%BC%A0%E5%89%8D%E5%88%97%E8%85%BA%E7%99%8C%E5%8D%95%E7%BB%86%E8%83%9E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="文献--小鼠前列腺癌单细胞数据分析" />
+<meta property="og:description" content="
+题目：Defining cellular population dynamics at single-cell resolution during prostate cancer progression
+期刊 | 日期 ：eLife | November 2022
+DOI：https://doi.org/10.7554/eLife.79076" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/basic/107%E6%96%87%E7%8C%AE--%E5%B0%8F%E9%BC%A0%E5%89%8D%E5%88%97%E8%85%BA%E7%99%8C%E5%8D%95%E7%BB%86%E8%83%9E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-01-10T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2022-01-10T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="文献--小鼠前列腺癌单细胞数据分析"/>
+<meta name="twitter:description" content="
+题目：Defining cellular population dynamics at single-cell resolution during prostate cancer progression
+期刊 | 日期 ：eLife | November 2022
+DOI：https://doi.org/10.7554/eLife.79076"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 科研基础 -- 读文献、看教材",
+      "item": "https://lishensuo.github.io/en/posts/basic/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "文献--小鼠前列腺癌单细胞数据分析",
+      "item": "https://lishensuo.github.io/en/posts/basic/107%E6%96%87%E7%8C%AE--%E5%B0%8F%E9%BC%A0%E5%89%8D%E5%88%97%E8%85%BA%E7%99%8C%E5%8D%95%E7%BB%86%E8%83%9E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "文献--小鼠前列腺癌单细胞数据分析",
+  "name": "文献--小鼠前列腺癌单细胞数据分析",
+  "description": " 题目：Defining cellular population dynamics at single-cell resolution during prostate cancer progression\n期刊 | 日期 ：eLife | November 2022\nDOI：https://doi.org/10.7554/eLife.79076\n",
+  "keywords": [
+    "文献-组学"
+  ],
+  "articleBody": " 题目：Defining cellular population dynamics at single-cell resolution during prostate cancer progression\n期刊 | 日期 ：eLife | November 2022\nDOI：https://doi.org/10.7554/eLife.79076\n0、简介 本文设计了多种精细的前列腺癌小鼠模型，结合单细胞测序数据进行了深入的探索，例如前列腺癌特异相关的细胞类型，免疫特征以及Castration处理前后的多角度分析。这为理解前列腺癌的发生以及castration resistant的机制以及治疗措施提出了新的见解与观点。\n数据集已上传到：GSE171336 数据图谱已制作成交互式网页，方便查询：https://atlas.fredhutch.org/hsieh-prostate/ 此外，这篇文章的数据量、工作量较为丰富，差异分析、轨迹推断、细胞通讯分析策略值得精读、学习。原文也提供了部分分析与绘图代码：https://github.com/sonali-bioc/GermanosProstatescRNASeq/\n1、前列腺癌模型小鼠单细胞图谱 （1）测序数据\n3只对照组6月龄小鼠(WT)与2只前列腺癌模型6月龄小鼠(Pten) Pten模型组：对小鼠前列腺的基底(Basal)与管腔(Luminal)上皮细胞的肿瘤抑制基因Pten的5号外显子进行敲除。之后笔记简称Pten组\n（2）使用SingleR软件注释出3大类细胞：epithelial，stromal以及immune cells\n（3）结合文献marker，进一步注释两组的上皮细胞亚型\n对WT组释出basal(Krt5/Sox4), luminal differentiated(Nkx3-1/Sbp)以及luminal progenitor(Psca/Tactsd/Krt4)与Urethral(Aqp3/Ly6d) 对Pten上皮细胞进一步注释出basal，Urethral，luminal differentiated，以及一种intermediate luminal(Krt4/Tacstd2/Ppp1r1b，对应WT组的luminal progenitor) 2、intermediate luminal细胞发育推断分析 （1）首先观察到Pten组的intermediate比例显著高于WT组的progenitor比例；\n（2）Pten与WT组的同种细胞类型差异基因多富集在肿瘤发生、上皮细胞迁移增殖等通路；\n（3）结合细胞周期分析在Pten组的basal细胞发现两种处于不同增殖状态的亚群\nhyper-proliferative,亚群占18.6%，其中99.7%的细胞处于G2/M、S，显著高于WT的basal hypo-proliferative,亚群81.4%，其中52.2%的细胞处于G2/M，S；显著低于WT的basal （4）上述两个亚群间差异分析\nhypo-proliferative富集在迁移、发育分化通路 hyper-proliferative富集在细胞周期相关通路 （5）结合Monocle3、RNA velocity、Palantir推断出由hypo-proliferative到intermediate luminal的发育轨迹以及相关基因；\n（6）基于luminal的maker基因表达，发现intermediate luminal也有可能源自luminal progenitor发育而来。\n3 前列腺癌模型小鼠的免疫细胞特征 （1）首先观察到Pten与WT组的同种细胞类型差异基因也富集到免疫相关通路；\n（2）对免疫细胞进行亚型注释如下\nneutrophil → myeloid-derived suppressor cells (MDSCs) macrophage → TAM，M2，TRM(tissue-resident) T cell → CD8+，gamma-delta T， NKT B cell， DC细胞 （3）除B，TRM，NKT细胞外，其它细胞类型比例Pten组显著高于WT组，其中M2、TAM、MDSCs以及CD8+ T均具有促进肿瘤作用。\n（3）使用CellPhoneDB分析上皮细胞等与免疫细胞之间的配受体通讯在Pten/WT差异表达，推断M2巨噬细胞由上皮与成纤维细胞招募，进而促进MDSCs与CD8+\n4、Castration引发intermediate luminal的异质性 （1）加入新的单细胞测序数据：\n3只Pten组小鼠于4月龄时进行Castration阉割处理，待6月时取样测序 后续简称Pten cx组 （2）Pten cx组的intermediate luminal细胞比例显著扩增， 而没有differentiated luminal cells\n（3）Pten组与Pten cx组的AR基因集得分均低于WT组的luminal progenitor\n（4）对Pten与Pten cx组的intermediate细胞进行重聚类，共得到6个亚群\nC3主要来自Pten组 C3高表达AR相关基因，靠近differentiated luminal C0、1、2、4主要来自Pten cx组 C1表达basal相关基因，靠近basal C1与C4高表达翻译与增殖相关基因 6个亚群的AR分数与增殖翻译与增殖分数呈负相关 （5）加入新的单细胞测序数据\n3只Castration处理的WT小鼠取样测序 后续简称WT cx （6）WT cx的luminal类似Pten cx的intermediate高表达翻译相关基因，但是低表达增殖相关基因，表明可能与Pten相关\n5、Castration intermediate cell预后signature （1）基于人类前列腺癌数据定义androgen deprivation therapy(ADT) resistance相关基因集\n（2）Pten与Pten cx的intermediate cell差异基因GSEA分析显著富集上述基因集\n（3）上述基因集相关的Top 5 上调基因(Pten cx)包括ATP1B1、BST2、CP、IGFBP3、PTTG1，经深入分析具有如下特征：\n在Pten组的intermediate亚群均低表达 在resistance to ADT的human tumor样本中显著高表达 这些基因的(任一)高表达与较差的预后相关 这些基因在人类转移性前列腺癌中高表达 6、Castration引发的免疫细胞变化 （1）相比Pten组，Pten cx组的3种巨噬细胞以及CD8+ T比例均显著下降；\n（2）结合Pten cx组低表达的配受体通讯，分析上述比例下降的原因；\n（3）TNF的配受体细胞通讯在Pten CX组中特异性高表达。\n7、抑制翻译对Castration的杀伤作用 （1）加入新的单细胞测序数据\nPten小鼠在4月龄经doxycycline(抑制翻译)给药与castration处理，待6月取样测序 后续简称Pten cx 4ebp1 （2）Pten cx 4ebp1与Pten cx的上皮细胞比例与分布无明显差异；\n（3）transgene-positive的Pten cx 4ebp1与Pten cx的basal差异分析发现465个差异基因，进一步分析上调（细胞周期阻滞，细胞凋亡）、下调通路\n（4）与Pten cs相比，Pten cx 4ebp1显著差异的配受体通讯(Tnf, Egfr)\n",
+  "wordCount" : "2776",
+  "inLanguage": "en",
+  "datePublished": "2023-01-10T00:00:00Z",
+  "dateModified": "2022-01-10T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/basic/107%E6%96%87%E7%8C%AE--%E5%B0%8F%E9%BC%A0%E5%89%8D%E5%88%97%E8%85%BA%E7%99%8C%E5%8D%95%E7%BB%86%E8%83%9E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/basic/">📖 科研基础 -- 读文献、看教材</a></div>
+    <h1 class="post-title">
+      文献--小鼠前列腺癌单细胞数据分析
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-01-10 00:00:00 &#43;0000 UTC&#39;&gt;2023-01-10&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-01-10&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2776&amp;nbsp;|&amp;nbsp;6 min&amp;nbsp;|&amp;nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#0%e7%ae%80%e4%bb%8b" aria-label="0、简介">0、简介</a></li>
+                    <li>
+                        <a href="#1%e5%89%8d%e5%88%97%e8%85%ba%e7%99%8c%e6%a8%a1%e5%9e%8b%e5%b0%8f%e9%bc%a0%e5%8d%95%e7%bb%86%e8%83%9e%e5%9b%be%e8%b0%b1" aria-label="1、前列腺癌模型小鼠单细胞图谱">1、前列腺癌模型小鼠单细胞图谱</a></li>
+                    <li>
+                        <a href="#2intermediate-luminal%e7%bb%86%e8%83%9e%e5%8f%91%e8%82%b2%e6%8e%a8%e6%96%ad%e5%88%86%e6%9e%90" aria-label="2、intermediate luminal细胞发育推断分析">2、intermediate luminal细胞发育推断分析</a></li>
+                    <li>
+                        <a href="#3-%e5%89%8d%e5%88%97%e8%85%ba%e7%99%8c%e6%a8%a1%e5%9e%8b%e5%b0%8f%e9%bc%a0%e7%9a%84%e5%85%8d%e7%96%ab%e7%bb%86%e8%83%9e%e7%89%b9%e5%be%81" aria-label="3 前列腺癌模型小鼠的免疫细胞特征">3 前列腺癌模型小鼠的免疫细胞特征</a></li>
+                    <li>
+                        <a href="#4castration%e5%bc%95%e5%8f%91intermediate-luminal%e7%9a%84%e5%bc%82%e8%b4%a8%e6%80%a7" aria-label="4、Castration引发intermediate luminal的异质性">4、Castration引发intermediate luminal的异质性</a></li>
+                    <li>
+                        <a href="#5castration-intermediate-cell%e9%a2%84%e5%90%8esignature" aria-label="5、Castration intermediate cell预后signature">5、Castration intermediate cell预后signature</a></li>
+                    <li>
+                        <a href="#6castration%e5%bc%95%e5%8f%91%e7%9a%84%e5%85%8d%e7%96%ab%e7%bb%86%e8%83%9e%e5%8f%98%e5%8c%96" aria-label="6、Castration引发的免疫细胞变化">6、Castration引发的免疫细胞变化</a></li>
+                    <li>
+                        <a href="#7%e6%8a%91%e5%88%b6%e7%bf%bb%e8%af%91%e5%af%b9castration%e7%9a%84%e6%9d%80%e4%bc%a4%e4%bd%9c%e7%94%a8" aria-label="7、抑制翻译对Castration的杀伤作用">7、抑制翻译对Castration的杀伤作用</a>
+                    </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><blockquote>
+<p>题目：Defining cellular population dynamics at single-cell resolution during prostate cancer progression</p>
+<p>期刊 | 日期 ：eLife | November 2022</p>
+<p>DOI：https://doi.org/10.7554/eLife.79076</p></blockquote>
+<h2 id="0简介">0、简介<a hidden class="anchor" aria-hidden="true" href="#0简介">#</a></h2>
+<p>本文设计了多种精细的前列腺癌小鼠模型，结合单细胞测序数据进行了深入的探索，例如前列腺癌特异相关的细胞类型，免疫特征以及Castration处理前后的多角度分析。这为理解前列腺癌的发生以及castration resistant的机制以及治疗措施提出了新的见解与观点。</p>
+<ul>
+<li>数据集已上传到：GSE171336</li>
+<li>数据图谱已制作成交互式网页，方便查询：https://atlas.fredhutch.org/hsieh-prostate/</li>
+</ul>
+<p>此外，这篇文章的数据量、工作量较为丰富，差异分析、轨迹推断、细胞通讯分析策略值得精读、学习。原文也提供了部分分析与绘图代码：https://github.com/sonali-bioc/GermanosProstatescRNASeq/</p>
+<h2 id="1前列腺癌模型小鼠单细胞图谱">1、前列腺癌模型小鼠单细胞图谱<a hidden class="anchor" aria-hidden="true" href="#1前列腺癌模型小鼠单细胞图谱">#</a></h2>
+<p>（1）测序数据</p>
+<ul>
+<li>3只对照组6月龄小鼠(WT)与2只前列腺癌模型6月龄小鼠(Pten)</li>
+</ul>
+<blockquote>
+<p>Pten模型组：对小鼠前列腺的基底(Basal)与管腔(Luminal)上皮细胞的肿瘤抑制基因Pten的5号外显子进行敲除。之后笔记简称Pten组</p></blockquote>
+<p>（2）使用SingleR软件注释出3大类细胞：epithelial，stromal以及immune cells</p>
+<p>（3）结合文献marker，进一步注释两组的上皮细胞亚型</p>
+<ul>
+<li>对WT组释出<strong>basal</strong>(Krt5/Sox4), <strong>luminal differentiated</strong>(Nkx3-1/Sbp)以及<strong>luminal progenitor</strong>(Psca/Tactsd/Krt4)与<strong>Urethral</strong>(Aqp3/Ly6d)</li>
+<li>对Pten上皮细胞进一步注释出<strong>basal</strong>，<strong>Urethral</strong>，<strong>luminal differentiated</strong>，以及一种<strong>intermediate luminal</strong>(Krt4/Tacstd2/Ppp1r1b，对应WT组的luminal progenitor)</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230109194718834.png" alt="image-20230109194718834"  />
+</p>
+<h2 id="2intermediate-luminal细胞发育推断分析">2、intermediate luminal细胞发育推断分析<a hidden class="anchor" aria-hidden="true" href="#2intermediate-luminal细胞发育推断分析">#</a></h2>
+<p>（1）首先观察到Pten组的intermediate比例显著高于WT组的progenitor比例；</p>
+<p>（2）Pten与WT组的同种细胞类型差异基因多富集在肿瘤发生、上皮细胞迁移增殖等通路；</p>
+<p>（3）结合细胞周期分析在Pten组的basal细胞发现两种处于不同增殖状态的亚群</p>
+<ul>
+<li>hyper-proliferative,亚群占18.6%，其中99.7%的细胞处于G2/M、S，显著高于WT的basal</li>
+<li>hypo-proliferative,亚群81.4%，其中52.2%的细胞处于G2/M，S；显著低于WT的basal</li>
+</ul>
+<p>（4）上述两个亚群间差异分析</p>
+<ul>
+<li>hypo-proliferative富集在迁移、发育分化通路</li>
+<li>hyper-proliferative富集在细胞周期相关通路</li>
+</ul>
+<p>（5）结合Monocle3、RNA velocity、Palantir推断出由hypo-proliferative到intermediate luminal的发育轨迹以及相关基因；</p>
+<p>（6）基于luminal的maker基因表达，发现intermediate luminal也有可能源自luminal progenitor发育而来。</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230109200535326.png" alt="image-20230109200535326"  />
+</p>
+<h2 id="3-前列腺癌模型小鼠的免疫细胞特征">3 前列腺癌模型小鼠的免疫细胞特征<a hidden class="anchor" aria-hidden="true" href="#3-前列腺癌模型小鼠的免疫细胞特征">#</a></h2>
+<p>（1）首先观察到Pten与WT组的同种细胞类型差异基因也富集到免疫相关通路；</p>
+<p>（2）对免疫细胞进行亚型注释如下</p>
+<ul>
+<li>neutrophil → myeloid-derived suppressor cells (MDSCs)</li>
+<li>macrophage → TAM，M2，TRM(tissue-resident)</li>
+<li>T cell → CD8+，gamma-delta T， NKT</li>
+<li>B cell， DC细胞</li>
+</ul>
+<p>（3）除B，TRM，NKT细胞外，其它细胞类型比例Pten组显著高于WT组，其中M2、TAM、MDSCs以及CD8+ T均具有促进肿瘤作用。</p>
+<p>（3）使用CellPhoneDB分析上皮细胞等与免疫细胞之间的配受体通讯在Pten/WT差异表达，推断M2巨噬细胞由上皮与成纤维细胞招募，进而促进MDSCs与CD8+</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230109202149328.png" alt="image-20230109202149328"  />
+</p>
+<h2 id="4castration引发intermediate-luminal的异质性">4、Castration引发intermediate luminal的异质性<a hidden class="anchor" aria-hidden="true" href="#4castration引发intermediate-luminal的异质性">#</a></h2>
+<p>（1）加入新的单细胞测序数据：</p>
+<ul>
+<li>3只Pten组小鼠于4月龄时进行Castration阉割处理，待6月时取样测序</li>
+<li>后续简称Pten cx组</li>
+</ul>
+<p>（2）Pten cx组的intermediate luminal细胞比例显著扩增， 而没有differentiated luminal cells</p>
+<p>（3）Pten组与Pten cx组的AR基因集得分均低于WT组的luminal progenitor</p>
+<p>（4）对Pten与Pten cx组的intermediate细胞进行重聚类，共得到6个亚群</p>
+<ul>
+<li>C3主要来自Pten组
+<ul>
+<li>C3高表达AR相关基因，靠近differentiated luminal</li>
+</ul>
+</li>
+<li>C0、1、2、4主要来自Pten cx组
+<ul>
+<li>C1表达basal相关基因，靠近basal</li>
+<li>C1与C4高表达翻译与增殖相关基因</li>
+</ul>
+</li>
+<li>6个亚群的AR分数与增殖翻译与增殖分数呈负相关</li>
+</ul>
+<p>（5）加入新的单细胞测序数据</p>
+<ul>
+<li>3只Castration处理的WT小鼠取样测序</li>
+<li>后续简称WT cx</li>
+</ul>
+<p>（6）WT cx的luminal类似Pten cx的intermediate高表达翻译相关基因，但是低表达增殖相关基因，表明可能与Pten相关</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230109205430183.png" alt="image-20230109205430183"  />
+</p>
+<h2 id="5castration-intermediate-cell预后signature">5、Castration intermediate cell预后signature<a hidden class="anchor" aria-hidden="true" href="#5castration-intermediate-cell预后signature">#</a></h2>
+<p>（1）基于人类前列腺癌数据定义androgen deprivation therapy(ADT) resistance相关基因集</p>
+<p>（2）Pten与Pten cx的intermediate cell差异基因GSEA分析显著富集上述基因集</p>
+<p>（3）上述基因集相关的Top 5 上调基因(Pten cx)包括ATP1B1、BST2、CP、IGFBP3、PTTG1，经深入分析具有如下特征：</p>
+<ul>
+<li>在Pten组的intermediate亚群均低表达</li>
+<li>在resistance to ADT的human tumor样本中显著高表达</li>
+<li>这些基因的(任一)高表达与较差的预后相关</li>
+<li>这些基因在人类转移性前列腺癌中高表达</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230109211030050.png" alt="image-20230109211030050"  />
+</p>
+<h2 id="6castration引发的免疫细胞变化">6、Castration引发的免疫细胞变化<a hidden class="anchor" aria-hidden="true" href="#6castration引发的免疫细胞变化">#</a></h2>
+<p>（1）相比Pten组，Pten cx组的3种巨噬细胞以及CD8+ T比例均显著下降；</p>
+<p>（2）结合Pten cx组低表达的配受体通讯，分析上述比例下降的原因；</p>
+<p>（3）TNF的配受体细胞通讯在Pten CX组中特异性高表达。</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230109213219458.png" alt="image-20230109213219458"  />
+</p>
+<h2 id="7抑制翻译对castration的杀伤作用">7、抑制翻译对Castration的杀伤作用<a hidden class="anchor" aria-hidden="true" href="#7抑制翻译对castration的杀伤作用">#</a></h2>
+<p>（1）加入新的单细胞测序数据</p>
+<ul>
+<li>Pten小鼠在4月龄经doxycycline(抑制翻译)给药与castration处理，待6月取样测序</li>
+<li>后续简称Pten cx 4ebp1</li>
+</ul>
+<p>（2）Pten cx 4ebp1与Pten cx的上皮细胞比例与分布无明显差异；</p>
+<p>（3）transgene-positive的Pten cx 4ebp1与Pten cx的basal差异分析发现465个差异基因，进一步分析上调（细胞周期阻滞，细胞凋亡）、下调通路</p>
+<p>（4）与Pten cs相比，Pten cx 4ebp1显著差异的配受体通讯(Tnf, Egfr)</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230109215308277.png" alt="image-20230109215308277"  />
+</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/%E6%96%87%E7%8C%AE-%E7%BB%84%E5%AD%A6/">文献-组学</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/en/posts/basic/106%E6%96%87%E7%8C%AE--wgcna%E5%8F%91%E7%8E%B0%E7%9A%84%E5%8D%B5%E5%B7%A2%E7%99%8C%E8%82%BF%E7%98%A4%E7%9B%B8%E5%85%B3%E6%88%90%E7%BA%A4%E7%BB%B4%E7%BB%86%E8%83%9E%E7%9A%84%E9%A2%84%E5%90%8E%E6%A8%A1%E5%9E%8B/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>文献--WGCNA发现的卵巢癌肿瘤相关成纤维细胞的预后模型</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/en/posts/bioinfo/107%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr38--%E5%9B%9E%E5%BD%92--%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>机器学习基于R包mlr3(8)--回归--线性回归</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>深度学习 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="李申锁的博客，记录生信学习过程。R/Python/Shell">
+<meta name="author" content="">
+<link rel="canonical" href="https://lishensuo.github.io/en/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="https://lishensuo.github.io/en/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/index.xml">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="深度学习" />
+<meta property="og:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://lishensuo.github.io/en/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="深度学习"/>
+<meta name="twitter:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell"/>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header"><div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/tags/">Tags</a></div>
+  <h1>深度学习</h1>
+</header>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>Torchtext构建Vocab词表
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>torchtext.vocab 1 from torchtext.vocab import vocab 1. 定义词汇表 基于词元的频率统计表，OrderedDict 对象 1 2 3 4 vocab(ordered_dict = , #一个 OrderedDict 对象，包含词汇和它们的频率。 min_freq = 1, #指定词汇表中词出现的最小频率。 specials = None, #一个列表，包含特殊标记（如 &lt;unk&gt;, &lt;pad&gt;, &lt;bos&gt;, &lt;eos&gt; 等）。 special_first = True) #一个布尔值，决定特殊标记是否在词汇表的开头。 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 from collections import Counter, OrderedDict counter = Counter([&#34;a&#34;, &#34;a&#34;, &#34;b&#34;, &#34;b&#34;, &#34;b&#34;]) counter # Counter({&#39;b&#39;: 3, &#39;a&#39;: 2}) sorted_by_freq_tuples = sorted(counter.items(), key=lambda x: x[1], reverse=True) sorted_by_freq_tuples # [(&#39;b&#39;, 3), (&#39;a&#39;, 2)] ordered_dict = OrderedDict(sorted_by_freq_tuples) # OrderedDict([(&#39;b&#39;, 3), (&#39;a&#39;, 2)]) v1 = vocab(ordered_dict) # Vocab() 直接基于可迭代对象 1 2 3 4 5 6 7 build_vocab_from_iterator( iterator = , # Iterator used to build Vocab. Must yield list or iterator of tokens. min_freq = , specials = , special_first = , max_tokens =None #最多引入多少个词元 ) 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 from torchtext.vocab import build_vocab_from_iterator # 定义一个简单的迭代器 # yield关键字，用于定义生成器函数。惰性取值：按需生成值，而不是一次性生成所有值，适合处理大数据集。 def yield_tokens(data_iter): for text in data_iter: yield text.split() # 示例数据 data = [&#34;this is a sentence&#34;, &#34;this is another sentence&#34;] # 构建词汇表 v2 = build_vocab_from_iterator(yield_tokens(data), min_freq=1, specials=[&#39;&lt;unk&gt;&#39;, &#39;&lt;pad&gt;&#39;], special_first=True) ### 直接使用token list作为输入 token_lists = [ [&#34;this&#34;, &#34;is&#34;, &#34;a&#34;, &#34;sentence&#34;], [&#34;this&#34;, &#34;is&#34;, &#34;another&#34;, &#34;sentence&#34;] ] # 构建词汇表 v3 = build_vocab_from_iterator(token_lists) 2. 查询词汇表 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 # 1. 查看词元的索引 v1[&#39;a&#39;], v1[&#39;b&#39;] # 2. 设置当查询不在词汇表的新词元时，返回的索引 v2.set_default_index(v2[unk_token]) v2[&#39;sss&#39;] # 3. 查询索引对应的词元 v2.get_itos()[:3] # v2[&#39;out of vocab&#39;] is v2[unk_token] v2.get_stoi() # {&#39;a&#39;: 5, # &#39;this&#39;: 4, # &#39;another&#39;: 6, # &#39;sentence&#39;: 3, # &#39;is&#39;: 2, # &#39;&lt;pad&gt;&#39;: 1, # &#39;&lt;unk&gt;&#39;: 0} </p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-10-16 00:00:00 &#43;0000 UTC&#39;&gt;2024-10-16&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-10-16&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;508&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to Torchtext构建Vocab词表" href="https://lishensuo.github.io/en/posts/bioinfo/720torchtext%E6%9E%84%E5%BB%BAvocab%E8%AF%8D%E8%A1%A8/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>Pytorch-Dataset与Dataloader的使用.
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>在 PyTorch 中，Dataset、DataLoader 和 Sampler 是用于数据加载和处理的核心组件。它们相互配合，使得数据的加载和批处理更加高效和灵活。
+Dataset 是一个抽象类，用于表示数据集。 DataLoader 是一个迭代器，用于将数据集分成小批量。 Sampler 可以自定义更加复杂的采样策略。 1. Dataset 将训练数据（如特征和标签）封装为一个可迭代的 PyTorch Dataset 类。有如下两种方式。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-10-16 00:00:00 &#43;0000 UTC&#39;&gt;2024-10-16&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-10-16&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1006&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to Pytorch-Dataset与Dataloader的使用." href="https://lishensuo.github.io/en/posts/bioinfo/721pytorch-dataset%E4%B8%8Edataloader%E7%9A%84%E4%BD%BF%E7%94%A8/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>Pytorch-常用神经网络层-torch.nn
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 1 2 import torch import torch.nn as nn 1. 线性层 1 2 3 4 5 input = torch.randn(3, 4) #3个样本，每个样本4个特征 linear = nn.Linear(in_features=4, out_features=2) linear(input).shape # torch.Size([3, 2]) 2. 正则化层 2.1 dropout 1 2 3 4 5 6 7 dropout = nn.Dropout(p=0.5) input = torch.randn(3, 4) dropout(input) # tensor([[ 0.0000, -0.0000, -0.5670, -0.0000], # [ 4.7224, -4.0010, 0.0000, -0.0000], # [-0.9960, 0.0000, 0.6658, -0.0000]]) 2.2 批归一化 对每个特征（在不同样本的分布）进行归一化 1 2 3 4 5 6 7 batchnorm = nn.BatchNorm1d(num_features=4) batchnorm(input).shape # (batch_size, emb_len) # torch.Size([3, 4]) input2 = torch.randn(2, 4, 3) # (batch_size, emb_len, seq_len) batchnorm(input2).shape # torch.Size([2, 4, 3]) 2.3 层归一化 对每个样本的所有特征分布进行归一化 1 2 3 4 5 6 7 8 layer_norm = nn.LayerNorm(normalized_shape=4) layer_norm(input).shape # torch.Size([3, 4]) input2 = torch.randn(2, 3, 4) # (batch_size, seq_len, emb_len) layer_norm(input2).shape # torch.Size([2, 3, 4]) 3. 激活函数 D2L的简单学习笔记记录了torch部分经典激活函数的计算函数。通常可以直接计算。 1 2 torch.relu(torch.tensor(0.5)) # tensor(0.5000) torch.sigmoid(torch.tensor(0.5)) # tensor(0.6225) 基于torch.nn实现的激活函数多为模块类 1 2 3 4 5 relu = nn.ReLU() relu(torch.tensor(0.5)) sigmoid = nn.Sigmoid() softmax = nn.Softmax(dim=1) #对轴1进行softmax转换，使其和为1 基于Relu的常见变体 1 2 3 4 5 6 7 8 # 负数不置为0，而是乘一个很小的系数 self_activation = nn.LeakyReLU(negative_slope=0.01) # 负数不置为0，而是乘一个可学习的参数 self_activation = nn.PReLU(num_parameters=1) # 整合高斯分布，在神经网络中表现出良好的性能，特别是在Transformer模型中 self_activation = nn.GELU() 4. 嵌入层 为每个离散的整型索引返回一个固定大小的向量，通常用于自然语言处理中的词嵌入。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-10-16 00:00:00 &#43;0000 UTC&#39;&gt;2024-10-16&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-10-16&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1178&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to Pytorch-常用神经网络层-torch.nn" href="https://lishensuo.github.io/en/posts/bioinfo/722pytorch-%E5%B8%B8%E7%94%A8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%B1%82/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>GPU,CUDA以及Pytorch之间的关系
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> https://pytorch.org/get-started/locally/
+1. 概念 GPU（图形处理单元）是执行并行计算的硬件。
+具有不同的型号，例如GeForce RTX 3080、Tesla V100等 https://www.topcpu.net/gpu-r/fp32-float CUDA是NVIDIA 提供的并行计算软件平台，使开发者能够利用 GPU 的强大计算能力
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-10-28 00:00:00 &#43;0000 UTC&#39;&gt;2024-10-28&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-10-28&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1456&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to GPU,CUDA以及Pytorch之间的关系" href="https://lishensuo.github.io/en/posts/bioinfo/723gpucuda%E4%BB%A5%E5%8F%8Apytorch%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>深度学习常规Config训练配置
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1. 优化器optimizer Adam：自适应学习率优化器 1 optimizer = torch.optim.Adam(model.parameters(), lr=1e-3) AdamW：Adam 的变体，加入了权重衰减来改善正则化效果，在 Transformer 类模型中表现良好。 1 optimizer = torch.optim.AdamW(model.parameters(), lr=1e-3, weight_decay=1e-2) LAMB 是专为大批量训练设计的优化器，适合大型模型（e.g. BERT）。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-10-28 00:00:00 &#43;0000 UTC&#39;&gt;2024-10-28&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-10-28&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1553&amp;nbsp;|&amp;nbsp;4 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 深度学习常规Config训练配置" href="https://lishensuo.github.io/en/posts/bioinfo/724%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%B8%B8%E8%A7%84config%E8%AE%AD%E7%BB%83%E9%85%8D%E7%BD%AE/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>Flash Attention注意力优化
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>注意力计算
+注意力计算的三要素分别是：Query， Key，Value。而在自注意力计算中，三者则是等价的。 结合如下图示例：一个序列有2个词元，每个词元有3个特征 ,即输入为(2, 3) 每个Query词元会计算与其它词元Key的“相似度”（包括自己），再经过softmax（每行的和等于1）转换，得到 2 × 2 权重矩阵 然后将其与Value矩阵进行乘法运算(2, 2) × (2, 3)，得到新的(2, 3)输出结果 形象理解：对于词元A的输出特征1，等于输入词元A, B的特征的加权和。 多头注意力：本质上可以理解为将特征维度分成多个部分，每个部分称为一个“头”。每个头独立进行注意力计算，然后将所有头的输出合并在一起；以期学习不同的关系和模式。 ...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-10-28 00:00:00 &#43;0000 UTC&#39;&gt;2024-10-28&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-10-28&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;4575&amp;nbsp;|&amp;nbsp;10 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to Flash Attention注意力优化" href="https://lishensuo.github.io/en/posts/bioinfo/725flash-attention%E6%B3%A8%E6%84%8F%E5%8A%9B%E4%BC%98%E5%8C%96/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>机器学习日志指标log记录
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 在深度/机器学习模型训练时，有必要展示或者记录每个batch/epoch的各种损失以及精度信息。除了最简单的print方式，目前有多种库提供了高级的API实现方式。下面就scGPT项目的学习过程，整理三种方式。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-10-28 00:00:00 &#43;0000 UTC&#39;&gt;2024-10-28&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-10-28&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1622&amp;nbsp;|&amp;nbsp;4 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 机器学习日志指标log记录" href="https://lishensuo.github.io/en/posts/bioinfo/726%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%97%A5%E5%BF%97%E6%8C%87%E6%A0%87log%E8%AE%B0%E5%BD%95/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>torch张量的维度操作
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 在深度学习的前向传播中，最重要的是理解每个计算步骤的输入前与输入后的维度形状。与之对应的时需要熟悉一些常见的维度操作方法，根据项目的学习总结记录如下：
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-11-05 00:00:00 &#43;0000 UTC&#39;&gt;2024-11-05&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-11-05&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;715&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to torch张量的维度操作" href="https://lishensuo.github.io/en/posts/bioinfo/727torch%E5%BC%A0%E9%87%8F%E7%9A%84%E7%BB%B4%E5%BA%A6%E6%93%8D%E4%BD%9C/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>单机多卡torchrun分布式训练
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1. 背景 DDP分布式训练与DP并行训练
+在之前了解多GPU训练时，学习过一种数据并行方式DataParallel (DP)。其核心将模型复制到每个 GPU，然后在每个 GPU 上分配一小部分数据并行执行计算。最后，主 GPU 汇总所有 GPU 的梯度并更新模型参数。实现角度也非常简单，使用nn.DataParallel()即可。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-11-09 00:00:00 &#43;0000 UTC&#39;&gt;2024-11-09&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-11-09&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1625&amp;nbsp;|&amp;nbsp;4 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 单机多卡torchrun分布式训练" href="https://lishensuo.github.io/en/posts/bioinfo/728%E5%8D%95%E6%9C%BA%E5%A4%9A%E5%8D%A1torchrun%E5%88%86%E5%B8%83%E5%BC%8F%E8%AE%AD%E7%BB%83/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>torch模型组成模块参数查询、管理、保存
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1. 示例模型 两层MLP的神经网络 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 import torch import torch.nn as nn import torch.nn.functional as F class SimpleMLP(nn.Module): def __init__(self, input_size, hidden_size, output_size): super(SimpleMLP, self).__init__() self.fc1 = nn.Linear(input_size, hidden_size) self.fc2 = nn.Linear(hidden_size, output_size) def forward(self, x): x = F.relu(self.fc1(x)) x = self.fc2(x) return x # Example usage input_size = 256 # Number of input features hidden_size = 128 # Number of neurons in the hidden layer output_size = 2 # Number of output classes model = SimpleMLP(input_size, hidden_size, output_size) 2. 组成模块查询 通过递归的方式遍历模型的所有层，包括嵌套在其他层内的子模块 1 2 3 4 5 6 7 8 9 10 # torch.nn.Module类 model.modules for module in model.modules(): print(f&#34;Module: {module}&#34;) for name, module in model.named_modules(): print(f&#34;{name}: {module}&#34;) # fc1: Linear(in_features=256, out_features=128, bias=True) # fc2: Linear(in_features=128, out_features=2, bias=True) 3. 模型参数查询 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 # torch.nn.Parameter类 for param in model.parameters(): print(f&#34;{param.shape}&#34;) for name, param in model.named_parameters(): print(f&#34;{name}: {param.shape}&#34;) # fc1.weight: torch.Size([128, 256]) # fc1.bias: torch.Size([128]) # fc2.weight: torch.Size([2, 128]) # fc2.bias: torch.Size([2]) for name, param in model.fc1.named_parameters(): print(f&#34;{name}: {param.shape}&#34;) # weight: torch.Size([128, 256]) # bias: torch.Size([128]) # 模型总参数量 total_parameters = sum(p.numel() for p in model.parameters()) # 查看具体某一层的参数 param = next(iter(model.fc1.parameters())) type(param) # torch.nn.parameter.Parameter param.shape # torch.Size([128, 256]) param.numel() # 32768 param.requires_grad # True # 参数冻结，即不更新该module参数 param.requires_grad=False 4. 模型（参数）保存与加载 1 2 3 4 5 6 7 type(model.state_dict()) # save torch.save(model.state_dict(), &#39;model.pth&#39;) # pt后缀也可 # load model.load_state_dict(torch.load(&#39;model.pth&#39;)) pretrained_params = torch.load(model_pt, map_location=&#39;cuda:2&#39;) 一个实际加载的示例函数 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 # def load_pretrained( model: torch.nn.Module, pretrained_params: dict = None, strict: bool = False, prefix: list = None, use_flash_attn = True, verbose: bool = True, ) -&gt; torch.nn.Module: # 修改特定参数的key name if not use_flash_attn: pretrained_params = { k.replace(&#34;Wqkv.&#34;, &#34;in_proj_&#34;): v for k, v in pretrained_params.items() } # 只加载特定keys的参数 if prefix is not None and len(prefix) &gt; 0: if isinstance(prefix, str): prefix = [prefix] pretrained_params = { k: v for k, v in pretrained_params.items() if any(k.startswith(p) for p in prefix) } model_dict = model.state_dict() # 严格加载：全部参数需要匹配 if strict: if verbose: for k, v in pretrained_params.items(): print(f&#34;Loading parameter {k} with shape {v.shape}&#34;) model_dict.update(pretrained_params) model.load_state_dict(model_dict) # 部分加载：只加载部分能够匹配的参数（key name以及 value shape） else: if verbose: for k, v in pretrained_params.items(): if k in model_dict and v.shape == model_dict[k].shape: print(f&#34;Loading parameter {k} with shape {v.shape}&#34;) pretrained_params = { k: v for k, v in pretrained_params.items() if k in model_dict and v.shape == model_dict[k].shape } model_dict.update(pretrained_params) model.load_state_dict(model_dict) return model </p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-12-14 00:00:00 &#43;0000 UTC&#39;&gt;2024-12-14&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-12-14&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;670&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to torch模型组成模块参数查询、管理、保存" href="https://lishensuo.github.io/en/posts/bioinfo/729torch%E6%A8%A1%E5%9E%8B%E7%BB%84%E6%88%90%E6%A8%A1%E5%9D%97%E5%8F%82%E6%95%B0%E6%9F%A5%E8%AF%A2%E7%AE%A1%E7%90%86%E4%BF%9D%E5%AD%98/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="https://lishensuo.github.io/en/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/page/2/">« Prev Page</a>
+    <a class="next" href="https://lishensuo.github.io/en/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/page/4/">Next Page »</a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

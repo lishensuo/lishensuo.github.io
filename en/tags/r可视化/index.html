@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>R可视化 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="李申锁的博客，记录生信学习过程。R/Python/Shell">
+<meta name="author" content="">
+<link rel="canonical" href="https://lishensuo.github.io/en/tags/r%E5%8F%AF%E8%A7%86%E5%8C%96/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="https://lishensuo.github.io/en/tags/r%E5%8F%AF%E8%A7%86%E5%8C%96/index.xml">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/tags/r%E5%8F%AF%E8%A7%86%E5%8C%96/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="R可视化" />
+<meta property="og:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://lishensuo.github.io/en/tags/r%E5%8F%AF%E8%A7%86%E5%8C%96/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="R可视化"/>
+<meta name="twitter:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell"/>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header"><div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/tags/">Tags</a></div>
+  <h1>R可视化</h1>
+</header>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>R-可视化-ggplot2绘图基础
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> ggplot2包一方面可以实现多种形式的数据可视化、比如箱图、柱状图等；另一方面也可以从多个角度进行美化、修饰。对于前者，之前对ggplot2的柱状图、箱图用法进行了详细的学习。关于其它类型的图，例如密度图、折线图、直方图等，可参考他人的总结，例如下面的sthda网站。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-07-03 00:00:00 &#43;0000 UTC&#39;&gt;2022-07-03&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-07-03&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1267&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to R-可视化-ggplot2绘图基础" href="https://lishensuo.github.io/en/posts/program/212r-%E5%8F%AF%E8%A7%86%E5%8C%96-ggplot2%E7%BB%98%E5%9B%BE%E5%9F%BA%E7%A1%80/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>R-可视化-ggpubr包快速绘制点图、线图与柱状图
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 参考教程：http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-07-23 00:00:00 &#43;0000 UTC&#39;&gt;2022-07-23&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-07-23&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;964&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to R-可视化-ggpubr包快速绘制点图、线图与柱状图" href="https://lishensuo.github.io/en/posts/program/213r-%E5%8F%AF%E8%A7%86%E5%8C%96-ggpubr%E5%8C%85%E5%BF%AB%E9%80%9F%E7%BB%98%E5%88%B6%E7%82%B9%E5%9B%BE%E7%BA%BF%E5%9B%BE%E4%B8%8E%E6%9F%B1%E7%8A%B6%E5%9B%BE/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>R-可视化-拼图patchwork
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>一、ggplot2组图 0、安装包及示例图 1 2 3 4 5 6 7 8 9 10 # #install.packages(&#34;devtools&#34;) # devtools::install_github(&#34;thomasp85/patchwork&#34;) library(ggplot2) library(patchwork) p1 &lt;- ggplot(mtcars) &#43; geom_point(aes(mpg, disp)) p2 &lt;- ggplot(mtcars) &#43; geom_boxplot(aes(gear, disp, group = gear)) p3 &lt;- ggplot(mtcars) &#43; geom_bar(aes(gear)) &#43; facet_wrap(~cyl) p4 &lt;- ggplot(mtcars) &#43; geom_bar(aes(carb)) p5 &lt;- ggplot(mtcars) &#43; geom_violin(aes(cyl, mpg, group = cyl)) 1、简单使用 （1）符号连接：&#43;或者| 均表示左右拼接，/表示上下拼接，()可以用于调整优先级 （2）函数调用：wrap_plots()，可通过具体参数设置排列方式
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-09-04 00:00:00 &#43;0000 UTC&#39;&gt;2022-09-04&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-09-04&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1139&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to R-可视化-拼图patchwork" href="https://lishensuo.github.io/en/posts/program/214r-%E5%8F%AF%E8%A7%86%E5%8C%96-%E6%8B%BC%E5%9B%BEpatchwork/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>R-可视化-韦恩图venn
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>示例数据 3个基因集列表，为list格式
+1 2 3 4 5 genes &lt;- paste0(&#34;gene&#34;,1:1000) set.seed(20210302) gene_list &lt;- list(A = sample(genes,100), B = sample(genes,200), C = sample(genes,300)) 一、VennDiagram VennDiagram包是绘制韦恩图的一个经典包。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-09-10 00:00:00 &#43;0000 UTC&#39;&gt;2022-09-10&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-09-10&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2104&amp;nbsp;|&amp;nbsp;5 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to R-可视化-韦恩图venn" href="https://lishensuo.github.io/en/posts/program/215r-%E5%8F%AF%E8%A7%86%E5%8C%96-%E9%9F%A6%E6%81%A9%E5%9B%BEvenn/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>R-可视化-ggplot&#43;ggpubr绘制箱图boxplot
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>一、ggplot绘制基础箱图 0、示例数据 1 2 3 4 5 6 7 8 9 10 11 12 13 library(ggplot2) library(patchwork) #组别名最好是字符型；如果是数值类型，最好转为因子化 ToothGrowth$dose = factor(ToothGrowth$dose) summary(ToothGrowth) # len supp dose # Min. : 4.20 OJ:30 0.5:20 # 1st Qu.:13.07 VC:30 1 :20 # Median :19.25 2 :20 # Mean :18.81 # 3rd Qu.:25.27 # Max. :33.90 1、基础绘图 1 2 3 4 5 p1 = ggplot(ToothGrowth, aes(x=dose, y=len, fill=dose)) &#43; geom_boxplot() p2 = ggplot(ToothGrowth, aes(x=dose, y=len, fill=supp)) &#43; geom_boxplot() p1 | p2 2、离群点相关 1 2 3 4 5 6 p1 = ggplot(ToothGrowth, aes(x=dose, y=len)) &#43; geom_boxplot(outlier.color = &#34;red&#34;, outlier.size = 0.5) p2 = ggplot(ToothGrowth, aes(x=dose, y=len)) &#43; geom_boxplot(outlier.alpha = 0) #透明度为0，相当于不绘制离群点 p1 &#43; p2 ...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-11-05 00:00:00 &#43;0000 UTC&#39;&gt;2022-11-05&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-11-05&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1667&amp;nbsp;|&amp;nbsp;4 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to R-可视化-ggplot&#43;ggpubr绘制箱图boxplot" href="https://lishensuo.github.io/en/posts/program/216ggplot&#43;ggpubr%E7%BB%98%E5%88%B6%E7%AE%B1%E5%9B%BEboxplot/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>R-可视化-ggplot绘制常规柱状图barplot
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1、示例数据 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 library(ggplot2) library(patchwork) library(carData) #示例数据 head(Salaries) #教职工资情况 # rank discipline yrs.since.phd yrs.service sex salary # 1 Prof B 19 18 Male 139750 # 2 Prof B 20 16 Male 173200 # 3 AsstProf B 4 3 Male 79750 # 4 Prof B 45 39 Male 115000 # 5 Prof B 40 41 Male 141500 # 6 AssocProf B 6 6 Male 97000 table(Salaries$rank, Salaries$sex) # Female Male # AsstProf 11 56 # AssocProf 10 54 # Prof 18 248 2、基础用法 1 2 3 4 5 6 7 8 9 p1 = ggplot(Salaries, aes(x=rank)) &#43; geom_bar() # 贴近x轴 p2 = ggplot(Salaries, aes(x=rank)) &#43; geom_bar() &#43; scale_y_continuous(expand=c(0,0)) # 映射填充颜色 p3 =ggplot(Salaries, aes(x=rank, fill=rank)) &#43; geom_bar() p1 &#43; p2 &#43; p3 3、position=参数调整分组形式 1 2 3 4 5 6 7 8 # 默认 p1 &lt;- ggplot(Salaries, aes(x=rank, fill=sex)) &#43; geom_bar(position=&#34;stack&#34;) &#43; labs(title=&#39;position=&#34;stack&#34;&#39;) p2 &lt;- ggplot(Salaries, aes(x=rank, fill=sex)) &#43; geom_bar(position=&#34;dodge&#34;) &#43; labs(title=&#39;position=&#34;dodge&#34;&#39;) p3 &lt;- ggplot(Salaries, aes(x=rank, fill=sex)) &#43; geom_bar(position=&#34;fill&#34;) &#43; labs(title=&#39;position=&#34;fill&#34;&#39;) p1 &#43; p2 &#43; p3 &#43; plot_layout(guides = &#39;collect&#39;) 4、stat=参数设置频数统计方式 stat=&#34;count&#34;(default) 表示从给定的数据里，统计每个类别出现的次数； 此时aes()只需要给定x参数即可； stat=&#34;identity&#34;表示直接指定每种类别的频数； 此时aes()除了需要给定x参数交代类别，还需要指定y参数表示频数值。 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 library(tidyverse) dat = Salaries %&gt;% group_by(rank) %&gt;% dplyr::summarise(n=n()) %&gt;% as.data.frame() dat # rank n # 1 AsstProf 67 # 2 AssocProf 64 # 3 Prof 266 p1 = ggplot(dat, aes(x=rank, y=n, fill=rank)) &#43; geom_bar(stat = &#34;identity&#34;) dat = Salaries %&gt;% group_by(rank,sex) %&gt;% dplyr::summarise(n=n()) %&gt;% as.data.frame() dat # rank sex n # 1 AsstProf Female 11 # 2 AsstProf Male 56 # 3 AssocProf Female 10 # 4 AssocProf Male 54 # 5 Prof Female 18 # 6 Prof Male 248 p2 = ggplot(dat, aes(x=rank, y=n, fill=sex)) &#43; geom_bar(stat = &#34;identity&#34;) p1 &#43; p2 5、geom_text()添加频数注释 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 dat = Salaries %&gt;% group_by(rank) %&gt;% dplyr::summarise(n=n()) p1=ggplot(dat, aes(x=rank, y=n)) &#43; geom_bar(stat=&#34;identity&#34;) &#43; geom_text(aes(label=n), vjust = -0.2) # vjust&lt;0,上移；vjust&gt;0,下移 dat = Salaries %&gt;% group_by(rank,sex) %&gt;% dplyr::summarise(n=n()) p2=ggplot(dat, aes(x=rank, y=n, fill=sex)) &#43; geom_bar(stat=&#34;identity&#34;, position = &#34;dodge&#34;) &#43; geom_text(aes(label=n), vjust = -0.2, position=position_dodge(width=0.9)) p1 &#43; p2 6、调整柱子的顺序 如果只有一种分组方式，通过设置类别的因子水平即可。 或者使用scale_x_discrete(c(.....))自定义顺序也可以实现很方便的修改 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 ggplot(Salaries, aes(x=rank)) &#43; geom_bar() &#43; scale_x_discrete(limits=c(&#34;AsstProf&#34;, &#34;AssocProf&#34;, &#34;Prof&#34;)) p1=ggplot(iris, aes(x=Species, y=Sepal.Width)) &#43; geom_boxplot() &#43; ggtitle(&#34;default factor levels&#34;) p2=ggplot(iris, aes(x=fct_reorder(Species, Sepal.Width), y=Sepal.Width)) &#43; geom_boxplot() &#43; ggtitle(&#34;fct_reorder default levels&#34;) p3=ggplot(iris, aes(x=fct_reorder(Species, Sepal.Width, .desc=T), y=Sepal.Width)) &#43; geom_boxplot() &#43; ggtitle(&#34;fct_reorder descent levels&#34;) library(patchwork) p1 | p2 | p3 但如果更复杂的情况–组内排序。 例：5个学生的三门课程成绩，按照每门学科分组，将5个学生按照成绩从低到高排序(或者从高到低排序)。 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 grade = data.frame( subject=rep(c(&#34;Chineses&#34;,&#34;Math&#34;,&#34;English&#34;), each=5), name=rep(c(&#34;A&#34;,&#34;B&#34;,&#34;C&#34;,&#34;D&#34;,&#34;E&#34;),3), score=c(79,65,70,94,82,76,87,80,81,89,88,79,82,95,90)) # 先按学科均分从高到低 # 然后每个学科内,成绩从低到高学生排序 grade$subject=fct_reorder(grade$subject, grade$score, .desc=T) library(tidytext) p1 = ggplot(grade, aes(x=reorder_within(name,score,subject), y=score, fill=name)) &#43; geom_bar(stat = &#34;identity&#34;) &#43; scale_x_reordered() &#43; facet_wrap(subject~. ,scales = &#34;free_x&#34;) # 先按学科均分从低到高 # 然后每个学科内,成绩从高到低学生排序 grade$subject=fct_reorder(grade$subject, grade$score, .desc=F) library(tidytext) p2 = ggplot(grade, aes(x=reorder_within(name,-score,subject), y=score, fill=name)) &#43; geom_bar(stat = &#34;identity&#34;) &#43; scale_x_reordered() &#43; facet_wrap(subject~. ,scales = &#34;free_x&#34;) p1 &#43; p2 &#43; plot_layout(guides = &#39;collect&#39;) 注意reorder_within(个体,值,分组)，还需要设置scale_x_reordered() , facet_wrap(variable~. ,scales = &#34;free_x&#34;)
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-11-05 00:00:00 &#43;0000 UTC&#39;&gt;2022-11-05&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-11-05&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1331&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to R-可视化-ggplot绘制常规柱状图barplot" href="https://lishensuo.github.io/en/posts/program/217ggplot%E7%BB%98%E5%88%B6%E5%B8%B8%E8%A7%84%E6%9F%B1%E7%8A%B6%E5%9B%BEbarplot/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>R-可视化-绘图颜色与画板的选择
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1、R中颜色的表示方式 1.1 颜色的名字 R内置了657种颜色的名字可供调用
+http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf
+1 2 3 4 5 6 7 8 9 10 11 str(colors()) # chr [1:657] &#34;white&#34; &#34;aliceblue&#34; &#34;antiquewhite&#34; ... head(colors()[1:10]) # [1] &#34;white&#34; &#34;aliceblue&#34; &#34;antiquewhite&#34; # [4] &#34;antiquewhite1&#34; &#34;antiquewhite2&#34; &#34;antiquewhite3&#34; set.seed(111) cols = sample(colors(), 5) numbers = 1:5; names(numbers) = cols barplot(numbers, col=cols) 关于透明色，虽然不在这657个颜色当中，可以通过transparent指定。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-11-05 00:00:00 &#43;0000 UTC&#39;&gt;2022-11-05&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-11-05&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1339&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to R-可视化-绘图颜色与画板的选择" href="https://lishensuo.github.io/en/posts/program/218%E7%BB%98%E5%9B%BE%E9%A2%9C%E8%89%B2%E4%B8%8E%E7%94%BB%E6%9D%BF%E7%9A%84%E9%80%89%E6%8B%A9/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>可视化-R--热图heatmap
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 简单整理两个绘制热图R包的用法，分别是基础的pheatmap包与复杂的ComplexHeatmap包。
+pheatmap 1 2 3 4 5 # install.packages(&#34;pheatmap&#34;) library(pheatmap) packageVersion(&#34;pheatmap&#34;) # [1] ‘1.0.12’ 0、 示例数据 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 exp = matrix(rnorm(300), nrow = 30, ncol = 10) set.seed(123) exp[1:15, 1:5] = exp[1:15, 1:5] &#43; matrix(rnorm(75,mean = 4), nrow = 15, ncol = 5) set.seed(123) exp[16:30, 6:10] = exp[16:30, 6:10] &#43; matrix(rnorm(75,mean = 3), nrow = 15, ncol = 5) exp = round(exp, 2) colnames(exp) = paste(&#34;Sample&#34;, 1:10, sep = &#34;&#34;) rownames(exp) = paste(&#34;Gene&#34;, 1:30, sep = &#34;&#34;) dim(exp) # [1] 30 10 head(exp) # Sample1 Sample2 Sample3 Sample4 Sample5 Sample6 Sample7 Sample8 Sample9 Sample10 # Gene1 4.47 5.74 5.56 3.18 6.38 0.06 -0.09 0.13 0.70 -1.75 # Gene2 3.49 3.71 2.24 4.23 4.10 -0.70 1.08 0.22 -0.11 0.10 # Gene3 4.34 0.37 5.64 3.05 2.42 -0.72 0.63 1.64 -1.26 -0.57 # Gene4 4.25 4.32 6.79 5.30 2.37 0.88 -0.11 -0.22 1.68 -0.97 # Gene5 3.99 4.45 3.38 4.29 1.74 -1.02 -1.53 0.17 0.91 -0.18 # Gene6 5.72 2.36 5.39 4.04 6.50 1.96 -0.52 1.17 0.24 1.01 ##基础绘图 pheatmap(exp) 1、聚类相关参数 下述均是针对行row的操作，改为col即为针对列的操作。 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 ## (1) 不聚类 pheatmap(exp, cluster_row = FALSE) ## (2) 聚类但显示聚类树 pheatmap(exp, treeheight_row = 0) ## (3) 距离计算公式 clustering_distance_rows = &#34;euclidean&#34; # &#34;correlation&#34; ## (4) 聚类间距离计算方法 clustering_method = &#34;average&#34; #&#34;ward.D2&#34;, &#34;single&#34;, &#34;complete&#34;等 ## (5) 获取聚类后热图的表达矩阵(改变了行列顺序) ph = pheatmap(exp) ph$tree_row$order ph$tree_col$order ph_exp = exp[ph$tree_row$order, ph$tree_col$order] ph_exp[1:4,1:4] # Sample3 Sample5 Sample2 Sample1 # Gene26 1.05 -0.57 1.44 -0.71 # Gene19 -1.01 -0.52 -0.26 -0.63 # Gene24 0.98 -1.24 -0.96 -0.24 # Gene18 0.33 1.23 -0.49 0.24 2、颜色相关 1 2 3 4 5 6 7 8 9 10 11 #Default colours = colorRampPalette(rev(RColorBrewer::brewer.pal(n = 7, name = &#34;RdYlBu&#34;)))(100) str(colours) # chr [1:100] &#34;#4575B4&#34; &#34;#4979B6&#34; &#34;#4E7DB8&#34; &#34;#5282BB&#34; &#34;#5786BD&#34; &#34;#5C8BBF&#34; &#34;#608FC2&#34; ... # 个性化修改 colours = colorRampPalette(c(&#34;navy&#34;, &#34;white&#34;, &#34;firebrick3&#34;))(10) #colours = colorRampPalette(c(&#34;#3288bd&#34;, &#34;white&#34;, &#34;#d53e4f&#34;))(10) str(colours) # chr [1:10] &#34;#3288BD&#34; &#34;#5FA2CB&#34; &#34;#8DBCDA&#34; &#34;#BAD7E9&#34; &#34;#E8F1F7&#34; &#34;#FAE9EB&#34; &#34;#F1BEC4&#34; ... pheatmap(exp, color = colours) ...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-06-12 00:00:00 &#43;0000 UTC&#39;&gt;2022-06-12&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-06-12&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2959&amp;nbsp;|&amp;nbsp;6 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 可视化-R--热图heatmap" href="https://lishensuo.github.io/en/posts/program/219r-%E5%8F%AF%E8%A7%86%E5%8C%96--%E7%83%AD%E5%9B%BEheatmap/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>R-可视化--弦图chordDiagram
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>弦图常用于表示两组或多组成员之间的连接关系。如下简单学习circlize包ChordDiagram()绘制弦图的基础用法
+参考教程：https://jokergoo.github.io/circlize_book/book/the-chorddiagram-function.html 0、数据输入 对于matrix：
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-01-16 00:00:00 &#43;0000 UTC&#39;&gt;2023-01-16&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-01-16&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1739&amp;nbsp;|&amp;nbsp;4 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to R-可视化--弦图chordDiagram" href="https://lishensuo.github.io/en/posts/program/220r-%E5%8F%AF%E8%A7%86%E5%8C%96--%E5%BC%A6%E5%9B%BEchorddiagram/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>R-可视化--桑基(sankey)与冲击(alluvial)图ggsankey
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 桑基图(sankey plot)是一种特定类型的流图，用于描述一组值到另一组值的流向；理论上来表示前一组值与后一组值存在一定的逻辑关系。从泛化角度来看，也可用于呈现多组间的构成比例关系。从这个角度来看，冲积图(alluvial plot)就是一种特殊的桑基图。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-01-16 00:00:00 &#43;0000 UTC&#39;&gt;2023-01-16&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-01-16&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1107&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to R-可视化--桑基(sankey)与冲击(alluvial)图ggsankey" href="https://lishensuo.github.io/en/posts/program/221r-%E5%8F%AF%E8%A7%86%E5%8C%96--%E6%A1%91%E5%9F%BAsankey%E4%B8%8E%E5%86%B2%E5%87%BBalluvial%E5%9B%BEggsankey/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="next" href="https://lishensuo.github.io/en/tags/r%E5%8F%AF%E8%A7%86%E5%8C%96/page/2/">Next Page »</a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

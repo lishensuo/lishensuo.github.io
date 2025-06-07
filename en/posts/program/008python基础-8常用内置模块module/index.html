@@ -1,0 +1,1661 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>Python基础-(8)常用基础模块Module | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="Python">
+<meta name="description" content="1. sys
+
+
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+
+
+##(1) sys.argv 给脚本传参
+#如下定义一个sys.py脚本
+#!/usr/bin/env python
+import sys
+print(sys.argv[0]) #第0个参数为脚本名
+print(sys.argv[1])
+
+
+python sys.py first
+# sys.py
+# first
+
+
+##(2) sys.path 一个列表，包含要在其中查找模块的目录名称
+sys.path.append()
+
+
+2. os
+
+
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+
+
+## (1) os.system 执行shell命令
+os.system(&#34;pwd&#34;)
+os.system(&#34;ls -lh&#34;)
+
+## (2) os.path 路径操作相关
+os.path.abspath(&#34;.&#34;)  #返回绝对路径
+os.path.basename(&#34;/home/test/file.txt&#34;) #单独返回文件名
+os.path.dirname(&#34;/home/test/file.txt&#34;)  #单独返回路径名
+os.path.split(&#34;/home/test/file.txt&#34;) #返回由文件名和路径名组成的元组
+#(&#39;/home/test&#39;, &#39;file.txt&#39;)
+os.path.splitext(&#34;file.txt&#34;)  #将文件名与后缀名分开
+#(&#39;file&#39;, &#39;.txt&#39;)
+os.path.exists(&#34;/home/test/file.txt&#34;) #判断文件或者目录是否存在
+#False
+
+
+## 此外os模块还支持对目录、文件的常规操作，例如创建、删除、重命名等
+
+
+3. time
+
+
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+
+
+import time
+
+time.sleep(3) #解释器等待指定秒数
+
+time.time() #当前时间至新纪元的秒数(时间戳)
+# 1649984110.885341
+
+time.localtime() #默认返回当前时间戳的时间元组
+time.localtime(100000000) #返回指定时间戳时间元组
+# time.struct_time(tm_year=1973, tm_mon=3, tm_mday=3, tm_hour=17, tm_min=46, tm_sec=40, tm_wday=5, tm_yday=62, tm_isdst=0)
+tuple(time.localtime(100000000)) # 返回tuple
+# (1973, 3, 3, 17, 46, 40, 5, 62, 0)
+
+###将时间元组格式化输出
+time.asctime(time.localtime()) 
+# &#39;Fri Apr 15 08:59:43 2022&#39;
+###(1)按自定义格式输出
+#常见的item有： %Y-年, %m-月, %d-日, %H-时, %M-分, %S-秒, %a-星期几, %b-英文月份
+#全部的item参考：https://www.runoob.com/python/python-date-time.html
+time.strftime(&#34;%Y-%m-%d %H:%M:%S&#34;, time.localtime()) 
+# &#39;2022-04-15 09:12:29&#39;
+
+
+time.strftime(&#34;%a %b %d %H:%M:%S %Y&#34;, time.localtime()) 
+# &#39;Fri Apr 15 09:12:49 2022&#39;
+
+###(2)将格式字符串转换为时间戳
+a = &#34;2022-04-15 09:12:29&#34;
+time.mktime(time.strptime(a,&#34;%Y-%m-%d %H:%M:%S&#34;))
+# 1649985149.0
+
+
+
+关于时间元组的格式：">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/program/008python%E5%9F%BA%E7%A1%80-8%E5%B8%B8%E7%94%A8%E5%86%85%E7%BD%AE%E6%A8%A1%E5%9D%97module/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/program/008python%E5%9F%BA%E7%A1%80-8%E5%B8%B8%E7%94%A8%E5%86%85%E7%BD%AE%E6%A8%A1%E5%9D%97module/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Python基础-(8)常用基础模块Module" />
+<meta property="og:description" content="1. sys
+
+
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+
+
+##(1) sys.argv 给脚本传参
+#如下定义一个sys.py脚本
+#!/usr/bin/env python
+import sys
+print(sys.argv[0]) #第0个参数为脚本名
+print(sys.argv[1])
+
+
+python sys.py first
+# sys.py
+# first
+
+
+##(2) sys.path 一个列表，包含要在其中查找模块的目录名称
+sys.path.append()
+
+
+2. os
+
+
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+
+
+## (1) os.system 执行shell命令
+os.system(&#34;pwd&#34;)
+os.system(&#34;ls -lh&#34;)
+
+## (2) os.path 路径操作相关
+os.path.abspath(&#34;.&#34;)  #返回绝对路径
+os.path.basename(&#34;/home/test/file.txt&#34;) #单独返回文件名
+os.path.dirname(&#34;/home/test/file.txt&#34;)  #单独返回路径名
+os.path.split(&#34;/home/test/file.txt&#34;) #返回由文件名和路径名组成的元组
+#(&#39;/home/test&#39;, &#39;file.txt&#39;)
+os.path.splitext(&#34;file.txt&#34;)  #将文件名与后缀名分开
+#(&#39;file&#39;, &#39;.txt&#39;)
+os.path.exists(&#34;/home/test/file.txt&#34;) #判断文件或者目录是否存在
+#False
+
+
+## 此外os模块还支持对目录、文件的常规操作，例如创建、删除、重命名等
+
+
+3. time
+
+
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+
+
+import time
+
+time.sleep(3) #解释器等待指定秒数
+
+time.time() #当前时间至新纪元的秒数(时间戳)
+# 1649984110.885341
+
+time.localtime() #默认返回当前时间戳的时间元组
+time.localtime(100000000) #返回指定时间戳时间元组
+# time.struct_time(tm_year=1973, tm_mon=3, tm_mday=3, tm_hour=17, tm_min=46, tm_sec=40, tm_wday=5, tm_yday=62, tm_isdst=0)
+tuple(time.localtime(100000000)) # 返回tuple
+# (1973, 3, 3, 17, 46, 40, 5, 62, 0)
+
+###将时间元组格式化输出
+time.asctime(time.localtime()) 
+# &#39;Fri Apr 15 08:59:43 2022&#39;
+###(1)按自定义格式输出
+#常见的item有： %Y-年, %m-月, %d-日, %H-时, %M-分, %S-秒, %a-星期几, %b-英文月份
+#全部的item参考：https://www.runoob.com/python/python-date-time.html
+time.strftime(&#34;%Y-%m-%d %H:%M:%S&#34;, time.localtime()) 
+# &#39;2022-04-15 09:12:29&#39;
+
+
+time.strftime(&#34;%a %b %d %H:%M:%S %Y&#34;, time.localtime()) 
+# &#39;Fri Apr 15 09:12:49 2022&#39;
+
+###(2)将格式字符串转换为时间戳
+a = &#34;2022-04-15 09:12:29&#34;
+time.mktime(time.strptime(a,&#34;%Y-%m-%d %H:%M:%S&#34;))
+# 1649985149.0
+
+
+
+关于时间元组的格式：" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/program/008python%E5%9F%BA%E7%A1%80-8%E5%B8%B8%E7%94%A8%E5%86%85%E7%BD%AE%E6%A8%A1%E5%9D%97module/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-04-17T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2022-04-17T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Python基础-(8)常用基础模块Module"/>
+<meta name="twitter:description" content="1. sys
+
+
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+
+
+##(1) sys.argv 给脚本传参
+#如下定义一个sys.py脚本
+#!/usr/bin/env python
+import sys
+print(sys.argv[0]) #第0个参数为脚本名
+print(sys.argv[1])
+
+
+python sys.py first
+# sys.py
+# first
+
+
+##(2) sys.path 一个列表，包含要在其中查找模块的目录名称
+sys.path.append()
+
+
+2. os
+
+
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+
+
+## (1) os.system 执行shell命令
+os.system(&#34;pwd&#34;)
+os.system(&#34;ls -lh&#34;)
+
+## (2) os.path 路径操作相关
+os.path.abspath(&#34;.&#34;)  #返回绝对路径
+os.path.basename(&#34;/home/test/file.txt&#34;) #单独返回文件名
+os.path.dirname(&#34;/home/test/file.txt&#34;)  #单独返回路径名
+os.path.split(&#34;/home/test/file.txt&#34;) #返回由文件名和路径名组成的元组
+#(&#39;/home/test&#39;, &#39;file.txt&#39;)
+os.path.splitext(&#34;file.txt&#34;)  #将文件名与后缀名分开
+#(&#39;file&#39;, &#39;.txt&#39;)
+os.path.exists(&#34;/home/test/file.txt&#34;) #判断文件或者目录是否存在
+#False
+
+
+## 此外os模块还支持对目录、文件的常规操作，例如创建、删除、重命名等
+
+
+3. time
+
+
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+
+
+import time
+
+time.sleep(3) #解释器等待指定秒数
+
+time.time() #当前时间至新纪元的秒数(时间戳)
+# 1649984110.885341
+
+time.localtime() #默认返回当前时间戳的时间元组
+time.localtime(100000000) #返回指定时间戳时间元组
+# time.struct_time(tm_year=1973, tm_mon=3, tm_mday=3, tm_hour=17, tm_min=46, tm_sec=40, tm_wday=5, tm_yday=62, tm_isdst=0)
+tuple(time.localtime(100000000)) # 返回tuple
+# (1973, 3, 3, 17, 46, 40, 5, 62, 0)
+
+###将时间元组格式化输出
+time.asctime(time.localtime()) 
+# &#39;Fri Apr 15 08:59:43 2022&#39;
+###(1)按自定义格式输出
+#常见的item有： %Y-年, %m-月, %d-日, %H-时, %M-分, %S-秒, %a-星期几, %b-英文月份
+#全部的item参考：https://www.runoob.com/python/python-date-time.html
+time.strftime(&#34;%Y-%m-%d %H:%M:%S&#34;, time.localtime()) 
+# &#39;2022-04-15 09:12:29&#39;
+
+
+time.strftime(&#34;%a %b %d %H:%M:%S %Y&#34;, time.localtime()) 
+# &#39;Fri Apr 15 09:12:49 2022&#39;
+
+###(2)将格式字符串转换为时间戳
+a = &#34;2022-04-15 09:12:29&#34;
+time.mktime(time.strptime(a,&#34;%Y-%m-%d %H:%M:%S&#34;))
+# 1649985149.0
+
+
+
+关于时间元组的格式："/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 R\u0026Python\u0026Shell --- 编程基础、可视化等",
+      "item": "https://lishensuo.github.io/en/posts/program/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "Python基础-(8)常用基础模块Module",
+      "item": "https://lishensuo.github.io/en/posts/program/008python%E5%9F%BA%E7%A1%80-8%E5%B8%B8%E7%94%A8%E5%86%85%E7%BD%AE%E6%A8%A1%E5%9D%97module/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Python基础-(8)常用基础模块Module",
+  "name": "Python基础-(8)常用基础模块Module",
+  "description": "1. sys 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 ##(1) sys.argv 给脚本传参 #如下定义一个sys.py脚本 #!/usr/bin/env python import sys print(sys.argv[0]) #第0个参数为脚本名 print(sys.argv[1]) python sys.py first # sys.py # first ##(2) sys.path 一个列表，包含要在其中查找模块的目录名称 sys.path.append() 2. os 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 ## (1) os.system 执行shell命令 os.system(\u0026#34;pwd\u0026#34;) os.system(\u0026#34;ls -lh\u0026#34;) ## (2) os.path 路径操作相关 os.path.abspath(\u0026#34;.\u0026#34;) #返回绝对路径 os.path.basename(\u0026#34;/home/test/file.txt\u0026#34;) #单独返回文件名 os.path.dirname(\u0026#34;/home/test/file.txt\u0026#34;) #单独返回路径名 os.path.split(\u0026#34;/home/test/file.txt\u0026#34;) #返回由文件名和路径名组成的元组 #(\u0026#39;/home/test\u0026#39;, \u0026#39;file.txt\u0026#39;) os.path.splitext(\u0026#34;file.txt\u0026#34;) #将文件名与后缀名分开 #(\u0026#39;file\u0026#39;, \u0026#39;.txt\u0026#39;) os.path.exists(\u0026#34;/home/test/file.txt\u0026#34;) #判断文件或者目录是否存在 #False ## 此外os模块还支持对目录、文件的常规操作，例如创建、删除、重命名等 3. time 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 import time time.sleep(3) #解释器等待指定秒数 time.time() #当前时间至新纪元的秒数(时间戳) # 1649984110.885341 time.localtime() #默认返回当前时间戳的时间元组 time.localtime(100000000) #返回指定时间戳时间元组 # time.struct_time(tm_year=1973, tm_mon=3, tm_mday=3, tm_hour=17, tm_min=46, tm_sec=40, tm_wday=5, tm_yday=62, tm_isdst=0) tuple(time.localtime(100000000)) # 返回tuple # (1973, 3, 3, 17, 46, 40, 5, 62, 0) ###将时间元组格式化输出 time.asctime(time.localtime()) # \u0026#39;Fri Apr 15 08:59:43 2022\u0026#39; ###(1)按自定义格式输出 #常见的item有： %Y-年, %m-月, %d-日, %H-时, %M-分, %S-秒, %a-星期几, %b-英文月份 #全部的item参考：https://www.runoob.com/python/python-date-time.html time.strftime(\u0026#34;%Y-%m-%d %H:%M:%S\u0026#34;, time.localtime()) # \u0026#39;2022-04-15 09:12:29\u0026#39; time.strftime(\u0026#34;%a %b %d %H:%M:%S %Y\u0026#34;, time.localtime()) # \u0026#39;Fri Apr 15 09:12:49 2022\u0026#39; ###(2)将格式字符串转换为时间戳 a = \u0026#34;2022-04-15 09:12:29\u0026#34; time.mktime(time.strptime(a,\u0026#34;%Y-%m-%d %H:%M:%S\u0026#34;)) # 1649985149.0 关于时间元组的格式：\n",
+  "keywords": [
+    "Python"
+  ],
+  "articleBody": "1. sys 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 ##(1) sys.argv 给脚本传参 #如下定义一个sys.py脚本 #!/usr/bin/env python import sys print(sys.argv[0]) #第0个参数为脚本名 print(sys.argv[1]) python sys.py first # sys.py # first ##(2) sys.path 一个列表，包含要在其中查找模块的目录名称 sys.path.append() 2. os 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 ## (1) os.system 执行shell命令 os.system(\"pwd\") os.system(\"ls -lh\") ## (2) os.path 路径操作相关 os.path.abspath(\".\") #返回绝对路径 os.path.basename(\"/home/test/file.txt\") #单独返回文件名 os.path.dirname(\"/home/test/file.txt\") #单独返回路径名 os.path.split(\"/home/test/file.txt\") #返回由文件名和路径名组成的元组 #('/home/test', 'file.txt') os.path.splitext(\"file.txt\") #将文件名与后缀名分开 #('file', '.txt') os.path.exists(\"/home/test/file.txt\") #判断文件或者目录是否存在 #False ## 此外os模块还支持对目录、文件的常规操作，例如创建、删除、重命名等 3. time 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 import time time.sleep(3) #解释器等待指定秒数 time.time() #当前时间至新纪元的秒数(时间戳) # 1649984110.885341 time.localtime() #默认返回当前时间戳的时间元组 time.localtime(100000000) #返回指定时间戳时间元组 # time.struct_time(tm_year=1973, tm_mon=3, tm_mday=3, tm_hour=17, tm_min=46, tm_sec=40, tm_wday=5, tm_yday=62, tm_isdst=0) tuple(time.localtime(100000000)) # 返回tuple # (1973, 3, 3, 17, 46, 40, 5, 62, 0) ###将时间元组格式化输出 time.asctime(time.localtime()) # 'Fri Apr 15 08:59:43 2022' ###(1)按自定义格式输出 #常见的item有： %Y-年, %m-月, %d-日, %H-时, %M-分, %S-秒, %a-星期几, %b-英文月份 #全部的item参考：https://www.runoob.com/python/python-date-time.html time.strftime(\"%Y-%m-%d %H:%M:%S\", time.localtime()) # '2022-04-15 09:12:29' time.strftime(\"%a %b %d %H:%M:%S %Y\", time.localtime()) # 'Fri Apr 15 09:12:49 2022' ###(2)将格式字符串转换为时间戳 a = \"2022-04-15 09:12:29\" time.mktime(time.strptime(a,\"%Y-%m-%d %H:%M:%S\")) # 1649985149.0 关于时间元组的格式：\n4. random 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 from random import * #(1)返回指定区间的一个随机实数 uniform(0,10) #(2)返回指定区间的一个随机整数，注意不包含区间的上边界 randrange(1,5) #不会返回5 randrange(5) #默认为randrange(0, 5) #(3)从给定序列中随机返回一个值，可以是列表、元组、字符串 choice([1,3,5,7]) #(4)从给定序列中随机返回n个不同的元素 sample(range(10),3) # [3,5,6] #(5)打乱给定序列的顺序 a = [1,3,5,7] shuffle(a) a # [7, 5, 1, 3] 可通过设置随机种子random.seed(n)，确保下一次抽样结果与先前相同种子的抽样结果相同。\n5. re （1）正则表达式基础用法见之前的笔记\n（2）尤其注意一点是：反斜杠\\在正则表达式中视为转义符，可以将（1）特殊字符转为普通字符，例如\\*表示匹配字符星号；（2）将普通字符转义为特殊字符，例如\\d 表示匹配任一数字0-9\n（3）由于python字符串也支持转义符，为避免混淆，当正则表达式中需要使用\\时，十分建议使用r'正则表达式'的形式。所见即所得。\nre.match()：给定字符串的起始位置是否与正则表达式匹配 1 2 3 4 5 6 7 8 9 import re re.match(\"p\", \"python\") # print(re.match(\"p\", \"www.python\")) # None print(re.match(\"w*\", \"www.python\")) # re.match()返回的是一个MatchObject对象。当搭配使用圆括号时，可用于提取与指定正则部分匹配的子串，即成为编组group\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 site = 'www.123-456789.com' m = re.match('www\\.(\\d*)\\-(\\d*)\\.com', site) ## 编组0表示整个模式 m.group(0) # 'www.123-456789.com' ## 之后编组的序号取决于左边括号树的编号 m.group(1) # '123' m.group(2) # '456789' ## 括号镶嵌括号 re.match('www\\.((\\d*)\\-(\\d*))\\.com', site).group(1) # '123-456789' ## 编组子串的字符串位置索引 m.start(1) # 4 m.end(1) # 7 m.span(1) # (4, 7) re.sub(): 将匹配的模式子串替换为指定的文本 1 2 3 4 5 6 import re # re.sub(正则模式，新子串, 原始字符串) phone = \"2004-959-559 # 这是一个国外电话号码\" # 删除字符串中的 Python注释 re.sub(r' #.*$', \"\", phone) # '2004-959-559' re.split(): 使用正则表达式分割字符串 1 2 3 4 import re some_words = \"aaaa,,,bbb++++ccc---dd\" re.split(r'[,\\+\\-]+', some_words) # ['aaaa', 'bbb', 'ccc', 'dd'] re.findall: 返回给定字符串中所有匹配的子串 1 2 3 4 5 6 7 8 9 10 import re some_words = \"aaaa,,,bbb++++ccc---dd\" re.findall(r'\\w+', some_words) # ['aaaa', 'bbb', 'ccc', 'dd'] re.findall('[a-z]+', some_words) # ['aaaa', 'bbb', 'ccc', 'dd'] re.findall(r'[,\\+\\-]+', some_words) # [',,,', '++++', '---'] re.search() 寻找给定字符串中第一个匹配的子串，并且返回的是上述提到的MatchObject对象。\nre.compile(): 将正则表达式转换为模式对象，以实现高效匹配。适用于重复执行同一个正则匹配任务。 1 2 3 4 5 6 7 8 9 10 11 #例如上面的例子 import re regex = re.compile(r'\\w+') ##可以看到上面提到的函数，都可以应用 [n for n in dir(regex) if not n.startswith(\"_\")] # ['findall', 'finditer', 'flags', 'fullmatch', 'groupindex', 'groups', 'match', # 'pattern', 'scanner', 'search', 'split', 'sub', 'subn'] some_words = \"aaaa,,,bbb++++ccc---dd\" regex.findall(some_words) # ['aaaa', 'bbb', 'ccc', 'dd'] 6. typing 从3.5版本开始，Python 为函数参数和返回值提供了类型注解的支持。\n参数类型提示：使用 : 后跟类型来指定参数的类型。 返回值类型提示：使用 -\u003e 后跟类型来指定返回值的类型。 基本类型包括： int, float, str, bool\n1 2 def add(x: int, y: int) -\u003e int: return x + y 基于typing模块，定义容器类型， 包括 List, Tuple, Dict, Set等\nOptional[str]: 表示字符串或者None Union[int, str]: 表示整型或者字符串类型 1 2 3 4 5 6 7 8 9 10 11 12 from typing import List, Tuple, Dict def sum_of_elements(numbers: List[int]) -\u003e int: return sum(numbers) # 返回元组，由字符串和整数组成 def get_name_and_age() -\u003e Tuple[str, int]: return \"Alice\", 30 # 返回元组，有字典组成。每个字典的key是字符，值是张量 def get_complex_data() -\u003e Tuple[Dict[str, torch.Tensor]]: return \"Alice\", 30 7. pathlib Python 3.4 引入的一个模块，用于以面向对象的方式处理文件系统路径。\n1 from pathlib import Path 创建路径对象 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 # 当前目录 current_path = Path('.') # 指定路径 specific_path = Path('/path/to/directory') # 拼接路径 new_file = current_path / \"file.txt\" print(new_file.name) # 文件名 # 'file.txt' print(new_file.stem) # 文件名不含扩展 # 'file' print(new_file.suffix) # 文件扩展名 # 'txt' print(new_file.parent) # 父目录 # PosixPath('.') print(new_file.resolve()) # 绝对路径 new_file.resolve().parent.parent 检查/创建路径 1 2 3 4 5 6 7 8 9 10 11 if specific_path.exists(): print(\"Path exists\") if specific_path.is_file(): print(\"It's a file\") if specific_path.is_dir(): print(\"It's a directory\") new_dir = Path('new_directory') new_dir.mkdir(exist_ok=True) 8. Enum 在Python中，枚举类型是一种符号化的常量集合； 枚举类一旦在定义后，不可修改或增加新的枚举成员。 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 from enum import Enum # 定义一个枚举类 class Day(Enum): MONDAY = 1 TUESDAY = 2 WEDNESDAY = 3 THURSDAY = 4 FRIDAY = 5 SATURDAY = 6 SUNDAY = 7 ## (1)访问枚举成员 Day(1) # 通过成员的value访问 Day.MONDAY # 通过成员的name访问 ## (2)枚举成员由name与value两部分组成 Day.MONDAY.name # 'MONDAY' Day.MONDAY.value # 1 ## (3)访问所有枚举成员 Day.__members__ # 不可修改的字典类型 # mappingproxy({'MONDAY': , # 'TUESDAY': , # 'WEDNESDAY': , # 'THURSDAY': , # 'FRIDAY': , # 'SATURDAY': , # 'SUNDAY': }) Day._value2member_map_ # {1: , # 2: , # 3: , # 4: , # 5: , # 6: , # 7: } 9. collections Counter: 统计可迭代对象（e.g. list）的元素的频数 1 2 3 4 5 6 7 8 9 10 11 from collections import Counter data = [\"a\", \"b\", \"c\", \"b\", \"c\", \"b\"] freq = Counter(data) # Counter({'b': 3, 'c': 2, 'a': 1}) freq[\"a\"] # 1 freq[\"b\"] # 3 defaultdict: 访问不存在的键时，不会引发报错。 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 from collections import defaultdict # 创建一个defaultdict，默认值为0 d = defaultdict(int) # 创建一个defaultdict，默认值为空列表[] d = defaultdict(list) print(d['key']) # [] d # defaultdict(list, {'key': []}) d[\"key\"].append(10) # defaultdict(list, {'key': [10]}) d[\"new_key\"].append(\"aw\") # defaultdict(list, {'key': [10], 'new_key': ['aw']}) OrderedDict：会记住元素插入的顺序，在迭代时，返回的元素顺序与插入时一致 （PS：Python\u003e3.7版本也会默认支持） 1 2 3 4 5 6 7 8 9 10 11 12 13 14 from collections import OrderedDict # 创建一个OrderedDict od = OrderedDict() od['a'] = 1 od['b'] = 2 od['c'] = 3 # 遍历OrderedDict，元素顺序与插入顺序相同 for key, value in od.items(): print(key, value) # a 1 # b 2 # c 3 ",
+  "wordCount" : "2529",
+  "inLanguage": "en",
+  "datePublished": "2022-04-17T00:00:00Z",
+  "dateModified": "2022-04-17T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/program/008python%E5%9F%BA%E7%A1%80-8%E5%B8%B8%E7%94%A8%E5%86%85%E7%BD%AE%E6%A8%A1%E5%9D%97module/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/program/">📖 R&amp;Python&amp;Shell --- 编程基础、可视化等</a></div>
+    <h1 class="post-title">
+      Python基础-(8)常用基础模块Module
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-17 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-17&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-04-17&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2529&amp;nbsp;|&amp;nbsp;6 min&amp;nbsp;|&amp;nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#1-sys" aria-label="1. sys">1. sys</a></li>
+                    <li>
+                        <a href="#2-os" aria-label="2. os">2. os</a></li>
+                    <li>
+                        <a href="#3-time" aria-label="3. time">3. time</a></li>
+                    <li>
+                        <a href="#4-random" aria-label="4. random">4. random</a></li>
+                    <li>
+                        <a href="#5-re" aria-label="5. re">5. re</a></li>
+                    <li>
+                        <a href="#6-typing" aria-label="6. typing">6. typing</a></li>
+                    <li>
+                        <a href="#7-pathlib" aria-label="7. pathlib">7. pathlib</a></li>
+                    <li>
+                        <a href="#8-enum" aria-label="8. Enum">8. Enum</a></li>
+                    <li>
+                        <a href="#9-collections" aria-label="9. collections">9. collections</a>
+                    </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><h1 id="1-sys">1. sys<a hidden class="anchor" aria-hidden="true" href="#1-sys">#</a></h1>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#007f7f">##(1) sys.argv 给脚本传参</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#如下定义一个sys.py脚本</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#!/usr/bin/env python</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> sys
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">print</span>(sys.argv[<span style="color:#ff0;font-weight:bold">0</span>]) <span style="color:#007f7f">#第0个参数为脚本名</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">print</span>(sys.argv[<span style="color:#ff0;font-weight:bold">1</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>python sys.py first
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># sys.py</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># first</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##(2) sys.path 一个列表，包含要在其中查找模块的目录名称</span>
+</span></span><span style="display:flex;"><span>sys.path.append()
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="2-os">2. os<a hidden class="anchor" aria-hidden="true" href="#2-os">#</a></h1>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#007f7f">## (1) os.system 执行shell命令</span>
+</span></span><span style="display:flex;"><span>os.system(<span style="color:#0ff;font-weight:bold">&#34;pwd&#34;</span>)
+</span></span><span style="display:flex;"><span>os.system(<span style="color:#0ff;font-weight:bold">&#34;ls -lh&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## (2) os.path 路径操作相关</span>
+</span></span><span style="display:flex;"><span>os.path.abspath(<span style="color:#0ff;font-weight:bold">&#34;.&#34;</span>)  <span style="color:#007f7f">#返回绝对路径</span>
+</span></span><span style="display:flex;"><span>os.path.basename(<span style="color:#0ff;font-weight:bold">&#34;/home/test/file.txt&#34;</span>) <span style="color:#007f7f">#单独返回文件名</span>
+</span></span><span style="display:flex;"><span>os.path.dirname(<span style="color:#0ff;font-weight:bold">&#34;/home/test/file.txt&#34;</span>)  <span style="color:#007f7f">#单独返回路径名</span>
+</span></span><span style="display:flex;"><span>os.path.split(<span style="color:#0ff;font-weight:bold">&#34;/home/test/file.txt&#34;</span>) <span style="color:#007f7f">#返回由文件名和路径名组成的元组</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#(&#39;/home/test&#39;, &#39;file.txt&#39;)</span>
+</span></span><span style="display:flex;"><span>os.path.splitext(<span style="color:#0ff;font-weight:bold">&#34;file.txt&#34;</span>)  <span style="color:#007f7f">#将文件名与后缀名分开</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#(&#39;file&#39;, &#39;.txt&#39;)</span>
+</span></span><span style="display:flex;"><span>os.path.exists(<span style="color:#0ff;font-weight:bold">&#34;/home/test/file.txt&#34;</span>) <span style="color:#007f7f">#判断文件或者目录是否存在</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#False</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## 此外os模块还支持对目录、文件的常规操作，例如创建、删除、重命名等</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="3-time">3. time<a hidden class="anchor" aria-hidden="true" href="#3-time">#</a></h1>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">27
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">28
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">29
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">30
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> time
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>time.sleep(<span style="color:#ff0;font-weight:bold">3</span>) <span style="color:#007f7f">#解释器等待指定秒数</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>time.time() <span style="color:#007f7f">#当前时间至新纪元的秒数(时间戳)</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1649984110.885341</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>time.localtime() <span style="color:#007f7f">#默认返回当前时间戳的时间元组</span>
+</span></span><span style="display:flex;"><span>time.localtime(<span style="color:#ff0;font-weight:bold">100000000</span>) <span style="color:#007f7f">#返回指定时间戳时间元组</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># time.struct_time(tm_year=1973, tm_mon=3, tm_mday=3, tm_hour=17, tm_min=46, tm_sec=40, tm_wday=5, tm_yday=62, tm_isdst=0)</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">tuple</span>(time.localtime(<span style="color:#ff0;font-weight:bold">100000000</span>)) <span style="color:#007f7f"># 返回tuple</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># (1973, 3, 3, 17, 46, 40, 5, 62, 0)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">###将时间元组格式化输出</span>
+</span></span><span style="display:flex;"><span>time.asctime(time.localtime()) 
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># &#39;Fri Apr 15 08:59:43 2022&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">###(1)按自定义格式输出</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#常见的item有： %Y-年, %m-月, %d-日, %H-时, %M-分, %S-秒, %a-星期几, %b-英文月份</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#全部的item参考：https://www.runoob.com/python/python-date-time.html</span>
+</span></span><span style="display:flex;"><span>time.strftime(<span style="color:#0ff;font-weight:bold">&#34;%Y-%m-</span><span style="color:#0ff;font-weight:bold">%d</span><span style="color:#0ff;font-weight:bold"> %H:%M:%S&#34;</span>, time.localtime()) 
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># &#39;2022-04-15 09:12:29&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>time.strftime(<span style="color:#0ff;font-weight:bold">&#34;</span><span style="color:#0ff;font-weight:bold">%a</span><span style="color:#0ff;font-weight:bold"> %b </span><span style="color:#0ff;font-weight:bold">%d</span><span style="color:#0ff;font-weight:bold"> %H:%M:%S %Y&#34;</span>, time.localtime()) 
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># &#39;Fri Apr 15 09:12:49 2022&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">###(2)将格式字符串转换为时间戳</span>
+</span></span><span style="display:flex;"><span>a = <span style="color:#0ff;font-weight:bold">&#34;2022-04-15 09:12:29&#34;</span>
+</span></span><span style="display:flex;"><span>time.mktime(time.strptime(a,<span style="color:#0ff;font-weight:bold">&#34;%Y-%m-</span><span style="color:#0ff;font-weight:bold">%d</span><span style="color:#0ff;font-weight:bold"> %H:%M:%S&#34;</span>))
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1649985149.0</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>关于时间元组的格式：</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220415090450807.png" alt="image-20220415090450807"  />
+</p></blockquote>
+<h1 id="4-random">4. random<a hidden class="anchor" aria-hidden="true" href="#4-random">#</a></h1>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">from</span> random <span style="color:#fff;font-weight:bold">import</span> *
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#(1)返回指定区间的一个随机实数</span>
+</span></span><span style="display:flex;"><span>uniform(<span style="color:#ff0;font-weight:bold">0</span>,<span style="color:#ff0;font-weight:bold">10</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#(2)返回指定区间的一个随机整数，注意不包含区间的上边界</span>
+</span></span><span style="display:flex;"><span>randrange(<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">5</span>)  <span style="color:#007f7f">#不会返回5</span>
+</span></span><span style="display:flex;"><span>randrange(<span style="color:#ff0;font-weight:bold">5</span>) <span style="color:#007f7f">#默认为randrange(0, 5) </span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#(3)从给定序列中随机返回一个值，可以是列表、元组、字符串</span>
+</span></span><span style="display:flex;"><span>choice([<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">3</span>,<span style="color:#ff0;font-weight:bold">5</span>,<span style="color:#ff0;font-weight:bold">7</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#(4)从给定序列中随机返回n个不同的元素</span>
+</span></span><span style="display:flex;"><span>sample(<span style="color:#fff;font-weight:bold">range</span>(<span style="color:#ff0;font-weight:bold">10</span>),<span style="color:#ff0;font-weight:bold">3</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [3,5,6]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#(5)打乱给定序列的顺序</span>
+</span></span><span style="display:flex;"><span>a = [<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">3</span>,<span style="color:#ff0;font-weight:bold">5</span>,<span style="color:#ff0;font-weight:bold">7</span>]
+</span></span><span style="display:flex;"><span>shuffle(a)
+</span></span><span style="display:flex;"><span>a
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [7, 5, 1, 3]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>可通过设置随机种子<code>random.seed(n)</code>，确保下一次抽样结果与先前相同种子的抽样结果相同。</p></blockquote>
+<h1 id="5-re">5. re<a hidden class="anchor" aria-hidden="true" href="#5-re">#</a></h1>
+<p>（1）正则表达式基础用法见之前的笔记</p>
+<p>（2）尤其注意一点是：反斜杠<code>\</code>在正则表达式中视为转义符，可以将（1）特殊字符转为普通字符，例如<code>\*</code>表示匹配字符星号；（2）将普通字符转义为特殊字符，例如<code>\d</code> 表示匹配任一数字0-9</p>
+<p>（3）由于python字符串也支持转义符，为避免混淆，当正则表达式中需要使用<code>\</code>时，十分建议使用<code>r'正则表达式'</code>的形式。所见即所得。</p>
+<ul>
+<li><code>re.match()</code>：给定字符串的起始位置是否与正则表达式匹配</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> re
+</span></span><span style="display:flex;"><span>re.<span style="color:#fff;font-weight:bold">match</span>(<span style="color:#0ff;font-weight:bold">&#34;p&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;python&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># &lt;re.Match object; span=(0, 1), match=&#39;p&#39;&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">print</span>(re.<span style="color:#fff;font-weight:bold">match</span>(<span style="color:#0ff;font-weight:bold">&#34;p&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;www.python&#34;</span>))
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># None</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">print</span>(re.<span style="color:#fff;font-weight:bold">match</span>(<span style="color:#0ff;font-weight:bold">&#34;w*&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;www.python&#34;</span>))
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># &lt;re.Match object; span=(0, 3), match=&#39;www&#39;&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>re.match()</code>返回的是一个MatchObject对象。当搭配使用圆括号时，可用于提取与指定正则部分匹配的子串，即成为<strong>编组</strong>group</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>site = <span style="color:#0ff;font-weight:bold">&#39;www.123-456789.com&#39;</span>
+</span></span><span style="display:flex;"><span>m = re.<span style="color:#fff;font-weight:bold">match</span>(<span style="color:#0ff;font-weight:bold">&#39;www\.(\d*)\-(\d*)\.com&#39;</span>, site)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## 编组0表示整个模式</span>
+</span></span><span style="display:flex;"><span>m.group(<span style="color:#ff0;font-weight:bold">0</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># &#39;www.123-456789.com&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## 之后编组的序号取决于左边括号树的编号</span>
+</span></span><span style="display:flex;"><span>m.group(<span style="color:#ff0;font-weight:bold">1</span>) <span style="color:#007f7f"># &#39;123&#39;</span>
+</span></span><span style="display:flex;"><span>m.group(<span style="color:#ff0;font-weight:bold">2</span>) <span style="color:#007f7f"># &#39;456789&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## 括号镶嵌括号</span>
+</span></span><span style="display:flex;"><span>re.<span style="color:#fff;font-weight:bold">match</span>(<span style="color:#0ff;font-weight:bold">&#39;www\.((\d*)\-(\d*))\.com&#39;</span>, site).group(<span style="color:#ff0;font-weight:bold">1</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># &#39;123-456789&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## 编组子串的字符串位置索引</span>
+</span></span><span style="display:flex;"><span>m.start(<span style="color:#ff0;font-weight:bold">1</span>) <span style="color:#007f7f"># 4</span>
+</span></span><span style="display:flex;"><span>m.end(<span style="color:#ff0;font-weight:bold">1</span>)   <span style="color:#007f7f"># 7</span>
+</span></span><span style="display:flex;"><span>m.span(<span style="color:#ff0;font-weight:bold">1</span>)  <span style="color:#007f7f"># (4, 7)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>re.sub()</code>:  将匹配的模式子串替换为指定的文本</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> re
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># re.sub(正则模式，新子串, 原始字符串)</span>
+</span></span><span style="display:flex;"><span>phone = <span style="color:#0ff;font-weight:bold">&#34;2004-959-559 # 这是一个国外电话号码&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 删除字符串中的 Python注释 </span>
+</span></span><span style="display:flex;"><span>re.sub(<span style="color:#0ff;font-weight:bold">r</span><span style="color:#0ff;font-weight:bold">&#39; #.*$&#39;</span>, <span style="color:#0ff;font-weight:bold">&#34;&#34;</span>, phone)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># &#39;2004-959-559&#39;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>re.split()</code>: 使用正则表达式分割字符串</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> re
+</span></span><span style="display:flex;"><span>some_words = <span style="color:#0ff;font-weight:bold">&#34;aaaa,,,bbb++++ccc---dd&#34;</span>
+</span></span><span style="display:flex;"><span>re.split(<span style="color:#0ff;font-weight:bold">r</span><span style="color:#0ff;font-weight:bold">&#39;[,\+\-]+&#39;</span>, some_words)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [&#39;aaaa&#39;, &#39;bbb&#39;, &#39;ccc&#39;, &#39;dd&#39;]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>re.findall</code>: 返回给定字符串中所有匹配的子串</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> re
+</span></span><span style="display:flex;"><span>some_words = <span style="color:#0ff;font-weight:bold">&#34;aaaa,,,bbb++++ccc---dd&#34;</span>
+</span></span><span style="display:flex;"><span>re.findall(<span style="color:#0ff;font-weight:bold">r</span><span style="color:#0ff;font-weight:bold">&#39;\w+&#39;</span>, some_words)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [&#39;aaaa&#39;, &#39;bbb&#39;, &#39;ccc&#39;, &#39;dd&#39;]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>re.findall(<span style="color:#0ff;font-weight:bold">&#39;[a-z]+&#39;</span>, some_words)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [&#39;aaaa&#39;, &#39;bbb&#39;, &#39;ccc&#39;, &#39;dd&#39;]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>re.findall(<span style="color:#0ff;font-weight:bold">r</span><span style="color:#0ff;font-weight:bold">&#39;[,\+\-]+&#39;</span>, some_words)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [&#39;,,,&#39;, &#39;++++&#39;, &#39;---&#39;]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p><code>re.search()</code> 寻找给定字符串中第一个匹配的子串，并且返回的是上述提到的MatchObject对象。</p></blockquote>
+<ul>
+<li><code>re.compile()</code>: 将正则表达式转换为模式对象，以实现高效匹配。适用于重复执行同一个正则匹配任务。</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#007f7f">#例如上面的例子</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> re
+</span></span><span style="display:flex;"><span>regex = re.compile(<span style="color:#0ff;font-weight:bold">r</span><span style="color:#0ff;font-weight:bold">&#39;\w+&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##可以看到上面提到的函数，都可以应用</span>
+</span></span><span style="display:flex;"><span>[n <span style="color:#fff;font-weight:bold">for</span> n in <span style="color:#fff;font-weight:bold">dir</span>(regex) <span style="color:#fff;font-weight:bold">if</span> not n.startswith(<span style="color:#0ff;font-weight:bold">&#34;_&#34;</span>)]
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [&#39;findall&#39;, &#39;finditer&#39;, &#39;flags&#39;, &#39;fullmatch&#39;, &#39;groupindex&#39;, &#39;groups&#39;, &#39;match&#39;, </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># &#39;pattern&#39;, &#39;scanner&#39;, &#39;search&#39;, &#39;split&#39;, &#39;sub&#39;, &#39;subn&#39;]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>some_words = <span style="color:#0ff;font-weight:bold">&#34;aaaa,,,bbb++++ccc---dd&#34;</span>
+</span></span><span style="display:flex;"><span>regex.findall(some_words)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [&#39;aaaa&#39;, &#39;bbb&#39;, &#39;ccc&#39;, &#39;dd&#39;]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="6-typing">6. typing<a hidden class="anchor" aria-hidden="true" href="#6-typing">#</a></h1>
+<p>从3.5版本开始，Python 为函数参数和返回值提供了类型注解的支持。</p>
+<ul>
+<li><strong>参数</strong>类型提示：使用 <code>:</code> 后跟类型来指定参数的类型。</li>
+<li><strong>返回值</strong>类型提示：使用 <code>-&gt;</code> 后跟类型来指定返回值的类型。</li>
+</ul>
+<p>基本类型包括： <code>int</code>,  <code>float</code>,  <code>str</code>,  <code>bool</code></p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">def</span> add(x: <span style="color:#fff;font-weight:bold">int</span>, y: <span style="color:#fff;font-weight:bold">int</span>) -&gt; <span style="color:#fff;font-weight:bold">int</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> x + y
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>基于typing模块，定义容器类型， 包括 <code>List</code>, <code>Tuple</code>, <code>Dict</code>, <code>Set</code>等</p>
+<ul>
+<li><code>Optional[str]</code>: 表示字符串或者None</li>
+<li><code>Union[int, str]</code>: 表示整型或者字符串类型</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">from</span> typing <span style="color:#fff;font-weight:bold">import</span> List, Tuple, Dict
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">def</span> sum_of_elements(numbers: List[<span style="color:#fff;font-weight:bold">int</span>]) -&gt; <span style="color:#fff;font-weight:bold">int</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">sum</span>(numbers)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 返回元组，由字符串和整数组成</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">def</span> get_name_and_age() -&gt; Tuple[<span style="color:#fff;font-weight:bold">str</span>, <span style="color:#fff;font-weight:bold">int</span>]:
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> <span style="color:#0ff;font-weight:bold">&#34;Alice&#34;</span>, <span style="color:#ff0;font-weight:bold">30</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 返回元组，有字典组成。每个字典的key是字符，值是张量</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">def</span> get_complex_data() -&gt; Tuple[Dict[<span style="color:#fff;font-weight:bold">str</span>, torch.Tensor]]:
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> <span style="color:#0ff;font-weight:bold">&#34;Alice&#34;</span>, <span style="color:#ff0;font-weight:bold">30</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="7-pathlib">7. pathlib<a hidden class="anchor" aria-hidden="true" href="#7-pathlib">#</a></h1>
+<p>Python 3.4 引入的一个模块，用于以<strong>面向对象</strong>的方式处理文件系统路径。</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">from</span> pathlib <span style="color:#fff;font-weight:bold">import</span> Path
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>创建路径对象</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#007f7f"># 当前目录</span>
+</span></span><span style="display:flex;"><span>current_path = Path(<span style="color:#0ff;font-weight:bold">&#39;.&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 指定路径</span>
+</span></span><span style="display:flex;"><span>specific_path = Path(<span style="color:#0ff;font-weight:bold">&#39;/path/to/directory&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 拼接路径</span>
+</span></span><span style="display:flex;"><span>new_file = current_path / <span style="color:#0ff;font-weight:bold">&#34;file.txt&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">print</span>(new_file.name)  <span style="color:#007f7f"># 文件名</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># &#39;file.txt&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">print</span>(new_file.stem)  <span style="color:#007f7f"># 文件名不含扩展</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># &#39;file&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">print</span>(new_file.suffix)  <span style="color:#007f7f"># 文件扩展名</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># &#39;txt&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">print</span>(new_file.parent)  <span style="color:#007f7f"># 父目录</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># PosixPath(&#39;.&#39;)</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">print</span>(new_file.resolve())  <span style="color:#007f7f"># 绝对路径</span>
+</span></span><span style="display:flex;"><span>new_file.resolve().parent.parent
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>检查/创建路径</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">if</span> specific_path.exists():
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">print</span>(<span style="color:#0ff;font-weight:bold">&#34;Path exists&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">if</span> specific_path.is_file():
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">print</span>(<span style="color:#0ff;font-weight:bold">&#34;It&#39;s a file&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">if</span> specific_path.is_dir():
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">print</span>(<span style="color:#0ff;font-weight:bold">&#34;It&#39;s a directory&#34;</span>)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>new_dir = Path(<span style="color:#0ff;font-weight:bold">&#39;new_directory&#39;</span>)
+</span></span><span style="display:flex;"><span>new_dir.mkdir(exist_ok=<span style="color:#fff;font-weight:bold">True</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="8-enum">8. Enum<a hidden class="anchor" aria-hidden="true" href="#8-enum">#</a></h1>
+<ul>
+<li>在Python中，枚举类型是一种符号化的常量集合；</li>
+<li>枚举类一旦在定义后，不可修改或增加新的枚举成员。</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">27
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">28
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">29
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">30
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">31
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">32
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">33
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">34
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">35
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">36
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">37
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">38
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">39
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">40
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">from</span> enum <span style="color:#fff;font-weight:bold">import</span> Enum
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 定义一个枚举类</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">class</span> Day(Enum):
+</span></span><span style="display:flex;"><span>    MONDAY = <span style="color:#ff0;font-weight:bold">1</span>
+</span></span><span style="display:flex;"><span>    TUESDAY = <span style="color:#ff0;font-weight:bold">2</span>
+</span></span><span style="display:flex;"><span>    WEDNESDAY = <span style="color:#ff0;font-weight:bold">3</span>
+</span></span><span style="display:flex;"><span>    THURSDAY = <span style="color:#ff0;font-weight:bold">4</span>
+</span></span><span style="display:flex;"><span>    FRIDAY = <span style="color:#ff0;font-weight:bold">5</span>
+</span></span><span style="display:flex;"><span>    SATURDAY = <span style="color:#ff0;font-weight:bold">6</span>
+</span></span><span style="display:flex;"><span>    SUNDAY = <span style="color:#ff0;font-weight:bold">7</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## (1)访问枚举成员</span>
+</span></span><span style="display:flex;"><span>Day(<span style="color:#ff0;font-weight:bold">1</span>)  		<span style="color:#007f7f"># 通过成员的value访问</span>
+</span></span><span style="display:flex;"><span>Day.MONDAY      <span style="color:#007f7f"># 通过成员的name访问</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## (2)枚举成员由name与value两部分组成</span>
+</span></span><span style="display:flex;"><span>Day.MONDAY.name  
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># &#39;MONDAY&#39;</span>
+</span></span><span style="display:flex;"><span>Day.MONDAY.value
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## (3)访问所有枚举成员</span>
+</span></span><span style="display:flex;"><span>Day.__members__   <span style="color:#007f7f"># 不可修改的字典类型</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># mappingproxy({&#39;MONDAY&#39;: &lt;Day.MONDAY: 1&gt;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#               &#39;TUESDAY&#39;: &lt;Day.TUESDAY: 2&gt;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#               &#39;WEDNESDAY&#39;: &lt;Day.WEDNESDAY: 3&gt;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#               &#39;THURSDAY&#39;: &lt;Day.THURSDAY: 4&gt;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#               &#39;FRIDAY&#39;: &lt;Day.FRIDAY: 5&gt;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#               &#39;SATURDAY&#39;: &lt;Day.SATURDAY: 6&gt;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#               &#39;SUNDAY&#39;: &lt;Day.SUNDAY: 7&gt;})</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Day._value2member_map_
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># {1: &lt;Day.MONDAY: 1&gt;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  2: &lt;Day.TUESDAY: 2&gt;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  3: &lt;Day.WEDNESDAY: 3&gt;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  4: &lt;Day.THURSDAY: 4&gt;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  5: &lt;Day.FRIDAY: 5&gt;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  6: &lt;Day.SATURDAY: 6&gt;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  7: &lt;Day.SUNDAY: 7&gt;}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="9-collections">9. collections<a hidden class="anchor" aria-hidden="true" href="#9-collections">#</a></h1>
+<ul>
+<li><strong>Counter</strong>: 统计可迭代对象（e.g. list）的元素的频数</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">from</span> collections <span style="color:#fff;font-weight:bold">import</span> Counter
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>data = [<span style="color:#0ff;font-weight:bold">&#34;a&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;b&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;c&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;b&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;c&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;b&#34;</span>]
+</span></span><span style="display:flex;"><span>freq = Counter(data)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Counter({&#39;b&#39;: 3, &#39;c&#39;: 2, &#39;a&#39;: 1})</span>
+</span></span><span style="display:flex;"><span>freq[<span style="color:#0ff;font-weight:bold">&#34;a&#34;</span>]  
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1</span>
+</span></span><span style="display:flex;"><span>freq[<span style="color:#0ff;font-weight:bold">&#34;b&#34;</span>]  
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><strong>defaultdict</strong>: 访问不存在的键时，不会引发报错。</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">from</span> collections <span style="color:#fff;font-weight:bold">import</span> defaultdict
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 创建一个defaultdict，默认值为0</span>
+</span></span><span style="display:flex;"><span>d = defaultdict(<span style="color:#fff;font-weight:bold">int</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 创建一个defaultdict，默认值为空列表[]</span>
+</span></span><span style="display:flex;"><span>d = defaultdict(<span style="color:#fff;font-weight:bold">list</span>)
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">print</span>(d[<span style="color:#0ff;font-weight:bold">&#39;key&#39;</span>])  
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># []</span>
+</span></span><span style="display:flex;"><span>d
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># defaultdict(list, {&#39;key&#39;: []})</span>
+</span></span><span style="display:flex;"><span>d[<span style="color:#0ff;font-weight:bold">&#34;key&#34;</span>].append(<span style="color:#ff0;font-weight:bold">10</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># defaultdict(list, {&#39;key&#39;: [10]})</span>
+</span></span><span style="display:flex;"><span>d[<span style="color:#0ff;font-weight:bold">&#34;new_key&#34;</span>].append(<span style="color:#0ff;font-weight:bold">&#34;aw&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># defaultdict(list, {&#39;key&#39;: [10], &#39;new_key&#39;: [&#39;aw&#39;]})</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>OrderedDict：会记住元素插入的顺序，在迭代时，返回的元素顺序与插入时一致 （PS：Python&gt;3.7版本也会默认支持）</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">from</span> collections <span style="color:#fff;font-weight:bold">import</span> OrderedDict
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 创建一个OrderedDict</span>
+</span></span><span style="display:flex;"><span>od = OrderedDict()
+</span></span><span style="display:flex;"><span>od[<span style="color:#0ff;font-weight:bold">&#39;a&#39;</span>] = <span style="color:#ff0;font-weight:bold">1</span>
+</span></span><span style="display:flex;"><span>od[<span style="color:#0ff;font-weight:bold">&#39;b&#39;</span>] = <span style="color:#ff0;font-weight:bold">2</span>
+</span></span><span style="display:flex;"><span>od[<span style="color:#0ff;font-weight:bold">&#39;c&#39;</span>] = <span style="color:#ff0;font-weight:bold">3</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 遍历OrderedDict，元素顺序与插入顺序相同</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">for</span> key, value in od.items():
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">print</span>(key, value)  
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># a 1</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># b 2</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># c 3</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/python/">Python</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/en/posts/program/007python%E5%9F%BA%E7%A1%80-7%E6%A8%A1%E5%9D%97%E5%9F%BA%E7%A1%80module/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>Python基础-(7)模块/包Module</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/en/posts/bioinfo/008%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--monocle%E8%BD%A8%E8%BF%B9%E5%88%86%E6%9E%90/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>单细胞分析工具--monocle轨迹分析</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

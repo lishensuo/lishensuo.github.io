@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>R | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="李申锁的博客，记录生信学习过程。R/Python/Shell">
+<meta name="author" content="">
+<link rel="canonical" href="https://lishensuo.github.io/en/tags/r/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="https://lishensuo.github.io/en/tags/r/index.xml">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/tags/r/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="R" />
+<meta property="og:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://lishensuo.github.io/en/tags/r/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="R"/>
+<meta name="twitter:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell"/>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header"><div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/tags/">Tags</a></div>
+  <h1>R</h1>
+</header>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>conda环境下载管理软件、R包
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> conda开源包管理系统和环境管理系统 ，包括多种语言的包安装，运行，更新，删除，最重要的是可以解决包依赖问题。在做生信分析时，感觉就是一个软件管家一样的存在，在安装生信软件等方面上十分方便。下面小结一下conda的基础操作
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-16 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-16&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-04-16&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2136&amp;nbsp;|&amp;nbsp;5 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to conda环境下载管理软件、R包" href="https://lishensuo.github.io/en/posts/bioinfo/002conda%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%BD%BD%E7%AE%A1%E7%90%86%E8%BD%AF%E4%BB%B6r%E5%8C%85/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>R基础配置
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1、R镜像设置 （1）临时设置，重启R之后会重置
+1 2 3 4 options(BioC_mirror=&#34;http://mirrors.tuna.tsinghua.edu.cn/bioconductor/&#34;) options(&#34;repos&#34; = c(CRAN=&#34;https://mirrors.tuna.tsinghua.edu.cn/CRAN/&#34;)) options()$repos options()$BioC_mirror （2）通过设置.Rprofile文件永久设置
+linux 1 2 3 4 5 6 7 #进入家目录 cd ~ vi ~/.Rprofile #输入下面两行代码 options(repos=structure(c(CRAN=&#34;https://mirrors.tuna.tsinghua.edu.cn/CRAN/&#34;))) options(BioC_mirror=&#34;https://mirrors.tuna.tsinghua.edu.cn/bioconductor&#34;) #保存退出 window 第①步：打开记事本或者其他文本编辑软件； 第②步：输入默认设置（内容同上述linux案例）； 第③步：保存文件到 “此电脑&gt;文档” /.Rprofile； 第④步：重新进入R/RStudio即可。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-16 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-16&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-04-16&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;244&amp;nbsp;|&amp;nbsp;1 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to R基础配置" href="https://lishensuo.github.io/en/posts/program/200r%E5%9F%BA%E7%A1%80%E9%85%8D%E7%BD%AE/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>R语言的多线程循环语句
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 在遇到R里的大量循环操作时，可以考虑多线程处理方式，提高分析速度。具体使用方法针对window与linux/mac平台有所区别。相关笔记如下
+1 2 #查看系统平台 Windows/Linux Sys.info()[&#39;sysname&#39;] 一、Linux/Mac平台 1 2 3 library(parallel) # 检测系统的CPU数 detectCores() 1、lapply 多线程 mclapply()函数，关键是mc.cores参数设置 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 library(parallel) ##并行4个线程 res = mclapply(1:10, function(x){ &lt;code&gt; &lt;code&gt; }, mc.cores = 4) ##并行处理不影响顺序 res = mclapply(1:1000, function(x){ print(x) x2 = x*x Sys.sleep(0.1) return(c(x, x2)) }, mc.cores = 10) res_df = do.call(rbind, res) head(res_df,3) # [,1] [,2] # [1,] 1 1 # [2,] 2 4 # [3,] 3 9 tail(res_df,3) # [,1] [,2] # [998,] 998 996004 # [999,] 999 998001 # [1000,] 1000 1000000 2、for循环 多线程 配合foreach包。可通过调整参数，设置结果返回的形式，详见相关笔记，或者该包的帮助文档。 1 2 3 4 5 6 7 8 9 10 11 12 13 14 library(foreach) library(doParallel) cl=makeCluster(4) registerDoParallel(cl) #专门加载所需要的分析包 clusterEvalQ(cl, library(package1)) clusterEvalQ(cl, library(package1)) res = foreach(i = 1:10) %dopar% { &lt;code&gt; &lt;code&gt; } stopCluster(cl) 二、window平台 个人觉得window平台的笔记本电脑可能还是不太适合多线程的使用 1 2 3 library(parallel) # 检测系统的CPU数 detectCores() 1、lapply 多线程 parLapply()函数 1 2 3 4 5 6 7 8 cl &lt;- makeCluster(4) #专门加载所需要的分析包 clusterExport(cl, library(packages)) res=parLapply(cl, 1:10, function(x){ &lt;code&gt; &lt;code&gt; }) stopCluster(cl) #需要显式的释放已加载的线程，比较麻烦 2、for循环的多线程调用同上 参考教程 https://www.biostars.org/p/273107/ </p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-05-17 00:00:00 &#43;0000 UTC&#39;&gt;2022-05-17&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-05-17&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;508&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to R语言的多线程循环语句" href="https://lishensuo.github.io/en/posts/program/201r%E8%AF%AD%E8%A8%80%E7%9A%84%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>R-数据分析-dplyr表格操作
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 1 2 3 4 5 6 7 8 9 library(tidyverse) # -- Attaching packages ----------------------------------------------------- tidyverse 1.3.1 -- # √ ggplot2 3.3.5 √ purrr 0.3.4 # √ tibble 3.1.2 √ dplyr 1.0.7 # √ tidyr 1.1.3 √ stringr 1.4.0 # √ readr 2.0.0 √ forcats 0.5.1 # -- Conflicts -------------------------------------------------------- tidyverse_conflicts() -- # x dplyr::filter() masks stats::filter() # x dplyr::lag() masks stats::lag() 1、表格筛选 1.1 select 筛选列 col1:col3 选取起止范围的列；
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-05-08 00:00:00 &#43;0000 UTC&#39;&gt;2022-05-08&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-05-08&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2320&amp;nbsp;|&amp;nbsp;5 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to R-数据分析-dplyr表格操作" href="https://lishensuo.github.io/en/posts/program/210r-%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90-dplyr%E8%A1%A8%E6%A0%BC%E6%93%8D%E4%BD%9C/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>R-数据分析-reshape2表格长短转换
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1 2 library(tidyverse) library(reshape2) 1、matrix 1 2 3 4 5 6 7 8 9 10 11 12 set.seed(123) scores_mt = matrix(round(rnorm(40, mean = 80, sd=10)), nrow = 10, ncol = 4, dimnames = list(paste0(&#34;Stu&#34;,1:10), paste0(&#34;Subject-&#34;,LETTERS[1:4]))) class(scores_mt) # [1] &#34;matrix&#34; &#34;array&#34; head(scores_mt) # Subject-A Subject-B Subject-C Subject-D # Stu1 74 92 69 84 # Stu2 78 84 78 77 # Stu3 96 84 70 89 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 ##(1) 宽变长 reshaped = melt(scores, value.name = &#34;Score&#34;) head(reshaped) # Var1 Var2 Score # 1 Stu1 Subject-A 74 # 2 Stu2 Subject-A 78 # 3 Stu3 Subject-A 96 ## Var1 --- rownames ## Var2 --- colnames ##(2) 长变宽（还原） reshaped %&gt;% dcast(Var1 ~ Var2) %&gt;% head() # Var1 Subject-A Subject-B Subject-C Subject-D # 1 Stu1 74 92 69 84 # 2 Stu2 78 84 78 77 # 3 Stu3 96 84 70 89 2、data.frame 2.1 简单 1 2 3 4 5 6 7 8 9 10 scores_df = scores_mt %&gt;% as.data.frame() %&gt;% tibble::rownames_to_column(&#34;Name&#34;) class(scores_df) # [1] &#34;data.frame&#34; head(scores_df) # Name Subject-A Subject-B Subject-C Subject-D # 1 Stu1 74 92 69 84 # 2 Stu2 78 84 78 77 # 3 Stu3 96 84 70 89 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 ##(1) 宽变长 reshaped = scores_df %&gt;% melt(id=&#34;Name&#34;, variable.name=&#34;Subject&#34;, value.name = &#34;Score&#34;) head(reshaped) # Name Subject Score # 1 Stu1 Subject-A 74 # 2 Stu2 Subject-A 78 # 3 Stu3 Subject-A 96 ##(2) 长变宽（还原） reshaped %&gt;% dcast(Name ~ Subject, value.var = &#34;Score&#34;) %&gt;% head() # Name Subject-A Subject-B Subject-C Subject-D # 1 Stu1 74 92 69 84 # 2 Stu10 76 75 93 76 # 3 Stu2 78 84 78 77 2.2 复杂 1 2 3 4 5 6 7 8 scores_df_Anno = scores_df %&gt;% dplyr::mutate(Class=paste0(&#34;Class&#34;,rep(c(&#34;01&#34;,&#34;02&#34;), 5)), Age=round(rnorm(10, 20, 1)), .before=2) head(scores_df_Anno) # Name Class Age Subject-A Subject-B Subject-C Subject-D # 1 Stu1 Class01 20 74 92 69 84 # 2 Stu2 Class02 20 78 84 78 77 # 3 Stu3 Class01 20 96 84 70 89 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 ##(1) 宽变长 reshaped = scores_df_Anno %&gt;% melt(id=c(&#34;Name&#34;,&#34;Class&#34;,&#34;Age&#34;), variable.name=&#34;Subject&#34;, value.name = &#34;Score&#34;) head(reshaped) # Name Class Age Subject Score # 1 Stu1 Class01 20 Subject-A 74 # 2 Stu2 Class02 20 Subject-A 78 # 3 Stu3 Class01 20 Subject-A 96 ##(2) 长变宽（还原） reshaped %&gt;% dcast(Name &#43; Class &#43; Age ~ Subject, value.var = &#34;Score&#34;) %&gt;% head() # Name Class Age Subject-A Subject-B Subject-C Subject-D # 1 Stu1 Class01 20 74 92 69 84 # 2 Stu10 Class02 21 76 75 93 76 # 3 Stu2 Class02 20 78 84 78 77 3、list 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 scores_list = list(Stu1=c(1,2), Stu2=c(3,4), Stu3=c(5,6)) # $Stu1 # [1] 1 2 # # $Stu2 # [1] 3 4 # # $Stu3 # [1] 5 6 melt(scores_list) # value L1 # 1 1 Stu1 # 2 2 Stu1 # 3 3 Stu2 # 4 4 Stu2 # 5 5 Stu3 # 6 6 Stu3 </p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-06-25 00:00:00 &#43;0000 UTC&#39;&gt;2022-06-25&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-06-25&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;580&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to R-数据分析-reshape2表格长短转换" href="https://lishensuo.github.io/en/posts/program/211r-%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90-reshape2%E8%A1%A8%E6%A0%BC%E9%95%BF%E7%9F%AD%E8%BD%AC%E6%8D%A2/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>R语言RSelenium爬虫.md
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1、html基础与xpath语法 1.1 html基础 大多数网页内容都是html结构组织的，在我理解就是有众多节点(node)组成的树状结构； 而我们想要爬取的内容就是其中的某个或者某些节点的文本标签或者属性中。 更多可参考： （1）https://www.w3cschool.cn/html/html-basic.html （2）HTML零基础入门教程（详细）_ZONGXP的博客-CSDN博客_html5零基础入门教程 ...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-05-10 00:00:00 &#43;0000 UTC&#39;&gt;2022-05-10&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-05-10&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;4006&amp;nbsp;|&amp;nbsp;8 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to R语言RSelenium爬虫.md" href="https://lishensuo.github.io/en/posts/program/250r%E8%AF%AD%E8%A8%80rselenium%E7%88%AC%E8%99%AB/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>基于Rstudio创建R包
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 总结一下目前学习的，基于Rstudio的创建R包流程。
+Part1：创建R包基本流程 step1：建立开发环境 目的是创建一个文件夹，用于储存编写R包的各种文档；在创建之前想 好R包的名字，以及文件夹的路径。 这里示例R包名为newPackage。 进入Rstudio界面，依次点击File → New project → New Directory → R package,会出现如下界面，填写好R包名字，选择好开发包的工作目录（其它暂时都不用考虑）；最后点击Creat Project即可。 如上操作后，会进入新的工作环境，即R包开发环境；同时已经创建好R包开发所需的所必须的模板文档。主要包括4个部分： （1）R 文件夹：用于存放R函数脚本的文件夹；里面有一个示例文件hello.R （2）man 文件夹：用于存放对应上述R函数的说明文档Rd文件的文件夹；里面有一个示例文件hello.Rd。 （3）DESCRIPTION：关于R包的说明文档。 （4）NAMESPACE：声明R包导出以供外部使用的函数以及R包从其他包导入的外部函数。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-01-22 00:00:00 &#43;0000 UTC&#39;&gt;2023-01-22&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-01-22&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2828&amp;nbsp;|&amp;nbsp;6 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 基于Rstudio创建R包" href="https://lishensuo.github.io/en/posts/program/252%E5%9F%BA%E4%BA%8Erstudio%E5%88%9B%E5%BB%BAr%E5%8C%85/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>R包purrr的函数编程
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> purrr包是tidyverse系列中用于函数编程的工具，很多用法类似R base的apply系列函数。现参考相关资料，学习其基本用法。
+https://jennybc.github.io/purrr-tutorial/index.html https://shixiangwang.github.io/home/cn/post/purrr-loop/ ...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-07-09 00:00:00 &#43;0000 UTC&#39;&gt;2023-07-09&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-07-09&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1580&amp;nbsp;|&amp;nbsp;4 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to R包purrr的函数编程" href="https://lishensuo.github.io/en/posts/program/253r%E5%8C%85purrr%E7%9A%84%E5%87%BD%E6%95%B0%E7%BC%96%E7%A8%8B/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>renv包环境可重复性
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> https://rstudio.github.io/renv 记录一个R项目所需的R包来源及其相应的版本号，方便对于其他用户的可重复性分析。 1. 初始化项目 在当前目录下创建一个文件夹，是包含一个R project对象的工作环境； 其中library文件夹是该工作环境安装R包的路径，renv.lock是记录R包及其版本后的重要文件。 1 2 3 renv::init(&#34;foo_project&#34;) #初始化后会自动切换到该环境下，如果没有可以手动切换 # setwd(&#34;foo_project&#34;) ...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-04-06 00:00:00 &#43;0000 UTC&#39;&gt;2024-04-06&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-04-06&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;526&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to renv包环境可重复性" href="https://lishensuo.github.io/en/posts/program/266renv%E5%8C%85%E7%8E%AF%E5%A2%83%E5%8F%AF%E9%87%8D%E5%A4%8D%E6%80%A7/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>Shell_Python_R脚本基础
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1、shell脚本 1.1 脚本执行 （1）命令行直接执行
+如下示例：脚本第一行设置脚本解释器的路径，如写错或没写，系统会调用默认解释器执行。然后在运行脚本时，需要先赋予可执行权限。（下同）
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-03-25 00:00:00 &#43;0000 UTC&#39;&gt;2023-03-25&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-03-25&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;734&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to Shell_Python_R脚本基础" href="https://lishensuo.github.io/en/posts/program/504shell_python_r%E8%84%9A%E6%9C%AC%E5%9F%BA%E7%A1%80/"></a>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

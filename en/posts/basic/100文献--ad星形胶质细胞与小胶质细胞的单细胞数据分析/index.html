@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>文献--AD星形胶质与小胶质细胞的单细胞数据分析 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="文献-组学">
+<meta name="description" content="
+AD星形胶质细胞与小胶质细胞的snRNA-seq数据分析
+Diverse human astrocyte and microglial transcriptional responses to Alzheimer’s pathology
+Acta Neuropathologica (2022) 143:75–91
+IF=17
+https://doi.org/10.1007/s00401-021-02372-6
+
+
+1、测序样本
+
+24个样本：AD与NDC的EC(entorhinal)与SSC(somatosensory) cortical region(2×2×6)
+使用Immunohistochemistry量化每个样本的p-Tau与Amyloid-beta指标
+
+
+">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/basic/100%E6%96%87%E7%8C%AE--ad%E6%98%9F%E5%BD%A2%E8%83%B6%E8%B4%A8%E7%BB%86%E8%83%9E%E4%B8%8E%E5%B0%8F%E8%83%B6%E8%B4%A8%E7%BB%86%E8%83%9E%E7%9A%84%E5%8D%95%E7%BB%86%E8%83%9E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/basic/100%E6%96%87%E7%8C%AE--ad%E6%98%9F%E5%BD%A2%E8%83%B6%E8%B4%A8%E7%BB%86%E8%83%9E%E4%B8%8E%E5%B0%8F%E8%83%B6%E8%B4%A8%E7%BB%86%E8%83%9E%E7%9A%84%E5%8D%95%E7%BB%86%E8%83%9E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="文献--AD星形胶质与小胶质细胞的单细胞数据分析" />
+<meta property="og:description" content="
+AD星形胶质细胞与小胶质细胞的snRNA-seq数据分析
+Diverse human astrocyte and microglial transcriptional responses to Alzheimer’s pathology
+Acta Neuropathologica (2022) 143:75–91
+IF=17
+https://doi.org/10.1007/s00401-021-02372-6
+
+
+1、测序样本
+
+24个样本：AD与NDC的EC(entorhinal)与SSC(somatosensory) cortical region(2×2×6)
+使用Immunohistochemistry量化每个样本的p-Tau与Amyloid-beta指标
+
+
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/basic/100%E6%96%87%E7%8C%AE--ad%E6%98%9F%E5%BD%A2%E8%83%B6%E8%B4%A8%E7%BB%86%E8%83%9E%E4%B8%8E%E5%B0%8F%E8%83%B6%E8%B4%A8%E7%BB%86%E8%83%9E%E7%9A%84%E5%8D%95%E7%BB%86%E8%83%9E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-04-10T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2022-04-10T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="文献--AD星形胶质与小胶质细胞的单细胞数据分析"/>
+<meta name="twitter:description" content="
+AD星形胶质细胞与小胶质细胞的snRNA-seq数据分析
+Diverse human astrocyte and microglial transcriptional responses to Alzheimer’s pathology
+Acta Neuropathologica (2022) 143:75–91
+IF=17
+https://doi.org/10.1007/s00401-021-02372-6
+
+
+1、测序样本
+
+24个样本：AD与NDC的EC(entorhinal)与SSC(somatosensory) cortical region(2×2×6)
+使用Immunohistochemistry量化每个样本的p-Tau与Amyloid-beta指标
+
+
+"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 科研基础 -- 读文献、看教材",
+      "item": "https://lishensuo.github.io/en/posts/basic/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "文献--AD星形胶质与小胶质细胞的单细胞数据分析",
+      "item": "https://lishensuo.github.io/en/posts/basic/100%E6%96%87%E7%8C%AE--ad%E6%98%9F%E5%BD%A2%E8%83%B6%E8%B4%A8%E7%BB%86%E8%83%9E%E4%B8%8E%E5%B0%8F%E8%83%B6%E8%B4%A8%E7%BB%86%E8%83%9E%E7%9A%84%E5%8D%95%E7%BB%86%E8%83%9E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "文献--AD星形胶质与小胶质细胞的单细胞数据分析",
+  "name": "文献--AD星形胶质与小胶质细胞的单细胞数据分析",
+  "description": " AD星形胶质细胞与小胶质细胞的snRNA-seq数据分析\nDiverse human astrocyte and microglial transcriptional responses to Alzheimer’s pathology\nActa Neuropathologica (2022) 143:75–91\nIF=17\nhttps://doi.org/10.1007/s00401-021-02372-6\n1、测序样本 24个样本：AD与NDC的EC(entorhinal)与SSC(somatosensory) cortical region(2×2×6) 使用Immunohistochemistry量化每个样本的p-Tau与Amyloid-beta指标 ",
+  "keywords": [
+    "文献-组学"
+  ],
+  "articleBody": " AD星形胶质细胞与小胶质细胞的snRNA-seq数据分析\nDiverse human astrocyte and microglial transcriptional responses to Alzheimer’s pathology\nActa Neuropathologica (2022) 143:75–91\nIF=17\nhttps://doi.org/10.1007/s00401-021-02372-6\n1、测序样本 24个样本：AD与NDC的EC(entorhinal)与SSC(somatosensory) cortical region(2×2×6) 使用Immunohistochemistry量化每个样本的p-Tau与Amyloid-beta指标 本文是想研究astrocyte星形胶质细胞与microglial小胶质细胞在AD中所发挥的作用。但是The proportions of microglia and astrocytes defined by snR- NASeq of nuclei isolated from the human brain post-mortem are low and variable。 因此本文采取的方式是使用阴性选择方法去除样本中的neuron与oligodendroglia，间接富集Astro与Micro，再进行snRNA-seq测序。测序数据已经上传到GSE160936。 2、鉴定细胞类型 经数据预处理后，使用AUCell，结合细胞marker基因进行细胞类型注释，如下图所示Astro(52706)与Micro(27592)占大部分\n文章为了验证所富集的Astro与Micro不存在偏差bias，做了进一步的分析。即对上述24个样本又做了非富集的snRNAseq测序，注释出细胞类型。通过比较同一样本的富集与非富集的Astro(Micro)细胞类型的Top10% HVG高变基因的相关性，从而表示富集到Astro(Micro)不存在bias。\n24+24=48个snRNAseq，这篇文章应该花了很多钱。\n3、差异基因分析 文章并非按一般的AD/NAD差异分析，而是将基因表达与样本的p-Tau(或Amyloid-beta)指标进行回归分析，并校正性别、线粒体含量等因素。\n此时基因差异表达倍数的含义表示为pTau (or amyloid density)发生一单位的变化，基因表达差异的log2倍数（斜率）。如下例图所示\n文章提到是使用MAST包的zlm()进行的回归分析。\n按照上述思路可分别对Astro与Micro进行Amyloid-beta、pTau两个指标的回归分析，即得到4类差异基因。如下图所示在Astro中的两类差异基因火山图。从右侧的韦恩图可以得到有208个基因表达与Amyloid-beta、pTau正相关等信息。 继续以Astro差异基因为例。文章将Amyloid-beta、pTau两个指标的回归差异基因进行通路富集分析(GO/Reactome/Wikipathways)，得出结论：Increased expression of genes related to metal ion homeostasis, proteostasis, and inflammation in astrocytes with AD pathology。同法，也对Micro差异基因结果进行类似的分析。\n4、细胞通讯分析 使用CellChat包对Astro与Micro进行ligand–receptor的细胞间通讯分析。 根据配受体基因与Amyloid-beta、pTau两个指标的相关性，将CellChat结果分为3类：（1）Amyloid-beta and pTau；（2）Amyloid-beta only；（3）pTau only 如下图是Amyloid-beta and pTau的结果，可结合配受体对的功能展开分析与讨论。 5、共表达网络分析 文章使用MEGENA进行共表达网络分析，计算得到astrocytes与microglia分别在EC与SSC的module；使用SCENIC进行转录因子分析，也分别得到astrocytes与microglia分别在EC与SSC的regulons。\n然后使用AUCell包计算出每个细胞核的对应细胞类型模块的score。然后结合Aβ/pTau指标进行类似上述差异基因的回归分析。即Aβ/pTau指标变化与模块表达score是否存在相关性。根据分析结果，初步得到结论：The EC and SSC show similar co‑expression signatures。如下图展示部分module与regulon\n根据上述得到的基因模块表达特征与功能特征，分析AD GWAS基因所发挥的cell-specific功能。例如下图所示：GPNMB已知是AD的biomarker，它是Micro的amyloid-beta and pTau 正相关模块(module11)的hub gene；而且该基因在AD的Micro中也是相对高表达。 6、亚群特征分析 根据之前的细胞类型注释，将Astro与Micro进行在亚群分析。\n在亚群分析时，主要结合细胞亚群的marker基因功能，是否为上述的差异基因；亚群细胞是否特异表达/参与上述计算得到的module/regulon等，具体可参看原文献。\n我的想法：这篇单细胞文章测序样本量大，且有创新之处，即富集的Astro与Micro。而且计算差异基因方式很有新意，即进行病理指标的回归，也许更可以反映出基因表达水平与AD病理特征的关系。文章也使用多种多样的单细胞数据分析手段，例如亚群分析、细胞通讯分析、转录因子分析。总之无论是测序数据还是分析方法，都挺有借鉴价值的。\n",
+  "wordCount" : "1983",
+  "inLanguage": "en",
+  "datePublished": "2022-04-10T00:00:00Z",
+  "dateModified": "2022-04-10T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/basic/100%E6%96%87%E7%8C%AE--ad%E6%98%9F%E5%BD%A2%E8%83%B6%E8%B4%A8%E7%BB%86%E8%83%9E%E4%B8%8E%E5%B0%8F%E8%83%B6%E8%B4%A8%E7%BB%86%E8%83%9E%E7%9A%84%E5%8D%95%E7%BB%86%E8%83%9E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/basic/">📖 科研基础 -- 读文献、看教材</a></div>
+    <h1 class="post-title">
+      文献--AD星形胶质与小胶质细胞的单细胞数据分析
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-10 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-10&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-04-10&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1983&amp;nbsp;|&amp;nbsp;4 min&amp;nbsp;|&amp;nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#1%e6%b5%8b%e5%ba%8f%e6%a0%b7%e6%9c%ac" aria-label="1、测序样本">1、测序样本</a></li>
+                    <li>
+                        <a href="#2%e9%89%b4%e5%ae%9a%e7%bb%86%e8%83%9e%e7%b1%bb%e5%9e%8b" aria-label="2、鉴定细胞类型">2、鉴定细胞类型</a></li>
+                    <li>
+                        <a href="#3%e5%b7%ae%e5%bc%82%e5%9f%ba%e5%9b%a0%e5%88%86%e6%9e%90" aria-label="3、差异基因分析">3、差异基因分析</a></li>
+                    <li>
+                        <a href="#4%e7%bb%86%e8%83%9e%e9%80%9a%e8%ae%af%e5%88%86%e6%9e%90" aria-label="4、细胞通讯分析">4、细胞通讯分析</a></li>
+                    <li>
+                        <a href="#5%e5%85%b1%e8%a1%a8%e8%be%be%e7%bd%91%e7%bb%9c%e5%88%86%e6%9e%90" aria-label="5、共表达网络分析">5、共表达网络分析</a></li>
+                    <li>
+                        <a href="#6%e4%ba%9a%e7%be%a4%e7%89%b9%e5%be%81%e5%88%86%e6%9e%90" aria-label="6、亚群特征分析">6、亚群特征分析</a>
+                    </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><blockquote>
+<p>AD星形胶质细胞与小胶质细胞的snRNA-seq数据分析</p>
+<p>Diverse human astrocyte and microglial transcriptional responses to Alzheimer’s pathology</p>
+<p>Acta Neuropathologica (2022) 143:75–91</p>
+<p>IF=17</p>
+<p><a href="https://doi.org/10.1007/s00401-021-02372-6">https://doi.org/10.1007/s00401-021-02372-6</a></p></blockquote>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220414201022304.png" alt="文章分析思路"  />
+</p>
+<h3 id="1测序样本">1、测序样本<a hidden class="anchor" aria-hidden="true" href="#1测序样本">#</a></h3>
+<ul>
+<li>24个样本：AD与NDC的EC(entorhinal)与SSC(somatosensory) cortical region(2×2×6)</li>
+<li>使用Immunohistochemistry量化每个样本的p-Tau与Amyloid-beta指标</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220414173342171.png" alt="image-20220414173342171"  />
+</p>
+<ul>
+<li>本文是想研究astrocyte星形胶质细胞与microglial小胶质细胞在AD中所发挥的作用。但是The proportions of microglia and astrocytes defined by snR-
+NASeq of nuclei isolated from the human brain post-mortem are <strong>low and variable</strong>。</li>
+<li>因此本文采取的方式是使用阴性选择方法去除样本中的neuron与oligodendroglia，间接富集Astro与Micro，再进行snRNA-seq测序。测序数据已经上传到GSE160936。</li>
+</ul>
+<h3 id="2鉴定细胞类型">2、鉴定细胞类型<a hidden class="anchor" aria-hidden="true" href="#2鉴定细胞类型">#</a></h3>
+<ul>
+<li>
+<p>经数据预处理后，使用AUCell，结合细胞marker基因进行细胞类型注释，如下图所示Astro(52706)与Micro(27592)占大部分</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220414173951402.png" alt="image-20220414173951402"  />
+</p>
+</li>
+<li>
+<p>文章为了验证所富集的Astro与Micro不存在偏差bias，做了进一步的分析。即对上述24个样本又做了非富集的snRNAseq测序，注释出细胞类型。通过比较同一样本的富集与非富集的Astro(Micro)细胞类型的Top10% HVG高变基因的相关性，从而表示富集到Astro(Micro)不存在bias。</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220414174726441.png" alt="image-20220414174726441"  />
+</p>
+</li>
+</ul>
+<blockquote>
+<p>24+24=48个snRNAseq，这篇文章应该花了很多钱。</p></blockquote>
+<h3 id="3差异基因分析">3、差异基因分析<a hidden class="anchor" aria-hidden="true" href="#3差异基因分析">#</a></h3>
+<ul>
+<li>
+<p>文章并非按一般的AD/NAD差异分析，而是将基因表达与样本的p-Tau(或Amyloid-beta)指标进行回归分析，并校正性别、线粒体含量等因素。</p>
+</li>
+<li>
+<p>此时基因差异表达倍数的含义表示为pTau (or amyloid density)发生一单位的变化，基因表达差异的log2倍数（斜率）。如下例图所示</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220414195615054.png" alt="image-20220414195615054"  />
+</p>
+</li>
+</ul>
+<blockquote>
+<p>文章提到是使用MAST包的zlm()进行的回归分析。</p></blockquote>
+<ul>
+<li>按照上述思路可分别对Astro与Micro进行Amyloid-beta、pTau两个指标的回归分析，即得到4类差异基因。如下图所示在Astro中的两类差异基因火山图。从右侧的韦恩图可以得到有208个基因表达与Amyloid-beta、pTau正相关等信息。</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220414195954182.png" alt="image-20220414195954182"  />
+</p>
+<ul>
+<li>
+<p>继续以Astro差异基因为例。文章将Amyloid-beta、pTau两个指标的回归差异基因进行通路富集分析(GO/Reactome/Wikipathways)，得出结论：Increased expression of genes related to metal ion homeostasis, proteostasis, and inflammation in astrocytes with AD pathology。同法，也对Micro差异基因结果进行类似的分析。</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220414200549274.png" alt="image-20220414200549274"  />
+</p>
+</li>
+</ul>
+<h3 id="4细胞通讯分析">4、细胞通讯分析<a hidden class="anchor" aria-hidden="true" href="#4细胞通讯分析">#</a></h3>
+<ul>
+<li>使用CellChat包对Astro与Micro进行ligand–receptor的细胞间通讯分析。</li>
+<li>根据配受体基因与Amyloid-beta、pTau两个指标的相关性，将CellChat结果分为3类：（1）Amyloid-beta and pTau；（2）Amyloid-beta only；（3）pTau only</li>
+<li>如下图是Amyloid-beta and pTau的结果，可结合配受体对的功能展开分析与讨论。</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220414202507352.png" alt="image-20220414202507352"  />
+</p>
+<h3 id="5共表达网络分析">5、共表达网络分析<a hidden class="anchor" aria-hidden="true" href="#5共表达网络分析">#</a></h3>
+<ul>
+<li>
+<p>文章使用MEGENA进行共表达网络分析，计算得到astrocytes与microglia分别在EC与SSC的module；使用SCENIC进行转录因子分析，也分别得到astrocytes与microglia分别在EC与SSC的regulons。</p>
+</li>
+<li>
+<p>然后使用AUCell包计算出每个细胞核的对应细胞类型模块的score。然后结合Aβ/pTau指标进行类似上述差异基因的回归分析。即Aβ/pTau指标变化与模块表达score是否存在相关性。根据分析结果，初步得到结论：The EC and SSC show similar co‑expression signatures。如下图展示部分module与regulon</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220414204232422.png" alt="MEGENA&ndash;module"  />
+</p>
+</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220414204324481.png" alt="SCENIC&ndash;regulon"  />
+</p>
+<ul>
+<li>根据上述得到的基因模块表达特征与功能特征，分析AD GWAS基因所发挥的cell-specific功能。例如下图所示：GPNMB已知是AD的biomarker，它是Micro的amyloid-beta and pTau 正相关模块(module11)的hub gene；而且该基因在AD的Micro中也是相对高表达。</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220414205605748.png" alt="image-20220414205605748"  />
+</p>
+<h3 id="6亚群特征分析">6、亚群特征分析<a hidden class="anchor" aria-hidden="true" href="#6亚群特征分析">#</a></h3>
+<ul>
+<li>
+<p>根据之前的细胞类型注释，将Astro与Micro进行在亚群分析。</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220414210755285.png" alt="image-20220414210755285"  />
+</p>
+</li>
+<li>
+<p>在亚群分析时，主要结合细胞亚群的marker基因功能，是否为上述的差异基因；亚群细胞是否特异表达/参与上述计算得到的module/regulon等，具体可参看原文献。</p>
+</li>
+</ul>
+<blockquote>
+<p>我的想法：这篇单细胞文章测序样本量大，且有创新之处，即富集的Astro与Micro。而且计算差异基因方式很有新意，即进行病理指标的回归，也许更可以反映出基因表达水平与AD病理特征的关系。文章也使用多种多样的单细胞数据分析手段，例如亚群分析、细胞通讯分析、转录因子分析。总之无论是测序数据还是分析方法，都挺有借鉴价值的。</p></blockquote>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/%E6%96%87%E7%8C%AE-%E7%BB%84%E5%AD%A6/">文献-组学</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/en/posts/program/100%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%9F%BA%E7%A1%80/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>正则表达式基础</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/en/posts/program/101hugo&#43;github%E6%90%AD%E5%BB%BA%E6%88%91%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>hugo&#43;github搭建我的个人博客</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

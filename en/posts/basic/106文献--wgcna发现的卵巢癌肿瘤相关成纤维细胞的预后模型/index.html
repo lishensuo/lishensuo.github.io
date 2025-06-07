@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>文献--WGCNA发现的卵巢癌肿瘤相关成纤维细胞的预后模型 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="文献-挖掘">
+<meta name="description" content="
+题目 ： Integrative Analysis From Multicenter Studies Identifies a WGCNA-Derived Cancer-Associated Fibroblast Signature for Ovarian Cancer
+期刊 | 日期 ： https://doi.org/10.3389/fimmu.2022.951582 |  06 June 2022
+概述：发现6个基因（COL16A1, COL5A2, GREM1, LUM, SRPX, TIMP3）组成的卵巢癌肿瘤相关成纤维细胞相关的signature">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/basic/106%E6%96%87%E7%8C%AE--wgcna%E5%8F%91%E7%8E%B0%E7%9A%84%E5%8D%B5%E5%B7%A2%E7%99%8C%E8%82%BF%E7%98%A4%E7%9B%B8%E5%85%B3%E6%88%90%E7%BA%A4%E7%BB%B4%E7%BB%86%E8%83%9E%E7%9A%84%E9%A2%84%E5%90%8E%E6%A8%A1%E5%9E%8B/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/basic/106%E6%96%87%E7%8C%AE--wgcna%E5%8F%91%E7%8E%B0%E7%9A%84%E5%8D%B5%E5%B7%A2%E7%99%8C%E8%82%BF%E7%98%A4%E7%9B%B8%E5%85%B3%E6%88%90%E7%BA%A4%E7%BB%B4%E7%BB%86%E8%83%9E%E7%9A%84%E9%A2%84%E5%90%8E%E6%A8%A1%E5%9E%8B/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="文献--WGCNA发现的卵巢癌肿瘤相关成纤维细胞的预后模型" />
+<meta property="og:description" content="
+题目 ： Integrative Analysis From Multicenter Studies Identifies a WGCNA-Derived Cancer-Associated Fibroblast Signature for Ovarian Cancer
+期刊 | 日期 ： https://doi.org/10.3389/fimmu.2022.951582 |  06 June 2022
+概述：发现6个基因（COL16A1, COL5A2, GREM1, LUM, SRPX, TIMP3）组成的卵巢癌肿瘤相关成纤维细胞相关的signature" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/basic/106%E6%96%87%E7%8C%AE--wgcna%E5%8F%91%E7%8E%B0%E7%9A%84%E5%8D%B5%E5%B7%A2%E7%99%8C%E8%82%BF%E7%98%A4%E7%9B%B8%E5%85%B3%E6%88%90%E7%BA%A4%E7%BB%B4%E7%BB%86%E8%83%9E%E7%9A%84%E9%A2%84%E5%90%8E%E6%A8%A1%E5%9E%8B/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-12-18T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2022-12-18T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="文献--WGCNA发现的卵巢癌肿瘤相关成纤维细胞的预后模型"/>
+<meta name="twitter:description" content="
+题目 ： Integrative Analysis From Multicenter Studies Identifies a WGCNA-Derived Cancer-Associated Fibroblast Signature for Ovarian Cancer
+期刊 | 日期 ： https://doi.org/10.3389/fimmu.2022.951582 |  06 June 2022
+概述：发现6个基因（COL16A1, COL5A2, GREM1, LUM, SRPX, TIMP3）组成的卵巢癌肿瘤相关成纤维细胞相关的signature"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 科研基础 -- 读文献、看教材",
+      "item": "https://lishensuo.github.io/en/posts/basic/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "文献--WGCNA发现的卵巢癌肿瘤相关成纤维细胞的预后模型",
+      "item": "https://lishensuo.github.io/en/posts/basic/106%E6%96%87%E7%8C%AE--wgcna%E5%8F%91%E7%8E%B0%E7%9A%84%E5%8D%B5%E5%B7%A2%E7%99%8C%E8%82%BF%E7%98%A4%E7%9B%B8%E5%85%B3%E6%88%90%E7%BA%A4%E7%BB%B4%E7%BB%86%E8%83%9E%E7%9A%84%E9%A2%84%E5%90%8E%E6%A8%A1%E5%9E%8B/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "文献--WGCNA发现的卵巢癌肿瘤相关成纤维细胞的预后模型",
+  "name": "文献--WGCNA发现的卵巢癌肿瘤相关成纤维细胞的预后模型",
+  "description": " 题目 ： Integrative Analysis From Multicenter Studies Identifies a WGCNA-Derived Cancer-Associated Fibroblast Signature for Ovarian Cancer\n期刊 | 日期 ： https://doi.org/10.3389/fimmu.2022.951582 | 06 June 2022\n概述：发现6个基因（COL16A1, COL5A2, GREM1, LUM, SRPX, TIMP3）组成的卵巢癌肿瘤相关成纤维细胞相关的signature\n",
+  "keywords": [
+    "文献-挖掘"
+  ],
+  "articleBody": " 题目 ： Integrative Analysis From Multicenter Studies Identifies a WGCNA-Derived Cancer-Associated Fibroblast Signature for Ovarian Cancer\n期刊 | 日期 ： https://doi.org/10.3389/fimmu.2022.951582 | 06 June 2022\n概述：发现6个基因（COL16A1, COL5A2, GREM1, LUM, SRPX, TIMP3）组成的卵巢癌肿瘤相关成纤维细胞相关的signature\n1、数据收集与预处理 主要收集16个数据集，2742个卵巢癌病人转录组数据及对应的预后信息。\nTCGA队列：372个病人， FPKM标准化（另收集突变数据） GPL570平台的6个GSE数据集，597个病人，log2(TPM+1)标准化(下同) 对于相同平台的不同数据集使用sva::Combat校正批次(下同) GPL96平台的4个数据集，409个病人； GPL7759，GPL2986，GPL14951，各一个数据集 PD-1，PD-L1治疗后的两个GSE数据集 主要使用GPL570与TCGA两个队列，其余数据用于后续验证以及衍生分析\n2、CAF相关hub基因筛选 （1）基于IOBR包的4种算法，计算每个样本的CAF abundances and stromal scores；\n（2）根据score将病人分为高低两组，TCGA与GPL570生存分析具有均显著意义\n较高的CAF infiltration、stromal score与较差的生存预后相关 每个队列的组别划分阈值不相同可以理解，但作者并没有明确提及确定阈值的依据，包括后面的risk score分组分析。\n（3）分别对TCGA与GPL570进行WGCNA分析，各自鉴定出与样本CAF abundances and stromal scores最相关的一个模块，再取交集，得到95个CAF相关基因。\n（4）对CAF相关基因进行初步的GO，KEGG通路富集分析，阐释相关通路。\n3、构建预后模型signature 将GPL570队列用于训练集， 构建模型；将TCGA队列用于验证模型。\n（1）针对上述95个CAF相关基因进行Univariate Cox regression analysis，得到63个显著基因(p\u003c0.05)\n（2）再经LASSO regression analysis，最终得到6个用于构建signature的marker基因\nCOL16A1—0.0924；COL5A2— -0.0031；GREM1— 0.0847； LUM— 0.0069；SRPX— 0.0649；TIMP3— 0.0425 （3）根据上述基因权重，计算每个样本的risk score，进一步分为高低风险组，进行生存分析\n分组具有显著生存预后意义，高分数→差预后 （4）其余4个GPL队列的数据验证，发现风险分组均具有显著意义。\n4、预后模型衍生分析 通过不同角度论证所发现的signature具有重要意义\n4.1 signature与CAF的关系\n样本risk score与CAF浸润打分的相关性 样本risk score与已知CAF marker表达的相关性 4.2 signature与免疫治疗的关系\nPD-1/PD-L1可降低免疫效应，促进肿瘤生长; PD-L1 and PD-1 blockade 肿瘤免疫治疗手段\nstable disease (SD)/progressive disease (PD) – 无效\ncomplete response (CR)/ partial response (PR) – 有效\nhigh risk score样本与SD/PD有关 high risk组与较差的生存预后相关 4.3 signature与肿瘤突变负荷\n一般认为肿瘤突变负荷TMB越高，免疫治疗效果越好\n结合TCGA突变数据，分析high/low risk score组的差异突变基因； 进一步分析TMB分数与risk score的相关性（maftools包的tmb函数） 4.4 signature的相关通路\nhigh/low risk score组的GSEA显著富集通路 样本risk score与ssGSEA分数的高相关性通路 4.5 其余分析\n（1）BRCA是否突变以及突变型与risk score的关系\n（2）结合pRRophetic包预测对high/low risk score组的IC50具有显著差异的药物\n（3）siganture在纤维原细胞系与卵巢癌细胞系表达差异\n（4）OV scRNAseq中高表达siganture的细胞类型\n5、小结与体会 本篇数据挖掘文章亮点之一是收集了大量样本数据，共2742个样本，并且均包含预后数据。其中主要使用的是GPL570所包含的仅600个样本数据。 分析思路主要分为3步（1）确定CAF相关基因范围；（2）建立CAF signature；（3）signature后续衍生分析 前面两步是很常规的signature挖掘过程； 后面一步则取决于个性的发挥。本篇文章花了相当的笔墨在这一步骤，可感觉有些分析实在有仅为了充实内容之嫌。 最后关于文章的存疑是目前仍未发现作者如何针对每个数据集的risk score确定分组阈值的方法，而这直接决定了生存分析结果，不知作者有意为之还是如何。 ",
+  "wordCount" : "1793",
+  "inLanguage": "en",
+  "datePublished": "2022-12-18T00:00:00Z",
+  "dateModified": "2022-12-18T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/basic/106%E6%96%87%E7%8C%AE--wgcna%E5%8F%91%E7%8E%B0%E7%9A%84%E5%8D%B5%E5%B7%A2%E7%99%8C%E8%82%BF%E7%98%A4%E7%9B%B8%E5%85%B3%E6%88%90%E7%BA%A4%E7%BB%B4%E7%BB%86%E8%83%9E%E7%9A%84%E9%A2%84%E5%90%8E%E6%A8%A1%E5%9E%8B/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/basic/">📖 科研基础 -- 读文献、看教材</a></div>
+    <h1 class="post-title">
+      文献--WGCNA发现的卵巢癌肿瘤相关成纤维细胞的预后模型
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-12-18 00:00:00 &#43;0000 UTC&#39;&gt;2022-12-18&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-12-18&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1793&amp;nbsp;|&amp;nbsp;4 min&amp;nbsp;|&amp;nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#1%e6%95%b0%e6%8d%ae%e6%94%b6%e9%9b%86%e4%b8%8e%e9%a2%84%e5%a4%84%e7%90%86" aria-label="1、数据收集与预处理">1、数据收集与预处理</a></li>
+                    <li>
+                        <a href="#2caf%e7%9b%b8%e5%85%b3hub%e5%9f%ba%e5%9b%a0%e7%ad%9b%e9%80%89" aria-label="2、CAF相关hub基因筛选">2、CAF相关hub基因筛选</a></li>
+                    <li>
+                        <a href="#3%e6%9e%84%e5%bb%ba%e9%a2%84%e5%90%8e%e6%a8%a1%e5%9e%8bsignature" aria-label="3、构建预后模型signature">3、构建预后模型signature</a></li>
+                    <li>
+                        <a href="#4%e9%a2%84%e5%90%8e%e6%a8%a1%e5%9e%8b%e8%a1%8d%e7%94%9f%e5%88%86%e6%9e%90" aria-label="4、预后模型衍生分析">4、预后模型衍生分析</a></li>
+                    <li>
+                        <a href="#5%e5%b0%8f%e7%bb%93%e4%b8%8e%e4%bd%93%e4%bc%9a" aria-label="5、小结与体会">5、小结与体会</a>
+                    </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><blockquote>
+<p><strong>题目</strong> ： Integrative Analysis From Multicenter Studies Identifies a WGCNA-Derived Cancer-Associated Fibroblast Signature for Ovarian Cancer</p>
+<p><strong>期刊 | 日期</strong> ： <a href="https://doi.org/10.3389/fimmu.2022.951582">https://doi.org/10.3389/fimmu.2022.951582</a> <strong>|</strong>  06 June 2022</p>
+<p><strong>概述</strong>：发现6个基因（COL16A1, COL5A2, GREM1, LUM, SRPX, TIMP3）组成的卵巢癌肿瘤相关成纤维细胞相关的signature</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20221218164230888.png" alt="image-20221218164230888"  />
+</p></blockquote>
+<h4 id="1数据收集与预处理">1、数据收集与预处理<a hidden class="anchor" aria-hidden="true" href="#1数据收集与预处理">#</a></h4>
+<p>主要收集16个数据集，2742个卵巢癌病人转录组数据及对应的预后信息。</p>
+<ul>
+<li>TCGA队列：372个病人， FPKM标准化（另收集突变数据）</li>
+<li>GPL570平台的6个GSE数据集，597个病人，log2(TPM+1)标准化(下同)
+<ul>
+<li>对于相同平台的不同数据集使用sva::Combat校正批次(下同)</li>
+</ul>
+</li>
+<li>GPL96平台的4个数据集，409个病人；</li>
+<li>GPL7759，GPL2986，GPL14951，各一个数据集</li>
+<li>PD-1，PD-L1治疗后的两个GSE数据集</li>
+</ul>
+<p>主要使用GPL570与TCGA两个队列，其余数据用于后续验证以及衍生分析</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20221218192514358.png" alt="image-20221218192514358" style="zoom: 67%;" />
+<h4 id="2caf相关hub基因筛选">2、CAF相关hub基因筛选<a hidden class="anchor" aria-hidden="true" href="#2caf相关hub基因筛选">#</a></h4>
+<p>（1）基于IOBR包的4种算法，计算每个样本的CAF abundances and stromal scores；</p>
+<p>（2）根据score将病人分为高低两组，TCGA与GPL570生存分析具有均显著意义</p>
+<ul>
+<li>较高的CAF infiltration、stromal score与较差的生存预后相关</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20221218193558754.png" alt="image-20221218193558754" style="zoom:67%;" />
+<blockquote>
+<p>每个队列的组别划分阈值不相同可以理解，但作者并没有明确提及确定阈值的依据，包括后面的risk score分组分析。</p></blockquote>
+<p>（3）分别对TCGA与GPL570进行WGCNA分析，各自鉴定出与样本CAF abundances and stromal scores最相关的一个模块，再取交集，得到95个CAF相关基因。</p>
+<p>（4）对CAF相关基因进行初步的GO，KEGG通路富集分析，阐释相关通路。</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20221218194204942.png" alt="image-20221218194204942" style="zoom: 50%;" />
+<h4 id="3构建预后模型signature">3、构建预后模型signature<a hidden class="anchor" aria-hidden="true" href="#3构建预后模型signature">#</a></h4>
+<p>将GPL570队列用于训练集， 构建模型；将TCGA队列用于验证模型。</p>
+<p>（1）针对上述95个CAF相关基因进行Univariate Cox regression analysis，得到63个显著基因(p&lt;0.05)</p>
+<p>（2）再经LASSO regression analysis，最终得到6个用于构建signature的marker基因</p>
+<ul>
+<li>COL16A1—0.0924；COL5A2— -0.0031；GREM1— 0.0847；</li>
+<li>LUM— 0.0069；SRPX— 0.0649；TIMP3— 0.0425</li>
+</ul>
+<p>（3）根据上述基因权重，计算每个样本的risk score，进一步分为高低风险组，进行生存分析</p>
+<ul>
+<li>分组具有显著生存预后意义，高分数→差预后</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20221218194349987.png" alt="image-20221218194349987" style="zoom: 50%;" />
+<p>（4）其余4个GPL队列的数据验证，发现风险分组均具有显著意义。</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20221218195644515.png" alt="image-20221218195644515" style="zoom:50%;" />
+<h4 id="4预后模型衍生分析">4、预后模型衍生分析<a hidden class="anchor" aria-hidden="true" href="#4预后模型衍生分析">#</a></h4>
+<p>通过不同角度论证所发现的signature具有重要意义</p>
+<p>4.1 signature与CAF的关系</p>
+<ul>
+<li>样本risk score与CAF浸润打分的相关性</li>
+<li>样本risk score与已知CAF marker表达的相关性</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20221218200542091.png" alt="image-20221218200542091" style="zoom: 50%;" />
+<p>4.2 signature与免疫治疗的关系</p>
+<blockquote>
+<p>PD-1/PD-L1可降低免疫效应，促进肿瘤生长; PD-L1 and PD-1 blockade 肿瘤免疫治疗手段</p>
+<p><strong>stable disease (SD)/progressive disease (PD)</strong>  &ndash; 无效</p>
+<p><strong>complete response (CR)/ partial response (PR)</strong> &ndash; 有效</p></blockquote>
+<ul>
+<li>high risk score样本与SD/PD有关</li>
+<li>high risk组与较差的生存预后相关</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20221218200811066.png" alt="image-20221218200811066" style="zoom:50%;" />
+<p>4.3  signature与肿瘤突变负荷</p>
+<blockquote>
+<p>一般认为肿瘤突变负荷TMB越高，免疫治疗效果越好</p></blockquote>
+<ul>
+<li>结合TCGA突变数据，分析high/low risk score组的差异突变基因；</li>
+<li>进一步分析TMB分数与risk score的相关性（maftools包的tmb函数）</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20221218201050160.png" alt="image-20221218201050160" style="zoom:67%;" />
+<p>4.4 signature的相关通路</p>
+<ul>
+<li>high/low risk score组的GSEA显著富集通路</li>
+<li>样本risk score与ssGSEA分数的高相关性通路</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20221218201907878.png" alt="image-20221218201907878" style="zoom: 50%;" />
+<p>4.5 其余分析</p>
+<p>（1）BRCA是否突变以及突变型与risk score的关系</p>
+<p>（2）结合pRRophetic包预测对high/low risk score组的IC50具有显著差异的药物</p>
+<p>（3）siganture在纤维原细胞系与卵巢癌细胞系表达差异</p>
+<p>（4）OV scRNAseq中高表达siganture的细胞类型</p>
+<h4 id="5小结与体会">5、小结与体会<a hidden class="anchor" aria-hidden="true" href="#5小结与体会">#</a></h4>
+<ul>
+<li>本篇数据挖掘文章亮点之一是收集了大量样本数据，共2742个样本，并且均包含预后数据。其中主要使用的是GPL570所包含的仅600个样本数据。</li>
+<li>分析思路主要分为3步（1）确定CAF相关基因范围；（2）建立CAF signature；（3）signature后续衍生分析
+<ul>
+<li>前面两步是很常规的signature挖掘过程；</li>
+<li>后面一步则取决于个性的发挥。本篇文章花了相当的笔墨在这一步骤，可感觉有些分析实在有仅为了充实内容之嫌。</li>
+</ul>
+</li>
+<li>最后关于文章的存疑是目前仍未发现作者如何针对每个数据集的risk score确定分组阈值的方法，而这直接决定了生存分析结果，不知作者有意为之还是如何。</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/%E6%96%87%E7%8C%AE-%E6%8C%96%E6%8E%98/">文献-挖掘</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/en/posts/bioinfo/105%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr36--%E5%88%86%E7%B1%BB--%E5%86%B3%E7%AD%96%E6%A0%91%E4%B8%8E%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>机器学习基于R包mlr3(6)--分类--决策树与随机森林</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/en/posts/basic/107%E6%96%87%E7%8C%AE--%E5%B0%8F%E9%BC%A0%E5%89%8D%E5%88%97%E8%85%BA%E7%99%8C%E5%8D%95%E7%BB%86%E8%83%9E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>文献--小鼠前列腺癌单细胞数据分析</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

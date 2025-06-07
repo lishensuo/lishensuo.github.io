@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>📖 科研基础 -- 读文献、看教材 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="📖 科研基础 -- 读文献、看教材 - Li&#39;s Bioinfo-Blog">
+<meta name="author" content="">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/basic/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="https://lishensuo.github.io/en/posts/basic/index.xml">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/basic/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="📖 科研基础 -- 读文献、看教材" />
+<meta property="og:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/basic/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="📖 科研基础 -- 读文献、看教材"/>
+<meta name="twitter:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 科研基础 -- 读文献、看教材",
+      "item": "https://lishensuo.github.io/en/posts/basic/"
+    }
+  ]
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header"><div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a></div>
+  <h1>📖 科研基础 -- 读文献、看教材</h1>
+</header>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>文献--肝癌空间转录组数据分析
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> Comprehensive analysis of spatial architecture in primary liver cancer
+Sci Adv. 2021 Dec 17
+Doi: 10.1126/sciadv.abg3750.
+简单摘要: 这是一篇资源型的文章，应该是第一篇较大规模的肝癌空间转录组测序文献。基于ST的所包含的空间信息，本文进行多种新颖的分析思路，例如leading-edge section区域的特征，空间相邻的细胞通讯分析，肿瘤中心与四周的通路表达差异等。文章分析的角度涉及很多方面，但具体每个角度来说大多以数据分析结果描述为主。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-10-08 00:00:00 &#43;0000 UTC&#39;&gt;2022-10-08&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-10-08&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2425&amp;nbsp;|&amp;nbsp;5 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 文献--肝癌空间转录组数据分析" href="https://lishensuo.github.io/en/posts/basic/173%E6%96%87%E7%8C%AE--%E8%82%9D%E7%99%8C%E7%A9%BA%E9%97%B4%E8%BD%AC%E5%BD%95%E7%BB%84%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>文献--生信套路之肿瘤预后
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>【01】ccRCC与免疫浸润 标题：Landscape of immune cell infiltration in clear cell renal cell carcinoma to aid immunotherapy
+期刊|日期：Cancer Science | 13 March 2021
+1 第一次分亚群 TCGA 525样本（TPM） 29个 imunne signature：16 免疫细胞与13个免疫相关功能 使用ssGSEA方法计算每个样本的signature score 基于signature score，使用ConsensuClusterPlus包分得5个亚群 PCA可视化轮廓 PD-1与PD-L1表达差异 C1&#43;C4与C2&#43;C3&#43;C5间生存差异 2 第二次分亚群 两大组之间（C1&#43;C4与C2&#43;C3&#43;C5）进行差异分析，得到658个差异基因 基于上述差异基因，再次使用ConsensuClusterPlus包重新分成3个亚群 PCA可视化轮廓 PD-1与PD-L1表达差异 三组间生存分析 29种signature score在三组间的分布差异 immune score与stromal score在三组间的分布差异（ESTIMATE） 根据与分组的相关性，将上述差异基因分成signature A/B 通路富集分析 3 TII分数及衍生分析 分别计算signatue A/B的第一主成分之和，然后相减作为每个样本的TII score 根据survmier包计算最佳阈值划分成high与low score两组，并进行一系列后续分析： （1）生存分析
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-04-17 00:00:00 &#43;0000 UTC&#39;&gt;2023-04-17&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-04-17&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2251&amp;nbsp;|&amp;nbsp;5 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 文献--生信套路之肿瘤预后" href="https://lishensuo.github.io/en/posts/basic/174%E6%96%87%E7%8C%AE--%E7%94%9F%E4%BF%A1%E5%A5%97%E8%B7%AF%E4%B9%8B%E8%82%BF%E7%98%A4%E9%A2%84%E5%90%8E/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>文献--ccRCC单细胞转录组
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 题目：Single-cell analyses of renal cell cancers reveal insights into tumor microenvironment, cell of origin, and therapy response
+期刊 | 日期：PNAS | May 5, 2021
+DOI：https://doi.org/10.1073/pnas.2103240118
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-04-17 00:00:00 &#43;0000 UTC&#39;&gt;2023-04-17&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-04-17&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;986&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 文献--ccRCC单细胞转录组" href="https://lishensuo.github.io/en/posts/basic/175%E6%96%87%E7%8C%AE--ccrcc%E5%8D%95%E7%BB%86%E8%83%9E%E8%BD%AC%E5%BD%95%E7%BB%84/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>文献--髓鞘脱失与再生模型小鼠snRNAseq数据分析
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 题目：Transcriptomic atlas and interaction networks of brain cells in mouse CNS demyelination and remyelination
+期刊|日期：Cell Report | April 2023
+DOI：https://doi.org/10.1016/j.celrep.2023.112293
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-04-17 00:00:00 &#43;0000 UTC&#39;&gt;2023-04-17&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-04-17&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1115&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 文献--髓鞘脱失与再生模型小鼠snRNAseq数据分析" href="https://lishensuo.github.io/en/posts/basic/176%E6%96%87%E7%8C%AE--%E9%AB%93%E9%9E%98%E8%84%B1%E5%A4%B1%E4%B8%8E%E5%86%8D%E7%94%9F%E6%A8%A1%E5%9E%8B%E5%B0%8F%E9%BC%A0snrnaseq%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>文献--基于泛癌scRNAseq的T细胞图谱整合分析
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 题目：Pan-cancer T cell atlas links a cellular stress response state to immunotherapy resistance
+期刊|日期：nature medicine | 26 April 2023
+DOI：https://doi.org/10.1038/s41591-023-02371-y
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-06-18 00:00:00 &#43;0000 UTC&#39;&gt;2023-06-18&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-06-18&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2200&amp;nbsp;|&amp;nbsp;5 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 文献--基于泛癌scRNAseq的T细胞图谱整合分析" href="https://lishensuo.github.io/en/posts/basic/177%E6%96%87%E7%8C%AE--%E5%9F%BA%E4%BA%8E%E6%B3%9B%E7%99%8Cscrnaseq%E7%9A%84t%E7%BB%86%E8%83%9E%E5%9B%BE%E8%B0%B1%E6%95%B4%E5%90%88%E5%88%86%E6%9E%90/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>文献--浆细胞(Plasma cells)在膀胱癌(Bladder cancer)中的预后分析
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 题目：The potential crosstalk between tumor and plasma cells and its association with clinical outcome and immunotherapy response in bladder cancer 期刊|日期：Journal of Translational Medicine | 03 May 2023 DOI：https://doi.org/10.1186/s12967-023-04151-1 这篇文章讨论了浆细胞在膀胱癌免疫微环境的所扮演的作用。相比于传统肿瘤预后类文章，觉得有如下几方面新意：
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-06-23 00:00:00 &#43;0000 UTC&#39;&gt;2023-06-23&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-06-23&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1402&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 文献--浆细胞(Plasma cells)在膀胱癌(Bladder cancer)中的预后分析" href="https://lishensuo.github.io/en/posts/basic/178%E6%96%87%E7%8C%AE--%E6%B5%86%E7%BB%86%E8%83%9Eplasma-cells%E5%9C%A8%E8%86%80%E8%83%B1%E7%99%8Cbladder-cancer%E4%B8%AD%E7%9A%84%E9%A2%84%E5%90%8E%E5%88%86%E6%9E%90/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>文献--机器学习模型预测药物肾毒性-1
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 题目：In Silico Prediction and Insights Into the Structural Basis of Drug Induced Nephrotoxicity
+期刊 | 日期：05 January 2022
+DOI: 10.3389/fphar.2021.793332
+简括：建立机器学习模型的经典流程，值得注意的是包括化合物特征提取，模型建立/评价都是在online chemical database and modeling environment (OCHEM)平台完成的。文章建立的模型也上传到该平台中：https://ochem.eu/article/140251
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-02-10 00:00:00 &#43;0000 UTC&#39;&gt;2023-02-10&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-02-10&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;737&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 文献--机器学习模型预测药物肾毒性-1" href="https://lishensuo.github.io/en/posts/basic/200%E6%96%87%E7%8C%AE--%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%A2%84%E6%B5%8B%E8%8D%AF%E7%89%A9%E8%82%BE%E6%AF%92%E6%80%A7-1/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>文献--机器学习模型预测药物肾毒性-2
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 题目：In silico prediction of potential drug-induced nephrotoxicity with machine learning methods
+期刊 | 日期 ： Journal of Applied Toxicology | 11 April 2022
+简介：标准的机器学习模型分析流程，从数据收集到数据整理，从训练模型到评价模型。
+1、数据收集 1.1 标签数据 （1）从SIDER、DrugBank、ChEMBL以及TCM@taiwan等4个数据库收集了1366个标签化合物
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-02-10 00:00:00 &#43;0000 UTC&#39;&gt;2023-02-10&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-02-10&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1073&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 文献--机器学习模型预测药物肾毒性-2" href="https://lishensuo.github.io/en/posts/basic/201%E6%96%87%E7%8C%AE--%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%A2%84%E6%B5%8B%E8%8D%AF%E7%89%A9%E8%82%BE%E6%AF%92%E6%80%A7-2/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>文献--单细胞组学大模型之scGPT
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 文献： scGPT: toward building a foundation model for single-cell multi-omics using generative AI
+时间：2024 Feb. (Published)
+期刊：Nature Method
+DOI：https://doi.org/10.1038/s41592-024-02201-0
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-09-29 00:00:00 &#43;0000 UTC&#39;&gt;2024-09-29&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-09-29&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;6652&amp;nbsp;|&amp;nbsp;14 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 文献--单细胞组学大模型之scGPT" href="https://lishensuo.github.io/en/posts/basic/202%E6%96%87%E7%8C%AE--%E5%8D%95%E7%BB%86%E8%83%9E%E7%BB%84%E5%AD%A6%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B9%8Bscgpt/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>文献--单细胞组学大模型之scBERT
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>标题: scBERT as a large-scale pretrained deep language model for cell type annotation of single-cell RNA-seq data
+期刊|日期：nature machine intelligence, 2022/09
+DOI：https://doi.org/10.1038/s42256-022-00534-z
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-11-09 00:00:00 &#43;0000 UTC&#39;&gt;2024-11-09&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-11-09&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1150&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 文献--单细胞组学大模型之scBERT" href="https://lishensuo.github.io/en/posts/basic/203%E6%96%87%E7%8C%AE--%E5%8D%95%E7%BB%86%E8%83%9E%E7%BB%84%E5%AD%A6%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B9%8Bscbert/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="https://lishensuo.github.io/en/posts/basic/page/3/">« Prev Page</a>
+    <a class="next" href="https://lishensuo.github.io/en/posts/basic/page/5/">Next Page »</a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

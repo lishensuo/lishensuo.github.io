@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>IOBR包肿瘤signature打分与免疫浸润分析 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="转录组">
+<meta name="description" content="
+IOBR包集signature打分与免疫浸润分析为一体的肿瘤数据分析工具，由南方医科大学南方医院廖旺军教授，曾东强博士等人于2021年7月发表于Frontiers in Immunology，引用数以超过100余次。现根据其github教程学习其部分功能用法。">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/bioinfo/081iobr%E5%8C%85%E8%82%BF%E7%98%A4signature%E6%89%93%E5%88%86%E4%B8%8E%E5%85%8D%E7%96%AB%E6%B5%B8%E6%B6%A6%E5%88%86%E6%9E%90/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/bioinfo/081iobr%E5%8C%85%E8%82%BF%E7%98%A4signature%E6%89%93%E5%88%86%E4%B8%8E%E5%85%8D%E7%96%AB%E6%B5%B8%E6%B6%A6%E5%88%86%E6%9E%90/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="IOBR包肿瘤signature打分与免疫浸润分析" />
+<meta property="og:description" content="
+IOBR包集signature打分与免疫浸润分析为一体的肿瘤数据分析工具，由南方医科大学南方医院廖旺军教授，曾东强博士等人于2021年7月发表于Frontiers in Immunology，引用数以超过100余次。现根据其github教程学习其部分功能用法。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/bioinfo/081iobr%E5%8C%85%E8%82%BF%E7%98%A4signature%E6%89%93%E5%88%86%E4%B8%8E%E5%85%8D%E7%96%AB%E6%B5%B8%E6%B6%A6%E5%88%86%E6%9E%90/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-05-15T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2023-05-15T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="IOBR包肿瘤signature打分与免疫浸润分析"/>
+<meta name="twitter:description" content="
+IOBR包集signature打分与免疫浸润分析为一体的肿瘤数据分析工具，由南方医科大学南方医院廖旺军教授，曾东强博士等人于2021年7月发表于Frontiers in Immunology，引用数以超过100余次。现根据其github教程学习其部分功能用法。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 生信数据分析--分析流程，工具包等",
+      "item": "https://lishensuo.github.io/en/posts/bioinfo/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "IOBR包肿瘤signature打分与免疫浸润分析",
+      "item": "https://lishensuo.github.io/en/posts/bioinfo/081iobr%E5%8C%85%E8%82%BF%E7%98%A4signature%E6%89%93%E5%88%86%E4%B8%8E%E5%85%8D%E7%96%AB%E6%B5%B8%E6%B6%A6%E5%88%86%E6%9E%90/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "IOBR包肿瘤signature打分与免疫浸润分析",
+  "name": "IOBR包肿瘤signature打分与免疫浸润分析",
+  "description": " IOBR包集signature打分与免疫浸润分析为一体的肿瘤数据分析工具，由南方医科大学南方医院廖旺军教授，曾东强博士等人于2021年7月发表于Frontiers in Immunology，引用数以超过100余次。现根据其github教程学习其部分功能用法。\n",
+  "keywords": [
+    "转录组"
+  ],
+  "articleBody": " IOBR包集signature打分与免疫浸润分析为一体的肿瘤数据分析工具，由南方医科大学南方医院廖旺军教授，曾东强博士等人于2021年7月发表于Frontiers in Immunology，引用数以超过100余次。现根据其github教程学习其部分功能用法。\nPaper：IOBR: Multi-Omics Immuno-Oncology Biological Research to Decode Tumor Microenvironment and Signatures DOI：https://doi.org/10.3389/fimmu.2021.687975 Github：https://github.com/IOBR/IOBR 1、安装R包 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 # options(\"repos\"= c(CRAN=\"https://mirrors.tuna.tsinghua.edu.cn/CRAN/\")) # options(BioC_mirror=\"http://mirrors.tuna.tsinghua.edu.cn/bioconductor/\") if (!requireNamespace(\"BiocManager\", quietly = TRUE)) install.packages(\"BiocManager\") depens\u003c-c('tibble', 'survival', 'survminer', 'sva', 'limma', \"DESeq2\",\"devtools\", 'limSolve', 'GSVA', 'e1071', 'preprocessCore', 'ggplot2', \"biomaRt\", 'ggpubr', \"devtools\", \"tidyHeatmap\", \"caret\", \"glmnet\", \"ppcor\",\"timeROC\",\"pracma\") for(i in 1:length(depens)){ depen\u003c-depens[i] if (!requireNamespace(depen, quietly = TRUE)) BiocManager::install(depen) } if (!requireNamespace(\"remotes\", quietly = TRUE)) install(\"remotes\") if (!requireNamespace(\"EPIC\", quietly = TRUE)) remotes::install_github(\"GfellerLab/EPIC\", build_vignettes=TRUE) if (!requireNamespace(\"MCPcounter\", quietly = TRUE)) remotes::install_github(\"ebecht/MCPcounter\",ref=\"master\", subdir=\"Source\") if (!requireNamespace(\"estimate\", quietly = TRUE)){ rforge \u003c- \"http://r-forge.r-project.org\" install.packages(\"estimate\", repos=rforge, dependencies=TRUE) } if (!requireNamespace(\"IOBR\", quietly = TRUE)) remotes::install_github(\"IOBR/IOBR\",ref=\"master\") library(IOBR) 2、准备数据 对于RNAseq数据 作者建议使用UCSCXenaTools下载肿瘤表达数据，再结合IOBR函数进行TPM标准化（如下）； 之前学习了解过TCGAbiolinks，可以直接提取TPM数据，觉得更合适些。 1 2 3 4 5 6 7 8 9 10 11 12 13 # \"https://gdc.xenahubs.net/download/TCGA-STAD.htseq_counts.tsv.gz\" eset_stad = data.table::fread(\"TCGA-STAD.htseq_counts.tsv.gz\") %\u003e% as.data.frame() eset_stad$Ensembl_ID\u003c-substring(eset_stad$Ensembl_ID, 1, 15) eset_stad\u003c-column_to_rownames(eset_stad, var = \"Ensembl_ID\") # Revert back to original format because the data from UCSC was log2(x+1)transformed. eset_stad\u003c-(2^eset_stad)+1 eset_stad\u003c-count2tpm(countMat = eset_stad, idType = \"Ensembl\", org=\"hsa\") eset_stad[1:4,1:4] # TCGA-D7-5577-01A TCGA-D7-6818-01A TCGA-BR-7958-01A TCGA-D7-8572-01A # TSPAN6 33.4223214 16.91678635 24.2417334 20.2423671 # TNMD 0.1237997 0.06738584 0.1224305 0.1696897 # DPM1 15.9824956 5.35050514 11.1627196 16.3248532 # SCYL3 4.9644353 3.15739307 5.5790120 8.0491354 对于array数据 一般使用GEOquery包直接下载即可，关键步骤是根据芯片ID注释基因名 IOBR提供了相关注释函数，仅需提供注释信息即可。 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 library(\"GEOquery\") # NOTE: This process may take a few minutes which depends on the internet connection speed. Please wait for its completion. eset_geo\u003c-getGEO(GEO = \"GSE100935\", getGPL = F, destdir = \"./\") eset \u003c-eset_geo[[1]] eset \u003c-exprs(eset) head(anno_hug133plus2) # # A tibble: 6 × 2 # probe_id symbol # # 1 1007_s_at MIR4640 # 2 1053_at RFC2 # 3 117_at HSPA6 # 4 121_at PAX8 # 5 1255_g_at GUCA1A # 6 1294_at MIR5193 eset\u003c-anno_eset(eset = eset, annotation = anno_hug133plus2, symbol = \"symbol\", probe = \"probe_id\", method = \"mean\") eset[1:4, 1:4] # GSM2696792 GSM2696793 GSM2696794 GSM2696795 # SH3KBP1 14.30308 14.56398 14.37668 14.47983 # RPL41 14.36095 14.32783 14.33181 14.34614 # LOC101928826 14.18638 14.38247 14.34530 14.26433 # EEF1A1 14.13245 14.15141 14.08980 14.05879 3、signature打分 内置signature基因集（list对象） 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 # (1)全部 str(signature_collection) # 264 dim(signature_collection_citation) # (2)可分为3大类 str(signature_tme) #119 str(signature_metabolism) #114 str(signature_tumor) # 16 # (3) 又可分为40个主题 str(sig_group) table(names(signature_collection) %in% unlist(sig_group)) # FALSE TRUE # 22 242 打分函数 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 calculate_sig_score sig_score \u003c-calculate_sig_score(pdata = NULL, eset = eset_stad, signature = signature_tme, method = \"pca\", mini_gene_count = 2) # pdata：样本表型，如无可忽略 # eset ：标准化表达矩阵 # signature ：list格式的基因集 ## 内置包括 'signature_tme', 'signature_metabolism','signature_collection', 'go_bp','kegg','hallmark' # method ：打分方法 ## 可选 'pca', 'ssgsea', 'zscore','integration'（前3种都计算一遍） # mini_gene_count：单个基因集包含的最小基因数 # parallel.size ： 调用线程数 sig_tme\u003c-calculate_sig_score(pdata = NULL, eset = eset_stad, signature = signature_tme, method = \"pca\", mini_gene_count = 2) sig_tme[1:4,1:4] # # A tibble: 4 × 4 # ID CD_8_T_effector DDR APM # # 1 TCGA-D7-5577-01A 5.00 1.63 2.82 # 2 TCGA-D7-6818-01A -2.45 0.199 0.373 # 3 TCGA-BR-7958-01A 6.38 3.58 3.34 # 4 TCGA-D7-8572-01A 0.848 12.2 0.272 4、联合表型分析 在进行一系列signature打分之分后，可根据样本表型进行分组比较\n若表型是二分类变量 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 data(\"imvigor210_pdata\") imvigor210_pdata[1:5, 1:5] pdata_group\u003c-imvigor210_pdata[!imvigor210_pdata$BOR_binary==\"NA\",c(\"ID\",\"BOR\",\"BOR_binary\")] res\u003c-iobr_cor_plot(pdata_group = pdata_group, #样本分组 id1 = \"ID\", group = \"BOR_binary\", is_target_continuous = FALSE, target = NULL, feature_data = imvigor210_sig, #样本打分结果 id2 = \"ID\", category = \"signature\", signature_group = sig_group[c(1)], # 一个主题的signature list index = 1, #文件前缀名 ProjectID = \"IMvigor210\", #文件项目名 path = \"1-BOR-relevant-signatures\", #文件夹名 palette_box = \"paired1\", palette_corplot = \"pheatmap\", palette_heatmap = 2 ) head(res) # # A tibble: 6 × 8 # sig_names p.value NR R statistic p.adj log10pvalue stars # # 1 Mismatch_Repair 0.00000921 -0.142 0.479 -0.620 0.0000608 5.04 **** # 2 Cell_cycle 0.0000105 -0.143 0.484 -0.627 0.0000608 4.98 **** # 3 DDR 0.0000152 -0.140 0.474 -0.614 0.0000608 4.82 **** # 4 Homologous_recombination 0.0000331 -0.134 0.453 -0.587 0.0000893 4.48 **** # 5 Histones 0.0000372 -0.127 0.429 -0.556 0.0000893 4.43 **** # 6 CellCycle_Reg 0.00134 -0.105 0.354 -0.459 0.00267 2.87 ** 若表型是连续数值变量 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 res2 \u003c-iobr_cor_plot(pdata_group = pdata_group, id1 = \"ID\", is_target_continuous = TRUE, target = \"HCP5\", group = \"group3\", feature_data = imvigor210_sig, id2 = \"ID\", category = \"signature\", signature_group = sig_group[c(1)], padj_cutoff = 1, index = 2, ProjectID = \"IMvigor210\", path = \"3-HCP5-relevant-signatures\", palette_box = \"set2\", palette_corplot = \"pheatmap\", palette_heatmap = 2 ) head(res2) # # A tibble: 6 × 6 # sig_names p.value statistic p.adj log10pvalue stars # # 1 Positive_regulation_of_exosomal_secretion 2.80e-14 -0.393 3.36e-13 13.6 \"****\" # 2 Ferroptosis 1.02e- 7 0.281 6.11e- 7 6.99 \"****\" # 3 EV_Cell_2020 5.14e- 7 0.265 2.06e- 6 6.29 \"****\" # 4 Nature_metabolism_Hypoxia 1.36e- 4 -0.203 4.09e- 4 3.87 \"***\" # 5 CellCycle_Reg 4.07e- 1 0.0446 9.07e- 1 0.391 \"+\" # 6 Homologous_recombination 5.56e- 1 -0.0316 9.07e- 1 0.255 \"\" 5、免疫浸润分析 IOBR包继承了8种免疫浸润分析的方法，使用方法如下 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 cibersort\u003c-deconvo_tme(eset = eset_stad[,1:10,], method = \"cibersort\", arrays = FALSE, perm = 200 ) epic\u003c-deconvo_tme(eset = eset_stad[,1:10], method = \"epic\", arrays = FALSE) mcp\u003c-deconvo_tme(eset = eset_stad[,1:10], method = \"mcpcounter\") xcell\u003c-deconvo_tme(eset = eset_stad[,1:10], method = \"xcell\",arrays = FALSE) estimate\u003c-deconvo_tme(eset = eset_stad[,1:10], method = \"estimate\") timer\u003c-deconvo_tme(eset = eset_stad[,1:10], method = \"timer\", group_list = rep(\"stad\",10)) quantiseq\u003c-deconvo_tme(eset = eset_stad[,1:10], tumor = TRUE, arrays = FALSE, scale_mrna = TRUE, method = \"quantiseq\") ips\u003c-deconvo_tme(eset = eset_stad[,1:10], method = \"ips\", plot= FALSE) 结果可视化 1 2 library(tidyverse) cell_bar_plot(input = epic, title = \"Deconvolution Cell Fraction\") ",
+  "wordCount" : "1667",
+  "inLanguage": "en",
+  "datePublished": "2023-05-15T00:00:00Z",
+  "dateModified": "2023-05-15T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/bioinfo/081iobr%E5%8C%85%E8%82%BF%E7%98%A4signature%E6%89%93%E5%88%86%E4%B8%8E%E5%85%8D%E7%96%AB%E6%B5%B8%E6%B6%A6%E5%88%86%E6%9E%90/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/bioinfo/">📖 生信数据分析--分析流程，工具包等</a></div>
+    <h1 class="post-title">
+      IOBR包肿瘤signature打分与免疫浸润分析
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-05-15 00:00:00 &#43;0000 UTC&#39;&gt;2023-05-15&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-05-15&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1667&amp;nbsp;|&amp;nbsp;4 min&amp;nbsp;|&amp;nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#1%e5%ae%89%e8%a3%85r%e5%8c%85" aria-label="1、安装R包">1、安装R包</a></li>
+                    <li>
+                        <a href="#2%e5%87%86%e5%a4%87%e6%95%b0%e6%8d%ae" aria-label="2、准备数据">2、准备数据</a></li>
+                    <li>
+                        <a href="#3signature%e6%89%93%e5%88%86" aria-label="3、signature打分">3、signature打分</a></li>
+                    <li>
+                        <a href="#4%e8%81%94%e5%90%88%e8%a1%a8%e5%9e%8b%e5%88%86%e6%9e%90" aria-label="4、联合表型分析">4、联合表型分析</a></li>
+                    <li>
+                        <a href="#5%e5%85%8d%e7%96%ab%e6%b5%b8%e6%b6%a6%e5%88%86%e6%9e%90" aria-label="5、免疫浸润分析">5、免疫浸润分析</a>
+                    </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><blockquote>
+<p>IOBR包集signature打分与免疫浸润分析为一体的肿瘤数据分析工具，由南方医科大学南方医院廖旺军教授，曾东强博士等人于2021年7月发表于Frontiers in Immunology，引用数以超过100余次。现根据其github教程学习其部分功能用法。</p>
+<ul>
+<li><strong>Paper</strong>：IOBR: Multi-Omics Immuno-Oncology Biological Research to Decode Tumor Microenvironment and Signatures</li>
+<li>DOI：https://doi.org/10.3389/fimmu.2021.687975</li>
+<li>Github：https://github.com/IOBR/IOBR</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230515113752888.png" alt="image-20230515113752888" style="zoom:67%;" /></blockquote>
+<h2 id="1安装r包">1、安装R包<a hidden class="anchor" aria-hidden="true" href="#1安装r包">#</a></h2>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f"># options(&#34;repos&#34;= c(CRAN=&#34;https://mirrors.tuna.tsinghua.edu.cn/CRAN/&#34;))</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># options(BioC_mirror=&#34;http://mirrors.tuna.tsinghua.edu.cn/bioconductor/&#34;)</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">if</span> (!requireNamespace(<span style="color:#0ff;font-weight:bold">&#34;BiocManager&#34;</span>, quietly = <span style="color:#fff;font-weight:bold">TRUE</span>)) install.packages(<span style="color:#0ff;font-weight:bold">&#34;BiocManager&#34;</span>)
+</span></span><span style="display:flex;"><span>depens&lt;-c(<span style="color:#0ff;font-weight:bold">&#39;tibble&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;survival&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;survminer&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;sva&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;limma&#39;</span>, <span style="color:#0ff;font-weight:bold">&#34;DESeq2&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;devtools&#34;</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#0ff;font-weight:bold">&#39;limSolve&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;GSVA&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;e1071&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;preprocessCore&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;ggplot2&#39;</span>, <span style="color:#0ff;font-weight:bold">&#34;biomaRt&#34;</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#0ff;font-weight:bold">&#39;ggpubr&#39;</span>, <span style="color:#0ff;font-weight:bold">&#34;devtools&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;tidyHeatmap&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;caret&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;glmnet&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;ppcor&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;timeROC&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;pracma&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">for</span>(i <span style="color:#fff;font-weight:bold">in</span> <span style="color:#ff0;font-weight:bold">1</span>:length(depens)){
+</span></span><span style="display:flex;"><span>  depen&lt;-depens[i]
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">if</span> (!requireNamespace(depen, quietly = <span style="color:#fff;font-weight:bold">TRUE</span>)) BiocManager::install(depen)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">if</span> (!requireNamespace(<span style="color:#0ff;font-weight:bold">&#34;remotes&#34;</span>, quietly = <span style="color:#fff;font-weight:bold">TRUE</span>)) install(<span style="color:#0ff;font-weight:bold">&#34;remotes&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">if</span> (!requireNamespace(<span style="color:#0ff;font-weight:bold">&#34;EPIC&#34;</span>, quietly = <span style="color:#fff;font-weight:bold">TRUE</span>))
+</span></span><span style="display:flex;"><span>  remotes::install_github(<span style="color:#0ff;font-weight:bold">&#34;GfellerLab/EPIC&#34;</span>, build_vignettes=<span style="color:#fff;font-weight:bold">TRUE</span>)
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">if</span> (!requireNamespace(<span style="color:#0ff;font-weight:bold">&#34;MCPcounter&#34;</span>, quietly = <span style="color:#fff;font-weight:bold">TRUE</span>))
+</span></span><span style="display:flex;"><span>  remotes::install_github(<span style="color:#0ff;font-weight:bold">&#34;ebecht/MCPcounter&#34;</span>,ref=<span style="color:#0ff;font-weight:bold">&#34;master&#34;</span>, subdir=<span style="color:#0ff;font-weight:bold">&#34;Source&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">if</span> (!requireNamespace(<span style="color:#0ff;font-weight:bold">&#34;estimate&#34;</span>, quietly = <span style="color:#fff;font-weight:bold">TRUE</span>)){
+</span></span><span style="display:flex;"><span>  rforge &lt;- <span style="color:#0ff;font-weight:bold">&#34;http://r-forge.r-project.org&#34;</span>
+</span></span><span style="display:flex;"><span>  install.packages(<span style="color:#0ff;font-weight:bold">&#34;estimate&#34;</span>, repos=rforge, dependencies=<span style="color:#fff;font-weight:bold">TRUE</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">if</span> (!requireNamespace(<span style="color:#0ff;font-weight:bold">&#34;IOBR&#34;</span>, quietly = <span style="color:#fff;font-weight:bold">TRUE</span>))
+</span></span><span style="display:flex;"><span>  remotes::install_github(<span style="color:#0ff;font-weight:bold">&#34;IOBR/IOBR&#34;</span>,ref=<span style="color:#0ff;font-weight:bold">&#34;master&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>library(IOBR)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="2准备数据">2、准备数据<a hidden class="anchor" aria-hidden="true" href="#2准备数据">#</a></h2>
+<ul>
+<li>对于RNAseq数据
+<ul>
+<li>作者建议使用UCSCXenaTools下载肿瘤表达数据，再结合IOBR函数进行TPM标准化（如下）；</li>
+<li>之前学习了解过TCGAbiolinks，可以直接提取TPM数据，觉得更合适些。</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f"># &#34;https://gdc.xenahubs.net/download/TCGA-STAD.htseq_counts.tsv.gz&#34;</span>
+</span></span><span style="display:flex;"><span>eset_stad = data.table::fread(<span style="color:#0ff;font-weight:bold">&#34;TCGA-STAD.htseq_counts.tsv.gz&#34;</span>) %&gt;% as.data.frame()
+</span></span><span style="display:flex;"><span>eset_stad$Ensembl_ID&lt;-substring(eset_stad$Ensembl_ID, <span style="color:#ff0;font-weight:bold">1</span>, <span style="color:#ff0;font-weight:bold">15</span>)
+</span></span><span style="display:flex;"><span>eset_stad&lt;-column_to_rownames(eset_stad, var = <span style="color:#0ff;font-weight:bold">&#34;Ensembl_ID&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Revert back to original format because the data from UCSC was log2(x+1)transformed.</span>
+</span></span><span style="display:flex;"><span>eset_stad&lt;-(<span style="color:#ff0;font-weight:bold">2</span>^eset_stad)<span style="color:#ff0;font-weight:bold">+1</span>
+</span></span><span style="display:flex;"><span>eset_stad&lt;-count2tpm(countMat = eset_stad, idType = <span style="color:#0ff;font-weight:bold">&#34;Ensembl&#34;</span>, org=<span style="color:#0ff;font-weight:bold">&#34;hsa&#34;</span>)
+</span></span><span style="display:flex;"><span>eset_stad[1:<span style="color:#ff0;font-weight:bold">4</span>,<span style="color:#ff0;font-weight:bold">1</span>:<span style="color:#ff0;font-weight:bold">4</span>]
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#        TCGA-D7-5577-01A TCGA-D7-6818-01A TCGA-BR-7958-01A TCGA-D7-8572-01A</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># TSPAN6       33.4223214      16.91678635       24.2417334       20.2423671</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># TNMD          0.1237997       0.06738584        0.1224305        0.1696897</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># DPM1         15.9824956       5.35050514       11.1627196       16.3248532</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># SCYL3         4.9644353       3.15739307        5.5790120        8.0491354</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>对于array数据
+<ul>
+<li>一般使用GEOquery包直接下载即可，关键步骤是根据芯片ID注释基因名</li>
+<li>IOBR提供了相关注释函数，仅需提供注释信息即可。</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">27
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">28
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">29
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>library(<span style="color:#0ff;font-weight:bold">&#34;GEOquery&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># NOTE: This process may take a few minutes which depends on the internet connection speed. Please wait for its completion.</span>
+</span></span><span style="display:flex;"><span>eset_geo&lt;-getGEO(GEO     = <span style="color:#0ff;font-weight:bold">&#34;GSE100935&#34;</span>,
+</span></span><span style="display:flex;"><span>                 getGPL  = <span style="color:#fff;font-weight:bold">F</span>,
+</span></span><span style="display:flex;"><span>                 destdir = <span style="color:#0ff;font-weight:bold">&#34;./&#34;</span>)
+</span></span><span style="display:flex;"><span>eset    &lt;-eset_geo[[1]]
+</span></span><span style="display:flex;"><span>eset    &lt;-exprs(eset)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>head(anno_hug133plus2)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># # A tibble: 6 × 2</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># probe_id  symbol </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># &lt;fct&gt;     &lt;fct&gt;  </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   1 1007_s_at MIR4640</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2 1053_at   RFC2   </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3 117_at    HSPA6  </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 4 121_at    PAX8   </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 5 1255_g_at GUCA1A </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 6 1294_at   MIR5193</span>
+</span></span><span style="display:flex;"><span>eset&lt;-anno_eset(eset       = eset,
+</span></span><span style="display:flex;"><span>                annotation = anno_hug133plus2,
+</span></span><span style="display:flex;"><span>                symbol     = <span style="color:#0ff;font-weight:bold">&#34;symbol&#34;</span>,
+</span></span><span style="display:flex;"><span>                probe      = <span style="color:#0ff;font-weight:bold">&#34;probe_id&#34;</span>,
+</span></span><span style="display:flex;"><span>                method     = <span style="color:#0ff;font-weight:bold">&#34;mean&#34;</span>)
+</span></span><span style="display:flex;"><span>eset[1:<span style="color:#ff0;font-weight:bold">4</span>, <span style="color:#ff0;font-weight:bold">1</span>:<span style="color:#ff0;font-weight:bold">4</span>]
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#              GSM2696792 GSM2696793 GSM2696794 GSM2696795</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># SH3KBP1        14.30308   14.56398   14.37668   14.47983</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># RPL41          14.36095   14.32783   14.33181   14.34614</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># LOC101928826   14.18638   14.38247   14.34530   14.26433</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># EEF1A1         14.13245   14.15141   14.08980   14.05879</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="3signature打分">3、signature打分<a hidden class="anchor" aria-hidden="true" href="#3signature打分">#</a></h2>
+<ul>
+<li>内置signature基因集（list对象）</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f"># (1)全部</span>
+</span></span><span style="display:flex;"><span>str(signature_collection) <span style="color:#007f7f"># 264</span>
+</span></span><span style="display:flex;"><span>dim(signature_collection_citation)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># (2)可分为3大类</span>
+</span></span><span style="display:flex;"><span>str(signature_tme) <span style="color:#007f7f">#119</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>str(signature_metabolism) <span style="color:#007f7f">#114</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>str(signature_tumor) <span style="color:#007f7f"># 16</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># (3) 又可分为40个主题</span>
+</span></span><span style="display:flex;"><span>str(sig_group)
+</span></span><span style="display:flex;"><span>table(names(signature_collection) %in% unlist(sig_group))
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># FALSE  TRUE </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#    22   242 </span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>打分函数</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">27
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">28
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">29
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">30
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>calculate_sig_score
+</span></span><span style="display:flex;"><span>sig_score &lt;-calculate_sig_score(pdata           = <span style="color:#fff;font-weight:bold">NULL</span>,
+</span></span><span style="display:flex;"><span>                                eset            = eset_stad,
+</span></span><span style="display:flex;"><span>                                signature       = signature_tme,
+</span></span><span style="display:flex;"><span>                                method          = <span style="color:#0ff;font-weight:bold">&#34;pca&#34;</span>,
+</span></span><span style="display:flex;"><span>                                mini_gene_count = <span style="color:#ff0;font-weight:bold">2</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># pdata：样本表型，如无可忽略</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># eset ：标准化表达矩阵</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># signature ：list格式的基因集</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## 内置包括  &#39;signature_tme&#39;, &#39;signature_metabolism&#39;,&#39;signature_collection&#39;, &#39;go_bp&#39;,&#39;kegg&#39;,&#39;hallmark&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># method ：打分方法</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## 可选  &#39;pca&#39;, &#39;ssgsea&#39;, &#39;zscore&#39;,&#39;integration&#39;（前3种都计算一遍）</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># mini_gene_count：单个基因集包含的最小基因数</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># parallel.size ： 调用线程数</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sig_tme&lt;-calculate_sig_score(pdata           = <span style="color:#fff;font-weight:bold">NULL</span>,
+</span></span><span style="display:flex;"><span>                             eset            = eset_stad,
+</span></span><span style="display:flex;"><span>                             signature       = signature_tme,
+</span></span><span style="display:flex;"><span>                             method          = <span style="color:#0ff;font-weight:bold">&#34;pca&#34;</span>,
+</span></span><span style="display:flex;"><span>                             mini_gene_count = <span style="color:#ff0;font-weight:bold">2</span>)
+</span></span><span style="display:flex;"><span>sig_tme[1:<span style="color:#ff0;font-weight:bold">4</span>,<span style="color:#ff0;font-weight:bold">1</span>:<span style="color:#ff0;font-weight:bold">4</span>]
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># # A tibble: 4 × 4</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   ID               CD_8_T_effector    DDR   APM</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   &lt;chr&gt;                      &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1 TCGA-D7-5577-01A           5.00   1.63  2.82 </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2 TCGA-D7-6818-01A          -2.45   0.199 0.373</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3 TCGA-BR-7958-01A           6.38   3.58  3.34 </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 4 TCGA-D7-8572-01A           0.848 12.2   0.272</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="4联合表型分析">4、联合表型分析<a hidden class="anchor" aria-hidden="true" href="#4联合表型分析">#</a></h2>
+<p>在进行一系列signature打分之分后，可根据样本表型进行分组比较</p>
+<ul>
+<li>若表型是二分类变量</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">27
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">28
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">29
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">30
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">31
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">32
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">33
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>data(<span style="color:#0ff;font-weight:bold">&#34;imvigor210_pdata&#34;</span>)
+</span></span><span style="display:flex;"><span>imvigor210_pdata[1:<span style="color:#ff0;font-weight:bold">5</span>, <span style="color:#ff0;font-weight:bold">1</span>:<span style="color:#ff0;font-weight:bold">5</span>]
+</span></span><span style="display:flex;"><span>pdata_group&lt;-imvigor210_pdata[!imvigor210_pdata$BOR_binary==<span style="color:#0ff;font-weight:bold">&#34;NA&#34;</span>,c(<span style="color:#0ff;font-weight:bold">&#34;ID&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;BOR&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;BOR_binary&#34;</span>)]
+</span></span><span style="display:flex;"><span>res&lt;-iobr_cor_plot(pdata_group           = pdata_group,  <span style="color:#007f7f">#样本分组</span>
+</span></span><span style="display:flex;"><span>                   id1                   = <span style="color:#0ff;font-weight:bold">&#34;ID&#34;</span>,
+</span></span><span style="display:flex;"><span>                   group                 = <span style="color:#0ff;font-weight:bold">&#34;BOR_binary&#34;</span>, 
+</span></span><span style="display:flex;"><span>                   is_target_continuous  = <span style="color:#fff;font-weight:bold">FALSE</span>,
+</span></span><span style="display:flex;"><span>                   target                = <span style="color:#fff;font-weight:bold">NULL</span>,
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                   feature_data          = imvigor210_sig, <span style="color:#007f7f">#样本打分结果</span>
+</span></span><span style="display:flex;"><span>                   id2                   = <span style="color:#0ff;font-weight:bold">&#34;ID&#34;</span>,
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                   category              = <span style="color:#0ff;font-weight:bold">&#34;signature&#34;</span>,
+</span></span><span style="display:flex;"><span>                   signature_group       = sig_group[c(<span style="color:#ff0;font-weight:bold">1</span>)], <span style="color:#007f7f"># 一个主题的signature list</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                   index                 = <span style="color:#ff0;font-weight:bold">1</span>,                   <span style="color:#007f7f">#文件前缀名</span>
+</span></span><span style="display:flex;"><span>                   ProjectID             = <span style="color:#0ff;font-weight:bold">&#34;IMvigor210&#34;</span>,        <span style="color:#007f7f">#文件项目名</span>
+</span></span><span style="display:flex;"><span>                   path                  = <span style="color:#0ff;font-weight:bold">&#34;1-BOR-relevant-signatures&#34;</span>, <span style="color:#007f7f">#文件夹名</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                   palette_box           = <span style="color:#0ff;font-weight:bold">&#34;paired1&#34;</span>,
+</span></span><span style="display:flex;"><span>                   palette_corplot       = <span style="color:#0ff;font-weight:bold">&#34;pheatmap&#34;</span>,
+</span></span><span style="display:flex;"><span>                   palette_heatmap       = <span style="color:#ff0;font-weight:bold">2</span>
+</span></span><span style="display:flex;"><span>                   )
+</span></span><span style="display:flex;"><span>head(res)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># # A tibble: 6 × 8</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   sig_names                   p.value     NR     R statistic     p.adj log10pvalue stars</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   &lt;chr&gt;                         &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1 Mismatch_Repair          0.00000921 -0.142 0.479    -0.620 0.0000608        5.04 **** </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2 Cell_cycle               0.0000105  -0.143 0.484    -0.627 0.0000608        4.98 **** </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3 DDR                      0.0000152  -0.140 0.474    -0.614 0.0000608        4.82 **** </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 4 Homologous_recombination 0.0000331  -0.134 0.453    -0.587 0.0000893        4.48 **** </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 5 Histones                 0.0000372  -0.127 0.429    -0.556 0.0000893        4.43 **** </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 6 CellCycle_Reg            0.00134    -0.105 0.354    -0.459 0.00267          2.87 ** </span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230515111327367.png" alt="image-20230515111327367" style="zoom: 80%;" />
+<ul>
+<li>若表型是连续数值变量</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">27
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">28
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">29
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">30
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">31
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">32
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>res2 &lt;-iobr_cor_plot(pdata_group           = pdata_group,
+</span></span><span style="display:flex;"><span>                   id1                   = <span style="color:#0ff;font-weight:bold">&#34;ID&#34;</span>,
+</span></span><span style="display:flex;"><span>                   is_target_continuous  = <span style="color:#fff;font-weight:bold">TRUE</span>,
+</span></span><span style="display:flex;"><span>                   target                = <span style="color:#0ff;font-weight:bold">&#34;HCP5&#34;</span>,
+</span></span><span style="display:flex;"><span>                   group                 = <span style="color:#0ff;font-weight:bold">&#34;group3&#34;</span>,
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                   feature_data          = imvigor210_sig,
+</span></span><span style="display:flex;"><span>                   id2                   = <span style="color:#0ff;font-weight:bold">&#34;ID&#34;</span>,
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                   category              = <span style="color:#0ff;font-weight:bold">&#34;signature&#34;</span>,
+</span></span><span style="display:flex;"><span>                   signature_group       = sig_group[c(<span style="color:#ff0;font-weight:bold">1</span>)],
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                   padj_cutoff           = <span style="color:#ff0;font-weight:bold">1</span>,
+</span></span><span style="display:flex;"><span>                   index                 = <span style="color:#ff0;font-weight:bold">2</span>,
+</span></span><span style="display:flex;"><span>                   ProjectID             = <span style="color:#0ff;font-weight:bold">&#34;IMvigor210&#34;</span>,
+</span></span><span style="display:flex;"><span>                   path                  = <span style="color:#0ff;font-weight:bold">&#34;3-HCP5-relevant-signatures&#34;</span>,
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                   palette_box           = <span style="color:#0ff;font-weight:bold">&#34;set2&#34;</span>,
+</span></span><span style="display:flex;"><span>                   palette_corplot       = <span style="color:#0ff;font-weight:bold">&#34;pheatmap&#34;</span>,
+</span></span><span style="display:flex;"><span>                   palette_heatmap       = <span style="color:#ff0;font-weight:bold">2</span>
+</span></span><span style="display:flex;"><span>                   )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>head(res2)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># # A tibble: 6 × 6</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   sig_names                                  p.value statistic    p.adj log10pvalue stars </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   &lt;chr&gt;                                        &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt; </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1 Positive_regulation_of_exosomal_secretion 2.80e-14   -0.393  3.36e-13      13.6   &#34;****&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2 Ferroptosis                               1.02e- 7    0.281  6.11e- 7       6.99  &#34;****&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3 EV_Cell_2020                              5.14e- 7    0.265  2.06e- 6       6.29  &#34;****&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 4 Nature_metabolism_Hypoxia                 1.36e- 4   -0.203  4.09e- 4       3.87  &#34;***&#34; </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 5 CellCycle_Reg                             4.07e- 1    0.0446 9.07e- 1       0.391 &#34;+&#34;   </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 6 Homologous_recombination                  5.56e- 1   -0.0316 9.07e- 1       0.255 &#34;&#34;    </span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230515112126388.png" alt="image-20230515112126388" style="zoom:80%;" />
+<h2 id="5免疫浸润分析">5、免疫浸润分析<a hidden class="anchor" aria-hidden="true" href="#5免疫浸润分析">#</a></h2>
+<ul>
+<li>IOBR包继承了8种免疫浸润分析的方法，使用方法如下</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>cibersort&lt;-deconvo_tme(eset = eset_stad[,<span style="color:#ff0;font-weight:bold">1</span>:<span style="color:#ff0;font-weight:bold">10</span>,], method = <span style="color:#0ff;font-weight:bold">&#34;cibersort&#34;</span>, arrays = <span style="color:#fff;font-weight:bold">FALSE</span>, perm = <span style="color:#ff0;font-weight:bold">200</span> )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>epic&lt;-deconvo_tme(eset = eset_stad[,<span style="color:#ff0;font-weight:bold">1</span>:<span style="color:#ff0;font-weight:bold">10</span>], method = <span style="color:#0ff;font-weight:bold">&#34;epic&#34;</span>, arrays = <span style="color:#fff;font-weight:bold">FALSE</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>mcp&lt;-deconvo_tme(eset = eset_stad[,<span style="color:#ff0;font-weight:bold">1</span>:<span style="color:#ff0;font-weight:bold">10</span>], method = <span style="color:#0ff;font-weight:bold">&#34;mcpcounter&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>xcell&lt;-deconvo_tme(eset = eset_stad[,<span style="color:#ff0;font-weight:bold">1</span>:<span style="color:#ff0;font-weight:bold">10</span>], method = <span style="color:#0ff;font-weight:bold">&#34;xcell&#34;</span>,arrays = <span style="color:#fff;font-weight:bold">FALSE</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>estimate&lt;-deconvo_tme(eset = eset_stad[,<span style="color:#ff0;font-weight:bold">1</span>:<span style="color:#ff0;font-weight:bold">10</span>], method = <span style="color:#0ff;font-weight:bold">&#34;estimate&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>timer&lt;-deconvo_tme(eset = eset_stad[,<span style="color:#ff0;font-weight:bold">1</span>:<span style="color:#ff0;font-weight:bold">10</span>], method = <span style="color:#0ff;font-weight:bold">&#34;timer&#34;</span>, group_list = rep(<span style="color:#0ff;font-weight:bold">&#34;stad&#34;</span>,<span style="color:#ff0;font-weight:bold">10</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>quantiseq&lt;-deconvo_tme(eset = eset_stad[,<span style="color:#ff0;font-weight:bold">1</span>:<span style="color:#ff0;font-weight:bold">10</span>], tumor = <span style="color:#fff;font-weight:bold">TRUE</span>, arrays = <span style="color:#fff;font-weight:bold">FALSE</span>, scale_mrna = <span style="color:#fff;font-weight:bold">TRUE</span>, method = <span style="color:#0ff;font-weight:bold">&#34;quantiseq&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ips&lt;-deconvo_tme(eset = eset_stad[,<span style="color:#ff0;font-weight:bold">1</span>:<span style="color:#ff0;font-weight:bold">10</span>], method = <span style="color:#0ff;font-weight:bold">&#34;ips&#34;</span>, plot= <span style="color:#fff;font-weight:bold">FALSE</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>结果可视化</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>library(tidyverse)
+</span></span><span style="display:flex;"><span>cell_bar_plot(input = epic, title = <span style="color:#0ff;font-weight:bold">&#34;Deconvolution Cell Fraction&#34;</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230515112603519.png" alt="image-20230515112603519" style="zoom:67%;" />
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/%E8%BD%AC%E5%BD%95%E7%BB%84/">转录组</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/en/posts/bioinfo/080enhancedvolcano%E5%8C%85%E7%BB%98%E5%88%B6%E7%81%AB%E5%B1%B1%E5%9B%BE/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>EnhancedVolcano包绘制火山图</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/en/posts/bioinfo/082bayesprism%E5%8C%85%E6%A0%B9%E6%8D%AEscrnaseq%E9%A2%84%E6%B5%8Bbulk%E7%BB%86%E8%83%9E%E7%BB%84%E6%88%90/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>BayesPrism包根据scRNAseq预测Bulk细胞组成</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

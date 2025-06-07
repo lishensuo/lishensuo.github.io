@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>Python数据科学-(1)IPython的特点 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="Python">
+<meta name="description" content="
+Python有不少解释器，默认使用的是CPython。而IPython，interactive python可以提供交互式开发环境；是Jupyter的内核。如果要使用Jupyter，使用的就是IPython开发环境。">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/program/020python%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6-ipython%E9%AD%94%E6%B3%95%E5%91%BD%E4%BB%A4/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/program/020python%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6-ipython%E9%AD%94%E6%B3%95%E5%91%BD%E4%BB%A4/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Python数据科学-(1)IPython的特点" />
+<meta property="og:description" content="
+Python有不少解释器，默认使用的是CPython。而IPython，interactive python可以提供交互式开发环境；是Jupyter的内核。如果要使用Jupyter，使用的就是IPython开发环境。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/program/020python%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6-ipython%E9%AD%94%E6%B3%95%E5%91%BD%E4%BB%A4/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-04-26T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2022-04-26T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Python数据科学-(1)IPython的特点"/>
+<meta name="twitter:description" content="
+Python有不少解释器，默认使用的是CPython。而IPython，interactive python可以提供交互式开发环境；是Jupyter的内核。如果要使用Jupyter，使用的就是IPython开发环境。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 R\u0026Python\u0026Shell --- 编程基础、可视化等",
+      "item": "https://lishensuo.github.io/en/posts/program/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "Python数据科学-(1)IPython的特点",
+      "item": "https://lishensuo.github.io/en/posts/program/020python%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6-ipython%E9%AD%94%E6%B3%95%E5%91%BD%E4%BB%A4/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Python数据科学-(1)IPython的特点",
+  "name": "Python数据科学-(1)IPython的特点",
+  "description": " Python有不少解释器，默认使用的是CPython。而IPython，interactive python可以提供交互式开发环境；是Jupyter的内核。如果要使用Jupyter，使用的就是IPython开发环境。\n",
+  "keywords": [
+    "Python"
+  ],
+  "articleBody": " Python有不少解释器，默认使用的是CPython。而IPython，interactive python可以提供交互式开发环境；是Jupyter的内核。如果要使用Jupyter，使用的就是IPython开发环境。\n1、In/Out ipython的特征之一是命令的前缀类似：In[1]；而输出结果的前缀类似：Out[1]。\n前者称为输入单元格(input cell)，可以输入单行/多行命令；后者称为输出单元格(output cell)。\nIn对象本质上是个列表，按顺序记录所有的命令；Out对象本质是一个字典，将输入数字映射到相应的输出。\n1 2 3 4 5 6 7 8 9 In [1]: a=1 In [2]: test=\"hello\" In [3]: 1+1 #如上为历史记录 print(In) # ['', 'a=1', 'test=\"hello\"', '1+1', 'print(In)'] print(Out) # {3: 2} 如上，并不是所有的输入单元格都有输出内容。比较特殊的是print()语句本质是没有输出的，尽管它的功能是打印一些语句。\n2、?问号 1 2 3 4 5 6 7 8 9 10 11 12 ## (1) 对象名(函数/方法)+?：获取简要帮助文档 len? range? list.append? ## (2) 正则表达式+?：列出当前命令空间中，所有符合匹配条件的对象名 anynumber = 123 anyway = \"test\" an*? # any # anynumber # anyway 3、%百分号 %command：行魔法；%%command：单元魔法\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 ## (1) %paste: 复制粘贴别人带有提示符前缀的代码块( %cpaste:交互式多行复制) ## (2) %run ***.py: 在python环境执行python脚本 ## (3) %timeit: 计算代码运行时间(%%timeit: 计算多行代码运行时间) %timeit print(\"hello, world\") # 12.1 µs ± 137 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each) ## (4) %history 查看历史命令 ## (5) %automagic 是否简化 行魔法 命令的前缀% %automagic # Automagic is ON, % prefix IS NOT needed for line magics. ## (5) 其它魔法函数 %lsmagic #列出所有的魔法函数 %timeit? #获取某一个魔法函数的帮助文档 4、执行shell命令 之前了解到在python中可使用os模块的system方法执行shell命令。 在ipython解释器中，对于一些常用shell命令，可直接使用%command。例如%cd,%pwd，%mkdir newfolder等等，可通过%lsmagic 查看 在%automagic设置为On的状态下，可以不写前缀%，就完全像shell命令一样 1 2 3 4 5 6 7 8 9 10 11 12 13 %ls # Miniconda3-latest-Linux-x86_64.sh Untitled.ipynb miniconda3/ test/ pwd # '/home/shensuo' nowpath=%pwd print(nowpath) # /home/shensuo conda info --envs # #conda environments: # # # base * /home/shensuo/miniconda3 ",
+  "wordCount" : "899",
+  "inLanguage": "en",
+  "datePublished": "2022-04-26T00:00:00Z",
+  "dateModified": "2022-04-26T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/program/020python%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6-ipython%E9%AD%94%E6%B3%95%E5%91%BD%E4%BB%A4/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/program/">📖 R&amp;Python&amp;Shell --- 编程基础、可视化等</a></div>
+    <h1 class="post-title">
+      Python数据科学-(1)IPython的特点
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-26 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-26&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-04-26&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;899&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#1inout" aria-label="1、In/Out">1、In/Out</a></li>
+                    <li>
+                        <a href="#2%e9%97%ae%e5%8f%b7" aria-label="2、?问号">2、?问号</a></li>
+                    <li>
+                        <a href="#3%e7%99%be%e5%88%86%e5%8f%b7" aria-label="3、%百分号">3、%百分号</a></li>
+                    <li>
+                        <a href="#4%e6%89%a7%e8%a1%8cshell%e5%91%bd%e4%bb%a4" aria-label="4、执行shell命令">4、执行shell命令</a>
+                    </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><blockquote>
+<p>Python有不少解释器，默认使用的是CPython。而IPython，interactive python可以提供交互式开发环境；是Jupyter的内核。如果要使用Jupyter，使用的就是IPython开发环境。</p></blockquote>
+<h2 id="1inout">1、In/Out<a hidden class="anchor" aria-hidden="true" href="#1inout">#</a></h2>
+<ul>
+<li>
+<p>ipython的特征之一是命令的前缀类似：<code>In[1]</code>；而输出结果的前缀类似：<code>Out[1]</code>。</p>
+</li>
+<li>
+<p>前者称为输入单元格(input cell)，可以输入单行/多行命令；后者称为输出单元格(output cell)。</p>
+</li>
+<li>
+<p><code>In</code>对象本质上是个列表，按顺序记录所有的命令；<code>Out</code>对象本质是一个字典，将输入数字映射到相应的输出。</p>
+</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>In [<span style="color:#ff0;font-weight:bold">1</span>]: a=<span style="color:#ff0;font-weight:bold">1</span>
+</span></span><span style="display:flex;"><span>In [<span style="color:#ff0;font-weight:bold">2</span>]: test=<span style="color:#0ff;font-weight:bold">&#34;hello&#34;</span>
+</span></span><span style="display:flex;"><span>In [<span style="color:#ff0;font-weight:bold">3</span>]: <span style="color:#ff0;font-weight:bold">1</span>+<span style="color:#ff0;font-weight:bold">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#如上为历史记录</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">print</span>(In)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [&#39;&#39;, &#39;a=1&#39;, &#39;test=&#34;hello&#34;&#39;, &#39;1+1&#39;, &#39;print(In)&#39;]</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">print</span>(Out)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># {3: 2}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>如上，并不是所有的输入单元格都有输出内容。比较特殊的是<code>print()</code>语句本质是没有输出的，尽管它的功能是打印一些语句。</p></blockquote>
+<h2 id="2问号">2、?问号<a hidden class="anchor" aria-hidden="true" href="#2问号">#</a></h2>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#007f7f">## (1) 对象名(函数/方法)+?：获取简要帮助文档</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">len</span><span style="color:#f00">?</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">range</span><span style="color:#f00">?</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">list</span>.append<span style="color:#f00">?</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## (2) 正则表达式+?：列出当前命令空间中，所有符合匹配条件的对象名</span>
+</span></span><span style="display:flex;"><span>anynumber = <span style="color:#ff0;font-weight:bold">123</span>
+</span></span><span style="display:flex;"><span>anyway = <span style="color:#0ff;font-weight:bold">&#34;test&#34;</span>
+</span></span><span style="display:flex;"><span>an*<span style="color:#f00">?</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># any</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># anynumber</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># anyway</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="3百分号">3、%百分号<a hidden class="anchor" aria-hidden="true" href="#3百分号">#</a></h2>
+<p>%command：行魔法；%%command：单元魔法</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#007f7f">## (1) %paste: 复制粘贴别人带有提示符前缀的代码块( %cpaste:交互式多行复制)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## (2) %run ***.py: 在python环境执行python脚本</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## (3) %timeit: 计算代码运行时间(%%timeit: 计算多行代码运行时间)</span>
+</span></span><span style="display:flex;"><span>%timeit <span style="color:#fff;font-weight:bold">print</span>(<span style="color:#0ff;font-weight:bold">&#34;hello, world&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 12.1 µs ± 137 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## (4) %history 查看历史命令</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## (5) %automagic 是否简化 行魔法 命令的前缀%</span>
+</span></span><span style="display:flex;"><span>%automagic
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Automagic is ON, % prefix IS NOT needed for line magics.</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## (5) 其它魔法函数</span>
+</span></span><span style="display:flex;"><span>%lsmagic  <span style="color:#007f7f">#列出所有的魔法函数</span>
+</span></span><span style="display:flex;"><span>%timeit<span style="color:#f00">?</span>  <span style="color:#007f7f">#获取某一个魔法函数的帮助文档</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="4执行shell命令">4、执行shell命令<a hidden class="anchor" aria-hidden="true" href="#4执行shell命令">#</a></h2>
+<ul>
+<li>之前了解到在python中可使用os模块的<code>system</code>方法执行shell命令。</li>
+<li>在ipython解释器中，对于一些常用shell命令，可直接使用%command。例如<code>%cd</code>,<code>%pwd</code>，<code>%mkdir newfolder</code>等等，可通过<code>%lsmagic</code> 查看</li>
+<li>在<code>%automagic</code>设置为On的状态下，可以不写前缀%，就完全像shell命令一样</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>%ls
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Miniconda3-latest-Linux-x86_64.sh  Untitled.ipynb  miniconda3/  test/</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>pwd
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># &#39;/home/shensuo&#39;</span>
+</span></span><span style="display:flex;"><span>nowpath=%pwd
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">print</span>(nowpath)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># /home/shensuo</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>conda info --envs
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># #conda environments:</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># #</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  base                  *  /home/shensuo/miniconda3</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/python/">Python</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/en/posts/bioinfo/024%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--rnavelocity%E9%80%9F%E7%8E%87%E5%88%86%E6%9E%90/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>单细胞分析工具--RNAvelocity速率分析</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/en/posts/bioinfo/025%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--cytotrace%E8%BD%A8%E8%BF%B9%E5%88%86%E6%9E%90/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>单细胞分析工具--CytoTRACE轨迹分析</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

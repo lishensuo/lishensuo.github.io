@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>文献--hECA人类单细胞表达图谱平台 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="文献-组学">
+<meta name="description" content="
+题目：hECA: The cell-centric assembly of a cell atlas
+期刊 | 日期：iScience | May 20, 2022
+DOI：https://doi.org/10.1016/j.isci.2022.104318">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/basic/108%E6%96%87%E7%8C%AE--heca%E4%BA%BA%E7%B1%BB%E5%8D%95%E7%BB%86%E8%83%9E%E8%A1%A8%E8%BE%BE%E5%9B%BE%E8%B0%B1%E5%B9%B3%E5%8F%B0/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/basic/108%E6%96%87%E7%8C%AE--heca%E4%BA%BA%E7%B1%BB%E5%8D%95%E7%BB%86%E8%83%9E%E8%A1%A8%E8%BE%BE%E5%9B%BE%E8%B0%B1%E5%B9%B3%E5%8F%B0/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="文献--hECA人类单细胞表达图谱平台" />
+<meta property="og:description" content="
+题目：hECA: The cell-centric assembly of a cell atlas
+期刊 | 日期：iScience | May 20, 2022
+DOI：https://doi.org/10.1016/j.isci.2022.104318" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/basic/108%E6%96%87%E7%8C%AE--heca%E4%BA%BA%E7%B1%BB%E5%8D%95%E7%BB%86%E8%83%9E%E8%A1%A8%E8%BE%BE%E5%9B%BE%E8%B0%B1%E5%B9%B3%E5%8F%B0/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-01-19T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2023-01-19T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="文献--hECA人类单细胞表达图谱平台"/>
+<meta name="twitter:description" content="
+题目：hECA: The cell-centric assembly of a cell atlas
+期刊 | 日期：iScience | May 20, 2022
+DOI：https://doi.org/10.1016/j.isci.2022.104318"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 科研基础 -- 读文献、看教材",
+      "item": "https://lishensuo.github.io/en/posts/basic/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "文献--hECA人类单细胞表达图谱平台",
+      "item": "https://lishensuo.github.io/en/posts/basic/108%E6%96%87%E7%8C%AE--heca%E4%BA%BA%E7%B1%BB%E5%8D%95%E7%BB%86%E8%83%9E%E8%A1%A8%E8%BE%BE%E5%9B%BE%E8%B0%B1%E5%B9%B3%E5%8F%B0/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "文献--hECA人类单细胞表达图谱平台",
+  "name": "文献--hECA人类单细胞表达图谱平台",
+  "description": " 题目：hECA: The cell-centric assembly of a cell atlas\n期刊 | 日期：iScience | May 20, 2022\nDOI：https://doi.org/10.1016/j.isci.2022.104318\n",
+  "keywords": [
+    "文献-组学"
+  ],
+  "articleBody": " 题目：hECA: The cell-centric assembly of a cell atlas\n期刊 | 日期：iScience | May 20, 2022\nDOI：https://doi.org/10.1016/j.isci.2022.104318\n简介：来自清华大学自动化系的张学工课题建立一个人类综合性单细胞图谱平台–hECA(human Ensemble Cell Atlas)1.0版本。这篇文章主要基于细胞为中心(cell-centric)的理念对来自人类多器官的上百万个细胞数据进行了系统性整合工作。\n网址：http://eca.xglab.tech\n1、数据规模 116份已发表单细胞数据集 38个人类器官(如下表)与11个组织系统 146种细胞类型 1,093,299个细胞(43,878个基因) 2、整合方法 （1）uGT：unified giant table\n数据储存方式是基于NoSQL数据库语言直接将多数据集合并成巨大的表达矩阵（43878×1093299），以及每个细胞的metadata，例如样本来源、数据集来源，样本信息、细胞类型等等。\n（2）uHAF：unified hierarchical annotation framework\n使用相同的细胞类型标签体系对合并的数据集进行统一的146种细胞类型注释。\n（3）ECAUGT\n开发了一个python工具包提供了API接口用于上述大规模数据的有效提取。\nhttp://eca.xglab.tech/ecaugt/index.html\n3、应用场景 文章对该平台的三种可能应用场景进行了阐释。\n3.1 ‘in data’ cell sorting 该平台提供了一种新型的基于数据的细胞分选方式。具体来说可从网页界面或者API工具快速筛选特定样本、特定器官、特定基因表达模式的细胞群。文章举了两个小例子。\n多器官T细胞的代谢通路表达概况 首先使用ECAUGHT\"分选\"了来自18个器官的T细胞群，简单分为了CD4+与CD8+亚群\n然后使用GSVA对代谢相关通路进行了单细胞水平的打分，分析相应的器官活性特征。\n药物脱靶效应的副作用预测\nCD19是CAR-T治疗B细胞淋巴瘤的常见靶点，其神经毒性是其主要副作用之一。\n首先在hECA数据库中分选到2566个CD19+，其中53%是B细胞；其余细胞还包括脑内的内皮细胞、小胶质细胞与神经元，这验证了CART治疗的神经毒性。此外在心脏、肺等组织细胞具有高表达，提示了可能的脱靶效应。\n3.2 quantitative portraiture 基因水平gene portrait\n针对选定基因在hECA涉及全部(选定)器官/细胞的表达特征\n细胞水平cell type portrait\n针对特定细胞在不同细胞表达、表达marker等\n器官水平organ portait\n针对特定器官，分析其细胞组成比例等\n3.3 label transfer 使用hECA人类特定器官的单细胞表达矩阵(已基于uHAF进行细胞注释)作为reference，使用SingleR建立模型，为用户自己的数据进行细胞类型注释。\n文章建立的SingleR注释模型：https://ngdc.cncb.ac.cn/omix/release/OMIX001043\n在文章举例说明中，对两个心脏组织细胞注释的准确率可分别达到0.954、0.904；对神经元细胞注释的准确率可达到0.887。\n此外为了进一步验证平台数据的可用性，文章分别取其中的肺组织细胞、肺免疫细胞分别代替两篇文献内的control数据仍可得到相似的结果与结论。\nExample disease study: using hECA data as normal control for cancer study Example disease study: using hECA for label transfer and normal control in a COVID-19 study 4、不足之处 诚如文章所言，研究存在如下两个主要问题\n（1）数据量有限：目前hECA1.0覆盖的人体器官组织单细胞数据较为有限，例如未涉及乳腺组织等。但目前平台已搭建的框架体系，例如uHAF注释系统等为以后纳入新的数据提供了基础。\n（2）批次效应问题：hECA对不同数据集仅进行了细胞文库水平(log转换)的标准化处理。而测序平台等批次效应都交给用户自行鉴别、校正。此外平台也提供了器官内不同数据集harmony校正后的整合数据。https://ngdc.cncb.ac.cn/omix/release/OMIX001042\n",
+  "wordCount" : "1550",
+  "inLanguage": "en",
+  "datePublished": "2023-01-19T00:00:00Z",
+  "dateModified": "2023-01-19T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/basic/108%E6%96%87%E7%8C%AE--heca%E4%BA%BA%E7%B1%BB%E5%8D%95%E7%BB%86%E8%83%9E%E8%A1%A8%E8%BE%BE%E5%9B%BE%E8%B0%B1%E5%B9%B3%E5%8F%B0/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/basic/">📖 科研基础 -- 读文献、看教材</a></div>
+    <h1 class="post-title">
+      文献--hECA人类单细胞表达图谱平台
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-01-19 00:00:00 &#43;0000 UTC&#39;&gt;2023-01-19&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-01-19&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1550&amp;nbsp;|&amp;nbsp;4 min&amp;nbsp;|&amp;nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#1%e6%95%b0%e6%8d%ae%e8%a7%84%e6%a8%a1" aria-label="1、数据规模">1、数据规模</a></li>
+                    <li>
+                        <a href="#2%e6%95%b4%e5%90%88%e6%96%b9%e6%b3%95" aria-label="2、整合方法">2、整合方法</a></li>
+                    <li>
+                        <a href="#3%e5%ba%94%e7%94%a8%e5%9c%ba%e6%99%af" aria-label="3、应用场景">3、应用场景</a><ul>
+                            
+                    <li>
+                        <a href="#31-in-data-cell-sorting" aria-label="3.1 &lsquo;in data&rsquo; cell sorting">3.1 &lsquo;in data&rsquo; cell sorting</a></li>
+                    <li>
+                        <a href="#32-quantitative-portraiture" aria-label="3.2 quantitative portraiture">3.2 quantitative portraiture</a></li>
+                    <li>
+                        <a href="#33-label-transfer" aria-label="3.3 label transfer">3.3 label transfer</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#4%e4%b8%8d%e8%b6%b3%e4%b9%8b%e5%a4%84" aria-label="4、不足之处">4、不足之处</a>
+                    </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><blockquote>
+<p>题目：hECA: The cell-centric assembly of a cell atlas</p>
+<p>期刊 | 日期：iScience | May 20, 2022</p>
+<p>DOI：https://doi.org/10.1016/j.isci.2022.104318</p>
+<p>简介：来自清华大学自动化系的张学工课题建立一个人类综合性单细胞图谱平台&ndash;hECA(human Ensemble Cell Atlas)1.0版本。这篇文章主要基于细胞为中心(cell-centric)的理念对来自人类多器官的上百万个细胞数据进行了系统性整合工作。</p>
+<p>网址：http://eca.xglab.tech</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230118190418506.png" alt="image-20230118190418506" style="zoom: 50%;" /></blockquote>
+<h2 id="1数据规模">1、数据规模<a hidden class="anchor" aria-hidden="true" href="#1数据规模">#</a></h2>
+<ul>
+<li>116份已发表单细胞数据集</li>
+<li>38个人类器官(如下表)与11个组织系统</li>
+<li>146种细胞类型</li>
+<li>1,093,299个细胞(43,878个基因)</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230118191326175.png" alt="image-20230118191326175" style="zoom: 67%;" />
+<h2 id="2整合方法">2、整合方法<a hidden class="anchor" aria-hidden="true" href="#2整合方法">#</a></h2>
+<ul>
+<li>
+<p>（1）uGT：unified giant table</p>
+<p>数据储存方式是基于NoSQL数据库语言直接将多数据集合并成巨大的表达矩阵（43878×1093299），以及每个细胞的metadata，例如样本来源、数据集来源，样本信息、细胞类型等等。</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230118193544955.png" alt="image-20230118193544955" style="zoom:50%;" />
+</li>
+<li>
+<p>（2）uHAF：unified hierarchical annotation framework</p>
+<p>使用相同的细胞类型标签体系对合并的数据集进行统一的146种细胞类型注释。</p>
+</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230118193611901.png" alt="image-20230118193611901" style="zoom: 67%;" />
+<ul>
+<li>
+<p>（3）ECAUGT</p>
+<p>开发了一个python工具包提供了API接口用于上述大规模数据的有效提取。</p>
+<p><a href="http://eca.xglab.tech/ecaugt/index.html">http://eca.xglab.tech/ecaugt/index.html</a></p>
+</li>
+</ul>
+<h2 id="3应用场景">3、应用场景<a hidden class="anchor" aria-hidden="true" href="#3应用场景">#</a></h2>
+<p>文章对该平台的三种可能应用场景进行了阐释。</p>
+<h3 id="31-in-data-cell-sorting">3.1 &lsquo;in data&rsquo; cell sorting<a hidden class="anchor" aria-hidden="true" href="#31-in-data-cell-sorting">#</a></h3>
+<p>该平台提供了一种新型的基于数据的细胞分选方式。具体来说可从网页界面或者API工具快速筛选特定样本、特定器官、特定基因表达模式的细胞群。文章举了两个小例子。</p>
+<ul>
+<li>多器官T细胞的代谢通路表达概况</li>
+</ul>
+<p>首先使用ECAUGHT&quot;分选&quot;了来自18个器官的T细胞群，简单分为了CD4+与CD8+亚群</p>
+<p>然后使用GSVA对代谢相关通路进行了单细胞水平的打分，分析相应的器官活性特征。</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230118200316061.png" alt="image-20230118200316061" style="zoom: 50%;" />
+<ul>
+<li>
+<p>药物脱靶效应的副作用预测</p>
+<p>CD19是CAR-T治疗B细胞淋巴瘤的常见靶点，其神经毒性是其主要副作用之一。</p>
+<p>首先在hECA数据库中分选到2566个CD19+，其中53%是B细胞；其余细胞还包括脑内的内皮细胞、小胶质细胞与神经元，这验证了CART治疗的神经毒性。此外在心脏、肺等组织细胞具有高表达，提示了可能的脱靶效应。</p>
+</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230118200534523.png" alt="image-20230118200534523" style="zoom:67%;" />
+<h3 id="32-quantitative-portraiture">3.2 quantitative portraiture<a hidden class="anchor" aria-hidden="true" href="#32-quantitative-portraiture">#</a></h3>
+<ul>
+<li>
+<p>基因水平gene portrait</p>
+<p>针对选定基因在hECA涉及全部(选定)器官/细胞的表达特征</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230118202233854.png" alt="image-20230118202233854" style="zoom:50%;" />
+</li>
+<li>
+<p>细胞水平cell type portrait</p>
+<p>针对特定细胞在不同细胞表达、表达marker等</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230118202418990.png" alt="image-20230118202418990" style="zoom: 50%;" />
+</li>
+<li>
+<p>器官水平organ portait</p>
+<p>针对特定器官，分析其细胞组成比例等</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230118202709086.png" alt="image-20230118202709086" style="zoom: 67%;" />
+</li>
+</ul>
+<h3 id="33-label-transfer">3.3 label transfer<a hidden class="anchor" aria-hidden="true" href="#33-label-transfer">#</a></h3>
+<p>使用hECA人类特定器官的单细胞表达矩阵(已基于uHAF进行细胞注释)作为reference，使用SingleR建立模型，为用户自己的数据进行细胞类型注释。</p>
+<blockquote>
+<p>文章建立的SingleR注释模型：https://ngdc.cncb.ac.cn/omix/release/OMIX001043</p></blockquote>
+<p>在文章举例说明中，对两个心脏组织细胞注释的准确率可分别达到0.954、0.904；对神经元细胞注释的准确率可达到0.887。</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230118204939855.png" alt="image-20230118204939855"  />
+</p>
+<blockquote>
+<p>此外为了进一步验证平台数据的可用性，文章分别取其中的肺组织细胞、肺免疫细胞分别代替两篇文献内的control数据仍可得到相似的结果与结论。</p>
+<ul>
+<li>Example disease study: using hECA data as normal control for cancer study</li>
+<li>Example disease study: using hECA for label transfer and normal control in a COVID-19 study</li>
+</ul></blockquote>
+<h2 id="4不足之处">4、不足之处<a hidden class="anchor" aria-hidden="true" href="#4不足之处">#</a></h2>
+<p>诚如文章所言，研究存在如下两个主要问题</p>
+<p>（1）数据量有限：目前hECA1.0覆盖的人体器官组织单细胞数据较为有限，例如未涉及乳腺组织等。但目前平台已搭建的框架体系，例如uHAF注释系统等为以后纳入新的数据提供了基础。</p>
+<p>（2）批次效应问题：hECA对不同数据集仅进行了细胞文库水平(log转换)的标准化处理。而测序平台等批次效应都交给用户自行鉴别、校正。此外平台也提供了器官内不同数据集harmony校正后的整合数据。https://ngdc.cncb.ac.cn/omix/release/OMIX001042</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230118211337588.png" alt="image-20230118211337588"  />
+</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/%E6%96%87%E7%8C%AE-%E7%BB%84%E5%AD%A6/">文献-组学</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/en/posts/bioinfo/107%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr38--%E5%9B%9E%E5%BD%92--%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>机器学习基于R包mlr3(8)--回归--线性回归</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/en/posts/bioinfo/108%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr39--%E5%9B%9E%E5%BD%92--gam%E9%9D%9E%E7%BA%BF%E5%9B%9E%E5%BD%92/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>机器学习基于R包mlr3(9)--回归--GAM非线性回归</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

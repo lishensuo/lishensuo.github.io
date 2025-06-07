@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>📖 科研基础 -- 读文献、看教材 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="📖 科研基础 -- 读文献、看教材 - Li&#39;s Bioinfo-Blog">
+<meta name="author" content="">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/basic/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="https://lishensuo.github.io/en/posts/basic/index.xml">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/basic/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="📖 科研基础 -- 读文献、看教材" />
+<meta property="og:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/basic/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="📖 科研基础 -- 读文献、看教材"/>
+<meta name="twitter:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 科研基础 -- 读文献、看教材",
+      "item": "https://lishensuo.github.io/en/posts/basic/"
+    }
+  ]
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header"><div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a></div>
+  <h1>📖 科研基础 -- 读文献、看教材</h1>
+</header>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>统计学基础--统计描述指标与常见统计分布
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 统计的对象是数据，其中会涉及到不同类型的数据；统计的目的是描述，描述一组数据的分布特征、两组至多组数据之间的关系。
+1、数据分类 根据数据特点，可以分为2大类：
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-18 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-18&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-06-10&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;3206&amp;nbsp;|&amp;nbsp;7 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 统计学基础--统计描述指标与常见统计分布" href="https://lishensuo.github.io/en/posts/basic/001%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%9F%BA%E7%A1%80--%E7%BB%9F%E8%AE%A1%E6%8F%8F%E8%BF%B0%E6%8C%87%E6%A0%87%E4%B8%8E%E5%B8%B8%E8%A7%81%E7%BB%9F%E8%AE%A1%E5%88%86%E5%B8%83/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>统计学基础--以T检验为例学习基于中心极限定理的假设检验
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>统计学常用样本数据推断总体结果，或者说使用样本统计量推断总体参数。包含如下意义：
+（1）对于样本数据，根据问题的不同，会有不同的形式。例如单纯描述一组的数据分布，那么就是原始收集数据；如果描述两组差异，那么差值才是样本数据，而此时目的就是研究总体差值的分布。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-05-10 00:00:00 &#43;0000 UTC&#39;&gt;2022-05-10&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-06-14&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;3596&amp;nbsp;|&amp;nbsp;8 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 统计学基础--以T检验为例学习基于中心极限定理的假设检验" href="https://lishensuo.github.io/en/posts/basic/002%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%9F%BA%E7%A1%80--%E4%BB%A5t%E6%A3%80%E9%AA%8C%E4%B8%BA%E4%BE%8B%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8E%E4%B8%AD%E5%BF%83%E6%9E%81%E9%99%90%E5%AE%9A%E7%90%86%E7%9A%84%E5%81%87%E8%AE%BE%E6%A3%80%E9%AA%8C/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>统计学基础--方差分析与卡方检验
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>方差分析(analysis of variance)可以简单的理解为多组间的均值比较。例如A班、B班、C班、D班的考试成绩均值是否存在显著差异。方差分析是基于F分布的假设检验，所以又称F检验
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-05-13 00:00:00 &#43;0000 UTC&#39;&gt;2022-05-13&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-05-23&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;3208&amp;nbsp;|&amp;nbsp;7 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 统计学基础--方差分析与卡方检验" href="https://lishensuo.github.io/en/posts/basic/003%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%9F%BA%E7%A1%80--%E6%96%B9%E5%B7%AE%E5%88%86%E6%9E%90%E4%B8%8E%E5%8D%A1%E6%96%B9%E6%A3%80%E9%AA%8C/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>统计学基础--相关性与一致性
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>一、相关性 1、线性相关系数 （1）线性相关系数用于描述多个样本数据中两个变量之间的线性相关的程度。
+变量通常为连续型变量； 两个变量一般为描述样本的不同指标，例如人群的体重值与血糖值 （2）协方差(Corvariance)：用于衡量两个随机变量的联合变化程度。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-06-02 00:00:00 &#43;0000 UTC&#39;&gt;2022-06-02&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-06-13&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2460&amp;nbsp;|&amp;nbsp;5 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 统计学基础--相关性与一致性" href="https://lishensuo.github.io/en/posts/basic/004%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%9F%BA%E7%A1%80--%E7%9B%B8%E5%85%B3%E6%80%A7%E4%B8%8E%E4%B8%80%E8%87%B4%E6%80%A7/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>统计学基础--二分类模型评价指标
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1、混淆矩阵相关指标 假设某医生对100个挂号的人进行某疾病的判断，具体情况如下
+前提已知这100人的真实患病情况：60人患病，40人健康 医生根据症状判断(预测)结果为：80人患病，20人健康 真实-患病 真实-健康 预测-患病 50 30 预测-健康 10 10 根据医生的预测结果，将预测为患病定义为阳性(Positive)事件；预测为健康状态为阴性(Negative)事件
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-06-09 00:00:00 &#43;0000 UTC&#39;&gt;2022-06-09&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-06-09&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1551&amp;nbsp;|&amp;nbsp;4 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 统计学基础--二分类模型评价指标" href="https://lishensuo.github.io/en/posts/basic/005%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%9F%BA%E7%A1%80--%E4%BA%8C%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>统计学基础--重抽样Bootstrap与置换检验permutation test
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 重抽样本质上是从观测数据中反复抽取数据，有两种不同用法
+1、Bootstrap （1）Bootstrap的核心是有放回的抽样，常用于估计统计量(例如均值等)置信区间
+在样本数据符合正态分布的情况，可基于中心极限定理使用标准误计算公式计算置信区间。详见之前的笔记002
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-07-10 00:00:00 &#43;0000 UTC&#39;&gt;2022-07-10&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-07-10&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;896&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 统计学基础--重抽样Bootstrap与置换检验permutation test" href="https://lishensuo.github.io/en/posts/basic/006%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%9F%BA%E7%A1%80--%E9%87%8D%E6%8A%BD%E6%A0%B7bootstrap%E4%B8%8E%E7%BD%AE%E6%8D%A2%E6%A3%80%E9%AA%8Cpermutation-test/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>统计学-生信中常见统计指标
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1、KS统计量 Kolmogorov-Smirnov Tests
+Gene Set Enrichment Analysis
+https://github.com/franapoli/signed-ks-test 1 2 3 4 5 6 7 8 9 10 11 12 13 source(&#34;signed-ks-test.R&#34;) # c(&#34;two.sided&#34;, &#34;less&#34;, &#34;greater&#34;) ks = ks.test.2(c(2,10,11,20), 1:100, alternative = &#34;greater&#34;) # Two-sample Kolmogorov-Smirnov test # data: c(2, 10, 11, 20) and 1:100 # D^&#43; = 0.8, p-value = 0.007277 # alternative hypothesis: the CDF of x lies above that of y ks$ES # [1] 0.8 ks$p.value # [1] 0.007276706 </p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-07-10 00:00:00 &#43;0000 UTC&#39;&gt;2022-07-10&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-07-10&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;78&amp;nbsp;|&amp;nbsp;1 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 统计学-生信中常见统计指标" href="https://lishensuo.github.io/en/posts/basic/010%E7%BB%9F%E8%AE%A1%E5%AD%A6--%E7%94%9F%E4%BF%A1%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%BB%9F%E8%AE%A1%E6%8C%87%E6%A0%87/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>文献--AD星形胶质与小胶质细胞的单细胞数据分析
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> AD星形胶质细胞与小胶质细胞的snRNA-seq数据分析
+Diverse human astrocyte and microglial transcriptional responses to Alzheimer’s pathology
+Acta Neuropathologica (2022) 143:75–91
+IF=17
+https://doi.org/10.1007/s00401-021-02372-6
+1、测序样本 24个样本：AD与NDC的EC(entorhinal)与SSC(somatosensory) cortical region(2×2×6) 使用Immunohistochemistry量化每个样本的p-Tau与Amyloid-beta指标 ...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-10 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-10&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-04-10&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1983&amp;nbsp;|&amp;nbsp;4 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 文献--AD星形胶质与小胶质细胞的单细胞数据分析" href="https://lishensuo.github.io/en/posts/basic/100%E6%96%87%E7%8C%AE--ad%E6%98%9F%E5%BD%A2%E8%83%B6%E8%B4%A8%E7%BB%86%E8%83%9E%E4%B8%8E%E5%B0%8F%E8%83%B6%E8%B4%A8%E7%BB%86%E8%83%9E%E7%9A%84%E5%8D%95%E7%BB%86%E8%83%9E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>文献--AD小鼠空间转录组数据分析
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> Spatial Transcriptomics and In Situ Sequencing to Study Alzheimer’s Disease
+Cell. 2020 Aug 20 | IF=41.5
+DOI: 10.1016/j.cell.2020.06.038
+这是关于AD的第一次空间转录组学的相关研究。如下为该文章中涉及空间转录组分析部分的简要笔记，具体可参看原文。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-06-10 00:00:00 &#43;0000 UTC&#39;&gt;2022-06-10&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-06-10&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2887&amp;nbsp;|&amp;nbsp;6 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 文献--AD小鼠空间转录组数据分析" href="https://lishensuo.github.io/en/posts/basic/101%E6%96%87%E7%8C%AE--ad%E5%B0%8F%E9%BC%A0%E7%A9%BA%E9%97%B4%E8%BD%AC%E5%BD%95%E7%BB%84%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>文献--挖掘AD单细胞数据分析NK浸润
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> Expression of Immune Related Genes and Possible Regulatory Mechanisms in Alzheimer’s Disease
+doi: 10.3389/fimmu.2021.768966
+05 November 2021
+核心结论：AD病人外周血中的NK细胞浸润到大脑中参与AD病理过程的免疫反应。
+1、公共数据 1.1 测序数据集 （1）GSE181279：AD&#43;Control的外周血 scRNA-seq
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-10-30 00:00:00 &#43;0000 UTC&#39;&gt;2022-10-30&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-10-30&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;780&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 文献--挖掘AD单细胞数据分析NK浸润" href="https://lishensuo.github.io/en/posts/basic/102%E6%96%87%E7%8C%AE--%E6%8C%96%E6%8E%98ad%E5%8D%95%E7%BB%86%E8%83%9E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90nk%E6%B5%B8%E6%B6%A6/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="next" href="https://lishensuo.github.io/en/posts/basic/page/2/">Next Page »</a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

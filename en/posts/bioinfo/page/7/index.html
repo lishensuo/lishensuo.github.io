@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>📖 生信数据分析--分析流程，工具包等 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="📖 生信数据分析--分析流程，工具包等 - Li&#39;s Bioinfo-Blog">
+<meta name="author" content="">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/bioinfo/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="https://lishensuo.github.io/en/posts/bioinfo/index.xml">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/bioinfo/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="📖 生信数据分析--分析流程，工具包等" />
+<meta property="og:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/bioinfo/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="📖 生信数据分析--分析流程，工具包等"/>
+<meta name="twitter:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 生信数据分析--分析流程，工具包等",
+      "item": "https://lishensuo.github.io/en/posts/bioinfo/"
+    }
+  ]
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header"><div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a></div>
+  <h1>📖 生信数据分析--分析流程，工具包等</h1>
+</header>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>使用IsoformSwitchAnalyzeR包进行可变剪切分析
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> https://bioconductor.org/packages/release/bioc/html/IsoformSwitchAnalyzeR.html 1、背景知识 The usage of Alternative Transcription Start sites (aTSS可选择转录起始位点), Alternative Splicing (AS可选择剪切位点) and alternative Transcription Termination Sites (aTTS可选择终止位点) are collectively collectively results in the production of different isoforms. Alternative isoforms are widely used as recently demonstrated by The ENCODE Consortium, which found that on average, 6.3 different transcripts are generated per gene; a number which may vary considerably per gene.
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-16 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-16&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-04-16&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;3284&amp;nbsp;|&amp;nbsp;7 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 使用IsoformSwitchAnalyzeR包进行可变剪切分析" href="https://lishensuo.github.io/en/posts/bioinfo/070%E4%BD%BF%E7%94%A8isoformswitchanalyzer%E5%8C%85%E8%BF%9B%E8%A1%8C%E5%8F%AF%E5%8F%98%E5%89%AA%E5%88%87%E5%88%86%E6%9E%90/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>诺模图或列线图绘制分析
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 肿瘤预后类文章的常规步骤之一是绘制诺模图，并进行相关分析。以下总结了相关基础绘制工具。
+示例数据集 1 2 3 4 5 6 library(survival) head(lung) # inst time status age sex ph.ecog ph.karno pat.karno meal.cal wt.loss # 1 3 306 2 74 1 1 90 100 1175 NA # 2 3 455 2 68 1 0 90 90 1225 15 # 3 3 1010 1 56 1 0 90 90 NA 15 1、rms包 参考用法：https://atm.amegroups.com/article/view/14736/15089 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 library(rms) # var.labels = c(age=&#34;Age in Years&#34;, # lac=&#34;lactate&#34;, # sex=&#34;Sex of the participant&#34;, # shock=&#34;shock&#34;, # y=&#34;outcome&#34;, # Y=&#34;ordinal&#34;) # label(data) = lapply(names(var.labels), # function(x) label(data[,x]) = var.labels[x]) mod.cox &lt;- cph(Surv(time,status) ~ ph.ecog&#43;sex&#43;age,lung, surv=TRUE) ddist &lt;- datadist(lung) options(datadist=&#39;ddist&#39;) surv.cox &lt;- Survival(mod.cox) # 定义函数 med &lt;- Quantile(mod.cox) surv &lt;- Survival(mod.cox) nom.cox &lt;- nomogram(mod.cox, # 根据total point进行特定函数计算 fun=list(function(x) surv.cox(365, x), # 一年生存率 function(x) med(lp=x, q=0.5)), # 中位生存时间 funlabel=c(&#34;200-Day Sur. Prob.&#34;, &#34;Median Survival Time&#34;), lp=F, # 不展示Linear Predictor conf.int=c(0.1,0.5) # 两个置信区间 ) plot(nom.cox, col.conf=c(&#39;red&#39;,&#39;green&#39;), # 置信区间的颜色 col.grid = c(&#34;grey30&#34;,&#34;grey&#34;) # 网格的颜色 ) # f = cph(Surv(time, status) ~ age &#43; sex &#43; ph.karno, data = lung, # x = T, y = T, sur = T) # pred_score = apply(lung, 1, function(x){ # pred=Predict(f, age=x[&#34;age&#34;], sex=x[&#34;sex&#34;], ph.karno=x[&#34;ph.karno&#34;]) # return(pred$yhat) # }) %&gt;% unlist() # summary(pred_score) 校准曲线
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-04-28 00:00:00 &#43;0000 UTC&#39;&gt;2023-04-28&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-04-28&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;585&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 诺模图或列线图绘制分析" href="https://lishensuo.github.io/en/posts/bioinfo/078%E8%AF%BA%E6%A8%A1%E5%9B%BE%E6%88%96%E5%88%97%E7%BA%BF%E5%9B%BE%E7%BB%98%E5%88%B6%E5%88%86%E6%9E%90/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>UCSCXenaShiny包肿瘤数据分析可视化
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> UCSCXenaShiny是基于集成了多种肿瘤数据库的UCSCXena平台，进行数据下载、分析、可视化的Shiny工具（以及同名R包），由上海科技大学王诗翔博士等共同开发；于2021年6月发表于Bioinformatics。下面主要学习其R包的相关函数，了解其核心功能。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-05-12 00:00:00 &#43;0000 UTC&#39;&gt;2023-05-12&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-05-12&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1745&amp;nbsp;|&amp;nbsp;4 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to UCSCXenaShiny包肿瘤数据分析可视化" href="https://lishensuo.github.io/en/posts/bioinfo/079ucscxenashiny%E5%8C%85%E8%82%BF%E7%98%A4%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%8F%AF%E8%A7%86%E5%8C%96/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>EnhancedVolcano包绘制火山图
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> EnhancedVolcano包可根据差异分析结果，基于ggplot2绘图结构，方便地绘制美观的火山图，下面根据自己的理解小结下基本用法。
+官方全面的教程：https://github.com/kevinblighe/EnhancedVolcano 示例差异基因数据 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 library(airway) library(magrittr) data(&#39;airway&#39;) airway$dex %&lt;&gt;% relevel(&#39;untrt&#39;) ens &lt;- rownames(airway) library(org.Hs.eg.db) symbols &lt;- mapIds(org.Hs.eg.db, keys = ens, column = c(&#39;SYMBOL&#39;), keytype = &#39;ENSEMBL&#39;) symbols &lt;- symbols[!is.na(symbols)] symbols &lt;- symbols[match(rownames(airway), names(symbols))] rownames(airway) &lt;- symbols keep &lt;- !is.na(rownames(airway)) airway &lt;- airway[keep,] library(&#39;DESeq2&#39;) dds &lt;- DESeqDataSet(airway, design = ~ cell &#43; dex) dds &lt;- DESeq(dds, betaPrior=FALSE) res &lt;- results(dds, contrast = c(&#39;dex&#39;,&#39;trt&#39;,&#39;untrt&#39;)) res &lt;- lfcShrink(dds, contrast = c(&#39;dex&#39;,&#39;trt&#39;,&#39;untrt&#39;), res=res, type = &#39;normal&#39;) res &lt;- as.data.frame(res) head(res) # baseMean log2FoldChange lfcSE stat pvalue padj # TSPAN6 710.0931707 -0.37807189 0.09851236 -3.8404448 0.0001228116 0.0009522932 # TNMD 0.0000000 NA NA NA NA NA # DPM1 521.2572396 0.19826365 0.10931684 1.8155169 0.0694445184 0.1910397405 # SCYL3 237.6068046 0.03234467 0.13821470 0.2371917 0.8125081096 0.9118161375 # C1orf112 58.0358739 -0.08835419 0.25056704 -0.3194810 0.7493618190 0.8773885438 # FGR 0.3194343 -0.08459224 0.15186225 -0.3948862 0.6929268648 NA 如上，只要包含包含基因名、差异倍数、P值三部分信息的差异结果就可以用于绘制火山图。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-16 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-16&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-04-16&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;980&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to EnhancedVolcano包绘制火山图" href="https://lishensuo.github.io/en/posts/bioinfo/080enhancedvolcano%E5%8C%85%E7%BB%98%E5%88%B6%E7%81%AB%E5%B1%B1%E5%9B%BE/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>IOBR包肿瘤signature打分与免疫浸润分析
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> IOBR包集signature打分与免疫浸润分析为一体的肿瘤数据分析工具，由南方医科大学南方医院廖旺军教授，曾东强博士等人于2021年7月发表于Frontiers in Immunology，引用数以超过100余次。现根据其github教程学习其部分功能用法。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-05-15 00:00:00 &#43;0000 UTC&#39;&gt;2023-05-15&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-05-15&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1667&amp;nbsp;|&amp;nbsp;4 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to IOBR包肿瘤signature打分与免疫浸润分析" href="https://lishensuo.github.io/en/posts/bioinfo/081iobr%E5%8C%85%E8%82%BF%E7%98%A4signature%E6%89%93%E5%88%86%E4%B8%8E%E5%85%8D%E7%96%AB%E6%B5%B8%E6%B6%A6%E5%88%86%E6%9E%90/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>BayesPrism包根据scRNAseq预测Bulk细胞组成
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> BayesPrism是由美国康奈尔大学Tin Yi Chu等人开发的R包工具，于2022年4月发表在Nature Cancer。简单来说，该方法使用单细胞RNA-seq作为先验信息，通过估计批量样本中细胞类型比例和细胞类型特异性基因表达的联合后验分布。P(θ,Z|X,ϕ)，参数概念如下
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-06-03 00:00:00 &#43;0000 UTC&#39;&gt;2023-06-03&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-06-03&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1352&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to BayesPrism包根据scRNAseq预测Bulk细胞组成" href="https://lishensuo.github.io/en/posts/bioinfo/082bayesprism%E5%8C%85%E6%A0%B9%E6%8D%AEscrnaseq%E9%A2%84%E6%B5%8Bbulk%E7%BB%86%E8%83%9E%E7%BB%84%E6%88%90/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>R包NMF非负矩阵分解
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> （1）NMF是非负矩阵分解（Non-negative Matrix Factorization）的缩写。它是将一个非负数据矩阵分解为两个非负矩阵的乘积，其中一个矩阵表示特征的基矩阵，另一个矩阵表示每个样本在这些特征上的系数矩阵。这样的分解可以将原始数据表示为一组非负基向量的加权组合，从而实现数据的降维和特征提取。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-06-17 00:00:00 &#43;0000 UTC&#39;&gt;2023-06-17&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-06-17&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1038&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to R包NMF非负矩阵分解" href="https://lishensuo.github.io/en/posts/bioinfo/083r%E5%8C%85nmf%E9%9D%9E%E8%B4%9F%E7%9F%A9%E9%98%B5%E5%88%86%E8%A7%A3/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>UCSCXenaShiny V2简要教程
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> Github仓库：https://github.com/openbiox/UCSCXenaShiny
+Online App：https://shiny.zhoulab.ac.cn/UCSCXenaShiny/
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-10-05 00:00:00 &#43;0000 UTC&#39;&gt;2024-10-05&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-10-05&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1999&amp;nbsp;|&amp;nbsp;4 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to UCSCXenaShiny V2简要教程" href="https://lishensuo.github.io/en/posts/bioinfo/084ucscxenashiny-v2%E7%AE%80%E8%A6%81%E6%95%99%E7%A8%8B/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>机器学习基于R(0)--mlr3基本流程 V2
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> https://mlr3book.mlr-org.com/ 1 2 3 4 5 6 7 8 9 10 library(mlr3verse) library(tidyverse) tsks() #预置数据任务 lrns() #机器学习算法 msrs() #性能评价指标 as.data.table() 1. Task 任务 https://mlr3book.mlr-org.com/chapters/chapter2/data_and_basic_modeling.html 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 tsk() #预置数据任务 as.data.table(tsk()) tsk(&#34;mtcars&#34;) #自定义任务 tsk_mtcars = as_task_regr(mtcars, target = &#34;mpg&#34;, id = &#34;cars&#34;) #target参数指定标签列，id参数（可选）设置任务名 as_task_classif() #支持对任务对象进行数据查看、修改等操作，不一一列举，详见上述链接 #有两点需要重点说明 tsk_mtcars$row_ids #不等于一般的行序号。一旦定义任务，row_ids就确定不变了，可以理解为row name。方便后续数据分割。 tsk_mtcars_another = tsk_mtcars$clone() #想要独立的复制任务时，需要使用clone() 对于分类任务基本类似。值得注意的是在二分类问题时，需要进一步指定阳性标签
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-06-18 00:00:00 &#43;0000 UTC&#39;&gt;2024-06-18&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-06-18&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;4081&amp;nbsp;|&amp;nbsp;9 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 机器学习基于R(0)--mlr3基本流程 V2" href="https://lishensuo.github.io/en/posts/bioinfo/099%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr30--mlr3%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B_v2/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>机器学习基于R(0)--mlr3基本流程
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 1 2 library(mlr3verse) library(tidyverse) 1、Task训练数据与目的 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 ## 分类任务 task_classif = as_task_classif(data, target = &#34;col_target&#34;) #根据预测结果又可分为：twoclass二分类, multiclass多分类 ## 回归任务 task_regr = as_task_regr(data, target = &#34;col_target&#34;) task$ncol task$nrow task$feature_names task$feature_types task$target_names task$task_type task$data() task$col_roles 2、Learner 机器学习算法 mlr3learners包提供了基本的机器学习算法（如下图） https://github.com/mlr-org/mlr3learners
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-06-26 00:00:00 &#43;0000 UTC&#39;&gt;2022-06-26&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-06-26&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;3007&amp;nbsp;|&amp;nbsp;7 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 机器学习基于R(0)--mlr3基本流程" href="https://lishensuo.github.io/en/posts/bioinfo/099%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr30--mlr3%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="https://lishensuo.github.io/en/posts/bioinfo/page/6/">« Prev Page</a>
+    <a class="next" href="https://lishensuo.github.io/en/posts/bioinfo/page/8/">Next Page »</a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

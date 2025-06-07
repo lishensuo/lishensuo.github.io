@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>基于Rstudio创建R包 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="R">
+<meta name="description" content="
+总结一下目前学习的，基于Rstudio的创建R包流程。
+Part1：创建R包基本流程
+step1：建立开发环境
+
+目的是创建一个文件夹，用于储存编写R包的各种文档；在创建之前想 好R包的名字，以及文件夹的路径。
+这里示例R包名为newPackage。
+进入Rstudio界面，依次点击File → New project → New Directory → R package,会出现如下界面，填写好R包名字，选择好开发包的工作目录（其它暂时都不用考虑）；最后点击Creat Project即可。
+
+
+
+如上操作后，会进入新的工作环境，即R包开发环境；同时已经创建好R包开发所需的所必须的模板文档。主要包括4个部分：
+
+
+（1）R 文件夹：用于存放R函数脚本的文件夹；里面有一个示例文件hello.R
+（2）man 文件夹：用于存放对应上述R函数的说明文档Rd文件的文件夹；里面有一个示例文件hello.Rd。
+（3）DESCRIPTION：关于R包的说明文档。
+（4）NAMESPACE：声明R包导出以供外部使用的函数以及R包从其他包导入的外部函数。">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/program/252%E5%9F%BA%E4%BA%8Erstudio%E5%88%9B%E5%BB%BAr%E5%8C%85/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/program/252%E5%9F%BA%E4%BA%8Erstudio%E5%88%9B%E5%BB%BAr%E5%8C%85/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="基于Rstudio创建R包" />
+<meta property="og:description" content="
+总结一下目前学习的，基于Rstudio的创建R包流程。
+Part1：创建R包基本流程
+step1：建立开发环境
+
+目的是创建一个文件夹，用于储存编写R包的各种文档；在创建之前想 好R包的名字，以及文件夹的路径。
+这里示例R包名为newPackage。
+进入Rstudio界面，依次点击File → New project → New Directory → R package,会出现如下界面，填写好R包名字，选择好开发包的工作目录（其它暂时都不用考虑）；最后点击Creat Project即可。
+
+
+
+如上操作后，会进入新的工作环境，即R包开发环境；同时已经创建好R包开发所需的所必须的模板文档。主要包括4个部分：
+
+
+（1）R 文件夹：用于存放R函数脚本的文件夹；里面有一个示例文件hello.R
+（2）man 文件夹：用于存放对应上述R函数的说明文档Rd文件的文件夹；里面有一个示例文件hello.Rd。
+（3）DESCRIPTION：关于R包的说明文档。
+（4）NAMESPACE：声明R包导出以供外部使用的函数以及R包从其他包导入的外部函数。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/program/252%E5%9F%BA%E4%BA%8Erstudio%E5%88%9B%E5%BB%BAr%E5%8C%85/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-01-22T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2023-01-22T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="基于Rstudio创建R包"/>
+<meta name="twitter:description" content="
+总结一下目前学习的，基于Rstudio的创建R包流程。
+Part1：创建R包基本流程
+step1：建立开发环境
+
+目的是创建一个文件夹，用于储存编写R包的各种文档；在创建之前想 好R包的名字，以及文件夹的路径。
+这里示例R包名为newPackage。
+进入Rstudio界面，依次点击File → New project → New Directory → R package,会出现如下界面，填写好R包名字，选择好开发包的工作目录（其它暂时都不用考虑）；最后点击Creat Project即可。
+
+
+
+如上操作后，会进入新的工作环境，即R包开发环境；同时已经创建好R包开发所需的所必须的模板文档。主要包括4个部分：
+
+
+（1）R 文件夹：用于存放R函数脚本的文件夹；里面有一个示例文件hello.R
+（2）man 文件夹：用于存放对应上述R函数的说明文档Rd文件的文件夹；里面有一个示例文件hello.Rd。
+（3）DESCRIPTION：关于R包的说明文档。
+（4）NAMESPACE：声明R包导出以供外部使用的函数以及R包从其他包导入的外部函数。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 R\u0026Python\u0026Shell --- 编程基础、可视化等",
+      "item": "https://lishensuo.github.io/en/posts/program/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "基于Rstudio创建R包",
+      "item": "https://lishensuo.github.io/en/posts/program/252%E5%9F%BA%E4%BA%8Erstudio%E5%88%9B%E5%BB%BAr%E5%8C%85/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "基于Rstudio创建R包",
+  "name": "基于Rstudio创建R包",
+  "description": " 总结一下目前学习的，基于Rstudio的创建R包流程。\nPart1：创建R包基本流程 step1：建立开发环境 目的是创建一个文件夹，用于储存编写R包的各种文档；在创建之前想 好R包的名字，以及文件夹的路径。 这里示例R包名为newPackage。 进入Rstudio界面，依次点击File → New project → New Directory → R package,会出现如下界面，填写好R包名字，选择好开发包的工作目录（其它暂时都不用考虑）；最后点击Creat Project即可。 如上操作后，会进入新的工作环境，即R包开发环境；同时已经创建好R包开发所需的所必须的模板文档。主要包括4个部分： （1）R 文件夹：用于存放R函数脚本的文件夹；里面有一个示例文件hello.R （2）man 文件夹：用于存放对应上述R函数的说明文档Rd文件的文件夹；里面有一个示例文件hello.Rd。 （3）DESCRIPTION：关于R包的说明文档。 （4）NAMESPACE：声明R包导出以供外部使用的函数以及R包从其他包导入的外部函数。\n",
+  "keywords": [
+    "R"
+  ],
+  "articleBody": " 总结一下目前学习的，基于Rstudio的创建R包流程。\nPart1：创建R包基本流程 step1：建立开发环境 目的是创建一个文件夹，用于储存编写R包的各种文档；在创建之前想 好R包的名字，以及文件夹的路径。 这里示例R包名为newPackage。 进入Rstudio界面，依次点击File → New project → New Directory → R package,会出现如下界面，填写好R包名字，选择好开发包的工作目录（其它暂时都不用考虑）；最后点击Creat Project即可。 如上操作后，会进入新的工作环境，即R包开发环境；同时已经创建好R包开发所需的所必须的模板文档。主要包括4个部分： （1）R 文件夹：用于存放R函数脚本的文件夹；里面有一个示例文件hello.R （2）man 文件夹：用于存放对应上述R函数的说明文档Rd文件的文件夹；里面有一个示例文件hello.Rd。 （3）DESCRIPTION：关于R包的说明文档。 （4）NAMESPACE：声明R包导出以供外部使用的函数以及R包从其他包导入的外部函数。\n其中只有R函数脚本与DESCRIPTION需要我们细心准备外，其它可通过一些办法自动写入、更新。\nstep2：编写函数 首先先删除R文件夹里的示例文件、整个man文件夹、NAMESPACE文件；\n2.2 然后在R文件夹内创建后缀名为.R的函数脚本，编写自定义的函数；\n（1）如下在新创建的add.R脚本中，编写一个简单的加法函数。\n（2） 然后鼠标放置在函数上（如上图），按Ctrl+Alt+Shift+R组合快捷键为函数添加说明文档模板（Insert Roxygen Skeleton）(下左)；根据自己函数的功能完成注释(下右)\n（3）测试编写的函数，有没有问题\n1 2 3 4 5 #激活R文件夹内的所有函数，供测试使用 devtools::load_all() # i Loading newPackage add(1,6) # [1] 7 重复上述1~3步骤，不断添加新的函数。可以是一个函数对应一个脚本，也可以将同一类的函数都放置在一个脚本内。 （4）为所有函数在man文件夹(如果没有，会创建)下逐一自动建立Rd文档，以及更新NAMESPCAE文档\n1 2 3 4 5 6 7 # 重复上述1~3步骤，又创建了一个减法的函数脚本 devtools::document() # i Updating newPackage documentation # i Loading newPackage # Writing NAMESPACE # Writing NAMESPACE step3：编写DESCRIPTION文件 函数写好了之后，就需要对这个包的总体功能等信息进行描述与说明，这些信息主要包含在DESCRIPTION文件中\n首先如下图所示，修改其中的四点说明：Title包的名字，Authors@R、Maintainer作者以及维护者信息、Description包的简要描述 然后使用下述函数，自动编写License部分 1 2 # 如果没有依赖到别的具有不同版权的第三方包的话，一般选择最为广泛使用的 MIT 即可 usethis::use_mit_license() 此外，如果版本有更新，可手动修改 Version部分\n之后再补充依赖包的信息。分为两类：Imports、Suggests、Depends。三者的区别还没完全清楚，暂时觉得还是第一个常用。\n可使用函数usethis::use_package(package, type = \"Imports\", min_version = NULL);\n假设其中的一个自定义的函数必须要用到dplyr包的filter()函数（因为实际中并未没有使用，之后会删去）\n1 2 3 4 5 6 usethis::use_package(\"dplyr\", type = \"Imports\", min_version = \"1.0\") # √ Adding 'dplyr' to Imports field in DESCRIPTION # * Refer to functions with `dplyr::fun()` # 在函数脚本中使用的过程调用其它包的函数时，必须按照`package::function`，如`dplyr::filter()`的形式调用。 最后再check一下上述的所有文件，包括函数脚本，看看有没有问题 在R包不断完善的过程中，可以随时check一下，保证之前的修改没有什么问题\n1 2 3 4 5 devtools::check() # -- R CMD check results --------------------- newPackage 0.1.0 ---- # Duration: 19s # # 0 errors √ | 0 warnings √ | 0 notes √ step4：收尾工作–安装包 （1）将包安装到本地的电脑 点击Build → Install and restart，可将进行安装R，重启R，加载该包三个步骤。 （2）将包制成压缩包(*.tar.gz)，方便传输或者分享 点击Build → Build Source Package 1 2 install.packages(\"path/to/newPackage_0.1.0.tar.gz\", repos=NULL, type=\"source\") Part2：R包进阶操作 上面介绍了编写R包的最简单的流程，还有很多进阶知识点值得学习。下面总结其中三个方面的整理。\n2.1 示例数据集 （1）存储为rdata格式并使其对用户可用 使用usethis::use_data()函数，将数据对象（字符串、表格）储存到data文件夹里的rdata文件。\n1 2 3 4 5 6 7 8 9 x \u003c- sample(1000) usethis::use_data(x) # √ Saving 'x' to 'data/x.rda' # * Document your data (see 'https://r-pkgs.org/data.html' dataframe = mtcars usethis::use_data(dataframe) # √ Saving 'dataframe' to 'data/dataframe.rda' # * Document your data (see 'https://r-pkgs.org/data.html') 根据提示，需要在R文件夹下，创建内容框架如下的data.R说明文件。\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 #' x #' #' Just test number(Description) #' #' @examples #' head(x) \"x\" #' dataframe #' #' Just test dataframe(Description) #' #' @examples #' head(dataframe) \"dataframe\" （2）储存为原始文件的形式（例如.csv，.xlsx等） 创建inst/extdata文件夹，用于储存这些文件即可\n1 2 dir.create(\"inst/extdata\", recursive = T) write.csv(mtcars, file = \"inst/extdata/example.csv\") （3）调用这些数据 先document()、check()一下；重新安装，加载\n1 2 devtools::document() devtools::check() 点击Build → Install and restart\n调用示例数据\n1 2 3 4 5 6 7 8 9 10 11 12 data(x) ?x str(x) # int [1:1000] 134 448 373 532 823 646 567 146 776 503 ... data(dataframe) dim(dataframe) # [1] 32 11 system.file(\"extdata\", \"example.csv\", package = \"newPackage\") # [1] \"C:/Users/******/Documents/R/win-library/4.1/newPackage/extdata/example.csv\" 2.2 代码整理 （1）代码美化 1 2 3 4 5 # 安装 {styler} # install.packages(\"styler\") # 对整个包进行代码美化 styler::style_pkg() （2）代码规范性检查 1 2 3 4 5 # 安装 {lintr} # install.packages(\"lintr\") # 对整个包进行不符合规范的代码查询（当然，都没有写多少代码，当然不会出现什么错误结果） lintr::lint_package() 2.3 上传github 在我理解，将个人创建的R包上传到github中，可以高效的实现版本的控制、备份以及与他人共享，自己的使用等\n（1）上传至github 已经基本完成了R包的成形工作（Part1），或者刚建立好R包开发环境也可以。\n下载安装 Github Desktop，并登陆自己的个人账户。\n如下图，将R包开发环境目录关联到respository仓库内。\n点击之后，一般会提示关联的R包开发环境目录不在Git的仓库列表中，点击creat a repository即可\n最后再点击Publish respository，并设置是否code private即可成功上传到github。\n（2）commit → push 之后对包的文档进行修改、更新等操作时，都可以通过Github Desktop进行方便的提交\n如下，对包添加了一个函数：在Github Desktop左下角填写更改的描述、点击Commit to main，再push到github上。之后在github主页看到的就是更新后的版本。\n（3）创建README文件 1 2 3 4 5 6 7 8 9 10 # 引入必备包 {rmarkdown} # install.packages(\"rmarkdown\") # 默认的 README.Rmd 模版就创建完 usethis::use_readme_rmd() # 然后在README.Rmd文件中进行修改 # 最后Knit即可 # 最后再在Github Desktop里 commit→push即可再github页面创建美观的read.me文档 参考教程： 1、为新手准备的现代化 R 包开发流程 https://cosx.org/2021/02/writing-r-packages-a-modern-workflow-for-beginners/ 2、R包的开发 https://zhuanlan.zhihu.com/p/336425664 3、https://r-packages-zh-cn.readthedocs.io/zh_CN/latest/index.html\n补充 (1) 在代码脚本中引入管道符 %\u003e% 1 usethis::use_pipe() #在R中使用管道符 (2) 本地安装R包方式\n1 2 3 4 5 6 7 ## 情况1 install.packages(\"RJSONIO_0.2-3.tar.gz\", repos = NULL, type=\"source\") ## 情况2 list.files(\"BayesPrism-main/BayesPrism/\") # [1] \"DESCRIPTION\" \"inst\" \"man\" \"NAMESPACE\" \"R\" devtools::install_local(\"BayesPrism-main/BayesPrism/\") ",
+  "wordCount" : "2828",
+  "inLanguage": "en",
+  "datePublished": "2023-01-22T00:00:00Z",
+  "dateModified": "2023-01-22T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/program/252%E5%9F%BA%E4%BA%8Erstudio%E5%88%9B%E5%BB%BAr%E5%8C%85/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/program/">📖 R&amp;Python&amp;Shell --- 编程基础、可视化等</a></div>
+    <h1 class="post-title">
+      基于Rstudio创建R包
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-01-22 00:00:00 &#43;0000 UTC&#39;&gt;2023-01-22&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-01-22&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2828&amp;nbsp;|&amp;nbsp;6 min&amp;nbsp;|&amp;nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul><ul>
+                    <li>
+                        <a href="#part1%e5%88%9b%e5%bb%bar%e5%8c%85%e5%9f%ba%e6%9c%ac%e6%b5%81%e7%a8%8b" aria-label="Part1：创建R包基本流程">Part1：创建R包基本流程</a><ul>
+                            
+                    <li>
+                        <a href="#step1%e5%bb%ba%e7%ab%8b%e5%bc%80%e5%8f%91%e7%8e%af%e5%a2%83" aria-label="step1：建立开发环境">step1：建立开发环境</a></li>
+                    <li>
+                        <a href="#step2%e7%bc%96%e5%86%99%e5%87%bd%e6%95%b0" aria-label="step2：编写函数">step2：编写函数</a></li>
+                    <li>
+                        <a href="#step3%e7%bc%96%e5%86%99description%e6%96%87%e4%bb%b6" aria-label="step3：编写DESCRIPTION文件">step3：编写DESCRIPTION文件</a></li>
+                    <li>
+                        <a href="#step4%e6%94%b6%e5%b0%be%e5%b7%a5%e4%bd%9c%e5%ae%89%e8%a3%85%e5%8c%85" aria-label="step4：收尾工作&ndash;安装包">step4：收尾工作&ndash;安装包</a></li></ul>
+                    </li></ul>
+                        
+                    <li>
+                        <a href="#part2r%e5%8c%85%e8%bf%9b%e9%98%b6%e6%93%8d%e4%bd%9c" aria-label="Part2：R包进阶操作">Part2：R包进阶操作</a><ul>
+                            <ul>
+                            
+                    <li>
+                        <a href="#21-%e7%a4%ba%e4%be%8b%e6%95%b0%e6%8d%ae%e9%9b%86" aria-label="2.1 示例数据集">2.1 示例数据集</a></li>
+                    <li>
+                        <a href="#22-%e4%bb%a3%e7%a0%81%e6%95%b4%e7%90%86" aria-label="2.2 代码整理">2.2 代码整理</a></li>
+                    <li>
+                        <a href="#23-%e4%b8%8a%e4%bc%a0github" aria-label="2.3 上传github">2.3 上传github</a><ul>
+                            
+                    <li>
+                        <a href="#%e8%a1%a5%e5%85%85" aria-label="补充">补充</a>
+                    </li>
+                </ul>
+                </ul>
+                </li>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><blockquote>
+<p>总结一下目前学习的，基于Rstudio的创建R包流程。</p></blockquote>
+<h2 id="part1创建r包基本流程">Part1：创建R包基本流程<a hidden class="anchor" aria-hidden="true" href="#part1创建r包基本流程">#</a></h2>
+<h3 id="step1建立开发环境">step1：建立开发环境<a hidden class="anchor" aria-hidden="true" href="#step1建立开发环境">#</a></h3>
+<ul>
+<li>目的是创建一个文件夹，用于储存编写R包的各种文档；在创建之前想 好R包的名字，以及文件夹的路径。</li>
+<li>这里示例R包名为<code>newPackage</code>。</li>
+<li>进入Rstudio界面，依次点击<code>File → New project → New Directory → R package</code>,会出现如下界面，填写好R包名字，选择好开发包的工作目录（其它暂时都不用考虑）；最后点击<code>Creat Project</code>即可。</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-dfcc151f2e1b379a.png" style="zoom:50%;" />
+<ul>
+<li>如上操作后，会进入新的工作环境，即R包开发环境；同时已经创建好R包开发所需的所必须的模板文档。主要包括4个部分：</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-cbe293578c2aeb32.png" style="zoom:67%;" />
+<p>（1）<strong>R 文件夹</strong>：用于存放R函数脚本的文件夹；里面有一个示例文件hello.R
+（2）man 文件夹：用于存放对应上述R函数的说明文档Rd文件的文件夹；里面有一个示例文件hello.Rd。
+（3）<strong>DESCRIPTION</strong>：关于R包的说明文档。
+（4）NAMESPACE：声明R包导出以供外部使用的函数以及R包从其他包导入的外部函数。</p>
+<blockquote>
+<p>其中只有R函数脚本与DESCRIPTION需要我们细心准备外，其它可通过一些办法自动写入、更新。</p></blockquote>
+<h3 id="step2编写函数">step2：编写函数<a hidden class="anchor" aria-hidden="true" href="#step2编写函数">#</a></h3>
+<ul>
+<li>
+<p>首先先删除R文件夹里的示例文件、整个man文件夹、NAMESPACE文件；</p>
+</li>
+<li>
+<p>2.2 然后在R文件夹内创建后缀名为<code>.R</code>的函数脚本，编写自定义的函数；</p>
+</li>
+</ul>
+<p>（1）如下在新创建的<code>add.R</code>脚本中，编写一个简单的加法函数。</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-bc8edaaa1de73bae.png" alt=""  />
+</p>
+<p>（2） 然后鼠标放置在函数上（如上图），按<code>Ctrl+Alt+Shift+R</code>组合快捷键为函数添加说明文档模板（Insert Roxygen Skeleton）(下左)；根据自己函数的功能完成注释(下右)</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-d7ad4d62a3c56014.png" style="zoom:67%;" />
+<p>（3）测试编写的函数，有没有问题</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">#激活R文件夹内的所有函数，供测试使用</span>
+</span></span><span style="display:flex;"><span>devtools::load_all()
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># i Loading newPackage</span>
+</span></span><span style="display:flex;"><span>add(<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">6</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] 7</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>重复上述1~3步骤，不断添加新的函数。可以是一个函数对应一个脚本，也可以将同一类的函数都放置在一个脚本内。
+（4）为所有函数在man文件夹(如果没有，会创建)下逐一自动建立Rd文档，以及更新<code>NAMESPCAE</code>文档</p></blockquote>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f"># 重复上述1~3步骤，又创建了一个减法的函数脚本</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>devtools::document()
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># i Updating newPackage documentation</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># i Loading newPackage</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Writing NAMESPACE</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Writing NAMESPACE</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-180c45b5ffb0cf0e.png" style="zoom:67%;" />
+<h3 id="step3编写description文件">step3：编写DESCRIPTION文件<a hidden class="anchor" aria-hidden="true" href="#step3编写description文件">#</a></h3>
+<blockquote>
+<p>函数写好了之后，就需要对这个包的总体功能等信息进行描述与说明，这些信息主要包含在<code>DESCRIPTION</code>文件中</p></blockquote>
+<ul>
+<li>首先如下图所示，修改其中的四点说明：<code>Title</code>包的名字，<code>Authors@R</code>、<code>Maintainer</code>作者以及维护者信息、<code>Description</code>包的简要描述</li>
+</ul>
+<img src="https://upload-images.jianshu.io/upload_images/20354525-ae294d293699c986.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" style="zoom:80%;" />
+<ul>
+<li>然后使用下述函数，自动编写License部分</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span># 如果没有依赖到别的具有不同版权的第三方包的话，一般选择最为广泛使用的 MIT 即可
+</span></span><span style="display:flex;"><span>usethis::use_mit_license()
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>此外，如果版本有更新，可手动修改 Version部分</p></blockquote>
+<ul>
+<li>
+<p>之后再补充依赖包的信息。分为两类：<code>Imports、Suggests、Depends</code>。三者的区别还没完全清楚，暂时觉得还是第一个常用。</p>
+<ul>
+<li>
+<p>可使用函数<code>usethis::use_package(package, type = &quot;Imports&quot;, min_version = NULL)</code>;</p>
+</li>
+<li>
+<p>假设其中的一个自定义的函数必须要用到dplyr包的<code>filter()</code>函数（因为实际中并未没有使用，之后会删去）</p>
+</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>usethis::use_package(<span style="color:#0ff;font-weight:bold">&#34;dplyr&#34;</span>, type = <span style="color:#0ff;font-weight:bold">&#34;Imports&#34;</span>,
+</span></span><span style="display:flex;"><span>                     min_version = <span style="color:#0ff;font-weight:bold">&#34;1.0&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># √ Adding &#39;dplyr&#39; to Imports field in DESCRIPTION</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># * Refer to functions with `dplyr::fun()`</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 在函数脚本中使用的过程调用其它包的函数时，必须按照`package::function`，如`dplyr::filter()`的形式调用。</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-77e6f385108b4fe8.png" alt=""  />
+</p>
+<ul>
+<li>最后再check一下上述的所有文件，包括函数脚本，看看有没有问题</li>
+</ul>
+<p>在R包不断完善的过程中，可以随时<code>check</code>一下，保证之前的修改没有什么问题</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>devtools::check()
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># -- R CMD check results --------------------- newPackage 0.1.0 ----</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   Duration: 19s</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 0 errors √ | 0 warnings √ | 0 notes √</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="step4收尾工作安装包">step4：收尾工作&ndash;安装包<a hidden class="anchor" aria-hidden="true" href="#step4收尾工作安装包">#</a></h3>
+<ul>
+<li>（1）将包安装到本地的电脑
+点击<code>Build → Install and restart</code>，可将进行安装R，重启R，加载该包三个步骤。</li>
+<li>（2）将包制成压缩包(*.tar.gz)，方便传输或者分享
+点击<code>Build → Build Source Package</code></li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>install.packages(<span style="color:#0ff;font-weight:bold">&#34;path/to/newPackage_0.1.0.tar.gz&#34;</span>, 
+</span></span><span style="display:flex;"><span>                 repos=<span style="color:#fff;font-weight:bold">NULL</span>, type=<span style="color:#0ff;font-weight:bold">&#34;source&#34;</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="part2r包进阶操作">Part2：R包进阶操作<a hidden class="anchor" aria-hidden="true" href="#part2r包进阶操作">#</a></h1>
+<p>上面介绍了编写R包的最简单的流程，还有很多进阶知识点值得学习。下面总结其中三个方面的整理。</p>
+<h3 id="21-示例数据集">2.1 示例数据集<a hidden class="anchor" aria-hidden="true" href="#21-示例数据集">#</a></h3>
+<ul>
+<li>（1）存储为rdata格式并使其对用户可用</li>
+</ul>
+<p>使用<code>usethis::use_data()</code>函数，将数据对象（字符串、表格）储存到data文件夹里的rdata文件。</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>x &lt;- sample(<span style="color:#ff0;font-weight:bold">1000</span>)
+</span></span><span style="display:flex;"><span>usethis::use_data(x)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># √ Saving &#39;x&#39; to &#39;data/x.rda&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># * Document your data (see &#39;https://r-pkgs.org/data.html&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>dataframe = mtcars
+</span></span><span style="display:flex;"><span>usethis::use_data(dataframe)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># √ Saving &#39;dataframe&#39; to &#39;data/dataframe.rda&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># * Document your data (see &#39;https://r-pkgs.org/data.html&#39;)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>根据提示，需要在R文件夹下，创建内容框架如下的<code>data.R</code>说明文件。</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">#&#39; x</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#&#39; Just test number(Description)</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#&#39; @examples</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#&#39;   head(x)</span>
+</span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold">&#34;x&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#&#39; dataframe</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#&#39; Just test dataframe(Description)</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#&#39; @examples</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#&#39;   head(dataframe)</span>
+</span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold">&#34;dataframe&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>（2）储存为原始文件的形式（例如.csv，.xlsx等）</li>
+</ul>
+<p>创建<code>inst/extdata</code>文件夹，用于储存这些文件即可</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>dir.create(<span style="color:#0ff;font-weight:bold">&#34;inst/extdata&#34;</span>, recursive = <span style="color:#fff;font-weight:bold">T</span>)
+</span></span><span style="display:flex;"><span>write.csv(mtcars, file = <span style="color:#0ff;font-weight:bold">&#34;inst/extdata/example.csv&#34;</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>（3）调用这些数据</li>
+</ul>
+<p>先<code>document()</code>、<code>check()</code>一下；重新安装，加载</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-gdscript3" data-lang="gdscript3"><span style="display:flex;"><span>devtools::document()
+</span></span><span style="display:flex;"><span>devtools::check()
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>点击<code>Build → Install and restart</code></p>
+<p>调用示例数据</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>data(x)
+</span></span><span style="display:flex;"><span>?x
+</span></span><span style="display:flex;"><span>str(x)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># int [1:1000] 134 448 373 532 823 646 567 146 776 503 ...</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>data(dataframe)
+</span></span><span style="display:flex;"><span>dim(dataframe)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] 32 11</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>system.file(<span style="color:#0ff;font-weight:bold">&#34;extdata&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;example.csv&#34;</span>, 
+</span></span><span style="display:flex;"><span>            package = <span style="color:#0ff;font-weight:bold">&#34;newPackage&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] &#34;C:/Users/******/Documents/R/win-library/4.1/newPackage/extdata/example.csv&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="22-代码整理">2.2 代码整理<a hidden class="anchor" aria-hidden="true" href="#22-代码整理">#</a></h3>
+<ul>
+<li>（1）代码美化</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f"># 安装 {styler}</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># install.packages(&#34;styler&#34;)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 对整个包进行代码美化</span>
+</span></span><span style="display:flex;"><span>styler::style_pkg()
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>（2）代码规范性检查</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f"># 安装 {lintr}</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># install.packages(&#34;lintr&#34;)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 对整个包进行不符合规范的代码查询（当然，都没有写多少代码，当然不会出现什么错误结果）</span>
+</span></span><span style="display:flex;"><span>lintr::lint_package()
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="23-上传github">2.3 上传github<a hidden class="anchor" aria-hidden="true" href="#23-上传github">#</a></h3>
+<p>在我理解，将个人创建的R包上传到github中，可以高效的实现版本的控制、备份以及与他人共享，自己的使用等</p>
+<ul>
+<li>（1）上传至github</li>
+</ul>
+<p>已经基本完成了R包的成形工作（Part1），或者刚建立好R包开发环境也可以。</p>
+<p>下载安装 Github Desktop，并登陆自己的个人账户。</p>
+<p>如下图，将R包开发环境目录关联到respository仓库内。</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-fe63df782f957e48.png" alt=""  />
+</p>
+<p>点击之后，一般会提示关联的R包开发环境目录不在Git的仓库列表中，点击<code>creat a repository</code>即可</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-75ae598207c55399.png" alt=""  />
+</p>
+<p>最后再点击<code>Publish respository</code>，并设置是否code private即可成功上传到github。</p>
+<p><img loading="lazy" src="https://upload-images.jianshu.io/upload_images/20354525-822ebaee91851b43.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""  />
+</p>
+<ul>
+<li>（2）commit → push</li>
+</ul>
+<p>之后对包的文档进行修改、更新等操作时，都可以通过Github Desktop进行方便的提交</p>
+<p>如下，对包添加了一个函数：在Github Desktop左下角填写更改的描述、点击Commit to main，再push到github上。之后在github主页看到的就是更新后的版本。</p>
+<p><img loading="lazy" src="https://upload-images.jianshu.io/upload_images/20354525-9f87391e96476b23.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""  />
+</p>
+<ul>
+<li>（3）创建README文件</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f"># 引入必备包 {rmarkdown}</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># install.packages(&#34;rmarkdown&#34;)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 默认的 README.Rmd 模版就创建完</span>
+</span></span><span style="display:flex;"><span>usethis::use_readme_rmd()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 然后在README.Rmd文件中进行修改</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 最后Knit即可</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 最后再在Github Desktop里 commit→push即可再github页面创建美观的read.me文档</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-c9c0ecac78db3894.png" alt="https://github.com/lishensuo"  />
+</p>
+<hr>
+<p>参考教程：
+1、为新手准备的现代化 R 包开发流程 <a href="https://cosx.org/2021/02/writing-r-packages-a-modern-workflow-for-beginners/">https://cosx.org/2021/02/writing-r-packages-a-modern-workflow-for-beginners/</a>
+2、R包的开发 <a href="https://zhuanlan.zhihu.com/p/336425664">https://zhuanlan.zhihu.com/p/336425664</a>
+3、https://r-packages-zh-cn.readthedocs.io/zh_CN/latest/index.html</p>
+<hr>
+<h4 id="补充">补充<a hidden class="anchor" aria-hidden="true" href="#补充">#</a></h4>
+<ul>
+<li>(1) 在代码脚本中引入管道符 <code>%&gt;%</code></li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>usethis::use_pipe() #在R中使用管道符
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>
+<p>(2) 本地安装R包方式</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">## 情况1</span>
+</span></span><span style="display:flex;"><span>install.packages(<span style="color:#0ff;font-weight:bold">&#34;RJSONIO_0.2-3.tar.gz&#34;</span>, repos = <span style="color:#fff;font-weight:bold">NULL</span>, type=<span style="color:#0ff;font-weight:bold">&#34;source&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## 情况2</span>
+</span></span><span style="display:flex;"><span>list.files(<span style="color:#0ff;font-weight:bold">&#34;BayesPrism-main/BayesPrism/&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] &#34;DESCRIPTION&#34; &#34;inst&#34;        &#34;man&#34;         &#34;NAMESPACE&#34;   &#34;R&#34; </span>
+</span></span><span style="display:flex;"><span>devtools::install_local(<span style="color:#0ff;font-weight:bold">&#34;BayesPrism-main/BayesPrism/&#34;</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/r/">R</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/en/posts/program/250r%E8%AF%AD%E8%A8%80rselenium%E7%88%AC%E8%99%AB/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>R语言RSelenium爬虫.md</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/en/posts/program/251shiny%E5%8C%85%E5%BC%80%E5%8F%91%E7%BD%91%E9%A1%B5app/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>shiny包开发网页APP基础</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

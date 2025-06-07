@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>统计学基础--以T检验为例学习基于中心极限定理的假设检验 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="统计基础">
+<meta name="description" content="统计学常用样本数据推断总体结果，或者说使用样本统计量推断总体参数。包含如下意义：
+（1）对于样本数据，根据问题的不同，会有不同的形式。例如单纯描述一组的数据分布，那么就是原始收集数据；如果描述两组差异，那么差值才是样本数据，而此时目的就是研究总体差值的分布。">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/basic/002%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%9F%BA%E7%A1%80--%E4%BB%A5t%E6%A3%80%E9%AA%8C%E4%B8%BA%E4%BE%8B%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8E%E4%B8%AD%E5%BF%83%E6%9E%81%E9%99%90%E5%AE%9A%E7%90%86%E7%9A%84%E5%81%87%E8%AE%BE%E6%A3%80%E9%AA%8C/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/basic/002%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%9F%BA%E7%A1%80--%E4%BB%A5t%E6%A3%80%E9%AA%8C%E4%B8%BA%E4%BE%8B%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8E%E4%B8%AD%E5%BF%83%E6%9E%81%E9%99%90%E5%AE%9A%E7%90%86%E7%9A%84%E5%81%87%E8%AE%BE%E6%A3%80%E9%AA%8C/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="统计学基础--以T检验为例学习基于中心极限定理的假设检验" />
+<meta property="og:description" content="统计学常用样本数据推断总体结果，或者说使用样本统计量推断总体参数。包含如下意义：
+（1）对于样本数据，根据问题的不同，会有不同的形式。例如单纯描述一组的数据分布，那么就是原始收集数据；如果描述两组差异，那么差值才是样本数据，而此时目的就是研究总体差值的分布。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/basic/002%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%9F%BA%E7%A1%80--%E4%BB%A5t%E6%A3%80%E9%AA%8C%E4%B8%BA%E4%BE%8B%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8E%E4%B8%AD%E5%BF%83%E6%9E%81%E9%99%90%E5%AE%9A%E7%90%86%E7%9A%84%E5%81%87%E8%AE%BE%E6%A3%80%E9%AA%8C/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-05-10T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2022-06-14T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="统计学基础--以T检验为例学习基于中心极限定理的假设检验"/>
+<meta name="twitter:description" content="统计学常用样本数据推断总体结果，或者说使用样本统计量推断总体参数。包含如下意义：
+（1）对于样本数据，根据问题的不同，会有不同的形式。例如单纯描述一组的数据分布，那么就是原始收集数据；如果描述两组差异，那么差值才是样本数据，而此时目的就是研究总体差值的分布。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 科研基础 -- 读文献、看教材",
+      "item": "https://lishensuo.github.io/en/posts/basic/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "统计学基础--以T检验为例学习基于中心极限定理的假设检验",
+      "item": "https://lishensuo.github.io/en/posts/basic/002%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%9F%BA%E7%A1%80--%E4%BB%A5t%E6%A3%80%E9%AA%8C%E4%B8%BA%E4%BE%8B%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8E%E4%B8%AD%E5%BF%83%E6%9E%81%E9%99%90%E5%AE%9A%E7%90%86%E7%9A%84%E5%81%87%E8%AE%BE%E6%A3%80%E9%AA%8C/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "统计学基础--以T检验为例学习基于中心极限定理的假设检验",
+  "name": "统计学基础--以T检验为例学习基于中心极限定理的假设检验",
+  "description": "统计学常用样本数据推断总体结果，或者说使用样本统计量推断总体参数。包含如下意义：\n（1）对于样本数据，根据问题的不同，会有不同的形式。例如单纯描述一组的数据分布，那么就是原始收集数据；如果描述两组差异，那么差值才是样本数据，而此时目的就是研究总体差值的分布。\n",
+  "keywords": [
+    "统计基础"
+  ],
+  "articleBody": "统计学常用样本数据推断总体结果，或者说使用样本统计量推断总体参数。包含如下意义：\n（1）对于样本数据，根据问题的不同，会有不同的形式。例如单纯描述一组的数据分布，那么就是原始收集数据；如果描述两组差异，那么差值才是样本数据，而此时目的就是研究总体差值的分布。\n（2）理论上来说：总体的参数(均值，方差…)是固定的，但是现实一般做不到；但是从总体抽取的样本数据可以计算样本统计量，但是每一次抽样结果计算的样本统计量存在差异。即抽样误差。\n1、中心极限定理 1.1 统计量符合正态分布 假定有一个总体数据，如果从该总体中多次抽样，那么理论上，每次抽样所得的统计量(如均数)与总体参数应该差别不大，大致围绕在总体参数中心，并且呈正态分布（如果是少量样本的话，就是对应自由度的T分布）。\n（1）无论原总体数据是什么分布，多次抽样的样本统计量都呈正态分布；\n（2）中心极限定理描述的是样本统计量的分布，常见的就是均值。\n（3）抽样的样本量越大（大于30），越容易得到一个接近总体参数的统计量（曲线越瘦长）。\n1.2 标准误与置信区间 (1) 标准误 由于样本统计量符合正态分布，可以计算出标准误(se, Stand Error)，用以描述表示样本统计量的标准差\n标准误越大，表明一次抽样结果计算出的样本统计量难以反映总体水平的真实情况；或者说”准确性“越低。\n按照直观理解，计算标准误需要进行多次抽样，然后根据每次抽样的样本统计量计算结果标准误。\n但是现实一般都只有一个样本数据，可通过如下公式近似计算：\n下述公式中 s表示当前样本数据的标准差，n表示样本数。 s越大(样本数据越离散)、n越小(样本数据越少)，则标准误越大； 计算公式由数学推导而得，前提是样本数据符合正态分布。这一点很重要，之后还会提到。 $$ se = \\frac{s}{\\sqrt{n}} $$\n(2) 置信区间 假如使用一组样本数据的统计量(例如均值)去描述总体参数，通常称之为点估计。但是由于抽样误差的存在，样本统计量与总体参数总会存在一定差距，可使用区间估计的方法，描述总体参数的大致范围。\n置信区间(confidence interval, CI)：基于标准误的结果，估计某一区间内包含总体参数的可能性。\n例如：90%置信区间，表示有90%的信心认为该区间内包含了总体参数。 结合正态分布或者近似正态分布的t分布的曲线下面积规律，可以计算出相应t值/或者z值对应的置信区间。\n如下公式表示均数的置信区间： $$ CI \\in \\overline{x} ,\\pm , t × se $$\n2、假设检验与T检验 2.1 假设检验 （1）假设检验采用反证法：即设法证明预期结论的完全对立面是不可能发生的。例如判断一个人是好人，就证明他不可能是坏人。\n（2）两个假设：\n零假设（null hypothesis，H0）：之所以称为零假设，是因为它的假设一般是组间差异为0；两个变量相关系数为0；回归系数为0等 备择假设（alternative hypothesis，H1）：而零假设完全相反的陈述。如组间差异不为0（即有差异）；相关系数不为0（即相关） （3）零假设是要推翻的。如果零假设是错误的，那么备择假设就一定是正确的。\n（4）假设检验通常用于计算得出定性的结论，而不能得出定量的结论。例如两组的均值存在显著差异，但差异幅度是多少是无法获知的。\n（5）假设检验的判断基于中心极限定理，即多次抽样的统计量分布符合正态分布（t分布）。下面以T检验为例，解释下假设检验的思路。\n2.2 T检验 （1）T检验根据假设检验的思想，常用于检验某一样本统计量是否与总体参数相等。要根据实际问题理解样本统计量与总体参数。\n在两独立样本t检验中某样本统计量是两组均值差，总体参数是两总体均值差（常假定为0，即不存在差异） 在回归系数检验中，样本统计量是样本系数，总体参数是总体系数（常假定为，即不存在回归关系）。 以两独立样本t检验为例：先假设两组样本均值不存在差异；然后判断所计算差值的概率是多少。一般认为P\u003c0.05是小概率事件。即两组样本均值不存在差异的概率很小；反之均值存在差异的概率就很大。\n（2）应用假设检验的前提是样本数据符合正态分布。当样本数据在比较小(\u003c30)的范围时，则是要符合相应自由度的T分布。\n（3）根据具体问题，有三种常见的T检验：[关键是辨析样本数据的定义]\n单样本T检验：给定一组样本的数据，判断是否等于某一水平。\n例如某班学生成绩是否接近于80分。\n学生 小明 小王 小李 小红 小孙 成绩 81 90 70 85 76 样本值 81-80=1 90-80=10 70-80=-10 85-80=5 76-80=-4 如上表，该问题转换为 [1, 10, -10, 5, -4]这组数据的统计量(1+10-10+5-4)/5=0.4出现在均值为0，标准差为se（参考极限中心定理的标准误计算公式，取决于样本标准差与样本数）的零假设统计量的t分布的可能性是多少？\n配对T检验：给定一一对应的两组数据，判断两组间水平是否存在差异。\n例如取10个癌症患者的各自癌旁与癌组织测序，分析某一基因的表达是否存在差异。\n病人 01 02 03 04 05 癌组织 10 12 24 15 19 癌旁组织 8 9 12 10 11 样本值 10-8=2 12-9=3 24-12=12 15-10=5 19-11=8 如上表，该问题转换为 [2,3,12,5,8]这组数据的统计量(2+3+12+5+8)/5=6出现在均值为0，标准差为se（参考极限中心定理的标准误计算公式，取决于样本标准差与样本数）的零假设统计量的t分布的可能性是多少？\n所以配对T检验本质上还是单样本T检验。\n独立样本T检验：不同来源的两组数据，判断两组水平是否存在差异。\n例如取10个癌症患者的血液，与5个健康人的血液样品测序，分析某一基因的表达是否存在差异。\n编号 P01 P02 P03 P04 P05 H01 H02 H03 组别 患者 患者 患者 患者 患者 健康 健康 健康 结果 12 15 11 14 14 10 11 9 组均值 13.2 13.2 13.2 13.2 13.2 10 10 10 如上表，该问题转换为样本统计量13.2-10=3.2出现在均值为0，标注差为se（参考极限中心定理，取决于样本标准差与样本数）的零假设统计量的t分布的可能性是多少？\n对于独立样本T检验中标准误的计算，根据两组数据的方差是否相同有两种不同处理方式。但仍与各组的方差与样本数有关。\n上面三种方法最终都会计算出t值，继而求出在对应自由度的零假设T分布中出现该t值（甚至）更大的概率，即P值。\n对于双侧检验（零假设 H0: Udiff=0）:计算两端的概率；对于单侧检验（零假设H0：0）: Udiff\u003e0 计算右侧的概率；Udiff\u003c0 计算左侧的概率 P值可以理解为：在零假设成立的前提下，出现如此t统计量的概率是多少。P值越小，表明越不可能出现，即零假设越不可能成立；进而支持其对立面的备择假设。 $$ t = \\frac{样本统计量-总体参数}{样本统计量的标准差(标准误)} $$\n假如样本数据不符合正态分布，那么理论上就不可以使用T检验。可以选择非参数检验的Wilcoxon秩和检验，将样本数据转换为秩（排名）进行假设检验分析。\n2.3 两类错误 假如把看病问题视为假设检验，零假设为健康，备择假设为患病。\n当医生碰到一个经常锻炼的运动员时较容易正确判断是健康人，碰到一个咳嗽不停的人时较容易争取判断是病人；但是遇到一个处于这两者中间状态的人，判断时需要谨慎：以免娇弱的人误诊为病人（假阳性）；有前兆的病人漏诊为健康人（假阴性）。\n根据假设检验的P值结果得出的结论，会不可避免出现下面两种错误的可能：\n假阳性(FP, False Positive)又称为第一类错误，错误地认为H1是正确的，用α表示；如上图蓝色区域(娇弱的人)；\n假阴性(FN, False Negative)又称为第二类错误，错误地认为H1是不存在的，用β表示；如上图红色区域(有前兆的病人)\n这两类错误的出现是此消彼长的关系：\n当P值很小，才判定H0假设为不可能事件时–α降低；β增高\n宁可漏诊，不能错诊。 一般来说更加重视假阳性的结果，即将P值的阈值定位非常低的水平。\n3、T检验基于R 1 2 3 4 5 6 7 8 9 10 11 12 13 # 两种安眠药(与控制组相比所增加的睡眠时间)对10名患者的影响。 data(sleep) table(sleep$group) # 1 2 # 10 10 head(sleep) # extra group ID # 1 0.7 1 1 # 2 -1.6 1 2 # 3 -0.2 1 3 # 4 -1.2 1 4 # 5 -0.1 1 5 # 6 3.4 1 6 3.1 单样本T检验 1 2 3 4 5 6 7 8 9 10 11 12 13 14 t.test(extra ~ 1, data = sleep) # One Sample t-test # # data: extra # t = 3.413, df = 19, p-value = 0.002918 # alternative hypothesis: true mean is not equal to 0 # 95 percent confidence interval: # 0.5955845 2.4844155 # sample estimates: # mean of x # 1.54 t.test(extra ~ 1, data = sleep)$p.value t.test(sleep$extra ~ 1) 3.2 独立样本T检验 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 t.test(extra ~ group, data = sleep) # t.test(extra ~ group, data = sleep) # Welch Two Sample t-test # # data: extra by group # t = -1.8608, df = 17.776, p-value = 0.07939 # alternative hypothesis: true difference in means between group 1 and group 2 is not equal to 0 # 95 percent confidence interval: # -3.3654832 0.2054832 # sample estimates: # mean in group 1 mean in group 2 # 0.75 2.33 t.test(extra ~ group, data = sleep)$p.value t.test(sleep$extra[sleep$group==1], y = sleep$extra[sleep$group==2]) 3.3 配对样本T检验 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 t.test(extra ~ group, data = sleep, paired = TRUE) # Paired t-test # # data: extra by group # t = -4.0621, df = 9, p-value = 0.002833 # alternative hypothesis: true difference in means is not equal to 0 # 95 percent confidence interval: # -2.4598858 -0.7001142 # sample estimates: # mean of the differences # -1.58 t.test(extra ~ group, data = sleep, paired = TRUE)$p.value t.test(sleep$extra[sleep$group==1], y = sleep$extra[sleep$group==2], paired = TRUE) 3.4 wilcox.test秩和检验 将上述的t.test()替换为wilcox.test()，即可执行对应方式的秩和检验。\nPerforms one- and two-sample Wilcoxon tests on vectors of data; the latter is also known as ‘Mann-Whitney’ test.\n1 2 3 4 5 6 7 8 ##(1)单样本 wilcox.test(extra ~ 1, data = sleep) ##(2)两独立样本 wilcox.test(extra ~ group, data = sleep) ##(3)配对样本 wilcox.test(extra ~ group, data = sleep, paired = TRUE) ",
+  "wordCount" : "3596",
+  "inLanguage": "en",
+  "datePublished": "2022-05-10T00:00:00Z",
+  "dateModified": "2022-06-14T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/basic/002%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%9F%BA%E7%A1%80--%E4%BB%A5t%E6%A3%80%E9%AA%8C%E4%B8%BA%E4%BE%8B%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8E%E4%B8%AD%E5%BF%83%E6%9E%81%E9%99%90%E5%AE%9A%E7%90%86%E7%9A%84%E5%81%87%E8%AE%BE%E6%A3%80%E9%AA%8C/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/basic/">📖 科研基础 -- 读文献、看教材</a></div>
+    <h1 class="post-title">
+      统计学基础--以T检验为例学习基于中心极限定理的假设检验
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-05-10 00:00:00 &#43;0000 UTC&#39;&gt;2022-05-10&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-06-14&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;3596&amp;nbsp;|&amp;nbsp;8 min&amp;nbsp;|&amp;nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#1%e4%b8%ad%e5%bf%83%e6%9e%81%e9%99%90%e5%ae%9a%e7%90%86" aria-label="1、中心极限定理">1、中心极限定理</a><ul>
+                            
+                    <li>
+                        <a href="#11-%e7%bb%9f%e8%ae%a1%e9%87%8f%e7%ac%a6%e5%90%88%e6%ad%a3%e6%80%81%e5%88%86%e5%b8%83" aria-label="1.1 统计量符合正态分布">1.1 统计量符合正态分布</a></li>
+                    <li>
+                        <a href="#12-%e6%a0%87%e5%87%86%e8%af%af%e4%b8%8e%e7%bd%ae%e4%bf%a1%e5%8c%ba%e9%97%b4" aria-label="1.2 标准误与置信区间">1.2 标准误与置信区间</a><ul>
+                            
+                    <li>
+                        <a href="#1-%e6%a0%87%e5%87%86%e8%af%af" aria-label="(1) 标准误">(1) 标准误</a></li>
+                    <li>
+                        <a href="#2-%e7%bd%ae%e4%bf%a1%e5%8c%ba%e9%97%b4" aria-label="(2) 置信区间">(2) 置信区间</a></li></ul>
+                    </li></ul>
+                    </li>
+                    <li>
+                        <a href="#2%e5%81%87%e8%ae%be%e6%a3%80%e9%aa%8c%e4%b8%8et%e6%a3%80%e9%aa%8c" aria-label="2、假设检验与T检验">2、假设检验与T检验</a><ul>
+                            
+                    <li>
+                        <a href="#21-%e5%81%87%e8%ae%be%e6%a3%80%e9%aa%8c" aria-label="2.1 假设检验">2.1 假设检验</a></li>
+                    <li>
+                        <a href="#22-t%e6%a3%80%e9%aa%8c" aria-label="2.2 T检验">2.2 T检验</a></li>
+                    <li>
+                        <a href="#23-%e4%b8%a4%e7%b1%bb%e9%94%99%e8%af%af" aria-label="2.3 两类错误">2.3 两类错误</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#3t%e6%a3%80%e9%aa%8c%e5%9f%ba%e4%ba%8er" aria-label="3、T检验基于R">3、T检验基于R</a><ul>
+                            
+                    <li>
+                        <a href="#31-%e5%8d%95%e6%a0%b7%e6%9c%act%e6%a3%80%e9%aa%8c" aria-label="3.1 单样本T检验">3.1 单样本T检验</a></li>
+                    <li>
+                        <a href="#32-%e7%8b%ac%e7%ab%8b%e6%a0%b7%e6%9c%act%e6%a3%80%e9%aa%8c" aria-label="3.2 独立样本T检验">3.2 独立样本T检验</a></li>
+                    <li>
+                        <a href="#33-%e9%85%8d%e5%af%b9%e6%a0%b7%e6%9c%act%e6%a3%80%e9%aa%8c" aria-label="3.3 配对样本T检验">3.3 配对样本T检验</a></li>
+                    <li>
+                        <a href="#34-wilcoxtest%e7%a7%a9%e5%92%8c%e6%a3%80%e9%aa%8c" aria-label="3.4 wilcox.test秩和检验">3.4 wilcox.test秩和检验</a>
+                    </li>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><p>统计学常用样本数据推断总体结果，或者说使用<strong>样本统计量</strong>推断总体参数。包含如下意义：</p>
+<p>（1）对于<strong>样本数据</strong>，根据问题的不同，会有不同的形式。例如单纯描述一组的数据分布，那么就是原始收集数据；如果描述两组差异，那么<strong>差值才是样本数据</strong>，而此时目的就是研究总体差值的分布。</p>
+<p>（2）理论上来说：<strong>总体</strong>的参数(均值，方差&hellip;)是固定的，但是现实一般做不到；但是从总体抽取的<strong>样本</strong>数据可以计算样本统计量，但是每一次抽样结果计算的样本统计量存在差异。即抽样误差。</p>
+<h1 id="1中心极限定理">1、中心极限定理<a hidden class="anchor" aria-hidden="true" href="#1中心极限定理">#</a></h1>
+<h2 id="11-统计量符合正态分布">1.1 统计量符合正态分布<a hidden class="anchor" aria-hidden="true" href="#11-统计量符合正态分布">#</a></h2>
+<p>假定有一个总体数据，如果从该总体中多次抽样，那么理论上，每次抽样所得的统计量(如均数)与总体参数应该差别不大，大致围绕在总体参数中心，并且呈正态分布（如果是少量样本的话，就是对应自由度的T分布）。</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-567535b628ca50a4.png" alt="img" style="zoom: 50%;" />
+<p>（1）无论原总体数据是什么分布，多次抽样的样本统计量都呈正态分布；</p>
+<p>（2）中心极限定理描述的是<strong>样本统计量的分布</strong>，常见的就是均值。</p>
+<p>（3）抽样的样本量越大（大于30），越容易得到一个接近总体参数的统计量（曲线越瘦长）。</p>
+<h2 id="12-标准误与置信区间">1.2 标准误与置信区间<a hidden class="anchor" aria-hidden="true" href="#12-标准误与置信区间">#</a></h2>
+<h3 id="1-标准误">(1) 标准误<a hidden class="anchor" aria-hidden="true" href="#1-标准误">#</a></h3>
+<p>由于样本统计量符合正态分布，可以计算出<strong>标准误(se, Stand Error)</strong>，用以描述表示样本统计量的标准差</p>
+<ul>
+<li>
+<p>标准误越大，表明一次抽样结果计算出的样本统计量难以反映总体水平的真实情况；或者说”准确性“越低。</p>
+</li>
+<li>
+<p>按照直观理解，计算标准误需要进行多次抽样，然后根据每次抽样的样本统计量计算结果标准误。</p>
+</li>
+</ul>
+<p>但是现实一般都只有一个样本数据，可通过如下公式近似计算：</p>
+<ul>
+<li>下述公式中 s表示当前样本数据的标准差，n表示样本数。
+<ul>
+<li>s越大(样本数据越离散)、n越小(样本数据越少)，则标准误越大；</li>
+<li>计算公式由数学推导而得，前提是<strong>样本数据符合正态分布</strong>。这一点很重要，之后还会提到。</li>
+</ul>
+</li>
+</ul>
+<p>$$
+se = \frac{s}{\sqrt{n}}
+$$</p>
+<h3 id="2-置信区间">(2) 置信区间<a hidden class="anchor" aria-hidden="true" href="#2-置信区间">#</a></h3>
+<p>假如使用一组样本数据的统计量(例如均值)去描述总体参数，通常称之为<strong>点估计</strong>。但是由于抽样误差的存在，样本统计量与总体参数总会存在一定差距，可使用<strong>区间估计</strong>的方法，描述总体参数的大致范围。</p>
+<p>置信区间(confidence interval, CI)：基于标准误的结果，估计某一区间内包含总体参数的可能性。</p>
+<ul>
+<li>例如：90%置信区间，表示有90%的信心认为该区间内包含了总体参数。</li>
+</ul>
+<p>结合正态分布或者近似正态分布的t分布的曲线下面积规律，可以计算出相应t值/或者z值对应的置信区间。</p>
+<p>如下公式表示均数的置信区间：
+$$
+CI \in \overline{x} ,\pm , t × se
+$$</p>
+<img src="https://uploads-cdn.omnicalculator.com/images/confidence_interval/confidence_interval_95.png" alt="Confidence Interval Calculator" style="zoom: 33%;" />
+<h1 id="2假设检验与t检验">2、假设检验与T检验<a hidden class="anchor" aria-hidden="true" href="#2假设检验与t检验">#</a></h1>
+<h2 id="21-假设检验">2.1 假设检验<a hidden class="anchor" aria-hidden="true" href="#21-假设检验">#</a></h2>
+<p>（1）假设检验采用反证法：即设法证明预期结论的完全对立面是不可能发生的。例如判断一个人是好人，就证明他不可能是坏人。</p>
+<p>（2）两个假设：</p>
+<ul>
+<li>零假设（null hypothesis，H0）：之所以称为零假设，是因为它的假设一般是组间差异为0；两个变量相关系数为0；回归系数为0等</li>
+<li>备择假设（alternative hypothesis，H1）：而零假设完全相反的陈述。如组间差异不为0（即有差异）；相关系数不为0（即相关）</li>
+</ul>
+<p>（3）零假设是要<strong>推翻</strong>的。如果零假设是错误的，那么备择假设就一定是正确的。</p>
+<p>（4）假设检验通常用于计算得出定性的结论，而不能得出定量的结论。例如两组的均值存在显著差异，但差异幅度是多少是无法获知的。</p>
+<p>（5）假设检验的判断基于<strong>中心极限定理</strong>，即多次抽样的统计量分布符合正态分布（t分布）。下面以T检验为例，解释下假设检验的思路。</p>
+<h2 id="22-t检验">2.2 T检验<a hidden class="anchor" aria-hidden="true" href="#22-t检验">#</a></h2>
+<p>（1）T检验根据假设检验的思想，常用于检验某一样本统计量是否与总体参数相等。要根据实际问题理解样本统计量与总体参数。</p>
+<ul>
+<li>在两独立样本t检验中某样本统计量是两组均值差，总体参数是两总体均值差（常假定为0，即不存在差异）</li>
+<li>在回归系数检验中，样本统计量是样本系数，总体参数是总体系数（常假定为，即不存在回归关系）。</li>
+</ul>
+<p>以两独立样本t检验为例：先假设两组样本均值不存在差异；然后判断所计算差值的概率是多少。一般认为P&lt;0.05是小概率事件。即两组样本均值不存在差异的概率很小；反之均值存在差异的概率就很大。</p>
+<p>（2）应用假设检验的前提是样本数据符合正态分布。当样本数据在比较小(&lt;30)的范围时，则是要符合相应自由度的T分布。</p>
+<p>（3）根据具体问题，有三种常见的T检验：[关键是辨析样本数据的定义]</p>
+<ul>
+<li>
+<p>单样本T检验：给定一组样本的数据，判断是否等于某一水平。</p>
+<ul>
+<li>
+<p>例如某班学生成绩是否接近于80分。</p>
+<table>
+  <thead>
+      <tr>
+          <th>学生</th>
+          <th>小明</th>
+          <th>小王</th>
+          <th>小李</th>
+          <th>小红</th>
+          <th>小孙</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>成绩</td>
+          <td>81</td>
+          <td>90</td>
+          <td>70</td>
+          <td>85</td>
+          <td>76</td>
+      </tr>
+      <tr>
+          <td><strong>样本值</strong></td>
+          <td>81-80=1</td>
+          <td>90-80=10</td>
+          <td>70-80=-10</td>
+          <td>85-80=5</td>
+          <td>76-80=-4</td>
+      </tr>
+  </tbody>
+</table>
+</li>
+<li>
+<p>如上表，该问题转换为 [1, 10, -10, 5, -4]这组数据的统计量(1+10-10+5-4)/5=0.4出现在均值为0，标准差为<code>se</code>（参考极限中心定理的标准误计算公式，取决于样本标准差与样本数）的零假设统计量的t分布的可能性是多少？</p>
+</li>
+</ul>
+</li>
+<li>
+<p>配对T检验：给定一一对应的两组数据，判断两组间水平是否存在差异。</p>
+<ul>
+<li>
+<p>例如取10个癌症患者的各自癌旁与癌组织测序，分析某一基因的表达是否存在差异。</p>
+<table>
+  <thead>
+      <tr>
+          <th>病人</th>
+          <th>01</th>
+          <th>02</th>
+          <th>03</th>
+          <th>04</th>
+          <th>05</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>癌组织</td>
+          <td>10</td>
+          <td>12</td>
+          <td>24</td>
+          <td>15</td>
+          <td>19</td>
+      </tr>
+      <tr>
+          <td>癌旁组织</td>
+          <td>8</td>
+          <td>9</td>
+          <td>12</td>
+          <td>10</td>
+          <td>11</td>
+      </tr>
+      <tr>
+          <td><strong>样本值</strong></td>
+          <td>10-8=2</td>
+          <td>12-9=3</td>
+          <td>24-12=12</td>
+          <td>15-10=5</td>
+          <td>19-11=8</td>
+      </tr>
+  </tbody>
+</table>
+</li>
+<li>
+<p>如上表，该问题转换为 [2,3,12,5,8]这组数据的统计量(2+3+12+5+8)/5=6出现在均值为0，标准差为<code>se</code>（参考极限中心定理的标准误计算公式，取决于样本标准差与样本数）的零假设统计量的t分布的可能性是多少？</p>
+</li>
+<li>
+<p>所以配对T检验本质上还是单样本T检验。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>独立样本T检验：不同来源的两组数据，判断两组水平是否存在差异。</p>
+<ul>
+<li>
+<p>例如取10个癌症患者的血液，与5个健康人的血液样品测序，分析某一基因的表达是否存在差异。</p>
+<table>
+  <thead>
+      <tr>
+          <th>编号</th>
+          <th>P01</th>
+          <th>P02</th>
+          <th>P03</th>
+          <th>P04</th>
+          <th>P05</th>
+          <th>H01</th>
+          <th>H02</th>
+          <th>H03</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>组别</td>
+          <td>患者</td>
+          <td>患者</td>
+          <td>患者</td>
+          <td>患者</td>
+          <td>患者</td>
+          <td>健康</td>
+          <td>健康</td>
+          <td>健康</td>
+      </tr>
+      <tr>
+          <td>结果</td>
+          <td>12</td>
+          <td>15</td>
+          <td>11</td>
+          <td>14</td>
+          <td>14</td>
+          <td>10</td>
+          <td>11</td>
+          <td>9</td>
+      </tr>
+      <tr>
+          <td>组均值</td>
+          <td>13.2</td>
+          <td>13.2</td>
+          <td>13.2</td>
+          <td>13.2</td>
+          <td>13.2</td>
+          <td>10</td>
+          <td>10</td>
+          <td>10</td>
+      </tr>
+  </tbody>
+</table>
+</li>
+<li>
+<p>如上表，该问题转换为样本统计量13.2-10=3.2出现在均值为0，标注差为<code>se</code>（参考极限中心定理，取决于样本标准差与样本数）的零假设统计量的t分布的可能性是多少？</p>
+</li>
+<li>
+<p>对于独立样本T检验中标准误的计算，根据两组数据的方差是否相同有两种不同处理方式。但仍与各组的方差与样本数有关。</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>上面三种方法最终都会计算出t值，继而求出在对应自由度的零假设T分布中出现该t值（甚至）更大的概率，即P值。</p>
+<ul>
+<li>对于双侧检验（零假设 H0: Udiff=0）:计算两端的概率；对于单侧检验（零假设H0：0）: Udiff&gt;0 计算右侧的概率；Udiff&lt;0 计算左侧的概率</li>
+<li>P值可以理解为：在零假设成立的前提下，出现如此t统计量的概率是多少。P值越小，表明越不可能出现，即零假设越不可能成立；进而支持其对立面的备择假设。</li>
+</ul>
+<p>$$
+t = \frac{样本统计量-总体参数}{样本统计量的标准差(标准误)}
+$$</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-4a58c3e87f0fccb8.png" alt="img" style="zoom: 33%;" />
+<blockquote>
+<p>假如样本数据不符合正态分布，那么理论上就不可以使用T检验。可以选择非参数检验的<strong>Wilcoxon秩和检验</strong>，将样本数据转换为秩（排名）进行假设检验分析。</p></blockquote>
+<h2 id="23-两类错误">2.3 两类错误<a hidden class="anchor" aria-hidden="true" href="#23-两类错误">#</a></h2>
+<blockquote>
+<p>假如把看病问题视为假设检验，零假设为健康，备择假设为患病。</p>
+<p>当医生碰到一个经常锻炼的运动员时较容易正确判断是健康人，碰到一个咳嗽不停的人时较容易争取判断是病人；但是遇到一个处于这两者中间状态的人，判断时需要谨慎：以免娇弱的人误诊为病人（<strong>假阳性</strong>）；有前兆的病人漏诊为健康人（<strong>假阴性</strong>）。</p></blockquote>
+<img src="https://img2020.cnblogs.com/blog/1015018/202109/1015018-20210918114255499-193189928.png" alt="假设检验中的两类错误- 那抹阳光1994 - 博客园" style="zoom:50%;" />
+<p>根据假设检验的P值结果得出的结论，会不可避免出现下面两种错误的可能：</p>
+<ul>
+<li>
+<p>假阳性(FP, False Positive)又称为第一类错误，错误地认为H1是正确的，用α表示；如上图蓝色区域(娇弱的人)；</p>
+</li>
+<li>
+<p>假阴性(FN, False Negative)又称为第二类错误，错误地认为H1是不存在的，用β表示；如上图红色区域(有前兆的病人)</p>
+</li>
+</ul>
+<p>这两类错误的出现是此消彼长的关系：</p>
+<ul>
+<li>
+<p>当P值很小，才判定H0假设为不可能事件时&ndash;α降低；β增高</p>
+<ul>
+<li>宁可漏诊，不能错诊。</li>
+</ul>
+</li>
+<li>
+<p>一般来说更加重视假阳性的结果，即将P值的阈值定位非常低的水平。</p>
+</li>
+</ul>
+<h1 id="3t检验基于r">3、T检验基于R<a hidden class="anchor" aria-hidden="true" href="#3t检验基于r">#</a></h1>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f"># 两种安眠药(与控制组相比所增加的睡眠时间)对10名患者的影响。 </span>
+</span></span><span style="display:flex;"><span>data(sleep)
+</span></span><span style="display:flex;"><span>table(sleep$group)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1  2 </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 10 10</span>
+</span></span><span style="display:flex;"><span>head(sleep)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   extra group ID</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1   0.7     1  1</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2  -1.6     1  2</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3  -0.2     1  3</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 4  -1.2     1  4</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 5  -0.1     1  5</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 6   3.4     1  6</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="31-单样本t检验">3.1 单样本T检验<a hidden class="anchor" aria-hidden="true" href="#31-单样本t检验">#</a></h2>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>t.test(extra ~ <span style="color:#ff0;font-weight:bold">1</span>, data = sleep)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># One Sample t-test</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># data:  extra</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># t = 3.413, df = 19, p-value = 0.002918</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># alternative hypothesis: true mean is not equal to 0</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 95 percent confidence interval:</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   0.5955845 2.4844155</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># sample estimates:</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   mean of x </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1.54 </span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>t.test(extra ~ <span style="color:#ff0;font-weight:bold">1</span>, data = sleep)$p.value
+</span></span><span style="display:flex;"><span>t.test(sleep$extra ~ <span style="color:#ff0;font-weight:bold">1</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="32-独立样本t检验">3.2 独立样本T检验<a hidden class="anchor" aria-hidden="true" href="#32-独立样本t检验">#</a></h2>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>t.test(extra ~ group, data = sleep)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># t.test(extra ~ group, data = sleep)</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Welch Two Sample t-test</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># data:  extra by group</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># t = -1.8608, df = 17.776, p-value = 0.07939</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># alternative hypothesis: true difference in means between group 1 and group 2 is not equal to 0</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 95 percent confidence interval:</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   -3.3654832  0.2054832</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># sample estimates:</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   mean in group 1 mean in group 2 </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 0.75            2.33 </span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>t.test(extra ~ group, data = sleep)$p.value
+</span></span><span style="display:flex;"><span>t.test(sleep$extra[sleep$group==<span style="color:#ff0;font-weight:bold">1</span>],
+</span></span><span style="display:flex;"><span>       y = sleep$extra[sleep$group==<span style="color:#ff0;font-weight:bold">2</span>])
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="33-配对样本t检验">3.3 配对样本T检验<a hidden class="anchor" aria-hidden="true" href="#33-配对样本t检验">#</a></h2>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>t.test(extra ~ group, data = sleep, paired = <span style="color:#fff;font-weight:bold">TRUE</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Paired t-test</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># data:  extra by group</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># t = -4.0621, df = 9, p-value = 0.002833</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># alternative hypothesis: true difference in means is not equal to 0</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 95 percent confidence interval:</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   -2.4598858 -0.7001142</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># sample estimates:</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   mean of the differences </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># -1.58 </span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>t.test(extra ~ group, data = sleep, paired = <span style="color:#fff;font-weight:bold">TRUE</span>)$p.value
+</span></span><span style="display:flex;"><span>t.test(sleep$extra[sleep$group==<span style="color:#ff0;font-weight:bold">1</span>],
+</span></span><span style="display:flex;"><span>       y = sleep$extra[sleep$group==<span style="color:#ff0;font-weight:bold">2</span>], paired = <span style="color:#fff;font-weight:bold">TRUE</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="34-wilcoxtest秩和检验">3.4 wilcox.test秩和检验<a hidden class="anchor" aria-hidden="true" href="#34-wilcoxtest秩和检验">#</a></h2>
+<p>将上述的<code>t.test()</code>替换为<code>wilcox.test()</code>，即可执行对应方式的秩和检验。</p>
+<blockquote>
+<p>Performs one- and two-sample Wilcoxon tests on vectors of data; the latter is also known as ‘Mann-Whitney’ test.</p></blockquote>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">##(1)单样本</span>
+</span></span><span style="display:flex;"><span>wilcox.test(extra ~ <span style="color:#ff0;font-weight:bold">1</span>, data = sleep)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##(2)两独立样本</span>
+</span></span><span style="display:flex;"><span>wilcox.test(extra ~ group, data = sleep)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##(3)配对样本</span>
+</span></span><span style="display:flex;"><span>wilcox.test(extra ~ group, data = sleep, paired = <span style="color:#fff;font-weight:bold">TRUE</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/%E7%BB%9F%E8%AE%A1%E5%9F%BA%E7%A1%80/">统计基础</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/en/posts/program/001python%E5%9F%BA%E7%A1%80-1%E5%88%9D%E8%AF%86/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>Python基础-(1)初识</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/en/posts/bioinfo/002conda%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%BD%BD%E7%AE%A1%E7%90%86%E8%BD%AF%E4%BB%B6r%E5%8C%85/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>conda环境下载管理软件、R包</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

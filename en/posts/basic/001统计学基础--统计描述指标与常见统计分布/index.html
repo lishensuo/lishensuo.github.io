@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>统计学基础--统计描述指标与常见统计分布 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="统计基础">
+<meta name="description" content="
+统计的对象是数据，其中会涉及到不同类型的数据；统计的目的是描述，描述一组数据的分布特征、两组至多组数据之间的关系。
+1、数据分类
+根据数据特点，可以分为2大类：">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/basic/001%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%9F%BA%E7%A1%80--%E7%BB%9F%E8%AE%A1%E6%8F%8F%E8%BF%B0%E6%8C%87%E6%A0%87%E4%B8%8E%E5%B8%B8%E8%A7%81%E7%BB%9F%E8%AE%A1%E5%88%86%E5%B8%83/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/basic/001%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%9F%BA%E7%A1%80--%E7%BB%9F%E8%AE%A1%E6%8F%8F%E8%BF%B0%E6%8C%87%E6%A0%87%E4%B8%8E%E5%B8%B8%E8%A7%81%E7%BB%9F%E8%AE%A1%E5%88%86%E5%B8%83/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="统计学基础--统计描述指标与常见统计分布" />
+<meta property="og:description" content="
+统计的对象是数据，其中会涉及到不同类型的数据；统计的目的是描述，描述一组数据的分布特征、两组至多组数据之间的关系。
+1、数据分类
+根据数据特点，可以分为2大类：" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/basic/001%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%9F%BA%E7%A1%80--%E7%BB%9F%E8%AE%A1%E6%8F%8F%E8%BF%B0%E6%8C%87%E6%A0%87%E4%B8%8E%E5%B8%B8%E8%A7%81%E7%BB%9F%E8%AE%A1%E5%88%86%E5%B8%83/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-04-18T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2022-06-10T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="统计学基础--统计描述指标与常见统计分布"/>
+<meta name="twitter:description" content="
+统计的对象是数据，其中会涉及到不同类型的数据；统计的目的是描述，描述一组数据的分布特征、两组至多组数据之间的关系。
+1、数据分类
+根据数据特点，可以分为2大类："/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 科研基础 -- 读文献、看教材",
+      "item": "https://lishensuo.github.io/en/posts/basic/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "统计学基础--统计描述指标与常见统计分布",
+      "item": "https://lishensuo.github.io/en/posts/basic/001%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%9F%BA%E7%A1%80--%E7%BB%9F%E8%AE%A1%E6%8F%8F%E8%BF%B0%E6%8C%87%E6%A0%87%E4%B8%8E%E5%B8%B8%E8%A7%81%E7%BB%9F%E8%AE%A1%E5%88%86%E5%B8%83/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "统计学基础--统计描述指标与常见统计分布",
+  "name": "统计学基础--统计描述指标与常见统计分布",
+  "description": " 统计的对象是数据，其中会涉及到不同类型的数据；统计的目的是描述，描述一组数据的分布特征、两组至多组数据之间的关系。\n1、数据分类 根据数据特点，可以分为2大类：\n",
+  "keywords": [
+    "统计基础"
+  ],
+  "articleBody": " 统计的对象是数据，其中会涉及到不同类型的数据；统计的目的是描述，描述一组数据的分布特征、两组至多组数据之间的关系。\n1、数据分类 根据数据特点，可以分为2大类：\n1.1 数值型数据 连续型数据：可在一个数值范围内任意取值的数据，特点之一就是允许包含小数。例如身高值。\n离散型数据：只能取整数的数据，多见于计算次数的数据。例如每分钟跳绳次数。\n计数数据是离散型数据，反之不是。\n1.2 分类型数据 二分类数据：只有两个类别。例如生死。\n无序多分类：多种类别，无逻辑上的顺序关系。例如职业分布。\n有序多分类：多种类别，有逻辑上的顺序关系。例如考试等级。\n（1）分类资料的有序与无序有一定的主观性。可以把有序资料视为无序资料，反之亦然。\n（2）另外可通过对数值型数据划分阈值，转换为分类数据。\n2、统计描述 给定一组连续型数据，可以从下面三个角度进行描述。\n2.1 数据位置估计 位置估计指该组数据的”代表值“，最常见的是均值；而中位数更稳健，适用于含有离群点的数据。\n（1）均值 一般均值：累加的和除以个数 $$ \\overline{X} = \\frac{\\sum_{i=1}^{n}x_i}{n} $$ 截尾均值：去掉若干(p)个最小值与若干(p)个最大值的均值 $$ \\overline{X} = \\frac{\\sum_{i=p+1}^{n-p}x_i}{n-2p} $$ 加权均值：数值乘以权重的求和除以权重和 $$ \\overline{X_w} = \\frac{\\sum_{i=1}^{n}x_iw_i}{\\sum{_{i=1}^{n}}{w_i}} $$\n（2）中位数 中位数：将数据进行排序，处于中间位置的数据。是对位置的健壮估计，不收离群值影（极端值）响。\n加权中位数：将原始数据进行排序，该值上半部分的权重和等于该值下半部分的权重和。\n2.2 数据变异估计 变异估计去评价一组数据是紧凑的，还是分散的。\n（1）方差 偏差：均值与每一个实际值的差异。也称为误差、残差。\n平均绝对偏差：差值的绝对值的平均数。 $$ \\frac{\\sum_{i=1}^{n}|x_i-\\overline{x}|}{n} $$\n方差：偏差平方的平均数。\n$$ s^2 = \\frac{\\sum_{i=1}^{n}(x_i-\\overline{x})^2}{n-1} $$\n在大样本下（即n特别大），除以（n-1）还是除以（n）区别不大。如果在小样本时，除以（n）会低估观测值的变异度，称之为有偏估计。这里涉及到了自由度的影响，之后还会提到。\n标准差(standard deviation, sd)：方差的平方根。 上述指标均为基于均值的统计，容易受到极端离群值的影响。变异性的一种健壮估计是中位数绝对偏差，成为MAD：\n$$ MAD = 中位数(|x_1-m|, |x_2-m|, …,|x_N-m|) $$\n（2）分位数 百分位数：第P个百分位数指的是 \u003e P%的值，而 \u003c (1-P)%的值。\nQ1表示第25百分位数，Q2表示第50百分位数（即中位数），Q3表示第75百分位数。\n四分位距（IQR）= Q3-Q1，可用于描述一组数据的变异性\n箱线图就是依据百分位数绘制的。\n1 2 3 4 5 6 7 x = 1:100 quantile(x) # 0% 25% 50% 75% 100% # 1.00 25.75 50.50 75.25 100.00 quantile(x, probs = c(0.3, 0.6,0.9)) # 30% 60% 90% # 30.7 60.4 90.1 2.3 数据分布估计 直方图：将数据分布范围分为若干个连续的bin，每个bin的长度相同。然后进一步统计处于每个bin中的数量。纵坐标表示为频数。 密度图：可以理解为直方图的平滑表示，即bin的宽度无限小化。纵坐标表示为概率，曲线下面积等于1；所以概率密度图。 概率密度函数：用一个函数方程去描述/预测某个观测值出现的概率，绘制概率密度曲线。不同类型的概率密度函数具有不同的分布特征，适用于不同类型的数据。比如正态分布，二项分布……，其本质上就是描述了数据的分布特征。 3、常见分布 3.1 正态分布 （1）正态分布 数据围绕均值波动，曲线呈钟形。具体的形状取决于数据的两个特征值：（1）均值；（2）方差 $$ X \\sim N(\\mu, \\sigma^2) $$ 正态分布的数据分布很有规律性：以均值为中心，±1σ面积为68.2%；±2σ面积为95.4%；±3σ面积为99.7%\nzscore标准化：数据与均值的差值，再除以标准差的比。它反映了某个值偏离均数的标准差倍数。 $$ Z = \\frac{X-\\mu}{\\sigma} $$\n由Z值组成的数据分布称为均值为0，方差为1的标准正态分布。Z值可直观表示某个观测值在一组数据中所处的位置，例如Z=0，表示处于中间位置；Z=1，表示约处于第84百分位数的位置。\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 rnorm(5) #[1] -1.1093736 0.6631883 0.1295332 -1.5635006 0.5994136 rnorm(5, mean = 10, sd = 10) #[1] 13.5595849 0.2666945 12.9323366 2.0843432 19.4443122 dnorm(1) #密度概率 # [1] 0.2419707 pnorm(1) #累积分布 # [1] 0.8413447 qnorm(0.5) #分位数 # [1] 0 ##下同，每种分布都有上述4类函数 （2）T分布 t分布可以理解为小样本的标准正态分布，相对于标准正态分布曲线更加扁平； t分布是一簇分布，随着样本量/自由度的增加，越接近标准正态分布(n\u003e30)； 在自由度=5时，右侧2.5%面积对应t值为2.57；自由度=30时，右侧2.5%面积对应t值为2.04。（标准正态分布的右侧2.5%面积为1.96） 常用于两个均数是否相等，系数是否为0等\n1 2 rt(5, df=5) # [1] -2.95051051 -0.54738086 -1.60480176 1.13751489 0.08116877 （3）χ2卡方分布 卡方分布衍生自标准正态分布。\n假设一组观测值符合标准正态分布，那么其所有观测值的平方符合自由度为1的卡方分布。\n$$ X = Z_1^2 \\quad\\quad X \\backsim \\chi^2(1) $$\nZ1 = （ 0.16, -0.07, -1.07, -0.44, 0.90）\nS1 = Z1平方 = （0.0256, 0.0049, 1.1449, 0.1936, 0.8100）\n即X = S1符合自由度为1的卡方分布。\n对于多组(n)均符合标准正态分布的观测值，那么其各组平方值跨组相加的结果，符合自由度为n的卡方分布。 $$ X = Z_1^2 + Z_2^2 + …Z_n^2 = \\sum_{i=1}^{n}Z_i^2 \\quad\\quad X \\backsim \\chi^2(n) $$\nZ1 = （ 0.16, -0.07, -1.07, -0.44, 0.90）; Z2 = (-1.40, 0.00, 0.98, -0.92, -1.12)\nS1 = Z1平方 = （0.0256, 0.0049, 1.1449, 0.1936, 0.8100）\nS2 = Z2平方 = （1.9600, 0.0000, 0.9604, 0.8464, 1.2544）\nS1 + S2 = （1.9856 0.0049 2.1053 1.0400 2.0644）\n即X = S1 + S2 符合自由度为2的卡方分布。\n卡方分布曲线特征只取决于自由度（因为是由标准正态分布转换而来） 卡方分布多用于描述分类资料的实际频数与理论频数之间的抽样误差。\n1 2 3 # shape= 交代自由度 rgamma(5, shape = 3) # [1] 3.054343 2.324643 2.898174 2.223752 3.088181 （4）F分布 若随机变量X符合自由度为m的卡方分布，随机变量Y符合自由度为n的卡方分布。则(X/Y) 符合自由度为m,n的F分布。 如上，F分布有两个参数分别为分子自由度与分母自由度。 $$ X \\backsim \\chi_m^2, , Y \\backsim \\chi_n^2 \\quad\\quad F = \\frac{X/m}{Y/n} $$\nF分布多用于方差比的相关分析，例如方差分析是组间方差与组内方差之比。\n1 2 rf(5, df1 = 5, df2 = 1) #[1] 1.554777e+03 5.389789e-02 3.793949e+01 1.923800e+00 3.065202e+00 3.2 二项分布 （1）二项分布 给定实验次数n，以及每次实验次数成功的概率p，那么成功次数x(0≤x≤n)的概率符合参数为（n，p）的二项分布。 $$ X \\backsim b(n,p) $$\n关于二项分布的期望值与方差的计算公式为 $$ \\mu = np,; \\quad\\quad \\sigma^2 = n\\cdot p\\cdot (1-p) $$\n关于方差的计算公式直观上难以理解，是由二项分布函数推导得到的。\n例如抛硬币实验，定义抛出正面为实验成功，已知正面概率为0.7。假设全班同学每人抛了20次，那么计算出有多少比例同学会抛出了10次以上的正面结果。\n二项分布是离散分布，横坐标表示每次实验发生次数。在规定一个N值很大的情景，即很多次实验的前提下，二项分布可以近似表示为均值为u的正态分布（连续分布）。当n越大（至少20）且p不接近0或1时近似效果更好。 伯努利试验（Bernoulli trial，或译为白努利试验）是只有两种可能结果（“成功”或“失败”）的单次随机试验。\n1 2 rbinom(10, size=5, prob=0.3) #[1] 1 1 1 2 2 0 1 2 0 1 （2）泊松分布 泊松分布：用于估计每时间单位或者空间单位条件下，事件所发生的的平均次数。分布特征仅取决于参数：平均次数λ 可以认为是二项分布的特例。即N非常大，P非常小。例如每次中彩票的人数；每年患流感的人数；在每个样本RNAseq文库中比对到GeneA的count数，实验背景总数很多，但是事件发生的概率很小。当n≧20,p≦0.05时。\n根据二项分布中期望与方差的计算公式，可以推导出在泊松分布中 期望值（即λ）=方差。 $$ \\lambda = np \\approx n\\cdot p\\cdot (1-p) = \\sigma^2 $$\n1 2 rpois(10, lambda=5) # [1] 9 4 5 3 7 7 6 6 4 10 负二项分布：对于一次伯努利试验中，事件成功的概率为p。反复进行该伯努利试验，直到观察到第r次成功发生。此时试验失败次数X的分布即为负二项分布\n（4） 超几何分布 假设在N个物体中，有一组特殊标签的K个物体。当对所有物体不放回地抽出n个物体时，其中k个属于该标签的概率。\n示例-1：N为所有产品数，K为其中不合格样本数。从中抽取n个产品中，有k个产品为不合格概率； 示例-2：N为所有基因数，K为通路A的基因数。分析得到n个差异基因，有k个基因属于该通路的概率。 $$ X \\sim H(n, K, N) $$\n1 2 3 4 5 # n为合格产品数 # m为不合格产品数 # k为抽检的数目 rhyper(5, m=10, n=50, k=5) # [1] 0 1 0 2 0 ",
+  "wordCount" : "3206",
+  "inLanguage": "en",
+  "datePublished": "2022-04-18T00:00:00Z",
+  "dateModified": "2022-06-10T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/basic/001%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%9F%BA%E7%A1%80--%E7%BB%9F%E8%AE%A1%E6%8F%8F%E8%BF%B0%E6%8C%87%E6%A0%87%E4%B8%8E%E5%B8%B8%E8%A7%81%E7%BB%9F%E8%AE%A1%E5%88%86%E5%B8%83/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/basic/">📖 科研基础 -- 读文献、看教材</a></div>
+    <h1 class="post-title">
+      统计学基础--统计描述指标与常见统计分布
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-18 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-18&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-06-10&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;3206&amp;nbsp;|&amp;nbsp;7 min&amp;nbsp;|&amp;nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#1%e6%95%b0%e6%8d%ae%e5%88%86%e7%b1%bb" aria-label="1、数据分类">1、数据分类</a><ul>
+                            
+                    <li>
+                        <a href="#11-%e6%95%b0%e5%80%bc%e5%9e%8b%e6%95%b0%e6%8d%ae" aria-label="1.1 数值型数据">1.1 数值型数据</a></li>
+                    <li>
+                        <a href="#12-%e5%88%86%e7%b1%bb%e5%9e%8b%e6%95%b0%e6%8d%ae" aria-label="1.2 分类型数据">1.2 分类型数据</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#2%e7%bb%9f%e8%ae%a1%e6%8f%8f%e8%bf%b0" aria-label="2、统计描述">2、统计描述</a><ul>
+                            
+                    <li>
+                        <a href="#21-%e6%95%b0%e6%8d%ae%e4%bd%8d%e7%bd%ae%e4%bc%b0%e8%ae%a1" aria-label="2.1 数据位置估计">2.1 数据位置估计</a><ul>
+                            
+                    <li>
+                        <a href="#1%e5%9d%87%e5%80%bc" aria-label="（1）均值">（1）均值</a></li>
+                    <li>
+                        <a href="#2%e4%b8%ad%e4%bd%8d%e6%95%b0" aria-label="（2）中位数">（2）中位数</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#22-%e6%95%b0%e6%8d%ae%e5%8f%98%e5%bc%82%e4%bc%b0%e8%ae%a1" aria-label="2.2 数据变异估计">2.2 数据变异估计</a><ul>
+                            
+                    <li>
+                        <a href="#1%e6%96%b9%e5%b7%ae" aria-label="（1）方差">（1）方差</a></li>
+                    <li>
+                        <a href="#2%e5%88%86%e4%bd%8d%e6%95%b0" aria-label="（2）分位数">（2）分位数</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#23-%e6%95%b0%e6%8d%ae%e5%88%86%e5%b8%83%e4%bc%b0%e8%ae%a1" aria-label="2.3 数据分布估计">2.3 数据分布估计</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#3%e5%b8%b8%e8%a7%81%e5%88%86%e5%b8%83" aria-label="3、常见分布">3、常见分布</a><ul>
+                            
+                    <li>
+                        <a href="#31-%e6%ad%a3%e6%80%81%e5%88%86%e5%b8%83" aria-label="3.1 正态分布">3.1 正态分布</a><ul>
+                            
+                    <li>
+                        <a href="#1%e6%ad%a3%e6%80%81%e5%88%86%e5%b8%83" aria-label="（1）正态分布">（1）正态分布</a></li>
+                    <li>
+                        <a href="#2t%e5%88%86%e5%b8%83" aria-label="（2）T分布">（2）T分布</a></li>
+                    <li>
+                        <a href="#3%cf%872%e5%8d%a1%e6%96%b9%e5%88%86%e5%b8%83" aria-label="（3）χ2卡方分布">（3）χ2卡方分布</a></li>
+                    <li>
+                        <a href="#4f%e5%88%86%e5%b8%83" aria-label="（4）F分布">（4）F分布</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#32-%e4%ba%8c%e9%a1%b9%e5%88%86%e5%b8%83" aria-label="3.2 二项分布">3.2 二项分布</a><ul>
+                            
+                    <li>
+                        <a href="#1%e4%ba%8c%e9%a1%b9%e5%88%86%e5%b8%83" aria-label="（1）二项分布">（1）二项分布</a></li>
+                    <li>
+                        <a href="#2%e6%b3%8a%e6%9d%be%e5%88%86%e5%b8%83" aria-label="（2）泊松分布">（2）泊松分布</a></li>
+                    <li>
+                        <a href="#4-%e8%b6%85%e5%87%a0%e4%bd%95%e5%88%86%e5%b8%83" aria-label="（4） 超几何分布">（4） 超几何分布</a>
+                    </li>
+                </ul>
+                </li>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><blockquote>
+<p>统计的对象是<strong>数据</strong>，其中会涉及到不同类型的数据；统计的目的是<strong>描述</strong>，描述一组数据的分布特征、两组至多组数据之间的关系。</p></blockquote>
+<h1 id="1数据分类">1、数据分类<a hidden class="anchor" aria-hidden="true" href="#1数据分类">#</a></h1>
+<p>根据数据特点，可以分为2大类：</p>
+<h2 id="11-数值型数据">1.1 数值型数据<a hidden class="anchor" aria-hidden="true" href="#11-数值型数据">#</a></h2>
+<ul>
+<li>
+<p>连续型数据：可在一个数值范围内任意取值的数据，特点之一就是允许包含小数。例如身高值。</p>
+</li>
+<li>
+<p>离散型数据：只能取整数的数据，多见于计算次数的数据。例如每分钟跳绳次数。</p>
+<blockquote>
+<p>计数数据是离散型数据，反之不是。</p></blockquote>
+</li>
+</ul>
+<h2 id="12-分类型数据">1.2 分类型数据<a hidden class="anchor" aria-hidden="true" href="#12-分类型数据">#</a></h2>
+<ul>
+<li>
+<p>二分类数据：只有两个类别。例如生死。</p>
+</li>
+<li>
+<p>无序多分类：多种类别，无逻辑上的顺序关系。例如职业分布。</p>
+</li>
+<li>
+<p>有序多分类：多种类别，有逻辑上的顺序关系。例如考试等级。</p>
+<blockquote>
+<p>（1）分类资料的有序与无序有一定的主观性。可以把有序资料视为无序资料，反之亦然。</p>
+<p>（2）另外可通过对数值型数据划分阈值，转换为分类数据。</p></blockquote>
+</li>
+</ul>
+<h1 id="2统计描述">2、统计描述<a hidden class="anchor" aria-hidden="true" href="#2统计描述">#</a></h1>
+<p>给定一组连续型数据，可以从下面三个角度进行描述。</p>
+<h2 id="21-数据位置估计">2.1 数据位置估计<a hidden class="anchor" aria-hidden="true" href="#21-数据位置估计">#</a></h2>
+<p>位置估计指该组数据的”代表值“，最常见的是均值；而中位数更稳健，适用于含有离群点的数据。</p>
+<h3 id="1均值">（1）均值<a hidden class="anchor" aria-hidden="true" href="#1均值">#</a></h3>
+<p>一般均值：累加的和除以个数
+$$
+\overline{X} = \frac{\sum_{i=1}^{n}x_i}{n}
+$$
+截尾均值：去掉若干(p)个最小值与若干(p)个最大值的均值
+$$
+\overline{X} = \frac{\sum_{i=p+1}^{n-p}x_i}{n-2p}
+$$
+加权均值：数值乘以权重的求和除以权重和
+$$
+\overline{X_w} = \frac{\sum_{i=1}^{n}x_iw_i}{\sum{_{i=1}^{n}}{w_i}}
+$$</p>
+<h3 id="2中位数">（2）中位数<a hidden class="anchor" aria-hidden="true" href="#2中位数">#</a></h3>
+<p>中位数：将数据进行排序，处于中间位置的数据。是对位置的健壮估计，不收离群值影（极端值）响。</p>
+<p>加权中位数：将原始数据进行排序，该值上半部分的权重和等于该值下半部分的权重和。</p>
+<h2 id="22-数据变异估计">2.2 数据变异估计<a hidden class="anchor" aria-hidden="true" href="#22-数据变异估计">#</a></h2>
+<p>变异估计去评价一组数据是紧凑的，还是分散的。</p>
+<h3 id="1方差">（1）方差<a hidden class="anchor" aria-hidden="true" href="#1方差">#</a></h3>
+<ul>
+<li>
+<p>偏差：均值与每一个实际值的差异。也称为误差、残差。</p>
+</li>
+<li>
+<p>平均绝对偏差：差值的绝对值的平均数。
+$$
+\frac{\sum_{i=1}^{n}|x_i-\overline{x}|}{n}
+$$</p>
+</li>
+<li>
+<p>方差：偏差平方的平均数。</p>
+</li>
+</ul>
+<p>$$
+s^2 = \frac{\sum_{i=1}^{n}(x_i-\overline{x})^2}{n-1}
+$$</p>
+<blockquote>
+<p>在大样本下（即n特别大），除以（n-1）还是除以（n）区别不大。如果在小样本时，除以（n）会低估观测值的变异度，称之为有偏估计。这里涉及到了自由度的影响，之后还会提到。</p></blockquote>
+<ul>
+<li>标准差(standard deviation, sd)：方差的平方根。</li>
+</ul>
+<blockquote>
+<p>上述指标均为基于均值的统计，容易受到极端离群值的影响。变异性的一种健壮估计是中位数绝对偏差，成为MAD：</p></blockquote>
+<p>$$
+MAD = 中位数(|x_1-m|, |x_2-m|, &hellip;,|x_N-m|)
+$$</p>
+<h3 id="2分位数">（2）分位数<a hidden class="anchor" aria-hidden="true" href="#2分位数">#</a></h3>
+<ul>
+<li>
+<p>百分位数：第P个百分位数指的是 &gt; P%的值，而 &lt; (1-P)%的值。</p>
+</li>
+<li>
+<p>Q1表示第25百分位数，Q2表示第50百分位数（即中位数），Q3表示第75百分位数。</p>
+</li>
+<li>
+<p>四分位距（IQR）= Q3-Q1，可用于描述一组数据的变异性</p>
+</li>
+<li>
+<p>箱线图就是依据百分位数绘制的。</p>
+</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220422125301381.png" alt="image-20220422125301381"  />
+</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>x = <span style="color:#ff0;font-weight:bold">1</span>:<span style="color:#ff0;font-weight:bold">100</span>
+</span></span><span style="display:flex;"><span>quantile(x)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 0%    25%    50%    75%   100% </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1.00  25.75  50.50  75.25 100.00 </span>
+</span></span><span style="display:flex;"><span>quantile(x, probs = c(<span style="color:#ff0;font-weight:bold">0.3</span>, <span style="color:#ff0;font-weight:bold">0.6</span>,<span style="color:#ff0;font-weight:bold">0.9</span>))
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 30%  60%  90% </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 30.7 60.4 90.1</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="23-数据分布估计">2.3 数据分布估计<a hidden class="anchor" aria-hidden="true" href="#23-数据分布估计">#</a></h2>
+<ul>
+<li>直方图：将数据分布范围分为若干个连续的bin，每个bin的长度相同。然后进一步统计处于每个bin中的数量。纵坐标表示为<strong>频数</strong>。</li>
+<li>密度图：可以理解为直方图的平滑表示，即bin的宽度无限小化。纵坐标表示为<strong>概率</strong>，曲线下面积等于1；所以概率密度图。</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-05e85f02f907d0bb.png" alt="img"  />
+</p>
+<ul>
+<li>概率密度函数：用一个函数方程去描述/预测某个观测值出现的概率，绘制概率密度曲线。不同类型的概率密度函数具有不同的分布特征，适用于不同类型的数据。比如正态分布，二项分布&hellip;&hellip;，其本质上就是描述了数据的分布特征。</li>
+</ul>
+<h1 id="3常见分布">3、常见分布<a hidden class="anchor" aria-hidden="true" href="#3常见分布">#</a></h1>
+<h2 id="31-正态分布">3.1 正态分布<a hidden class="anchor" aria-hidden="true" href="#31-正态分布">#</a></h2>
+<h3 id="1正态分布">（1）正态分布<a hidden class="anchor" aria-hidden="true" href="#1正态分布">#</a></h3>
+<ul>
+<li>数据围绕均值波动，曲线呈钟形。具体的形状取决于数据的两个特征值：（1）均值；（2）方差
+$$
+X \sim N(\mu, \sigma^2)
+$$</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-a0bdb8c27c74c311.png" alt="img"  />
+</p>
+<ul>
+<li>
+<p>正态分布的数据分布很有规律性：以均值为中心，±1σ面积为68.2%；±2σ面积为95.4%；±3σ面积为99.7%</p>
+</li>
+<li>
+<p>zscore标准化：数据与均值的差值，再除以标准差的比。它反映了某个值偏离均数的标准差倍数。
+$$
+Z = \frac{X-\mu}{\sigma}
+$$</p>
+<p>由Z值组成的数据分布称为均值为0，方差为1的<strong>标准正态分布</strong>。Z值可直观表示某个观测值在一组数据中所处的位置，例如Z=0，表示处于中间位置；Z=1，表示约处于第84百分位数的位置。</p>
+</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-4f13895bf4560e77.png" alt="img"  />
+</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>rnorm(<span style="color:#ff0;font-weight:bold">5</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#[1] -1.1093736  0.6631883  0.1295332 -1.5635006  0.5994136</span>
+</span></span><span style="display:flex;"><span>rnorm(<span style="color:#ff0;font-weight:bold">5</span>, mean = <span style="color:#ff0;font-weight:bold">10</span>, sd = <span style="color:#ff0;font-weight:bold">10</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#[1] 13.5595849  0.2666945 12.9323366  2.0843432 19.4443122</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>dnorm(<span style="color:#ff0;font-weight:bold">1</span>)           <span style="color:#007f7f">#密度概率</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] 0.2419707</span>
+</span></span><span style="display:flex;"><span>pnorm(<span style="color:#ff0;font-weight:bold">1</span>)           <span style="color:#007f7f">#累积分布</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] 0.8413447</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>qnorm(<span style="color:#ff0;font-weight:bold">0.5</span>)         <span style="color:#007f7f">#分位数</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] 0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##下同，每种分布都有上述4类函数</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="2t分布">（2）T分布<a hidden class="anchor" aria-hidden="true" href="#2t分布">#</a></h3>
+<ul>
+<li>t分布可以理解为小样本的标准正态分布，相对于标准正态分布曲线更加<strong>扁平</strong>；</li>
+<li>t分布是一簇分布，随着样本量/自由度的增加，越接近标准正态分布(n&gt;30)；</li>
+<li>在自由度=5时，右侧2.5%面积对应t值为2.57；自由度=30时，右侧2.5%面积对应t值为2.04。（标准正态分布的右侧2.5%面积为1.96）</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-54e74c9fee24174d.png" alt="img"  />
+</p>
+<blockquote>
+<p>常用于两个均数是否相等，系数是否为0等</p></blockquote>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>rt(<span style="color:#ff0;font-weight:bold">5</span>, df=<span style="color:#ff0;font-weight:bold">5</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] -2.95051051 -0.54738086 -1.60480176  1.13751489  0.08116877</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="3χ2卡方分布">（3）χ2卡方分布<a hidden class="anchor" aria-hidden="true" href="#3χ2卡方分布">#</a></h3>
+<ul>
+<li>
+<p>卡方分布衍生自标准正态分布。</p>
+</li>
+<li>
+<p>假设一组观测值符合标准正态分布，那么其所有观测值的平方符合自由度为1的卡方分布。</p>
+</li>
+</ul>
+<p>$$
+X = Z_1^2 \quad\quad X \backsim \chi^2(1)
+$$</p>
+<blockquote>
+<p>Z1 = （ 0.16, -0.07, -1.07, -0.44,  0.90）</p>
+<p>S1 = Z1平方 = （0.0256, 0.0049, 1.1449, 0.1936, 0.8100）</p></blockquote>
+<p>即X = S1符合自由度为1的卡方分布。</p>
+<ul>
+<li>对于多组(n)均符合标准正态分布的观测值，那么其各组平方值跨组相加的结果，符合自由度为n的卡方分布。</li>
+</ul>
+<p>$$
+X = Z_1^2 + Z_2^2 + &hellip;Z_n^2 = \sum_{i=1}^{n}Z_i^2 \quad\quad X \backsim \chi^2(n)
+$$</p>
+<blockquote>
+<p>Z1 = （ 0.16, -0.07, -1.07, -0.44,  0.90）; Z2 = (-1.40,  0.00,  0.98, -0.92, -1.12)</p>
+<p>S1 = Z1平方 = （0.0256, 0.0049, 1.1449, 0.1936, 0.8100）</p>
+<p>S2 = Z2平方 = （1.9600, 0.0000, 0.9604, 0.8464, 1.2544）</p>
+<p>S1 + S2 = （1.9856 0.0049 2.1053 1.0400 2.0644）</p></blockquote>
+<p>即X = S1 + S2 符合自由度为2的卡方分布。</p>
+<ul>
+<li>卡方分布曲线特征只取决于自由度（因为是由标准正态分布转换而来）</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-2322712b0fab474f.png" alt="img"  />
+</p>
+<blockquote>
+<p>卡方分布多用于描述分类资料的实际频数与理论频数之间的抽样误差。</p></blockquote>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f"># shape= 交代自由度</span>
+</span></span><span style="display:flex;"><span>rgamma(<span style="color:#ff0;font-weight:bold">5</span>, shape = <span style="color:#ff0;font-weight:bold">3</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] 3.054343 2.324643 2.898174 2.223752 3.088181</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="4f分布">（4）F分布<a hidden class="anchor" aria-hidden="true" href="#4f分布">#</a></h3>
+<ul>
+<li>若随机变量X符合自由度为m的卡方分布，随机变量Y符合自由度为n的卡方分布。则(X/Y) 符合自由度为m,n的F分布。</li>
+<li>如上，F分布有两个参数分别为分子自由度与分母自由度。</li>
+</ul>
+<p>$$
+X \backsim \chi_m^2, , Y \backsim \chi_n^2 \quad\quad F = \frac{X/m}{Y/n}
+$$</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-88da1acbb72cffe3.png" alt="img" style="zoom:33%;" />
+<blockquote>
+<p>F分布多用于方差比的相关分析，例如方差分析是组间方差与组内方差之比。</p></blockquote>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>rf(<span style="color:#ff0;font-weight:bold">5</span>, df1 = <span style="color:#ff0;font-weight:bold">5</span>, df2 = <span style="color:#ff0;font-weight:bold">1</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#[1] 1.554777e+03 5.389789e-02 3.793949e+01 1.923800e+00 3.065202e+00</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="32-二项分布">3.2 二项分布<a hidden class="anchor" aria-hidden="true" href="#32-二项分布">#</a></h2>
+<h3 id="1二项分布">（1）二项分布<a hidden class="anchor" aria-hidden="true" href="#1二项分布">#</a></h3>
+<ul>
+<li>给定实验次数n，以及每次实验次数成功的概率p，那么成功次数x(0≤x≤n)的概率符合参数为（n，p）的二项分布。</li>
+</ul>
+<p>$$
+X \backsim b(n,p)
+$$</p>
+<ul>
+<li>
+<p>关于二项分布的期望值与方差的计算公式为
+$$
+\mu = np,; \quad\quad \sigma^2 = n\cdot p\cdot (1-p)
+$$</p>
+<blockquote>
+<p>关于方差的计算公式直观上难以理解，是由二项分布函数推导得到的。</p></blockquote>
+</li>
+<li>
+<p>例如抛硬币实验，定义抛出正面为实验成功，已知正面概率为0.7。假设全班同学每人抛了20次，那么计算出有多少比例同学会抛出了10次以上的正面结果。</p>
+</li>
+</ul>
+<p><img loading="lazy" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Binomial_distribution_pmf.svg/300px-Binomial_distribution_pmf.svg.png" alt="Probability mass function for the binomial distribution"  />
+</p>
+<ul>
+<li>二项分布是离散分布，横坐标表示每次实验发生次数。在规定一个N值很大的情景，即很多次实验的前提下，二项分布可以近似表示为均值为u的正态分布（连续分布）。当n越大（至少20）且p不接近0或1时近似效果更好。</li>
+</ul>
+<blockquote>
+<p>伯努利试验（Bernoulli trial，或译为白努利试验）是只有两种可能结果（“成功”或“失败”）的单次随机试验。</p></blockquote>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>rbinom(<span style="color:#ff0;font-weight:bold">10</span>, size=<span style="color:#ff0;font-weight:bold">5</span>, prob=<span style="color:#ff0;font-weight:bold">0.3</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#[1] 1 1 1 2 2 0 1 2 0 1</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="2泊松分布">（2）泊松分布<a hidden class="anchor" aria-hidden="true" href="#2泊松分布">#</a></h3>
+<ul>
+<li>泊松分布：用于估计每时间单位或者空间单位条件下，事件所发生的的平均次数。分布特征仅取决于参数：平均次数λ</li>
+</ul>
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Poisson_pmf.svg/800px-Poisson_pmf.svg.png" alt="upload.wikimedia.org/wikipedia/commons/thumb/1/..." style="zoom: 33%;" />
+<ul>
+<li>
+<p>可以认为是二项分布的特例。即N非常大，<strong>P非常小</strong>。例如每次中彩票的人数；每年患流感的人数；在每个样本RNAseq文库中比对到GeneA的count数，实验背景总数很多，但是事件发生的<strong>概率很小</strong>。当n≧20,p≦0.05时。</p>
+</li>
+<li>
+<p>根据二项分布中期望与方差的计算公式，可以推导出在泊松分布中 <strong>期望值（即λ）=方差</strong>。
+$$
+\lambda = np  \approx n\cdot p\cdot (1-p) = \sigma^2
+$$</p>
+</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>rpois(<span style="color:#ff0;font-weight:bold">10</span>, lambda=<span style="color:#ff0;font-weight:bold">5</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1]  9  4  5  3  7  7  6  6  4 10</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>负二项分布：对于一次伯努利试验中，事件成功的概率为p。反复进行该伯努利试验，直到观察到第r次成功发生。此时试验失败次数X的分布即为负二项分布</p></blockquote>
+<h3 id="4-超几何分布">（4） 超几何分布<a hidden class="anchor" aria-hidden="true" href="#4-超几何分布">#</a></h3>
+<p>假设在N个物体中，有一组特殊标签的K个物体。当对所有物体不放回地抽出n个物体时，其中k个属于该标签的概率。</p>
+<ul>
+<li>示例-1：N为所有产品数，K为其中不合格样本数。从中抽取n个产品中，有k个产品为不合格概率；</li>
+<li>示例-2：N为所有基因数，K为通路A的基因数。分析得到n个差异基因，有k个基因属于该通路的概率。</li>
+</ul>
+<p>$$
+X \sim  H(n, K, N)
+$$</p>
+<p><img loading="lazy" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/HypergeometricPDF.png/300px-HypergeometricPDF.png" alt="Hypergeometric PDF plot"  />
+</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f"># n为合格产品数</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># m为不合格产品数</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># k为抽检的数目</span>
+</span></span><span style="display:flex;"><span>rhyper(<span style="color:#ff0;font-weight:bold">5</span>, m=<span style="color:#ff0;font-weight:bold">10</span>, n=<span style="color:#ff0;font-weight:bold">50</span>, k=<span style="color:#ff0;font-weight:bold">5</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] 0 1 0 2 0</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/%E7%BB%9F%E8%AE%A1%E5%9F%BA%E7%A1%80/">统计基础</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="next" href="https://lishensuo.github.io/en/posts/program/001python%E5%9F%BA%E7%A1%80-1%E5%88%9D%E8%AF%86/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>Python基础-(1)初识</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

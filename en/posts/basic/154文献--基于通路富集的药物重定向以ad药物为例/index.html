@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>文献--基于通路富集的药物重定向(以AD药物为例) | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="文献-算法">
+<meta name="description" content="
+（1）Computational Drug Repurposing for Alzheimer’s Disease Using Risk Genes From GWAS and Single-Cell RNA Sequencing Studies
+https://www.frontiersin.org/articles/10.3389/fphar.2021.617537/full
+Front Pharmacol， 2021/06， IF 5.81
+
+（2）gene2drug: a computational tool for pathway-based rational drug repositioning">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/basic/154%E6%96%87%E7%8C%AE--%E5%9F%BA%E4%BA%8E%E9%80%9A%E8%B7%AF%E5%AF%8C%E9%9B%86%E7%9A%84%E8%8D%AF%E7%89%A9%E9%87%8D%E5%AE%9A%E5%90%91%E4%BB%A5ad%E8%8D%AF%E7%89%A9%E4%B8%BA%E4%BE%8B/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/basic/154%E6%96%87%E7%8C%AE--%E5%9F%BA%E4%BA%8E%E9%80%9A%E8%B7%AF%E5%AF%8C%E9%9B%86%E7%9A%84%E8%8D%AF%E7%89%A9%E9%87%8D%E5%AE%9A%E5%90%91%E4%BB%A5ad%E8%8D%AF%E7%89%A9%E4%B8%BA%E4%BE%8B/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="文献--基于通路富集的药物重定向(以AD药物为例)" />
+<meta property="og:description" content="
+（1）Computational Drug Repurposing for Alzheimer’s Disease Using Risk Genes From GWAS and Single-Cell RNA Sequencing Studies
+https://www.frontiersin.org/articles/10.3389/fphar.2021.617537/full
+Front Pharmacol， 2021/06， IF 5.81
+
+（2）gene2drug: a computational tool for pathway-based rational drug repositioning" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/basic/154%E6%96%87%E7%8C%AE--%E5%9F%BA%E4%BA%8E%E9%80%9A%E8%B7%AF%E5%AF%8C%E9%9B%86%E7%9A%84%E8%8D%AF%E7%89%A9%E9%87%8D%E5%AE%9A%E5%90%91%E4%BB%A5ad%E8%8D%AF%E7%89%A9%E4%B8%BA%E4%BE%8B/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-05-31T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2022-05-31T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="文献--基于通路富集的药物重定向(以AD药物为例)"/>
+<meta name="twitter:description" content="
+（1）Computational Drug Repurposing for Alzheimer’s Disease Using Risk Genes From GWAS and Single-Cell RNA Sequencing Studies
+https://www.frontiersin.org/articles/10.3389/fphar.2021.617537/full
+Front Pharmacol， 2021/06， IF 5.81
+
+（2）gene2drug: a computational tool for pathway-based rational drug repositioning"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 科研基础 -- 读文献、看教材",
+      "item": "https://lishensuo.github.io/en/posts/basic/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "文献--基于通路富集的药物重定向(以AD药物为例)",
+      "item": "https://lishensuo.github.io/en/posts/basic/154%E6%96%87%E7%8C%AE--%E5%9F%BA%E4%BA%8E%E9%80%9A%E8%B7%AF%E5%AF%8C%E9%9B%86%E7%9A%84%E8%8D%AF%E7%89%A9%E9%87%8D%E5%AE%9A%E5%90%91%E4%BB%A5ad%E8%8D%AF%E7%89%A9%E4%B8%BA%E4%BE%8B/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "文献--基于通路富集的药物重定向(以AD药物为例)",
+  "name": "文献--基于通路富集的药物重定向(以AD药物为例)",
+  "description": " （1）Computational Drug Repurposing for Alzheimer’s Disease Using Risk Genes From GWAS and Single-Cell RNA Sequencing Studies\nhttps://www.frontiersin.org/articles/10.3389/fphar.2021.617537/full\nFront Pharmacol， 2021/06， IF 5.81\n（2）gene2drug: a computational tool for pathway-based rational drug repositioning\n",
+  "keywords": [
+    "文献-算法"
+  ],
+  "articleBody": " （1）Computational Drug Repurposing for Alzheimer’s Disease Using Risk Genes From GWAS and Single-Cell RNA Sequencing Studies\nhttps://www.frontiersin.org/articles/10.3389/fphar.2021.617537/full\nFront Pharmacol， 2021/06， IF 5.81\n（2）gene2drug: a computational tool for pathway-based rational drug repositioning\nhttps://academic.oup.com/bioinformatics/article/34/9/1498/4721786\nBioinformatics，2018/15， IF 6.92\n（3）Drug-set enrichment analysis: a novel tool to investigate drug mode of action\nhttps://academic.oup.com/bioinformatics/article/32/2/235/1743543\nBioinformatics，2016/01， IF 6.92\n一、DSEA与gene2drug Napolitano等人分别于2016年、2018年在Bioinformatics提出了DSEA与gene2drug方法，分别回答了如下两个问题。\n1、功能简介 （1）DSEA：给出特定的几个类似的药物，发现这些药物可以特定作用于哪些通路？ https://dsea.tigem.it/\n（2）gene2drug：给出特定的几个通路，发现这些通路可以被哪些药物所调控？https://gene2drug.tigem.it/\n目前已经提供了gep2pep的bioconductor包同时支持上述的两种分析，分别称为CondSEA与PathSEA。\nhttps://bioconductor.org/packages/release/bioc/vignettes/gep2pep/inst/doc/vignette.html\n2、数据与计算方法 通路数据主要收集在MsigDB的8类基因集(DSEA)，DSEA与gene2drug文章所使用的数据略有差异。 药物干扰数据主要收集自Cmap的1309个 Ranked gene list(First–most up; Last–most down)，分别对应1309个compound。\n使用Kolmogorov–Smirnov (KS) test方法(https://github.com/franapoli/signed-ks-test)，计算每个药物对于所有通路的GSEA分析，得到富集分数与P值。富集分数范围在-1~1之间，越接近1表示药物可正向调控这个通路。\n3、两次GSEA分析 如上本质上是将药物–基因差异表达矩阵转为药物–通路调控矩阵。\nDSEA与gene2drug方法本质都是基于药物–通路调控矩阵的再一次GSAE分析。\n对于DSEA，则是通路为主体的ranked list。First 是最正向调控该通路的药物，Last是最负向调控该通路的药物。\n在用户分析时，提供若干感兴趣的药物，发现整体上这些输入药物所正向/负向调控的通路。\n对于gene2drug，则是药物为主体的ranked list。First是该药物最正向调控的通路，Last是最负向调控的通路。\n在用户分析时，提供若干感兴趣的通路，发现整体上能够正向/负向这些输入通路的药物。\n二、基于通路的AD药物重定向 1、收集基因list 1.1 GWAS risk gene GWAS(genome-wide association analyses)全基因组关联分析通过SNP位点与病人表型信息鉴定疾病相关的risk gene\n作者参考Jansen等人2019年的大型AD GWAS研究(https://doi.org/10.1038/s41588-018-0311-9)收集到255个late-onset AD的风险基因【Table S1A】\n1.2 scRNAseq DEG scRNAseq单细胞数据可进行细胞类型水平的差异基因分析。\n作者参考Mathys等人2019年的大型AD单细胞数据研究(https://doi.org/10.1038/s41586-019-1195-2)收集得到717个来自3种细胞类型在AD early与late间的差异基因。【Table S1】\nAsr,astrocytes,星形胶质细胞–532； Ex,excitatory neuronal,兴奋神经元–103； Oli,oligodendrocytes,少突胶质细胞–82 2、预分析 2.1 富集分析 对上述的4个基因list使用Enrichr工具进行富集分析（GO BP）\n2.2 靶点交集分析 根据Cummings等人2019年的AD研发药物综述(https://doi.org/10.1016/j.trci.2019.05.008)总结的处于phase 1, 2, and 3阶段的药物，在TTD、DrugBank、PubChem数据库收集药物的作用靶点。【Table S2】\nPhase Total target genes Unique target genes Total number of pathways (adjusted p-value \u003c 0.05) Phase 3 49 37 33 Phase 2 110 90 67 Phase 1 34 23 21 结合上述3类药物的靶点信息，与之前得到的4个基因list做交集分析。结果发现\nGWAS 基因list与之有5个基因交集（TREM2, CD33, CHRNA2, PRSS8, and ACE） Ex差异基因list与之有3个基因交集（TKT, APP, and GABRA1） 其它两个基因list无交集基因。 The analysis suggests that other drugs targeted these AD-associated risk genes ca potentially be repurposed for AD.\n3、gene2drug分析 4个 如上所述的基因list、8个 通路基因集 使用 gep2pep包计算每个基因list中的基因在每个基因集的相关通路，然后进行PathSEA分析，得到以P值作为排序依据的Ranked Drug list。 每个基因list对于每个通路基因集都得到一个drug list，共32个drug list。 由于CP、MIR、TFT通路基因集得到drug list包含较少的药物结果，所以剔除，保留20个 使用adjusted p-values，将每个基因list的5个drug list合并为一个drug list 挑选出每个drug list的Top5 drug，共20个候选药物 文献验证 PubMed：收集药物的有效性、作用机制研究 PubChem：确定药物的毒性与否 ClinicalTrials：查看药物的临床研究情况 ",
+  "wordCount" : "2095",
+  "inLanguage": "en",
+  "datePublished": "2022-05-31T00:00:00Z",
+  "dateModified": "2022-05-31T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/basic/154%E6%96%87%E7%8C%AE--%E5%9F%BA%E4%BA%8E%E9%80%9A%E8%B7%AF%E5%AF%8C%E9%9B%86%E7%9A%84%E8%8D%AF%E7%89%A9%E9%87%8D%E5%AE%9A%E5%90%91%E4%BB%A5ad%E8%8D%AF%E7%89%A9%E4%B8%BA%E4%BE%8B/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/basic/">📖 科研基础 -- 读文献、看教材</a></div>
+    <h1 class="post-title">
+      文献--基于通路富集的药物重定向(以AD药物为例)
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-05-31 00:00:00 &#43;0000 UTC&#39;&gt;2022-05-31&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-05-31&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2095&amp;nbsp;|&amp;nbsp;5 min&amp;nbsp;|&amp;nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#%e4%b8%80dsea%e4%b8%8egene2drug" aria-label="一、DSEA与gene2drug">一、DSEA与gene2drug</a><ul>
+                            
+                    <li>
+                        <a href="#1%e5%8a%9f%e8%83%bd%e7%ae%80%e4%bb%8b" aria-label="1、功能简介">1、功能简介</a></li>
+                    <li>
+                        <a href="#2%e6%95%b0%e6%8d%ae%e4%b8%8e%e8%ae%a1%e7%ae%97%e6%96%b9%e6%b3%95" aria-label="2、数据与计算方法">2、数据与计算方法</a></li>
+                    <li>
+                        <a href="#3%e4%b8%a4%e6%ac%a1gsea%e5%88%86%e6%9e%90" aria-label="3、两次GSEA分析">3、两次GSEA分析</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#%e4%ba%8c%e5%9f%ba%e4%ba%8e%e9%80%9a%e8%b7%af%e7%9a%84ad%e8%8d%af%e7%89%a9%e9%87%8d%e5%ae%9a%e5%90%91" aria-label="二、基于通路的AD药物重定向">二、基于通路的AD药物重定向</a><ul>
+                            
+                    <li>
+                        <a href="#1%e6%94%b6%e9%9b%86%e5%9f%ba%e5%9b%a0list" aria-label="1、收集基因list">1、收集基因list</a><ul>
+                            
+                    <li>
+                        <a href="#11-gwas-risk-gene" aria-label="1.1 GWAS risk gene">1.1 GWAS risk gene</a></li>
+                    <li>
+                        <a href="#12-scrnaseq-deg" aria-label="1.2 scRNAseq DEG">1.2 scRNAseq DEG</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#2%e9%a2%84%e5%88%86%e6%9e%90" aria-label="2、预分析">2、预分析</a><ul>
+                            
+                    <li>
+                        <a href="#21-%e5%af%8c%e9%9b%86%e5%88%86%e6%9e%90" aria-label="2.1 富集分析">2.1 富集分析</a></li>
+                    <li>
+                        <a href="#22-%e9%9d%b6%e7%82%b9%e4%ba%a4%e9%9b%86%e5%88%86%e6%9e%90" aria-label="2.2 靶点交集分析">2.2 靶点交集分析</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#3gene2drug%e5%88%86%e6%9e%90" aria-label="3、gene2drug分析">3、gene2drug分析</a>
+                    </li>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><blockquote>
+<p>（1）Computational Drug Repurposing for Alzheimer’s Disease Using Risk Genes From GWAS and Single-Cell RNA Sequencing Studies</p>
+<p><a href="https://www.frontiersin.org/articles/10.3389/fphar.2021.617537/full">https://www.frontiersin.org/articles/10.3389/fphar.2021.617537/full</a></p>
+<p><em>Front Pharmacol， 2021/06， IF 5.81</em></p></blockquote>
+<blockquote>
+<p>（2）gene2drug: a computational tool for pathway-based rational drug repositioning</p>
+<p><a href="https://academic.oup.com/bioinformatics/article/34/9/1498/4721786">https://academic.oup.com/bioinformatics/article/34/9/1498/4721786</a></p>
+<p><em>Bioinformatics，2018/15， IF 6.92</em></p></blockquote>
+<blockquote>
+<p>（3）Drug-set enrichment analysis: a novel tool to investigate drug mode of action</p>
+<p><a href="https://academic.oup.com/bioinformatics/article/32/2/235/1743543">https://academic.oup.com/bioinformatics/article/32/2/235/1743543</a></p>
+<p><em>Bioinformatics，2016/01， IF 6.92</em></p></blockquote>
+<h1 id="一dsea与gene2drug">一、DSEA与gene2drug<a hidden class="anchor" aria-hidden="true" href="#一dsea与gene2drug">#</a></h1>
+<p>Napolitano等人分别于2016年、2018年在Bioinformatics提出了DSEA与gene2drug方法，分别回答了如下两个问题。</p>
+<h2 id="1功能简介">1、功能简介<a hidden class="anchor" aria-hidden="true" href="#1功能简介">#</a></h2>
+<p>（1）<strong>DSEA</strong>：给出特定的几个类似的药物，发现这些药物可以特定作用于哪些通路？ <a href="https://dsea.tigem.it/">https://dsea.tigem.it/</a></p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220601152944145.png" alt="image-20220601152944145" style="zoom: 80%;" />
+<p>（2）<strong>gene2drug</strong>：给出特定的几个通路，发现这些通路可以被哪些药物所调控？https://gene2drug.tigem.it/</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220531163539769.png" alt="image-20220531163539769" style="zoom:67%;" />
+<blockquote>
+<p>目前已经提供了<code>gep2pep</code>的bioconductor包同时支持上述的两种分析，分别称为CondSEA与PathSEA。</p>
+<p><a href="https://bioconductor.org/packages/release/bioc/vignettes/gep2pep/inst/doc/vignette.html">https://bioconductor.org/packages/release/bioc/vignettes/gep2pep/inst/doc/vignette.html</a></p></blockquote>
+<h2 id="2数据与计算方法">2、数据与计算方法<a hidden class="anchor" aria-hidden="true" href="#2数据与计算方法">#</a></h2>
+<ul>
+<li>通路数据主要收集在MsigDB的8类基因集(DSEA)，DSEA与gene2drug文章所使用的数据略有差异。</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220601151844670.png" alt="image-20220601151844670"  />
+</p>
+<ul>
+<li>
+<p>药物干扰数据主要收集自Cmap的1309个 Ranked gene list(First&ndash;most up; Last&ndash;most down)，分别对应1309个compound。</p>
+</li>
+<li>
+<p>使用Kolmogorov–Smirnov (KS) test方法(<a href="https://github.com/franapoli/signed-ks-test">https://github.com/franapoli/signed-ks-test</a>)，计算每个药物对于所有通路的GSEA分析，得到富集分数与P值。富集分数范围在-1~1之间，越接近1表示药物可正向调控这个通路。</p>
+</li>
+</ul>
+<h2 id="3两次gsea分析">3、两次GSEA分析<a hidden class="anchor" aria-hidden="true" href="#3两次gsea分析">#</a></h2>
+<p>如上本质上是将<strong>药物&ndash;基因差异表达矩阵</strong>转为<strong>药物&ndash;通路调控矩阵</strong>。</p>
+<p>DSEA与gene2drug方法本质都是基于药物&ndash;通路调控矩阵的再一次GSAE分析。</p>
+<ul>
+<li>
+<p>对于DSEA，则是通路为主体的ranked list。First 是最正向调控该通路的药物，Last是最负向调控该通路的药物。</p>
+<p>在用户分析时，提供若干感兴趣的药物，发现整体上这些输入药物所正向/负向调控的通路。</p>
+</li>
+<li>
+<p>对于gene2drug，则是药物为主体的ranked list。First是该药物最正向调控的通路，Last是最负向调控的通路。</p>
+<p>在用户分析时，提供若干感兴趣的通路，发现整体上能够正向/负向这些输入通路的药物。</p>
+</li>
+</ul>
+<p><img loading="lazy" src="C:%5cUsers%5cxiaoxin%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220601160017156.png" alt="image-20220601160017156"  />
+</p>
+<h1 id="二基于通路的ad药物重定向">二、基于通路的AD药物重定向<a hidden class="anchor" aria-hidden="true" href="#二基于通路的ad药物重定向">#</a></h1>
+<img src="https://www.ncbi.nlm.nih.gov/pmc/articles/instance/8277916/bin/fphar-12-617537-g001.jpg" alt="img" style="zoom: 80%;" />
+<h2 id="1收集基因list">1、收集基因list<a hidden class="anchor" aria-hidden="true" href="#1收集基因list">#</a></h2>
+<h3 id="11-gwas-risk-gene">1.1 GWAS risk gene<a hidden class="anchor" aria-hidden="true" href="#11-gwas-risk-gene">#</a></h3>
+<p>GWAS(genome-wide association analyses)全基因组关联分析通过SNP位点与病人表型信息鉴定疾病相关的risk gene</p>
+<p>作者参考Jansen等人2019年的大型AD GWAS研究(<a href="https://doi.org/10.1038/s41588-018-0311-9">https://doi.org/10.1038/s41588-018-0311-9</a>)收集到255个late-onset AD的风险基因【Table S1A】</p>
+<h3 id="12-scrnaseq-deg">1.2 scRNAseq DEG<a hidden class="anchor" aria-hidden="true" href="#12-scrnaseq-deg">#</a></h3>
+<p>scRNAseq单细胞数据可进行细胞类型水平的差异基因分析。</p>
+<p>作者参考Mathys等人2019年的大型AD单细胞数据研究(<a href="https://doi.org/10.1038/s41586-019-1195-2">https://doi.org/10.1038/s41586-019-1195-2</a>)收集得到717个来自3种细胞类型在AD early与late间的差异基因。【Table S1】</p>
+<ul>
+<li>Asr,astrocytes,星形胶质细胞&ndash;532；</li>
+<li>Ex,excitatory neuronal,兴奋神经元&ndash;103；</li>
+<li>Oli,oligodendrocytes,少突胶质细胞&ndash;82</li>
+</ul>
+<h2 id="2预分析">2、预分析<a hidden class="anchor" aria-hidden="true" href="#2预分析">#</a></h2>
+<h3 id="21-富集分析">2.1 富集分析<a hidden class="anchor" aria-hidden="true" href="#21-富集分析">#</a></h3>
+<p>对上述的4个基因list使用Enrichr工具进行富集分析（GO BP）</p>
+<h3 id="22-靶点交集分析">2.2 靶点交集分析<a hidden class="anchor" aria-hidden="true" href="#22-靶点交集分析">#</a></h3>
+<p>根据Cummings等人2019年的AD研发药物综述(<a href="https://doi.org/10.1016/j.trci.2019.05.008">https://doi.org/10.1016/j.trci.2019.05.008</a>)总结的处于phase 1, 2, and 3阶段的药物，在TTD、DrugBank、PubChem数据库收集药物的作用靶点。【Table S2】</p>
+<table>
+  <thead>
+      <tr>
+          <th>Phase</th>
+          <th style="text-align: center">Total target genes</th>
+          <th style="text-align: center">Unique target genes</th>
+          <th style="text-align: center">Total number of pathways      (adjusted p-value &lt; 0.05)</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Phase 3</td>
+          <td style="text-align: center">49</td>
+          <td style="text-align: center">37</td>
+          <td style="text-align: center">33</td>
+      </tr>
+      <tr>
+          <td>Phase 2</td>
+          <td style="text-align: center">110</td>
+          <td style="text-align: center">90</td>
+          <td style="text-align: center">67</td>
+      </tr>
+      <tr>
+          <td>Phase 1</td>
+          <td style="text-align: center">34</td>
+          <td style="text-align: center">23</td>
+          <td style="text-align: center">21</td>
+      </tr>
+  </tbody>
+</table>
+<p>结合上述3类药物的靶点信息，与之前得到的4个基因list做交集分析。结果发现</p>
+<ul>
+<li>GWAS 基因list与之有5个基因交集（TREM2, CD33, CHRNA2, PRSS8, and ACE）</li>
+<li>Ex差异基因list与之有3个基因交集（TKT, APP, and GABRA1）</li>
+<li>其它两个基因list无交集基因。</li>
+</ul>
+<blockquote>
+<p>The analysis suggests that other drugs targeted these AD-associated risk genes ca potentially be repurposed for AD.</p></blockquote>
+<h2 id="3gene2drug分析">3、gene2drug分析<a hidden class="anchor" aria-hidden="true" href="#3gene2drug分析">#</a></h2>
+<ul>
+<li>4个 如上所述的基因list、8个 通路基因集</li>
+<li>使用 gep2pep包计算每个基因list中的基因在每个基因集的相关通路，然后进行PathSEA分析，得到以P值作为排序依据的Ranked Drug list。</li>
+<li>每个基因list对于每个通路基因集都得到一个drug list，共32个drug list。
+<ul>
+<li>由于CP、MIR、TFT通路基因集得到drug list包含较少的药物结果，所以剔除，保留20个</li>
+<li>使用adjusted p-values，将每个基因list的5个drug list合并为一个drug list</li>
+<li>挑选出每个drug list的Top5 drug，共20个候选药物</li>
+</ul>
+</li>
+<li>文献验证
+<ul>
+<li>PubMed：收集药物的有效性、作用机制研究</li>
+<li>PubChem：确定药物的毒性与否</li>
+<li>ClinicalTrials：查看药物的临床研究情况</li>
+</ul>
+</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220601164525103.png" alt="image-20220601164525103"  />
+</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220601164553275.png" alt="image-20220601164553275"  />
+</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/%E6%96%87%E7%8C%AE-%E7%AE%97%E6%B3%95/">文献-算法</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/en/posts/basic/153%E6%96%87%E7%8C%AE--%E4%BB%8E%E7%9B%B8%E5%85%B3%E6%80%A7%E7%BD%91%E7%BB%9C%E4%B8%AD%E9%89%B4%E5%AE%9A%E8%8A%82%E7%82%B9%E9%97%B4%E7%9A%84%E7%9B%B4%E6%8E%A5%E8%B0%83%E6%8E%A7%E5%85%B3%E7%B3%BB/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>文献--从相关性网络中鉴定节点间的直接调控关系</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/en/posts/basic/155%E6%96%87%E7%8C%AE--%E5%9F%BA%E4%BA%8E%E8%8D%AF%E7%89%A9%E5%B9%B2%E6%89%B0%E8%BD%AC%E5%BD%95%E7%BB%84%E5%BB%BA%E7%AB%8B%E8%B7%9D%E7%A6%BB%E7%BD%91%E7%BB%9C%E7%94%A8%E4%BA%8E%E8%8D%AF%E7%89%A9%E9%87%8D%E5%AE%9A%E5%90%91/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>文献--基于药物干扰转录组建立距离网络用于药物重定向</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

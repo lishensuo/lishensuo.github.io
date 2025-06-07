@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>单细胞分析工具--scSTAR挖掘分组样本细胞亚型 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="scRNA-seq">
+<meta name="description" content="
+scSTAR是由复旦大学附属中山医院郝洁研究员等人开发的单细胞分析工具包，于2023年2月发表在Briefings in Bioinformatics。该包更加准确地实现同一细胞类型在不同组(正常/疾病)的变化情况下，细胞内部亚型异质性的变化捕捉，在单细胞数据挖掘领域提供新的视角。">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/bioinfo/035%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--scstar%E6%8C%96%E6%8E%98%E5%88%86%E7%BB%84%E6%A0%B7%E6%9C%AC%E7%BB%86%E8%83%9E%E4%BA%9A%E5%9E%8B/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/bioinfo/035%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--scstar%E6%8C%96%E6%8E%98%E5%88%86%E7%BB%84%E6%A0%B7%E6%9C%AC%E7%BB%86%E8%83%9E%E4%BA%9A%E5%9E%8B/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="单细胞分析工具--scSTAR挖掘分组样本细胞亚型" />
+<meta property="og:description" content="
+scSTAR是由复旦大学附属中山医院郝洁研究员等人开发的单细胞分析工具包，于2023年2月发表在Briefings in Bioinformatics。该包更加准确地实现同一细胞类型在不同组(正常/疾病)的变化情况下，细胞内部亚型异质性的变化捕捉，在单细胞数据挖掘领域提供新的视角。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/bioinfo/035%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--scstar%E6%8C%96%E6%8E%98%E5%88%86%E7%BB%84%E6%A0%B7%E6%9C%AC%E7%BB%86%E8%83%9E%E4%BA%9A%E5%9E%8B/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-04-17T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2023-04-17T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="单细胞分析工具--scSTAR挖掘分组样本细胞亚型"/>
+<meta name="twitter:description" content="
+scSTAR是由复旦大学附属中山医院郝洁研究员等人开发的单细胞分析工具包，于2023年2月发表在Briefings in Bioinformatics。该包更加准确地实现同一细胞类型在不同组(正常/疾病)的变化情况下，细胞内部亚型异质性的变化捕捉，在单细胞数据挖掘领域提供新的视角。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 生信数据分析--分析流程，工具包等",
+      "item": "https://lishensuo.github.io/en/posts/bioinfo/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "单细胞分析工具--scSTAR挖掘分组样本细胞亚型",
+      "item": "https://lishensuo.github.io/en/posts/bioinfo/035%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--scstar%E6%8C%96%E6%8E%98%E5%88%86%E7%BB%84%E6%A0%B7%E6%9C%AC%E7%BB%86%E8%83%9E%E4%BA%9A%E5%9E%8B/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "单细胞分析工具--scSTAR挖掘分组样本细胞亚型",
+  "name": "单细胞分析工具--scSTAR挖掘分组样本细胞亚型",
+  "description": " scSTAR是由复旦大学附属中山医院郝洁研究员等人开发的单细胞分析工具包，于2023年2月发表在Briefings in Bioinformatics。该包更加准确地实现同一细胞类型在不同组(正常/疾病)的变化情况下，细胞内部亚型异质性的变化捕捉，在单细胞数据挖掘领域提供新的视角。\n",
+  "keywords": [
+    "scRNA-seq"
+  ],
+  "articleBody": " scSTAR是由复旦大学附属中山医院郝洁研究员等人开发的单细胞分析工具包，于2023年2月发表在Briefings in Bioinformatics。该包更加准确地实现同一细胞类型在不同组(正常/疾病)的变化情况下，细胞内部亚型异质性的变化捕捉，在单细胞数据挖掘领域提供新的视角。\nPaper：https://doi.org/10.1093/bib/bbad062 Github：https://github.com/Hao-Zou-lab/scSTAR 1、文章概述 示例1：小鼠年老过程中CD4+ T细胞的亚型变化过程\nnaive CD4+ T cells from youg and old mice\n使用scSTRA分为5类亚群\nTcm Tem：main in young mice Texh: main in old mice 其它两类 结论： a shift from effective to exhausted functions during ageing.\n示例2：小鼠年老过程中某一T细胞亚型的比例分布\nactivated CD4+ T cells from young and old mice 根据Cdc23基因是否表达，进一步分为Cdc23+ 与 Cdc23- 两类 使用scSTAR分成3个亚群：scS_0/scS_1/scS_2 scS_1主要包括了Cdc23+，并且主要来自young mice scS_2主要包括了Cdc23-，并且主要来自oldmice 结论：Cdc23 may play a role in antiageing activities. 示例3：鉴定出促癌作用的eTreg亚型\n从正常组织与肺腺癌数据中提取了739个Treg细胞 使用scSTAR分为5个亚群：C1-C5 C1与C3亚群的marker基因与病人生存具有较好的相关性 在肝癌数据中得到了相似的发现 结论：active Treg subtypes in the tumour microenvironment 示例4：预测黑色素瘤免疫治疗反应的相关亚型\n经免疫治疗前后的黑色素瘤样本中的5410个CD8+ T细胞； 使用scSTAR将治疗前的CD8+ T分为6个亚群 在non-responder组中(C4+C6)/(C1+C2+C5)比值远高于responder组 结论：(C4+C6)/(C1+C2+C5)比值对于免疫治疗预后相关 2、R包用法 本质用法可以理解为对来自两个样本(正常/疾病)的单细胞数据进行“校正批次”\n（1）安装、加载相关R包 1 2 3 4 5 6 library(R.matlab) library(tsne) library(pls) # https://github.com/Hao-Zou-lab/scSTAR/blob/main/scSTAR_0.1.1.0.tar.gz # install.packages(\"scSTAR_0.1.1.0.tar.gz\", repos = NULL, type=\"source\") library(scSTAR) （2）准备log2处理的count矩阵。这里使用示例数据 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 extdir = system.file(\"extdata\",package=\"scSTAR\") data = readMat(paste0(extdir,'/demo_data.mat')) geneList = as.matrix(unlist(data$geneList)) data1 = as.matrix((data$data1)) dim(data1) # [1] 18825 1078 rownames(data1) = geneList colnames(data1) = paste0(\"d1_cell\",seq(ncol(data1))) data2 = as.matrix((data$data2)) dim(data2) # [1] 18825 1388 rownames(data2) = geneList colnames(data2) = paste0(\"d2_cell\",seq(ncol(data2))) （3）scSTAR分析步骤 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 ## step-1: 挑选基因 data = cbind(data1, data2) idx_OGFSC = filter_gene(data, nBins = 20, plot_option = 1)$OGFSC_idx length(idx_OGFSC) # [1] 6683 head(idx_OGFSC) # [1] 5 6 10 11 12 17 Ctr_filtered = data1[idx_OGFSC,] Case_filtered = data2[idx_OGFSC,] ## step-2: 鉴定细胞并\"校正\" anchorCells = findAnchors(Ctr_filtered, Case_filtered, 3) # When PLScomp = 0, the number of PLScomp can be automatically estimated. # suggest 3-5 out = scSTAR(Ctr_filtered, Case_filtered, anchorCells, PLScomp = 4) names(out) # [1] \"Case_kinetics\" \"idx_DE_up\" \"Ctr_corrected\" \"Case_corrected\" \"Ctr_kinetics\" \"idx_DE_down\" # 查看函数帮助文档，了解每个的含义 （4）使用Seurat进行聚类等相关分析 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 data2 = cbind(out$Case_kinetics, out$Ctr_kinetics) rownames(data2) = geneList[idx_OGFSC] dim(data2) # [1] 6683 2466 library(Seurat) library(tidyverse) sce = Seurat::CreateSeuratObject(data2) sce@assays$RNA@data = data2 sce = sce %\u003e% FindVariableFeatures() %\u003e% ScaleData() %\u003e% RunPCA() %\u003e% RunUMAP(dims = 1:30) # DimPlot(sce, reduction = \"umap\") sce = sce %\u003e% FindNeighbors(dims = 1:30) %\u003e% FindClusters(resolution = c(0.01, 0.05, 0.1)) diff_wilcox = FindAllMarkers(sce, assay = \"RNA\", slot = \"data\") ",
+  "wordCount" : "1152",
+  "inLanguage": "en",
+  "datePublished": "2023-04-17T00:00:00Z",
+  "dateModified": "2023-04-17T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/bioinfo/035%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--scstar%E6%8C%96%E6%8E%98%E5%88%86%E7%BB%84%E6%A0%B7%E6%9C%AC%E7%BB%86%E8%83%9E%E4%BA%9A%E5%9E%8B/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/bioinfo/">📖 生信数据分析--分析流程，工具包等</a></div>
+    <h1 class="post-title">
+      单细胞分析工具--scSTAR挖掘分组样本细胞亚型
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-04-17 00:00:00 &#43;0000 UTC&#39;&gt;2023-04-17&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-04-17&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1152&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#1%e6%96%87%e7%ab%a0%e6%a6%82%e8%bf%b0" aria-label="1、文章概述">1、文章概述</a></li>
+                    <li>
+                        <a href="#2r%e5%8c%85%e7%94%a8%e6%b3%95" aria-label="2、R包用法">2、R包用法</a>
+                    </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><blockquote>
+<p>scSTAR是由复旦大学附属中山医院郝洁研究员等人开发的单细胞分析工具包，于2023年2月发表在Briefings in Bioinformatics。该包更加准确地实现同一细胞类型在不同组(正常/疾病)的变化情况下，细胞内部亚型异质性的变化捕捉，在单细胞数据挖掘领域提供新的视角。</p>
+<ul>
+<li>Paper：https://doi.org/10.1093/bib/bbad062</li>
+<li>Github：https://github.com/Hao-Zou-lab/scSTAR</li>
+</ul></blockquote>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230415112249390.png" alt="image-20230415112249390" style="zoom:50%;" />
+<h2 id="1文章概述">1、文章概述<a hidden class="anchor" aria-hidden="true" href="#1文章概述">#</a></h2>
+<p><strong>示例1</strong>：小鼠年老过程中CD4+ T细胞的亚型变化过程</p>
+<ul>
+<li>
+<p>naive CD4+ T  cells from youg and old mice</p>
+</li>
+<li>
+<p>使用scSTRA分为5类亚群</p>
+<ul>
+<li>Tcm</li>
+<li>Tem：main in young mice</li>
+<li>Texh: main in old mice</li>
+<li>其它两类</li>
+</ul>
+</li>
+<li>
+<p>结论： a shift <strong>from effective to exhausted</strong> functions during ageing.</p>
+</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230415160353724.png" alt="image-20230415160353724" style="zoom:50%;" />
+<p><strong>示例2</strong>：小鼠年老过程中某一T细胞亚型的比例分布</p>
+<ul>
+<li>activated CD4+ T  cells from young and old mice</li>
+<li>根据Cdc23基因是否表达，进一步分为Cdc23+ 与 Cdc23- 两类</li>
+<li>使用scSTAR分成3个亚群：scS_0/scS_1/scS_2</li>
+<li>scS_1主要包括了Cdc23+，并且主要来自young mice</li>
+<li>scS_2主要包括了Cdc23-，并且主要来自oldmice</li>
+<li>结论：Cdc23 may play a role in <strong>antiageing</strong> activities.</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230415162511428.png" alt="image-20230415162511428" style="zoom:50%;" />
+<p><strong>示例3</strong>：鉴定出促癌作用的eTreg亚型</p>
+<ul>
+<li>从正常组织与肺腺癌数据中提取了739个Treg细胞</li>
+<li>使用scSTAR分为5个亚群：C1-C5</li>
+<li>C1与C3亚群的marker基因与病人生存具有较好的相关性</li>
+<li>在肝癌数据中得到了相似的发现</li>
+<li><strong>结论</strong>：active Treg subtypes in the tumour microenvironment</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230415163602836.png" alt="image-20230415163602836" style="zoom:50%;" />
+<p><strong>示例4</strong>：预测黑色素瘤免疫治疗反应的相关亚型</p>
+<ul>
+<li>经免疫治疗前后的黑色素瘤样本中的5410个CD8+ T细胞；</li>
+<li>使用scSTAR将治疗前的CD8+ T分为6个亚群</li>
+<li>在non-responder组中(C4+C6)/(C1+C2+C5)比值远高于responder组</li>
+<li>结论：(C4+C6)/(C1+C2+C5)比值对于免疫治疗预后相关</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230415164522130.png" alt="image-20230415164522130" style="zoom:50%;" />
+<h2 id="2r包用法">2、R包用法<a hidden class="anchor" aria-hidden="true" href="#2r包用法">#</a></h2>
+<blockquote>
+<p>本质用法可以理解为对来自两个样本(正常/疾病)的单细胞数据进行“校正批次”</p></blockquote>
+<ul>
+<li>（1）安装、加载相关R包</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>library(R.matlab)                                                                    
+</span></span><span style="display:flex;"><span>library(tsne)                                           
+</span></span><span style="display:flex;"><span>library(pls)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># https://github.com/Hao-Zou-lab/scSTAR/blob/main/scSTAR_0.1.1.0.tar.gz</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># install.packages(&#34;scSTAR_0.1.1.0.tar.gz&#34;, repos = NULL, type=&#34;source&#34;)</span>
+</span></span><span style="display:flex;"><span>library(scSTAR)        
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>（2）准备log2处理的count矩阵。这里使用示例数据</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>extdir = system.file(<span style="color:#0ff;font-weight:bold">&#34;extdata&#34;</span>,package=<span style="color:#0ff;font-weight:bold">&#34;scSTAR&#34;</span>)
+</span></span><span style="display:flex;"><span>data = readMat(paste0(extdir,<span style="color:#0ff;font-weight:bold">&#39;/demo_data.mat&#39;</span>))
+</span></span><span style="display:flex;"><span>geneList = as.matrix(unlist(data$geneList))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>data1 = as.matrix((data$data1))  
+</span></span><span style="display:flex;"><span>dim(data1)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] 18825  1078</span>
+</span></span><span style="display:flex;"><span>rownames(data1) = geneList
+</span></span><span style="display:flex;"><span>colnames(data1) = paste0(<span style="color:#0ff;font-weight:bold">&#34;d1_cell&#34;</span>,seq(ncol(data1)))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>data2 = as.matrix((data$data2))   
+</span></span><span style="display:flex;"><span>dim(data2)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] 18825  1388</span>
+</span></span><span style="display:flex;"><span>rownames(data2) = geneList
+</span></span><span style="display:flex;"><span>colnames(data2) = paste0(<span style="color:#0ff;font-weight:bold">&#34;d2_cell&#34;</span>,seq(ncol(data2)))
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>（3）scSTAR分析步骤</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">## step-1: 挑选基因</span>
+</span></span><span style="display:flex;"><span>data = cbind(data1, data2)
+</span></span><span style="display:flex;"><span>idx_OGFSC = filter_gene(data, nBins = <span style="color:#ff0;font-weight:bold">20</span>, plot_option = <span style="color:#ff0;font-weight:bold">1</span>)$OGFSC_idx    
+</span></span><span style="display:flex;"><span>length(idx_OGFSC)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] 6683</span>
+</span></span><span style="display:flex;"><span>head(idx_OGFSC)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1]  5  6 10 11 12 17</span>
+</span></span><span style="display:flex;"><span>Ctr_filtered = data1[idx_OGFSC,]      
+</span></span><span style="display:flex;"><span>Case_filtered = data2[idx_OGFSC,]    
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## step-2: 鉴定细胞并&#34;校正&#34;</span>
+</span></span><span style="display:flex;"><span>anchorCells = findAnchors(Ctr_filtered, Case_filtered, <span style="color:#ff0;font-weight:bold">3</span>)     
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># When PLScomp = 0, the number of PLScomp can be automatically estimated.</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># suggest 3-5</span>
+</span></span><span style="display:flex;"><span>out = scSTAR(Ctr_filtered, Case_filtered, anchorCells, PLScomp = <span style="color:#ff0;font-weight:bold">4</span>)  
+</span></span><span style="display:flex;"><span>names(out)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] &#34;Case_kinetics&#34;  &#34;idx_DE_up&#34;      &#34;Ctr_corrected&#34;  &#34;Case_corrected&#34; &#34;Ctr_kinetics&#34;   &#34;idx_DE_down&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 查看函数帮助文档，了解每个的含义</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230415165735328.png" alt="image-20230415165735328"  />
+</p>
+<ul>
+<li>（4）使用Seurat进行聚类等相关分析</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>data2 = cbind(out$Case_kinetics, out$Ctr_kinetics)
+</span></span><span style="display:flex;"><span>rownames(data2) = geneList[idx_OGFSC]
+</span></span><span style="display:flex;"><span>dim(data2)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] 6683 2466</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>library(Seurat)
+</span></span><span style="display:flex;"><span>library(tidyverse)
+</span></span><span style="display:flex;"><span>sce = Seurat::CreateSeuratObject(data2)
+</span></span><span style="display:flex;"><span>sce@assays$RNA@data = data2
+</span></span><span style="display:flex;"><span>sce = sce %&gt;% 
+</span></span><span style="display:flex;"><span>  FindVariableFeatures() %&gt;%
+</span></span><span style="display:flex;"><span>  ScaleData() %&gt;%
+</span></span><span style="display:flex;"><span>  RunPCA() %&gt;% 
+</span></span><span style="display:flex;"><span>  RunUMAP(dims = <span style="color:#ff0;font-weight:bold">1</span>:<span style="color:#ff0;font-weight:bold">30</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># DimPlot(sce, reduction = &#34;umap&#34;)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sce = sce %&gt;%
+</span></span><span style="display:flex;"><span>  FindNeighbors(dims = <span style="color:#ff0;font-weight:bold">1</span>:<span style="color:#ff0;font-weight:bold">30</span>) %&gt;% 
+</span></span><span style="display:flex;"><span>  FindClusters(resolution = c(<span style="color:#ff0;font-weight:bold">0.01</span>, <span style="color:#ff0;font-weight:bold">0.05</span>, <span style="color:#ff0;font-weight:bold">0.1</span>))
+</span></span><span style="display:flex;"><span>diff_wilcox = FindAllMarkers(sce, assay = <span style="color:#0ff;font-weight:bold">&#34;RNA&#34;</span>, slot = <span style="color:#0ff;font-weight:bold">&#34;data&#34;</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/scrna-seq/">ScRNA-Seq</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/en/posts/bioinfo/028%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--%E5%9F%BA%E4%BA%8E%E6%96%87%E7%8C%AE%E7%9A%84%E7%BB%86%E8%83%9E%E7%B1%BB%E5%9E%8B%E6%B3%A8%E9%87%8Amarker/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>单细胞分析工具--基于文献的细胞类型注释marker</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/en/posts/bioinfo/029%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--nichenet%E7%BB%86%E8%83%9E%E9%80%9A%E8%AE%AF%E5%88%86%E6%9E%90/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>单细胞分析工具--NicheNet细胞通讯分析</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

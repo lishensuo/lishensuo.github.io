@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>Linux | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="李申锁的博客，记录生信学习过程。R/Python/Shell">
+<meta name="author" content="">
+<link rel="canonical" href="https://lishensuo.github.io/en/tags/linux/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="https://lishensuo.github.io/en/tags/linux/index.xml">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/tags/linux/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Linux" />
+<meta property="og:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://lishensuo.github.io/en/tags/linux/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Linux"/>
+<meta name="twitter:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell"/>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header"><div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/tags/">Tags</a></div>
+  <h1>Linux</h1>
+</header>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>conda环境下载管理软件、R包
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> conda开源包管理系统和环境管理系统 ，包括多种语言的包安装，运行，更新，删除，最重要的是可以解决包依赖问题。在做生信分析时，感觉就是一个软件管家一样的存在，在安装生信软件等方面上十分方便。下面小结一下conda的基础操作
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-16 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-16&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-04-16&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2136&amp;nbsp;|&amp;nbsp;5 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to conda环境下载管理软件、R包" href="https://lishensuo.github.io/en/posts/bioinfo/002conda%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%BD%BD%E7%AE%A1%E7%90%86%E8%BD%AF%E4%BB%B6r%E5%8C%85/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>服务器外网文件传输--奶牛快传、阿里云盘
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1、奶牛快传 (1) linux服务器安装 https://github.com/Mikubill/cowtransfer-uploader/releases
+选择一个最新的linux版本下载（如果wget下载太慢，就下载的本地电脑，再上传到linux）
+解压即用
+1 2 3 wget https://github.com/Mikubill/cowtransfer-uploader/releases/download/v0.4.21/cowtransfer-uploader_0.4.21_linux_amd64.tar.gz tar -zxvf cowtransfer-uploader_0.4.21_linux_amd64.tar.gz ./cowtransfer-uploader #查看帮助文档 (2) 将本地文件上传到服务器 进入https://cowtransfer.com/，上传本地文件，获取下载链接
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-16 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-16&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-04-16&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;753&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 服务器外网文件传输--奶牛快传、阿里云盘" href="https://lishensuo.github.io/en/posts/bioinfo/004%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%A4%96%E7%BD%91%E6%96%87%E4%BB%B6%E4%BC%A0%E8%BE%93--%E5%A5%B6%E7%89%9B%E5%BF%AB%E4%BC%A0%E9%98%BF%E9%87%8C%E4%BA%91%E7%9B%98/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>shell基础--变量名字符串操作
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 1 2 3 4 5 6 7 8 test=&#34;https://www.baidu.com&#34; #打印字符串内容 echo ${test} #https://www.baidu.com #打印字符串长度 echo ${#test} #21 1、截取 （1）指定截取字符串的起始位置与长度 对于字符串的起始位置定义：如果是从左到右，则第一个字符位置为0； 如果是从右到左，则第一个字符位置为1。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-16 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-16&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-04-16&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;531&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to shell基础--变量名字符串操作" href="https://lishensuo.github.io/en/posts/program/400shell%E5%9F%BA%E7%A1%80--%E5%8F%98%E9%87%8F%E5%90%8D%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>shell基础--find查找文件
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 # 第一个参数交待查找路径，默认为当前路径 # -name 参数指定需要查找的文件名，支持正则表达式 find -name &#39;*.txt&#39; find ./dir1/ -name &#39;*.txt&#39; # -maxdepth 指定查找的最大目录层级深度 find -maxdepth 2 -name &#39;*.txt&#39; # -type d 表示查找目录类型 # -type f 表示查找文件类型 find -type f -name &#39;*.txt&#39; # 查找指定大小范围的文件；如下表示查找大小范围在50M~100M范围之间的文件 find -size &#43;50M -size -100M # 找到文件后，执行一些命令操作 ## 查看找到文件的详细信息 find -name &#39;*.txt&#39; -exec ls -l {} \; ## 返回找到文件的文件名（去除路径） find -name &#39;*.txt&#39; -exec basename {} \; </p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-16 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-16&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-04-16&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;219&amp;nbsp;|&amp;nbsp;1 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to shell基础--find查找文件" href="https://lishensuo.github.io/en/posts/program/401shell%E5%9F%BA%E7%A1%80--find%E6%9F%A5%E6%89%BE%E6%96%87%E4%BB%B6/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>shell基础--tar.gz相关、gzip压缩与pigz多线程
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> tar相关 1 2 3 4 5 6 7 8 9 10 11 #(1) 将多个文件打包为 .tar文件 tar -cvf test.tar dir1 file4 #(2) 将多个文件打包并压缩为 .tar.gz tar -czvf test.tar.gz dir1 file4 #(3) 将 .tar文件拆包 tar -xvf test.tar #(4) 将 .tar.gz文件解压拆包 tar -xzvf test.tar.gz gzip压缩是的文件多为file.gz, 对应的linux命令为：
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-16 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-16&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-04-16&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;413&amp;nbsp;|&amp;nbsp;1 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to shell基础--tar.gz相关、gzip压缩与pigz多线程" href="https://lishensuo.github.io/en/posts/program/402sehll%E5%9F%BA%E7%A1%80--gzip%E5%8E%8B%E7%BC%A9%E4%B8%8Epigz%E5%A4%9A%E7%BA%BF%E7%A8%8B/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>shell基础--grep等文本处理命令
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1、grep 主要功能：查询符合条件的行 1 2 3 4 5 6 7 8 9 10 11 12 13 14 #返回符合条件的行,可使用正则表达式 who | grep &#34;wuyt&#34; # -n参数：返回符合条件的行，及其在原文件中的位置 who | grep -n &#34;wuyt&#34; # -c参数：仅返回符合条件的行数 who | grep -c &#34;wuyt&#34; # -v参数：反选 who | grep -v &#34;wuyt&#34; # -E参数：符合多个条件之一 who | grep -E &#34;wuyt|ssli&#34; 2、sed 主要功能：增删改查 （1）删除
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-16 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-16&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-04-16&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1483&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to shell基础--grep等文本处理命令" href="https://lishensuo.github.io/en/posts/program/403shell%E5%9F%BA%E7%A1%80--grep%E7%AD%89%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>linux进程管理与后台运行
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1、关于CPU与线程 1.1 简单理解进程与线程 进程：计算机执行的一个命令或者程序 线程：一般来说一个进程对应一个线程。但是如果进程任务可以分为若干独立子任务独立运行时，可以调用多线程，加快分析速度。 1.2 cpu与核数 CPU(Central Processing Unit)中央处理器，属于硬件。一般window笔记本电脑有一个CPU(physical cpu) 核心（core），又称为内核。一个CPU芯片可以物理技术上集成多个内核，每个内核可以独立运行一个线程，最大化利用CPU资源。 逻辑CPU数，是指通过虚拟化技术每个内核划分为两个虚拟(logical)CPU内核，可以理解为每个内核的超线程数，一般为2。目前window/linux系统都支持。 总逻辑CPU数=物理CPU数 × 每个CPU芯片上的集成内核数 × 每个内核的超线程数 ...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-05-14 00:00:00 &#43;0000 UTC&#39;&gt;2022-05-14&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-05-14&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1619&amp;nbsp;|&amp;nbsp;4 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to linux进程管理与后台运行" href="https://lishensuo.github.io/en/posts/program/450linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E4%B8%8E%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>初识slurm基础操作
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>现阶段在学习深度学习超参数优化过程中涉及到SLURM相关知识。这几天探索了一番，简单记录一下目前简单认识。
+SLURM，Simple Linux Utility for Resource Management的缩写，是一个开源、容错、高度可扩展的集群管理和作业调度系统。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-09-10 00:00:00 &#43;0000 UTC&#39;&gt;2022-09-10&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-09-10&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2031&amp;nbsp;|&amp;nbsp;5 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 初识slurm基础操作" href="https://lishensuo.github.io/en/posts/program/451%E5%88%9D%E8%AF%86slurm%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>Snakemake流程搭建
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> https://snakemake.readthedocs.io/en/stable/tutorial/tutorial.html https://github.com/snakemake/snakemake 1. 简介 1.1 工具介绍 Snakemake 是一个用于创建可重现、模块化、自动化的工作流管理工具，主要用于处理复杂的数据分析流程；在生物信息学领域中有较多的应用。 ...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-09-22 00:00:00 &#43;0000 UTC&#39;&gt;2024-09-22&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-09-22&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2465&amp;nbsp;|&amp;nbsp;5 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to Snakemake流程搭建" href="https://lishensuo.github.io/en/posts/program/452snakemake%E6%B5%81%E7%A8%8B%E6%90%AD%E5%BB%BA/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>在Linux系统里部署Jupyter环境
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 之前就了解过Jupyter notebook，是调试python代码的简洁、高效软件。现在大致整理下目前学到的在Linux系统里部署Jupyter环境的小流程，以供之后自己学习python及相关分析时使用。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-05-15 00:00:00 &#43;0000 UTC&#39;&gt;2022-05-15&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-05-15&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1947&amp;nbsp;|&amp;nbsp;4 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 在Linux系统里部署Jupyter环境" href="https://lishensuo.github.io/en/posts/program/502%E5%9C%A8linux%E7%B3%BB%E7%BB%9F%E9%87%8C%E9%83%A8%E7%BD%B2jupyter%E7%8E%AF%E5%A2%83/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="next" href="https://lishensuo.github.io/en/tags/linux/page/2/">Next Page »</a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>
