@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>文献--单细胞组学大模型之Geneformer | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="文献-算法">
+<meta name="description" content="
+
+Transfer learning enables predictions in network biology | Nature
+https://doi.org/10.1038/s41586-023-06139-9
+Received: March 2022 / Accepted: 27 April 2023
+Data &amp; Code: https://huggingface.co/ctheodoris
+
+通讯作者：Patrick T. Ellinor, M.D., Ph.D.
+
+https://www.ellinorlab.org/team/
+
+
+
+1. 预训练模型
+1.1 scRNA-seq数据
+数据收集：Genecorpus-30M">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/basic/205%E6%96%87%E7%8C%AE--%E5%8D%95%E7%BB%86%E8%83%9E%E7%BB%84%E5%AD%A6%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B9%8Bgeneformer/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/basic/205%E6%96%87%E7%8C%AE--%E5%8D%95%E7%BB%86%E8%83%9E%E7%BB%84%E5%AD%A6%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B9%8Bgeneformer/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="文献--单细胞组学大模型之Geneformer" />
+<meta property="og:description" content="
+
+Transfer learning enables predictions in network biology | Nature
+https://doi.org/10.1038/s41586-023-06139-9
+Received: March 2022 / Accepted: 27 April 2023
+Data &amp; Code: https://huggingface.co/ctheodoris
+
+通讯作者：Patrick T. Ellinor, M.D., Ph.D.
+
+https://www.ellinorlab.org/team/
+
+
+
+1. 预训练模型
+1.1 scRNA-seq数据
+数据收集：Genecorpus-30M" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/basic/205%E6%96%87%E7%8C%AE--%E5%8D%95%E7%BB%86%E8%83%9E%E7%BB%84%E5%AD%A6%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B9%8Bgeneformer/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-12-15T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2024-12-15T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="文献--单细胞组学大模型之Geneformer"/>
+<meta name="twitter:description" content="
+
+Transfer learning enables predictions in network biology | Nature
+https://doi.org/10.1038/s41586-023-06139-9
+Received: March 2022 / Accepted: 27 April 2023
+Data &amp; Code: https://huggingface.co/ctheodoris
+
+通讯作者：Patrick T. Ellinor, M.D., Ph.D.
+
+https://www.ellinorlab.org/team/
+
+
+
+1. 预训练模型
+1.1 scRNA-seq数据
+数据收集：Genecorpus-30M"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 科研基础 -- 读文献、看教材",
+      "item": "https://lishensuo.github.io/en/posts/basic/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "文献--单细胞组学大模型之Geneformer",
+      "item": "https://lishensuo.github.io/en/posts/basic/205%E6%96%87%E7%8C%AE--%E5%8D%95%E7%BB%86%E8%83%9E%E7%BB%84%E5%AD%A6%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B9%8Bgeneformer/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "文献--单细胞组学大模型之Geneformer",
+  "name": "文献--单细胞组学大模型之Geneformer",
+  "description": " Transfer learning enables predictions in network biology | Nature https://doi.org/10.1038/s41586-023-06139-9 Received: March 2022 / Accepted: 27 April 2023 Data \u0026amp; Code: https://huggingface.co/ctheodoris 通讯作者：Patrick T. Ellinor, M.D., Ph.D.\nhttps://www.ellinorlab.org/team/ 1. 预训练模型 1.1 scRNA-seq数据 数据收集：Genecorpus-30M\n",
+  "keywords": [
+    "文献-算法"
+  ],
+  "articleBody": " Transfer learning enables predictions in network biology | Nature https://doi.org/10.1038/s41586-023-06139-9 Received: March 2022 / Accepted: 27 April 2023 Data \u0026 Code: https://huggingface.co/ctheodoris 通讯作者：Patrick T. Ellinor, M.D., Ph.D.\nhttps://www.ellinorlab.org/team/ 1. 预训练模型 1.1 scRNA-seq数据 数据收集：Genecorpus-30M\n561 datasets; 29.9 M cells 数据集详细信息见SP Table-1 数据质控：\nExclude cells with high TMB Exclude cells via total read counts/线粒体 read counts Exclude cells with at least 7 features (7 * 0.15% = 1) Exclude possible doublets and/or damaged cells Select protein coding genes + miRNA Finally：~ 2.5w features of 27.4 M cells 表达值RANK encoding\n先对每个细胞所有基因进行标准化 （10000 library size）；\n再对每个基因在所有细胞进行标准化 （scale factor : non-zero median value）；\n主要原因是不同基因在细胞中 基础表达水平的不同 统计发现 House keeping genes 有较高的scale factor，即标准化后值变小 而Genes like TFs 有较低的scale factor，即标准化后值变大 最后在每个细胞中，将基因按表达由高到低排序RANK。\n1.2 模型架构 Transformer模型直接继承于Hugging face的BertForMaskedLM模型\nConfig参数\n6 layers with each 4 heads gene embedding 256 (ffn: 512) max cell sentence length 2048 (dynamic padding)，masked feature ratio: 15% 训练参数\nlr 0.001， linear warmup 10k steps Relu，Dropout 0.2， Adam with 0.001 weight decay Batch size 12， Epoch 3 12 V100 GPU (from 3 nodes), DeepSpeed 分布式训练，3 Days 1.3 预训练效果 在具体介绍微调任务前，文章首先论述了其预训练模型的可应用性\nGene embedding\nNot affect by common batch-dependent technical artefacts 同一基因在不同Batch因素的Cosine相似度高 Context awareness 人为地将Fibroblast的OSKM基因Rank提高 (In silico activation)，使得其它基因的Embedding向iPSC状态变化。 iPSC, induced Pluripotent Stem Cells: 已经分化的体细胞通过导入特定的转录因子重新编程而成的一种细胞类型\nOSKM: 四个关键的基因重编程因子: Oct4 , Sox2 , Klf4 , c-Myc\nCell embedding (Cell embedding取每个细胞所有基因的Embedding的均值)\nBatch integration: cell cluster by cell type, not sample or platform 细胞类型注释微调任务：对比了两种已发表方法：CasTLe (XGBoost), scDeepSort 2. 微调任务 多为Gene classification/Cell classification任务，（详见SP Table2， 每个fine-tune task会freeze diff number of layers） AUC， F1 score 5折交叉验证 所有微调任务都使用相同的超参数组合，以说明预训练模型的性能。 lr 0.00005，linear warmup 500，Adamw weight decay 0.001 batch size 12，epoch 1 to avoid overfitting It should be noted that hyperparameter tuning (超参数调优) for deep learning applications can generally significantly enhance learning effect. 但是文章中并没有这么做，表明后面微调模型性能都是underestimate。\n2.1 Gene dosage sensitivity 基因对剂量的变化的高敏感性，即其少量表达变化可能引发显著的细胞或生物学后果。\n目的：预测基因(TF)是否为剂量敏感性的TF 数据：一方面收集来自已报道的阴性或阳性标签数据，另一方面，使用30M中随机的10K的细胞作为训练数据。 结果：交叉验证的AUC 0.91，并在一个基于CNV的外部测试集数据也表现很好（微调数据与标签来源数据越接近，则效果越好）。 In silico deleting(knockout): 在预训练模型中，模拟敲除心肌细胞的一个心脏疾病相关基因，使得cell Embedding发生较大改变（与敲除前的cell embedding similarity） 发现并验证了一个靶点 TEAD4 相关Genelist做通路富集分析 Smaller cosine similarity indicates more deleterious effect\n2.2 Chromatin dynamics 同一个基因的启动子区域能同时携带 H3K4me3 活跃信号 和 H3K27me3抑制信号 的修饰，这种情况被称为“双价域”（bivalent domains），常见于胚胎干细胞(ESC)中。\n目的：鉴别基因是否为双价修饰基因 or 非甲基化启动子基因或仅带有 H3K4me3 的基因 数据：一方面收集56个保守区域的标签数据，一方面取15K个 ESC作为训练数据 结果：AUC可以达到0.93 (bivalent vs unmethylated gene), 0.88 (bivalent vs H3K4me3-only) 衍生任务：预测long- versus short-range transcription factors 2.3 Network dynamics predictions NOTCH1 是一个跨膜受体，在多种细胞类型中起关键作用，特别是在细胞命运决定、分化、增殖和凋亡等过程中。先前研究表明NOTCH1(N1)调控网络在心脏瓣膜疾病发挥重要作用。\n目的：区分N1基因网络中的核心基因与外周基因 数据：标签数据来自先前研究报道，使用30K心脏内皮细胞作为微调数据 结果：AUC = 0.81 衍生分析：探索出最少需要多少微调训练数据（细胞量）可以达到良好的预测效果（884） 3. 模型深入分析 3.1 Network Hierarchy 即对于预训练Transformer，Attention weight的注意力权重分析。\n6 layers, each 4 heads 都纳入考虑，每个预训练细胞的基因都有unique attention map \u003e 20% heads ，TF genes have higher attention Genes with high rank have higher attention Early / Late layers also show diff patterns 3.2 TF Gene Network 方法类似2.1的In silico deletion，不过这里是为了发现转录因子（GATA4）的靶基因。\n即计算GATA4删除后，其余基因的Embedding与未删除前的Embedding的相似度。越低表明被该TF影响的可能越高。\n结果发现，先前报道具有高置信度的GATA4靶点，确实表现出更低的Cosine similarity。\n衍生分析发现也可以同时删除两个TF genes\n3.3 Therapeutic Target hypertrophic cardiomyopathy, HCM: 肥厚型心肌病；\ndilated cardiomyopathy, DCM: 扩张型心肌病\n首先，微调两个模型，分别区分来自正常心脏和上述两种心肌病的心肌细胞。\n“Normal”→“Disease”：Genes whose deletion or activation in normal status make cell embedding shift towards HCM/DCM.\n**Disease genes **– 通路富集分析 “Disease”→“Normal”：Genes whose deletion or activation in disease status make cell embedding shift towards normal cells.\nTherapeutic targets – 通路富集分析 最后，对部分靶点进行实验验证 In silico deletion: remove the gene from the rank value of one cell\nIn silico activation: move the gene to the front of the rank value of one cell\n",
+  "wordCount" : "2130",
+  "inLanguage": "en",
+  "datePublished": "2024-12-15T00:00:00Z",
+  "dateModified": "2024-12-15T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/basic/205%E6%96%87%E7%8C%AE--%E5%8D%95%E7%BB%86%E8%83%9E%E7%BB%84%E5%AD%A6%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B9%8Bgeneformer/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/basic/">📖 科研基础 -- 读文献、看教材</a></div>
+    <h1 class="post-title">
+      文献--单细胞组学大模型之Geneformer
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-12-15 00:00:00 &#43;0000 UTC&#39;&gt;2024-12-15&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-12-15&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2130&amp;nbsp;|&amp;nbsp;5 min&amp;nbsp;|&amp;nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#1-%e9%a2%84%e8%ae%ad%e7%bb%83%e6%a8%a1%e5%9e%8b" aria-label="1. 预训练模型">1. 预训练模型</a><ul>
+                            
+                    <li>
+                        <a href="#11-scrna-seq%e6%95%b0%e6%8d%ae" aria-label="1.1 scRNA-seq数据">1.1 scRNA-seq数据</a></li>
+                    <li>
+                        <a href="#12-%e6%a8%a1%e5%9e%8b%e6%9e%b6%e6%9e%84" aria-label="1.2 模型架构">1.2 模型架构</a></li>
+                    <li>
+                        <a href="#13-%e9%a2%84%e8%ae%ad%e7%bb%83%e6%95%88%e6%9e%9c" aria-label="1.3 预训练效果">1.3 预训练效果</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#2-%e5%be%ae%e8%b0%83%e4%bb%bb%e5%8a%a1" aria-label="2. 微调任务">2. 微调任务</a><ul>
+                            
+                    <li>
+                        <a href="#21-gene-dosage-sensitivity" aria-label="2.1 Gene dosage sensitivity">2.1 Gene dosage sensitivity</a></li>
+                    <li>
+                        <a href="#22-chromatin-dynamics" aria-label="2.2 Chromatin dynamics">2.2 Chromatin dynamics</a></li>
+                    <li>
+                        <a href="#23-network-dynamics-predictions" aria-label="2.3 Network dynamics predictions">2.3 Network dynamics predictions</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#3-%e6%a8%a1%e5%9e%8b%e6%b7%b1%e5%85%a5%e5%88%86%e6%9e%90" aria-label="3. 模型深入分析">3. 模型深入分析</a><ul>
+                            
+                    <li>
+                        <a href="#31-network-hierarchy" aria-label="3.1 Network Hierarchy">3.1 Network Hierarchy</a></li>
+                    <li>
+                        <a href="#32-tf-gene-network" aria-label="3.2 TF Gene Network">3.2 TF Gene Network</a></li>
+                    <li>
+                        <a href="#33-therapeutic-target" aria-label="3.3 Therapeutic Target">3.3 Therapeutic Target</a>
+                    </li>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><blockquote>
+<ul>
+<li><em>Transfer learning enables predictions in network biology</em> | Nature</li>
+<li><a href="https://doi.org/10.1038/s41586-023-06139-9">https://doi.org/10.1038/s41586-023-06139-9</a></li>
+<li>Received: March 2022 / Accepted: 27 April 2023</li>
+<li>Data &amp; Code: <a href="https://huggingface.co/ctheodoris">https://huggingface.co/ctheodoris</a></li>
+</ul></blockquote>
+<p><strong>通讯作者</strong>：Patrick T. Ellinor, M.D., Ph.D.</p>
+<ul>
+<li><a href="https://www.ellinorlab.org/team/">https://www.ellinorlab.org/team/</a></li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241215164105420.png" alt="image-20241215164105420"  />
+</p>
+<h1 id="1-预训练模型">1. 预训练模型<a hidden class="anchor" aria-hidden="true" href="#1-预训练模型">#</a></h1>
+<h2 id="11-scrna-seq数据">1.1 scRNA-seq数据<a hidden class="anchor" aria-hidden="true" href="#11-scrna-seq数据">#</a></h2>
+<p><strong>数据收集</strong>：Genecorpus-30M</p>
+<ul>
+<li>561 datasets; 29.9 M cells</li>
+<li>数据集详细信息见SP Table-1</li>
+</ul>
+<p><strong>数据质控</strong>：</p>
+<ul>
+<li>Exclude cells with high TMB</li>
+<li>Exclude cells via total read counts/线粒体 read counts</li>
+<li>Exclude cells with at least 7 features (7 * 0.15% = 1)</li>
+<li>Exclude possible doublets and/or damaged cells</li>
+<li>Select protein coding genes + miRNA</li>
+<li>Finally：~ 2.5w features of 27.4 M cells</li>
+</ul>
+<p><strong>表达值RANK encoding</strong></p>
+<ul>
+<li>
+<p>先对每个细胞所有基因进行标准化 （10000 library size）；</p>
+</li>
+<li>
+<p>再对每个基因在所有细胞进行标准化 （scale factor : non-zero median value）；</p>
+<ul>
+<li>主要原因是不同基因在细胞中 <strong>基础表达水平的不同</strong></li>
+<li>统计发现 House keeping genes 有较高的scale factor，即标准化后值变小</li>
+<li>而Genes like TFs 有较低的scale factor，即标准化后值变大</li>
+</ul>
+</li>
+<li>
+<p>最后在每个细胞中，将基因按表达由高到低排序RANK。</p>
+</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241215134240878.png" alt="image-20241215134240878"  />
+</p>
+<h2 id="12-模型架构">1.2 模型架构<a hidden class="anchor" aria-hidden="true" href="#12-模型架构">#</a></h2>
+<p>Transformer模型直接继承于Hugging face的<a href="https://huggingface.co/docs/transformers/v4.47.1/en/model_doc/bert#transformers.BertForMaskedLM">BertForMaskedLM模型</a></p>
+<p><strong>Config参数</strong></p>
+<ul>
+<li>6 layers with each 4 heads</li>
+<li>gene embedding 256 (ffn: 512)</li>
+<li>max cell sentence length 2048 (dynamic padding)，masked feature ratio: 15%</li>
+</ul>
+<p><strong>训练参数</strong></p>
+<ul>
+<li>lr 0.001， linear warmup 10k steps</li>
+<li>Relu，Dropout 0.2， Adam with 0.001 weight decay</li>
+<li>Batch size 12， Epoch 3</li>
+<li>12 V100 GPU (from 3 nodes), DeepSpeed 分布式训练，3 Days</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241215132904242.png" alt="image-20241215132904242" style="zoom:67%;" />
+<h2 id="13-预训练效果">1.3 预训练效果<a hidden class="anchor" aria-hidden="true" href="#13-预训练效果">#</a></h2>
+<p>在具体介绍微调任务前，文章首先论述了其预训练模型的可应用性</p>
+<p><strong>Gene embedding</strong></p>
+<ul>
+<li>Not affect by common batch-dependent technical artefacts
+<ul>
+<li>同一基因在不同Batch因素的Cosine相似度高</li>
+</ul>
+</li>
+<li>Context awareness
+<ul>
+<li>人为地将Fibroblast的OSKM基因Rank提高 (In silico activation)，使得其它基因的Embedding向iPSC状态变化。</li>
+</ul>
+</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241215142044752.png" alt="image-20241215142044752"  />
+</p>
+<blockquote>
+<p><strong>iPSC</strong>, induced Pluripotent Stem Cells: 已经分化的体细胞通过导入特定的转录因子重新编程而成的一种细胞类型</p>
+<p><strong>OSKM</strong>: 四个关键的基因重编程因子: Oct4 , Sox2 , Klf4 , c-Myc</p></blockquote>
+<p><strong>Cell embedding</strong> (Cell embedding取每个细胞所有基因的Embedding的均值)</p>
+<ul>
+<li>Batch integration: cell cluster by cell type, not sample or platform</li>
+<li>细胞类型注释微调任务：对比了两种已发表方法：CasTLe (XGBoost), scDeepSort</li>
+</ul>
+<h1 id="2-微调任务">2. 微调任务<a hidden class="anchor" aria-hidden="true" href="#2-微调任务">#</a></h1>
+<ul>
+<li>多为Gene classification/Cell classification任务，（详见SP Table2， 每个fine-tune task会freeze diff number of layers）
+<ul>
+<li>AUC， F1 score</li>
+<li>5折交叉验证</li>
+</ul>
+</li>
+<li>所有微调任务都使用相同的超参数组合，以说明预训练模型的性能。
+<ul>
+<li>lr 0.00005，linear warmup 500，Adamw weight decay 0.001</li>
+<li>batch size 12，epoch 1 to avoid overfitting</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>It should be noted that <strong>hyperparameter tuning (超参数调优)</strong> for deep learning applications can generally significantly enhance learning effect. 但是文章中并没有这么做，表明后面微调模型性能都是underestimate。</p></blockquote>
+<h2 id="21-gene-dosage-sensitivity">2.1 Gene dosage sensitivity<a hidden class="anchor" aria-hidden="true" href="#21-gene-dosage-sensitivity">#</a></h2>
+<blockquote>
+<p>基因对剂量的变化的高敏感性，即其少量表达变化可能引发显著的细胞或生物学后果。</p></blockquote>
+<ul>
+<li><strong>目的</strong>：预测基因(TF)是否为剂量敏感性的TF</li>
+<li><strong>数据</strong>：一方面收集来自已报道的阴性或阳性标签数据，另一方面，使用30M中随机的10K的细胞作为训练数据。</li>
+<li><strong>结果</strong>：交叉验证的AUC 0.91，并在一个基于CNV的外部测试集数据也表现很好（微调数据与标签来源数据越接近，则效果越好）。</li>
+<li><strong>In silico deleting(knockout)</strong>: 在预训练模型中，模拟敲除心肌细胞的一个心脏疾病相关基因，使得cell Embedding发生较大改变（与敲除前的cell embedding similarity）
+<ul>
+<li>发现并验证了一个靶点 TEAD4</li>
+<li>相关Genelist做通路富集分析</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>Smaller cosine similarity indicates more deleterious effect</p></blockquote>
+<h2 id="22-chromatin-dynamics">2.2 Chromatin dynamics<a hidden class="anchor" aria-hidden="true" href="#22-chromatin-dynamics">#</a></h2>
+<blockquote>
+<p>同一个基因的启动子区域能同时携带 H3K4me3 活跃信号 和 H3K27me3抑制信号 的修饰，这种情况被称为“双价域”（bivalent domains），常见于胚胎干细胞(ESC)中。</p></blockquote>
+<ul>
+<li><strong>目的</strong>：鉴别基因是否为双价修饰基因 or 非甲基化启动子基因或仅带有 H3K4me3 的基因</li>
+<li><strong>数据</strong>：一方面收集56个保守区域的标签数据，一方面取15K个 ESC作为训练数据</li>
+<li><strong>结果</strong>：AUC可以达到0.93 (bivalent vs unmethylated gene), 0.88 (bivalent vs H3K4me3-only)</li>
+<li><strong>衍生任务</strong>：预测long- versus short-range transcription factors</li>
+</ul>
+<h2 id="23-network-dynamics-predictions">2.3 Network dynamics predictions<a hidden class="anchor" aria-hidden="true" href="#23-network-dynamics-predictions">#</a></h2>
+<blockquote>
+<p>NOTCH1 是一个跨膜受体，在多种细胞类型中起关键作用，特别是在细胞命运决定、分化、增殖和凋亡等过程中。先前研究表明NOTCH1(N1)调控网络在心脏瓣膜疾病发挥重要作用。</p></blockquote>
+<ul>
+<li><strong>目的</strong>：区分N1基因网络中的核心基因与外周基因</li>
+<li><strong>数据</strong>：标签数据来自先前研究报道，使用30K心脏内皮细胞作为微调数据</li>
+<li><strong>结果</strong>：AUC = 0.81</li>
+<li><strong>衍生分析</strong>：探索出最少需要多少微调训练数据（细胞量）可以达到良好的预测效果（884）</li>
+</ul>
+<h1 id="3-模型深入分析">3. 模型深入分析<a hidden class="anchor" aria-hidden="true" href="#3-模型深入分析">#</a></h1>
+<h2 id="31-network-hierarchy">3.1 Network Hierarchy<a hidden class="anchor" aria-hidden="true" href="#31-network-hierarchy">#</a></h2>
+<p>即对于预训练Transformer，Attention weight的注意力权重分析。</p>
+<ul>
+<li>6 layers, each 4 heads 都纳入考虑，每个预训练细胞的基因都有unique attention map</li>
+<li>&gt; 20% heads ，TF genes have higher attention</li>
+<li>Genes with high rank have higher attention</li>
+<li>Early / Late layers also show diff patterns</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241215155135987.png" alt="image-20241215155135987"  />
+</p>
+<h2 id="32-tf-gene-network">3.2 TF Gene Network<a hidden class="anchor" aria-hidden="true" href="#32-tf-gene-network">#</a></h2>
+<ul>
+<li>
+<p>方法类似2.1的In silico deletion，不过这里是为了发现转录因子（GATA4）的靶基因。</p>
+</li>
+<li>
+<p>即计算GATA4删除后，其余基因的Embedding与未删除前的Embedding的相似度。越低表明被该TF影响的可能越高。</p>
+</li>
+<li>
+<p>结果发现，先前报道具有高置信度的GATA4靶点，确实表现出更低的Cosine similarity。</p>
+</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241215160617923.png" alt="image-20241215160617923"  />
+</p>
+<blockquote>
+<p>衍生分析发现也可以同时删除两个TF genes</p></blockquote>
+<h2 id="33-therapeutic-target">3.3 Therapeutic Target<a hidden class="anchor" aria-hidden="true" href="#33-therapeutic-target">#</a></h2>
+<blockquote>
+<p>hypertrophic cardiomyopathy, HCM: 肥厚型心肌病；</p>
+<p>dilated cardiomyopathy, DCM: 扩张型心肌病</p></blockquote>
+<ul>
+<li>
+<p>首先，微调两个模型，分别区分来自正常心脏和上述两种心肌病的心肌细胞。</p>
+</li>
+<li>
+<p>“Normal”→“Disease”：Genes whose deletion or activation in normal status make cell embedding shift towards HCM/DCM.</p>
+<ul>
+<li>**Disease genes **&ndash; 通路富集分析</li>
+</ul>
+</li>
+<li>
+<p>“Disease”→“Normal”：Genes whose deletion or activation in disease status make cell embedding shift towards normal cells.</p>
+<ul>
+<li><strong>Therapeutic targets</strong> &ndash; 通路富集分析</li>
+</ul>
+</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241215161636462.png" alt="image-20241215161636462"  />
+</p>
+<ul>
+<li>最后，对部分靶点进行实验验证</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241215162858665.png" alt="image-20241215162858665"  />
+</p>
+<blockquote>
+<p>In silico deletion: remove the gene from the rank value of one cell</p>
+<p>In silico activation: move the gene to the front of the rank value of one cell</p></blockquote>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/%E6%96%87%E7%8C%AE-%E7%AE%97%E6%B3%95/">文献-算法</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/en/posts/basic/204%E6%96%87%E7%8C%AE--%E5%8D%95%E7%BB%86%E8%83%9E%E7%BB%84%E5%AD%A6%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B9%8Bcellplm/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>文献--单细胞组学大模型之CellPLM</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/en/posts/basic/206%E6%96%87%E7%8C%AE--%E5%8D%95%E7%BB%86%E8%83%9E%E7%BB%84%E5%AD%A6%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B9%8Bgenecompass/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>文献--单细胞组学大模型之Genecompass</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

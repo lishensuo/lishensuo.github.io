@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>renv包环境可重复性 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="R">
+<meta name="description" content="
+https://rstudio.github.io/renv
+记录一个R项目所需的R包来源及其相应的版本号，方便对于其他用户的可重复性分析。
+
+
+1. 初始化项目
+
+在当前目录下创建一个文件夹，是包含一个R project对象的工作环境；
+其中library文件夹是该工作环境安装R包的路径，renv.lock是记录R包及其版本后的重要文件。
+
+
+
+1
+2
+3
+
+
+renv::init(&#34;foo_project&#34;) 
+#初始化后会自动切换到该环境下，如果没有可以手动切换
+# setwd(&#34;foo_project&#34;)
+
+
+
+">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/program/266renv%E5%8C%85%E7%8E%AF%E5%A2%83%E5%8F%AF%E9%87%8D%E5%A4%8D%E6%80%A7/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/program/266renv%E5%8C%85%E7%8E%AF%E5%A2%83%E5%8F%AF%E9%87%8D%E5%A4%8D%E6%80%A7/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="renv包环境可重复性" />
+<meta property="og:description" content="
+https://rstudio.github.io/renv
+记录一个R项目所需的R包来源及其相应的版本号，方便对于其他用户的可重复性分析。
+
+
+1. 初始化项目
+
+在当前目录下创建一个文件夹，是包含一个R project对象的工作环境；
+其中library文件夹是该工作环境安装R包的路径，renv.lock是记录R包及其版本后的重要文件。
+
+
+
+1
+2
+3
+
+
+renv::init(&#34;foo_project&#34;) 
+#初始化后会自动切换到该环境下，如果没有可以手动切换
+# setwd(&#34;foo_project&#34;)
+
+
+
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/program/266renv%E5%8C%85%E7%8E%AF%E5%A2%83%E5%8F%AF%E9%87%8D%E5%A4%8D%E6%80%A7/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-04-06T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2024-04-06T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="renv包环境可重复性"/>
+<meta name="twitter:description" content="
+https://rstudio.github.io/renv
+记录一个R项目所需的R包来源及其相应的版本号，方便对于其他用户的可重复性分析。
+
+
+1. 初始化项目
+
+在当前目录下创建一个文件夹，是包含一个R project对象的工作环境；
+其中library文件夹是该工作环境安装R包的路径，renv.lock是记录R包及其版本后的重要文件。
+
+
+
+1
+2
+3
+
+
+renv::init(&#34;foo_project&#34;) 
+#初始化后会自动切换到该环境下，如果没有可以手动切换
+# setwd(&#34;foo_project&#34;)
+
+
+
+"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 R\u0026Python\u0026Shell --- 编程基础、可视化等",
+      "item": "https://lishensuo.github.io/en/posts/program/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "renv包环境可重复性",
+      "item": "https://lishensuo.github.io/en/posts/program/266renv%E5%8C%85%E7%8E%AF%E5%A2%83%E5%8F%AF%E9%87%8D%E5%A4%8D%E6%80%A7/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "renv包环境可重复性",
+  "name": "renv包环境可重复性",
+  "description": " https://rstudio.github.io/renv 记录一个R项目所需的R包来源及其相应的版本号，方便对于其他用户的可重复性分析。 1. 初始化项目 在当前目录下创建一个文件夹，是包含一个R project对象的工作环境； 其中library文件夹是该工作环境安装R包的路径，renv.lock是记录R包及其版本后的重要文件。 1 2 3 renv::init(\u0026#34;foo_project\u0026#34;) #初始化后会自动切换到该环境下，如果没有可以手动切换 # setwd(\u0026#34;foo_project\u0026#34;) ",
+  "keywords": [
+    "R"
+  ],
+  "articleBody": " https://rstudio.github.io/renv 记录一个R项目所需的R包来源及其相应的版本号，方便对于其他用户的可重复性分析。 1. 初始化项目 在当前目录下创建一个文件夹，是包含一个R project对象的工作环境； 其中library文件夹是该工作环境安装R包的路径，renv.lock是记录R包及其版本后的重要文件。 1 2 3 renv::init(\"foo_project\") #初始化后会自动切换到该环境下，如果没有可以手动切换 # setwd(\"foo_project\") 在初始化时，会安装一些基本的R包 1 2 3 4 5 6 7 8 dim(installed.packages()) # [1] 30 16 names(installed.packages()[,1]) # [1] \"renv\" \"base\" \"boot\" \"class\" \"cluster\" \"codetools\" # [7] \"compiler\" \"datasets\" \"foreign\" \"graphics\" \"grDevices\" \"grid\" # [13] \"KernSmooth\" \"lattice\" \"MASS\" \"Matrix\" \"methods\" \"mgcv\" # [19] \"nlme\" \"nnet\" \"parallel\" \"rpart\" \"spatial\" \"splines\" # [25] \"stats\" \"stats4\" \"survival\" \"tcltk\" \"tools\" \"utils\" 2. 安装包 在执行项目过程中，需要安装特定的R包时，建议使用renv::install() 该函数支持下载来自不同repository库来源的R包 1 2 3 4 5 6 7 8 9 10 11 12 13 # (1) CRAN renv::install(\"ggplot2\") # (2) Bioconductor renv::install(\"BiocManager\") renv::install(\"bioc::limma\") # \"bioc::pkgname\" # (3) Github renv::install(\"easystats/correlation\") # (4) 其它更多详细的安装方式，见帮助文档 ?renv::install() # https://rstudio.github.io/renv/articles/package-sources.html 3. 更新lock.file lock.file文件为json格式，是记录R包工作环境的重要文件。 使用renv::snapshot()将当前环境的R包信息更新到lock.file文件 1 2 3 renv::snapshot() # 如果更新失败，参考文档可自行如下设置后，再次更新 renv::settings$snapshot.type(\"all\") 4. 重复环境 在另一个renv激活的环境中，通过复制上述的lock.file文件进行相同R包环境的重新搭建。 1 renv::restore() ",
+  "wordCount" : "526",
+  "inLanguage": "en",
+  "datePublished": "2024-04-06T00:00:00Z",
+  "dateModified": "2024-04-06T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/program/266renv%E5%8C%85%E7%8E%AF%E5%A2%83%E5%8F%AF%E9%87%8D%E5%A4%8D%E6%80%A7/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/program/">📖 R&amp;Python&amp;Shell --- 编程基础、可视化等</a></div>
+    <h1 class="post-title">
+      renv包环境可重复性
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-04-06 00:00:00 &#43;0000 UTC&#39;&gt;2024-04-06&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-04-06&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;526&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#1-%e5%88%9d%e5%a7%8b%e5%8c%96%e9%a1%b9%e7%9b%ae" aria-label="1. 初始化项目">1. 初始化项目</a></li>
+                    <li>
+                        <a href="#2-%e5%ae%89%e8%a3%85%e5%8c%85" aria-label="2. 安装包">2. 安装包</a></li>
+                    <li>
+                        <a href="#3-%e6%9b%b4%e6%96%b0lockfile" aria-label="3. 更新lock.file">3. 更新lock.file</a></li>
+                    <li>
+                        <a href="#4-%e9%87%8d%e5%a4%8d%e7%8e%af%e5%a2%83" aria-label="4. 重复环境">4. 重复环境</a>
+                    </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><ul>
+<li><a href="https://rstudio.github.io/renv">https://rstudio.github.io/renv</a></li>
+<li>记录一个R项目所需的R包来源及其相应的版本号，方便对于其他用户的可重复性分析。</li>
+</ul>
+<img src="https://rstudio.github.io/renv/articles/renv.png" style="zoom: 80%;" />
+<h2 id="1-初始化项目">1. 初始化项目<a hidden class="anchor" aria-hidden="true" href="#1-初始化项目">#</a></h2>
+<ul>
+<li>在当前目录下创建一个文件夹，是包含一个R project对象的工作环境；</li>
+<li>其中library文件夹是该工作环境安装R包的路径，<code>renv.lock</code>是记录R包及其版本后的重要文件。</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>renv::init(<span style="color:#0ff;font-weight:bold">&#34;foo_project&#34;</span>) 
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#初始化后会自动切换到该环境下，如果没有可以手动切换</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># setwd(&#34;foo_project&#34;)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240405112909657.png" alt="image-20240405112909657"  />
+</p>
+<ul>
+<li>在初始化时，会安装一些基本的R包</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>dim(installed.packages())
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] 30 16</span>
+</span></span><span style="display:flex;"><span>names(installed.packages()[,<span style="color:#ff0;font-weight:bold">1</span>])
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] &#34;renv&#34;       &#34;base&#34;       &#34;boot&#34;       &#34;class&#34;      &#34;cluster&#34;    &#34;codetools&#34; </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [7] &#34;compiler&#34;   &#34;datasets&#34;   &#34;foreign&#34;    &#34;graphics&#34;   &#34;grDevices&#34;  &#34;grid&#34;      </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [13] &#34;KernSmooth&#34; &#34;lattice&#34;    &#34;MASS&#34;       &#34;Matrix&#34;     &#34;methods&#34;    &#34;mgcv&#34;      </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [19] &#34;nlme&#34;       &#34;nnet&#34;       &#34;parallel&#34;   &#34;rpart&#34;      &#34;spatial&#34;    &#34;splines&#34;   </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [25] &#34;stats&#34;      &#34;stats4&#34;     &#34;survival&#34;   &#34;tcltk&#34;      &#34;tools&#34;      &#34;utils&#34;    </span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="2-安装包">2. 安装包<a hidden class="anchor" aria-hidden="true" href="#2-安装包">#</a></h2>
+<ul>
+<li>在执行项目过程中，需要安装特定的R包时，建议使用<code>renv::install()</code></li>
+<li>该函数支持下载来自不同repository库来源的R包</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f"># (1) CRAN</span>
+</span></span><span style="display:flex;"><span>renv::install(<span style="color:#0ff;font-weight:bold">&#34;ggplot2&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># (2) Bioconductor</span>
+</span></span><span style="display:flex;"><span>renv::install(<span style="color:#0ff;font-weight:bold">&#34;BiocManager&#34;</span>)
+</span></span><span style="display:flex;"><span>renv::install(<span style="color:#0ff;font-weight:bold">&#34;bioc::limma&#34;</span>)  <span style="color:#007f7f"># &#34;bioc::pkgname&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># (3) Github</span>
+</span></span><span style="display:flex;"><span>renv::install(<span style="color:#0ff;font-weight:bold">&#34;easystats/correlation&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># (4) 其它更多详细的安装方式，见帮助文档</span>
+</span></span><span style="display:flex;"><span>?renv::install()
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># https://rstudio.github.io/renv/articles/package-sources.html</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="3-更新lockfile">3. 更新lock.file<a hidden class="anchor" aria-hidden="true" href="#3-更新lockfile">#</a></h2>
+<ul>
+<li><strong>lock.file</strong>文件为json格式，是记录R包工作环境的重要文件。</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240405135723941.png" alt="image-20240405135723941" style="zoom: 67%;" />
+<ul>
+<li>使用<code>renv::snapshot()</code>将当前环境的R包信息更新到<strong>lock.file</strong>文件</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>renv::snapshot()
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 如果更新失败，参考文档可自行如下设置后，再次更新</span>
+</span></span><span style="display:flex;"><span>renv::settings$snapshot.type(<span style="color:#0ff;font-weight:bold">&#34;all&#34;</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="4-重复环境">4. 重复环境<a hidden class="anchor" aria-hidden="true" href="#4-重复环境">#</a></h2>
+<ul>
+<li>在另一个renv激活的环境中，通过复制上述的lock.file文件进行相同R包环境的重新搭建。</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>renv::restore()
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/r/">R</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/en/posts/program/265shiny-pkg-6-others/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>Shiny-pkg-6-others</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/en/posts/program/267rhinoverse%E7%B3%BB%E5%88%97-rhino%E5%8C%85/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>rhinoverse系列-rhino包</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

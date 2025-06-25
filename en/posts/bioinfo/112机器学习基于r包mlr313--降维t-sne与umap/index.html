@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>机器学习基于R包mlr3(13)--降维t-SNE与UMAP | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="机器学习, mlr3">
+<meta name="description" content="算法简介
+t-SNE
+正态分布密度函数 ，其中σ表示标准差，μ表示均值
+第一步：计算高维空间中任意两样本点的欧几里得距离。
+第二步：对于任一特定节点，将其余节点与之的距离转换为以该节点为中心的正态分布的概率值。">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/bioinfo/112%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr313--%E9%99%8D%E7%BB%B4t-sne%E4%B8%8Eumap/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/bioinfo/112%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr313--%E9%99%8D%E7%BB%B4t-sne%E4%B8%8Eumap/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="机器学习基于R包mlr3(13)--降维t-SNE与UMAP" />
+<meta property="og:description" content="算法简介
+t-SNE
+正态分布密度函数 ，其中σ表示标准差，μ表示均值
+第一步：计算高维空间中任意两样本点的欧几里得距离。
+第二步：对于任一特定节点，将其余节点与之的距离转换为以该节点为中心的正态分布的概率值。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/bioinfo/112%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr313--%E9%99%8D%E7%BB%B4t-sne%E4%B8%8Eumap/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-05-21T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2022-05-21T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="机器学习基于R包mlr3(13)--降维t-SNE与UMAP"/>
+<meta name="twitter:description" content="算法简介
+t-SNE
+正态分布密度函数 ，其中σ表示标准差，μ表示均值
+第一步：计算高维空间中任意两样本点的欧几里得距离。
+第二步：对于任一特定节点，将其余节点与之的距离转换为以该节点为中心的正态分布的概率值。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 生信数据分析--分析流程，工具包等",
+      "item": "https://lishensuo.github.io/en/posts/bioinfo/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "机器学习基于R包mlr3(13)--降维t-SNE与UMAP",
+      "item": "https://lishensuo.github.io/en/posts/bioinfo/112%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr313--%E9%99%8D%E7%BB%B4t-sne%E4%B8%8Eumap/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "机器学习基于R包mlr3(13)--降维t-SNE与UMAP",
+  "name": "机器学习基于R包mlr3(13)--降维t-SNE与UMAP",
+  "description": "算法简介 t-SNE 正态分布密度函数 ，其中σ表示标准差，μ表示均值\n第一步：计算高维空间中任意两样本点的欧几里得距离。\n第二步：对于任一特定节点，将其余节点与之的距离转换为以该节点为中心的正态分布的概率值。\n",
+  "keywords": [
+    "机器学习", "mlr3"
+  ],
+  "articleBody": "算法简介 t-SNE 正态分布密度函数 ，其中σ表示标准差，μ表示均值\n第一步：计算高维空间中任意两样本点的欧几里得距离。\n第二步：对于任一特定节点，将其余节点与之的距离转换为以该节点为中心的正态分布的概率值。\n正态分布的标准差与该样本点周围数据的密度成反比，但是具体关系依赖perplex超参数。该值越大表明越关注数据的全局特征，反之越关注数据的局部结构。\n第三步：将对任一特点节点的其余节点概率处于它们的和，从而使得数据集中每个样本的概率总和为1。\n$$ 正态分布密度函数 \\quad f(x) = \\frac{1}{\\sigma \\sqrt{2\\pi}}exp(\\frac{-(x-\\mu)^2}{2\\sigma^2}) $$\n$$ 样本点j到点i的概率 \\quad P_{j|i} = \\frac{exp(-(||x_i-x_j||)^2 /2\\sigma_i^2)}{\\sum_{k\\neq i}exp(-(||x_i-x_j||)^2 /2\\sigma_i^2)} $$\n其中||Xi-Xj||表示高维空间中数据点i与数据点j的欧几里得距离\n如上以所以样本点均为中心样本进行正态分布密度转换之后，可以得到一个概率矩阵p，用以描述每个样本与其它样本的相似程度。\n在二维的空间中，对所有数据点重新排布。使用上述方法再次计算新的概率矩阵与q。使用损失函数KL散度评价两个概率矩阵的相似性。采用梯度下降的方法，不断迭代的、”移动“二维空间中数据点的位置，使得KL散度指标逐渐降低，直至达到预期水平。\nt-SNE中的t的含义是指在计算新的、二维空间中样本间的概率矩阵时，使用T分布将样本距离转换为概率值可以更好的兼容离群点的影响，识别出真正距离相近的样本。\nUMAP UMAP的思路与tSNE类似，将样本在高维空间中的距离转换到二维平面中。与tSNE不同的是UMAP采用了所谓流形的概念，测量流形中样本之间的距离。\n在学习流形时，有两个关键步骤\n（1）对于既定的样本点进行局部连接，扩展最近的样本（local_connectivity=1），这样可以确保不存在孤立的样本。\n（2）然后以局部连接样本为边界进行模糊扩展，确定近邻样本。可通过超参数设置，较大的值表示包含更多的近邻样本，更关注全局结构；反之更关注局部结构。\n计算如此得到的流形中，得到所有样本与近邻样本之间的距离。下一步将数据放在两个维度的流形中，并迭代地移动数据点，直至新流形中样本间的距离等于沿着原始高维流形中样本间的距离。损失函数为交叉熵。\n二者比较 （1）tSNE与UMAP相对于PCA均属于非线性降维方式，获得的二维平面新轴不能用原始变量直接解释\n（2）相比于tSNE，UMAP的具有更多的优势：计算开销小、同时保留了局部与全局结构；而且作为一种确定性算法，给定相同的输入可以给出相同的输出。\n（3）对于tSNE，关注的更多是局部结构，即聚为一类的数据点具有很好的相似性；但是不同聚类之间的距离并没有任何含义。\n（4）在实际分析时，往往先对高维数据进行PCA分析，然后对于保留的若干主成分再进行tSNE/UMAP降维\n代码实操 1 2 3 4 5 6 7 8 9 10 11 12 13 library(tidyverse) data(banknote, package = \"mclust\") swissTib = as_tibble(banknote) # # A tibble: 6 x 7 # Status Length Left Right Bottom Top Diagonal # # 1 genuine 215. 131 131. 9 9.7 141 # 2 genuine 215. 130. 130. 8.1 9.5 142. # 3 genuine 215. 130. 130. 8.7 9.6 142. # 4 genuine 215. 130. 130. 7.5 10.4 142 # 5 genuine 215 130. 130. 10.4 7.7 142. # 6 genuine 216. 131. 130. 9 10.1 141. dat = swissTib[,-1] 1、t-SNE 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 library(Rtsne) ?Rtsne ##(1) 相关参数[一般使用默认参数即可，这里主要了解一下] # perplexity = 30 # 5~50 值越大表示越保留全局特征（相对而言） # theta = 0. # 0~1 速度与精确度的平衡，越大越关注速度 # max_iter = 1000 # 迭代次数 # eta = 200 # 每次迭代，点移动的距离 # num_threads = 1 # 使用线程数 # pca = TRUE # 进行tSNE分析前，是否进行PCA分析 # initial_dims = 50 # 若进行PCA分析，保留的主成分数 # dims = 2 # 输出的tSNE维度数 ##(2) 示例分析 set.seed(123) #设置随机种子，确保分析结果的一致性 tsne.list = Rtsne(dat) tsne = tsne.list$Y %\u003e% as.data.frame() colnames(tsne) = c(\"tSNE_1\",\"tSNE_2\") head(tsne) # tSNE_1 tSNE_2 # 1 -8.127869 5.0456539 # 2 -14.330835 4.5799939 # 3 -13.687125 5.9405066 # 4 -13.203127 -0.3737462 # 5 -12.773563 8.5912141 # 6 -8.431319 4.1007125 tsne$label = swissTib$Status ggplot(tsne, aes(x=tSNE_1,y=tSNE_2,color=label)) + geom_point() 2、UMAP 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 library(umap) ##(1) 查看默认参数 umap::umap.defaults # umap configuration parameters # n_neighbors: 15 #控制模糊搜索区域的半径，较大值的将包含更多的近邻样本，即更考虑全局结构 # n_components: 2 #输出维度数 # metric: euclidean #测量流形上样本的距离 # n_epochs: 200 #迭代次数 # input: data # init: spectral # min_dist: 0.1 # set_op_mix_ratio: 1 # local_connectivity: 1 # bandwidth: 1 # alpha: 1 # gamma: 1 # negative_sample_rate: 5 # a: NA # b: NA # spread: 1 # random_state: NA # transform_state: NA # knn: NA # knn_repeats: 1 # verbose: FALSE # umap_learn_args: NA ##(2) 示例分析 #不需要设定随机种子也能保证结果的一致性 umaps.list = umap(dat) umaps = umaps.list$layout %\u003e% as.data.frame() colnames(umaps)=c(\"UMAP_1\",\"UMAP_2\") head(umaps) # UMAP_1 UMAP_2 # 1 1.407095 -4.126555 # 2 1.213177 -6.306884 # 3 1.980743 -6.008990 # 4 -1.303874 -6.129523 # 5 2.664741 -5.839394 # 6 1.355476 -4.351818 umaps$label = swissTib$Status ggplot(umaps, aes(x=UMAP_1, y=UMAP_2, color=label)) + geom_point() ",
+  "wordCount" : "1722",
+  "inLanguage": "en",
+  "datePublished": "2022-05-21T00:00:00Z",
+  "dateModified": "2022-05-21T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/bioinfo/112%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr313--%E9%99%8D%E7%BB%B4t-sne%E4%B8%8Eumap/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/bioinfo/">📖 生信数据分析--分析流程，工具包等</a></div>
+    <h1 class="post-title">
+      机器学习基于R包mlr3(13)--降维t-SNE与UMAP
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-05-21 00:00:00 &#43;0000 UTC&#39;&gt;2022-05-21&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-05-21&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1722&amp;nbsp;|&amp;nbsp;4 min&amp;nbsp;|&amp;nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#%e7%ae%97%e6%b3%95%e7%ae%80%e4%bb%8b" aria-label="算法简介">算法简介</a><ul>
+                            
+                    <li>
+                        <a href="#t-sne" aria-label="t-SNE">t-SNE</a></li>
+                    <li>
+                        <a href="#umap" aria-label="UMAP">UMAP</a></li>
+                    <li>
+                        <a href="#%e4%ba%8c%e8%80%85%e6%af%94%e8%be%83" aria-label="二者比较">二者比较</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#%e4%bb%a3%e7%a0%81%e5%ae%9e%e6%93%8d" aria-label="代码实操">代码实操</a><ul>
+                            
+                    <li>
+                        <a href="#1t-sne" aria-label="1、t-SNE">1、t-SNE</a></li>
+                    <li>
+                        <a href="#2umap" aria-label="2、UMAP">2、UMAP</a>
+                    </li>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><h1 id="算法简介">算法简介<a hidden class="anchor" aria-hidden="true" href="#算法简介">#</a></h1>
+<h2 id="t-sne">t-SNE<a hidden class="anchor" aria-hidden="true" href="#t-sne">#</a></h2>
+<p>正态分布密度函数 ，其中σ表示标准差，μ表示均值</p>
+<p>第一步：计算高维空间中任意两样本点的欧几里得距离。</p>
+<p>第二步：对于任一特定节点，将其余节点与之的距离转换为以该节点为中心的正态分布的概率值。</p>
+<blockquote>
+<p>正态分布的标准差与该样本点周围数据的密度成反比，但是具体关系依赖perplex超参数。该值越大表明越关注数据的全局特征，反之越关注数据的局部结构。</p></blockquote>
+<p>第三步：将对任一特点节点的其余节点概率处于它们的和，从而使得数据集中每个样本的概率总和为1。</p>
+<p>$$
+正态分布密度函数 \quad f(x) = \frac{1}{\sigma \sqrt{2\pi}}exp(\frac{-(x-\mu)^2}{2\sigma^2})
+$$</p>
+<p>$$
+样本点j到点i的概率 \quad P_{j|i} = \frac{exp(-(||x_i-x_j||)^2 /2\sigma_i^2)}{\sum_{k\neq i}exp(-(||x_i-x_j||)^2 /2\sigma_i^2)}
+$$</p>
+<blockquote>
+<p>其中<code>||Xi-Xj||</code>表示高维空间中数据点i与数据点j的欧几里得距离</p></blockquote>
+<img src="https://drek4537l1klr.cloudfront.net/rhys/Figures/fig14-1_alt.jpg" alt="t-sne in machine-learning" style="zoom: 80%;" />
+<p>如上以所以样本点均为中心样本进行正态分布密度转换之后，可以得到一个概率矩阵<code>p</code>，用以描述每个样本与其它样本的相似程度。</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/3852990-c36b50400afbfcc7.png" alt="img" style="zoom:80%;" />
+<p>在二维的空间中，对所有数据点重新排布。使用上述方法再次计算新的概率矩阵与<code>q</code>。使用损失函数KL散度评价两个概率矩阵的相似性。采用梯度下降的方法，不断迭代的、”移动“二维空间中数据点的位置，使得KL散度指标逐渐降低，直至达到预期水平。</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/3852990-fb41076a4122eb14.png" alt="img" style="zoom:80%;" />
+<p>t-SNE中的t的含义是指在计算新的、二维空间中样本间的概率矩阵时，使用T分布将样本距离转换为概率值可以更好的兼容离群点的影响，识别出真正距离相近的样本。</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/t_compare_with_Gaussian.png" alt="img"  />
+</p>
+<h2 id="umap">UMAP<a hidden class="anchor" aria-hidden="true" href="#umap">#</a></h2>
+<p>UMAP的思路与tSNE类似，将样本在高维空间中的距离转换到二维平面中。与tSNE不同的是UMAP采用了所谓流形的概念，测量流形中样本之间的距离。</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy83NDkzMzg1LTIzYTdjNTQ4ZjM1ZTZmNzYucG5n" alt="UMAP：比t-SNE更好的降维算法_蕾欧娜等等的博客-CSDN博客_tsne umap" style="zoom: 33%;" />
+<p>在学习流形时，有两个关键步骤</p>
+<p>（1）对于既定的样本点进行局部连接，扩展最近的样本（local_connectivity=1），这样可以确保不存在孤立的样本。</p>
+<p>（2）然后以局部连接样本为边界进行模糊扩展，确定近邻样本。可通过超参数设置，较大的值表示包含更多的近邻样本，更关注全局结构；反之更关注局部结构。</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/v2-5f6760dc33fe34774ce35a348583ce4e_720w.jpg" alt="img" style="zoom: 50%;" />
+<p>计算如此得到的流形中，得到所有样本与近邻样本之间的距离。下一步将数据放在两个维度的流形中，并迭代地移动数据点，直至新流形中样本间的距离等于沿着原始高维流形中样本间的距离。损失函数为交叉熵。</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/v2-111f8e1e28cbc1a591fbfcf13aa3f447_720w.jpg" alt="img" style="zoom: 50%;" />
+<h2 id="二者比较">二者比较<a hidden class="anchor" aria-hidden="true" href="#二者比较">#</a></h2>
+<p>（1）tSNE与UMAP相对于PCA均属于非线性降维方式，获得的二维平面新轴不能用原始变量直接解释</p>
+<p>（2）相比于tSNE，UMAP的具有更多的优势：计算开销小、同时保留了局部与全局结构；而且作为一种确定性算法，给定相同的输入可以给出相同的输出。</p>
+<p>（3）对于tSNE，关注的更多是局部结构，即聚为一类的数据点具有很好的相似性；但是不同聚类之间的距离并没有任何含义。</p>
+<p>（4）在实际分析时，往往先对高维数据进行PCA分析，然后对于保留的若干主成分再进行tSNE/UMAP降维</p>
+<h1 id="代码实操">代码实操<a hidden class="anchor" aria-hidden="true" href="#代码实操">#</a></h1>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>library(tidyverse)
+</span></span><span style="display:flex;"><span>data(banknote, package = <span style="color:#0ff;font-weight:bold">&#34;mclust&#34;</span>)
+</span></span><span style="display:flex;"><span>swissTib = as_tibble(banknote)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># # A tibble: 6 x 7</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Status  Length  Left Right Bottom   Top Diagonal</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># &lt;fct&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1 genuine   215.  131   131.    9     9.7     141 </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2 genuine   215.  130.  130.    8.1   9.5     142.</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3 genuine   215.  130.  130.    8.7   9.6     142.</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 4 genuine   215.  130.  130.    7.5  10.4     142 </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 5 genuine   215   130.  130.   10.4   7.7     142.</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 6 genuine   216.  131.  130.    9    10.1     141.</span>
+</span></span><span style="display:flex;"><span>dat = swissTib[,<span style="color:#ff0;font-weight:bold">-1</span>]
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="1t-sne">1、t-SNE<a hidden class="anchor" aria-hidden="true" href="#1t-sne">#</a></h2>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">27
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">28
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>library(Rtsne)
+</span></span><span style="display:flex;"><span>?Rtsne
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##(1) 相关参数[一般使用默认参数即可，这里主要了解一下]</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># perplexity = 30   # 5~50 值越大表示越保留全局特征（相对而言）</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># theta = 0.        # 0~1 速度与精确度的平衡，越大越关注速度</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># max_iter = 1000   # 迭代次数</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># eta = 200         # 每次迭代，点移动的距离</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># num_threads = 1   # 使用线程数</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># pca = TRUE        # 进行tSNE分析前，是否进行PCA分析</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># initial_dims = 50 # 若进行PCA分析，保留的主成分数</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># dims = 2          # 输出的tSNE维度数</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##(2) 示例分析</span>
+</span></span><span style="display:flex;"><span>set.seed(<span style="color:#ff0;font-weight:bold">123</span>) <span style="color:#007f7f">#设置随机种子，确保分析结果的一致性</span>
+</span></span><span style="display:flex;"><span>tsne.list = Rtsne(dat)
+</span></span><span style="display:flex;"><span>tsne = tsne.list$Y %&gt;% as.data.frame()
+</span></span><span style="display:flex;"><span>colnames(tsne) = c(<span style="color:#0ff;font-weight:bold">&#34;tSNE_1&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;tSNE_2&#34;</span>)
+</span></span><span style="display:flex;"><span>head(tsne)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#       tSNE_1     tSNE_2</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1  -8.127869  5.0456539</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2 -14.330835  4.5799939</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3 -13.687125  5.9405066</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 4 -13.203127 -0.3737462</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 5 -12.773563  8.5912141</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 6  -8.431319  4.1007125</span>
+</span></span><span style="display:flex;"><span>tsne$label = swissTib$Status
+</span></span><span style="display:flex;"><span>ggplot(tsne, aes(x=tSNE_1,y=tSNE_2,color=label)) + 
+</span></span><span style="display:flex;"><span>  geom_point()
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220521220650321.png" alt="image-20220521220650321" style="zoom:50%;" />
+<h2 id="2umap">2、UMAP<a hidden class="anchor" aria-hidden="true" href="#2umap">#</a></h2>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">27
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">28
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">29
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">30
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">31
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">32
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">33
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">34
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">35
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">36
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">37
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">38
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">39
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">40
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">41
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">42
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">43
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>library(umap)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##(1) 查看默认参数</span>
+</span></span><span style="display:flex;"><span>umap::umap.defaults
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># umap configuration parameters</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># n_neighbors: 15      #控制模糊搜索区域的半径，较大值的将包含更多的近邻样本，即更考虑全局结构</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># n_components: 2      #输出维度数</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># metric: euclidean    #测量流形上样本的距离</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># n_epochs: 200        #迭代次数</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># input: data</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># init: spectral</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># min_dist: 0.1</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># set_op_mix_ratio: 1</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># local_connectivity: 1</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># bandwidth: 1</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># alpha: 1</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># gamma: 1</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># negative_sample_rate: 5</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># a: NA</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># b: NA</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># spread: 1</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># random_state: NA</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># transform_state: NA</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># knn: NA</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># knn_repeats: 1</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># verbose: FALSE</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># umap_learn_args: NA</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##(2) 示例分析</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#不需要设定随机种子也能保证结果的一致性</span>
+</span></span><span style="display:flex;"><span>umaps.list = umap(dat)
+</span></span><span style="display:flex;"><span>umaps = umaps.list$layout %&gt;% as.data.frame()
+</span></span><span style="display:flex;"><span>colnames(umaps)=c(<span style="color:#0ff;font-weight:bold">&#34;UMAP_1&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;UMAP_2&#34;</span>)
+</span></span><span style="display:flex;"><span>head(umaps)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#      UMAP_1    UMAP_2</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1  1.407095 -4.126555</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2  1.213177 -6.306884</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3  1.980743 -6.008990</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 4 -1.303874 -6.129523</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 5  2.664741 -5.839394</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 6  1.355476 -4.351818</span>
+</span></span><span style="display:flex;"><span>umaps$label = swissTib$Status
+</span></span><span style="display:flex;"><span>ggplot(umaps, aes(x=UMAP_1, y=UMAP_2, color=label)) + 
+</span></span><span style="display:flex;"><span>  geom_point()
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220521222449680.png" alt="image-20220521222449680" style="zoom: 67%;" />
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></li>
+      <li><a href="https://lishensuo.github.io/en/tags/mlr3/">Mlr3</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/en/posts/basic/112%E6%96%87%E7%8C%AE-%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98-%E8%82%BA%E8%85%BA%E7%99%8C%E7%9B%B8%E5%85%B3%E5%9F%BA%E5%9B%A0%E5%AF%B9/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>文献-数据挖掘-肺腺癌相关基因对</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/en/posts/bioinfo/113%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr314--%E8%81%9A%E7%B1%BB-k%E5%9D%87%E5%80%BC/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>机器学习基于R包mlr3(14)--聚类-k均值</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

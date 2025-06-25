@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>R-可视化-ggplot2绘图基础 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="R可视化">
+<meta name="description" content="
+ggplot2包一方面可以实现多种形式的数据可视化、比如箱图、柱状图等；另一方面也可以从多个角度进行美化、修饰。对于前者，之前对ggplot2的柱状图、箱图用法进行了详细的学习。关于其它类型的图，例如密度图、折线图、直方图等，可参考他人的总结，例如下面的sthda网站。">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/program/212r-%E5%8F%AF%E8%A7%86%E5%8C%96-ggplot2%E7%BB%98%E5%9B%BE%E5%9F%BA%E7%A1%80/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/program/212r-%E5%8F%AF%E8%A7%86%E5%8C%96-ggplot2%E7%BB%98%E5%9B%BE%E5%9F%BA%E7%A1%80/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="R-可视化-ggplot2绘图基础" />
+<meta property="og:description" content="
+ggplot2包一方面可以实现多种形式的数据可视化、比如箱图、柱状图等；另一方面也可以从多个角度进行美化、修饰。对于前者，之前对ggplot2的柱状图、箱图用法进行了详细的学习。关于其它类型的图，例如密度图、折线图、直方图等，可参考他人的总结，例如下面的sthda网站。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/program/212r-%E5%8F%AF%E8%A7%86%E5%8C%96-ggplot2%E7%BB%98%E5%9B%BE%E5%9F%BA%E7%A1%80/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-07-03T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2022-07-03T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="R-可视化-ggplot2绘图基础"/>
+<meta name="twitter:description" content="
+ggplot2包一方面可以实现多种形式的数据可视化、比如箱图、柱状图等；另一方面也可以从多个角度进行美化、修饰。对于前者，之前对ggplot2的柱状图、箱图用法进行了详细的学习。关于其它类型的图，例如密度图、折线图、直方图等，可参考他人的总结，例如下面的sthda网站。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 R\u0026Python\u0026Shell --- 编程基础、可视化等",
+      "item": "https://lishensuo.github.io/en/posts/program/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "R-可视化-ggplot2绘图基础",
+      "item": "https://lishensuo.github.io/en/posts/program/212r-%E5%8F%AF%E8%A7%86%E5%8C%96-ggplot2%E7%BB%98%E5%9B%BE%E5%9F%BA%E7%A1%80/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "R-可视化-ggplot2绘图基础",
+  "name": "R-可视化-ggplot2绘图基础",
+  "description": " ggplot2包一方面可以实现多种形式的数据可视化、比如箱图、柱状图等；另一方面也可以从多个角度进行美化、修饰。对于前者，之前对ggplot2的柱状图、箱图用法进行了详细的学习。关于其它类型的图，例如密度图、折线图、直方图等，可参考他人的总结，例如下面的sthda网站。\n",
+  "keywords": [
+    "R可视化"
+  ],
+  "articleBody": " ggplot2包一方面可以实现多种形式的数据可视化、比如箱图、柱状图等；另一方面也可以从多个角度进行美化、修饰。对于前者，之前对ggplot2的柱状图、箱图用法进行了详细的学习。关于其它类型的图，例如密度图、折线图、直方图等，可参考他人的总结，例如下面的sthda网站。\nR-ggplot2-箱图系列（1） basic - 简书 (jianshu.com)\nR-ggplot2-柱状图系列 - 简书 (jianshu.com)\nhttp://www.sthda.com/english/wiki/ggplot2-essentials\n本篇笔记主要是针对我自己在绘制ggplot图片时，常常要修改的细节方面进行了大致的整理，以方便日后的查询。\n1 2 library(tidyverse) library(patchwork) 1、颜色设置 1 2 3 4 ggplot(mpg, aes(x = drv)) + geom_bar(color=\"black\", fill=\"grey\") #统一颜色 #一般color为边框、点的颜色，fill为填充色 1.1 离散型变量映射 1 2 p = ggplot(mpg, aes(x = drv, fill = drv)) + geom_bar() （1）scale_fill_manual() 1 2 3 4 5 6 p1 = p + scale_fill_manual(values = c(\"red\",\"blue\",\"green\")) # https://colorbrewer2.org/ p2 = p + scale_fill_manual(\"this is title\", values = c(\"4\"=\"green\", \"r\"=\"red\", \"f\"=\"blue\")) p3 = p + scale_fill_manual(values = c(\"red\",\"blue\",\"green\"),guide=\"none\") p1 + p2 + p3 （2）scale_fill_brewer() 1 2 3 4 # 关于ColorBrewer的色板：https://www.jianshu.com/p/e0179b0a71d6 p1 = p + scale_fill_brewer(\"Set1\", palette = \"Set1\") p2 = p + scale_fill_brewer(\"Dark2\", palette = \"Dark2\") p1 + p2 1 2 3 4 5 6 ## (3) scale_fill_grey() # 0~1 --＞ black~white p + scale_fill_grey(start = 0.1, end = 0.8) ## (4) ggsci包 p + ggsci::scale_fill_aaas() 1.2 连续型变量映射 1 2 3 4 5 6 7 8 9 10 11 p = ggplot(mpg, aes(x = displ, y = hwy, color = cty)) + geom_point() p1 = p + scale_color_gradient(low = \"green\", high = \"red\") p2 = p + scale_color_gradient2(low = \"green\", mid = \"grey\", high = \"red\", midpoint = mean(mpg$cty)) p3 = p + scale_color_gradient(\"this is title\", low = \"green\", high = \"red\", breaks = c(10,20,30), label = c(\"Low\",\"Middle\",\"High\")) p1 + p2 + p3 1 2 # ggsci包 p + ggsci::scale_color_gsea() 2、文本格式设置 常用参数有如下\nsize：大小\ncolour：颜色\nangle：旋转(rotate)角度\nhjust/vjust：位置\nface：设置粗体\nfamily：设置字体\n1 2 3 4 5 6 7 8 9 10 11 12 p = ggplot(mpg, aes(x = displ, y = hwy, color = cty)) + geom_point() #设置标题 p = p + labs(title = \"Big Title\", subtitle = \"sub title\", caption = \"caption title\", tag = \"A\") + xlab(\"X title\") + ylab(\"Y title\") p1 = p + theme(text = element_text(size = 15, color = \"red\")) p + p1 1 2 3 4 5 6 7 8 #标题居中 p1 = p + theme(plot.title = element_text(hjust = 0.5)) #旋转x轴标签文本 p2 = p + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) # p + theme(axis.text.x = element_text(angle = 60, vjust = 1, hjust=1)) p3 = p + theme(axis.text.x = element_text(angle = 45, hjust=1)) p4 = p + theme(axis.text.x = element_text(angle = -30, hjust = 0)) p1 / (p2 + p3 + p4) 3、坐标轴设置 1 2 3 4 5 6 7 8 9 10 p = ggplot(mpg, aes(displ, hwy)) + geom_point() p1 = p + scale_x_continuous(limits = c(3, 6)) #切割 # Warning message: # Removed 105 rows containing missing values (geom_point). p2 = p + coord_cartesian(xlim = c(3, 6)) #放大 p3 = p + scale_x_continuous(breaks = c(3, 5, 7), labels = c(\"003\", \"005\", \"007\")) p1 + p2 + p3 1 2 3 4 5 6 7 8 9 10 11 p = ggplot(mpg, aes(x = drv, fill = drv)) + geom_bar() p1 = p + coord_cartesian(ylim = c(0, 150)) + scale_y_continuous(expand = expansion(0)) #贴边 p2 = p + scale_x_discrete(breaks = c(\"4\",\"f\",\"r\"), labels = c(\"444\",\"fff\",\"rrr\"), limits = c(\"r\",\"f\",\"4\")) #自定义标签与顺序 p3 = p + coord_flip() #转置 p1 + p2 + p3 4、添加注释 4.1 文本注释 1 2 3 4 5 6 7 8 9 10 11 p = ggplot(mpg, aes(displ, hwy)) + geom_point() p1 = p + annotate(\"text\", x = 6, y = 40, label = \"annotate() Annotation\") p2 = p + geom_text(x = 6, y = 40, label = \"geom_text() Annotation\") p3 = p + annotate(\"segment\", x = 4, xend = 2.5, y = 35, yend = 40, colour = \"red\", size = 0.5, arrow = arrow(angle = 30, length = unit(0.1, \"inches\"))) p4 = p + annotate(\"rect\", xmin = 6, xmax = 7, ymin = 0, ymax = 50, alpha = .1,fill = \"red\") (p1 + p2) / (p3 + p4) 4.2 直线注释 1 2 3 4 5 6 p1 = p + geom_hline(yintercept = 30) p2 = p + geom_vline(xintercept = 4, linetype=\"dashed\", color=\"red\", size=2) p3 = p + geom_abline(intercept = 20, slope = 1) p1 + p2 + p3 5、分面多图 1 2 3 4 5 6 7 p = ggplot(mpg, aes(displ, hwy)) + geom_point() p1 = p + facet_wrap( ~ class, nrow = 3) p2 = p + facet_grid(drv ~ ., scales = \"free_y\") p3 = p + facet_grid(drv ~ cyl, scales = \"free\") p1 + p2 + p3 6、图例设置 1 2 3 4 5 6 7 8 9 p = ggplot(mpg, aes(x = drv, fill = drv)) + geom_bar() p1 = p + theme(legend.position = \"none\") # \"left\", \"top\", \"right\", \"bottom\", \"none\" p2 = p + theme(legend.position = \"bottom\") p3 = p + theme(legend.position = c(0.9,0.8)) p4 = p + guides(fill = guide_legend(title = \"\", ncol = 2)) (p1 + p2)/(p3 + p4) ",
+  "wordCount" : "1267",
+  "inLanguage": "en",
+  "datePublished": "2022-07-03T00:00:00Z",
+  "dateModified": "2022-07-03T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/program/212r-%E5%8F%AF%E8%A7%86%E5%8C%96-ggplot2%E7%BB%98%E5%9B%BE%E5%9F%BA%E7%A1%80/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/program/">📖 R&amp;Python&amp;Shell --- 编程基础、可视化等</a></div>
+    <h1 class="post-title">
+      R-可视化-ggplot2绘图基础
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-07-03 00:00:00 &#43;0000 UTC&#39;&gt;2022-07-03&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-07-03&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1267&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#1%e9%a2%9c%e8%89%b2%e8%ae%be%e7%bd%ae" aria-label="1、颜色设置">1、颜色设置</a><ul>
+                            
+                    <li>
+                        <a href="#11-%e7%a6%bb%e6%95%a3%e5%9e%8b%e5%8f%98%e9%87%8f%e6%98%a0%e5%b0%84" aria-label="1.1 离散型变量映射">1.1 离散型变量映射</a></li>
+                    <li>
+                        <a href="#12-%e8%bf%9e%e7%bb%ad%e5%9e%8b%e5%8f%98%e9%87%8f%e6%98%a0%e5%b0%84" aria-label="1.2 连续型变量映射">1.2 连续型变量映射</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#2%e6%96%87%e6%9c%ac%e6%a0%bc%e5%bc%8f%e8%ae%be%e7%bd%ae" aria-label="2、文本格式设置">2、文本格式设置</a></li>
+                    <li>
+                        <a href="#3%e5%9d%90%e6%a0%87%e8%bd%b4%e8%ae%be%e7%bd%ae" aria-label="3、坐标轴设置">3、坐标轴设置</a></li>
+                    <li>
+                        <a href="#4%e6%b7%bb%e5%8a%a0%e6%b3%a8%e9%87%8a" aria-label="4、添加注释">4、添加注释</a><ul>
+                            
+                    <li>
+                        <a href="#41-%e6%96%87%e6%9c%ac%e6%b3%a8%e9%87%8a" aria-label="4.1 文本注释">4.1 文本注释</a></li>
+                    <li>
+                        <a href="#42-%e7%9b%b4%e7%ba%bf%e6%b3%a8%e9%87%8a" aria-label="4.2 直线注释">4.2 直线注释</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#5%e5%88%86%e9%9d%a2%e5%a4%9a%e5%9b%be" aria-label="5、分面多图">5、分面多图</a></li>
+                    <li>
+                        <a href="#6%e5%9b%be%e4%be%8b%e8%ae%be%e7%bd%ae" aria-label="6、图例设置">6、图例设置</a>
+                    </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><blockquote>
+<p>ggplot2包一方面可以实现多种形式的数据可视化、比如箱图、柱状图等；另一方面也可以从多个角度进行美化、修饰。对于前者，之前对ggplot2的柱状图、箱图用法进行了详细的学习。关于其它类型的图，例如密度图、折线图、直方图等，可参考他人的总结，例如下面的sthda网站。</p>
+<p><a href="https://www.jianshu.com/p/bafbd08b28ef">R-ggplot2-箱图系列（1） basic - 简书 (jianshu.com)</a></p>
+<p><a href="https://www.jianshu.com/p/2606339a05e7">R-ggplot2-柱状图系列 - 简书 (jianshu.com)</a></p>
+<p><a href="http://www.sthda.com/english/wiki/ggplot2-essentials">http://www.sthda.com/english/wiki/ggplot2-essentials</a></p>
+<p>本篇笔记主要是针对我自己在绘制ggplot图片时，常常要修改的细节方面进行了大致的整理，以方便日后的查询。</p></blockquote>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>library(tidyverse)
+</span></span><span style="display:flex;"><span>library(patchwork)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="1颜色设置">1、颜色设置<a hidden class="anchor" aria-hidden="true" href="#1颜色设置">#</a></h1>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>ggplot(mpg, aes(x = drv)) + 
+</span></span><span style="display:flex;"><span>  geom_bar(color=<span style="color:#0ff;font-weight:bold">&#34;black&#34;</span>, fill=<span style="color:#0ff;font-weight:bold">&#34;grey&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#统一颜色</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#一般color为边框、点的颜色，fill为填充色</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="11-离散型变量映射">1.1 离散型变量映射<a hidden class="anchor" aria-hidden="true" href="#11-离散型变量映射">#</a></h2>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>p = ggplot(mpg, aes(x = drv, fill = drv)) + 
+</span></span><span style="display:flex;"><span>      geom_bar()
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>（1）<code>scale_fill_manual()</code></li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>p1 = p + scale_fill_manual(values = c(<span style="color:#0ff;font-weight:bold">&#34;red&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;blue&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;green&#34;</span>))
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># https://colorbrewer2.org/</span>
+</span></span><span style="display:flex;"><span>p2 = p + scale_fill_manual(<span style="color:#0ff;font-weight:bold">&#34;this is title&#34;</span>,
+</span></span><span style="display:flex;"><span>                      values = c(<span style="color:#0ff;font-weight:bold">&#34;4&#34;</span>=<span style="color:#0ff;font-weight:bold">&#34;green&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;r&#34;</span>=<span style="color:#0ff;font-weight:bold">&#34;red&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;f&#34;</span>=<span style="color:#0ff;font-weight:bold">&#34;blue&#34;</span>))
+</span></span><span style="display:flex;"><span>p3 = p + scale_fill_manual(values = c(<span style="color:#0ff;font-weight:bold">&#34;red&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;blue&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;green&#34;</span>),guide=<span style="color:#0ff;font-weight:bold">&#34;none&#34;</span>)
+</span></span><span style="display:flex;"><span>p1 + p2 + p3
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220703135751325.png" alt="image-20220703135751325"  />
+</p>
+<ul>
+<li>（2）<code>scale_fill_brewer()</code></li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f"># 关于ColorBrewer的色板：https://www.jianshu.com/p/e0179b0a71d6</span>
+</span></span><span style="display:flex;"><span>p1 = p + scale_fill_brewer(<span style="color:#0ff;font-weight:bold">&#34;Set1&#34;</span>, palette = <span style="color:#0ff;font-weight:bold">&#34;Set1&#34;</span>)
+</span></span><span style="display:flex;"><span>p2 = p + scale_fill_brewer(<span style="color:#0ff;font-weight:bold">&#34;Dark2&#34;</span>, palette = <span style="color:#0ff;font-weight:bold">&#34;Dark2&#34;</span>)
+</span></span><span style="display:flex;"><span>p1 + p2
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220703140134133.png" alt="image-20220703140134133"  />
+</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">## (3) scale_fill_grey()</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 0~1 --＞ black~white</span>
+</span></span><span style="display:flex;"><span>p + scale_fill_grey(start = <span style="color:#ff0;font-weight:bold">0.1</span>, end = <span style="color:#ff0;font-weight:bold">0.8</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## (4) ggsci包</span>
+</span></span><span style="display:flex;"><span>p + ggsci::scale_fill_aaas()
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="12-连续型变量映射">1.2 连续型变量映射<a hidden class="anchor" aria-hidden="true" href="#12-连续型变量映射">#</a></h2>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>p = ggplot(mpg, aes(x = displ, y = hwy, color = cty)) + 
+</span></span><span style="display:flex;"><span>      geom_point()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>p1 = p + scale_color_gradient(low = <span style="color:#0ff;font-weight:bold">&#34;green&#34;</span>, high = <span style="color:#0ff;font-weight:bold">&#34;red&#34;</span>)
+</span></span><span style="display:flex;"><span>p2 = p + scale_color_gradient2(low = <span style="color:#0ff;font-weight:bold">&#34;green&#34;</span>, mid = <span style="color:#0ff;font-weight:bold">&#34;grey&#34;</span>, high = <span style="color:#0ff;font-weight:bold">&#34;red&#34;</span>, 
+</span></span><span style="display:flex;"><span>                               midpoint = mean(mpg$cty))
+</span></span><span style="display:flex;"><span>p3 = p + scale_color_gradient(<span style="color:#0ff;font-weight:bold">&#34;this is title&#34;</span>,
+</span></span><span style="display:flex;"><span>                              low = <span style="color:#0ff;font-weight:bold">&#34;green&#34;</span>, high = <span style="color:#0ff;font-weight:bold">&#34;red&#34;</span>,
+</span></span><span style="display:flex;"><span>                              breaks = c(<span style="color:#ff0;font-weight:bold">10</span>,<span style="color:#ff0;font-weight:bold">20</span>,<span style="color:#ff0;font-weight:bold">30</span>),
+</span></span><span style="display:flex;"><span>                              label = c(<span style="color:#0ff;font-weight:bold">&#34;Low&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;Middle&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;High&#34;</span>)) 
+</span></span><span style="display:flex;"><span>p1 + p2 + p3
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220703140643256.png" alt="image-20220703140643256"  />
+</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f"># ggsci包</span>
+</span></span><span style="display:flex;"><span>p + ggsci::scale_color_gsea()
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="2文本格式设置">2、文本格式设置<a hidden class="anchor" aria-hidden="true" href="#2文本格式设置">#</a></h1>
+<p><img loading="lazy" src="https://i0.wp.com/cmdlinetips.com/wp-content/uploads/2021/05/ggplot2_theme_element_text_tricks.png?resize=624%2C383&amp;ssl=1" alt="Tips to Customize Text in ggplot2 plot"  />
+</p>
+<p>常用参数有如下</p>
+<p>size：大小</p>
+<p>colour：颜色</p>
+<p>angle：旋转(rotate)角度</p>
+<p>hjust/vjust：位置</p>
+<p>face：设置粗体</p>
+<p>family：设置字体</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>p = ggplot(mpg, aes(x = displ, y = hwy, color = cty)) + 
+</span></span><span style="display:flex;"><span>  geom_point()
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#设置标题</span>
+</span></span><span style="display:flex;"><span>p = p + labs(title = <span style="color:#0ff;font-weight:bold">&#34;Big Title&#34;</span>,
+</span></span><span style="display:flex;"><span>         subtitle = <span style="color:#0ff;font-weight:bold">&#34;sub title&#34;</span>,
+</span></span><span style="display:flex;"><span>         caption = <span style="color:#0ff;font-weight:bold">&#34;caption title&#34;</span>,
+</span></span><span style="display:flex;"><span>         tag = <span style="color:#0ff;font-weight:bold">&#34;A&#34;</span>) +
+</span></span><span style="display:flex;"><span>  xlab(<span style="color:#0ff;font-weight:bold">&#34;X title&#34;</span>) + 
+</span></span><span style="display:flex;"><span>  ylab(<span style="color:#0ff;font-weight:bold">&#34;Y title&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>p1 = p + theme(text = element_text(size = <span style="color:#ff0;font-weight:bold">15</span>, color = <span style="color:#0ff;font-weight:bold">&#34;red&#34;</span>))
+</span></span><span style="display:flex;"><span>p + p1
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220703142435572.png" alt="image-20220703142435572" style="zoom: 67%;" />
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">#标题居中</span>
+</span></span><span style="display:flex;"><span>p1 = p + theme(plot.title = element_text(hjust = <span style="color:#ff0;font-weight:bold">0.5</span>))
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#旋转x轴标签文本</span>
+</span></span><span style="display:flex;"><span>p2 = p + theme(axis.text.x = element_text(angle = <span style="color:#ff0;font-weight:bold">90</span>, vjust = <span style="color:#ff0;font-weight:bold">0.5</span>, hjust=<span style="color:#ff0;font-weight:bold">1</span>))
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># p + theme(axis.text.x = element_text(angle = 60, vjust = 1, hjust=1))</span>
+</span></span><span style="display:flex;"><span>p3 = p + theme(axis.text.x = element_text(angle = <span style="color:#ff0;font-weight:bold">45</span>, hjust=<span style="color:#ff0;font-weight:bold">1</span>))
+</span></span><span style="display:flex;"><span>p4 = p + theme(axis.text.x = element_text(angle = <span style="color:#ff0;font-weight:bold">-30</span>, hjust = <span style="color:#ff0;font-weight:bold">0</span>))
+</span></span><span style="display:flex;"><span>p1 / (p2 + p3 + p4)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220703143413305.png" alt="image-20220703143413305" style="zoom: 67%;" />
+<h1 id="3坐标轴设置">3、坐标轴设置<a hidden class="anchor" aria-hidden="true" href="#3坐标轴设置">#</a></h1>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>p = ggplot(mpg, aes(displ, hwy)) + 
+</span></span><span style="display:flex;"><span>      geom_point()
+</span></span><span style="display:flex;"><span>p1 = p + scale_x_continuous(limits = c(<span style="color:#ff0;font-weight:bold">3</span>, <span style="color:#ff0;font-weight:bold">6</span>))  <span style="color:#007f7f">#切割</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Warning message:</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Removed 105 rows containing missing values (geom_point).</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>p2 = p + coord_cartesian(xlim = c(<span style="color:#ff0;font-weight:bold">3</span>, <span style="color:#ff0;font-weight:bold">6</span>))       <span style="color:#007f7f">#放大</span>
+</span></span><span style="display:flex;"><span>p3 = p + scale_x_continuous(breaks = c(<span style="color:#ff0;font-weight:bold">3</span>, <span style="color:#ff0;font-weight:bold">5</span>, <span style="color:#ff0;font-weight:bold">7</span>),
+</span></span><span style="display:flex;"><span>                       labels = c(<span style="color:#0ff;font-weight:bold">&#34;003&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;005&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;007&#34;</span>))
+</span></span><span style="display:flex;"><span>p1 + p2 + p3
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220703150557378.png" alt="image-20220703150557378"  />
+</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>p = ggplot(mpg, aes(x = drv, fill = drv)) + 
+</span></span><span style="display:flex;"><span>  geom_bar()
+</span></span><span style="display:flex;"><span>p1 = p + coord_cartesian(ylim = c(<span style="color:#ff0;font-weight:bold">0</span>, <span style="color:#ff0;font-weight:bold">150</span>)) +
+</span></span><span style="display:flex;"><span>  scale_y_continuous(expand = expansion(<span style="color:#ff0;font-weight:bold">0</span>))  <span style="color:#007f7f">#贴边</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>p2 = p + scale_x_discrete(breaks = c(<span style="color:#0ff;font-weight:bold">&#34;4&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;f&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;r&#34;</span>),
+</span></span><span style="display:flex;"><span>                          labels = c(<span style="color:#0ff;font-weight:bold">&#34;444&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;fff&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;rrr&#34;</span>),
+</span></span><span style="display:flex;"><span>                          limits = c(<span style="color:#0ff;font-weight:bold">&#34;r&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;f&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;4&#34;</span>))  <span style="color:#007f7f">#自定义标签与顺序</span>
+</span></span><span style="display:flex;"><span>p3 = p + coord_flip()    <span style="color:#007f7f">#转置</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>p1 + p2 + p3
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220703150934408.png" alt="image-20220703150934408"  />
+</p>
+<h1 id="4添加注释">4、添加注释<a hidden class="anchor" aria-hidden="true" href="#4添加注释">#</a></h1>
+<h2 id="41-文本注释">4.1 文本注释<a hidden class="anchor" aria-hidden="true" href="#41-文本注释">#</a></h2>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>p = ggplot(mpg, aes(displ, hwy)) + 
+</span></span><span style="display:flex;"><span>        geom_point()
+</span></span><span style="display:flex;"><span>p1 = p + annotate(<span style="color:#0ff;font-weight:bold">&#34;text&#34;</span>, x = <span style="color:#ff0;font-weight:bold">6</span>, y = <span style="color:#ff0;font-weight:bold">40</span>, label = <span style="color:#0ff;font-weight:bold">&#34;annotate() Annotation&#34;</span>)
+</span></span><span style="display:flex;"><span>p2 = p + geom_text(x = <span style="color:#ff0;font-weight:bold">6</span>, y = <span style="color:#ff0;font-weight:bold">40</span>, label = <span style="color:#0ff;font-weight:bold">&#34;geom_text() Annotation&#34;</span>)
+</span></span><span style="display:flex;"><span>p3 = p + annotate(<span style="color:#0ff;font-weight:bold">&#34;segment&#34;</span>, x = <span style="color:#ff0;font-weight:bold">4</span>, xend = <span style="color:#ff0;font-weight:bold">2.5</span>, y = <span style="color:#ff0;font-weight:bold">35</span>, yend = <span style="color:#ff0;font-weight:bold">40</span>,
+</span></span><span style="display:flex;"><span>             colour = <span style="color:#0ff;font-weight:bold">&#34;red&#34;</span>, size = <span style="color:#ff0;font-weight:bold">0.5</span>, 
+</span></span><span style="display:flex;"><span>             arrow = arrow(angle = <span style="color:#ff0;font-weight:bold">30</span>, length = unit(<span style="color:#ff0;font-weight:bold">0.1</span>, <span style="color:#0ff;font-weight:bold">&#34;inches&#34;</span>)))
+</span></span><span style="display:flex;"><span>p4 = p + annotate(<span style="color:#0ff;font-weight:bold">&#34;rect&#34;</span>, xmin = <span style="color:#ff0;font-weight:bold">6</span>, xmax = <span style="color:#ff0;font-weight:bold">7</span>, ymin = <span style="color:#ff0;font-weight:bold">0</span>, ymax = <span style="color:#ff0;font-weight:bold">50</span>,
+</span></span><span style="display:flex;"><span>             alpha = <span style="color:#ff0;font-weight:bold">.1</span>,fill = <span style="color:#0ff;font-weight:bold">&#34;red&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>(p1 + p2) / (p3 + p4) 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220703155754046.png" alt="image-20220703155754046" style="zoom:80%;" />
+<h2 id="42-直线注释">4.2 直线注释<a hidden class="anchor" aria-hidden="true" href="#42-直线注释">#</a></h2>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>p1 = p + geom_hline(yintercept = <span style="color:#ff0;font-weight:bold">30</span>)
+</span></span><span style="display:flex;"><span>p2 = p + geom_vline(xintercept = <span style="color:#ff0;font-weight:bold">4</span>, 
+</span></span><span style="display:flex;"><span>               linetype=<span style="color:#0ff;font-weight:bold">&#34;dashed&#34;</span>, color=<span style="color:#0ff;font-weight:bold">&#34;red&#34;</span>, size=<span style="color:#ff0;font-weight:bold">2</span>)
+</span></span><span style="display:flex;"><span>p3 = p + geom_abline(intercept = <span style="color:#ff0;font-weight:bold">20</span>, slope = <span style="color:#ff0;font-weight:bold">1</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>p1 + p2 + p3
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220703155843063.png" alt="image-20220703155843063" style="zoom: 67%;" />
+<h1 id="5分面多图">5、分面多图<a hidden class="anchor" aria-hidden="true" href="#5分面多图">#</a></h1>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>p = ggplot(mpg, aes(displ, hwy)) + 
+</span></span><span style="display:flex;"><span>        geom_point()
+</span></span><span style="display:flex;"><span>p1 = p + facet_wrap( ~ class, nrow = <span style="color:#ff0;font-weight:bold">3</span>)
+</span></span><span style="display:flex;"><span>p2 = p + facet_grid(drv ~ ., scales = <span style="color:#0ff;font-weight:bold">&#34;free_y&#34;</span>)
+</span></span><span style="display:flex;"><span>p3 = p + facet_grid(drv ~ cyl, scales = <span style="color:#0ff;font-weight:bold">&#34;free&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>p1 + p2 + p3
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220703162311073.png" alt="image-20220703162311073"  />
+</p>
+<h1 id="6图例设置">6、图例设置<a hidden class="anchor" aria-hidden="true" href="#6图例设置">#</a></h1>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>p = ggplot(mpg, aes(x = drv, fill = drv)) + 
+</span></span><span style="display:flex;"><span>  geom_bar()
+</span></span><span style="display:flex;"><span>p1 = p + theme(legend.position = <span style="color:#0ff;font-weight:bold">&#34;none&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#  &#34;left&#34;, &#34;top&#34;, &#34;right&#34;, &#34;bottom&#34;, &#34;none&#34;</span>
+</span></span><span style="display:flex;"><span>p2 = p + theme(legend.position = <span style="color:#0ff;font-weight:bold">&#34;bottom&#34;</span>)
+</span></span><span style="display:flex;"><span>p3 = p + theme(legend.position = c(<span style="color:#ff0;font-weight:bold">0.9</span>,<span style="color:#ff0;font-weight:bold">0.8</span>))
+</span></span><span style="display:flex;"><span>p4 = p + guides(fill = guide_legend(title = <span style="color:#0ff;font-weight:bold">&#34;&#34;</span>, ncol = <span style="color:#ff0;font-weight:bold">2</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>(p1 + p2)/(p3 + p4)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220703164151686.png" alt="image-20220703164151686" style="zoom:67%;" />
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/r%E5%8F%AF%E8%A7%86%E5%8C%96/">R可视化</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/en/posts/program/211r-%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90-reshape2%E8%A1%A8%E6%A0%BC%E9%95%BF%E7%9F%AD%E8%BD%AC%E6%8D%A2/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>R-数据分析-reshape2表格长短转换</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/en/posts/program/213r-%E5%8F%AF%E8%A7%86%E5%8C%96-ggpubr%E5%8C%85%E5%BF%AB%E9%80%9F%E7%BB%98%E5%88%B6%E7%82%B9%E5%9B%BE%E7%BA%BF%E5%9B%BE%E4%B8%8E%E6%9F%B1%E7%8A%B6%E5%9B%BE/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>R-可视化-ggpubr包快速绘制点图、线图与柱状图</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

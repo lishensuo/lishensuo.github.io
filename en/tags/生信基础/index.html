@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>生信基础 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="李申锁的博客，记录生信学习过程。R/Python/Shell">
+<meta name="author" content="">
+<link rel="canonical" href="https://lishensuo.github.io/en/tags/%E7%94%9F%E4%BF%A1%E5%9F%BA%E7%A1%80/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="https://lishensuo.github.io/en/tags/%E7%94%9F%E4%BF%A1%E5%9F%BA%E7%A1%80/index.xml">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/tags/%E7%94%9F%E4%BF%A1%E5%9F%BA%E7%A1%80/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="生信基础" />
+<meta property="og:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://lishensuo.github.io/en/tags/%E7%94%9F%E4%BF%A1%E5%9F%BA%E7%A1%80/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="生信基础"/>
+<meta name="twitter:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell"/>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header"><div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/tags/">Tags</a></div>
+  <h1>生信基础</h1>
+</header>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>使用clusterProfiler下载GO&amp;KEGG通路基因
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1、GO 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 GO_data &lt;- clusterProfiler:::get_GO_data(&#34;org.Hs.eg.db&#34;, &#34;ALL&#34;, &#34;SYMBOL&#34;) names(GO_data) # [1] &#34;PATHID2NAME&#34; &#34;EXTID2PATHID&#34; &#34;GO2ONT&#34; &#34;PATHID2EXTID&#34; ###（1）GO term的组成基因 class(GO_data$PATHID2EXTID) #[1] &#34;list&#34; GO_data$PATHID2EXTID[1] # $`GO:0000002` # [1] &#34;PARP1&#34; &#34;SLC25A4&#34; &#34;DNA2&#34; &#34;TYMP&#34; &#34;LIG3&#34; &#34;MEF2A&#34; # [7] &#34;MPV17&#34; &#34;OPA1&#34; &#34;TOP3A&#34; &#34;TP53&#34; &#34;LONP1&#34; &#34;AKT3&#34; # [13] &#34;PPARGC1A&#34; &#34;POLG2&#34; &#34;SLC25A36&#34; &#34;PIF1&#34; &#34;SESN2&#34; &#34;SLC25A33&#34; # [19] &#34;MGME1&#34; &#34;PRIMPOL&#34; &#34;STOX1&#34; ###（2）基因所涉及的通路 class(GO_data$EXTID2PATHID) #[1] &#34;list&#34; GO_data$EXTID2PATHID[1] # $A1BG # [1] &#34;GO:0001775&#34; &#34;GO:0002252&#34; &#34;GO:0002263&#34; &#34;GO:0002274&#34; &#34;GO:0002275&#34; &#34;GO:0002283&#34; &#34;GO:0002366&#34; # [8] &#34;GO:0002376&#34; &#34;GO:0002443&#34; &#34;GO:0002444&#34; &#34;GO:0002446&#34; &#34;GO:0002576&#34; &#34;GO:0003674&#34; &#34;GO:0005575&#34; # ... ###（3）GO term的名字 class(GO_data$PATHID2NAME) #[1] &#34;character&#34; GO_data$PATHID2NAME[1] # GO:0000001 # &#34;mitochondrion inheritance&#34; ###（4）GO term的类别 class(GO_data$GO2ONT) #[1] &#34;character&#34; GO_data$GO2ONT[1] # GO:0000002 # &#34;BP&#34; table(GO_data$GO2ONT) # BP CC MF # 16013 1981 4755 library(tidyverse) go_name = reshape2::melt(GO_data$PATHID2NAME) %&gt;% rownames_to_column(&#34;ID&#34;) %&gt;% dplyr::rename(&#34;Name&#34;=&#34;value&#34;) go_type = reshape2::melt(GO_data$GO2ONT) %&gt;% rownames_to_column(&#34;ID&#34;) %&gt;% dplyr::rename(&#34;Type&#34;=&#34;value&#34;) go_info = inner_join(go_name, go_type) %&gt;% dplyr::mutate(GSEA=toupper(gsub(&#34; &#34;,&#34;_&#34;,paste0(&#34;GO&#34;,Type,&#34; &#34;,Name)))) dim(go_info) head(go_info) table(rownames(brca_enrich_kegg) %in% go_info$GSEA) # ID Name Type # 1 GO:0000002 mitochondrial genome maintenance BP # 2 GO:0000003 reproduction BP # 3 GO:0000009 alpha-1,6-mannosyltransferase activity MF # 4 GO:0000010 trans-hexaprenyltranstransferase activity MF # 5 GO:0000012 single strand break repair BP # 6 GO:0000014 single-stranded DNA endodeoxyribonuclease activity MF # GSEA # 1 GOBP_MITOCHONDRIAL_GENOME_MAINTENANCE # 2 GOBP_REPRODUCTION # 3 GOMF_ALPHA-1,6-MANNOSYLTRANSFERASE_ACTIVITY # 4 GOMF_TRANS-HEXAPRENYLTRANSTRANSFERASE_ACTIVITY # 5 GOBP_SINGLE_STRAND_BREAK_REPAIR # 6 GOMF_SINGLE-STRANDED_DNA_ENDODEOXYRIBONUCLEASE_ACTIVITY 此外 GO.db包也提供了除组成基因以外的GO注释信息 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 library(GO.db) keytypes(GO.db) # [1] &#34;DEFINITION&#34; &#34;GOID&#34; &#34;ONTOLOGY&#34; &#34;TERM&#34; goids = keys(GO.db, keytype = &#34;GOID&#34;)[1:3] # [1] &#34;GO:0000001&#34; &#34;GO:0000002&#34; &#34;GO:0000003&#34; goids_anno = AnnotationDbi::select(GO.db, keys = goids, columns = c(&#34;TERM&#34;,&#34;ONTOLOGY&#34;,&#34;DEFINITION&#34;), #其中DEFINITION为term的详细描述 keytype=&#34;GOID&#34;) #所有的BP term的GO id goBP = select(GO.db, keys = &#34;BP&#34;, columns = c(&#34;GOID&#34;), keytype=&#34;ONTOLOGY&#34;) 2、KEGG 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 hsa_kegg &lt;- clusterProfiler::download_KEGG(&#34;hsa&#34;) names(hsa_kegg) # [1] &#34;KEGGPATHID2EXTID&#34; &#34;KEGGPATHID2NAME&#34; ### KEGG id与name head(z) # from to # 1 hsa00010 Glycolysis / Gluconeogenesis # 2 hsa00020 Citrate cycle (TCA cycle) # 3 hsa00030 Pentose phosphate pathway ### KEGG id的组成基因 head(hsa_kegg$KEGGPATHID2EXTID) # from to # 1 hsa00010 10327 # 2 hsa00010 124 # 3 hsa00010 125 </p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-16 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-16&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-04-16&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;528&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 使用clusterProfiler下载GO&KEGG通路基因" href="https://lishensuo.github.io/en/posts/bioinfo/052%E4%BD%BF%E7%94%A8clusterprofiler%E4%B8%8B%E8%BD%BDgokegg%E9%80%9A%E8%B7%AF%E5%9F%BA%E5%9B%A0/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>人类基因组基础知识与下载查询
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>一、基因组大小 （1）人类基因组主要由细胞核的23对染色体组成(核基因组)，还包括线粒体中的小DNA分子(线粒体基因组)。
+（2）单倍体基因组大概有30亿个碱基对组成，具体到每个染色体的碱基对长度与基因数量如下所示(参照UCSC的hg38)。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-05-28 00:00:00 &#43;0000 UTC&#39;&gt;2022-05-28&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-05-28&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;3802&amp;nbsp;|&amp;nbsp;8 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 人类基因组基础知识与下载查询" href="https://lishensuo.github.io/en/posts/bioinfo/053%E4%BA%BA%E7%B1%BB%E5%9F%BA%E5%9B%A0%E7%BB%84%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E4%B8%8E%E4%B8%8B%E8%BD%BD%E6%9F%A5%E8%AF%A2/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>基因-蛋白-化合物ID转换
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1、不同基因ID转换 1.1 org.Hs.eg.db包 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 library(dplyr) library(org.Hs.eg.db) keytypes(org.Hs.eg.db) # [1] &#34;ACCNUM&#34; &#34;ALIAS&#34; &#34;ENSEMBL&#34; &#34;ENSEMBLPROT&#34; &#34;ENSEMBLTRANS&#34; &#34;ENTREZID&#34; # [7] &#34;ENZYME&#34; &#34;EVIDENCE&#34; &#34;EVIDENCEALL&#34; &#34;GENENAME&#34; &#34;GENETYPE&#34; &#34;GO&#34; # [13] &#34;GOALL&#34; &#34;IPI&#34; &#34;MAP&#34; &#34;OMIM&#34; &#34;ONTOLOGY&#34; &#34;ONTOLOGYALL&#34; # [19] &#34;PATH&#34; &#34;PFAM&#34; &#34;PMID&#34; &#34;PROSITE&#34; &#34;REFSEQ&#34; &#34;SYMBOL&#34; # [25] &#34;UCSCKG&#34; &#34;UNIPROT&#34; gene_symbol=c(&#34;RHO&#34;,&#34;CALM1&#34;,&#34;MEG3&#34;,&#34;GNGT1&#34;,&#34;SAG&#34;,&#34;RPGRIP1&#34;,&#34;TRPM1&#34;,&#34;PCP2&#34;,&#34;PCP4&#34;,&#34;AP1B1&#34;) gene_ids&lt;-AnnotationDbi::select(org.Hs.eg.db, keys=as.character(gene_symbol), columns=c(&#34;ENSEMBL&#34;,&#34;ENTREZID&#34;), #目标格式 keytype=&#34;SYMBOL&#34;) #目前的格式 gene_ids ##去重 gene_ids %&gt;% dplyr::distinct(ENTREZID, .keep_all = T) # SYMBOL ENSEMBL ENTREZID # 1 RHO ENSG00000163914 6010 # 2 CALM1 ENSG00000198668 801 # 3 MEG3 ENSG00000214548 55384 # 4 GNGT1 ENSG00000127928 2792 # 5 SAG ENSG00000130561 6295 # 6 RPGRIP1 ENSG00000092200 57096 # 7 TRPM1 ENSG00000134160 4308 # 8 PCP2 ENSG00000174788 126006 # 9 PCP4 ENSG00000183036 5121 # 10 AP1B1 ENSG00000100280 162 1.2 biomaRt包 1 2 3 4 5 6 7 8 9 10 11 12 library(&#34;biomaRt&#34;) ensembl = useMart(&#34;ensembl&#34;,dataset=&#34;hsapiens_gene_ensembl&#34;) attributes = listAttributes(ensembl) attributes[1:5,] # library(httr) # httr::set_config(config(ssl_verifypeer = 0L)) gene_symbol=c(&#34;RHO&#34;,&#34;CALM1&#34;,&#34;MEG3&#34;,&#34;GNGT1&#34;,&#34;SAG&#34;,&#34;RPGRIP1&#34;,&#34;TRPM1&#34;,&#34;PCP2&#34;,&#34;PCP4&#34;,&#34;AP1B1&#34;) gene_ids2 &lt;- getBM(filters= &#34;hgnc_symbol&#34;, attributes= c(&#34;hgnc_symbol&#34;,&#34;ensembl_gene_id&#34;,&#34;entrezgene_id&#34;), values = gene_symbol, mart= ensembl) gene_ids2 2、鼠源基因转为人类基因ID 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 musGenes &lt;- c(&#34;Hmmr&#34;, &#34;Tlx3&#34;, &#34;Cpeb4&#34;) ## 方式1：直接大小写转换 toupper(musGenes) # [1] &#34;HMMR&#34; &#34;TLX3&#34; &#34;CPEB4&#34; ## 方式2：通过biomaRt包（不稳定） require(&#34;biomaRt&#34;) # library(httr) # httr::set_config(config(ssl_verifypeer = 0L)) human = useMart(&#34;ensembl&#34;, dataset = &#34;hsapiens_gene_ensembl&#34;,host = &#34;dec2021.archive.ensembl.org&#34;) mouse = useMart(&#34;ensembl&#34;, dataset = &#34;mmusculus_gene_ensembl&#34;,host = &#34;dec2021.archive.ensembl.org&#34;) genes = getLDS(attributes = c(&#34;mgi_symbol&#34;), filters = &#34;mgi_symbol&#34;, values = musGenes, mart = mouse, attributesL = c(&#34;hgnc_symbol&#34;), martL = human, uniqueRows=T) ## 方式3：MGI 数据库 # https://support.bioconductor.org/p/129636/ library(dplyr) mouse_human_genes = read.csv(&#34;http://www.informatics.jax.org/downloads/reports/HOM_MouseHumanSequence.rpt&#34;,sep=&#34;\t&#34;) convert_mouse_to_human &lt;- function(gene_list){ output = c() for(gene in gene_list){ class_key = (mouse_human_genes %&gt;% filter(Symbol == gene &amp; Common.Organism.Name==&#34;mouse, laboratory&#34;))[[&#39;DB.Class.Key&#39;]] if(!identical(class_key, integer(0)) ){ human_genes = (mouse_human_genes %&gt;% filter(DB.Class.Key == class_key &amp; Common.Organism.Name==&#34;human&#34;))[,&#34;Symbol&#34;] for(human_gene in human_genes){ output = append(output,human_gene) } } } return (output) } convert_mouse_to_human(musGenes) # 1] &#34;HMMR&#34; &#34;TLX3&#34; &#34;CPEB4&#34; 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 # # https://github.com/lishensuo/utils # # library(&#34;biomaRt&#34;) # # library(httr) # # httr::set_config(config(ssl_verifypeer = 0L)) # human = useMart(&#34;ensembl&#34;, dataset = &#34;hsapiens_gene_ensembl&#34;,host = &#34;dec2021.archive.ensembl.org&#34;) # mouse = useMart(&#34;ensembl&#34;, dataset = &#34;mmusculus_gene_ensembl&#34;,host = &#34;dec2021.archive.ensembl.org&#34;) # # # https://www.gencodegenes.org/mouse/ # dat = data.table::fread(&#34;gencode.vM33.basic.annotation.gtf.gz&#34;) # dat = subset(dat, V3 == &#34;gene&#34;) # dat_sub = dat[,&#34;V9&#34;] %&gt;% # separate(V9, into = c(&#34;gene_id&#34;,&#34;gene_type&#34;,&#34;gene_name&#34;,&#34;mgi_id&#34;,&#34;havana_gene&#34;), sep = &#34;; &#34;) # dat_sub$gene_name2 = gsub(&#39;gencode.vM33.basic.annotation.gtf.gz &#34;&#39;,&#39;&#39;,dat_sub$gene_name) # dat_sub$gene_name2 = gsub(&#39;&#34;&#39;,&#39;&#39;,dat_sub$gene_name2) # # genes = getLDS(attributes = c(&#34;mgi_symbol&#34;), filters = &#34;mgi_symbol&#34;, # values = dat_sub$gene_name2, # mart = mouse, # attributesL = c(&#34;hgnc_symbol&#34;), # martL = human, uniqueRows=T) # write.csv(genes, file = &#34;mgi2hgnc_biomart.csv&#34;, row.names = F, quote = F) # head(genes) 3、蛋白质与基因ID转换 https://www.uniprot.org/uploadlists/ ...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-05-28 00:00:00 &#43;0000 UTC&#39;&gt;2022-05-28&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-01-22&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2488&amp;nbsp;|&amp;nbsp;5 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 基因-蛋白-化合物ID转换" href="https://lishensuo.github.io/en/posts/bioinfo/054%E5%9F%BA%E5%9B%A0-%E8%9B%8B%E7%99%BD-%E5%8C%96%E5%90%88%E7%89%A9id%E8%BD%AC%E6%8D%A2/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>survival包生存分析及glmnet包lasso回归
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 生存分析(survival analysis)的主要目的是发现与患者生存事件相关的指标因素，例如年龄性别、基因表达/突变等。如下学习相关基础知识及几种常见的生存分析方法。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-01-28 00:00:00 &#43;0000 UTC&#39;&gt;2023-01-28&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-01-29&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;3794&amp;nbsp;|&amp;nbsp;8 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to survival包生存分析及glmnet包lasso回归" href="https://lishensuo.github.io/en/posts/bioinfo/059survival%E5%8C%85%E7%94%9F%E5%AD%98%E5%88%86%E6%9E%90%E5%8F%8Aglmnet%E5%8C%85lasso%E5%9B%9E%E5%BD%92/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>生信相关网站数据库集锦
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1、HPA HPA：the Human Protein Atlas，由2003年来自瑞典的科研机构发起，旨在绘制综合性人类蛋白质图谱。 https://www.proteinatlas.org/ 蛋白质表达数据库，常见用途包括： （1）查看特定基因在不同组织、脑区，细胞类型，组织细胞类型，疾病（癌症），免疫细胞，肿瘤细胞系等表达情况。 （2）数据挖掘类文章常使用其进行比较基因在肿瘤部位与相应正常部位的蛋白水平表达差异。 2、ENCORI ENCORI，The Encyclopedia of RNA Interactomes，由中山大学生命科学学院屈良鹄团队开发，于2014年发表于Nucleic Acids Res。 https://starbase.sysu.edu.cn/index.php miRNA、lncRNA、RBP等多维相互作用网络，常见用途包括 miRNA/RBP的靶标查询(mRNA,lncRNA…) RNA interaction, ceRNA network TCGA肿瘤的差异表达，生存分析，相关性等 3、TCIA TCIA，The Cancer Immunome Database，由来自奥地利的因斯布鲁克大学医学院Zlatko Trajanoski团队开发，于2017年发表于Cell Reports https://tcia.at/home 20种solid cancer的免疫相关分析，例如 免疫基因表达、细胞浸润、肿瘤亚克隆等 亮点之一是提出Immunophenoscore指标用于预测免疫治疗响应 https://github.com/icbi-lab/Immunophenogram 样本临床信息也整理的较为完整 ...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-04-02 00:00:00 &#43;0000 UTC&#39;&gt;2023-04-02&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-04-02&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;832&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 生信相关网站数据库集锦" href="https://lishensuo.github.io/en/posts/bioinfo/075%E7%94%9F%E4%BF%A1%E7%9B%B8%E5%85%B3%E7%BD%91%E7%AB%99%E6%95%B0%E6%8D%AE%E5%BA%93%E9%9B%86%E9%94%A6/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>MsigDB基因集数据库
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 官方介绍：https://www.gsea-msigdb.org/gsea/msigdb/
+下载界面：http://www.gsea-msigdb.org/gsea/downloads.jsp
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-21 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-21&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-05-06&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2279&amp;nbsp;|&amp;nbsp;5 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to MsigDB基因集数据库" href="https://lishensuo.github.io/en/posts/bioinfo/152%E6%95%B0%E6%8D%AE%E5%BA%93--%E9%80%9A%E8%B7%AF%E5%9F%BA%E5%9B%A0%E9%9B%86msigdb/"></a>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

@@ -1,0 +1,2307 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>D2L--第二章预备知识 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="深度学习, D2L">
+<meta name="description" content="1. 数据操作
+1.1 入门
+
+
+张量：具有多个维度（轴）的数组。
+具有一个轴的张量，对应数学上的向量；
+具有两个轴的张量，对应数学上的矩阵。
+
+
+创建张量
+
+
+
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+
+
+import torch
+
+x = torch.arange(12) # 长度为12个行向量
+
+torch.zeros((2, 3, 4))
+torch.ones((2, 3, 4))
+torch.randn(3, 4)
+
+torch.tensor([[2,1,4,3],[1,2,3,4],[4,3,2,1]])
+
+
+
+基本信息
+
+
+
+1
+2
+3
+4
+5
+
+
+x.shape
+x.numel #元素个数
+X = x.reshape(3, 4) #修改形状
+x.reshape(-1, 4)
+x.reshape(3, -1)
+
+
+1.2 运算符
+
+任意两个形状相同的张量，执行基本运算符时，均为按元素操作，结果的形状不变。
+
+
+
+1
+2
+3
+4
+
+
+x = torch.tensor([1.0, 2, 3, 4])
+y = torch.tensor([2, 2, 2, 2])
+
+x-y, x&#43;y, x*x, x/y, x**y
+
+
+
+张量连接操作concatenate
+
+
+
+1
+2
+3
+4
+5
+
+
+x = torch.arange(12, dtype = torch.float32).reshape(3, 4)
+y = torch.tensor([[2,1,4,3],[1,2,3,4],[4,3,2,1]])
+
+torch.cat((x, y), dim = 0) #纵向拼接，增加轴0的维度/行
+torch.cat((x, y), dim = 1) #横向拼接，增加轴1的维度/列
+
+
+
+逻辑运算符构建逻辑张量
+
+
+
+1
+
+
+x == y
+
+
+1.3 广播机制
+
+形状不同的两个张量执行基本运算时，会适当复制元素扩展数组，使二者具有相同形状，再按元素计算
+
+
+
+1
+2
+3
+4
+5
+6
+
+
+x = torch.arange(6)
+x &#43; torch.tensor(1)
+
+a = torch.arange(3).reshape(3, 1)
+b = torch.arange(2).reshape(1, 2)
+a &#43; b
+
+
+1.4 索引切片
+
+类似Python数组操作
+
+
+
+1
+2
+3
+4
+
+
+X = torch.arange(12).reshape(3, 4)
+X[-1]  #最后一行
+X[1:3] #第二、三行
+X[:, 1:3] #第二、三列
+
+
+1.5 节省内存
+
+变量名赋值新的计算结果时，会重新分配内存
+
+
+
+1
+2
+3
+4
+5
+6
+
+
+a = torch.tensor(0)
+before = id(a) #内存地址
+
+a = a &#43; torch.tensor(1) # 重新分配内存
+id(a) == before
+# False
+
+
+
+原地更新、覆盖先前的计算结果
+
+
+
+1
+2
+3
+4
+5
+
+
+a = torch.tensor(0)
+before = id(a) #内存地址
+
+a[:] = a &#43; torch.tensor(1)
+id(a) == before
+
+
+1.6 转为其它Python对象
+
+转为Numpy数组
+
+
+
+1
+2
+3
+
+
+A = X.numpy() # tensor→numpy
+
+torch.tensor(A) # numpy→tensor
+
+
+
+大小为1的张量转为Python标量
+
+
+
+1
+2
+3
+4
+5
+
+
+a = torch.tensor(3.0)
+
+a.item()
+float(a)
+int(a)
+
+
+2. 数据预处理
+2.1 读取数据集
+
+
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+
+
+import os
+import pandas as pd
+
+os.makedirs(os.path.join(&#39;..&#39;,&#39;data&#39;), exist_ok=True) #上一级目录创建data文件夹
+data_file = os.path.join(&#39;..&#39;, &#39;data&#39;, &#39;house_tiny.csv&#39;)
+with open(data_file, &#39;w&#39;) as f:
+    f.write(&#39;NumRooms,Alley,Price\n&#39;) #列名
+    f.write(&#39;NA,Pave,127500\n&#39;) #每行一个样本
+    f.write(&#39;2,NA,106000\n&#39;)
+    f.write(&#39;4,NA,178100\n&#39;)
+    f.write(&#39;NA,NA,140000\n&#39;)    
+    
+data = pd.read_csv(data_file)
+data
+
+
+2.2 处理缺失值
+
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+
+
+inputs, outputs = data.iloc[:, 0:2], data.iloc[:, 2] #按列拆分为两个表
+
+# 数值缺失值填充
+inputs = inputs.fillna(inputs.mean(numeric_only=True))
+inputs
+
+# 类别缺失值填充
+inputs = pd.get_dummies(inputs, dummy_na=True, dtype = float)
+inputs
+
+
+2.3 转换为张量
+
+
+1
+2
+3
+4
+
+
+import torch
+X, y = torch.tensor(inputs.values), torch.tensor(outputs.values)
+X, y
+# 深度学习通常用float32
+
+
+3. 线性代数
+3.1 标量
+
+只有一个元素的张量
+普通、小写的字母表示
+
+
+
+1
+2
+3
+4
+5
+6
+
+
+import torch
+
+x = torch.tensor(3.0)
+y = torch.tensor(4.0)
+
+x &#43; y, x - y, x / y, x ** y
+
+
+3.2 向量
+
+具有一个轴的张量
+粗体、小写的字母表示
+
+
+
+1
+2
+3
+
+
+x = torch.arange(4)
+x
+x.shape
+
+
+
+向量/轴的维度表示向量或轴的长度；">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/bioinfo/705d2l-%E7%AC%AC%E4%BA%8C%E7%AB%A0%E9%A2%84%E5%A4%87%E7%9F%A5%E8%AF%86/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/bioinfo/705d2l-%E7%AC%AC%E4%BA%8C%E7%AB%A0%E9%A2%84%E5%A4%87%E7%9F%A5%E8%AF%86/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="D2L--第二章预备知识" />
+<meta property="og:description" content="1. 数据操作
+1.1 入门
+
+
+张量：具有多个维度（轴）的数组。
+具有一个轴的张量，对应数学上的向量；
+具有两个轴的张量，对应数学上的矩阵。
+
+
+创建张量
+
+
+
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+
+
+import torch
+
+x = torch.arange(12) # 长度为12个行向量
+
+torch.zeros((2, 3, 4))
+torch.ones((2, 3, 4))
+torch.randn(3, 4)
+
+torch.tensor([[2,1,4,3],[1,2,3,4],[4,3,2,1]])
+
+
+
+基本信息
+
+
+
+1
+2
+3
+4
+5
+
+
+x.shape
+x.numel #元素个数
+X = x.reshape(3, 4) #修改形状
+x.reshape(-1, 4)
+x.reshape(3, -1)
+
+
+1.2 运算符
+
+任意两个形状相同的张量，执行基本运算符时，均为按元素操作，结果的形状不变。
+
+
+
+1
+2
+3
+4
+
+
+x = torch.tensor([1.0, 2, 3, 4])
+y = torch.tensor([2, 2, 2, 2])
+
+x-y, x&#43;y, x*x, x/y, x**y
+
+
+
+张量连接操作concatenate
+
+
+
+1
+2
+3
+4
+5
+
+
+x = torch.arange(12, dtype = torch.float32).reshape(3, 4)
+y = torch.tensor([[2,1,4,3],[1,2,3,4],[4,3,2,1]])
+
+torch.cat((x, y), dim = 0) #纵向拼接，增加轴0的维度/行
+torch.cat((x, y), dim = 1) #横向拼接，增加轴1的维度/列
+
+
+
+逻辑运算符构建逻辑张量
+
+
+
+1
+
+
+x == y
+
+
+1.3 广播机制
+
+形状不同的两个张量执行基本运算时，会适当复制元素扩展数组，使二者具有相同形状，再按元素计算
+
+
+
+1
+2
+3
+4
+5
+6
+
+
+x = torch.arange(6)
+x &#43; torch.tensor(1)
+
+a = torch.arange(3).reshape(3, 1)
+b = torch.arange(2).reshape(1, 2)
+a &#43; b
+
+
+1.4 索引切片
+
+类似Python数组操作
+
+
+
+1
+2
+3
+4
+
+
+X = torch.arange(12).reshape(3, 4)
+X[-1]  #最后一行
+X[1:3] #第二、三行
+X[:, 1:3] #第二、三列
+
+
+1.5 节省内存
+
+变量名赋值新的计算结果时，会重新分配内存
+
+
+
+1
+2
+3
+4
+5
+6
+
+
+a = torch.tensor(0)
+before = id(a) #内存地址
+
+a = a &#43; torch.tensor(1) # 重新分配内存
+id(a) == before
+# False
+
+
+
+原地更新、覆盖先前的计算结果
+
+
+
+1
+2
+3
+4
+5
+
+
+a = torch.tensor(0)
+before = id(a) #内存地址
+
+a[:] = a &#43; torch.tensor(1)
+id(a) == before
+
+
+1.6 转为其它Python对象
+
+转为Numpy数组
+
+
+
+1
+2
+3
+
+
+A = X.numpy() # tensor→numpy
+
+torch.tensor(A) # numpy→tensor
+
+
+
+大小为1的张量转为Python标量
+
+
+
+1
+2
+3
+4
+5
+
+
+a = torch.tensor(3.0)
+
+a.item()
+float(a)
+int(a)
+
+
+2. 数据预处理
+2.1 读取数据集
+
+
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+
+
+import os
+import pandas as pd
+
+os.makedirs(os.path.join(&#39;..&#39;,&#39;data&#39;), exist_ok=True) #上一级目录创建data文件夹
+data_file = os.path.join(&#39;..&#39;, &#39;data&#39;, &#39;house_tiny.csv&#39;)
+with open(data_file, &#39;w&#39;) as f:
+    f.write(&#39;NumRooms,Alley,Price\n&#39;) #列名
+    f.write(&#39;NA,Pave,127500\n&#39;) #每行一个样本
+    f.write(&#39;2,NA,106000\n&#39;)
+    f.write(&#39;4,NA,178100\n&#39;)
+    f.write(&#39;NA,NA,140000\n&#39;)    
+    
+data = pd.read_csv(data_file)
+data
+
+
+2.2 处理缺失值
+
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+
+
+inputs, outputs = data.iloc[:, 0:2], data.iloc[:, 2] #按列拆分为两个表
+
+# 数值缺失值填充
+inputs = inputs.fillna(inputs.mean(numeric_only=True))
+inputs
+
+# 类别缺失值填充
+inputs = pd.get_dummies(inputs, dummy_na=True, dtype = float)
+inputs
+
+
+2.3 转换为张量
+
+
+1
+2
+3
+4
+
+
+import torch
+X, y = torch.tensor(inputs.values), torch.tensor(outputs.values)
+X, y
+# 深度学习通常用float32
+
+
+3. 线性代数
+3.1 标量
+
+只有一个元素的张量
+普通、小写的字母表示
+
+
+
+1
+2
+3
+4
+5
+6
+
+
+import torch
+
+x = torch.tensor(3.0)
+y = torch.tensor(4.0)
+
+x &#43; y, x - y, x / y, x ** y
+
+
+3.2 向量
+
+具有一个轴的张量
+粗体、小写的字母表示
+
+
+
+1
+2
+3
+
+
+x = torch.arange(4)
+x
+x.shape
+
+
+
+向量/轴的维度表示向量或轴的长度；" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/bioinfo/705d2l-%E7%AC%AC%E4%BA%8C%E7%AB%A0%E9%A2%84%E5%A4%87%E7%9F%A5%E8%AF%86/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-07-21T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2024-07-21T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="D2L--第二章预备知识"/>
+<meta name="twitter:description" content="1. 数据操作
+1.1 入门
+
+
+张量：具有多个维度（轴）的数组。
+具有一个轴的张量，对应数学上的向量；
+具有两个轴的张量，对应数学上的矩阵。
+
+
+创建张量
+
+
+
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+
+
+import torch
+
+x = torch.arange(12) # 长度为12个行向量
+
+torch.zeros((2, 3, 4))
+torch.ones((2, 3, 4))
+torch.randn(3, 4)
+
+torch.tensor([[2,1,4,3],[1,2,3,4],[4,3,2,1]])
+
+
+
+基本信息
+
+
+
+1
+2
+3
+4
+5
+
+
+x.shape
+x.numel #元素个数
+X = x.reshape(3, 4) #修改形状
+x.reshape(-1, 4)
+x.reshape(3, -1)
+
+
+1.2 运算符
+
+任意两个形状相同的张量，执行基本运算符时，均为按元素操作，结果的形状不变。
+
+
+
+1
+2
+3
+4
+
+
+x = torch.tensor([1.0, 2, 3, 4])
+y = torch.tensor([2, 2, 2, 2])
+
+x-y, x&#43;y, x*x, x/y, x**y
+
+
+
+张量连接操作concatenate
+
+
+
+1
+2
+3
+4
+5
+
+
+x = torch.arange(12, dtype = torch.float32).reshape(3, 4)
+y = torch.tensor([[2,1,4,3],[1,2,3,4],[4,3,2,1]])
+
+torch.cat((x, y), dim = 0) #纵向拼接，增加轴0的维度/行
+torch.cat((x, y), dim = 1) #横向拼接，增加轴1的维度/列
+
+
+
+逻辑运算符构建逻辑张量
+
+
+
+1
+
+
+x == y
+
+
+1.3 广播机制
+
+形状不同的两个张量执行基本运算时，会适当复制元素扩展数组，使二者具有相同形状，再按元素计算
+
+
+
+1
+2
+3
+4
+5
+6
+
+
+x = torch.arange(6)
+x &#43; torch.tensor(1)
+
+a = torch.arange(3).reshape(3, 1)
+b = torch.arange(2).reshape(1, 2)
+a &#43; b
+
+
+1.4 索引切片
+
+类似Python数组操作
+
+
+
+1
+2
+3
+4
+
+
+X = torch.arange(12).reshape(3, 4)
+X[-1]  #最后一行
+X[1:3] #第二、三行
+X[:, 1:3] #第二、三列
+
+
+1.5 节省内存
+
+变量名赋值新的计算结果时，会重新分配内存
+
+
+
+1
+2
+3
+4
+5
+6
+
+
+a = torch.tensor(0)
+before = id(a) #内存地址
+
+a = a &#43; torch.tensor(1) # 重新分配内存
+id(a) == before
+# False
+
+
+
+原地更新、覆盖先前的计算结果
+
+
+
+1
+2
+3
+4
+5
+
+
+a = torch.tensor(0)
+before = id(a) #内存地址
+
+a[:] = a &#43; torch.tensor(1)
+id(a) == before
+
+
+1.6 转为其它Python对象
+
+转为Numpy数组
+
+
+
+1
+2
+3
+
+
+A = X.numpy() # tensor→numpy
+
+torch.tensor(A) # numpy→tensor
+
+
+
+大小为1的张量转为Python标量
+
+
+
+1
+2
+3
+4
+5
+
+
+a = torch.tensor(3.0)
+
+a.item()
+float(a)
+int(a)
+
+
+2. 数据预处理
+2.1 读取数据集
+
+
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+
+
+import os
+import pandas as pd
+
+os.makedirs(os.path.join(&#39;..&#39;,&#39;data&#39;), exist_ok=True) #上一级目录创建data文件夹
+data_file = os.path.join(&#39;..&#39;, &#39;data&#39;, &#39;house_tiny.csv&#39;)
+with open(data_file, &#39;w&#39;) as f:
+    f.write(&#39;NumRooms,Alley,Price\n&#39;) #列名
+    f.write(&#39;NA,Pave,127500\n&#39;) #每行一个样本
+    f.write(&#39;2,NA,106000\n&#39;)
+    f.write(&#39;4,NA,178100\n&#39;)
+    f.write(&#39;NA,NA,140000\n&#39;)    
+    
+data = pd.read_csv(data_file)
+data
+
+
+2.2 处理缺失值
+
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+
+
+inputs, outputs = data.iloc[:, 0:2], data.iloc[:, 2] #按列拆分为两个表
+
+# 数值缺失值填充
+inputs = inputs.fillna(inputs.mean(numeric_only=True))
+inputs
+
+# 类别缺失值填充
+inputs = pd.get_dummies(inputs, dummy_na=True, dtype = float)
+inputs
+
+
+2.3 转换为张量
+
+
+1
+2
+3
+4
+
+
+import torch
+X, y = torch.tensor(inputs.values), torch.tensor(outputs.values)
+X, y
+# 深度学习通常用float32
+
+
+3. 线性代数
+3.1 标量
+
+只有一个元素的张量
+普通、小写的字母表示
+
+
+
+1
+2
+3
+4
+5
+6
+
+
+import torch
+
+x = torch.tensor(3.0)
+y = torch.tensor(4.0)
+
+x &#43; y, x - y, x / y, x ** y
+
+
+3.2 向量
+
+具有一个轴的张量
+粗体、小写的字母表示
+
+
+
+1
+2
+3
+
+
+x = torch.arange(4)
+x
+x.shape
+
+
+
+向量/轴的维度表示向量或轴的长度；"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 生信数据分析--分析流程，工具包等",
+      "item": "https://lishensuo.github.io/en/posts/bioinfo/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "D2L--第二章预备知识",
+      "item": "https://lishensuo.github.io/en/posts/bioinfo/705d2l-%E7%AC%AC%E4%BA%8C%E7%AB%A0%E9%A2%84%E5%A4%87%E7%9F%A5%E8%AF%86/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "D2L--第二章预备知识",
+  "name": "D2L--第二章预备知识",
+  "description": "1. 数据操作 1.1 入门 张量：具有多个维度（轴）的数组。\n具有一个轴的张量，对应数学上的向量；\n具有两个轴的张量，对应数学上的矩阵。\n创建张量\n1 2 3 4 5 6 7 8 9 import torch x = torch.arange(12) # 长度为12个行向量 torch.zeros((2, 3, 4)) torch.ones((2, 3, 4)) torch.randn(3, 4) torch.tensor([[2,1,4,3],[1,2,3,4],[4,3,2,1]]) 基本信息 1 2 3 4 5 x.shape x.numel #元素个数 X = x.reshape(3, 4) #修改形状 x.reshape(-1, 4) x.reshape(3, -1) 1.2 运算符 任意两个形状相同的张量，执行基本运算符时，均为按元素操作，结果的形状不变。 1 2 3 4 x = torch.tensor([1.0, 2, 3, 4]) y = torch.tensor([2, 2, 2, 2]) x-y, x+y, x*x, x/y, x**y 张量连接操作concatenate 1 2 3 4 5 x = torch.arange(12, dtype = torch.float32).reshape(3, 4) y = torch.tensor([[2,1,4,3],[1,2,3,4],[4,3,2,1]]) torch.cat((x, y), dim = 0) #纵向拼接，增加轴0的维度/行 torch.cat((x, y), dim = 1) #横向拼接，增加轴1的维度/列 逻辑运算符构建逻辑张量 1 x == y 1.3 广播机制 形状不同的两个张量执行基本运算时，会适当复制元素扩展数组，使二者具有相同形状，再按元素计算 1 2 3 4 5 6 x = torch.arange(6) x + torch.tensor(1) a = torch.arange(3).reshape(3, 1) b = torch.arange(2).reshape(1, 2) a + b 1.4 索引切片 类似Python数组操作 1 2 3 4 X = torch.arange(12).reshape(3, 4) X[-1] #最后一行 X[1:3] #第二、三行 X[:, 1:3] #第二、三列 1.5 节省内存 变量名赋值新的计算结果时，会重新分配内存 1 2 3 4 5 6 a = torch.tensor(0) before = id(a) #内存地址 a = a + torch.tensor(1) # 重新分配内存 id(a) == before # False 原地更新、覆盖先前的计算结果 1 2 3 4 5 a = torch.tensor(0) before = id(a) #内存地址 a[:] = a + torch.tensor(1) id(a) == before 1.6 转为其它Python对象 转为Numpy数组 1 2 3 A = X.numpy() # tensor→numpy torch.tensor(A) # numpy→tensor 大小为1的张量转为Python标量 1 2 3 4 5 a = torch.tensor(3.0) a.item() float(a) int(a) 2. 数据预处理 2.1 读取数据集 1 2 3 4 5 6 7 8 9 10 11 12 13 14 import os import pandas as pd os.makedirs(os.path.join(\u0026#39;..\u0026#39;,\u0026#39;data\u0026#39;), exist_ok=True) #上一级目录创建data文件夹 data_file = os.path.join(\u0026#39;..\u0026#39;, \u0026#39;data\u0026#39;, \u0026#39;house_tiny.csv\u0026#39;) with open(data_file, \u0026#39;w\u0026#39;) as f: f.write(\u0026#39;NumRooms,Alley,Price\\n\u0026#39;) #列名 f.write(\u0026#39;NA,Pave,127500\\n\u0026#39;) #每行一个样本 f.write(\u0026#39;2,NA,106000\\n\u0026#39;) f.write(\u0026#39;4,NA,178100\\n\u0026#39;) f.write(\u0026#39;NA,NA,140000\\n\u0026#39;) data = pd.read_csv(data_file) data 2.2 处理缺失值 1 2 3 4 5 6 7 8 9 inputs, outputs = data.iloc[:, 0:2], data.iloc[:, 2] #按列拆分为两个表 # 数值缺失值填充 inputs = inputs.fillna(inputs.mean(numeric_only=True)) inputs # 类别缺失值填充 inputs = pd.get_dummies(inputs, dummy_na=True, dtype = float) inputs 2.3 转换为张量 1 2 3 4 import torch X, y = torch.tensor(inputs.values), torch.tensor(outputs.values) X, y # 深度学习通常用float32 3. 线性代数 3.1 标量 只有一个元素的张量 普通、小写的字母表示 1 2 3 4 5 6 import torch x = torch.tensor(3.0) y = torch.tensor(4.0) x + y, x - y, x / y, x ** y 3.2 向量 具有一个轴的张量 粗体、小写的字母表示 1 2 3 x = torch.arange(4) x x.shape 向量/轴的维度表示向量或轴的长度；\n",
+  "keywords": [
+    "深度学习", "D2L"
+  ],
+  "articleBody": "1. 数据操作 1.1 入门 张量：具有多个维度（轴）的数组。\n具有一个轴的张量，对应数学上的向量；\n具有两个轴的张量，对应数学上的矩阵。\n创建张量\n1 2 3 4 5 6 7 8 9 import torch x = torch.arange(12) # 长度为12个行向量 torch.zeros((2, 3, 4)) torch.ones((2, 3, 4)) torch.randn(3, 4) torch.tensor([[2,1,4,3],[1,2,3,4],[4,3,2,1]]) 基本信息 1 2 3 4 5 x.shape x.numel #元素个数 X = x.reshape(3, 4) #修改形状 x.reshape(-1, 4) x.reshape(3, -1) 1.2 运算符 任意两个形状相同的张量，执行基本运算符时，均为按元素操作，结果的形状不变。 1 2 3 4 x = torch.tensor([1.0, 2, 3, 4]) y = torch.tensor([2, 2, 2, 2]) x-y, x+y, x*x, x/y, x**y 张量连接操作concatenate 1 2 3 4 5 x = torch.arange(12, dtype = torch.float32).reshape(3, 4) y = torch.tensor([[2,1,4,3],[1,2,3,4],[4,3,2,1]]) torch.cat((x, y), dim = 0) #纵向拼接，增加轴0的维度/行 torch.cat((x, y), dim = 1) #横向拼接，增加轴1的维度/列 逻辑运算符构建逻辑张量 1 x == y 1.3 广播机制 形状不同的两个张量执行基本运算时，会适当复制元素扩展数组，使二者具有相同形状，再按元素计算 1 2 3 4 5 6 x = torch.arange(6) x + torch.tensor(1) a = torch.arange(3).reshape(3, 1) b = torch.arange(2).reshape(1, 2) a + b 1.4 索引切片 类似Python数组操作 1 2 3 4 X = torch.arange(12).reshape(3, 4) X[-1] #最后一行 X[1:3] #第二、三行 X[:, 1:3] #第二、三列 1.5 节省内存 变量名赋值新的计算结果时，会重新分配内存 1 2 3 4 5 6 a = torch.tensor(0) before = id(a) #内存地址 a = a + torch.tensor(1) # 重新分配内存 id(a) == before # False 原地更新、覆盖先前的计算结果 1 2 3 4 5 a = torch.tensor(0) before = id(a) #内存地址 a[:] = a + torch.tensor(1) id(a) == before 1.6 转为其它Python对象 转为Numpy数组 1 2 3 A = X.numpy() # tensor→numpy torch.tensor(A) # numpy→tensor 大小为1的张量转为Python标量 1 2 3 4 5 a = torch.tensor(3.0) a.item() float(a) int(a) 2. 数据预处理 2.1 读取数据集 1 2 3 4 5 6 7 8 9 10 11 12 13 14 import os import pandas as pd os.makedirs(os.path.join('..','data'), exist_ok=True) #上一级目录创建data文件夹 data_file = os.path.join('..', 'data', 'house_tiny.csv') with open(data_file, 'w') as f: f.write('NumRooms,Alley,Price\\n') #列名 f.write('NA,Pave,127500\\n') #每行一个样本 f.write('2,NA,106000\\n') f.write('4,NA,178100\\n') f.write('NA,NA,140000\\n') data = pd.read_csv(data_file) data 2.2 处理缺失值 1 2 3 4 5 6 7 8 9 inputs, outputs = data.iloc[:, 0:2], data.iloc[:, 2] #按列拆分为两个表 # 数值缺失值填充 inputs = inputs.fillna(inputs.mean(numeric_only=True)) inputs # 类别缺失值填充 inputs = pd.get_dummies(inputs, dummy_na=True, dtype = float) inputs 2.3 转换为张量 1 2 3 4 import torch X, y = torch.tensor(inputs.values), torch.tensor(outputs.values) X, y # 深度学习通常用float32 3. 线性代数 3.1 标量 只有一个元素的张量 普通、小写的字母表示 1 2 3 4 5 6 import torch x = torch.tensor(3.0) y = torch.tensor(4.0) x + y, x - y, x / y, x ** y 3.2 向量 具有一个轴的张量 粗体、小写的字母表示 1 2 3 x = torch.arange(4) x x.shape 向量/轴的维度表示向量或轴的长度；\n张量的维度表示张量具有的轴数。\n3.3 矩阵 具有两个轴的张量 粗体、大写的字母表示 1 2 3 4 5 6 7 A = torch.arange(20).reshape(5, 4) A.shape B = A.T #转置矩阵 ## 对称矩阵，转置后等于转置前 A == A.T 3.4 张量 具有任意数量轴的n维数组 1 2 X = torch.arange(24).reshape(2, 3, 4) X.shape 3.5 张量算法的基本性质 张量与一个标量的基本运算不会改变张量的形状； 相同形状的两个张量运算（按元素）结果仍是相同形状的张量 1 2 3 4 5 6 7 8 a = 2 X = torch.arange(24).reshape(2, 3, 4) X + a A = torch.arange(20, dtype = float32).reshape(5, 4) B = A.clone() #分配新内存，隔离 A, A + B A * B #哈达玛积 3.6 降维 默认调用求和函数会计算张量所有元素的和，返回一个标量 1 2 x = torch.arange(4, dtype = float32) x.sum() 指定轴进行求和，会消除该轴，得到降维结果 1 2 3 A = torch.arange(20, dtype = float32).reshape(5, 4) A.sum(axis = 0) A.sum(axis = 1) .mean()求平均值，操作与上述类似。\n非降维求和，方便应用广播机制（前提是张量的轴数相同） 1 A.sum(axis = 0, keepdims = True) 3.7 点积 两个向量按相同位置乘积的和 1 2 3 4 5 x = torch.arange(4, dtype = float32) y = torch.ones(4, dtype = float32) torch.dot(x, y) # 等价于 torch.sum(x * y) 3.8 矩阵—向量积 矩阵的列数（轴0的维度）等于向量的长度； 矩阵的每一行与向量的点积； 最大的用途：将向量的维度改变 1 2 3 4 A = torch.arange(20, dtype = float32).reshape(5, 4) x = torch.arange(4, dtype = float32) torch.mv(A, x) # length 5 3.9 矩阵乘法 左边矩阵的列数等于右边矩阵的行数 可以理解为右边矩阵的每一行与左边矩阵的计算结果，再拼接为矩阵 1 2 3 4 A = torch.arange(20, dtype = float32).reshape(5, 4) B = torch.ones(4, 3) torch.mm(A, B) #(5, 3) 3.10 范数 范数可以理解为距离大小的度量 向量的L2范数：向量元素平方和的平方根 1 2 u = torch.tensor([3.0, 4.0]) torch.nom(u) 向量的L1范数：向量元素的绝对值之和 1 torch.abs(u).sum() 矩阵的F范数：矩阵元素平方和的平方根 1 torch.norm(torch.ones(4, 9)) 4. 微积分 4.1 导数和微分 微分是一种表达方式，表示当自变量有一个微小变化时，因变量的近似变化。 导数是一个数值，其计算为：对于包含模型参数的损失函数，如果将参数增加或减少一个无穷小的量，损失会以多快的速度增加或减少 导数的几何理解：曲线在特点处的切线的斜率 4.2 偏导数 上述导数计算的(损失)函数中，只有一个自变量（参数）； 当函数有多个变量时，分别对每一个自变量（参数）的导数，称为偏导数； 4.3 梯度 标量y对于向量x（多个自变量）的求导结果是向量； 梯度向量表示一个多元函数对于其每个变量的偏导数，综合指向梯度下降最快的方向。 4.4 链式法则 上述的方法方便理解，但难以计算梯度； 对于复合函数，可应用链式法则求微分； 例如两层MLP神经网络。第一层有n个神经元（x1，x2…）；第二层有m个神经元（u1，u2，…），输出层为y。而y对于第一层中任意一个偏导数可以表示为： 5. 自动微分 5.1 简单例子 深度学习会根据模型框架，构建一个计算图，跟踪哪些数据通过那些操作组合起来产生输出； 然后从输出项开始，通过反向传播梯度，计算关于每个参数的偏导数； 1 2 3 4 5 6 7 8 9 10 11 12 import torch x = torch.arange(4.0) # 声明需要储存梯度 x.requires_grad_(True) # 查看梯度，默认值为None x.grad #给定一个函数 y = 2 * torch.dot(x, x) # y = 2[(x1)2 + (x2)2 + (x3)2 + (x4)2] y.backward #反向传播每个参数的偏导数 x.grad #梯度计算结果 计算另一个函数的梯度时，需要清楚之前的值 1 2 3 4 x.grad.zero_() y = x.sum() # y = x1 + x2 + x3 + x4 y.backward() x.grad 5.2 非标量的反向传播 标量y对于向量x的导数是一个向量 向量y对于向量x的导数是一个矩阵 在深度学习应用场景中，多见于小批量样本训练。实现形式并非计算微分矩阵，而是单独计算批量中每个样本的偏导数之和。 1 2 3 4 x.grad.zero_() y = x * x # 向量 y.sum().backward() x.grad 5.3 分离计算 y = f(x)\nz = f(y, x)\n计算z关于x的梯度。但由于某种原因，希望将y视为一个常数，只考虑x在y被计算后的作用。\n1 2 3 4 5 6 7 x.grad.zero_() y = x * x u = y.detach() #视为常数 z = u * x #x的导数为1 z.sum().backward() x.grad() == u 6. 概率 6.1 联合概率 P(A, B)：表示事件A，B同时发生的概率 P(A, B) ≤ P(A)：事件A，B同时发生的概率小于等于事件A或B单独发生的概率 6.2 条件概率 P(B|A)：表示在事件A发生前提下，B发生的概率 P(B|A) = P(A, B) / P(A) 6.3 贝叶斯定理 由条件概率可得：P(A, B) = P(B|A)*P(A) 根据对称性可得：P(A, B) = P(A|B)*P(B) 所以可推导： P(A|B) = P(B|A)*P(A) / P(B) P(A) 称为先验概率 P(A|B)称为后验概率 P(B|A)称为似然 P(B)称为全概率 6.4 边际化 事件B的概率相当于计算A的所有可能选择，并将所有选择的联合概率聚合在一起。 6.5 独立性 若事件A与B是独立的，意味着A的发生与B的发生无关 P(B|A) = P(A, B) / P(A) = P(B) 进一步可得 P(A, B) = P(A) * P(B) ",
+  "wordCount" : "2515",
+  "inLanguage": "en",
+  "datePublished": "2024-07-21T00:00:00Z",
+  "dateModified": "2024-07-21T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/bioinfo/705d2l-%E7%AC%AC%E4%BA%8C%E7%AB%A0%E9%A2%84%E5%A4%87%E7%9F%A5%E8%AF%86/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/bioinfo/">📖 生信数据分析--分析流程，工具包等</a></div>
+    <h1 class="post-title">
+      D2L--第二章预备知识
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-07-21 00:00:00 &#43;0000 UTC&#39;&gt;2024-07-21&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-07-21&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2515&amp;nbsp;|&amp;nbsp;6 min&amp;nbsp;|&amp;nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#1-%e6%95%b0%e6%8d%ae%e6%93%8d%e4%bd%9c" aria-label="1. 数据操作">1. 数据操作</a><ul>
+                            
+                    <li>
+                        <a href="#11-%e5%85%a5%e9%97%a8" aria-label="1.1 入门">1.1 入门</a></li>
+                    <li>
+                        <a href="#12-%e8%bf%90%e7%ae%97%e7%ac%a6" aria-label="1.2 运算符">1.2 运算符</a></li>
+                    <li>
+                        <a href="#13-%e5%b9%bf%e6%92%ad%e6%9c%ba%e5%88%b6" aria-label="1.3 广播机制">1.3 广播机制</a></li>
+                    <li>
+                        <a href="#14-%e7%b4%a2%e5%bc%95%e5%88%87%e7%89%87" aria-label="1.4 索引切片">1.4 索引切片</a></li>
+                    <li>
+                        <a href="#15-%e8%8a%82%e7%9c%81%e5%86%85%e5%ad%98" aria-label="1.5 节省内存">1.5 节省内存</a></li>
+                    <li>
+                        <a href="#16-%e8%bd%ac%e4%b8%ba%e5%85%b6%e5%ae%83python%e5%af%b9%e8%b1%a1" aria-label="1.6 转为其它Python对象">1.6 转为其它Python对象</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#2-%e6%95%b0%e6%8d%ae%e9%a2%84%e5%a4%84%e7%90%86" aria-label="2. 数据预处理">2. 数据预处理</a><ul>
+                            
+                    <li>
+                        <a href="#21-%e8%af%bb%e5%8f%96%e6%95%b0%e6%8d%ae%e9%9b%86" aria-label="2.1 读取数据集">2.1 读取数据集</a></li>
+                    <li>
+                        <a href="#22-%e5%a4%84%e7%90%86%e7%bc%ba%e5%a4%b1%e5%80%bc" aria-label="2.2 处理缺失值">2.2 处理缺失值</a></li>
+                    <li>
+                        <a href="#23-%e8%bd%ac%e6%8d%a2%e4%b8%ba%e5%bc%a0%e9%87%8f" aria-label="2.3 转换为张量">2.3 转换为张量</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#3-%e7%ba%bf%e6%80%a7%e4%bb%a3%e6%95%b0" aria-label="3. 线性代数">3. 线性代数</a><ul>
+                            
+                    <li>
+                        <a href="#31-%e6%a0%87%e9%87%8f" aria-label="3.1 标量">3.1 标量</a></li>
+                    <li>
+                        <a href="#32-%e5%90%91%e9%87%8f" aria-label="3.2 向量">3.2 向量</a></li>
+                    <li>
+                        <a href="#33-%e7%9f%a9%e9%98%b5" aria-label="3.3 矩阵">3.3 矩阵</a></li>
+                    <li>
+                        <a href="#34-%e5%bc%a0%e9%87%8f" aria-label="3.4 张量">3.4 张量</a></li>
+                    <li>
+                        <a href="#35-%e5%bc%a0%e9%87%8f%e7%ae%97%e6%b3%95%e7%9a%84%e5%9f%ba%e6%9c%ac%e6%80%a7%e8%b4%a8" aria-label="3.5 张量算法的基本性质">3.5 张量算法的基本性质</a></li>
+                    <li>
+                        <a href="#36-%e9%99%8d%e7%bb%b4" aria-label="3.6 降维">3.6 降维</a></li>
+                    <li>
+                        <a href="#37-%e7%82%b9%e7%a7%af" aria-label="3.7 点积">3.7 点积</a></li>
+                    <li>
+                        <a href="#38-%e7%9f%a9%e9%98%b5%e5%90%91%e9%87%8f%e7%a7%af" aria-label="3.8 矩阵—向量积">3.8 矩阵—向量积</a></li>
+                    <li>
+                        <a href="#39-%e7%9f%a9%e9%98%b5%e4%b9%98%e6%b3%95" aria-label="3.9 矩阵乘法">3.9 矩阵乘法</a></li>
+                    <li>
+                        <a href="#310-%e8%8c%83%e6%95%b0" aria-label="3.10 范数">3.10 范数</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#4-%e5%be%ae%e7%a7%af%e5%88%86" aria-label="4. 微积分">4. 微积分</a><ul>
+                            
+                    <li>
+                        <a href="#41-%e5%af%bc%e6%95%b0%e5%92%8c%e5%be%ae%e5%88%86" aria-label="4.1 导数和微分">4.1 导数和微分</a></li>
+                    <li>
+                        <a href="#42-%e5%81%8f%e5%af%bc%e6%95%b0" aria-label="4.2 偏导数">4.2 偏导数</a></li>
+                    <li>
+                        <a href="#43-%e6%a2%af%e5%ba%a6" aria-label="4.3 梯度">4.3 梯度</a></li>
+                    <li>
+                        <a href="#44-%e9%93%be%e5%bc%8f%e6%b3%95%e5%88%99" aria-label="4.4 链式法则">4.4 链式法则</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#5-%e8%87%aa%e5%8a%a8%e5%be%ae%e5%88%86" aria-label="5. 自动微分">5. 自动微分</a><ul>
+                            
+                    <li>
+                        <a href="#51-%e7%ae%80%e5%8d%95%e4%be%8b%e5%ad%90" aria-label="5.1 简单例子">5.1 简单例子</a></li>
+                    <li>
+                        <a href="#52-%e9%9d%9e%e6%a0%87%e9%87%8f%e7%9a%84%e5%8f%8d%e5%90%91%e4%bc%a0%e6%92%ad" aria-label="5.2 非标量的反向传播">5.2 非标量的反向传播</a></li>
+                    <li>
+                        <a href="#53-%e5%88%86%e7%a6%bb%e8%ae%a1%e7%ae%97" aria-label="5.3 分离计算">5.3 分离计算</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#6-%e6%a6%82%e7%8e%87" aria-label="6. 概率">6. 概率</a><ul>
+                            
+                    <li>
+                        <a href="#61-%e8%81%94%e5%90%88%e6%a6%82%e7%8e%87" aria-label="6.1 联合概率">6.1 联合概率</a></li>
+                    <li>
+                        <a href="#62-%e6%9d%a1%e4%bb%b6%e6%a6%82%e7%8e%87" aria-label="6.2 条件概率">6.2 条件概率</a></li>
+                    <li>
+                        <a href="#63-%e8%b4%9d%e5%8f%b6%e6%96%af%e5%ae%9a%e7%90%86" aria-label="6.3 贝叶斯定理">6.3 贝叶斯定理</a></li>
+                    <li>
+                        <a href="#64-%e8%be%b9%e9%99%85%e5%8c%96" aria-label="6.4 边际化">6.4 边际化</a></li>
+                    <li>
+                        <a href="#65-%e7%8b%ac%e7%ab%8b%e6%80%a7" aria-label="6.5 独立性">6.5 独立性</a>
+                    </li>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><h1 id="1-数据操作">1. 数据操作<a hidden class="anchor" aria-hidden="true" href="#1-数据操作">#</a></h1>
+<h2 id="11-入门">1.1 入门<a hidden class="anchor" aria-hidden="true" href="#11-入门">#</a></h2>
+<ul>
+<li>
+<p><strong>张量</strong>：具有多个维度（轴）的数组。</p>
+<p>具有一个轴的张量，对应数学上的<strong>向量</strong>；</p>
+<p>具有两个轴的张量，对应数学上的<strong>矩阵</strong>。</p>
+</li>
+<li>
+<p><strong>创建张量</strong></p>
+</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> torch
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>x = torch.arange(<span style="color:#ff0;font-weight:bold">12</span>) <span style="color:#007f7f"># 长度为12个行向量</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>torch.zeros((<span style="color:#ff0;font-weight:bold">2</span>, <span style="color:#ff0;font-weight:bold">3</span>, <span style="color:#ff0;font-weight:bold">4</span>))
+</span></span><span style="display:flex;"><span>torch.ones((<span style="color:#ff0;font-weight:bold">2</span>, <span style="color:#ff0;font-weight:bold">3</span>, <span style="color:#ff0;font-weight:bold">4</span>))
+</span></span><span style="display:flex;"><span>torch.randn(<span style="color:#ff0;font-weight:bold">3</span>, <span style="color:#ff0;font-weight:bold">4</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>torch.tensor([[<span style="color:#ff0;font-weight:bold">2</span>,<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">4</span>,<span style="color:#ff0;font-weight:bold">3</span>],[<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">2</span>,<span style="color:#ff0;font-weight:bold">3</span>,<span style="color:#ff0;font-weight:bold">4</span>],[<span style="color:#ff0;font-weight:bold">4</span>,<span style="color:#ff0;font-weight:bold">3</span>,<span style="color:#ff0;font-weight:bold">2</span>,<span style="color:#ff0;font-weight:bold">1</span>]])
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>基本信息</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>x.shape
+</span></span><span style="display:flex;"><span>x.numel <span style="color:#007f7f">#元素个数</span>
+</span></span><span style="display:flex;"><span>X = x.reshape(<span style="color:#ff0;font-weight:bold">3</span>, <span style="color:#ff0;font-weight:bold">4</span>) <span style="color:#007f7f">#修改形状</span>
+</span></span><span style="display:flex;"><span>x.reshape(-<span style="color:#ff0;font-weight:bold">1</span>, <span style="color:#ff0;font-weight:bold">4</span>)
+</span></span><span style="display:flex;"><span>x.reshape(<span style="color:#ff0;font-weight:bold">3</span>, -<span style="color:#ff0;font-weight:bold">1</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="12-运算符">1.2 运算符<a hidden class="anchor" aria-hidden="true" href="#12-运算符">#</a></h2>
+<ul>
+<li>任意两个形状相同的张量，执行基本运算符时，均为<strong>按元素</strong>操作，结果的形状不变。</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>x = torch.tensor([<span style="color:#ff0;font-weight:bold">1.0</span>, <span style="color:#ff0;font-weight:bold">2</span>, <span style="color:#ff0;font-weight:bold">3</span>, <span style="color:#ff0;font-weight:bold">4</span>])
+</span></span><span style="display:flex;"><span>y = torch.tensor([<span style="color:#ff0;font-weight:bold">2</span>, <span style="color:#ff0;font-weight:bold">2</span>, <span style="color:#ff0;font-weight:bold">2</span>, <span style="color:#ff0;font-weight:bold">2</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>x-y, x+y, x*x, x/y, x**y
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>张量连接操作concatenate</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>x = torch.arange(<span style="color:#ff0;font-weight:bold">12</span>, dtype = torch.float32).reshape(<span style="color:#ff0;font-weight:bold">3</span>, <span style="color:#ff0;font-weight:bold">4</span>)
+</span></span><span style="display:flex;"><span>y = torch.tensor([[<span style="color:#ff0;font-weight:bold">2</span>,<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">4</span>,<span style="color:#ff0;font-weight:bold">3</span>],[<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">2</span>,<span style="color:#ff0;font-weight:bold">3</span>,<span style="color:#ff0;font-weight:bold">4</span>],[<span style="color:#ff0;font-weight:bold">4</span>,<span style="color:#ff0;font-weight:bold">3</span>,<span style="color:#ff0;font-weight:bold">2</span>,<span style="color:#ff0;font-weight:bold">1</span>]])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>torch.cat((x, y), dim = <span style="color:#ff0;font-weight:bold">0</span>) <span style="color:#007f7f">#纵向拼接，增加轴0的维度/行</span>
+</span></span><span style="display:flex;"><span>torch.cat((x, y), dim = <span style="color:#ff0;font-weight:bold">1</span>) <span style="color:#007f7f">#横向拼接，增加轴1的维度/列</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>逻辑运算符构建逻辑张量</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>x == y
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="13-广播机制">1.3 广播机制<a hidden class="anchor" aria-hidden="true" href="#13-广播机制">#</a></h2>
+<ul>
+<li>形状不同的两个张量执行基本运算时，会适当复制元素扩展数组，使二者具有相同形状，再<strong>按元素</strong>计算</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>x = torch.arange(<span style="color:#ff0;font-weight:bold">6</span>)
+</span></span><span style="display:flex;"><span>x + torch.tensor(<span style="color:#ff0;font-weight:bold">1</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>a = torch.arange(<span style="color:#ff0;font-weight:bold">3</span>).reshape(<span style="color:#ff0;font-weight:bold">3</span>, <span style="color:#ff0;font-weight:bold">1</span>)
+</span></span><span style="display:flex;"><span>b = torch.arange(<span style="color:#ff0;font-weight:bold">2</span>).reshape(<span style="color:#ff0;font-weight:bold">1</span>, <span style="color:#ff0;font-weight:bold">2</span>)
+</span></span><span style="display:flex;"><span>a + b
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="14-索引切片">1.4 索引切片<a hidden class="anchor" aria-hidden="true" href="#14-索引切片">#</a></h2>
+<ul>
+<li>类似Python数组操作</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>X = torch.arange(<span style="color:#ff0;font-weight:bold">12</span>).reshape(<span style="color:#ff0;font-weight:bold">3</span>, <span style="color:#ff0;font-weight:bold">4</span>)
+</span></span><span style="display:flex;"><span>X[-<span style="color:#ff0;font-weight:bold">1</span>]  <span style="color:#007f7f">#最后一行</span>
+</span></span><span style="display:flex;"><span>X[<span style="color:#ff0;font-weight:bold">1</span>:<span style="color:#ff0;font-weight:bold">3</span>] <span style="color:#007f7f">#第二、三行</span>
+</span></span><span style="display:flex;"><span>X[:, <span style="color:#ff0;font-weight:bold">1</span>:<span style="color:#ff0;font-weight:bold">3</span>] <span style="color:#007f7f">#第二、三列</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="15-节省内存">1.5 节省内存<a hidden class="anchor" aria-hidden="true" href="#15-节省内存">#</a></h2>
+<ul>
+<li>变量名赋值新的计算结果时，会重新分配内存</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>a = torch.tensor(<span style="color:#ff0;font-weight:bold">0</span>)
+</span></span><span style="display:flex;"><span>before = <span style="color:#fff;font-weight:bold">id</span>(a) <span style="color:#007f7f">#内存地址</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>a = a + torch.tensor(<span style="color:#ff0;font-weight:bold">1</span>) <span style="color:#007f7f"># 重新分配内存</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">id</span>(a) == before
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># False</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>原地更新、覆盖先前的计算结果</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>a = torch.tensor(<span style="color:#ff0;font-weight:bold">0</span>)
+</span></span><span style="display:flex;"><span>before = <span style="color:#fff;font-weight:bold">id</span>(a) <span style="color:#007f7f">#内存地址</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>a[:] = a + torch.tensor(<span style="color:#ff0;font-weight:bold">1</span>)
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">id</span>(a) == before
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="16-转为其它python对象">1.6 转为其它Python对象<a hidden class="anchor" aria-hidden="true" href="#16-转为其它python对象">#</a></h2>
+<ul>
+<li>转为Numpy数组</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>A = X.numpy() <span style="color:#007f7f"># tensor→numpy</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>torch.tensor(A) <span style="color:#007f7f"># numpy→tensor</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>大小为1的张量转为Python标量</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>a = torch.tensor(<span style="color:#ff0;font-weight:bold">3.0</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>a.item()
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">float</span>(a)
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">int</span>(a)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="2-数据预处理">2. 数据预处理<a hidden class="anchor" aria-hidden="true" href="#2-数据预处理">#</a></h1>
+<h2 id="21-读取数据集">2.1 读取数据集<a hidden class="anchor" aria-hidden="true" href="#21-读取数据集">#</a></h2>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> os
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> pandas <span style="color:#fff;font-weight:bold">as</span> pd
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>os.makedirs(os.path.join(<span style="color:#0ff;font-weight:bold">&#39;..&#39;</span>,<span style="color:#0ff;font-weight:bold">&#39;data&#39;</span>), exist_ok=<span style="color:#fff;font-weight:bold">True</span>) <span style="color:#007f7f">#上一级目录创建data文件夹</span>
+</span></span><span style="display:flex;"><span>data_file = os.path.join(<span style="color:#0ff;font-weight:bold">&#39;..&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;data&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;house_tiny.csv&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">with</span> <span style="color:#fff;font-weight:bold">open</span>(data_file, <span style="color:#0ff;font-weight:bold">&#39;w&#39;</span>) <span style="color:#fff;font-weight:bold">as</span> f:
+</span></span><span style="display:flex;"><span>    f.write(<span style="color:#0ff;font-weight:bold">&#39;NumRooms,Alley,Price</span><span style="color:#0ff;font-weight:bold">\n</span><span style="color:#0ff;font-weight:bold">&#39;</span>) <span style="color:#007f7f">#列名</span>
+</span></span><span style="display:flex;"><span>    f.write(<span style="color:#0ff;font-weight:bold">&#39;NA,Pave,127500</span><span style="color:#0ff;font-weight:bold">\n</span><span style="color:#0ff;font-weight:bold">&#39;</span>) <span style="color:#007f7f">#每行一个样本</span>
+</span></span><span style="display:flex;"><span>    f.write(<span style="color:#0ff;font-weight:bold">&#39;2,NA,106000</span><span style="color:#0ff;font-weight:bold">\n</span><span style="color:#0ff;font-weight:bold">&#39;</span>)
+</span></span><span style="display:flex;"><span>    f.write(<span style="color:#0ff;font-weight:bold">&#39;4,NA,178100</span><span style="color:#0ff;font-weight:bold">\n</span><span style="color:#0ff;font-weight:bold">&#39;</span>)
+</span></span><span style="display:flex;"><span>    f.write(<span style="color:#0ff;font-weight:bold">&#39;NA,NA,140000</span><span style="color:#0ff;font-weight:bold">\n</span><span style="color:#0ff;font-weight:bold">&#39;</span>)    
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>data = pd.read_csv(data_file)
+</span></span><span style="display:flex;"><span>data
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="22-处理缺失值">2.2 处理缺失值<a hidden class="anchor" aria-hidden="true" href="#22-处理缺失值">#</a></h2>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>inputs, outputs = data.iloc[:, <span style="color:#ff0;font-weight:bold">0</span>:<span style="color:#ff0;font-weight:bold">2</span>], data.iloc[:, <span style="color:#ff0;font-weight:bold">2</span>] <span style="color:#007f7f">#按列拆分为两个表</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 数值缺失值填充</span>
+</span></span><span style="display:flex;"><span>inputs = inputs.fillna(inputs.mean(numeric_only=<span style="color:#fff;font-weight:bold">True</span>))
+</span></span><span style="display:flex;"><span>inputs
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 类别缺失值填充</span>
+</span></span><span style="display:flex;"><span>inputs = pd.get_dummies(inputs, dummy_na=<span style="color:#fff;font-weight:bold">True</span>, dtype = <span style="color:#fff;font-weight:bold">float</span>)
+</span></span><span style="display:flex;"><span>inputs
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="23-转换为张量">2.3 转换为张量<a hidden class="anchor" aria-hidden="true" href="#23-转换为张量">#</a></h2>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> torch
+</span></span><span style="display:flex;"><span>X, y = torch.tensor(inputs.values), torch.tensor(outputs.values)
+</span></span><span style="display:flex;"><span>X, y
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 深度学习通常用float32</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="3-线性代数">3. 线性代数<a hidden class="anchor" aria-hidden="true" href="#3-线性代数">#</a></h1>
+<h2 id="31-标量">3.1 标量<a hidden class="anchor" aria-hidden="true" href="#31-标量">#</a></h2>
+<ul>
+<li>只有一个元素的张量</li>
+<li>普通、小写的字母表示</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> torch
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>x = torch.tensor(<span style="color:#ff0;font-weight:bold">3.0</span>)
+</span></span><span style="display:flex;"><span>y = torch.tensor(<span style="color:#ff0;font-weight:bold">4.0</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>x + y, x - y, x / y, x ** y
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="32-向量">3.2 向量<a hidden class="anchor" aria-hidden="true" href="#32-向量">#</a></h2>
+<ul>
+<li>具有一个轴的张量</li>
+<li>粗体、小写的字母表示</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>x = torch.arange(<span style="color:#ff0;font-weight:bold">4</span>)
+</span></span><span style="display:flex;"><span>x
+</span></span><span style="display:flex;"><span>x.shape
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>向量/轴的维度表示向量或轴的长度；</p>
+<p>张量的维度表示张量具有的轴数。</p></blockquote>
+<h2 id="33-矩阵">3.3 矩阵<a hidden class="anchor" aria-hidden="true" href="#33-矩阵">#</a></h2>
+<ul>
+<li>具有两个轴的张量</li>
+<li>粗体、大写的字母表示</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>A = torch.arange(<span style="color:#ff0;font-weight:bold">20</span>).reshape(<span style="color:#ff0;font-weight:bold">5</span>, <span style="color:#ff0;font-weight:bold">4</span>)
+</span></span><span style="display:flex;"><span>A.shape
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>B = A.T  <span style="color:#007f7f">#转置矩阵</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## 对称矩阵，转置后等于转置前</span>
+</span></span><span style="display:flex;"><span>A == A.T
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="34-张量">3.4 张量<a hidden class="anchor" aria-hidden="true" href="#34-张量">#</a></h2>
+<ul>
+<li>具有任意数量轴的n维数组</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>X = torch.arange(<span style="color:#ff0;font-weight:bold">24</span>).reshape(<span style="color:#ff0;font-weight:bold">2</span>, <span style="color:#ff0;font-weight:bold">3</span>, <span style="color:#ff0;font-weight:bold">4</span>)
+</span></span><span style="display:flex;"><span>X.shape
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="35-张量算法的基本性质">3.5 张量算法的基本性质<a hidden class="anchor" aria-hidden="true" href="#35-张量算法的基本性质">#</a></h2>
+<ul>
+<li>张量与一个标量的基本运算不会改变张量的形状；</li>
+<li>相同形状的两个张量运算（<strong>按元素</strong>）结果仍是相同形状的张量</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>a = <span style="color:#ff0;font-weight:bold">2</span>
+</span></span><span style="display:flex;"><span>X = torch.arange(<span style="color:#ff0;font-weight:bold">24</span>).reshape(<span style="color:#ff0;font-weight:bold">2</span>, <span style="color:#ff0;font-weight:bold">3</span>, <span style="color:#ff0;font-weight:bold">4</span>)
+</span></span><span style="display:flex;"><span>X + a
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>A = torch.arange(<span style="color:#ff0;font-weight:bold">20</span>, dtype = float32).reshape(<span style="color:#ff0;font-weight:bold">5</span>, <span style="color:#ff0;font-weight:bold">4</span>)
+</span></span><span style="display:flex;"><span>B = A.clone()   <span style="color:#007f7f">#分配新内存，隔离</span>
+</span></span><span style="display:flex;"><span>A, A + B
+</span></span><span style="display:flex;"><span>A * B      <span style="color:#007f7f">#哈达玛积</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="36-降维">3.6 降维<a hidden class="anchor" aria-hidden="true" href="#36-降维">#</a></h2>
+<ul>
+<li>默认调用求和函数会计算张量所有元素的和，返回一个标量</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>x = torch.arange(<span style="color:#ff0;font-weight:bold">4</span>, dtype = float32)
+</span></span><span style="display:flex;"><span>x.sum()
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>指定轴进行求和，会消除该轴，得到降维结果</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>A = torch.arange(<span style="color:#ff0;font-weight:bold">20</span>, dtype = float32).reshape(<span style="color:#ff0;font-weight:bold">5</span>, <span style="color:#ff0;font-weight:bold">4</span>)
+</span></span><span style="display:flex;"><span>A.sum(axis = <span style="color:#ff0;font-weight:bold">0</span>)
+</span></span><span style="display:flex;"><span>A.sum(axis = <span style="color:#ff0;font-weight:bold">1</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p><code>.mean()</code>求平均值，操作与上述类似。</p></blockquote>
+<ul>
+<li>非降维求和，方便应用广播机制（前提是张量的轴数相同）</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>A.sum(axis = <span style="color:#ff0;font-weight:bold">0</span>, keepdims = <span style="color:#fff;font-weight:bold">True</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="37-点积">3.7 点积<a hidden class="anchor" aria-hidden="true" href="#37-点积">#</a></h2>
+<ul>
+<li>两个向量按相同位置乘积的和</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>x = torch.arange(<span style="color:#ff0;font-weight:bold">4</span>, dtype = float32)
+</span></span><span style="display:flex;"><span>y = torch.ones(<span style="color:#ff0;font-weight:bold">4</span>, dtype = float32)
+</span></span><span style="display:flex;"><span>torch.dot(x, y)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 等价于</span>
+</span></span><span style="display:flex;"><span>torch.sum(x * y)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="38-矩阵向量积">3.8 矩阵—向量积<a hidden class="anchor" aria-hidden="true" href="#38-矩阵向量积">#</a></h2>
+<ul>
+<li>矩阵的列数（轴0的维度）等于向量的长度；</li>
+<li>矩阵的每一行与向量的点积；</li>
+<li>最大的用途：将向量的维度改变</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>A = torch.arange(<span style="color:#ff0;font-weight:bold">20</span>, dtype = float32).reshape(<span style="color:#ff0;font-weight:bold">5</span>, <span style="color:#ff0;font-weight:bold">4</span>)
+</span></span><span style="display:flex;"><span>x = torch.arange(<span style="color:#ff0;font-weight:bold">4</span>, dtype = float32)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>torch.mv(A, x) <span style="color:#007f7f"># length 5</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="39-矩阵乘法">3.9 矩阵乘法<a hidden class="anchor" aria-hidden="true" href="#39-矩阵乘法">#</a></h2>
+<ul>
+<li>左边矩阵的列数等于右边矩阵的行数</li>
+<li>可以理解为右边矩阵的每一行与左边矩阵的计算结果，再拼接为矩阵</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>A = torch.arange(<span style="color:#ff0;font-weight:bold">20</span>, dtype = float32).reshape(<span style="color:#ff0;font-weight:bold">5</span>, <span style="color:#ff0;font-weight:bold">4</span>)
+</span></span><span style="display:flex;"><span>B = torch.ones(<span style="color:#ff0;font-weight:bold">4</span>, <span style="color:#ff0;font-weight:bold">3</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>torch.mm(A, B)  <span style="color:#007f7f">#(5, 3)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="310-范数">3.10 范数<a hidden class="anchor" aria-hidden="true" href="#310-范数">#</a></h2>
+<ul>
+<li>范数可以理解为距离大小的度量</li>
+<li>向量的L2范数：向量元素平方和的平方根</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>u = torch.tensor([<span style="color:#ff0;font-weight:bold">3.0</span>, <span style="color:#ff0;font-weight:bold">4.0</span>])
+</span></span><span style="display:flex;"><span>torch.nom(u)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>向量的L1范数：向量元素的绝对值之和</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>torch.abs(u).sum()
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>矩阵的F范数：矩阵元素平方和的平方根</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span>torch.norm(torch.ones(<span style="color:#ff0;font-weight:bold">4</span>, <span style="color:#ff0;font-weight:bold">9</span>))
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="4-微积分">4. 微积分<a hidden class="anchor" aria-hidden="true" href="#4-微积分">#</a></h1>
+<h2 id="41-导数和微分">4.1 导数和微分<a hidden class="anchor" aria-hidden="true" href="#41-导数和微分">#</a></h2>
+<ul>
+<li>微分是一种表达方式，表示当自变量有一个微小变化时，因变量的近似变化。</li>
+<li>导数是一个数值，其计算为：对于包含模型参数的<strong>损失函数</strong>，如果将<strong>参数</strong>增加或减少一个无穷小的量，损失会以多快的<strong>速度</strong>增加或减少</li>
+<li>导数的几何理解：曲线在特点处的切线的斜率</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240720110240386.png" alt="image-20240720110240386"  />
+</p>
+<h2 id="42-偏导数">4.2 偏导数<a hidden class="anchor" aria-hidden="true" href="#42-偏导数">#</a></h2>
+<ul>
+<li>上述导数计算的(损失)函数中，只有一个自变量（参数）；</li>
+<li>当函数有多个变量时，分别对每一个自变量（参数）的导数，称为<strong>偏导数</strong>；</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240720110455427.png" alt="image-20240720110455427"  />
+</p>
+<h2 id="43-梯度">4.3 梯度<a hidden class="anchor" aria-hidden="true" href="#43-梯度">#</a></h2>
+<ul>
+<li>标量y对于向量<strong>x</strong>（多个自变量）的求导结果是向量；</li>
+<li><strong>梯度向量</strong>表示一个多元函数对于其每个变量的偏导数，综合指向梯度下降最快的方向。</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240720112132156.png" alt="image-20240720112132156"  />
+</p>
+<h2 id="44-链式法则">4.4 链式法则<a hidden class="anchor" aria-hidden="true" href="#44-链式法则">#</a></h2>
+<ul>
+<li>上述的方法方便理解，但难以计算梯度；</li>
+<li>对于复合函数，可应用链式法则求微分；</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240720112854141.png" alt="image-20240720112854141"  />
+</p>
+<ul>
+<li>例如两层MLP神经网络。第一层有n个神经元（x1，x2&hellip;）；第二层有m个神经元（u1，u2，&hellip;），输出层为y。而y对于第一层中任意一个偏导数可以表示为：</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240720112834173.png" alt="image-20240720112834173"  />
+</p>
+<h1 id="5-自动微分">5. 自动微分<a hidden class="anchor" aria-hidden="true" href="#5-自动微分">#</a></h1>
+<h2 id="51-简单例子">5.1 简单例子<a hidden class="anchor" aria-hidden="true" href="#51-简单例子">#</a></h2>
+<ul>
+<li>深度学习会根据模型框架，构建一个计算图，跟踪哪些数据通过那些操作组合起来产生输出；</li>
+<li>然后从输出项开始，通过<strong>反向传播</strong>梯度，计算关于每个参数的偏导数；</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> torch
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>x = torch.arange(<span style="color:#ff0;font-weight:bold">4.0</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 声明需要储存梯度</span>
+</span></span><span style="display:flex;"><span>x.requires_grad_(<span style="color:#fff;font-weight:bold">True</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 查看梯度，默认值为None</span>
+</span></span><span style="display:flex;"><span>x.grad
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#给定一个函数</span>
+</span></span><span style="display:flex;"><span>y = <span style="color:#ff0;font-weight:bold">2</span> * torch.dot(x, x)  <span style="color:#007f7f"># y = 2[(x1)2 + (x2)2 + (x3)2 + (x4)2]</span>
+</span></span><span style="display:flex;"><span>y.backward  <span style="color:#007f7f">#反向传播每个参数的偏导数</span>
+</span></span><span style="display:flex;"><span>x.grad      <span style="color:#007f7f">#梯度计算结果</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>计算另一个函数的梯度时，需要清楚之前的值</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>x.grad.zero_()
+</span></span><span style="display:flex;"><span>y = x.sum()  <span style="color:#007f7f"># y = x1 + x2 + x3 + x4</span>
+</span></span><span style="display:flex;"><span>y.backward()
+</span></span><span style="display:flex;"><span>x.grad
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="52-非标量的反向传播">5.2 非标量的反向传播<a hidden class="anchor" aria-hidden="true" href="#52-非标量的反向传播">#</a></h2>
+<ul>
+<li>标量y对于向量<strong>x</strong>的导数是一个向量</li>
+<li>向量<strong>y</strong>对于向量<strong>x</strong>的导数是一个矩阵</li>
+<li>在深度学习应用场景中，多见于小批量样本训练。实现形式并非计算微分矩阵，而是单独计算批量中每个样本的偏导数之和。</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>x.grad.zero_()
+</span></span><span style="display:flex;"><span>y = x * x          <span style="color:#007f7f"># 向量</span>
+</span></span><span style="display:flex;"><span>y.sum().backward()
+</span></span><span style="display:flex;"><span>x.grad
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="53-分离计算">5.3 分离计算<a hidden class="anchor" aria-hidden="true" href="#53-分离计算">#</a></h2>
+<ul>
+<li>
+<p>y = f(x)</p>
+</li>
+<li>
+<p>z = f(y, x)</p>
+</li>
+<li>
+<p>计算z关于x的梯度。但由于某种原因，希望将y视为一个常数，只考虑x在y被计算后的作用。</p>
+</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>x.grad.zero_()
+</span></span><span style="display:flex;"><span>y = x * x
+</span></span><span style="display:flex;"><span>u = y.detach()  <span style="color:#007f7f">#视为常数</span>
+</span></span><span style="display:flex;"><span>z = u * x       <span style="color:#007f7f">#x的导数为1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>z.sum().backward()
+</span></span><span style="display:flex;"><span>x.grad() == u
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="6-概率">6. 概率<a hidden class="anchor" aria-hidden="true" href="#6-概率">#</a></h1>
+<h2 id="61-联合概率">6.1 联合概率<a hidden class="anchor" aria-hidden="true" href="#61-联合概率">#</a></h2>
+<ul>
+<li>P(A, B)：表示事件A，B同时发生的概率</li>
+<li>P(A, B) ≤ P(A)：事件A，B同时发生的概率小于等于事件A或B单独发生的概率</li>
+</ul>
+<h2 id="62-条件概率">6.2 条件概率<a hidden class="anchor" aria-hidden="true" href="#62-条件概率">#</a></h2>
+<ul>
+<li>P(B|A)：表示在事件A发生前提下，B发生的概率</li>
+<li>P(B|A) = P(A, B) / P(A)</li>
+</ul>
+<h2 id="63-贝叶斯定理">6.3 贝叶斯定理<a hidden class="anchor" aria-hidden="true" href="#63-贝叶斯定理">#</a></h2>
+<ul>
+<li>由条件概率可得：P(A, B) = P(B|A)*P(A)</li>
+<li>根据对称性可得：P(A, B) = P(A|B)*P(B)</li>
+<li>所以可推导： P(A|B) = P(B|A)*P(A) / P(B)
+<ul>
+<li>P(A) 称为先验概率</li>
+<li>P(A|B)称为后验概率</li>
+<li>P(B|A)称为似然</li>
+<li>P(B)称为全概率</li>
+</ul>
+</li>
+</ul>
+<h2 id="64-边际化">6.4 边际化<a hidden class="anchor" aria-hidden="true" href="#64-边际化">#</a></h2>
+<ul>
+<li>事件B的概率相当于计算A的所有可能选择，并将所有选择的联合概率聚合在一起。</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240721200657400.png" alt="image-20240721200657400"  />
+</p>
+<h2 id="65-独立性">6.5 独立性<a hidden class="anchor" aria-hidden="true" href="#65-独立性">#</a></h2>
+<ul>
+<li>若事件A与B是独立的，意味着A的发生与B的发生无关</li>
+<li>P(B|A) = P(A, B) / P(A) = P(B) 进一步可得 P(A, B) = P(A) * P(B)</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></li>
+      <li><a href="https://lishensuo.github.io/en/tags/d2l/">D2L</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/en/posts/bioinfo/704%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0--vae%E5%8F%98%E5%88%86%E8%87%AA%E5%8A%A8%E7%BC%96%E7%A0%81%E5%99%A8/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>深度学习--VAE变分自动编码器</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/en/posts/bioinfo/706d2l-%E7%AC%AC%E4%B8%89%E7%AB%A0%E7%BA%BF%E6%80%A7%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>D2L--第三章线性神经网络</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

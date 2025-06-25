@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>Python | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="李申锁的博客，记录生信学习过程。R/Python/Shell">
+<meta name="author" content="">
+<link rel="canonical" href="https://lishensuo.github.io/en/tags/python/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="https://lishensuo.github.io/en/tags/python/index.xml">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/tags/python/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Python" />
+<meta property="og:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://lishensuo.github.io/en/tags/python/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Python"/>
+<meta name="twitter:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell"/>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header"><div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/tags/">Tags</a></div>
+  <h1>Python</h1>
+</header>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>Python基础-(1)初识
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>print()打印 1 2 3 4 5 6 7 8 print(&#34;Hello, world!&#34;) #打印多个字符串，默认用空格链接 print(&#34;A&#34;, &#34;B&#34;, &#34;C&#34;) print(&#34;A&#34;, &#34;B&#34;, &#34;C&#34;,sep=&#34;,&#34;) #`&#43;`可直接拼接字符串 print(&#34;A&#34;&#43;&#34;B&#34;,&#34;C&#34;) #AB C input()取用户输入 1 2 x = int(input(&#34;请输入x：&#34;)) print(x) 关于python脚本程序 1 2 3 4 5 6 7 8 9 # 方式一：使用shell的python命令显示运行python脚本 python hello.py # 方式二：在python脚本首行指定python解释器，如下所示 #!/usr/bin/env python #然后可执行 chmod a&#43;x hello.py #直接运行 ./hello.py 关于反斜杠\ 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 ### (1) 转义符 print(&#39;Let\&#39;s, go&#39;) print(&#34;Let&#39;s, go&#34;) ### (2) 转义转义符:将转义符当作普通的转斜杠字符 # \n 表示换行 print(&#34;Hello, \nworld&#34;) # 将 `\n`当作普通字符打印 print(r&#39;Hello, \nworld&#39;) ### (3) 字符串/表达式/语句换行 print(&#34;Hello, \ world!&#34;) print \ (&#34;Hello, world!&#34;) 赋值语句与序列解包 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 #简单用法 x = 1 #序列解包 x, y, z = 1, 2, 3 ## 其实上面表达式右边本质是一个元组序列 print(x,y,z) x, y, z = [1, 2, 3] print(x,y,z) #一般来说左右两边的元素数要相同，但可以使用星号运算符收集多余的值 x, y, *z = 1,2,3,4,5 print(x, y) ## 1 2 x, *y, z = 1,2,3,4,5 print(x, y, z) ## 1 [2, 3, 4] 5 </p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-10 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-10&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-05-14&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;435&amp;nbsp;|&amp;nbsp;1 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to Python基础-(1)初识" href="https://lishensuo.github.io/en/posts/program/001python%E5%9F%BA%E7%A1%80-1%E5%88%9D%E8%AF%86/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>Python基础-(2)列表、元组、字符串、字典
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>关于序列 序列：有顺序的元素排列；第一个元素的索引为0 列表list，元组tuple，字符串str都属于序列；但一般情况下，只有list可修改，后二者不可修改 一、序列通用操作 1、索引–访问元素里的单个元素 indexing 第一个元素的索引为0； 倒数第n个元素的索引为-n 1 2 3 4 greet = &#39;Hello&#39; greet[0] greet[-1] &#39;Hello&#39;[0] 2、切片–访问某个范围的多个元素 slicing 需要提供两个索引指定范围的边界。 第一个索引是起始点的编号，第二个索引是边界终点的编号**&#43;1** 1 2 3 4 5 6 7 8 9 numbers = [1,2,3,4,5,6,7,8,9,10] numbers[1:3] # [2, 3] numbers[-5:-3] # [6, 7] numbers[3:] numbers[:9] numbers[:] 3、序列相加/相乘 1 2 3 4 5 # 序列相加（连接） [1,2,3] &#43; [4,5,6] # 序列相乘 &#39;hello&#39; * 3 4、确认是否包含某元素 1 2 3 4 5 &#39;A&#39; in &#39;ABC&#39; # True &#39;li&#39; in [&#39;li&#39;, &#39;wang&#39;,&#39;zhou&#39;] # True 5、补充：关于set集合 集合set内没有重复元素，且没有顺序，所以本质上不属于序列； 可使用set()函数创建集合，或者使用{}创建； 主要用于成员资格检查（类似上面的第4点），以及集合的交、并、补等操作 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 ##创建集合 set(range(5)) # {0, 1, 2, 3, 4} {4,6,1,9,0} # {0, 1, 4, 6, 9} ##成员资格检查 0 in {4,6,1,9,0} # True ##集合操作 a = {1,2,3} b = {1,2,4} c = {1,2} ###(1)交集 a.intersection(b) # 通过函数调用，b可以是list等可迭代对象 （下同） a &amp; b # 通过符号调用，b必须是set对象 （下同） # {1, 2} ###(2)是否子集 c.issubset(a) c &lt;= a # True ###(3)差集 a.difference(b) a-b # {3} ###(4)全集 a.union(b) a | b # {1, 2, 3, 4} 二、列表的特有操作 1、利用索引与切片直接修改列表 索引 1 2 x = [1,2,3] x[1] = 1 切片 1 2 3 4 5 6 7 8 9 10 11 #由于字符串不能修改，需要先将字符串转为列表 names = list(&#39;python&#39;) names[1:3] = list(&#39;YT&#39;) #由于赋值的字符串的长度可以与被修改的字符串长度不同，所以可以引申用法 ## 变相的插入 names = list(&#39;python&#39;) names[1:1] = list(&#39;AAA&#39;) ## 变相的删除 names = list(&#39;python&#39;) names[1:3] = [] 2、列表的方法–增删改查 增 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 # (1) append: 增加元素到末尾 numbers = [1, 2, 3] numbers.append(4) ##原地修改，无返回值 # (2) extend: 增加列表里的元素到末尾 numbers = [1, 2, 3] numbers.extend([4, 5, 6]) ##原地修改，无返回值 # (3) insert: 在指定索引位置插入元素 numbers = [1, 2, 3] numbers.insert(2, &#34;four&#34;) # [1, 2, &#39;four&#39;, 3] ##原地修改，无返回值 删 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 # (1) pop: 删除最后一个元素 numbers = [1, 2, 3] numbers.pop() ##原地修改，并返回被删除的值 # (2) remove: 删除指定元素的值 numbers = [1, 2, 3] numbers.remove(1) # [2, 3] ##原地修改，无返回值 # 关于list列表的删除操作，有一个函数`del`支持根据索引删除元素 numbers = [1, 2, 3] del numbers[1] # [1, 3] 改 1 2 3 4 5 6 7 8 9 # (1) reverse: 逆转当前列表元素的顺序 numbers = [1, 2, 3] numbers.reverse() ##原地修改，无返回值 # (2) sort: 顺序排列当前列表的元素, 默认升序排列 numbers = [2, 1, 3] numbers.sort() numbers.sort(reverse=True) 查 1 2 3 4 5 6 7 # (1) count: 查看某一元素的频率 numbers = [1, 2, 2, 3, 3, 3] numbers.count(2) # (2) index: 查看某一元素值的索引 numbers = [1, 2, 3] numbers.index(2) 3、filter()搭配lamda列表筛选 filter()函数包含如下两个参数
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-10 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-10&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-05-14&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2292&amp;nbsp;|&amp;nbsp;5 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to Python基础-(2)列表、元组、字符串、字典" href="https://lishensuo.github.io/en/posts/program/002python%E5%9F%BA%E7%A1%80-2%E5%88%97%E8%A1%A8%E5%85%83%E7%BB%84%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%AD%97%E5%85%B8/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>Python基础-(3)条件与循环语句
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>一、条件语句 1、布尔值 在python中，这些值均为视为假：False, None, 0, &#39;&#39;,(), [], {}。其余所有可能的值都视为真 1 2 3 4 5 6 7 bool(None) # False bool(&#39;&#39;) # False bool(&#34;anything&#34;) # True 2、if语句结构 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 thisnum = 6 ##层级1 if thisnum &gt; 0: print(&#34;This number is positive.&#34;) ##层级2 if thisnum &gt; 0: print(&#34;This number is positive.&#34;) else: print(&#34;This number is negative.&#34;) ##层级3 if thisnum &gt; 0: print(&#34;This number is positive.&#34;) elif thisnum == 0: print(&#34;This number is zero.&#34;) else: print(&#34;This number is negative.&#34;) 3、运算符 and, or, not 1 2 3 4 5 6 7 thisnum = 5 if thisnum &lt;= 9 and thisnum &gt; 0: print(&#34;This is a natural number&#34;) #也可以使用链式比较 if 0 &lt; thisnum &lt;= 9: print(&#34;This is a natural number&#34;) 二、for循环语句 1、for语句结构 1 2 3 4 5 6 numebrs = [1,2,3,4,5,6] #等价于 numbers = list(range(0,7)) for number in range(0,7): print(number) 2、迭代方法 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 #(1)迭代字典 d = {&#39;x&#39;:1, &#39;y&#39;:2, &#39;z&#39;:3} ##迭代字典的键 for key in d: print(key, &#39;value is&#39;, d[key]) ##迭代字典的每一项 for key, value in d.items(): print(key, &#39;value is&#39;, value) #(2) zip()可缝合多个等长序列，用于迭代 name=[&#39;AA&#39;,&#34;BB&#34;,&#34;CC&#34;] age=[12,15,11] list(zip(name, age)) ## [(&#39;AA&#39;, 12), (&#39;BB&#39;, 15), (&#39;CC&#39;, 11)] for name,age in zip(name, age): print(name, &#39;is&#39;, age, &#39;years old&#39;) #(3) enumerate()同时迭代索引 strs = [&#39;A&#39;, &#39;B&#39;, &#39;C&#39;] for index, st in enumerate(strs): print(index, st) ## 0 A ## 1 B ## 2 C 3、break/continue break：结束循环 1 2 3 4 5 6 from math import sqrt for n in range(99,0,-1): root = sqrt(n) #平方根 if root == int(root): print(n) break continue：跳过当前循环 1 2 3 4 5 #打印奇数 for i in range(0,9): if i%2==0: continue print(i) 4、for语句创建列表 1 2 3 4 5 6 7 8 9 10 11 12 [x*x for x in range(5)] # [0, 1, 4, 9, 16] ##筛选符合条件的变量x [x*x for x in range(5) if x%2==0] # [0, 4, 16] ##组合两个列表，不同于zip() As = [1,2] Bs = [&#39;a&#39;,&#39;b&#39;] [(x, y) for x in As for y in Bs] # [(1, &#39;a&#39;), (1, &#39;b&#39;), (2, &#39;a&#39;), (2, &#39;b&#39;)] 三、其它语句 pass 占位符，什么都不做；
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-10 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-10&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-04-10&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;682&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to Python基础-(3)条件与循环语句" href="https://lishensuo.github.io/en/posts/program/003python%E5%9F%BA%E7%A1%80-3%E6%9D%A1%E4%BB%B6%E4%B8%8E%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>Python基础-(4)函数Function
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1、定义函数 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 # def语句定义函数 def hello(name): print(&#34;Hello,&#34;, name) # 添加return语句有两个作用 ## (1) 表示函数的结束 ## (2) 指定函数的返回值 def square(number): res = number*number return res square(4) # 可以在函数开头编辑一个文档字符串，用以解释函数功能，可作为函数的一部分储存起来 def square(number): &#39;Calaulate the square of the input number&#39; res = number*number return res help(square) #可以在帮助文档里找到这个字符串 # 定义多个参数 def hello(time,name): print(&#34;Good&#34;,time, &#34;,&#34;, name) hello(name=&#34;LI&#34;,time=&#34;morning&#34;) 2、参数类型 （1）在定义函数时，可以设置参数的默认值。但需要注意的是这类参数需要放到最后。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-10 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-10&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-04-10&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;580&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to Python基础-(4)函数Function" href="https://lishensuo.github.io/en/posts/program/004python%E5%9F%BA%E7%A1%80-4%E5%87%BD%E6%95%B0function/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>Python基础-(5)类Class与实例Instance
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 面向对象的设计思想是抽象出Class(类)，根据Class创建Instance(实例)。
+类是一个相对抽象的概念，而实例是其具体化。例如将学生视为类，那么李华，王丽等具体的学生就是实例。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-10 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-10&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-05-29&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1423&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to Python基础-(5)类Class与实例Instance" href="https://lishensuo.github.io/en/posts/program/005python%E5%9F%BA%E7%A1%80-5%E7%B1%BBclass%E4%B8%8E%E5%AE%9E%E4%BE%8Binstance/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>Python基础-(6)捕捉异常Error
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1、什么是异常 异常通常是指因各种原因的出错程序代码不能正常运行，从而返回报错信息，中断程序。
+报错信息由两部分组成（1）Traceback：追溯出错的源头（2）异常所属的类，以及提示的上下文。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-10 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-10&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-05-30&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;813&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to Python基础-(6)捕捉异常Error" href="https://lishensuo.github.io/en/posts/program/006python%E5%9F%BA%E7%A1%80-6%E5%BC%82%E5%B8%B8error/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>Python基础-(7)模块/包Module
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1、加载模块 模块简单来说是用来定义函数、类、变量的python脚本文件。
+模块的分类
+根据来源不同：可分为内置模块、第三方模块以及自建模块。
+无论哪一种模块，都需要放在正确的路径下，让python可以找到，然后才可以成功加载。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-10 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-10&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-04-10&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;928&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to Python基础-(7)模块/包Module" href="https://lishensuo.github.io/en/posts/program/007python%E5%9F%BA%E7%A1%80-7%E6%A8%A1%E5%9D%97%E5%9F%BA%E7%A1%80module/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>Python基础-(8)常用基础模块Module
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1. sys 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 ##(1) sys.argv 给脚本传参 #如下定义一个sys.py脚本 #!/usr/bin/env python import sys print(sys.argv[0]) #第0个参数为脚本名 print(sys.argv[1]) python sys.py first # sys.py # first ##(2) sys.path 一个列表，包含要在其中查找模块的目录名称 sys.path.append() 2. os 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 ## (1) os.system 执行shell命令 os.system(&#34;pwd&#34;) os.system(&#34;ls -lh&#34;) ## (2) os.path 路径操作相关 os.path.abspath(&#34;.&#34;) #返回绝对路径 os.path.basename(&#34;/home/test/file.txt&#34;) #单独返回文件名 os.path.dirname(&#34;/home/test/file.txt&#34;) #单独返回路径名 os.path.split(&#34;/home/test/file.txt&#34;) #返回由文件名和路径名组成的元组 #(&#39;/home/test&#39;, &#39;file.txt&#39;) os.path.splitext(&#34;file.txt&#34;) #将文件名与后缀名分开 #(&#39;file&#39;, &#39;.txt&#39;) os.path.exists(&#34;/home/test/file.txt&#34;) #判断文件或者目录是否存在 #False ## 此外os模块还支持对目录、文件的常规操作，例如创建、删除、重命名等 3. time 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 import time time.sleep(3) #解释器等待指定秒数 time.time() #当前时间至新纪元的秒数(时间戳) # 1649984110.885341 time.localtime() #默认返回当前时间戳的时间元组 time.localtime(100000000) #返回指定时间戳时间元组 # time.struct_time(tm_year=1973, tm_mon=3, tm_mday=3, tm_hour=17, tm_min=46, tm_sec=40, tm_wday=5, tm_yday=62, tm_isdst=0) tuple(time.localtime(100000000)) # 返回tuple # (1973, 3, 3, 17, 46, 40, 5, 62, 0) ###将时间元组格式化输出 time.asctime(time.localtime()) # &#39;Fri Apr 15 08:59:43 2022&#39; ###(1)按自定义格式输出 #常见的item有： %Y-年, %m-月, %d-日, %H-时, %M-分, %S-秒, %a-星期几, %b-英文月份 #全部的item参考：https://www.runoob.com/python/python-date-time.html time.strftime(&#34;%Y-%m-%d %H:%M:%S&#34;, time.localtime()) # &#39;2022-04-15 09:12:29&#39; time.strftime(&#34;%a %b %d %H:%M:%S %Y&#34;, time.localtime()) # &#39;Fri Apr 15 09:12:49 2022&#39; ###(2)将格式字符串转换为时间戳 a = &#34;2022-04-15 09:12:29&#34; time.mktime(time.strptime(a,&#34;%Y-%m-%d %H:%M:%S&#34;)) # 1649985149.0 关于时间元组的格式：
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-17 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-17&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-04-17&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2529&amp;nbsp;|&amp;nbsp;6 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to Python基础-(8)常用基础模块Module" href="https://lishensuo.github.io/en/posts/program/008python%E5%9F%BA%E7%A1%80-8%E5%B8%B8%E7%94%A8%E5%86%85%E7%BD%AE%E6%A8%A1%E5%9D%97module/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>Python基础-(9)文本读写与pickle保存
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1、打开文件 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 ## (1) r 只能读取。若文件不存在，会报错。 f = open(&#34;test.txt&#34;, &#34;r&#34;) #由于默认mode=&#34;r&#34;， 等价于 f = open(&#34;test.txt&#34;) ##文件对象f具有读取的相关方法 ## (2) w 只能写入。若文件已存在，会覆盖原有内容；若不存在会新建。 f = open(&#34;test.txt&#34;, &#34;w&#34;) ##文件对象f具有写入的相关方法 ## (3) x 只能写入。若文件已存在，会报错；若不存在会新建。 ## (4) a 只能写入。若文件已存在，会追加；若不存在会新建。 ## (5) r&#43; 可读可写。若文件不存在会报错；已存在会追加。 f = open(&#34;test.txt&#34;, &#34;r&#43;&#34;) ##文件对象f具有读取和写入的相关方法 ## (6) w&#43; 可读可写。若文件不存在会新建；已存在会覆盖。 f = open(&#34;test.txt&#34;, &#34;w&#43;&#34;) 在打开文件，进行读取/写入等操作后，待退出时，记得f.close()。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-17 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-17&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-09-20&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1158&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to Python基础-(9)文本读写与pickle保存" href="https://lishensuo.github.io/en/posts/program/009python%E5%9F%BA%E7%A1%80-9%E6%96%87%E6%9C%AC%E8%AF%BB%E5%86%99%E4%B8%8Epickle%E4%BF%9D%E5%AD%98/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>Python-Dunder双下划线特殊方法
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>特殊类变量 在定义类时，Python 提供了一些特殊方法（也称为“魔术方法”或“dunder 方法”，因为它们的名称前后都有双下划线 __, double underscore），这些方法用于为类定义特殊行为。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-10-16 00:00:00 &#43;0000 UTC&#39;&gt;2024-10-16&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-10-16&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1027&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to Python-Dunder双下划线特殊方法" href="https://lishensuo.github.io/en/posts/program/010python-dunder%E5%8F%8C%E4%B8%8B%E5%88%92%E7%BA%BF%E7%89%B9%E6%AE%8A%E6%96%B9%E6%B3%95/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="next" href="https://lishensuo.github.io/en/tags/python/page/2/">Next Page »</a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

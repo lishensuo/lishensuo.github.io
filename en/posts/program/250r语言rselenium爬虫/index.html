@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>R语言RSelenium爬虫.md | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="R">
+<meta name="description" content="1、html基础与xpath语法
+1.1 html基础
+
+大多数网页内容都是html结构组织的，在我理解就是有众多节点(node)组成的树状结构；
+而我们想要爬取的内容就是其中的某个或者某些节点的文本标签或者属性中。
+更多可参考：
+（1）https://www.w3cschool.cn/html/html-basic.html
+（2）HTML零基础入门教程（详细）_ZONGXP的博客-CSDN博客_html5零基础入门教程
+
+
+">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/program/250r%E8%AF%AD%E8%A8%80rselenium%E7%88%AC%E8%99%AB/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/program/250r%E8%AF%AD%E8%A8%80rselenium%E7%88%AC%E8%99%AB/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="R语言RSelenium爬虫.md" />
+<meta property="og:description" content="1、html基础与xpath语法
+1.1 html基础
+
+大多数网页内容都是html结构组织的，在我理解就是有众多节点(node)组成的树状结构；
+而我们想要爬取的内容就是其中的某个或者某些节点的文本标签或者属性中。
+更多可参考：
+（1）https://www.w3cschool.cn/html/html-basic.html
+（2）HTML零基础入门教程（详细）_ZONGXP的博客-CSDN博客_html5零基础入门教程
+
+
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/program/250r%E8%AF%AD%E8%A8%80rselenium%E7%88%AC%E8%99%AB/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-05-10T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2022-05-10T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="R语言RSelenium爬虫.md"/>
+<meta name="twitter:description" content="1、html基础与xpath语法
+1.1 html基础
+
+大多数网页内容都是html结构组织的，在我理解就是有众多节点(node)组成的树状结构；
+而我们想要爬取的内容就是其中的某个或者某些节点的文本标签或者属性中。
+更多可参考：
+（1）https://www.w3cschool.cn/html/html-basic.html
+（2）HTML零基础入门教程（详细）_ZONGXP的博客-CSDN博客_html5零基础入门教程
+
+
+"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 R\u0026Python\u0026Shell --- 编程基础、可视化等",
+      "item": "https://lishensuo.github.io/en/posts/program/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "R语言RSelenium爬虫.md",
+      "item": "https://lishensuo.github.io/en/posts/program/250r%E8%AF%AD%E8%A8%80rselenium%E7%88%AC%E8%99%AB/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "R语言RSelenium爬虫.md",
+  "name": "R语言RSelenium爬虫.md",
+  "description": "1、html基础与xpath语法 1.1 html基础 大多数网页内容都是html结构组织的，在我理解就是有众多节点(node)组成的树状结构； 而我们想要爬取的内容就是其中的某个或者某些节点的文本标签或者属性中。 更多可参考： （1）https://www.w3cschool.cn/html/html-basic.html （2）HTML零基础入门教程（详细）_ZONGXP的博客-CSDN博客_html5零基础入门教程 ",
+  "keywords": [
+    "R"
+  ],
+  "articleBody": "1、html基础与xpath语法 1.1 html基础 大多数网页内容都是html结构组织的，在我理解就是有众多节点(node)组成的树状结构； 而我们想要爬取的内容就是其中的某个或者某些节点的文本标签或者属性中。 更多可参考： （1）https://www.w3cschool.cn/html/html-basic.html （2）HTML零基础入门教程（详细）_ZONGXP的博客-CSDN博客_html5零基础入门教程 1.2 xpath语法 一个html网页往往包含非常多的节点，如何准确、快速定位到目标节点是爬虫过程中的关键问题；而xpath语法可以帮助我们实现这一点； xpath简单来说是帮助我们解析html结构的一种语言，简单入门比较推荐B站的视频：【智源学院】20分钟带你搞懂XPath — Scrapy数据解析神器_哔哩哔哩_bilibili\n语法应用笔记推荐： （1）XPath定位语法总结_Q0717168的博客-CSDN博客_xpath定位语法 （2）https://learnku.com/articles/50459\n2、xpath工具推荐 2.1 浏览器自带的定位功能 打开目标网页→ 右键单击“检查”→点击审查元素窗口左上角箭头→网页界面选择感兴趣内容→选中元素窗口高亮部分→右键单击，选择copy xpath 在元素窗口，使用ctrl+F快捷键，可以不断调试xpath 2.2 google插件之XPath Helper 可以用来非常方便地调试、验证我们的xpath 2.3 google插件之SelectorGadget 该插件只需要我们在网页选择好感兴趣的标签，然后会自动生成能够定位到目标节点的xpath路径； 不过有一个缺点就是：SelectorGadget生成的xpath路径一般比较复杂，如果我们自己花心思调试一下(2.1)往往会生成简洁的xpath路径【通往罗马的道路不止一条】 3、R语言爬虫流程 一开始学习R语言爬虫时，直接xml2::read_html()对提交的网址进行解析，但经常会出现提交正确的xpath路径，但是没有提取到节点内容的尴尬结果{xml_nodeset (0)}。 后来了解到针对动态网页的selenium爬取方法，尝试了一下果然可以得到预期的结果。而且我觉得动静态网页通吃，因此以后的R语言爬虫都采用下述的流程来操作。 参考笔记 ：微信公众号：老俊俊的生信笔记–R语言爬虫系列笔记 R 爬虫之爬取文献信息 (qq.com) 4、selenium相关配置(window) ⭐ 参考笔记：https://zhuanlan.zhihu.com/p/24772389\nstep1：安装Java 下载、安装容易，但是将java命令添加到环境变量需要仔细一点 网上有很多笔记，例如：Java JDK安装和配置 - Java教程™ (yiibai.com) 如果在window的cmd平台调用java命令，出现如下结果，说明安装、配置java成功了 step2：chrome浏览器相关 首先要下载、安装Chrome浏览器，根据提示选择默认安装路径即可 https://www.google.cn/chrome/ 然后要下载ChromeDriver.exe https://sites.google.com/chromium.org/driver/ 有两点要注意（1）下载ChromeDriver版本要与Chrome版本一致（我的是94系列）；（2）储存路径要与chrome.exe在一个文件夹内；我的安装路径是 C:\\Program Files\\Google\\Chrome\\Application step3：下载selenium-server-standalone.jar 下载地址：http://selenium-release.storage.googleapis.com/index.html 有很多版本可供选择，我下载的是3.14版本；同时为了管理方便，与上面文件放在了同一文件夹内； 最后如果调用下面命令，出现如下图的结果说明selenium相关环境都配置好了\n1 java -Dwebdriver.chrome.driver=\"C:\\Program Files\\Google\\Chrome\\Application\\chromedriver.exe\" -jar \"C:\\Program Files\\Google\\Chrome\\Application\\selenium-server-standalone-3.141.59.jar\" 5、豆瓣爬虫实战 前期准备 （1）准备selenium环境 打开window命令行界面：win + r ，输入cmd回车；然后输入以下命令。待成功出现上图结果后，最小化界面即可。之后的操作都基于R 1 java -Dwebdriver.chrome.driver=\"C:\\Program Files\\Google\\Chrome\\Application\\chromedriver.exe\" -jar \"C:\\Program Files\\Google\\Chrome\\Application\\selenium-server-standalone-3.141.59.jar\" （2）安装、加载R包 1 2 3 4 5 6 library(RSelenium) #调试浏览器 library(xml2) #解析html结构 library(rvest) #结合xpath，定位目标节点 library(tidyverse) #数据整理、清洗 实战1：爬取最近热门电影的名字、评分 网址链接：https://movie.douban.com/ 目标i节点的xpath路径：//*[@id=\"content\"]/div/div[2]/div[4]/div[3]/div/div[1]/div//p Step1：调用浏览器，进入目标网址 1 2 3 4 remDr \u003c- remoteDriver(remoteServerAddr = \"localhost\", port = 4444, browserName = \"chrome\") remDr$open() # 打开浏览器 remDr$navigate(\"https://movie.douban.com\") #进入网址 Step2：获得、解析当前网页html内容 1 webpage \u003c- read_html(remDr$getPageSource()[[1]][1]) #获得网页的html内容 Step3：应用xpath路径，定位、获取目标节点内容 html_text() 可获得目标节点的文本内容 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 xpath_name = '//*[@id=\"content\"]/div/div[2]/div[4]/div[3]/div/div[1]/div//p' text_raw = html_elements(webpage, xpath = xpath_name) %\u003e% html_text() str(text_raw) # chr [1:70] \"\\n \\n\\n 致命感应\\n\\n \\n 6.8\\n \\n \" ... #运用各种字符处理技巧，清洗数据 text_fine = text_raw %\u003e% gsub(\" \",\"\",.) %\u003e% str_split(\"\\n{2,}\",simplify = T) %\u003e% .[,2:3] %\u003e% as.data.frame() %\u003e% rename(Name=V1, Score=V2) head(text_fine) # Name Score # 1 致命感应 6.8 # 2 密室逃生2 6.2 # 3 健听女孩 8.6 # 4 普吉岛的最后黄昏 9.0 # 5 X特遣队：全员集结 8.0 # 6 灵媒 6.4 关于目标节点的xpath路径确认是很关键的一。其次当xpath路径本身含有双引号时，创建字符串时两边要改到单引号。\n实战2：爬取最近热门电影的图片、详情页链接 爬取图片时本质上还是获得图片对应的链接，然后再下载即可。 而链接内容一般作为节点的属性值，而不会在网页显示出来。 html_attr()可获得目标节点的属性值 图片节点xapth：//*[@id='content']/div/div[2]/div[4]/div[3]/div/div[1]/div//div/img （1）爬取图片 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 xpath_img = \"//*[@id='content']/div/div[2]/div[4]/div[3]/div/div[1]/div//div/img\" img_link = html_elements(webpage, xpath = xpath_img) %\u003e% html_attr(name = 'src') head(img_link) # [1] \"https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2672792129.jpg\" # [2] \"https://img9.doubanio.com/view/photo/s_ratio_poster/public/p2729074424.jpg\" # [3] \"https://img2.doubanio.com/view/photo/s_ratio_poster/public/p2665001891.jpg\" # [4] \"https://img9.doubanio.com/view/photo/s_ratio_poster/public/p2652268085.jpg\" # [5] \"https://img2.doubanio.com/view/photo/s_ratio_poster/public/p2637084112.jpg\" # [6] \"https://img2.doubanio.com/view/photo/s_ratio_poster/public/p2661923862.jpg\" #批量下载图片 #获取属性名为 src 的值 dir.create('tmp') for (i in 1:length(img_link)) { # i = 1 print(i) img_name \u003c- paste0('tmp/',text_fine$Name[i],\".jpg\") download.file(url = img_link[i], destfile = img_name, method = \"curl\") } 由于可以通过点击电影名进入电影详情页，由此判定在电影名节点的属性包含链接属性 电影名节点xapth：//*[@id='content']/div/div[2]/div[4]/div[3]/div/div[1]/div//a （2）爬取链接 1 2 3 4 5 6 7 8 9 10 11 12 xpath_link = \"//*[@id='content']/div/div[2]/div[4]/div[3]/div/div[1]/div//a\" movie_link = html_elements(webpage, xpath = xpath_link) %\u003e% html_attr(name = 'href') movie_info = cbind(text_fine, movie_link) head(movie_info) # Name Score movie_link # 1 致命感应 6.8 https://movie.douban.com/subject/25909236/?tag=热门\u0026from=gaia_video # 2 密室逃生2 6.2 https://movie.douban.com/subject/30469922/?tag=热门\u0026from=gaia # 3 健听女孩 8.6 https://movie.douban.com/subject/35048413/?tag=热门\u0026from=gaia # 4 普吉岛的最后黄昏 9.0 https://movie.douban.com/subject/35472124/?tag=热门\u0026from=gaia # 5 X特遣队：全员集结 8.0 https://movie.douban.com/subject/26741632/?tag=热门\u0026from=gaia # 6 灵媒 6.4 https://movie.douban.com/subject/35208823/?tag=热门\u0026from=gaia 实战3：爬取不同类型标签的电影名、评分(模拟鼠标点击翻页) Selenium的强大之处至于可以模拟鼠标操作进行网页选择、切换； 如下图，我们想获得框选出的8种类别的电影名与评分 目标网址：https://movie.douban.com/tag/#/ Step1：调用浏览器，进入目标网址 1 2 3 4 remDr \u003c- remoteDriver(remoteServerAddr = \"localhost\", port = 4444, browserName = \"chrome\") remDr$open() # 打开浏览器 remDr$navigate(\"https://movie.douban.com\") #进入网址 Step2：获得、解析当前网页html内容 1 webpage \u003c- read_html(remDr$getPageSource()[[1]][1]) #获得网页的html内容 Step3：我们需要模拟鼠标点击那个节点、点多少次 1 2 3 4 movie_type = webpage %\u003e% html_elements(xpath = \"//*[@id='app']/div/div[1]/div[1]/ul[5]//span\") %\u003e% html_text() %\u003e% .[2:9] movie_type # [1] \"经典\" \"青春\" \"文艺\" \"搞笑\" \"励志\" \"魔幻\" \"感人\" \"女性\" Step4：循环点击、进行目标文本爬取 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 movie_stat = list() for(i in seq(movie_type)){ # i=1 print(i) #鼠标点击节点的xpath路径 button_xpath = sprintf(\"//*[@id='app']/div/div[1]/div[1]/ul[5]//span[contains(text(), '%s')]\", movie_type[i]) #该节点的鼠标点击属性 button = remDr$findElement(using ='xpath', value = button_xpath) #模拟鼠标点击该节点 button$clickElement() Sys.sleep(3) #更新当前html内容 webpage \u003c- read_html(remDr$getPageSource()[[1]][1]) xpath_name = \"//*[@id='app']/div/div[1]/div[3]//span\" #结合目标文本的xpath路径爬取内容 test_raw = html_elements(webpage, xpath = xpath_name) %\u003e% html_text() movie_stat[[i]] = data.frame(Type = movie_type[i], Name=test_raw[seq(2,60,3)], Score=test_raw[seq(3,60,3)]) } movie_stats = do.call(rbind, movie_stat) head(movie_stats) # Type Name Score # 1 经典 沙丘 7.8 # 2 经典 肖申克的救赎 9.7 # 3 经典 我不是药神 9.0 # 4 经典 疯狂动物城 9.2 # 5 经典 千与千寻 9.4 # 6 经典 泰坦尼克号 9.4 table(movie_stats$Type) # 感人 搞笑 经典 励志 魔幻 女性 青春 文艺 # 20 20 20 20 20 20 20 20 实战4：爬取表格结构的文本 有时候我们的目标数据是以表格结构放在网页的；此时可直接利用html_table()将表格爬取下来 示例网址：由于豆瓣网没有找到表格数据，因此切换到之前学过的记录疾病相关信息的网站https://www.malacards.org/card/alzheimer_disease?search=Alzheimer%20Disease 进入此网址，想对AD相关的基因信息进行爬取； xpath路径：//*[@id=\"RelatedGenes-table\"] 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 remDr \u003c- remoteDriver(remoteServerAddr = \"localhost\", port = 4444, browserName = \"chrome\") remDr$open() # 打开浏览器 remDr$navigate(\"https://www.malacards.org/card/alzheimer_disease?search=Alzheimer%20Disease\") #进入分类网址 webpage \u003c- read_html(remDr$getPageSource()[[1]][1]) #获得网页的html内容 xpath_test = '//*[@id=\"RelatedGenes-table\"]' test = webpage %\u003e% html_elements(xpath = xpath_test) %\u003e% html_table() df = test[[1]] head(df) # A tibble: 6 x 7 # `#` Symbol Description Category Score Evidence `PubMed IDs` # # 1 1 \"APP\" Amyloid Beta P~ \"Protein~ 1408. \"Molecular bas~ \"1302033 1303239 ~ # 2 1 \"APP::MIR1~ MIR106B Macro ~ \"\" NA \"\" \"\" # 3 2 \"HFE\" Homeostatic Ir~ \"Protein~ 1098. \"Molecular bas~ \"12429850 8696333~ # 4 3 \"NOS3\" Nitric Oxide S~ \"Protein~ 708. \"Molecular bas~ \"9737779 9894802 ~ # 5 4 \"MPO\" Myeloperoxidase \"Protein~ 696. \"Molecular bas~ \"11087769 1291567~ # 6 5 \"PLAU\" Plasminogen Ac~ \"Protein~ 695. \"Molecular bas~ \"12898287 1561577~ ",
+  "wordCount" : "4006",
+  "inLanguage": "en",
+  "datePublished": "2022-05-10T00:00:00Z",
+  "dateModified": "2022-05-10T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/program/250r%E8%AF%AD%E8%A8%80rselenium%E7%88%AC%E8%99%AB/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/program/">📖 R&amp;Python&amp;Shell --- 编程基础、可视化等</a></div>
+    <h1 class="post-title">
+      R语言RSelenium爬虫.md
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-05-10 00:00:00 &#43;0000 UTC&#39;&gt;2022-05-10&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-05-10&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;4006&amp;nbsp;|&amp;nbsp;8 min&amp;nbsp;|&amp;nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#1html%e5%9f%ba%e7%a1%80%e4%b8%8expath%e8%af%ad%e6%b3%95" aria-label="1、html基础与xpath语法">1、html基础与xpath语法</a><ul>
+                            
+                    <li>
+                        <a href="#11-html%e5%9f%ba%e7%a1%80" aria-label="1.1 html基础">1.1 html基础</a></li>
+                    <li>
+                        <a href="#12-xpath%e8%af%ad%e6%b3%95" aria-label="1.2 xpath语法">1.2 xpath语法</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#2xpath%e5%b7%a5%e5%85%b7%e6%8e%a8%e8%8d%90" aria-label="2、xpath工具推荐">2、xpath工具推荐</a><ul>
+                            
+                    <li>
+                        <a href="#21-%e6%b5%8f%e8%a7%88%e5%99%a8%e8%87%aa%e5%b8%a6%e7%9a%84%e5%ae%9a%e4%bd%8d%e5%8a%9f%e8%83%bd" aria-label="2.1 浏览器自带的定位功能">2.1 浏览器自带的定位功能</a></li>
+                    <li>
+                        <a href="#22-google%e6%8f%92%e4%bb%b6%e4%b9%8bxpath-helper" aria-label="2.2 google插件之XPath Helper">2.2 google插件之<code>XPath Helper</code></a></li>
+                    <li>
+                        <a href="#23-google%e6%8f%92%e4%bb%b6%e4%b9%8bselectorgadget" aria-label="2.3 google插件之SelectorGadget">2.3 google插件之<code>SelectorGadget</code></a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#3r%e8%af%ad%e8%a8%80%e7%88%ac%e8%99%ab%e6%b5%81%e7%a8%8b" aria-label="3、R语言爬虫流程">3、R语言爬虫流程</a></li>
+                    <li>
+                        <a href="#4selenium%e7%9b%b8%e5%85%b3%e9%85%8d%e7%bd%aewindow-" aria-label="4、selenium相关配置(window) ⭐">4、selenium相关配置(window) ⭐</a><ul>
+                            
+                    <li>
+                        <a href="#step1%e5%ae%89%e8%a3%85java" aria-label="step1：安装Java">step1：安装Java</a></li>
+                    <li>
+                        <a href="#step2chrome%e6%b5%8f%e8%a7%88%e5%99%a8%e7%9b%b8%e5%85%b3" aria-label="step2：chrome浏览器相关">step2：chrome浏览器相关</a></li>
+                    <li>
+                        <a href="#step3%e4%b8%8b%e8%bd%bdselenium-server-standalonejar" aria-label="step3：下载selenium-server-standalone.jar">step3：下载selenium-server-standalone.jar</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#5%e8%b1%86%e7%93%a3%e7%88%ac%e8%99%ab%e5%ae%9e%e6%88%98" aria-label="5、豆瓣爬虫实战">5、豆瓣爬虫实战</a><ul>
+                            
+                    <li>
+                        <a href="#%e5%89%8d%e6%9c%9f%e5%87%86%e5%a4%87" aria-label="前期准备">前期准备</a><ul>
+                            
+                    <li>
+                        <a href="#1%e5%87%86%e5%a4%87selenium%e7%8e%af%e5%a2%83" aria-label="（1）准备selenium环境">（1）准备selenium环境</a></li>
+                    <li>
+                        <a href="#2%e5%ae%89%e8%a3%85%e5%8a%a0%e8%bd%bdr%e5%8c%85" aria-label="（2）安装、加载R包">（2）安装、加载R包</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#%e5%ae%9e%e6%88%981%e7%88%ac%e5%8f%96%e6%9c%80%e8%bf%91%e7%83%ad%e9%97%a8%e7%94%b5%e5%bd%b1%e7%9a%84%e5%90%8d%e5%ad%97%e8%af%84%e5%88%86" aria-label="实战1：爬取最近热门电影的名字、评分">实战1：爬取最近热门电影的名字、评分</a><ul>
+                            
+                    <li>
+                        <a href="#step1%e8%b0%83%e7%94%a8%e6%b5%8f%e8%a7%88%e5%99%a8%e8%bf%9b%e5%85%a5%e7%9b%ae%e6%a0%87%e7%bd%91%e5%9d%80" aria-label="Step1：调用浏览器，进入目标网址">Step1：调用浏览器，进入目标网址</a></li>
+                    <li>
+                        <a href="#step2%e8%8e%b7%e5%be%97%e8%a7%a3%e6%9e%90%e5%bd%93%e5%89%8d%e7%bd%91%e9%a1%b5html%e5%86%85%e5%ae%b9" aria-label="Step2：获得、解析当前网页html内容">Step2：获得、解析当前网页html内容</a></li>
+                    <li>
+                        <a href="#step3%e5%ba%94%e7%94%a8xpath%e8%b7%af%e5%be%84%e5%ae%9a%e4%bd%8d%e8%8e%b7%e5%8f%96%e7%9b%ae%e6%a0%87%e8%8a%82%e7%82%b9%e5%86%85%e5%ae%b9" aria-label="Step3：应用xpath路径，定位、获取目标节点内容">Step3：应用xpath路径，定位、获取目标节点内容</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#%e5%ae%9e%e6%88%982%e7%88%ac%e5%8f%96%e6%9c%80%e8%bf%91%e7%83%ad%e9%97%a8%e7%94%b5%e5%bd%b1%e7%9a%84%e5%9b%be%e7%89%87%e8%af%a6%e6%83%85%e9%a1%b5%e9%93%be%e6%8e%a5" aria-label="实战2：爬取最近热门电影的图片、详情页链接">实战2：爬取最近热门电影的图片、详情页链接</a><ul>
+                            
+                    <li>
+                        <a href="#1%e7%88%ac%e5%8f%96%e5%9b%be%e7%89%87" aria-label="（1）爬取图片">（1）爬取图片</a></li>
+                    <li>
+                        <a href="#2%e7%88%ac%e5%8f%96%e9%93%be%e6%8e%a5" aria-label="（2）爬取链接">（2）爬取链接</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#%e5%ae%9e%e6%88%983%e7%88%ac%e5%8f%96%e4%b8%8d%e5%90%8c%e7%b1%bb%e5%9e%8b%e6%a0%87%e7%ad%be%e7%9a%84%e7%94%b5%e5%bd%b1%e5%90%8d%e8%af%84%e5%88%86%e6%a8%a1%e6%8b%9f%e9%bc%a0%e6%a0%87%e7%82%b9%e5%87%bb%e7%bf%bb%e9%a1%b5" aria-label="实战3：爬取不同类型标签的电影名、评分(模拟鼠标点击翻页)">实战3：爬取不同类型标签的电影名、评分(模拟鼠标点击翻页)</a><ul>
+                            
+                    <li>
+                        <a href="#step1%e8%b0%83%e7%94%a8%e6%b5%8f%e8%a7%88%e5%99%a8%e8%bf%9b%e5%85%a5%e7%9b%ae%e6%a0%87%e7%bd%91%e5%9d%80-1" aria-label="Step1：调用浏览器，进入目标网址">Step1：调用浏览器，进入目标网址</a></li>
+                    <li>
+                        <a href="#step2%e8%8e%b7%e5%be%97%e8%a7%a3%e6%9e%90%e5%bd%93%e5%89%8d%e7%bd%91%e9%a1%b5html%e5%86%85%e5%ae%b9-1" aria-label="Step2：获得、解析当前网页html内容">Step2：获得、解析当前网页html内容</a></li>
+                    <li>
+                        <a href="#step3%e6%88%91%e4%bb%ac%e9%9c%80%e8%a6%81%e6%a8%a1%e6%8b%9f%e9%bc%a0%e6%a0%87%e7%82%b9%e5%87%bb%e9%82%a3%e4%b8%aa%e8%8a%82%e7%82%b9%e7%82%b9%e5%a4%9a%e5%b0%91%e6%ac%a1" aria-label="Step3：我们需要模拟鼠标点击那个节点、点多少次">Step3：我们需要模拟鼠标点击那个节点、点多少次</a></li>
+                    <li>
+                        <a href="#step4%e5%be%aa%e7%8e%af%e7%82%b9%e5%87%bb%e8%bf%9b%e8%a1%8c%e7%9b%ae%e6%a0%87%e6%96%87%e6%9c%ac%e7%88%ac%e5%8f%96" aria-label="Step4：循环点击、进行目标文本爬取">Step4：循环点击、进行目标文本爬取</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#%e5%ae%9e%e6%88%984%e7%88%ac%e5%8f%96%e8%a1%a8%e6%a0%bc%e7%bb%93%e6%9e%84%e7%9a%84%e6%96%87%e6%9c%ac" aria-label="实战4：爬取表格结构的文本">实战4：爬取表格结构的文本</a>
+                    </li>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><h1 id="1html基础与xpath语法">1、html基础与xpath语法<a hidden class="anchor" aria-hidden="true" href="#1html基础与xpath语法">#</a></h1>
+<h2 id="11-html基础">1.1 html基础<a hidden class="anchor" aria-hidden="true" href="#11-html基础">#</a></h2>
+<ul>
+<li>大多数网页内容都是html结构组织的，在我理解就是有众多节点(node)组成的树状结构；</li>
+<li>而我们想要爬取的内容就是其中的某个或者某些节点的文本标签或者属性中。</li>
+<li>更多可参考：
+（1）https://www.w3cschool.cn/html/html-basic.html
+（2）<a href="https://blog.csdn.net/zong596568821xp/article/details/83277729">HTML零基础入门教程（详细）_ZONGXP的博客-CSDN博客_html5零基础入门教程</a></li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-f4feac53f781e66d.png" alt=""  />
+</p>
+<h2 id="12-xpath语法">1.2 xpath语法<a hidden class="anchor" aria-hidden="true" href="#12-xpath语法">#</a></h2>
+<ul>
+<li>
+<p>一个html网页往往包含非常多的节点，如何准确、快速定位到目标节点是爬虫过程中的关键问题；而xpath语法可以帮助我们实现这一点；
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-48b2bef98ccbcec8.png" style="zoom: 67%;" /></p>
+</li>
+<li>
+<p>xpath简单来说是帮助我们解析html结构的一种语言，简单入门比较推荐B站的视频：<a href="https://www.bilibili.com/video/BV1mW411D7wC?from=search&amp;seid=2680413350697364310&amp;spm_id_from=333.337.0.0">【智源学院】20分钟带你搞懂XPath — Scrapy数据解析神器_哔哩哔哩_bilibili</a></p>
+</li>
+<li>
+<p>语法应用笔记推荐：
+（1）<a href="https://blog.csdn.net/Q0717168/article/details/118819843">XPath定位语法总结_Q0717168的博客-CSDN博客_xpath定位语法</a>
+（2）https://learnku.com/articles/50459</p>
+</li>
+</ul>
+<h1 id="2xpath工具推荐">2、xpath工具推荐<a hidden class="anchor" aria-hidden="true" href="#2xpath工具推荐">#</a></h1>
+<h2 id="21-浏览器自带的定位功能">2.1 浏览器自带的定位功能<a hidden class="anchor" aria-hidden="true" href="#21-浏览器自带的定位功能">#</a></h2>
+<ul>
+<li>打开目标网页→ 右键单击“检查”→点击审查元素窗口左上角箭头→网页界面选择感兴趣内容→选中元素窗口高亮部分→右键单击，选择copy xpath
+<img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-8c7dc5ccfb0f91dd.png" alt="image.png"  />
+</li>
+<li>在元素窗口，使用ctrl+F快捷键，可以不断调试xpath
+<img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-21b9271e88b76cb3.png" alt=""  />
+</li>
+</ul>
+<h2 id="22-google插件之xpath-helper">2.2 google插件之<code>XPath Helper</code><a hidden class="anchor" aria-hidden="true" href="#22-google插件之xpath-helper">#</a></h2>
+<ul>
+<li>可以用来非常方便地调试、验证我们的xpath
+<img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-f48cb6a1aaba7efc.png" alt=""  />
+</li>
+</ul>
+<h2 id="23-google插件之selectorgadget">2.3 google插件之<code>SelectorGadget</code><a hidden class="anchor" aria-hidden="true" href="#23-google插件之selectorgadget">#</a></h2>
+<ul>
+<li>该插件只需要我们在网页选择好感兴趣的标签，然后会自动生成能够定位到目标节点的xpath路径；</li>
+<li>不过有一个缺点就是：SelectorGadget生成的xpath路径一般比较复杂，如果我们自己花心思调试一下(2.1)往往会生成简洁的xpath路径【通往罗马的道路不止一条】</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-1b9537c6ee65b0cd.png" alt=""  />
+</p>
+<h1 id="3r语言爬虫流程">3、R语言爬虫流程<a hidden class="anchor" aria-hidden="true" href="#3r语言爬虫流程">#</a></h1>
+<blockquote>
+<p>一开始学习R语言爬虫时，直接<code>xml2::read_html()</code>对提交的网址进行解析，但经常会出现提交正确的xpath路径，但是没有提取到节点内容的尴尬结果<code>{xml_nodeset (0)}</code>。
+后来了解到针对动态网页的selenium爬取方法，尝试了一下果然可以得到预期的结果。而且我觉得动静态网页通吃，因此以后的R语言爬虫都采用下述的流程来操作。
+<img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-b6efa5e37d415d4e.png" alt=""  />
+</p></blockquote>
+<ul>
+<li>参考笔记 ：微信公众号：老俊俊的生信笔记&ndash;R语言爬虫系列笔记 <a href="https://mp.weixin.qq.com/s?__biz=MzkyMTI1MTYxNA==&amp;mid=2247486150&amp;idx=1&amp;sn=8ba24b1f87b8ee42a315da621b0dafda&amp;chksm=c18730b7f6f0b9a11e08ac5b0406225adb98d03c6c1f5e632ea3e2d0abf58c693222b72e3a60&amp;scene=178&amp;cur_album_id=1972125611468947458#rd">R 爬虫之爬取文献信息 (qq.com)</a></li>
+</ul>
+<h1 id="4selenium相关配置window-">4、selenium相关配置(window) ⭐<a hidden class="anchor" aria-hidden="true" href="#4selenium相关配置window-">#</a></h1>
+<p>参考笔记：https://zhuanlan.zhihu.com/p/24772389</p>
+<h2 id="step1安装java">step1：安装Java<a hidden class="anchor" aria-hidden="true" href="#step1安装java">#</a></h2>
+<ul>
+<li>下载、安装容易，但是将java命令添加到环境变量需要仔细一点
+网上有很多笔记，例如：<a href="https://www.yiibai.com/java/java_environment_setup.html">Java JDK安装和配置 - Java教程™ (yiibai.com)</a></li>
+<li>如果在window的cmd平台调用<code>java</code>命令，出现如下结果，说明安装、配置java成功了
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-1c24fab739625421.png" style="zoom:33%;" /></li>
+</ul>
+<h2 id="step2chrome浏览器相关">step2：chrome浏览器相关<a hidden class="anchor" aria-hidden="true" href="#step2chrome浏览器相关">#</a></h2>
+<ul>
+<li>首先要下载、安装Chrome浏览器，根据提示选择默认安装路径即可 <a href="https://www.google.cn/chrome/">https://www.google.cn/chrome/</a></li>
+<li>然后要下载ChromeDriver.exe <a href="https://sites.google.com/chromium.org/driver/">https://sites.google.com/chromium.org/driver/</a>
+有两点要注意（1）下载ChromeDriver版本要与Chrome版本一致（我的是94系列）；（2）储存路径要与<code>chrome.exe</code>在一个文件夹内；我的安装路径是 C:\Program Files\Google\Chrome\Application</li>
+</ul>
+<h2 id="step3下载selenium-server-standalonejar">step3：下载selenium-server-standalone.jar<a hidden class="anchor" aria-hidden="true" href="#step3下载selenium-server-standalonejar">#</a></h2>
+<ul>
+<li>下载地址：http://selenium-release.storage.googleapis.com/index.html
+有很多版本可供选择，我下载的是3.14版本；同时为了管理方便，与上面文件放在了同一文件夹内；</li>
+</ul>
+<p>最后如果调用下面命令，出现如下图的结果说明selenium相关环境都配置好了</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>java -Dwebdriver.chrome.driver=<span style="color:#0ff;font-weight:bold">&#34;C:\Program Files\Google\Chrome\Application\chromedriver.exe&#34;</span> -jar <span style="color:#0ff;font-weight:bold">&#34;C:\Program Files\Google\Chrome\Application\selenium-server-standalone-3.141.59.jar&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-a32c6aab2daecd53.png" alt=""  />
+</p>
+<hr>
+<h1 id="5豆瓣爬虫实战">5、豆瓣爬虫实战<a hidden class="anchor" aria-hidden="true" href="#5豆瓣爬虫实战">#</a></h1>
+<h2 id="前期准备">前期准备<a hidden class="anchor" aria-hidden="true" href="#前期准备">#</a></h2>
+<h3 id="1准备selenium环境">（1）准备selenium环境<a hidden class="anchor" aria-hidden="true" href="#1准备selenium环境">#</a></h3>
+<ul>
+<li>打开window命令行界面：win + r ，输入<code>cmd</code>回车；然后输入以下命令。待成功出现上图结果后，最小化界面即可。之后的操作都基于R</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>java -Dwebdriver.chrome.driver=&#34;C:\Program Files\Google\Chrome\Application\chromedriver.exe&#34; -jar &#34;C:\Program Files\Google\Chrome\Application\selenium-server-standalone-3.141.59.jar&#34;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://upload-images.jianshu.io/upload_images/20354525-e3455074386d18ec.png?imageMogr2/auto-orient/strip|imageView2/2/w/1240" style="zoom: 50%;" />
+<h3 id="2安装加载r包">（2）安装、加载R包<a hidden class="anchor" aria-hidden="true" href="#2安装加载r包">#</a></h3>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>library(RSelenium)  <span style="color:#007f7f">#调试浏览器</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>library(xml2) <span style="color:#007f7f">#解析html结构</span>
+</span></span><span style="display:flex;"><span>library(rvest) <span style="color:#007f7f">#结合xpath，定位目标节点</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>library(tidyverse) <span style="color:#007f7f">#数据整理、清洗</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1></h1>
+<h2 id="实战1爬取最近热门电影的名字评分">实战1：爬取最近热门电影的名字、评分<a hidden class="anchor" aria-hidden="true" href="#实战1爬取最近热门电影的名字评分">#</a></h2>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-5938393201cbdef7.png" alt="https://movie.douban.com/" style="zoom:50%;" />
+<ul>
+<li>网址链接：https://movie.douban.com/</li>
+<li>目标i节点的xpath路径：<code>//*[@id=&quot;content&quot;]/div/div[2]/div[4]/div[3]/div/div[1]/div//p</code>
+<img loading="lazy" src="https://upload-images.jianshu.io/upload_images/20354525-96785473e8fbc670.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""  />
+</li>
+</ul>
+<h3 id="step1调用浏览器进入目标网址">Step1：调用浏览器，进入目标网址<a hidden class="anchor" aria-hidden="true" href="#step1调用浏览器进入目标网址">#</a></h3>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>remDr &lt;- remoteDriver(remoteServerAddr = <span style="color:#0ff;font-weight:bold">&#34;localhost&#34;</span>, 
+</span></span><span style="display:flex;"><span>                      port = <span style="color:#ff0;font-weight:bold">4444</span>, browserName = <span style="color:#0ff;font-weight:bold">&#34;chrome&#34;</span>)
+</span></span><span style="display:flex;"><span>remDr$open() <span style="color:#007f7f"># 打开浏览器</span>
+</span></span><span style="display:flex;"><span>remDr$navigate(<span style="color:#0ff;font-weight:bold">&#34;https://movie.douban.com&#34;</span>) <span style="color:#007f7f">#进入网址</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="step2获得解析当前网页html内容">Step2：获得、解析当前网页html内容<a hidden class="anchor" aria-hidden="true" href="#step2获得解析当前网页html内容">#</a></h3>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>webpage &lt;- read_html(remDr$getPageSource()[[1]][1]) <span style="color:#007f7f">#获得网页的html内容</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="step3应用xpath路径定位获取目标节点内容">Step3：应用xpath路径，定位、获取目标节点内容<a hidden class="anchor" aria-hidden="true" href="#step3应用xpath路径定位获取目标节点内容">#</a></h3>
+<ul>
+<li><code>html_text() </code> 可获得目标节点的文本内容</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>xpath_name = <span style="color:#0ff;font-weight:bold">&#39;//*[@id=&#34;content&#34;]/div/div[2]/div[4]/div[3]/div/div[1]/div//p&#39;</span>
+</span></span><span style="display:flex;"><span>text_raw = html_elements(webpage, xpath = xpath_name) %&gt;% html_text() 
+</span></span><span style="display:flex;"><span>str(text_raw)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># chr [1:70] &#34;\n                \n\n                致命感应\n\n                \n                    6.8\n                \n            &#34; ...</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#运用各种字符处理技巧，清洗数据</span>
+</span></span><span style="display:flex;"><span>text_fine = text_raw %&gt;% gsub(<span style="color:#0ff;font-weight:bold">&#34; &#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;&#34;</span>,.) %&gt;% 
+</span></span><span style="display:flex;"><span>  str_split(<span style="color:#0ff;font-weight:bold">&#34;\n{2,}&#34;</span>,simplify = <span style="color:#fff;font-weight:bold">T</span>) %&gt;% .[,<span style="color:#ff0;font-weight:bold">2</span>:<span style="color:#ff0;font-weight:bold">3</span>] %&gt;% 
+</span></span><span style="display:flex;"><span>  as.data.frame() %&gt;% rename(Name=V1, Score=V2)
+</span></span><span style="display:flex;"><span>head(text_fine)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#                 Name Score</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1          致命感应   6.8</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2         密室逃生2   6.2</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3          健听女孩   8.6</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 4  普吉岛的最后黄昏   9.0</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 5 X特遣队：全员集结   8.0</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 6              灵媒   6.4</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>关于目标节点的xpath路径确认是很关键的一。其次当xpath路径本身含有双引号时，创建字符串时两边要改到单引号。</p></blockquote>
+<h2 id="实战2爬取最近热门电影的图片详情页链接">实战2：爬取最近热门电影的图片、详情页链接<a hidden class="anchor" aria-hidden="true" href="#实战2爬取最近热门电影的图片详情页链接">#</a></h2>
+<ul>
+<li>爬取图片时本质上还是获得图片对应的链接，然后再下载即可。</li>
+<li>而链接内容一般作为节点的属性值，而不会在网页显示出来。</li>
+<li><code>html_attr()</code>可获得目标节点的属性值</li>
+<li>图片节点xapth：<code>//*[@id='content']/div/div[2]/div[4]/div[3]/div/div[1]/div//div/img</code>
+<img loading="lazy" src="https://upload-images.jianshu.io/upload_images/20354525-ebcf45b705549b4f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="https://movie.douban.com/"  />
+</li>
+</ul>
+<h3 id="1爬取图片">（1）爬取图片<a hidden class="anchor" aria-hidden="true" href="#1爬取图片">#</a></h3>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>xpath_img = <span style="color:#0ff;font-weight:bold">&#34;//*[@id=&#39;content&#39;]/div/div[2]/div[4]/div[3]/div/div[1]/div//div/img&#34;</span>
+</span></span><span style="display:flex;"><span>img_link = html_elements(webpage, xpath = xpath_img) %&gt;% 
+</span></span><span style="display:flex;"><span>  html_attr(name = <span style="color:#0ff;font-weight:bold">&#39;src&#39;</span>)
+</span></span><span style="display:flex;"><span>head(img_link)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] &#34;https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2672792129.jpg&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [2] &#34;https://img9.doubanio.com/view/photo/s_ratio_poster/public/p2729074424.jpg&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [3] &#34;https://img2.doubanio.com/view/photo/s_ratio_poster/public/p2665001891.jpg&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [4] &#34;https://img9.doubanio.com/view/photo/s_ratio_poster/public/p2652268085.jpg&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [5] &#34;https://img2.doubanio.com/view/photo/s_ratio_poster/public/p2637084112.jpg&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [6] &#34;https://img2.doubanio.com/view/photo/s_ratio_poster/public/p2661923862.jpg&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#批量下载图片</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#获取属性名为 src 的值</span>
+</span></span><span style="display:flex;"><span>dir.create(<span style="color:#0ff;font-weight:bold">&#39;tmp&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">for</span> (i <span style="color:#fff;font-weight:bold">in</span> <span style="color:#ff0;font-weight:bold">1</span>:length(img_link)) {
+</span></span><span style="display:flex;"><span>  <span style="color:#007f7f"># i = 1</span>
+</span></span><span style="display:flex;"><span>  print(i)
+</span></span><span style="display:flex;"><span>  img_name &lt;- paste0(<span style="color:#0ff;font-weight:bold">&#39;tmp/&#39;</span>,text_fine$Name[i],<span style="color:#0ff;font-weight:bold">&#34;.jpg&#34;</span>)
+</span></span><span style="display:flex;"><span>  download.file(url = img_link[i],
+</span></span><span style="display:flex;"><span>                destfile = img_name,
+</span></span><span style="display:flex;"><span>                method = <span style="color:#0ff;font-weight:bold">&#34;curl&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-6d3a2564cfe3b41c.png" style="zoom: 50%;" />
+<ul>
+<li>由于可以通过点击电影名进入电影详情页，由此判定在电影名节点的属性包含链接属性</li>
+<li>电影名节点xapth：<code>//*[@id='content']/div/div[2]/div[4]/div[3]/div/div[1]/div//a</code>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-a328ffe77590c6e4.png" alt="https://movie.douban.com/" style="zoom:50%;" /></li>
+</ul>
+<h3 id="2爬取链接">（2）爬取链接<a hidden class="anchor" aria-hidden="true" href="#2爬取链接">#</a></h3>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>xpath_link = <span style="color:#0ff;font-weight:bold">&#34;//*[@id=&#39;content&#39;]/div/div[2]/div[4]/div[3]/div/div[1]/div//a&#34;</span>
+</span></span><span style="display:flex;"><span>movie_link = html_elements(webpage, xpath = xpath_link) %&gt;% 
+</span></span><span style="display:flex;"><span>  html_attr(name = <span style="color:#0ff;font-weight:bold">&#39;href&#39;</span>)
+</span></span><span style="display:flex;"><span>movie_info = cbind(text_fine, movie_link)
+</span></span><span style="display:flex;"><span>head(movie_info)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#           Name Score                                                          movie_link</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1          致命感应   6.8 https://movie.douban.com/subject/25909236/?tag=热门&amp;from=gaia_video</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2         密室逃生2   6.2       https://movie.douban.com/subject/30469922/?tag=热门&amp;from=gaia</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3          健听女孩   8.6       https://movie.douban.com/subject/35048413/?tag=热门&amp;from=gaia</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 4  普吉岛的最后黄昏   9.0       https://movie.douban.com/subject/35472124/?tag=热门&amp;from=gaia</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 5 X特遣队：全员集结   8.0       https://movie.douban.com/subject/26741632/?tag=热门&amp;from=gaia</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 6              灵媒   6.4       https://movie.douban.com/subject/35208823/?tag=热门&amp;from=gaia</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="实战3爬取不同类型标签的电影名评分模拟鼠标点击翻页">实战3：爬取不同类型标签的电影名、评分(模拟鼠标点击翻页)<a hidden class="anchor" aria-hidden="true" href="#实战3爬取不同类型标签的电影名评分模拟鼠标点击翻页">#</a></h2>
+<ul>
+<li>Selenium的强大之处至于可以模拟鼠标操作进行网页选择、切换；</li>
+<li>如下图，我们想获得框选出的8种类别的电影名与评分
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-e4e07d2c661bf872.png" alt="https://movie.douban.com/tag/#/" style="zoom:50%;" /></li>
+<li>目标网址：<code>https://movie.douban.com/tag/#/</code></li>
+</ul>
+<h3 id="step1调用浏览器进入目标网址-1">Step1：调用浏览器，进入目标网址<a hidden class="anchor" aria-hidden="true" href="#step1调用浏览器进入目标网址-1">#</a></h3>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>remDr &lt;- remoteDriver(remoteServerAddr = <span style="color:#0ff;font-weight:bold">&#34;localhost&#34;</span>, 
+</span></span><span style="display:flex;"><span>                      port = <span style="color:#ff0;font-weight:bold">4444</span>, browserName = <span style="color:#0ff;font-weight:bold">&#34;chrome&#34;</span>)
+</span></span><span style="display:flex;"><span>remDr$open() <span style="color:#007f7f"># 打开浏览器</span>
+</span></span><span style="display:flex;"><span>remDr$navigate(<span style="color:#0ff;font-weight:bold">&#34;https://movie.douban.com&#34;</span>) <span style="color:#007f7f">#进入网址</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="step2获得解析当前网页html内容-1">Step2：获得、解析当前网页html内容<a hidden class="anchor" aria-hidden="true" href="#step2获得解析当前网页html内容-1">#</a></h3>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>webpage &lt;- read_html(remDr$getPageSource()[[1]][1]) <span style="color:#007f7f">#获得网页的html内容</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="step3我们需要模拟鼠标点击那个节点点多少次">Step3：我们需要模拟鼠标点击那个节点、点多少次<a hidden class="anchor" aria-hidden="true" href="#step3我们需要模拟鼠标点击那个节点点多少次">#</a></h3>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>movie_type = webpage %&gt;% html_elements(xpath = <span style="color:#0ff;font-weight:bold">&#34;//*[@id=&#39;app&#39;]/div/div[1]/div[1]/ul[5]//span&#34;</span>) %&gt;% 
+</span></span><span style="display:flex;"><span>  html_text() %&gt;% .[2:<span style="color:#ff0;font-weight:bold">9</span>]
+</span></span><span style="display:flex;"><span>movie_type
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] &#34;经典&#34; &#34;青春&#34; &#34;文艺&#34; &#34;搞笑&#34; &#34;励志&#34; &#34;魔幻&#34; &#34;感人&#34; &#34;女性&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="step4循环点击进行目标文本爬取">Step4：循环点击、进行目标文本爬取<a hidden class="anchor" aria-hidden="true" href="#step4循环点击进行目标文本爬取">#</a></h3>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">27
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">28
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">29
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">30
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">31
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">32
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">33
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">34
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>movie_stat = list()
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">for</span>(i <span style="color:#fff;font-weight:bold">in</span> seq(movie_type)){
+</span></span><span style="display:flex;"><span>  <span style="color:#007f7f"># i=1</span>
+</span></span><span style="display:flex;"><span>  print(i)
+</span></span><span style="display:flex;"><span>  <span style="color:#007f7f">#鼠标点击节点的xpath路径</span>
+</span></span><span style="display:flex;"><span>  button_xpath = sprintf(<span style="color:#0ff;font-weight:bold">&#34;//*[@id=&#39;app&#39;]/div/div[1]/div[1]/ul[5]//span[contains(text(), &#39;%s&#39;)]&#34;</span>,
+</span></span><span style="display:flex;"><span>                         movie_type[i])
+</span></span><span style="display:flex;"><span>  <span style="color:#007f7f">#该节点的鼠标点击属性</span>
+</span></span><span style="display:flex;"><span>  button = remDr$findElement(using =<span style="color:#0ff;font-weight:bold">&#39;xpath&#39;</span>, value = button_xpath)
+</span></span><span style="display:flex;"><span>  <span style="color:#007f7f">#模拟鼠标点击该节点</span>
+</span></span><span style="display:flex;"><span>  button$clickElement()
+</span></span><span style="display:flex;"><span>  Sys.sleep(<span style="color:#ff0;font-weight:bold">3</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#007f7f">#更新当前html内容</span>
+</span></span><span style="display:flex;"><span>  webpage &lt;- read_html(remDr$getPageSource()[[1]][1])
+</span></span><span style="display:flex;"><span>  xpath_name = <span style="color:#0ff;font-weight:bold">&#34;//*[@id=&#39;app&#39;]/div/div[1]/div[3]//span&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#007f7f">#结合目标文本的xpath路径爬取内容</span>
+</span></span><span style="display:flex;"><span>  test_raw = html_elements(webpage, xpath = xpath_name) %&gt;% html_text() 
+</span></span><span style="display:flex;"><span>  movie_stat[[i]] = data.frame(Type = movie_type[i],
+</span></span><span style="display:flex;"><span>                          Name=test_raw[seq(<span style="color:#ff0;font-weight:bold">2</span>,<span style="color:#ff0;font-weight:bold">60</span>,<span style="color:#ff0;font-weight:bold">3</span>)],
+</span></span><span style="display:flex;"><span>                          Score=test_raw[seq(<span style="color:#ff0;font-weight:bold">3</span>,<span style="color:#ff0;font-weight:bold">60</span>,<span style="color:#ff0;font-weight:bold">3</span>)])
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>movie_stats = do.call(rbind, movie_stat)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>head(movie_stats)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   Type         Name Score</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1 经典         沙丘   7.8</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2 经典 肖申克的救赎   9.7</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3 经典   我不是药神   9.0</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 4 经典   疯狂动物城   9.2</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 5 经典     千与千寻   9.4</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 6 经典   泰坦尼克号   9.4</span>
+</span></span><span style="display:flex;"><span>table(movie_stats$Type)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 感人 搞笑 经典 励志 魔幻 女性 青春 文艺 </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 20   20   20   20   20   20   20   20 </span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="实战4爬取表格结构的文本">实战4：爬取表格结构的文本<a hidden class="anchor" aria-hidden="true" href="#实战4爬取表格结构的文本">#</a></h2>
+<ul>
+<li>有时候我们的目标数据是以表格结构放在网页的；此时可直接利用<code>html_table()</code>将表格爬取下来</li>
+<li>示例网址：由于豆瓣网没有找到表格数据，因此切换到之前学过的记录疾病相关信息的网站https://www.malacards.org/card/alzheimer_disease?search=Alzheimer%20Disease</li>
+<li>进入此网址，想对AD相关的基因信息进行爬取；</li>
+<li>xpath路径：<code>//*[@id=&quot;RelatedGenes-table&quot;]</code></li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>remDr &lt;- remoteDriver(remoteServerAddr = <span style="color:#0ff;font-weight:bold">&#34;localhost&#34;</span>, 
+</span></span><span style="display:flex;"><span>                      port = <span style="color:#ff0;font-weight:bold">4444</span>, browserName = <span style="color:#0ff;font-weight:bold">&#34;chrome&#34;</span>)
+</span></span><span style="display:flex;"><span>remDr$open() <span style="color:#007f7f"># 打开浏览器</span>
+</span></span><span style="display:flex;"><span>remDr$navigate(<span style="color:#0ff;font-weight:bold">&#34;https://www.malacards.org/card/alzheimer_disease?search=Alzheimer%20Disease&#34;</span>) <span style="color:#007f7f">#进入分类网址</span>
+</span></span><span style="display:flex;"><span>webpage &lt;- read_html(remDr$getPageSource()[[1]][1]) <span style="color:#007f7f">#获得网页的html内容</span>
+</span></span><span style="display:flex;"><span>xpath_test = <span style="color:#0ff;font-weight:bold">&#39;//*[@id=&#34;RelatedGenes-table&#34;]&#39;</span>
+</span></span><span style="display:flex;"><span>test = webpage %&gt;% html_elements(xpath = xpath_test) %&gt;% 
+</span></span><span style="display:flex;"><span>  html_table()
+</span></span><span style="display:flex;"><span>df = test[[1]]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>head(df)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># A tibble: 6 x 7</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># `#` Symbol      Description     Category  Score Evidence        `PubMed IDs`       </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># &lt;int&gt; &lt;chr&gt;       &lt;chr&gt;           &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt;              </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1     1 &#34;APP&#34;       Amyloid Beta P~ &#34;Protein~ 1408. &#34;Molecular bas~ &#34;1302033  1303239 ~</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2     1 &#34;APP::MIR1~ MIR106B Macro ~ &#34;&#34;          NA  &#34;&#34;              &#34;&#34;                 </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3     2 &#34;HFE&#34;       Homeostatic Ir~ &#34;Protein~ 1098. &#34;Molecular bas~ &#34;12429850  8696333~</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 4     3 &#34;NOS3&#34;      Nitric Oxide S~ &#34;Protein~  708. &#34;Molecular bas~ &#34;9737779  9894802 ~</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 5     4 &#34;MPO&#34;       Myeloperoxidase &#34;Protein~  696. &#34;Molecular bas~ &#34;11087769  1291567~</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 6     5 &#34;PLAU&#34;      Plasminogen Ac~ &#34;Protein~  695. &#34;Molecular bas~ &#34;12898287  1561577~</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/r/">R</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/en/posts/program/229r-%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90--tidyr%E8%A1%A8%E6%A0%BC%E6%93%8D%E4%BD%9C/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>R-数据分析--tidyr表格操作</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/en/posts/program/252%E5%9F%BA%E4%BA%8Erstudio%E5%88%9B%E5%BB%BAr%E5%8C%85/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>基于Rstudio创建R包</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

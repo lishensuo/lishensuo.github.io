@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>多组学 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="李申锁的博客，记录生信学习过程。R/Python/Shell">
+<meta name="author" content="">
+<link rel="canonical" href="https://lishensuo.github.io/en/tags/%E5%A4%9A%E7%BB%84%E5%AD%A6/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="https://lishensuo.github.io/en/tags/%E5%A4%9A%E7%BB%84%E5%AD%A6/index.xml">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/tags/%E5%A4%9A%E7%BB%84%E5%AD%A6/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="多组学" />
+<meta property="og:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://lishensuo.github.io/en/tags/%E5%A4%9A%E7%BB%84%E5%AD%A6/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="多组学"/>
+<meta name="twitter:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell"/>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header"><div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/tags/">Tags</a></div>
+  <h1>多组学</h1>
+</header>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>Refgenie下载参考基因组
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>refgenie：参考基因组（阿拉丁）商店 http://refgenie.databio.org/ Here we provide a web interface and a RESTful API to access genome assets for popular reference genome assemblies.
+该平台由位于弗吉尼亚大学公共卫生基因组学中心的计算生物学和生物信息学研究小组(Sheffield lab of computational biology)建立。上次修改/更新是2021年11月。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-16 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-16&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-04-16&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1243&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to Refgenie下载参考基因组" href="https://lishensuo.github.io/en/posts/bioinfo/050refgenie%E4%B8%8B%E8%BD%BD%E5%8F%82%E8%80%83%E5%9F%BA%E5%9B%A0%E7%BB%84/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>STRINGdb包下载蛋白PPI数据
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 1 2 3 4 5 if (!require(&#34;BiocManager&#34;, quietly = TRUE)) install.packages(&#34;BiocManager&#34;) BiocManager::install(&#34;STRINGdb&#34;) library(STRINGdb) 1、定义要使用的STRING版本、物种，以及PPI阈值分数 1 2 3 4 string_db &lt;- STRINGdb$new(version=&#34;11&#34;, species=9606, score_threshold=200, input_directory=&#34;&#34;) 2、示例基因 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 data(diff_exp_example1) genes = diff_exp_example1[1:50,] head(genes) # pvalue logFC gene # 1 0.0001018 3.333461 VSTM2L # 2 0.0001392 3.822383 TBC1D2 # 3 0.0001720 3.306056 LENG9 # 4 0.0001739 3.024605 TMEM27 # 5 0.0001990 3.854414 LOC100506014 # 6 0.0002393 3.082052 TSPAN1 ###基因名匹配protein ID #第一个参数是data.frame; 第二个参数是基因所在列的列名 genes_mapped &lt;- string_db$map(genes, &#34;gene&#34; ) #Warning: we couldn&#39;t map to STRING 30% of your identifiers head(genes_mapped) # gene pvalue logFC STRING_id # 1 VSTM2L 0.0001018 3.333461 9606.ENSP00000362560 # 2 TBC1D2 0.0001392 3.822383 9606.ENSP00000481721 # 3 LENG9 0.0001720 3.306056 9606.ENSP00000479355 # 4 TMEM27 0.0001739 3.024605 9606.ENSP00000369699 # 40 LOC100506014 0.0001990 3.854414 &lt;NA&gt; # 5 TSPAN1 0.0002393 3.082052 9606.ENSP00000361072 #string_db$plot_network(genes_mapped$STRING_id) 3、下载这些基因间的互作关系 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 ppi = string_db$get_interactions(genes_mapped$STRING_id) %&gt;% distinct() ppi = ppi %&gt;% dplyr::left_join(genes_mapped[,c(1,4)], by=c(&#39;from&#39;=&#39;STRING_id&#39;)) %&gt;% #列标序号根据具体情况而定 dplyr::rename(Gene1=gene) %&gt;% ##列名根据具体情况而定 dplyr::left_join(genes_mapped[,c(1,4)], by=c(&#39;to&#39;=&#39;STRING_id&#39;)) %&gt;% dplyr::rename(Gene2=gene) %&gt;% dplyr::select(Gene1, Gene2, combined_score) head(ppi) # Gene1 Gene2 combined_score # 1 C3 TYROBP 240 # 2 ABCA12 GRHL3 308 # 3 FAM189A1 TM4SF20 400 # 4 ABCA12 NIPAL4 824 # 5 GRHL3 NIPAL4 275 # 6 GRHL3 IGDCC4 238 </p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-16 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-16&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-04-16&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;340&amp;nbsp;|&amp;nbsp;1 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to STRINGdb包下载蛋白PPI数据" href="https://lishensuo.github.io/en/posts/bioinfo/051stringdb%E5%8C%85%E4%B8%8B%E8%BD%BD%E8%9B%8B%E7%99%BDppi%E6%95%B0%E6%8D%AE/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>TCGA的SNV数据下载与maftools可视化
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1、TCGAbiolinks下载数据 使用TCGAbiolinks下载特定肿瘤类型的SNV数据 https://bioconductor.org/packages/release/bioc/vignettes/TCGAbiolinks/inst/doc/mutation.html 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 library(TCGAbiolinks) query &lt;- GDCquery( project = &#34;TCGA-CHOL&#34;, data.category = &#34;Simple Nucleotide Variation&#34;, access = &#34;open&#34;, legacy = FALSE, data.type = &#34;Masked Somatic Mutation&#34;) GDCdownload(query) maf &lt;- GDCprepare(query) dim(maf) # [1] 3764 141 ## (1) 因后续需要，修改Tumor_Sample_Barcode列 maf$long_Barcode = maf$Tumor_Sample_Barcode maf$Tumor_Sample_Barcode = substr(maf$Tumor_Sample_Barcode,1,12) length(unique(maf$Tumor_Sample_Barcode)) # 51 ## (2) 读取临床生存数据 clinical = readxl::read_xlsx(&#34;TCGA_Pan_Cancer_Clinical_Data_mmc1.xlsx&#34;) clinical_sle = clinical %&gt;% dplyr::filter(type==&#34;CHOL&#34;) %&gt;% dplyr::select(bcr_patient_barcode, OS, OS.time, clinical_stage) %&gt;% dplyr::rename(Tumor_Sample_Barcode=bcr_patient_barcode) dim(clinical_sle) # 45 2、maftools可视化 https://bioconductor.org/packages/release/bioc/vignettes/maftools/inst/doc/maftools.html https://www.jieandze1314.com/post/cnposts/237/ 1 2 3 4 5 6 7 8 9 library(maftools) maf_obj = read.maf(maf = maf, clinicalData = clinical_sle) #每个样本的突变情况统计 getSampleSummary(maf_obj) #每个基因的突变类型统计 getGeneSummary(maf_obj) 2.1概括图 1 2 3 plotmafSummary(maf = maf_obj, rmOutlier = TRUE, addStat = &#39;median&#39;, dashboard = TRUE, titvRaw = FALSE) 2.2 基因瀑布图 1 2 3 4 5 6 7 8 9 10 11 12 13 oncoplot(maf = maf_obj, top = 10) # 如下图 ## 添加临床注释 oncoplot(maf = maf_obj, top = 10, clinicalFeatures = c(&#39;clinical_stage&#39;,&#34;OS&#34;), draw_titv = TRUE) ## 选择特定基因集 set.seed(42) genes = sample(maf_obj@data$Hugo_Symbol,10) oncoplot(maf = maf_obj, genes = genes, clinicalFeatures = c(&#39;clinical_stage&#39;,&#34;OS&#34;), draw_titv = TRUE) 2.3 转换颠倒统计 1 2 3 4 5 # Transition 转换 ： 嘌呤(AG)或嘧啶(CT)内部之间转换 # Transversions 颠倒：嘌呤与嘧啶间互相转换 maf_obj.titv = titv(maf = maf_obj, plot = FALSE, useSyn = TRUE) plotTiTv(res = maf_obj.titv) 2.4 基因对突变统计 1 2 3 4 5 6 7 8 # green: co-occuring # yellow: mutually exclusive somaticInteractions(maf = maf_obj, top = 25, pvalue = c(0.05, 0.1)) set.seed(42) genes = sample(maf_obj@data$Hugo_Symbol,25) somaticInteractions(maf = maf_obj, genes = genes , pvalue = c(0.05, 0.1)) 2.5 生存分析 根据特定基因是否突变将病人分成WT与Mutant两组 1 2 3 4 5 6 7 8 9 10 11 mafSurvival(maf = maf_obj, genes = &#39;TP53&#39;, time = &#39;OS.time&#39;, Status = &#39;OS&#39;) # Group medianTime N # 1: Mutant 732 4 # 2: WT 650 41 ## 提取信息 # maf_obj@clinical.data %&gt;% # dplyr::mutate(Group=ifelse(Tumor_Sample_Barcode %in% # subset(maf_obj@data, Hugo_Symbol==&#34;TP53&#34;)$Barcode, # &#34;Mutant&#34;,&#34;WT&#34;)) 2.6 基因对的生存相关性 1 2 3 4 5 6 7 8 9 10 prog_geneset = survGroup(maf = maf_obj, top = 200, geneSetSize = 2, time = &#34;OS.time&#34;, Status = &#34;OS&#34;, verbose = FALSE,minSamples = 3) prog_geneset # Gene_combination P_value hr WT Mutant # 1: PBRM1_PLXNA4 0.243 2.36e&#43;00 42 3 # 2: PBRM1_PCLO 0.294 3.46e-01 42 3 # 3: PBRM1_TP53 0.320 3.64e-01 42 3 mafSurvGroup(maf = maf_obj, geneSet = c(&#34;PBRM1&#34;, &#34;PLXNA4&#34;), time = &#34;OS.time&#34;, Status = &#34;OS&#34;) </p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-04-09 00:00:00 &#43;0000 UTC&#39;&gt;2023-04-09&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-04-09&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;608&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to TCGA的SNV数据下载与maftools可视化" href="https://lishensuo.github.io/en/posts/bioinfo/076tcga%E7%9A%84snv%E6%95%B0%E6%8D%AE%E4%B8%8B%E8%BD%BD%E4%B8%8Emaftools%E5%8F%AF%E8%A7%86%E5%8C%96/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>UCSCXenaShiny包肿瘤数据分析可视化
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> UCSCXenaShiny是基于集成了多种肿瘤数据库的UCSCXena平台，进行数据下载、分析、可视化的Shiny工具（以及同名R包），由上海科技大学王诗翔博士等共同开发；于2021年6月发表于Bioinformatics。下面主要学习其R包的相关函数，了解其核心功能。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-05-12 00:00:00 &#43;0000 UTC&#39;&gt;2023-05-12&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-05-12&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1745&amp;nbsp;|&amp;nbsp;4 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to UCSCXenaShiny包肿瘤数据分析可视化" href="https://lishensuo.github.io/en/posts/bioinfo/079ucscxenashiny%E5%8C%85%E8%82%BF%E7%98%A4%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%8F%AF%E8%A7%86%E5%8C%96/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>UCSCXenaShiny V2简要教程
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> Github仓库：https://github.com/openbiox/UCSCXenaShiny
+Online App：https://shiny.zhoulab.ac.cn/UCSCXenaShiny/
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-10-05 00:00:00 &#43;0000 UTC&#39;&gt;2024-10-05&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-10-05&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1999&amp;nbsp;|&amp;nbsp;4 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to UCSCXenaShiny V2简要教程" href="https://lishensuo.github.io/en/posts/bioinfo/084ucscxenashiny-v2%E7%AE%80%E8%A6%81%E6%95%99%E7%A8%8B/"></a>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

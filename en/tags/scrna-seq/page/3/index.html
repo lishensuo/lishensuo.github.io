@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>ScRNA-Seq | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="李申锁的博客，记录生信学习过程。R/Python/Shell">
+<meta name="author" content="">
+<link rel="canonical" href="https://lishensuo.github.io/en/tags/scrna-seq/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="https://lishensuo.github.io/en/tags/scrna-seq/index.xml">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/tags/scrna-seq/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="ScRNA-Seq" />
+<meta property="og:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://lishensuo.github.io/en/tags/scrna-seq/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="ScRNA-Seq"/>
+<meta name="twitter:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell"/>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header"><div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/tags/">Tags</a></div>
+  <h1>ScRNA-Seq</h1>
+</header>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>单细胞分析工具--Scissor表型相关亚群鉴定
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> Scissor是2022年发表在Nature Biotechnology的一个单细胞数据分析工具包。该包通过纳入Bulk表达与表型数据，试图分析与样本表型(正/负)高度相关的单细胞亚群。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-02-19 00:00:00 &#43;0000 UTC&#39;&gt;2023-02-19&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-02-19&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1499&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 单细胞分析工具--Scissor表型相关亚群鉴定" href="https://lishensuo.github.io/en/posts/bioinfo/031%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--scissor%E8%A1%A8%E5%9E%8B%E7%9B%B8%E5%85%B3%E4%BA%9A%E7%BE%A4%E9%89%B4%E5%AE%9A/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>单细胞分析工具--MARVEL单细胞可变剪切
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> R包MARVEL是由牛津大学MRC Weatherall分子医学研究所团队开发的，用于分析单细胞水平的可变剪切事件。相关文章于2023年1月在Nucleic Acids Research期刊发表，在其github页面分享了MARVEL工具的分析流程，在此学习、记录如下。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-03-06 00:00:00 &#43;0000 UTC&#39;&gt;2023-03-06&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-03-06&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;6473&amp;nbsp;|&amp;nbsp;13 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 单细胞分析工具--MARVEL单细胞可变剪切" href="https://lishensuo.github.io/en/posts/bioinfo/032%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--marvel%E5%8D%95%E7%BB%86%E8%83%9E%E5%8F%AF%E5%8F%98%E5%89%AA%E5%88%87/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>单细胞分析工具--scCustomize包改进Seurat可视化
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> scCustomize包由来自波士顿儿童医院/哈佛医学院的博士后Samuel E. Marsh编写。该包基于Seurat，提供了若干便捷、高效的可视化方法。根据官方教程学习其中感兴趣的用法。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-03-11 00:00:00 &#43;0000 UTC&#39;&gt;2023-03-11&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-03-11&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;735&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 单细胞分析工具--scCustomize包改进Seurat可视化" href="https://lishensuo.github.io/en/posts/bioinfo/033%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--sccustomize%E5%8C%85%E6%94%B9%E8%BF%9Bseurat%E5%8F%AF%E8%A7%86%E5%8C%96/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>单细胞分析工具--Asgard单细胞药物重定向
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 来自密歇根大学医学院的计算医学与生物信息学部的LanaX.Garmire(拉娜·加米尔)团队近日于Nature Communication发表一篇基于单细胞转录组数据药物重定向研究的研究，并开发了相关R包。如下简单学习下该方法的原理以及R包使用方法。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-03-18 00:00:00 &#43;0000 UTC&#39;&gt;2023-03-18&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-03-18&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1962&amp;nbsp;|&amp;nbsp;4 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 单细胞分析工具--Asgard单细胞药物重定向" href="https://lishensuo.github.io/en/posts/bioinfo/034%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--asgard%E5%8D%95%E7%BB%86%E8%83%9E%E8%8D%AF%E7%89%A9%E9%87%8D%E5%AE%9A%E5%90%91/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>单细胞分析工具--基于文献的细胞类型注释marker
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 根据平时的文献阅读，汇总前人注释单细胞数据的细胞类型所使用的marker gene，以供后续研究参考。（持续更新）
+1、Tumor B cell：CD79A*[1-3]，CD79B[1,3]，CD19[1,3]，MS4A1[2,3]，IGKC[1]，MZB1[2]*
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-02-07 00:00:00 &#43;0000 UTC&#39;&gt;2023-02-07&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-02-07&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1705&amp;nbsp;|&amp;nbsp;4 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 单细胞分析工具--基于文献的细胞类型注释marker" href="https://lishensuo.github.io/en/posts/bioinfo/028%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--%E5%9F%BA%E4%BA%8E%E6%96%87%E7%8C%AE%E7%9A%84%E7%BB%86%E8%83%9E%E7%B1%BB%E5%9E%8B%E6%B3%A8%E9%87%8Amarker/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>单细胞分析工具--scSTAR挖掘分组样本细胞亚型
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> scSTAR是由复旦大学附属中山医院郝洁研究员等人开发的单细胞分析工具包，于2023年2月发表在Briefings in Bioinformatics。该包更加准确地实现同一细胞类型在不同组(正常/疾病)的变化情况下，细胞内部亚型异质性的变化捕捉，在单细胞数据挖掘领域提供新的视角。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-04-17 00:00:00 &#43;0000 UTC&#39;&gt;2023-04-17&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-04-17&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1152&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 单细胞分析工具--scSTAR挖掘分组样本细胞亚型" href="https://lishensuo.github.io/en/posts/bioinfo/035%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--scstar%E6%8C%96%E6%8E%98%E5%88%86%E7%BB%84%E6%A0%B7%E6%9C%AC%E7%BB%86%E8%83%9E%E4%BA%9A%E5%9E%8B/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>单细胞分析工具--NicheNet细胞通讯分析
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 原始论文：https://www.nature.com/articles/s41592-019-0667-5 官方手册：https://github.com/saeyslab/nichenetr 1 2 # install.packages(&#34;devtools&#34;) devtools::install_github(&#34;saeyslab/nichenetr&#34;) 0、原理简介 （1）NicheNet是2020年于Nature method提出的单细胞数据细胞通讯分析工具。相比于cellphoneDB等工具，NicheNet进一步考虑了受体被激活后的信号传导与下游靶基因的差异表达情况。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-02-09 00:00:00 &#43;0000 UTC&#39;&gt;2023-02-09&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-02-09&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;4148&amp;nbsp;|&amp;nbsp;9 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 单细胞分析工具--NicheNet细胞通讯分析" href="https://lishensuo.github.io/en/posts/bioinfo/029%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--nichenet%E7%BB%86%E8%83%9E%E9%80%9A%E8%AE%AF%E5%88%86%E6%9E%90/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>单细胞分析工具--celldancer细胞速率分析
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> cellDancer是美国休斯顿卫理公会研究所的助理教授Guangyu Wang团队开发的RNA速率分析新工具，于2023年4月发表于nature biotechnology。该工具基于深度学习框架预测细胞特异的速率参数(α, β and γ)，相较于之前的scvelo等RNA速率分析工具可有效预测 transcriptional boost, multi-lineage forward, multi-lineage backward等复杂情况下的单细胞数据发育预测分析。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-04-22 00:00:00 &#43;0000 UTC&#39;&gt;2023-04-22&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-04-22&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1951&amp;nbsp;|&amp;nbsp;4 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 单细胞分析工具--celldancer细胞速率分析" href="https://lishensuo.github.io/en/posts/bioinfo/036%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--celldancer%E7%BB%86%E8%83%9E%E9%80%9F%E7%8E%87%E5%88%86%E6%9E%90/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>单细胞分析工具--sccode综合差异分析
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> scCODE( single-cell consensus optimization of differentially expressed gene detection)是由复旦大学附属金山医院邹欣等人开发的R包工具，于2022年12月发表于Briefing in Bioinformatics；该工具对多种差异基因分析策略进行了集成、整合，用于鉴定鲁棒性的单细胞差异基因。用法比较简单，简单记录如下。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-04-30 00:00:00 &#43;0000 UTC&#39;&gt;2023-04-30&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-04-30&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;631&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 单细胞分析工具--sccode综合差异分析" href="https://lishensuo.github.io/en/posts/bioinfo/037%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--sccode%E7%BB%BC%E5%90%88%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>单细胞分析工具--ShinyCell交互式展示单细胞数据
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> ShinyCell包是由杜克-新加坡国立大学医学院的John F. Ouyang团队开发的单细胞分析工具包，实现基于shiny网页交互式展示单细胞数据；于2021年3月发表于Bioinformatics杂志。如文章中介绍，ShinyCell相比同类工具具有多个优势，例如直观的side-by-side的降维可视化方式，hdf5格式保存表达矩阵从而读取快速，支持pdf/png保存图片，支持多种常见单细胞数据类型等。参考其教程文档，学习记录如下。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-08-07 00:00:00 &#43;0000 UTC&#39;&gt;2023-08-07&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-08-07&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2383&amp;nbsp;|&amp;nbsp;5 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 单细胞分析工具--ShinyCell交互式展示单细胞数据" href="https://lishensuo.github.io/en/posts/bioinfo/040%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--shinycell%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%B1%95%E7%A4%BA%E5%8D%95%E7%BB%86%E8%83%9E%E6%95%B0%E6%8D%AE/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="https://lishensuo.github.io/en/tags/scrna-seq/page/2/">« Prev Page</a>
+    <a class="next" href="https://lishensuo.github.io/en/tags/scrna-seq/page/4/">Next Page »</a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>UCSCXenaShiny development tutorials(231119) | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="
+Recently, we have added some new modules for general TCGA data analysis and visualization. Here, we will provide the tutorials for easy use. Please note it is not the latest version and we are still in the stage of development. Therefore, if you have any question, please do not hesitate to contact us on GitHub or email (lishensuo@163.com) which could greatly contribute to UCSCXenaShiny V2.0  process.
+The temporary tutorial is based on the latest commit  On November 18, 2023. It may be outdated in the future and we will update the latest tutorials as soon as possible.">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/program/300ucscxenashiny-dev-tutorials--231119/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/program/300ucscxenashiny-dev-tutorials--231119/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="UCSCXenaShiny development tutorials(231119)" />
+<meta property="og:description" content="
+Recently, we have added some new modules for general TCGA data analysis and visualization. Here, we will provide the tutorials for easy use. Please note it is not the latest version and we are still in the stage of development. Therefore, if you have any question, please do not hesitate to contact us on GitHub or email (lishensuo@163.com) which could greatly contribute to UCSCXenaShiny V2.0  process.
+The temporary tutorial is based on the latest commit  On November 18, 2023. It may be outdated in the future and we will update the latest tutorials as soon as possible." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/program/300ucscxenashiny-dev-tutorials--231119/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-11-19T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2023-11-19T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="UCSCXenaShiny development tutorials(231119)"/>
+<meta name="twitter:description" content="
+Recently, we have added some new modules for general TCGA data analysis and visualization. Here, we will provide the tutorials for easy use. Please note it is not the latest version and we are still in the stage of development. Therefore, if you have any question, please do not hesitate to contact us on GitHub or email (lishensuo@163.com) which could greatly contribute to UCSCXenaShiny V2.0  process.
+The temporary tutorial is based on the latest commit  On November 18, 2023. It may be outdated in the future and we will update the latest tutorials as soon as possible."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 R\u0026Python\u0026Shell --- 编程基础、可视化等",
+      "item": "https://lishensuo.github.io/en/posts/program/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "UCSCXenaShiny development tutorials(231119)",
+      "item": "https://lishensuo.github.io/en/posts/program/300ucscxenashiny-dev-tutorials--231119/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "UCSCXenaShiny development tutorials(231119)",
+  "name": "UCSCXenaShiny development tutorials(231119)",
+  "description": " Recently, we have added some new modules for general TCGA data analysis and visualization. Here, we will provide the tutorials for easy use. Please note it is not the latest version and we are still in the stage of development. Therefore, if you have any question, please do not hesitate to contact us on GitHub or email (lishensuo@163.com) which could greatly contribute to UCSCXenaShiny V2.0 process.\nThe temporary tutorial is based on the latest commit On November 18, 2023. It may be outdated in the future and we will update the latest tutorials as soon as possible.\n",
+  "keywords": [
+    
+  ],
+  "articleBody": " Recently, we have added some new modules for general TCGA data analysis and visualization. Here, we will provide the tutorials for easy use. Please note it is not the latest version and we are still in the stage of development. Therefore, if you have any question, please do not hesitate to contact us on GitHub or email (lishensuo@163.com) which could greatly contribute to UCSCXenaShiny V2.0 process.\nThe temporary tutorial is based on the latest commit On November 18, 2023. It may be outdated in the future and we will update the latest tutorials as soon as possible.\n0 Prior knowledge Paper: UCSCXenaShiny: An R/CRAN Package for Interactive Analysis of UCSC Xena Data, Bioinformatics, 2021;, btab561, https://doi.org/10.1093/bioinformatics/btab561. GitHub: https://github.com/openbiox/UCSCXenaShiny Website: https://shiny.hiplot.cn/ucsc-xena-shiny/ 1. key features For the general exploration of TCGA data, we support the following key features.\n3 analysis methods: (1) Correlation; (2) Comparison; (3) Survival analysis. 3 analysis modes: (1) One data on one cancer; (2) One data on multiple cancers; (3) Multiple data on one cancer. “22 + X” data types: 4 main data type (Level1) including 22 minor types (Level2) are ensembled. In addition, users can upload customized TCGA sample metadata. Personalized operation: Several modules are provided for personalized analysis, like sample filtering/grouping, dataset modification. 2. Basic use Take correlation analysis for example, we will introduce the basic pipeline.\n(1) Firstly, once you enter the shiny app, click the TCGA Analysis navigation and select the “TCGA Association analysis” module.\n(2) Then, select one panel for the corresponding mode. By default, you will be in the left panel which support one data analysis.\n(3) Next, what you need do is to just follow the sequential steps from left to right.\nIn step S1, you should choose the intended cancer type(s). In addition, we support some optional and personalized operations which will be introduced in other section below. In step S2 and S3, you need to assign the specific data. For correlation analysis, it involves X and Y variable selections of two items. For other analysis, you should also set the groups. In step S4, you can finally execute the correlation analysis and visualization. Some parameters can be modified like correlation method, point color. Notably, we support the result download for the table of raw or analyzed data, and figure of visualization. 3. Sample selection Once you choose the cancer types(s), all the samples under the related project(s) will be chosen, such as tumor and normal samples. However, we need some filtering operations for specific analysis tasks.\nFor example, we only want the tumor samples for survival analysis or one gene-pair correlation under TP53 mutant samples.\nIn the 2nd part of S1 step , we provide the UI including two filters to select interesting subset of all samples.\nFirstly, users can directly perform the quick filter according to the tissue code types under the cancer(s) selections.\nSecondly, users can perform the exact filter when entering the following example dialog box.\nBy default, we have prepared several clinical phenotypes such as code, gender, age, stage. User can add any data as the extra filter conditions. According to the condition class, there are different filter operations. For character class, users can retain or discard some categories; For numeric class, users can set the cutoff based on absolute or percentile values. When setting multiple condition filters, each is executed independently and take the overall intersection finally. Note: If you perform both quick and exact filters, the shared samples will be selected.\n4. Custom metadata As the first figure above shown, we ensemble the TCGA feature data into 3 levels. Level1 and Level2 refer to the main and minor data types. Level3 refer to the specific item id. We have prepared 4 Level1 types which could be queried in detail from the Help→Id reference page.\nIn addition, we allow users to upload customized TCGA metadata or annotation as the 5th Level1 type in the 3rd part of S1 step.\nFor the file to upload, it should be CSV format. Its first column must be standard TCGA sample id (TCGA-XX-XXXX-XX) with the column name “Sample”. As it is not necessary to include all TCGA samples, you can upload limited samples information according to your analysis task.\n5. Modify datasets Among the UCSC Xena data portal, there are great alternative datasets for the sample data type, like different normalization of mRNA expression, different array of DNA methylation. By default, we have set one common dataset for each Level2 data type (). Now, it is accessible for users to change the default dataset selection in the 4th part of S1 step.\nAs the preliminary try, we temporarily allow the selection of DNA methylation and CNV data.\nFor the CNV data, uses can set whether to use the threshold data (default is TRUE); For the DNA methylation, users can have more options. On the one hand, you can choose 450K or 27K array (only limited samples for 27K). As one gene often covers multiple CpG sites, the mean value will be calculated by default. You can change the aggregation methods and CpG range. For example, you can just consider one CpG site for one gene as follows (right figure). Tip: The CpG Chromosomal coordinate information can be queried from Help→Id reference page.\nIn the future update, we will consider more options for other molecular profile data type, like mRNA expression.\n6. Binary grouping For comparison or survival analysis, it is necessary to divide samples into groups. Therefore, we design the module for binary grouping operation.\nTake comparison analysis for example, you should firstly confirm the S1 preset. Like sample filtering, we preliminarily provide common clinical phenotypes and you can also add any data from ensembled features. However, only one could be considered as grouping condition.\nFor character class, you can assign one or several categories for either group; For numeric class, you can set the min and max range of each group. Absolute and percentile value are all supported. Please note it will cause a warning when existing shared samples between groups which should be avoided.\nIn addition, you can also set the group names and levels. By default, they are “Group1” and “Goup2” in order.\n7. Multiple items selection For the mode of multiple data on one cancer which is located in the second right panel of analysis page, users can perform batch analysis easily to screen significant items.\nFor example, we can find the most correlated immune infiltration with one gene expression. The main operation difference is involved the selection of multiple items.\nHere, take batch correlation analysis for example, users can set multiple items in step S2 in three ways under one specific Level2 data type.\nFirstly, users can select some items one by one (left option “Selection”); Secondly, users can directly select all the ids (middle option “All”, like the figure below). However, it will take much time and cache to download molecular profile data. So, it will choose random 100 items for this Level1 type which need for better optimization in the future. Lastly, users can upload item file and see the format requirements by downloading the example file. ",
+  "wordCount" : "1198",
+  "inLanguage": "en",
+  "datePublished": "2023-11-19T00:00:00Z",
+  "dateModified": "2023-11-19T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/program/300ucscxenashiny-dev-tutorials--231119/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/program/">📖 R&amp;Python&amp;Shell --- 编程基础、可视化等</a></div>
+    <h1 class="post-title">
+      UCSCXenaShiny development tutorials(231119)
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-11-19 00:00:00 &#43;0000 UTC&#39;&gt;2023-11-19&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-11-19&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1198&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#0-prior-knowledge" aria-label="0 Prior knowledge">0 Prior knowledge</a></li>
+                    <li>
+                        <a href="#1-key-features" aria-label="1. key features">1. key features</a></li>
+                    <li>
+                        <a href="#2-basic-use" aria-label="2. Basic use">2. Basic use</a></li>
+                    <li>
+                        <a href="#3-sample-selection" aria-label="3. Sample selection">3. Sample selection</a></li>
+                    <li>
+                        <a href="#4-custom-metadata" aria-label="4. Custom metadata">4. Custom metadata</a></li>
+                    <li>
+                        <a href="#5-modify-datasets" aria-label="5. Modify datasets">5. Modify datasets</a></li>
+                    <li>
+                        <a href="#6-binary-grouping" aria-label="6. Binary grouping">6. Binary grouping</a></li>
+                    <li>
+                        <a href="#7-multiple-items-selection" aria-label="7. Multiple items selection">7. Multiple items selection</a>
+                    </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><blockquote>
+<p>Recently, we have added some new modules for general TCGA data analysis and visualization. Here, we will provide the tutorials for easy use. Please note it is not the latest version and we are still in the stage of development. Therefore, if you have any question, please do not hesitate to contact us on GitHub or email (<a href="mailto:lishensuo@163.com">lishensuo@163.com</a>) which could greatly contribute to UCSCXenaShiny V2.0  process.</p>
+<p><strong>The temporary tutorial is based on the latest <a href="https://github.com/openbiox/UCSCXenaShiny/commit/5bd91911c85590fc369ab61471450fa9564bda7a">commit </a> On November 18, 2023. It may be outdated in the future and we will update the latest tutorials as soon as possible.</strong></p></blockquote>
+<h2 id="0-prior-knowledge">0 Prior knowledge<a hidden class="anchor" aria-hidden="true" href="#0-prior-knowledge">#</a></h2>
+<ul>
+<li><strong>Paper</strong>: UCSCXenaShiny: An R/CRAN Package for Interactive Analysis of UCSC Xena Data, Bioinformatics, 2021;, btab561, <a href="https://doi.org/10.1093/bioinformatics/btab561">https://doi.org/10.1093/bioinformatics/btab561</a>.</li>
+<li><strong>GitHub</strong>: <a href="https://github.com/openbiox/UCSCXenaShiny">https://github.com/openbiox/UCSCXenaShiny</a></li>
+<li><strong>Website</strong>: <a href="https://shiny.hiplot.cn/ucsc-xena-shiny/">https://shiny.hiplot.cn/ucsc-xena-shiny/</a></li>
+</ul>
+<h2 id="1-key-features">1. key features<a hidden class="anchor" aria-hidden="true" href="#1-key-features">#</a></h2>
+<p>For the general exploration of TCGA data, we support the following key features.</p>
+<ul>
+<li><strong>3 analysis methods</strong>:  (1) Correlation; (2) Comparison; (3) Survival analysis.</li>
+<li><strong>3 analysis modes</strong>: (1)  One data on one cancer; (2) One data on multiple cancers; (3) Multiple data on one cancer.</li>
+<li><strong>&ldquo;22 + X&rdquo; data types</strong>:  4 main data type (Level1) including 22 minor types (Level2) are ensembled. In addition, users can upload customized TCGA sample metadata.</li>
+<li><strong>Personalized operation</strong>:  Several modules are provided for personalized analysis, like sample filtering/grouping, dataset modification.</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20231108130722406.png" alt="image-20231108130722406" style="zoom:50%;" />
+<h2 id="2-basic-use">2. Basic use<a hidden class="anchor" aria-hidden="true" href="#2-basic-use">#</a></h2>
+<p>Take correlation analysis for example, we will introduce the basic pipeline.</p>
+<p>(1) Firstly, once you enter the shiny app, click the <strong>TCGA Analysis</strong> navigation and select the &ldquo;<strong>TCGA Association analysis</strong>&rdquo; module.</p>
+<p>(2) Then, select one panel for the corresponding mode. By default, you will be in the left panel which support one data analysis.</p>
+<p>(3) Next, what you need do is to just follow the sequential steps from left to right.</p>
+<ul>
+<li>In step <strong>S1</strong>, you should choose the intended cancer type(s). In addition, we support some optional and personalized operations which will be introduced in other section below.</li>
+<li>In step <strong>S2</strong> and <strong>S3</strong>, you need to assign the specific data. For correlation analysis, it involves X and Y variable selections of two items. For other analysis, you should also set the groups.</li>
+<li>In step <strong>S4</strong>, you can finally execute the correlation analysis and visualization.  Some parameters can be modified like correlation method, point color. Notably,  we support the result download for the table of raw or analyzed data, and figure of visualization.</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20231119102246852.png" alt="image-20231119102246852"  />
+</p>
+<h2 id="3-sample-selection">3. Sample selection<a hidden class="anchor" aria-hidden="true" href="#3-sample-selection">#</a></h2>
+<p>Once you choose the cancer types(s),  all the samples under the related project(s) will be chosen, such as tumor and normal samples. However, we need some filtering operations for specific analysis tasks.</p>
+<p>For example, we only want the tumor samples for survival analysis or one gene-pair correlation under TP53 mutant samples.</p>
+<p>In the 2nd part of <strong>S1</strong> step , we provide the UI including two filters to select interesting subset of all samples.</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20231119110306357.png" alt="image-20231119110306357" style="zoom:67%;" />
+<p>Firstly, users can directly perform the quick filter according to the tissue code types under the cancer(s) selections.</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20231119111459287.png" alt="image-20231119111459287"  />
+</p>
+<p>Secondly, users can perform the exact filter when entering the following example dialog box.</p>
+<ul>
+<li>By default, we have prepared several clinical phenotypes such as code, gender, age, stage. User can add any data as the extra filter conditions.</li>
+<li>According to the condition class, there are different filter operations.
+<ul>
+<li>For character class, users can retain or discard some categories;</li>
+<li>For numeric class, users can set the cutoff based on absolute or percentile values.</li>
+</ul>
+</li>
+<li>When setting multiple condition filters, each is executed independently and take the overall intersection finally.</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20231119112119110.png" alt="image-20231119112119110" style="zoom:67%;" />
+<blockquote>
+<p>Note: If you perform both quick and exact filters, the shared samples will be selected.</p></blockquote>
+<h2 id="4-custom-metadata">4. Custom metadata<a hidden class="anchor" aria-hidden="true" href="#4-custom-metadata">#</a></h2>
+<p>As the first figure above shown, we ensemble the TCGA  feature data into 3 levels. Level1 and Level2 refer to the main and minor data types.  Level3 refer to the specific item id. We have prepared 4 Level1 types which could be queried in detail from the <strong>Help→Id reference</strong> page.</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20231119182040592.png" alt="image-20231119182040592" style="zoom:67%;" />
+<p>In addition, we allow users to upload customized TCGA metadata or annotation as the 5th Level1 type in the 3rd part of <strong>S1</strong> step.</p>
+<p>For the file to upload, it should be CSV format. Its first column must be standard TCGA sample id (TCGA-XX-XXXX-XX) with the column name &ldquo;Sample&rdquo;. As it is not necessary to include all TCGA samples, you can upload limited samples information according to your analysis task.</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20231119133535526.png" alt="image-20231119133535526" style="zoom: 67%;" />
+<h2 id="5-modify-datasets">5. Modify datasets<a hidden class="anchor" aria-hidden="true" href="#5-modify-datasets">#</a></h2>
+<p>Among the UCSC Xena data portal, there are great alternative datasets for the sample data type, like different normalization of mRNA expression, different array of DNA methylation. By default, we have set one common dataset for each Level2 data type ().  Now, it is  accessible for users to change the default dataset selection in the 4th part of <strong>S1</strong> step.</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20231119141233663.png" alt="image-20231119141233663" style="zoom: 67%;" />
+<p>As the preliminary try, we temporarily allow the selection of DNA methylation and CNV data.</p>
+<ul>
+<li>For the CNV data, uses can set whether to use the threshold data (default is TRUE);</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20231119141905737.png" alt="image-20231119141905737" style="zoom: 80%;" />
+<ul>
+<li>For the DNA methylation, users can have more options. On the one hand, you can choose 450K or 27K array (only limited samples for 27K). As one gene often covers multiple CpG sites, the mean value will be calculated by default. You can change the aggregation methods and CpG range. For example, you can just consider one CpG site for one gene as follows (right figure).</li>
+</ul>
+<blockquote>
+<p>Tip: The CpG Chromosomal coordinate information can be queried from <strong>Help→Id reference</strong> page.</p></blockquote>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20231119153635230.png" alt="image-20231119153635230"  />
+</p>
+<blockquote>
+<p>In the future update, we will consider more options for other molecular profile data type, like mRNA expression.</p></blockquote>
+<h2 id="6-binary-grouping">6. Binary grouping<a hidden class="anchor" aria-hidden="true" href="#6-binary-grouping">#</a></h2>
+<p>For comparison or survival analysis, it is necessary to divide samples into groups. Therefore, we design the module for binary grouping operation.</p>
+<p>Take comparison analysis for example, you should firstly confirm the S1 preset. Like sample filtering, we preliminarily provide common clinical phenotypes and you can also add any data from ensembled features. However, only one could be considered as grouping condition.</p>
+<ul>
+<li>For character class, you can assign one or several categories for either group;</li>
+<li>For numeric class, you can set the min and max range of each group. Absolute and percentile value are all supported.</li>
+</ul>
+<p>Please note it will cause a warning when existing shared samples between groups which should be avoided.</p>
+<p>In addition, you can also set the group names and levels. By default, they are &ldquo;Group1&rdquo; and &ldquo;Goup2&rdquo; in order.</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20231119155722659.png" alt="image-20231119155722659" style="zoom:80%;" />
+<h2 id="7-multiple-items-selection">7. Multiple items selection<a hidden class="anchor" aria-hidden="true" href="#7-multiple-items-selection">#</a></h2>
+<p>For the mode of multiple data on one cancer which is located in the second right panel of analysis page, users can perform batch analysis easily to screen significant items.</p>
+<p>For example, we can find the most correlated immune infiltration with one gene expression. The main operation difference is  involved the selection of multiple items.</p>
+<p>Here, take batch correlation analysis for example, users can set multiple items in step <strong>S2</strong> in three ways under one specific Level2 data type.</p>
+<ul>
+<li>Firstly, users can select some items one by one (left option &ldquo;Selection&rdquo;);</li>
+<li>Secondly, users can directly select all the ids (middle option  &ldquo;All&rdquo;, like the figure below). However, it will take much time and cache to download molecular profile data. So, it will choose random 100 items for this Level1 type which need for better optimization in the future.</li>
+<li>Lastly, users can upload item file and see the format requirements by downloading the example file.</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20231119171423191.png" alt="image-20231119171423191" style="zoom: 67%;" />
+
+  </div>
+
+  <footer class="post-footer">
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/en/posts/program/268rhinoverse%E7%B3%BB%E5%88%97-shiny.router%E5%8C%85/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>rhinoverse系列-shiny.router包</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/en/posts/basic/301%E7%94%9F%E7%89%A9-%E5%89%8D%E5%88%97%E8%85%BA%E7%99%8C%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>文献--前列腺癌基础学习</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

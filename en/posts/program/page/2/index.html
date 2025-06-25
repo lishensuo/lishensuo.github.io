@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>📖 R&amp;Python&amp;Shell --- 编程基础、可视化等 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="📖 R&amp;Python&amp;Shell --- 编程基础、可视化等 - Li&#39;s Bioinfo-Blog">
+<meta name="author" content="">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/program/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="https://lishensuo.github.io/en/posts/program/index.xml">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/program/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="📖 R&amp;Python&amp;Shell --- 编程基础、可视化等" />
+<meta property="og:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/program/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="📖 R&amp;Python&amp;Shell --- 编程基础、可视化等"/>
+<meta name="twitter:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 R\u0026Python\u0026Shell --- 编程基础、可视化等",
+      "item": "https://lishensuo.github.io/en/posts/program/"
+    }
+  ]
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header"><div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a></div>
+  <h1>📖 R&amp;Python&amp;Shell --- 编程基础、可视化等</h1>
+</header>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>Python-装饰器Decorator
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>在 Python 中，装饰器（decorator）是一种特殊的函数或类，用于在不修改原始代码的情况下，动态地修改或增强函数、方法或类的行为。
+函数：独立的代码块，可以在任何地方定义和调用。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-10-16 00:00:00 &#43;0000 UTC&#39;&gt;2024-10-16&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-10-16&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;947&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to Python-装饰器Decorator" href="https://lishensuo.github.io/en/posts/program/011python-%E8%A3%85%E9%A5%B0%E5%99%A8decorator/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>Python-tdigest分位数统计
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>tdigest python工具 是一种用于高效计算近似分位数的数据结构和算法。相较于传统的分位数计算方法，tdigest可以实现以较小的内存开销和较快的计算速度，提供近似但足够精确的分位数估计。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2025-01-23 00:00:00 &#43;0000 UTC&#39;&gt;2025-01-23&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2025-01-23&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;245&amp;nbsp;|&amp;nbsp;1 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to Python-tdigest分位数统计" href="https://lishensuo.github.io/en/posts/program/012python-tdigest%E5%88%86%E4%BD%8D%E6%95%B0%E7%BB%9F%E8%AE%A1/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>Python-lambda函数表达式
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> lambda表达式可用于定义简单的一行式函数，并且可搭配其它函数时有多种衍生用法。
+https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.apply.html
+https://www.learncodewithmike.com/2019/12/python-lambda-functions.html
+https://pythonviz.com/pandas/3-ways-to-use-pandas-apply-in-python/
+1、基础用法 如下所示，lambda表达式有3个组分
+关键字 lambda 函数所需的参数，根据需要可以有多个 函数表达式，通常就是一行。 1 2 3 4 5 6 7 x = lambda a : a &#43; 10 print(x(5)) x = lambda a, b : a * b print(x(5, 6)) (lambda a, b : a * b)(4, 3) 2、搭配用法 2.1 map()迭代 map()接受两个参数：逐元素进行某个函数的计算，返回相应的结果
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-09-17 00:00:00 &#43;0000 UTC&#39;&gt;2022-09-17&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-09-17&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;718&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to Python-lambda函数表达式" href="https://lishensuo.github.io/en/posts/program/015python-lambda%E5%87%BD%E6%95%B0%E8%A1%A8%E8%BE%BE%E5%BC%8F/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>Python-threading多线程
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> python内置的threading模块可以实现多任务的多线程并行处理，如下简单记录一下用法。
+参考链接
+https://zhuanlan.zhihu.com/p/34004179 https://www.runoob.com/python3/python3-multithreading.html 1、threading 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 import threading import random import time def calculate(result): t1 = random.randint(2, 10) t2 = t1-1 print(threading.current_thread().name, &#34;: waiting time is&#34;, t2) #查看当前线程名 time.sleep(t2) threadLock = threading.Lock() threadLock.acquire() #上锁 result.append(t2) #保证只有一个线程对result进行操作 threadLock.release() #解锁 ths = [] #线程列表 result = [] #储存所有线程的结果 print(time.ctime(time.time())) for i in range(5): #相当于调用5个线程 th = threading.Thread(target = calculate, args=(result,), name = &#39;thread {}&#39;.format(i)) #args参数用于传参 th.start() ths.append(th) # 如下循环语句常用来等待所有线程结束后，再执行后面的命令； # 如果不加此语句，会直接继续后面的命令，但之后result也可以得到相同的结果 for th in ths: th.join() print(time.ctime(time.time())) print(result) # Mon Sep 19 10:28:23 2022 #开始时间 # thread 0 : waiting time is 2 # thread 1 : waiting time is 4 # thread 2 : waiting time is 7 # thread 3 : waiting time is 3 # thread 4 : waiting time is 8 # Mon Sep 19 10:28:31 2022 #结束时间，即运行时间为8s # [2, 3, 4, 7, 8] 上面的例子作用是：随机初始化一个数，等待相应的时间后，再加入到同一个列表中。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-09-19 00:00:00 &#43;0000 UTC&#39;&gt;2022-09-19&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-09-19&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;848&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to Python-threading多线程" href="https://lishensuo.github.io/en/posts/program/016python-threading%E5%A4%9A%E7%BA%BF%E7%A8%8B/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>Python数据科学-(1)IPython的特点
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> Python有不少解释器，默认使用的是CPython。而IPython，interactive python可以提供交互式开发环境；是Jupyter的内核。如果要使用Jupyter，使用的就是IPython开发环境。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-26 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-26&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-04-26&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;899&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to Python数据科学-(1)IPython的特点" href="https://lishensuo.github.io/en/posts/program/020python%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6-ipython%E9%AD%94%E6%B3%95%E5%91%BD%E4%BB%A4/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>Python数据科学-(2)Numpy数组(torch张量)
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> NumPy,Numerical Python创建的ndarray数组在某些方面与Python中的list对象很相似；但是二者还是很多区别，比如数据类型一致性的要求、维度等。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-29 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-29&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-06-07&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2736&amp;nbsp;|&amp;nbsp;6 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to Python数据科学-(2)Numpy数组(torch张量)" href="https://lishensuo.github.io/en/posts/program/021python%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6-numpy%E6%95%B0%E7%BB%84torch%E5%BC%A0%E9%87%8F/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>Python数据科学-(3)Pandas表格
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> Pandas相比Numpy数组支持行列标签、多种数据类型，类似R语言中data.frame数据框。
+1、Pandas结构 1.1 Series：有索引的一维数组 1.1.1 创建Series对象 通过pd.Serise函数创建 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 ##(1) 通过index参数设置索引 import pandas as pd data = pd.Series([1,2,3,4,5], index=[&#39;a&#39;,&#39;b&#39;,&#39;c&#39;,&#39;d&#39;,&#39;e&#39;]) #a 1 #b 2 #c 3 #d 4 #e 5 #dtype: int64 ##(2)如不设置index参数，则索引默认为 range(len) data1 = pd.Series([1,2,3,4,5]) ##(3)也可以以字典的形式创建，键值分别对应索引与值 data2 = pd.Series({&#39;a&#39;:1,&#39;b&#39;:2,&#39;c&#39;:3,&#39;d&#39;:4,&#39;e&#39;:5}) 1.1.2 Series对象操作 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 import pandas as pd data = pd.Series([1,2,3,4,5], index=[&#39;a&#39;,&#39;b&#39;,&#39;c&#39;,&#39;d&#39;,&#39;e&#39;]) ##(1) 提取Series的一维数组与索引标签 data.values # array([1, 2, 3, 4, 5]) data.index # Index([&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39;], dtype=&#39;object&#39;) ##(2) 按显示索引取Series子集 data[&#39;a&#39;] data[&#39;a&#39;:&#39;c&#39;] data[[&#34;a&#34;,&#34;c&#34;,&#34;e&#34;]] data[data&gt;3] data.loc[&#34;a&#34;:&#34;c&#34;] ##(3) 按隐式索引取Series子集 data[0] data[0:3] data[[0,2,4]] data.iloc[1:3] .loc与.iloc的作用主要体现在：Series的index也是数值型时，容易与隐式索引混淆。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-05-03 00:00:00 &#43;0000 UTC&#39;&gt;2022-05-03&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-05-10&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;4749&amp;nbsp;|&amp;nbsp;10 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to Python数据科学-(3)Pandas表格" href="https://lishensuo.github.io/en/posts/program/022python%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6-pandas%E8%A1%A8%E6%A0%BC/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>Python数据科学-(4)Matplotlib可视化
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1、启动方式 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 import matplotlib.pyplot as plt %matplotlib inline import numpy as np ##(1)在普通python解释器/python脚本中 x = np.linspace(0,10,100) plt.plot(x, np.sin(x), &#39;-&#39;) plt.show() ##(2)在ipython解释器中 %matplotlib #只需声明一次 x = np.linspace(0,10,100) plt.plot(x, np.sin(x), &#39;-&#39;) ##(3)在jupyter中 %matplotlib inline #只需声明一次 x = np.linspace(0,10,100) plt.plot(x, np.sin(x), &#39;-&#39;) 下述命令均在jupyter中学习
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-05-19 00:00:00 &#43;0000 UTC&#39;&gt;2022-05-19&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-05-28&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2632&amp;nbsp;|&amp;nbsp;6 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to Python数据科学-(4)Matplotlib可视化" href="https://lishensuo.github.io/en/posts/program/023python%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6-matplotlib%E5%8F%AF%E8%A7%86%E5%8C%96/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>Python-可视化-pandas绘图
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.plot.html
+pandas的dataframe自带一些绘图语法用以简单的表格数据可视化，适合于数据的初步探索、分析
+1 import pandas as pd 1、barplot柱状图 1 2 3 4 5 6 7 8 df = pd.DataFrame({&#39;lab&#39;:[&#39;A&#39;, &#39;B&#39;, &#39;C&#39;], &#39;val&#39;:[10, 30, 20]}) # lab	val # 0	A	10 # 1	B	30 # 2	C	20 ax = df.plot.bar(x=&#39;lab&#39;, y=&#39;val&#39;, rot=0, color=&#34;green&#34;) 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 speed = [0.1, 17.5, 40, 48] lifespan = [2, 8, 70, 1.5] index = [&#39;snail&#39;, &#39;pig&#39;, &#39;elephant&#39;, &#39;rabbit&#39;] # 类别名为index df = pd.DataFrame({&#39;speed&#39;: speed, &#39;lifespan&#39;: lifespan}, index=index) #	speed	lifespan #snail	0.1	2.0 #pig	17.5	8.0 #elephant 40.0	70.0 #rabbit	48.0	1.5 ax = df.plot.bar(rot=0) #所有列(如下图) ax = df.plot.bar(rot=0,stacked=True) ax = df[&#34;speed&#34;].plot.bar(rot=45) #指定列 ax = df.plot.bar( rot=0, subplots=True, layout=(1,2), color={&#34;speed&#34;: &#34;red&#34;, &#34;lifespan&#34;: &#34;green&#34;} ) pandas.DataFrame.plot.barh()支持绘制横向的柱状图（Dataframe数据内容需要是横向的）
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-07-30 00:00:00 &#43;0000 UTC&#39;&gt;2022-07-30&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-07-30&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;566&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to Python-可视化-pandas绘图" href="https://lishensuo.github.io/en/posts/program/030python-%E5%8F%AF%E8%A7%86%E5%8C%96-pandas%E7%BB%98%E5%9B%BE/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>Python-可视化-seaborn(sns)绘图基础
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 官方教程链接：https://seaborn.pydata.org/tutorial.html 1 2 3 4 import seaborn as sns import matplotlib.pyplot as plt import pandas as pd 1. theme主题设置 示例展示效果见链接 context: 用于调整整体字体和标注的大小
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2025-04-04 00:00:00 &#43;0000 UTC&#39;&gt;2025-04-04&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2025-04-04&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;936&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to Python-可视化-seaborn(sns)绘图基础" href="https://lishensuo.github.io/en/posts/program/031python-%E5%8F%AF%E8%A7%86%E5%8C%96-seabornsns%E7%BB%98%E5%9B%BE%E5%9F%BA%E7%A1%80/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="https://lishensuo.github.io/en/posts/program/">« Prev Page</a>
+    <a class="next" href="https://lishensuo.github.io/en/posts/program/page/3/">Next Page »</a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>📖 生信数据分析--分析流程，工具包等 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="📖 生信数据分析--分析流程，工具包等 - Li&#39;s Bioinfo-Blog">
+<meta name="author" content="">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/bioinfo/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="https://lishensuo.github.io/en/posts/bioinfo/index.xml">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/bioinfo/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="📖 生信数据分析--分析流程，工具包等" />
+<meta property="og:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/bioinfo/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="📖 生信数据分析--分析流程，工具包等"/>
+<meta name="twitter:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 生信数据分析--分析流程，工具包等",
+      "item": "https://lishensuo.github.io/en/posts/bioinfo/"
+    }
+  ]
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header"><div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a></div>
+  <h1>📖 生信数据分析--分析流程，工具包等</h1>
+</header>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>数据库--药物与药物靶点TTD
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1、TTD数据库简介 首先关于靶点的生物学定义是： 生物学靶点（英語：Biological target）是指位于生物体内，能够被其他物质（配体、药物等）识别或结合的结构。常见的药物靶点包括蛋白质、核酸和离子通道等。—维基百科
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-05-03 00:00:00 &#43;0000 UTC&#39;&gt;2022-05-03&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-05-03&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1517&amp;nbsp;|&amp;nbsp;4 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 数据库--药物与药物靶点TTD" href="https://lishensuo.github.io/en/posts/bioinfo/150%E6%95%B0%E6%8D%AE%E5%BA%93--%E8%8D%AF%E7%89%A9%E4%B8%8E%E8%8D%AF%E7%89%A9%E9%9D%B6%E7%82%B9ttd/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>CMap数据库整理与使用方法
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> Cmap LINCS计划采用L1000技术进行大规模的细胞系干扰实验测序，得到差异基因。具体可分为Phase-1，Phase-2两个阶段。数据已整理、上传至阿里云盘。本片笔记整理下数据的操作、使用方法。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-21 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-21&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-04-21&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2399&amp;nbsp;|&amp;nbsp;5 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to CMap数据库整理与使用方法" href="https://lishensuo.github.io/en/posts/bioinfo/151%E6%95%B0%E6%8D%AE%E5%BA%93--%E8%8D%AF%E7%89%A9%E5%B9%B2%E6%89%B0%E8%BD%AC%E5%BD%95%E7%BB%84cmap/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>MsigDB基因集数据库
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 官方介绍：https://www.gsea-msigdb.org/gsea/msigdb/
+下载界面：http://www.gsea-msigdb.org/gsea/downloads.jsp
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-21 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-21&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-05-06&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2279&amp;nbsp;|&amp;nbsp;5 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to MsigDB基因集数据库" href="https://lishensuo.github.io/en/posts/bioinfo/152%E6%95%B0%E6%8D%AE%E5%BA%93--%E9%80%9A%E8%B7%AF%E5%9F%BA%E5%9B%A0%E9%9B%86msigdb/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>使用igraph包进行网络结构分析与可视化
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1、创建与查看igraph对象 1.1 示例数据 igraph包提供了很多创建igraph对象的函数与思路。这里采用常用的基于data.frame的格式创建。 示例数据来自STRINGdb的PPI蛋白互作数据以及对应基因的上下调信息 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 library(STRINGdb) library(tidyverse) string_db &lt;- STRINGdb$new(version=&#34;11&#34;, species=9606, score_threshold=200, input_directory=&#34;&#34;) data(diff_exp_example1) genes = rbind(head(diff_exp_example1,30), tail(diff_exp_example1,30)) head(genes) genes_mapped &lt;- string_db$map(genes, &#34;gene&#34; ) head(genes_mapped) ppi = string_db$get_interactions(genes_mapped$STRING_id) %&gt;% distinct() edges = ppi %&gt;% dplyr::left_join(genes_mapped[,c(1,4)], by=c(&#39;from&#39;=&#39;STRING_id&#39;)) %&gt;% dplyr::rename(Gene1=gene) %&gt;% dplyr::left_join(genes_mapped[,c(1,4)], by=c(&#39;to&#39;=&#39;STRING_id&#39;)) %&gt;% dplyr::rename(Gene2=gene) %&gt;% dplyr::select(Gene1, Gene2, combined_score) nodes = genes_mapped %&gt;% dplyr::filter(gene %in% c(edges$Gene1, edges$Gene2)) %&gt;% dplyr::mutate(log10P = -log10(pvalue), direction = ifelse(logFC&gt;0,&#34;Up&#34;,&#34;Down&#34;)) %&gt;% dplyr::select(gene, log10P, logFC, direction) ###边信息 head(edges) # Gene1 Gene2 combined_score # 1 UPK3B PTS 244 # 2 GSTM5 ACOT12 204 # 3 GRHL3 IGDCC4 238 # 4 TNNC1 ATP13A1 222 # 5 NNAT VSTM2L 281 # 6 EZH2 RBBP7 996 ###节点信息 head(nodes) # gene log10P logFC direction # 1 VSTM2L 3.992252 3.333461 Up # 2 TNNC1 3.534468 2.932060 Up # 3 MGAM 3.515558 2.369738 Up # 4 IGDCC4 3.290137 2.409806 Up # 5 UPK3B 3.248490 2.073072 Up # 6 SLC52A1 3.227019 3.214998 Up 1.2 创建对象 使用graph_from_data_frame()函数创建
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-16 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-16&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-05-17&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2209&amp;nbsp;|&amp;nbsp;5 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 使用igraph包进行网络结构分析与可视化" href="https://lishensuo.github.io/en/posts/bioinfo/200%E4%BD%BF%E7%94%A8igraph%E5%8C%85%E8%BF%9B%E8%A1%8C%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84%E5%88%86%E6%9E%90%E4%B8%8E%E5%8F%AF%E8%A7%86%E5%8C%96/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>重启随机游走算法与RandomWalkRestartMH包
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1、关于RWR 1.1 算法简介 Random Walk with Restart，RWR重启随机游走算法
+在给定的一个由节点和边组成的网络结构中（下面均已PPI蛋白相互作用网络为例），选择其中一个或者一组基因。我们想知道其余的哪些基因与我们先前所选择的一个或者一组基因最相关。此时可以用到RWR，简单原理如下：
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-19 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-19&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-04-19&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1887&amp;nbsp;|&amp;nbsp;4 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 重启随机游走算法与RandomWalkRestartMH包" href="https://lishensuo.github.io/en/posts/bioinfo/201%E9%87%8D%E5%90%AF%E9%9A%8F%E6%9C%BA%E6%B8%B8%E8%B5%B0%E7%AE%97%E6%B3%95%E4%B8%8Erandomwalkrestartmh%E5%8C%85/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>Gene2vec算法根据基因对计算基因表示
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 学习Genecompass时，了解参考到可以基因调控网络信息（Gene pair），计算Gene的嵌入表示（Embedding）
+https://github.com/jingcheng-du/Gene2vec 关键是要在python=3.7环境下，安装genesim=3.4.0 关于Genesim是NLP领域受欢迎的工具：https://github.com/jingcheng-du/Gene2vec
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2025-01-23 00:00:00 &#43;0000 UTC&#39;&gt;2025-01-23&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2025-01-23&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;959&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to Gene2vec算法根据基因对计算基因表示" href="https://lishensuo.github.io/en/posts/bioinfo/202gene2vec%E7%AE%97%E6%B3%95%E6%A0%B9%E6%8D%AE%E5%9F%BA%E5%9B%A0%E5%AF%B9%E8%AE%A1%E7%AE%97%E5%9F%BA%E5%9B%A0%E8%A1%A8%E7%A4%BA/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>obabel化学小分子格式转换
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> conda 安装 1 2 3 4 conda install -c conda-forge openbabel obabel # Open Babel 3.1.0 -- Nov 2 2021 -- 08:43:45 查看支持的格式 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 obabel -L # charges # descriptors # fingerprints # forcefields # formats # loaders # ops obabel -L formats | head # acesin -- ACES input format [Write-only] # acesout -- ACES output format [Read-only] # acr -- ACR format [Read-only] # adf -- ADF cartesian input format [Write-only] # adfband -- ADF Band output format [Read-only] # adfdftb -- ADF DFTB output format [Read-only] # adfout -- ADF output format [Read-only] # alc -- Alchemy format # aoforce -- Turbomole AOFORCE output format [Read-only] 格式转换
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-16 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-16&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-04-16&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1296&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to obabel化学小分子格式转换" href="https://lishensuo.github.io/en/posts/bioinfo/500obabel%E5%8C%96%E5%AD%A6%E5%B0%8F%E5%88%86%E5%AD%90%E6%A0%BC%E5%BC%8F%E8%BD%AC%E6%8D%A2/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>化合物指纹与描述符生成系列工具
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1、rdkit 1 2 3 4 5 6 # conda install -c conda-forge rdkit from rdkit import Chem from rdkit.Chem import MACCSkeys from rdkit import DataStructs from rdkit.Chem import Draw 1.1 指纹编码式 （1）Topological Fingerprints 1 2 3 4 5 6 7 8 m = Chem.MolFromSmiles(&#39;CCOC&#39;) # Chem.MolToSmiles(mol) fp = Chem.RDKFingerprint(m, fpSize=1024) # fpSize 自定义数目,默认为2048 fp.GetNumBits() # 1024 fp.ToBitString() ...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-03-20 00:00:00 &#43;0000 UTC&#39;&gt;2023-03-20&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-03-20&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1070&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 化合物指纹与描述符生成系列工具" href="https://lishensuo.github.io/en/posts/bioinfo/501%E5%8C%96%E5%90%88%E7%89%A9%E6%8C%87%E7%BA%B9%E4%B8%8E%E6%8F%8F%E8%BF%B0%E7%AC%A6%E7%94%9F%E6%88%90%E7%B3%BB%E5%88%97%E5%B7%A5%E5%85%B7/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>化合物敏感度数据库GDSC_CTRL
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>一、GDSC GDSC : https://www.cancerrxgene.org/，已上传至阿里云盘
+1、原始数据整理 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 ## 预处理 # library(tidyverse) # #RAW 文件夹 # gdsc_drug = read.csv(&#34;GDSC_drug.csv&#34;) # colnames(gdsc_drug) = gsub(&#34;[.]&#34;, &#34;_&#34;, colnames(gdsc_drug)) # # gdsc_cl = read.csv(&#34;GDSC_cellline.csv&#34;) # colnames(gdsc_cl) = gsub(&#34;[.]&#34;, &#34;_&#34;, colnames(gdsc_cl)) # gdsc_cl = gdsc_cl %&gt;% # reshape2::dcast(Cell_line_Name&#43;Model_ID&#43;COSMIC_ID&#43;TCGA_Classfication&#43;Tissue&#43;Tissue_sub_type~Datasets, # value.var = &#34;number_of_drugs&#34;) # # GDSC1 = readxl::read_excel(&#34;GDSC1_fitted_dose_response_25Feb20.xlsx&#34;) # GDSC1 = GDSC1[,c(-4, -6)] # GDSC1 = GDSC1[,c(-6, -8, -9)] # GDSC1 = GDSC1 %&gt;% # dplyr::select(DATASET, DRUG_NAME, CELL_LINE_NAME, TCGA_DESC, LN_IC50, AUC, RMSE, Z_SCORE, everything()) # GDSC1 = GDSC1 %&gt;% as.data.frame() # head(GDSC1) # # GDSC2 = readxl::read_excel(&#34;GDSC2_fitted_dose_response_25Feb20.xlsx&#34;) # GDSC2 = GDSC2[,c(-4, -6)] # GDSC2 = GDSC2[,c(-6, -8, -9)] # GDSC2 = GDSC2 %&gt;% # dplyr::select(DATASET, DRUG_NAME, CELL_LINE_NAME, TCGA_DESC, LN_IC50, AUC, RMSE, Z_SCORE, everything()) # GDSC2 = GDSC2 %&gt;% as.data.frame() # head(GDSC2) # # GDSC_merge = rbind(GDSC1, GDSC2) # head(GDSC_merge) # # head(gdsc_cl) 2、敏感度实验结果 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 GDSC_res = read.csv(&#34;GDSC/GDSC_result.csv&#34;) # DATASET DRUG_NAME CELL_LINE_NAME TCGA_DESC LN_IC50 AUC RMSE Z_SCORE # 1 GDSC1 Erlotinib MC-CAR MM 2.395685 0.982114 0.022521 -0.189576 # 2 GDSC1 Erlotinib ES3 UNCLASSIFIED 3.140923 0.984816 0.031840 0.508635 # 3 GDSC1 Erlotinib ES5 UNCLASSIFIED 3.968757 0.985693 0.026052 1.284229 # 4 GDSC1 Erlotinib ES7 UNCLASSIFIED 2.692768 0.972699 0.110056 0.088760 # 5 GDSC1 Erlotinib EW-11 UNCLASSIFIED 2.478678 0.944462 0.087011 -0.111820 # 6 GDSC1 Erlotinib SK-ES-1 UNCLASSIFIED 2.034050 0.950763 0.016288 -0.528390 ## 总共药物数 GDSC_res %&gt;% dplyr::distinct(DRUG_NAME) %&gt;% dim() # [1] 449 1 ## 每期药物数 GDSC_res %&gt;% dplyr::distinct(DATASET, DRUG_NAME) %&gt;% dplyr::count(DATASET, name = &#34;Drugs&#34;) # DATASET Drugs # 1 GDSC1 345 # 2 GDSC2 192 ## 每个细胞系的实验数 GDSC_res %&gt;% dplyr::count(DATASET, CELL_LINE_NAME, name = &#34;assays&#34;) %&gt;% reshape2::dcast(CELL_LINE_NAME ~ DATASET, value.var = &#34;assays&#34;) %&gt;% dplyr::arrange(desc(GDSC1)) %&gt;% head() # CELL_LINE_NAME GDSC1 GDSC2 # 1 A253 367 179 # 2 AMO-1 367 178 # 3 KCL-22 367 178 # 4 KNS-42 367 NA summary(GDSC_res$LN_IC50) # Min. 1st Qu. Median Mean 3rd Qu. Max. # -10.5793 0.8435 2.6228 2.2052 4.1216 12.3591 summary(GDSC_res$AUC) # Min. 1st Qu. Median Mean 3rd Qu. Max. # 0.00479 0.78839 0.92309 0.84467 0.97306 0.99984 cor(GDSC_res$LN_IC50, GDSC_res$AUC) # [1] 0.7534196 关于IC50与AUC：https://blog.csdn.net/linkequa/article/details/88221975
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-10-09 00:00:00 &#43;0000 UTC&#39;&gt;2022-10-09&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-10-09&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1391&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 化合物敏感度数据库GDSC_CTRL" href="https://lishensuo.github.io/en/posts/bioinfo/502%E6%95%B0%E6%8D%AE%E5%BA%93--%E5%8C%96%E5%90%88%E7%89%A9%E6%95%8F%E6%84%9F%E5%BA%A6gdsc_ctrl/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>ChemmineR处理化合物信息的基础工具R包
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> ChemmineR是使用R语言实现化合物基础操作的工具包，现根据其官方文档学习其主要用法如下：
+https://www.bioconductor.org/packages/release/bioc/vignettes/ChemmineR/inst/doc/ChemmineR.html 1 2 3 4 5 6 if (!requireNamespace(&#34;BiocManager&#34;, quietly=TRUE)) install.packages(&#34;BiocManager&#34;) BiocManager::install(&#34;ChemmineR&#34;) library(&#34;ChemmineR&#34;) # library(&#34;ChemmineOB&#34;) 1. SDFset格式 ChemmineR基础操作是围绕SDFset对象展开的，其表示多个SDF格式的化合物集合 1 2 3 4 5 6 7 8 9 data(sdfsample) sdfset = sdfsample # valid &lt;- validSDF(sdfset) # sdfset &lt;- sdfset[valid] class(sdfset) # SDFset length(sdfset) # 100 c(sdfset[1:4], sdfset[5:8]) # 合并 sdfset[1:4] # 子集 每个SDFset集合是由单个SDF对象组成的，主要由4部分构成 &lt;&lt;header» : 化合物id等基本信息 &lt;&lt;atomblock» : 原子信息，&lt;&lt;bondblock»: 键信息 &lt;&lt;datablock» : 化合物的属性/其它注释信息 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 sdfset[[1]] as(sdfset[[1]], &#34;list&#34;) ## ID cid(sdfset[1:2]) # slot ID sdfid(sdfset[1:2]) # header ID cid(sdfset) = sdfid(sdfset) ## Component header(sdfset[[1]]) # character atomblock(sdfset[[1]]) # matrix bondblock(sdfset[[1]]) # matrix datablock(sdfset[[1]]) # character blockmatrix = datablock2ma(datablock(sdfset[1:2])) 补充：ChemmineR提供一些函数可计算化合物的基本属性信息，例如分子量等。此外ChemmineOB也可以实现类似功能。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-07-20 00:00:00 &#43;0000 UTC&#39;&gt;2023-07-20&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-07-20&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1052&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to ChemmineR处理化合物信息的基础工具R包" href="https://lishensuo.github.io/en/posts/bioinfo/503chemminer%E5%A4%84%E7%90%86%E5%8C%96%E5%90%88%E7%89%A9%E4%BF%A1%E6%81%AF%E7%9A%84%E5%9F%BA%E7%A1%80%E5%B7%A5%E5%85%B7r%E5%8C%85/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="https://lishensuo.github.io/en/posts/bioinfo/page/9/">« Prev Page</a>
+    <a class="next" href="https://lishensuo.github.io/en/posts/bioinfo/page/11/">Next Page »</a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

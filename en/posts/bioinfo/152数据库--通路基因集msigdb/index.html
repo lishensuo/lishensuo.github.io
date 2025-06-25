@@ -1,0 +1,1433 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>MsigDB基因集数据库 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="生信基础">
+<meta name="description" content="
+官方介绍：https://www.gsea-msigdb.org/gsea/msigdb/
+下载界面：http://www.gsea-msigdb.org/gsea/downloads.jsp">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/bioinfo/152%E6%95%B0%E6%8D%AE%E5%BA%93--%E9%80%9A%E8%B7%AF%E5%9F%BA%E5%9B%A0%E9%9B%86msigdb/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/bioinfo/152%E6%95%B0%E6%8D%AE%E5%BA%93--%E9%80%9A%E8%B7%AF%E5%9F%BA%E5%9B%A0%E9%9B%86msigdb/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="MsigDB基因集数据库" />
+<meta property="og:description" content="
+官方介绍：https://www.gsea-msigdb.org/gsea/msigdb/
+下载界面：http://www.gsea-msigdb.org/gsea/downloads.jsp" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/bioinfo/152%E6%95%B0%E6%8D%AE%E5%BA%93--%E9%80%9A%E8%B7%AF%E5%9F%BA%E5%9B%A0%E9%9B%86msigdb/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-04-21T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2022-05-06T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="MsigDB基因集数据库"/>
+<meta name="twitter:description" content="
+官方介绍：https://www.gsea-msigdb.org/gsea/msigdb/
+下载界面：http://www.gsea-msigdb.org/gsea/downloads.jsp"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 生信数据分析--分析流程，工具包等",
+      "item": "https://lishensuo.github.io/en/posts/bioinfo/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "MsigDB基因集数据库",
+      "item": "https://lishensuo.github.io/en/posts/bioinfo/152%E6%95%B0%E6%8D%AE%E5%BA%93--%E9%80%9A%E8%B7%AF%E5%9F%BA%E5%9B%A0%E9%9B%86msigdb/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "MsigDB基因集数据库",
+  "name": "MsigDB基因集数据库",
+  "description": " 官方介绍：https://www.gsea-msigdb.org/gsea/msigdb/\n下载界面：http://www.gsea-msigdb.org/gsea/downloads.jsp\n",
+  "keywords": [
+    "生信基础"
+  ],
+  "articleBody": " 官方介绍：https://www.gsea-msigdb.org/gsea/msigdb/\n下载界面：http://www.gsea-msigdb.org/gsea/downloads.jsp\n通路词条示例：https://www.gsea-msigdb.org/gsea/msigdb/cards/CORONEL_RFX7_DIRECT_TARGETS_UP.html，记录通路的描述信息以及出处。\n1、hallmark gene sets 50条代表性通路，涵盖了涉及发育、免疫、信号通路等明确定义的基因集，具体见文末。\n基于C1-C6的4000多条通路整理而成，整合思路可参考文章。\n可以作为探索富集通路的分析起点\n1 2 3 4 5 6 7 8 9 10 gset = clusterProfiler::read.gmt(\"msigdb_v7.5.1_GMTs/h.all.v7.5.1.symbols.gmt\") length(unique(gset$term)) # head(gset) # term gene # 1 HALLMARK_TNFA_SIGNALING_VIA_NFKB JUNB # 2 HALLMARK_TNFA_SIGNALING_VIA_NFKB CXCL2 # 3 HALLMARK_TNFA_SIGNALING_VIA_NFKB ATF3 # 4 HALLMARK_TNFA_SIGNALING_VIA_NFKB NFKBIA # 5 HALLMARK_TNFA_SIGNALING_VIA_NFKB TNFAIP3 # 6 HALLMARK_TNFA_SIGNALING_VIA_NFKB PTGS2 2、C1 : positional gene sets 记录每个染色体区段的基因； 可用于识别与染色体缺失/扩增，表观遗传沉默等相关的效应 1 2 3 4 5 6 7 8 9 10 11 gset = clusterProfiler::read.gmt(\"msigdb_v7.5.1_GMTs/c1.all.v7.5.1.symbols.gmt\") length(unique(gset$gene)) # 40721 head(gset) # term gene # 1 chr1p11 RPL22P6 # 2 chr1p11 NBPF8 # 3 chr1p11 LINC02798 # 4 chr1p11 H3P4 # 5 chr1p11 MTIF2P1 # 6 chr1p11 SRGAP2C 3、C2：curated gene sets 3.1 CGP: Chemical and genetic perturbations 化合物/基因/信号通路干扰的差异表达基因集，一般分为UP/DN两类。收集的signature数据主要来自于文献。 1 2 3 gset = clusterProfiler::read.gmt(\"msigdb_v7.5.1_GMTs/c2.cgp.v7.5.1.symbols.gmt\") head(gset) head(unique(gset$term)) 3.2 CP: Canonical pathways 各种通路数据库中收集而来，比如KEGG、Reactome、WikiPathways等 1 2 3 4 5 6 7 8 gset = clusterProfiler::read.gmt(\"msigdb_v7.5.1_GMTs/c2.cp.kegg.v7.5.1.symbols.gmt\") length(unique(gset$term)) #186 gset = clusterProfiler::read.gmt(\"msigdb_v7.5.1_GMTs/c2.cp.reactome.v7.5.1.symbols.gmt\") length(unique(gset$term)) #1615 gset = clusterProfiler::read.gmt(\"msigdb_v7.5.1_GMTs/c2.cp.wikipathways.v7.5.1.symbols.gmt\") length(unique(gset$term)) #664 4、C3：regulatory target gene sets 4.1 MIR: microRNA targets microRNA所调控的靶点基因，主要收集自miRDB v6.0 (mirdb.org, Chen and Wang, 2020) 1 2 3 4 5 6 7 8 9 gset = clusterProfiler::read.gmt(\"msigdb_v7.5.1_GMTs/c3.mir.v7.5.1.entrez.gmt\") head(gset) # term gene # 1 MIR153_5P 4232 # 2 MIR153_5P 11163 # 3 MIR153_5P 3267 # 4 MIR153_5P 3843 # 5 MIR153_5P 25926 # 6 MIR153_5P 63976 4.2 TFT: Transcription factor targets 转录因子所调控的靶点，主要收集自the Gene Transcription Regulation Database (GTRD, gtrd.biouml.org) 1 2 3 4 5 6 7 8 9 gset = clusterProfiler::read.gmt(\"msigdb_v7.5.1_GMTs/c3.tft.v7.5.1.symbols.gmt\") head(gset) # term gene # 1 METHYLCYTOSINE_DIOXYGENASE_TET_UNIPROT_A0A023HHK9_UNREVIEWED_TARGET_GENES PPP1R12A # 2 METHYLCYTOSINE_DIOXYGENASE_TET_UNIPROT_A0A023HHK9_UNREVIEWED_TARGET_GENES SPHK2 # 3 METHYLCYTOSINE_DIOXYGENASE_TET_UNIPROT_A0A023HHK9_UNREVIEWED_TARGET_GENES HAGH # 4 METHYLCYTOSINE_DIOXYGENASE_TET_UNIPROT_A0A023HHK9_UNREVIEWED_TARGET_GENES RBL1 # 5 METHYLCYTOSINE_DIOXYGENASE_TET_UNIPROT_A0A023HHK9_UNREVIEWED_TARGET_GENES GEMIN5 # 6 METHYLCYTOSINE_DIOXYGENASE_TET_UNIPROT_A0A023HHK9_UNREVIEWED_TARGET_GENES TMED2 5、C4：computational gene sets 5.1 CGN: Cancer gene neighborhoods 癌症相关的表型或者特征相关的基因集，收集自4个数据库GNF2: Human tissue compendium (Novartis)、CAR: Novartis carcinoma compendium (Novartis)、GCM: Global Cancer Map (Broad Institute)、MORF: An unpublished compendium of gene expression data sets。 1 2 3 4 5 6 7 8 9 10 gset = clusterProfiler::read.gmt(\"msigdb_v7.5.1_GMTs/c4.cgn.v7.5.1.symbols.gmt\") head(gset) unique(gset$term) # term gene # 1 MORF_ATRX ADCY3 # 2 MORF_ATRX SEC31A # 3 MORF_ATRX BTD # 4 MORF_ATRX LTBP4 # 5 MORF_ATRX UTRN # 6 MORF_ATRX FIG4 5.2 CM: Cancer modules 456 such modules as significantly changed in a variety of cancer conditions 1 2 3 4 5 6 7 8 9 gset = clusterProfiler::read.gmt(\"msigdb_v7.5.1_GMTs/c4.cm.v7.5.1.symbols.gmt\") head(gset) # term gene # 1 MODULE_9 SLC16A4 # 2 MODULE_9 ACTN1 # 3 MODULE_9 PER1 # 4 MODULE_9 VWF # 5 MODULE_9 DHRS3 # 6 MODULE_9 ID2B 6、C5：ontology gene sets 6.1 GO: Gene Ontology biological process (BP), cellular component (CC), or molecular function (MF) respectively. 1 2 3 4 5 6 7 8 9 gset = clusterProfiler::read.gmt(\"msigdb_v7.5.1_GMTs/c5.go.v7.5.1.symbols.gmt\") head(gset) # term gene # 1 GOBP_MITOCHONDRIAL_GENOME_MAINTENANCE AKT3 # 2 GOBP_MITOCHONDRIAL_GENOME_MAINTENANCE PPARGC1A # 3 GOBP_MITOCHONDRIAL_GENOME_MAINTENANCE POLG2 # 4 GOBP_MITOCHONDRIAL_GENOME_MAINTENANCE PARP1 # 5 GOBP_MITOCHONDRIAL_GENOME_MAINTENANCE DNA2 # 6 GOBP_MITOCHONDRIAL_GENOME_MAINTENANCE TYMP 6.2 Human Phenotype Ontology 疾病表型相关的基因集 1 2 3 4 5 6 7 8 9 gset = clusterProfiler::read.gmt(\"msigdb_v7.5.1_GMTs/c5.hpo.v7.5.1.symbols.gmt\") head(gset) # term gene # 1 HP_MULTICYSTIC_KIDNEY_DYSPLASIA TMEM107 # 2 HP_MULTICYSTIC_KIDNEY_DYSPLASIA LZTFL1 # 3 HP_MULTICYSTIC_KIDNEY_DYSPLASIA PEX6 # 4 HP_MULTICYSTIC_KIDNEY_DYSPLASIA GPC4 # 5 HP_MULTICYSTIC_KIDNEY_DYSPLASIA TFAP2A # 6 HP_MULTICYSTIC_KIDNEY_DYSPLASIA SIX1 7、C6：oncogenic signature gene sets 癌症细胞系中相关癌基因异常表达的上下调基因集 1 2 3 4 5 6 7 8 9 gset = clusterProfiler::read.gmt(\"msigdb_v7.5.1_GMTs/c6.all.v7.5.1.symbols.gmt\") head(gset) # term gene # 1 GLI1_UP.V1_DN CACUL1 # 2 GLI1_UP.V1_DN CCNL2 # 3 GLI1_UP.V1_DN YIPF1 # 4 GLI1_UP.V1_DN GTDC1 # 5 GLI1_UP.V1_DN OPN3 # 6 GLI1_UP.V1_DN SLC22A1 8、C7：immunologic signature gene sets 8.1：ImmuneSigDB 主要收集自GEO，有关免疫系统异常状态差异分析的上下调基因集 1 2 3 4 5 6 7 8 9 gset = clusterProfiler::read.gmt(\"msigdb_v7.5.1_GMTs/c7.immunesigdb.v7.5.1.symbols.gmt\") head(gset) # term gene # 1 KAECH_NAIVE_VS_DAY8_EFF_CD8_TCELL_UP RFLNB # 2 KAECH_NAIVE_VS_DAY8_EFF_CD8_TCELL_UP AMPD3 # 3 KAECH_NAIVE_VS_DAY8_EFF_CD8_TCELL_UP NSG2 # 4 KAECH_NAIVE_VS_DAY8_EFF_CD8_TCELL_UP DUSP6 # 5 KAECH_NAIVE_VS_DAY8_EFF_CD8_TCELL_UP ADCY6 # 6 KAECH_NAIVE_VS_DAY8_EFF_CD8_TCELL_UP TEC 8.2：VAX: vaccine response gene sets 疫苗反应的基因集 9、C8：cell type signature gene sets 不同细胞类型的marker基因；主要收集自文献 1 2 gset = clusterProfiler::read.gmt(\"msigdb_v7.5.1_GMTs/c8.all.v7.5.1.symbols.gmt\") length(unique(gset$term)) #700 附 Hallmark name Process category Description 释义 Number of founder sets Number of genes 1 APICAL_JUNCTION cellular component Apical junction complex consisting of adherens and tight junctions 顶端连接复合体，影响细胞-细胞粘附和细胞间通讯 37 200 2 APICAL_SURFACE cellular component Membrane proteins in the apical domain 顶端结构域的膜蛋白 12 44 3 PEROXISOME cellular component Peroxisomes 过氧化物酶体，一种细胞器 28 107 4 ADIPOGENESIS development Adipocyte development 脂肪细胞的发育 36 200 5 ANGIOGENESIS development Blood vessel formation 血管的形成 14 36 6 EPITHELIAL_MESENCHYMAL_TRANSITION development Epithelial mesenchymal transition 上皮间充质转化，在胚胎发育、慢性炎症、组织重建、癌症转移和多种纤维化疾病中发挥了重要作用 107 200 7 MYOGENESIS development Muscle differentiation 肌肉发育分化 64 200 8 SPERMATOGENESIS development Sperm development and male fertility 精子发育和男性生育能力 24 135 9 PANCREAS_BETA_CELL development Genes specific to pancreatic beta cells 胰腺细胞 24 40 10 DNA_REPAIR DNA damage DNA repair DNA修复 44 150 11 UV_RESPONSE_DOWN DNA damage UV response: down-regulated genes 紫外反应–下调基因 17 144 12 UV_RESPONSE_UP DNA damage UV response: up-regulated genes 紫外反应–上调基因 16 158 13 ALLOGRAFT_REJECTION immune Allograft rejection 同种异体移植物排斥 190 200 14 COAGULATION immune Coagulation cascade 凝血级联，身体形成血凝块以防止过多失血的过程 71 138 15 COMPLEMENT immune Complement cascade 补体级联反应 71 200 16 INTERFERON_ALPHA_RESPONSE immune Interferon alpha response 干扰素 α 82 97 17 INTERFERON_GAMMA_RESPONSE immune Interferon gamma response 干扰素 γ 82 200 18 IL6_JAK_STAT3_SIGNALING immune IL6 STAT3 signaling during acute phase response IL6 细胞因子受体 24 87 19 INFLAMMATORY_RESPONSE immune Inflammation 炎症 120 200 20 BILE_ACID_METABOLISM metabolic Biosynthesis of bile acids 胆汁酸生物合成 28 112 21 CHOLESTEROL_HOMEOSTASIS metabolic Cholesterol homeostasis 胆固醇平衡 28 74 22 FATTY_ACID_METABOLISM metabolic Fatty acid metabolism 脂肪酸代谢 53 158 23 GLYCOLYSIS metabolic Glycolysis and gluconeogenesis 糖酵解和糖质新生 87 200 24 HEME_METABOLISM metabolic Heme metabolism 血红素代谢 36 200 25 OXIDATIVE_PHOSPHORYLATION metabolic Oxidative phosphorylation and citric acid cycle 氧化磷酸化与柠檬酸循环 93 200 26 XENOBIOTIC_METABOLISM metabolic Metabolism of xenobiotics 外源性物质代谢 124 200 27 APOPTOSIS pathway Programmed cell death; caspase pathway 程序性细胞死亡;半胱天冬酶通路 80 161 28 HYPOXIA pathway Response to hypoxia; HIF1A targets 缺氧；HIF1A:缺氧诱导因子-1α 87 200 29 PROTEIN_SECRETION pathway Protein secretion 蛋白质分泌 74 96 30 UNFOLDED_PROTEIN_RESPONSE pathway Unfolded protein response; ER stress 内质网应激 22 113 31 REACTIVE_OXYGEN_SPECIES_PATHWAY pathway Reactive oxygen species (ROS) pathway 活性氧(ROS)途径 13 49 32 E2F_TARGETS proliferation E2F targets 参与哺乳动物细胞中DNA的细胞周期调控和合成 420 200 33 G2M_CHECKPOINT proliferation Cell cycle G2/M checkpoint 细胞周期G2/M检查点 420 200 34 MYC_TARGETS_V1 proliferation MYC targets variant 1 致癌基因MYC的治疗靶点 404 200 35 MYC_TARGETS_V2 proliferation MYC targets variant 2 致癌基因MYC的治疗靶点 6 58 36 P53_PATHWAY proliferation p53 pathway TP53通路 85 200 37 MITOTIC_SPINDLE proliferation Mitotic spindle assembly 有丝分裂纺锤体组装 108 200 38 ANDROGEN_RESPONSE signaling Androgen response 雄激素反应 8 117 39 ESTROGEN_RESPONSE_EARLY signaling Early estrogen response 雌激素反应 61 200 40 ESTROGEN_RESPONSE_LATE signaling Late estrogen response 雌激素反应 61 200 41 IL2_JAK_STAT5_SIGNALING signaling IL2 STAT5 signaling IL2 STAT5通路 13 200 42 KRAS_SIGNALING_UP signaling KRAS signaling, up-regulated genes KRAS通路 上调基因 14 200 43 KRAS_SIGNALING_DOWN signaling KRAS signaling, down-regulated genes KRAS通路 下调基因 16 200 44 MTORC1_SIGNALING signaling mTORC1 signaling mTOR通路 487 200 45 NOTCH_SIGNALING signaling Notch signaling Notch通路 49 32 46 PI3K_AKT_MTOR_SIGNALING signaling PI3K signaling via AKT to mTORC1 PI3K/AKT/mTOR通路 591 105 47 HEDGEHOG_SIGNALING signaling Hedgehog signaling Hedgehog通路 79 36 48 TGF_BETA_SIGNALING signaling TGF beta signaling TGF-β通路 29 54 49 TNFA_SIGNALING_VIA_NFKB signaling TNFA signaling via NFkB TNF-α/NF-kB通路 132 200 50 WNT_BETA_CATENIN_SIGNALING signaling Cannonical beta catenin pathway 经典Wnt信号通路 49 42 ",
+  "wordCount" : "2279",
+  "inLanguage": "en",
+  "datePublished": "2022-04-21T00:00:00Z",
+  "dateModified": "2022-05-06T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/bioinfo/152%E6%95%B0%E6%8D%AE%E5%BA%93--%E9%80%9A%E8%B7%AF%E5%9F%BA%E5%9B%A0%E9%9B%86msigdb/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/bioinfo/">📖 生信数据分析--分析流程，工具包等</a></div>
+    <h1 class="post-title">
+      MsigDB基因集数据库
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-21 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-21&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-05-06&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2279&amp;nbsp;|&amp;nbsp;5 min&amp;nbsp;|&amp;nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#1hallmark-gene-sets" aria-label="1、hallmark gene sets">1、hallmark gene sets</a></li>
+                    <li>
+                        <a href="#2c1--positional-gene-sets" aria-label="2、C1 : positional gene sets">2、C1 : positional gene sets</a></li>
+                    <li>
+                        <a href="#3c2curated-gene-sets" aria-label="3、C2：curated gene sets">3、C2：curated gene sets</a><ul>
+                            
+                    <li>
+                        <a href="#31-cgp-chemical-and-genetic-perturbations" aria-label="3.1 CGP: Chemical and genetic perturbations">3.1 CGP: Chemical and genetic perturbations</a></li>
+                    <li>
+                        <a href="#32-cp-canonical-pathways" aria-label="3.2 CP: Canonical pathways">3.2 CP: Canonical pathways</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#4c3regulatory-target-gene-sets" aria-label="4、C3：regulatory target gene sets">4、C3：regulatory target gene sets</a><ul>
+                            
+                    <li>
+                        <a href="#41-mir-microrna-targets" aria-label="4.1 MIR: microRNA targets">4.1 MIR: microRNA targets</a></li>
+                    <li>
+                        <a href="#42-tft-transcription-factor-targets" aria-label="4.2 TFT: Transcription factor targets">4.2 TFT: Transcription factor targets</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#5c4computational-gene-sets" aria-label="5、C4：computational gene sets">5、C4：computational gene sets</a><ul>
+                            
+                    <li>
+                        <a href="#51-cgn-cancer-gene-neighborhoods" aria-label="5.1 CGN: Cancer gene neighborhoods">5.1 CGN: Cancer gene neighborhoods</a></li>
+                    <li>
+                        <a href="#52-cm-cancer-modules" aria-label="5.2 CM: Cancer modules">5.2 CM: Cancer modules</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#6c5ontology-gene-sets" aria-label="6、C5：ontology gene sets">6、C5：ontology gene sets</a><ul>
+                            
+                    <li>
+                        <a href="#61-go-gene-ontology" aria-label="6.1 GO: Gene Ontology">6.1 GO: Gene Ontology</a></li>
+                    <li>
+                        <a href="#62-human-phenotype-ontology" aria-label="6.2 Human Phenotype Ontology">6.2 Human Phenotype Ontology</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#7c6oncogenic-signature-gene-sets" aria-label="7、C6：oncogenic signature gene sets">7、C6：oncogenic signature gene sets</a></li>
+                    <li>
+                        <a href="#8c7immunologic-signature-gene-sets" aria-label="8、C7：immunologic signature gene sets">8、C7：immunologic signature gene sets</a><ul>
+                            
+                    <li>
+                        <a href="#81immunesigdb" aria-label="8.1：ImmuneSigDB">8.1：ImmuneSigDB</a></li>
+                    <li>
+                        <a href="#82vax-vaccine-response-gene-sets" aria-label="8.2：VAX: vaccine response gene sets">8.2：VAX: vaccine response gene sets</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#9c8cell-type-signature-gene-sets" aria-label="9、C8：cell type signature gene sets">9、C8：cell type signature gene sets</a></li>
+                    <li>
+                        <a href="#%e9%99%84" aria-label="附">附</a>
+                    </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><blockquote>
+<p>官方介绍：https://www.gsea-msigdb.org/gsea/msigdb/</p>
+<p>下载界面：http://www.gsea-msigdb.org/gsea/downloads.jsp</p>
+<p>通路词条示例：https://www.gsea-msigdb.org/gsea/msigdb/cards/CORONEL_RFX7_DIRECT_TARGETS_UP.html，记录通路的描述信息以及出处。</p></blockquote>
+<h1 id="1hallmark-gene-sets">1、hallmark gene sets<a hidden class="anchor" aria-hidden="true" href="#1hallmark-gene-sets">#</a></h1>
+<ul>
+<li>
+<p>50条代表性通路，涵盖了涉及发育、免疫、信号通路等明确定义的基因集，具体见文末。</p>
+</li>
+<li>
+<p>基于C1-C6的4000多条通路整理而成，整合思路可参考<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4707969/">文章</a>。</p>
+</li>
+<li>
+<p>可以作为探索富集通路的分析起点</p>
+</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>gset = clusterProfiler::read.gmt(<span style="color:#0ff;font-weight:bold">&#34;msigdb_v7.5.1_GMTs/h.all.v7.5.1.symbols.gmt&#34;</span>)
+</span></span><span style="display:flex;"><span>length(unique(gset$term))
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># head(gset)</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#                               term    gene</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1 HALLMARK_TNFA_SIGNALING_VIA_NFKB    JUNB</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2 HALLMARK_TNFA_SIGNALING_VIA_NFKB   CXCL2</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3 HALLMARK_TNFA_SIGNALING_VIA_NFKB    ATF3</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 4 HALLMARK_TNFA_SIGNALING_VIA_NFKB  NFKBIA</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 5 HALLMARK_TNFA_SIGNALING_VIA_NFKB TNFAIP3</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 6 HALLMARK_TNFA_SIGNALING_VIA_NFKB   PTGS2</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="2c1--positional-gene-sets">2、C1 : positional gene sets<a hidden class="anchor" aria-hidden="true" href="#2c1--positional-gene-sets">#</a></h1>
+<ul>
+<li>记录每个染色体区段的基因；</li>
+<li>可用于识别与染色体缺失/扩增，表观遗传沉默等相关的效应</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>gset = clusterProfiler::read.gmt(<span style="color:#0ff;font-weight:bold">&#34;msigdb_v7.5.1_GMTs/c1.all.v7.5.1.symbols.gmt&#34;</span>)
+</span></span><span style="display:flex;"><span>length(unique(gset$gene))
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 40721</span>
+</span></span><span style="display:flex;"><span>head(gset)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#     term      gene</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1 chr1p11   RPL22P6</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2 chr1p11     NBPF8</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3 chr1p11 LINC02798</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 4 chr1p11      H3P4</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 5 chr1p11   MTIF2P1</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 6 chr1p11   SRGAP2C</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="3c2curated-gene-sets">3、C2：curated gene sets<a hidden class="anchor" aria-hidden="true" href="#3c2curated-gene-sets">#</a></h1>
+<h2 id="31-cgp-chemical-and-genetic-perturbations">3.1 CGP: Chemical and genetic perturbations<a hidden class="anchor" aria-hidden="true" href="#31-cgp-chemical-and-genetic-perturbations">#</a></h2>
+<ul>
+<li>化合物/基因/信号通路干扰的差异表达基因集，一般分为UP/DN两类。收集的signature数据主要来自于文献。</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>gset = clusterProfiler::read.gmt(<span style="color:#0ff;font-weight:bold">&#34;msigdb_v7.5.1_GMTs/c2.cgp.v7.5.1.symbols.gmt&#34;</span>)
+</span></span><span style="display:flex;"><span>head(gset)
+</span></span><span style="display:flex;"><span>head(unique(gset$term))
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="32-cp-canonical-pathways">3.2 CP: Canonical pathways<a hidden class="anchor" aria-hidden="true" href="#32-cp-canonical-pathways">#</a></h2>
+<ul>
+<li>各种通路数据库中收集而来，比如KEGG、Reactome、WikiPathways等</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>gset = clusterProfiler::read.gmt(<span style="color:#0ff;font-weight:bold">&#34;msigdb_v7.5.1_GMTs/c2.cp.kegg.v7.5.1.symbols.gmt&#34;</span>)
+</span></span><span style="display:flex;"><span>length(unique(gset$term)) <span style="color:#007f7f">#186</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>gset = clusterProfiler::read.gmt(<span style="color:#0ff;font-weight:bold">&#34;msigdb_v7.5.1_GMTs/c2.cp.reactome.v7.5.1.symbols.gmt&#34;</span>)
+</span></span><span style="display:flex;"><span>length(unique(gset$term)) <span style="color:#007f7f">#1615</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>gset = clusterProfiler::read.gmt(<span style="color:#0ff;font-weight:bold">&#34;msigdb_v7.5.1_GMTs/c2.cp.wikipathways.v7.5.1.symbols.gmt&#34;</span>)
+</span></span><span style="display:flex;"><span>length(unique(gset$term)) <span style="color:#007f7f">#664</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="4c3regulatory-target-gene-sets">4、C3：regulatory target gene sets<a hidden class="anchor" aria-hidden="true" href="#4c3regulatory-target-gene-sets">#</a></h1>
+<h2 id="41-mir-microrna-targets">4.1 MIR: microRNA targets<a hidden class="anchor" aria-hidden="true" href="#41-mir-microrna-targets">#</a></h2>
+<ul>
+<li>microRNA所调控的靶点基因，主要收集自miRDB v6.0 (<a href="http://mirdb.org/">mirdb.org</a>, Chen and Wang, 2020)</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>gset = clusterProfiler::read.gmt(<span style="color:#0ff;font-weight:bold">&#34;msigdb_v7.5.1_GMTs/c3.mir.v7.5.1.entrez.gmt&#34;</span>)
+</span></span><span style="display:flex;"><span>head(gset)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#        term  gene</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1 MIR153_5P  4232</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2 MIR153_5P 11163</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3 MIR153_5P  3267</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 4 MIR153_5P  3843</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 5 MIR153_5P 25926</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 6 MIR153_5P 63976</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="42-tft-transcription-factor-targets">4.2 TFT: Transcription factor targets<a hidden class="anchor" aria-hidden="true" href="#42-tft-transcription-factor-targets">#</a></h2>
+<ul>
+<li>转录因子所调控的靶点，主要收集自the Gene Transcription Regulation Database (GTRD, <a href="http://gtrd.biouml.org/">gtrd.biouml.org</a>)</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>gset = clusterProfiler::read.gmt(<span style="color:#0ff;font-weight:bold">&#34;msigdb_v7.5.1_GMTs/c3.tft.v7.5.1.symbols.gmt&#34;</span>)
+</span></span><span style="display:flex;"><span>head(gset)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#                                                                        term     gene</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1 METHYLCYTOSINE_DIOXYGENASE_TET_UNIPROT_A0A023HHK9_UNREVIEWED_TARGET_GENES PPP1R12A</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2 METHYLCYTOSINE_DIOXYGENASE_TET_UNIPROT_A0A023HHK9_UNREVIEWED_TARGET_GENES    SPHK2</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3 METHYLCYTOSINE_DIOXYGENASE_TET_UNIPROT_A0A023HHK9_UNREVIEWED_TARGET_GENES     HAGH</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 4 METHYLCYTOSINE_DIOXYGENASE_TET_UNIPROT_A0A023HHK9_UNREVIEWED_TARGET_GENES     RBL1</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 5 METHYLCYTOSINE_DIOXYGENASE_TET_UNIPROT_A0A023HHK9_UNREVIEWED_TARGET_GENES   GEMIN5</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 6 METHYLCYTOSINE_DIOXYGENASE_TET_UNIPROT_A0A023HHK9_UNREVIEWED_TARGET_GENES    TMED2</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="5c4computational-gene-sets">5、C4：computational gene sets<a hidden class="anchor" aria-hidden="true" href="#5c4computational-gene-sets">#</a></h1>
+<h2 id="51-cgn-cancer-gene-neighborhoods">5.1 CGN: Cancer gene neighborhoods<a hidden class="anchor" aria-hidden="true" href="#51-cgn-cancer-gene-neighborhoods">#</a></h2>
+<ul>
+<li>癌症相关的表型或者特征相关的基因集，收集自4个数据库<strong>GNF2:</strong> Human tissue compendium (Novartis)、<strong>CAR:</strong> Novartis carcinoma compendium (Novartis)、<strong>GCM:</strong> Global Cancer Map (Broad Institute)、<strong>MORF:</strong> An unpublished compendium of gene expression data sets。</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>gset = clusterProfiler::read.gmt(<span style="color:#0ff;font-weight:bold">&#34;msigdb_v7.5.1_GMTs/c4.cgn.v7.5.1.symbols.gmt&#34;</span>)
+</span></span><span style="display:flex;"><span>head(gset)
+</span></span><span style="display:flex;"><span>unique(gset$term)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#        term   gene</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1 MORF_ATRX  ADCY3</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2 MORF_ATRX SEC31A</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3 MORF_ATRX    BTD</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 4 MORF_ATRX  LTBP4</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 5 MORF_ATRX   UTRN</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 6 MORF_ATRX   FIG4</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="52-cm-cancer-modules">5.2 CM: Cancer modules<a hidden class="anchor" aria-hidden="true" href="#52-cm-cancer-modules">#</a></h2>
+<ul>
+<li>456 such modules as significantly changed in a variety of cancer conditions</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>gset = clusterProfiler::read.gmt(<span style="color:#0ff;font-weight:bold">&#34;msigdb_v7.5.1_GMTs/c4.cm.v7.5.1.symbols.gmt&#34;</span>)
+</span></span><span style="display:flex;"><span>head(gset)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#       term    gene</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1 MODULE_9 SLC16A4</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2 MODULE_9   ACTN1</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3 MODULE_9    PER1</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 4 MODULE_9     VWF</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 5 MODULE_9   DHRS3</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 6 MODULE_9    ID2B</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="6c5ontology-gene-sets">6、C5：ontology gene sets<a hidden class="anchor" aria-hidden="true" href="#6c5ontology-gene-sets">#</a></h1>
+<h2 id="61-go-gene-ontology">6.1 GO: Gene Ontology<a hidden class="anchor" aria-hidden="true" href="#61-go-gene-ontology">#</a></h2>
+<ul>
+<li>biological process (BP), cellular component (CC), or molecular function (MF) respectively.</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>gset = clusterProfiler::read.gmt(<span style="color:#0ff;font-weight:bold">&#34;msigdb_v7.5.1_GMTs/c5.go.v7.5.1.symbols.gmt&#34;</span>)
+</span></span><span style="display:flex;"><span>head(gset)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#                                    term     gene</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1 GOBP_MITOCHONDRIAL_GENOME_MAINTENANCE     AKT3</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2 GOBP_MITOCHONDRIAL_GENOME_MAINTENANCE PPARGC1A</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3 GOBP_MITOCHONDRIAL_GENOME_MAINTENANCE    POLG2</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 4 GOBP_MITOCHONDRIAL_GENOME_MAINTENANCE    PARP1</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 5 GOBP_MITOCHONDRIAL_GENOME_MAINTENANCE     DNA2</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 6 GOBP_MITOCHONDRIAL_GENOME_MAINTENANCE     TYMP</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="62-human-phenotype-ontology">6.2 Human Phenotype Ontology<a hidden class="anchor" aria-hidden="true" href="#62-human-phenotype-ontology">#</a></h2>
+<ul>
+<li>疾病表型相关的基因集</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>gset = clusterProfiler::read.gmt(<span style="color:#0ff;font-weight:bold">&#34;msigdb_v7.5.1_GMTs/c5.hpo.v7.5.1.symbols.gmt&#34;</span>)
+</span></span><span style="display:flex;"><span>head(gset)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#                              term    gene</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1 HP_MULTICYSTIC_KIDNEY_DYSPLASIA TMEM107</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2 HP_MULTICYSTIC_KIDNEY_DYSPLASIA  LZTFL1</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3 HP_MULTICYSTIC_KIDNEY_DYSPLASIA    PEX6</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 4 HP_MULTICYSTIC_KIDNEY_DYSPLASIA    GPC4</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 5 HP_MULTICYSTIC_KIDNEY_DYSPLASIA  TFAP2A</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 6 HP_MULTICYSTIC_KIDNEY_DYSPLASIA    SIX1</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="7c6oncogenic-signature-gene-sets">7、C6：oncogenic signature gene sets<a hidden class="anchor" aria-hidden="true" href="#7c6oncogenic-signature-gene-sets">#</a></h1>
+<ul>
+<li>癌症细胞系中相关癌基因异常表达的上下调基因集</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>gset = clusterProfiler::read.gmt(<span style="color:#0ff;font-weight:bold">&#34;msigdb_v7.5.1_GMTs/c6.all.v7.5.1.symbols.gmt&#34;</span>)
+</span></span><span style="display:flex;"><span>head(gset)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#            term    gene</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1 GLI1_UP.V1_DN  CACUL1</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2 GLI1_UP.V1_DN   CCNL2</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3 GLI1_UP.V1_DN   YIPF1</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 4 GLI1_UP.V1_DN   GTDC1</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 5 GLI1_UP.V1_DN    OPN3</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 6 GLI1_UP.V1_DN SLC22A1</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="8c7immunologic-signature-gene-sets">8、C7：immunologic signature gene sets<a hidden class="anchor" aria-hidden="true" href="#8c7immunologic-signature-gene-sets">#</a></h1>
+<h2 id="81immunesigdb">8.1：ImmuneSigDB<a hidden class="anchor" aria-hidden="true" href="#81immunesigdb">#</a></h2>
+<ul>
+<li>主要收集自GEO，有关免疫系统异常状态差异分析的上下调基因集</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>gset = clusterProfiler::read.gmt(<span style="color:#0ff;font-weight:bold">&#34;msigdb_v7.5.1_GMTs/c7.immunesigdb.v7.5.1.symbols.gmt&#34;</span>)
+</span></span><span style="display:flex;"><span>head(gset)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#                                   term  gene</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1 KAECH_NAIVE_VS_DAY8_EFF_CD8_TCELL_UP RFLNB</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2 KAECH_NAIVE_VS_DAY8_EFF_CD8_TCELL_UP AMPD3</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3 KAECH_NAIVE_VS_DAY8_EFF_CD8_TCELL_UP  NSG2</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 4 KAECH_NAIVE_VS_DAY8_EFF_CD8_TCELL_UP DUSP6</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 5 KAECH_NAIVE_VS_DAY8_EFF_CD8_TCELL_UP ADCY6</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 6 KAECH_NAIVE_VS_DAY8_EFF_CD8_TCELL_UP   TEC</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="82vax-vaccine-response-gene-sets">8.2：VAX: vaccine response gene sets<a hidden class="anchor" aria-hidden="true" href="#82vax-vaccine-response-gene-sets">#</a></h2>
+<ul>
+<li>疫苗反应的基因集</li>
+</ul>
+<h1 id="9c8cell-type-signature-gene-sets">9、C8：cell type signature gene sets<a hidden class="anchor" aria-hidden="true" href="#9c8cell-type-signature-gene-sets">#</a></h1>
+<ul>
+<li>不同细胞类型的marker基因；主要收集自文献</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>gset = clusterProfiler::read.gmt(<span style="color:#0ff;font-weight:bold">&#34;msigdb_v7.5.1_GMTs/c8.all.v7.5.1.symbols.gmt&#34;</span>)
+</span></span><span style="display:flex;"><span>length(unique(gset$term)) <span style="color:#007f7f">#700</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h1 id="附">附<a hidden class="anchor" aria-hidden="true" href="#附">#</a></h1>
+<table>
+  <thead>
+      <tr>
+          <th></th>
+          <th>Hallmark name</th>
+          <th>Process category</th>
+          <th>Description</th>
+          <th>释义</th>
+          <th>Number of founder sets</th>
+          <th>Number of genes</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>1</td>
+          <td>APICAL_JUNCTION</td>
+          <td>cellular component</td>
+          <td>Apical junction complex consisting of adherens and tight junctions</td>
+          <td>顶端连接复合体，影响细胞-细胞粘附和细胞间通讯</td>
+          <td>37</td>
+          <td>200</td>
+      </tr>
+      <tr>
+          <td>2</td>
+          <td>APICAL_SURFACE</td>
+          <td>cellular component</td>
+          <td>Membrane proteins in the apical domain</td>
+          <td>顶端结构域的膜蛋白</td>
+          <td>12</td>
+          <td>44</td>
+      </tr>
+      <tr>
+          <td>3</td>
+          <td>PEROXISOME</td>
+          <td>cellular component</td>
+          <td>Peroxisomes</td>
+          <td>过氧化物酶体，一种细胞器</td>
+          <td>28</td>
+          <td>107</td>
+      </tr>
+      <tr>
+          <td>4</td>
+          <td>ADIPOGENESIS</td>
+          <td>development</td>
+          <td>Adipocyte development</td>
+          <td>脂肪细胞的发育</td>
+          <td>36</td>
+          <td>200</td>
+      </tr>
+      <tr>
+          <td>5</td>
+          <td>ANGIOGENESIS</td>
+          <td>development</td>
+          <td>Blood vessel formation</td>
+          <td>血管的形成</td>
+          <td>14</td>
+          <td>36</td>
+      </tr>
+      <tr>
+          <td>6</td>
+          <td>EPITHELIAL_MESENCHYMAL_TRANSITION</td>
+          <td>development</td>
+          <td>Epithelial mesenchymal transition</td>
+          <td>上皮间充质转化，在胚胎发育、慢性炎症、组织重建、癌症转移和多种纤维化疾病中发挥了重要作用</td>
+          <td>107</td>
+          <td>200</td>
+      </tr>
+      <tr>
+          <td>7</td>
+          <td>MYOGENESIS</td>
+          <td>development</td>
+          <td>Muscle differentiation</td>
+          <td>肌肉发育分化</td>
+          <td>64</td>
+          <td>200</td>
+      </tr>
+      <tr>
+          <td>8</td>
+          <td>SPERMATOGENESIS</td>
+          <td>development</td>
+          <td>Sperm development and male fertility</td>
+          <td>精子发育和男性生育能力</td>
+          <td>24</td>
+          <td>135</td>
+      </tr>
+      <tr>
+          <td>9</td>
+          <td>PANCREAS_BETA_CELL</td>
+          <td>development</td>
+          <td>Genes specific to pancreatic beta cells</td>
+          <td>胰腺细胞</td>
+          <td>24</td>
+          <td>40</td>
+      </tr>
+      <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>10</td>
+          <td>DNA_REPAIR</td>
+          <td>DNA damage</td>
+          <td>DNA repair</td>
+          <td>DNA修复</td>
+          <td>44</td>
+          <td>150</td>
+      </tr>
+      <tr>
+          <td>11</td>
+          <td>UV_RESPONSE_DOWN</td>
+          <td>DNA damage</td>
+          <td>UV response: down-regulated genes</td>
+          <td>紫外反应&ndash;下调基因</td>
+          <td>17</td>
+          <td>144</td>
+      </tr>
+      <tr>
+          <td>12</td>
+          <td>UV_RESPONSE_UP</td>
+          <td>DNA damage</td>
+          <td>UV response: up-regulated genes</td>
+          <td>紫外反应&ndash;上调基因</td>
+          <td>16</td>
+          <td>158</td>
+      </tr>
+      <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>13</td>
+          <td>ALLOGRAFT_REJECTION</td>
+          <td>immune</td>
+          <td>Allograft rejection</td>
+          <td>同种异体移植物排斥</td>
+          <td>190</td>
+          <td>200</td>
+      </tr>
+      <tr>
+          <td>14</td>
+          <td>COAGULATION</td>
+          <td>immune</td>
+          <td>Coagulation cascade</td>
+          <td>凝血级联，身体形成血凝块以防止过多失血的过程</td>
+          <td>71</td>
+          <td>138</td>
+      </tr>
+      <tr>
+          <td>15</td>
+          <td>COMPLEMENT</td>
+          <td>immune</td>
+          <td>Complement cascade</td>
+          <td>补体级联反应</td>
+          <td>71</td>
+          <td>200</td>
+      </tr>
+      <tr>
+          <td>16</td>
+          <td>INTERFERON_ALPHA_RESPONSE</td>
+          <td>immune</td>
+          <td>Interferon alpha response</td>
+          <td>干扰素 α</td>
+          <td>82</td>
+          <td>97</td>
+      </tr>
+      <tr>
+          <td>17</td>
+          <td>INTERFERON_GAMMA_RESPONSE</td>
+          <td>immune</td>
+          <td>Interferon gamma response</td>
+          <td>干扰素 γ</td>
+          <td>82</td>
+          <td>200</td>
+      </tr>
+      <tr>
+          <td>18</td>
+          <td>IL6_JAK_STAT3_SIGNALING</td>
+          <td>immune</td>
+          <td>IL6 STAT3 signaling during acute phase response</td>
+          <td>IL6 细胞因子受体</td>
+          <td>24</td>
+          <td>87</td>
+      </tr>
+      <tr>
+          <td>19</td>
+          <td>INFLAMMATORY_RESPONSE</td>
+          <td>immune</td>
+          <td>Inflammation</td>
+          <td>炎症</td>
+          <td>120</td>
+          <td>200</td>
+      </tr>
+      <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>20</td>
+          <td>BILE_ACID_METABOLISM</td>
+          <td>metabolic</td>
+          <td>Biosynthesis of bile acids</td>
+          <td>胆汁酸生物合成</td>
+          <td>28</td>
+          <td>112</td>
+      </tr>
+      <tr>
+          <td>21</td>
+          <td>CHOLESTEROL_HOMEOSTASIS</td>
+          <td>metabolic</td>
+          <td>Cholesterol homeostasis</td>
+          <td>胆固醇平衡</td>
+          <td>28</td>
+          <td>74</td>
+      </tr>
+      <tr>
+          <td>22</td>
+          <td>FATTY_ACID_METABOLISM</td>
+          <td>metabolic</td>
+          <td>Fatty acid metabolism</td>
+          <td>脂肪酸代谢</td>
+          <td>53</td>
+          <td>158</td>
+      </tr>
+      <tr>
+          <td>23</td>
+          <td>GLYCOLYSIS</td>
+          <td>metabolic</td>
+          <td>Glycolysis and gluconeogenesis</td>
+          <td>糖酵解和糖质新生</td>
+          <td>87</td>
+          <td>200</td>
+      </tr>
+      <tr>
+          <td>24</td>
+          <td>HEME_METABOLISM</td>
+          <td>metabolic</td>
+          <td>Heme metabolism</td>
+          <td>血红素代谢</td>
+          <td>36</td>
+          <td>200</td>
+      </tr>
+      <tr>
+          <td>25</td>
+          <td>OXIDATIVE_PHOSPHORYLATION</td>
+          <td>metabolic</td>
+          <td>Oxidative phosphorylation and citric acid cycle</td>
+          <td>氧化磷酸化与柠檬酸循环</td>
+          <td>93</td>
+          <td>200</td>
+      </tr>
+      <tr>
+          <td>26</td>
+          <td>XENOBIOTIC_METABOLISM</td>
+          <td>metabolic</td>
+          <td>Metabolism of xenobiotics</td>
+          <td>外源性物质代谢</td>
+          <td>124</td>
+          <td>200</td>
+      </tr>
+      <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>27</td>
+          <td>APOPTOSIS</td>
+          <td>pathway</td>
+          <td>Programmed cell death; caspase pathway</td>
+          <td>程序性细胞死亡;半胱天冬酶通路</td>
+          <td>80</td>
+          <td>161</td>
+      </tr>
+      <tr>
+          <td>28</td>
+          <td>HYPOXIA</td>
+          <td>pathway</td>
+          <td>Response to hypoxia; HIF1A targets</td>
+          <td>缺氧；HIF1A:缺氧诱导因子-1α</td>
+          <td>87</td>
+          <td>200</td>
+      </tr>
+      <tr>
+          <td>29</td>
+          <td>PROTEIN_SECRETION</td>
+          <td>pathway</td>
+          <td>Protein secretion</td>
+          <td>蛋白质分泌</td>
+          <td>74</td>
+          <td>96</td>
+      </tr>
+      <tr>
+          <td>30</td>
+          <td>UNFOLDED_PROTEIN_RESPONSE</td>
+          <td>pathway</td>
+          <td>Unfolded protein response; ER stress</td>
+          <td>内质网应激</td>
+          <td>22</td>
+          <td>113</td>
+      </tr>
+      <tr>
+          <td>31</td>
+          <td>REACTIVE_OXYGEN_SPECIES_PATHWAY</td>
+          <td>pathway</td>
+          <td>Reactive oxygen species (ROS) pathway</td>
+          <td>活性氧(ROS)途径</td>
+          <td>13</td>
+          <td>49</td>
+      </tr>
+      <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>32</td>
+          <td>E2F_TARGETS</td>
+          <td>proliferation</td>
+          <td>E2F targets</td>
+          <td>参与哺乳动物细胞中DNA的细胞周期调控和合成</td>
+          <td>420</td>
+          <td>200</td>
+      </tr>
+      <tr>
+          <td>33</td>
+          <td>G2M_CHECKPOINT</td>
+          <td>proliferation</td>
+          <td>Cell cycle G2/M checkpoint</td>
+          <td>细胞周期G2/M检查点</td>
+          <td>420</td>
+          <td>200</td>
+      </tr>
+      <tr>
+          <td>34</td>
+          <td>MYC_TARGETS_V1</td>
+          <td>proliferation</td>
+          <td>MYC targets variant 1</td>
+          <td>致癌基因MYC的治疗靶点</td>
+          <td>404</td>
+          <td>200</td>
+      </tr>
+      <tr>
+          <td>35</td>
+          <td>MYC_TARGETS_V2</td>
+          <td>proliferation</td>
+          <td>MYC targets variant 2</td>
+          <td>致癌基因MYC的治疗靶点</td>
+          <td>6</td>
+          <td>58</td>
+      </tr>
+      <tr>
+          <td>36</td>
+          <td>P53_PATHWAY</td>
+          <td>proliferation</td>
+          <td>p53 pathway</td>
+          <td>TP53通路</td>
+          <td>85</td>
+          <td>200</td>
+      </tr>
+      <tr>
+          <td>37</td>
+          <td>MITOTIC_SPINDLE</td>
+          <td>proliferation</td>
+          <td>Mitotic spindle assembly</td>
+          <td>有丝分裂纺锤体组装</td>
+          <td>108</td>
+          <td>200</td>
+      </tr>
+      <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>38</td>
+          <td>ANDROGEN_RESPONSE</td>
+          <td>signaling</td>
+          <td>Androgen response</td>
+          <td>雄激素反应</td>
+          <td>8</td>
+          <td>117</td>
+      </tr>
+      <tr>
+          <td>39</td>
+          <td>ESTROGEN_RESPONSE_EARLY</td>
+          <td>signaling</td>
+          <td>Early estrogen response</td>
+          <td>雌激素反应</td>
+          <td>61</td>
+          <td>200</td>
+      </tr>
+      <tr>
+          <td>40</td>
+          <td>ESTROGEN_RESPONSE_LATE</td>
+          <td>signaling</td>
+          <td>Late estrogen response</td>
+          <td>雌激素反应</td>
+          <td>61</td>
+          <td>200</td>
+      </tr>
+      <tr>
+          <td>41</td>
+          <td>IL2_JAK_STAT5_SIGNALING</td>
+          <td>signaling</td>
+          <td>IL2 STAT5 signaling</td>
+          <td>IL2 STAT5通路</td>
+          <td>13</td>
+          <td>200</td>
+      </tr>
+      <tr>
+          <td>42</td>
+          <td>KRAS_SIGNALING_UP</td>
+          <td>signaling</td>
+          <td>KRAS signaling, up-regulated genes</td>
+          <td>KRAS通路 上调基因</td>
+          <td>14</td>
+          <td>200</td>
+      </tr>
+      <tr>
+          <td>43</td>
+          <td>KRAS_SIGNALING_DOWN</td>
+          <td>signaling</td>
+          <td>KRAS signaling, down-regulated genes</td>
+          <td>KRAS通路 下调基因</td>
+          <td>16</td>
+          <td>200</td>
+      </tr>
+      <tr>
+          <td>44</td>
+          <td>MTORC1_SIGNALING</td>
+          <td>signaling</td>
+          <td>mTORC1 signaling</td>
+          <td>mTOR通路</td>
+          <td>487</td>
+          <td>200</td>
+      </tr>
+      <tr>
+          <td>45</td>
+          <td>NOTCH_SIGNALING</td>
+          <td>signaling</td>
+          <td>Notch signaling</td>
+          <td>Notch通路</td>
+          <td>49</td>
+          <td>32</td>
+      </tr>
+      <tr>
+          <td>46</td>
+          <td>PI3K_AKT_MTOR_SIGNALING</td>
+          <td>signaling</td>
+          <td>PI3K signaling via AKT to mTORC1</td>
+          <td>PI3K/AKT/mTOR通路</td>
+          <td>591</td>
+          <td>105</td>
+      </tr>
+      <tr>
+          <td>47</td>
+          <td>HEDGEHOG_SIGNALING</td>
+          <td>signaling</td>
+          <td>Hedgehog signaling</td>
+          <td>Hedgehog通路</td>
+          <td>79</td>
+          <td>36</td>
+      </tr>
+      <tr>
+          <td>48</td>
+          <td>TGF_BETA_SIGNALING</td>
+          <td>signaling</td>
+          <td>TGF beta signaling</td>
+          <td>TGF-β通路</td>
+          <td>29</td>
+          <td>54</td>
+      </tr>
+      <tr>
+          <td>49</td>
+          <td>TNFA_SIGNALING_VIA_NFKB</td>
+          <td>signaling</td>
+          <td>TNFA signaling via NFkB</td>
+          <td>TNF-α/NF-kB通路</td>
+          <td>132</td>
+          <td>200</td>
+      </tr>
+      <tr>
+          <td>50</td>
+          <td>WNT_BETA_CATENIN_SIGNALING</td>
+          <td>signaling</td>
+          <td>Cannonical beta catenin pathway</td>
+          <td>经典Wnt信号通路</td>
+          <td>49</td>
+          <td>42</td>
+      </tr>
+  </tbody>
+</table>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/%E7%94%9F%E4%BF%A1%E5%9F%BA%E7%A1%80/">生信基础</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/en/posts/basic/152%E6%96%87%E7%8C%AE--%E7%9F%A9%E9%98%B5%E7%9B%B8%E4%BC%BC%E6%80%A7%E8%AE%A1%E7%AE%97%E6%A0%B7%E6%9C%AC%E9%80%9A%E8%B7%AF%E4%B8%80%E8%87%B4%E6%80%A7/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>矩阵相似性计算样本通路一致性</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/en/posts/basic/153%E6%96%87%E7%8C%AE--%E4%BB%8E%E7%9B%B8%E5%85%B3%E6%80%A7%E7%BD%91%E7%BB%9C%E4%B8%AD%E9%89%B4%E5%AE%9A%E8%8A%82%E7%82%B9%E9%97%B4%E7%9A%84%E7%9B%B4%E6%8E%A5%E8%B0%83%E6%8E%A7%E5%85%B3%E7%B3%BB/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>文献--从相关性网络中鉴定节点间的直接调控关系</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>文献--生信套路之肿瘤预后 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="文献-挖掘">
+<meta name="description" content="【01】ccRCC与免疫浸润
+
+标题：Landscape of immune cell infiltration in clear cell renal cell carcinoma to aid immunotherapy
+期刊|日期：Cancer Science | 13 March 2021
+1 第一次分亚群
+
+TCGA 525样本（TPM）
+29个 imunne signature：16 免疫细胞与13个免疫相关功能
+使用ssGSEA方法计算每个样本的signature score
+基于signature score，使用ConsensuClusterPlus包分得5个亚群
+
+PCA可视化轮廓
+PD-1与PD-L1表达差异
+C1&#43;C4与C2&#43;C3&#43;C5间生存差异
+
+
+
+
+2 第二次分亚群
+
+两大组之间（C1&#43;C4与C2&#43;C3&#43;C5）进行差异分析，得到658个差异基因
+基于上述差异基因，再次使用ConsensuClusterPlus包重新分成3个亚群
+
+PCA可视化轮廓
+PD-1与PD-L1表达差异
+三组间生存分析
+29种signature score在三组间的分布差异
+immune score与stromal score在三组间的分布差异（ESTIMATE）
+
+
+根据与分组的相关性，将上述差异基因分成signature A/B
+
+通路富集分析
+
+
+
+
+3 TII分数及衍生分析
+
+分别计算signatue A/B的第一主成分之和，然后相减作为每个样本的TII score
+根据survmier包计算最佳阈值划分成high与low score两组，并进行一系列后续分析：
+
+（1）生存分析">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/basic/174%E6%96%87%E7%8C%AE--%E7%94%9F%E4%BF%A1%E5%A5%97%E8%B7%AF%E4%B9%8B%E8%82%BF%E7%98%A4%E9%A2%84%E5%90%8E/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/basic/174%E6%96%87%E7%8C%AE--%E7%94%9F%E4%BF%A1%E5%A5%97%E8%B7%AF%E4%B9%8B%E8%82%BF%E7%98%A4%E9%A2%84%E5%90%8E/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="文献--生信套路之肿瘤预后" />
+<meta property="og:description" content="【01】ccRCC与免疫浸润
+
+标题：Landscape of immune cell infiltration in clear cell renal cell carcinoma to aid immunotherapy
+期刊|日期：Cancer Science | 13 March 2021
+1 第一次分亚群
+
+TCGA 525样本（TPM）
+29个 imunne signature：16 免疫细胞与13个免疫相关功能
+使用ssGSEA方法计算每个样本的signature score
+基于signature score，使用ConsensuClusterPlus包分得5个亚群
+
+PCA可视化轮廓
+PD-1与PD-L1表达差异
+C1&#43;C4与C2&#43;C3&#43;C5间生存差异
+
+
+
+
+2 第二次分亚群
+
+两大组之间（C1&#43;C4与C2&#43;C3&#43;C5）进行差异分析，得到658个差异基因
+基于上述差异基因，再次使用ConsensuClusterPlus包重新分成3个亚群
+
+PCA可视化轮廓
+PD-1与PD-L1表达差异
+三组间生存分析
+29种signature score在三组间的分布差异
+immune score与stromal score在三组间的分布差异（ESTIMATE）
+
+
+根据与分组的相关性，将上述差异基因分成signature A/B
+
+通路富集分析
+
+
+
+
+3 TII分数及衍生分析
+
+分别计算signatue A/B的第一主成分之和，然后相减作为每个样本的TII score
+根据survmier包计算最佳阈值划分成high与low score两组，并进行一系列后续分析：
+
+（1）生存分析" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/basic/174%E6%96%87%E7%8C%AE--%E7%94%9F%E4%BF%A1%E5%A5%97%E8%B7%AF%E4%B9%8B%E8%82%BF%E7%98%A4%E9%A2%84%E5%90%8E/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-04-17T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2024-04-17T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="文献--生信套路之肿瘤预后"/>
+<meta name="twitter:description" content="【01】ccRCC与免疫浸润
+
+标题：Landscape of immune cell infiltration in clear cell renal cell carcinoma to aid immunotherapy
+期刊|日期：Cancer Science | 13 March 2021
+1 第一次分亚群
+
+TCGA 525样本（TPM）
+29个 imunne signature：16 免疫细胞与13个免疫相关功能
+使用ssGSEA方法计算每个样本的signature score
+基于signature score，使用ConsensuClusterPlus包分得5个亚群
+
+PCA可视化轮廓
+PD-1与PD-L1表达差异
+C1&#43;C4与C2&#43;C3&#43;C5间生存差异
+
+
+
+
+2 第二次分亚群
+
+两大组之间（C1&#43;C4与C2&#43;C3&#43;C5）进行差异分析，得到658个差异基因
+基于上述差异基因，再次使用ConsensuClusterPlus包重新分成3个亚群
+
+PCA可视化轮廓
+PD-1与PD-L1表达差异
+三组间生存分析
+29种signature score在三组间的分布差异
+immune score与stromal score在三组间的分布差异（ESTIMATE）
+
+
+根据与分组的相关性，将上述差异基因分成signature A/B
+
+通路富集分析
+
+
+
+
+3 TII分数及衍生分析
+
+分别计算signatue A/B的第一主成分之和，然后相减作为每个样本的TII score
+根据survmier包计算最佳阈值划分成high与low score两组，并进行一系列后续分析：
+
+（1）生存分析"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 科研基础 -- 读文献、看教材",
+      "item": "https://lishensuo.github.io/en/posts/basic/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "文献--生信套路之肿瘤预后",
+      "item": "https://lishensuo.github.io/en/posts/basic/174%E6%96%87%E7%8C%AE--%E7%94%9F%E4%BF%A1%E5%A5%97%E8%B7%AF%E4%B9%8B%E8%82%BF%E7%98%A4%E9%A2%84%E5%90%8E/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "文献--生信套路之肿瘤预后",
+  "name": "文献--生信套路之肿瘤预后",
+  "description": "【01】ccRCC与免疫浸润 标题：Landscape of immune cell infiltration in clear cell renal cell carcinoma to aid immunotherapy\n期刊|日期：Cancer Science | 13 March 2021\n1 第一次分亚群 TCGA 525样本（TPM） 29个 imunne signature：16 免疫细胞与13个免疫相关功能 使用ssGSEA方法计算每个样本的signature score 基于signature score，使用ConsensuClusterPlus包分得5个亚群 PCA可视化轮廓 PD-1与PD-L1表达差异 C1+C4与C2+C3+C5间生存差异 2 第二次分亚群 两大组之间（C1+C4与C2+C3+C5）进行差异分析，得到658个差异基因 基于上述差异基因，再次使用ConsensuClusterPlus包重新分成3个亚群 PCA可视化轮廓 PD-1与PD-L1表达差异 三组间生存分析 29种signature score在三组间的分布差异 immune score与stromal score在三组间的分布差异（ESTIMATE） 根据与分组的相关性，将上述差异基因分成signature A/B 通路富集分析 3 TII分数及衍生分析 分别计算signatue A/B的第一主成分之和，然后相减作为每个样本的TII score 根据survmier包计算最佳阈值划分成high与low score两组，并进行一系列后续分析： （1）生存分析\n",
+  "keywords": [
+    "文献-挖掘"
+  ],
+  "articleBody": "【01】ccRCC与免疫浸润 标题：Landscape of immune cell infiltration in clear cell renal cell carcinoma to aid immunotherapy\n期刊|日期：Cancer Science | 13 March 2021\n1 第一次分亚群 TCGA 525样本（TPM） 29个 imunne signature：16 免疫细胞与13个免疫相关功能 使用ssGSEA方法计算每个样本的signature score 基于signature score，使用ConsensuClusterPlus包分得5个亚群 PCA可视化轮廓 PD-1与PD-L1表达差异 C1+C4与C2+C3+C5间生存差异 2 第二次分亚群 两大组之间（C1+C4与C2+C3+C5）进行差异分析，得到658个差异基因 基于上述差异基因，再次使用ConsensuClusterPlus包重新分成3个亚群 PCA可视化轮廓 PD-1与PD-L1表达差异 三组间生存分析 29种signature score在三组间的分布差异 immune score与stromal score在三组间的分布差异（ESTIMATE） 根据与分组的相关性，将上述差异基因分成signature A/B 通路富集分析 3 TII分数及衍生分析 分别计算signatue A/B的第一主成分之和，然后相减作为每个样本的TII score 根据survmier包计算最佳阈值划分成high与low score两组，并进行一系列后续分析： （1）生存分析\n（2）与之间鉴定亚群的关系\n（3）GSEA分析\n（4）与TMB的独立性分析\n（5）29种signature score在两组间的分布差异\n（6）免疫检查点基因表达在两组间的分布差异\n（7）使用pRRophetic进行药物敏感度分析\n（8）基于两组间的差异基因【high vs low】进行CMAP药物匹配\n（9）TII分组与临床信息的关系（fish exact test）\n外部数据集验证（生存分析） PFS TCGA papillary renal cell carcinoma乳头状肾细胞癌 IMvigor210 cohort（urothelial cancer，尿路上皮癌） 【02】ccRCC与IFN-γ相关基因 标题：Comprehensive Multi-Omics Identification of Interferon-g Response Characteristics Reveals That RBCK1 Regulates the Immunosuppressive Microenvironment of Renal Cell Carcinoma\n期刊|日期：Cancer Science | 02 November 2021\n1、整体批量分析 24个IFN-γ响应相关基因 （1）TCGA：530 ccRCC, 323 pRCC, and 91 chRCC 分别与癌旁组织差异分析 基因高低表达分组与病人癌症阶段(Stage)，生存时间的关系 （2）肿瘤突变数据：SNV，CNV，genetic mutation 基于GSCA网站完成：http:// bioinfo.life.hust.edu.cn/GSCA 2、预后模型筛选基因 分别从ccRCC，RCC的OS与RFS(2×2)的4种组合进行套路分析 LASSO回归建模 计算risk score，以中位数分组 生存分析，AUC分析，免疫浸润相关性分析 基于ccRCC的OS预后模型，对高低风险组差异基因分析，通路富集 分别以OS与PFS为目标的诺模图分析发现RBCK1为关键基因 3、单基因分析 基于单细胞数据集（TISCH database），发现基因高表达的免疫细胞类型 泛癌分析（1）与癌旁组织的差异表达；（2）与免疫检查基因的相关性 基因表达高低分组与TIDE score、免疫检查点基因表达相关性 ICGC验证TIDE score FUSCC数据集验证差异表达，免疫浸润、生存分析 【03】ccRCC的免疫预后基因 标题：Immune-Associated Gene Signatures Serve as a Promising Biomarker of Immunotherapeutic Prognosis for Renal Clear Cell Carcinoma\n期刊|日期：Frontiers in Immunology | 24 May 2022\n1、筛选候选基因 TCGA：539 tumor/72 normal → 9459 DEGs InnateDB+ImmPort数据库 → 2660 immune genes 上述取交集 → 946 个，用于WGCNA鉴定与tumor相关的两个模块，取40 hub genes 2、建立预后模型 40个候选基因经cox回归，筛选得到24个 再经多变量回归，鉴定5基因组成的模型SHC1，WNT5A, NRP1, TGFA, IL4R 计算risk score，根据中位数分组，生存分析具有显著性 使用ICGC的生存数据做进一步验证 3、预后模型衍生分析 risk score与其它临床指标的独立性 risk score分组与通路GSEA的关系 risk score分组与基因突变的关系 risk score分组与免疫浸润的关系 risk score分组与TIDE score的关系 【04】ccRCC与单基因 标题：PIK3C2A is a prognostic biomarker that is linked to immune infiltrates in kidney renal clear cell carcinoma\n期刊|日期：Frontiers in Immunology | 30 March 2023\nPIK3C2A 1、初步表达分析 泛癌分析：差异表达、COX相关性(OS/DFS/PFS) TCGA KIRC分析(下调) + GEO验证 + HPA验证 + WB验证 单细胞分析：高表达数据类型/对照前后差异表达 2、临床预后分析 高低表达分组的生存分析/AUC 高低表达分组的差异临床指标分析 基因与其它临床指标的预后独立性 3、实验siRNA敲除后的影响 4、其它衍生分析 基因表达与免疫浸润的关系 基因表达与免疫细胞相关marker的关系 与PIK3C2A基因表达所有相关的基因-→通路 【05】PCa与巨噬细胞 标题：Multi-omics analysis reveals a macrophage-related marker gene signature for prognostic prediction, immune landscape, genomic heterogeneity, and drug choices in prostate cancer\n期刊 | 日期：Frontiers in Immunology | 14 April 2023\n1、筛选signature gene scRNA-seq macrophage cluster →307 marker genes Consensus分群 → C1 versus C2+C3 生存分析/临床指标/免疫功能/差异基因通路 38个 Cox genes TCGA → 18304 DEGs 21 交集基因，经lasso回归，9个基因 2、基因层面分析 scRNA seq细胞类型表达、RT-qPCR验证差异表达 基因表达与临床表型、CNV/SNP、ICB基因、免疫治疗IPS 3、risk score层面分析 riskscore与临床表型、免疫浸润、肿瘤相关指标评价 根据中位数分为高低组 生存分析/AUC，差异分析/通路 CNV/SNP，药物敏感度分析（分子对接） 构建诺模图及相关分析 GEO数据验证 GSE70768， GSE46602 “inSilicoMerging”包去批次 ",
+  "wordCount" : "2251",
+  "inLanguage": "en",
+  "datePublished": "2023-04-17T00:00:00Z",
+  "dateModified": "2024-04-17T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/basic/174%E6%96%87%E7%8C%AE--%E7%94%9F%E4%BF%A1%E5%A5%97%E8%B7%AF%E4%B9%8B%E8%82%BF%E7%98%A4%E9%A2%84%E5%90%8E/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/basic/">📖 科研基础 -- 读文献、看教材</a></div>
+    <h1 class="post-title">
+      文献--生信套路之肿瘤预后
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-04-17 00:00:00 &#43;0000 UTC&#39;&gt;2023-04-17&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-04-17&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2251&amp;nbsp;|&amp;nbsp;5 min&amp;nbsp;|&amp;nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#01ccrcc%e4%b8%8e%e5%85%8d%e7%96%ab%e6%b5%b8%e6%b6%a6" aria-label="【01】ccRCC与免疫浸润">【01】ccRCC与免疫浸润</a><ul>
+                            
+                    <li>
+                        <a href="#1-%e7%ac%ac%e4%b8%80%e6%ac%a1%e5%88%86%e4%ba%9a%e7%be%a4" aria-label="1 第一次分亚群">1 第一次分亚群</a></li>
+                    <li>
+                        <a href="#2-%e7%ac%ac%e4%ba%8c%e6%ac%a1%e5%88%86%e4%ba%9a%e7%be%a4" aria-label="2 第二次分亚群">2 第二次分亚群</a></li>
+                    <li>
+                        <a href="#3-tii%e5%88%86%e6%95%b0%e5%8f%8a%e8%a1%8d%e7%94%9f%e5%88%86%e6%9e%90" aria-label="3 TII分数及衍生分析">3 TII分数及衍生分析</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#02ccrcc%e4%b8%8eifn-%ce%b3%e7%9b%b8%e5%85%b3%e5%9f%ba%e5%9b%a0" aria-label="【02】ccRCC与IFN-γ相关基因">【02】ccRCC与IFN-γ相关基因</a><ul>
+                            
+                    <li>
+                        <a href="#1%e6%95%b4%e4%bd%93%e6%89%b9%e9%87%8f%e5%88%86%e6%9e%90" aria-label="1、整体批量分析">1、整体批量分析</a></li>
+                    <li>
+                        <a href="#2%e9%a2%84%e5%90%8e%e6%a8%a1%e5%9e%8b%e7%ad%9b%e9%80%89%e5%9f%ba%e5%9b%a0" aria-label="2、预后模型筛选基因">2、预后模型筛选基因</a></li>
+                    <li>
+                        <a href="#3%e5%8d%95%e5%9f%ba%e5%9b%a0%e5%88%86%e6%9e%90" aria-label="3、单基因分析">3、单基因分析</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#03ccrcc%e7%9a%84%e5%85%8d%e7%96%ab%e9%a2%84%e5%90%8e%e5%9f%ba%e5%9b%a0" aria-label="【03】ccRCC的免疫预后基因">【03】ccRCC的免疫预后基因</a></li>
+                    <li>
+                        <a href="#04ccrcc%e4%b8%8e%e5%8d%95%e5%9f%ba%e5%9b%a0" aria-label="【04】ccRCC与单基因">【04】ccRCC与单基因</a></li>
+                    <li>
+                        <a href="#05pca%e4%b8%8e%e5%b7%a8%e5%99%ac%e7%bb%86%e8%83%9e" aria-label="【05】PCa与巨噬细胞">【05】PCa与巨噬细胞</a>
+                    </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><h3 id="01ccrcc与免疫浸润">【01】ccRCC与免疫浸润<a hidden class="anchor" aria-hidden="true" href="#01ccrcc与免疫浸润">#</a></h3>
+<blockquote>
+<p><strong>标题</strong>：Landscape of immune cell infiltration in clear cell renal cell carcinoma to aid immunotherapy</p>
+<p><strong>期刊</strong>|<strong>日期</strong>：Cancer Science | 13 March 2021</p></blockquote>
+<h4 id="1-第一次分亚群">1 第一次分亚群<a hidden class="anchor" aria-hidden="true" href="#1-第一次分亚群">#</a></h4>
+<ul>
+<li>TCGA 525样本（TPM）</li>
+<li>29个 imunne signature：16 免疫细胞与13个免疫相关功能</li>
+<li>使用ssGSEA方法计算每个样本的signature score</li>
+<li>基于signature score，使用ConsensuClusterPlus包分得5个亚群
+<ul>
+<li>PCA可视化轮廓</li>
+<li>PD-1与PD-L1表达差异</li>
+<li>C1+C4与C2+C3+C5间生存差异</li>
+</ul>
+</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230408161538233.png" alt="image-20230408161538233" style="zoom:67%;" />
+<h4 id="2-第二次分亚群">2 第二次分亚群<a hidden class="anchor" aria-hidden="true" href="#2-第二次分亚群">#</a></h4>
+<ul>
+<li>两大组之间（C1+C4与C2+C3+C5）进行差异分析，得到658个差异基因</li>
+<li>基于上述差异基因，再次使用ConsensuClusterPlus包重新分成3个亚群
+<ul>
+<li>PCA可视化轮廓</li>
+<li>PD-1与PD-L1表达差异</li>
+<li>三组间生存分析</li>
+<li>29种signature score在三组间的分布差异</li>
+<li>immune score与stromal score在三组间的分布差异（ESTIMATE）</li>
+</ul>
+</li>
+<li>根据与分组的相关性，将上述差异基因分成signature A/B
+<ul>
+<li>通路富集分析</li>
+</ul>
+</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230408162322248.png" alt="image-20230408162322248" style="zoom: 67%;" />
+<h4 id="3-tii分数及衍生分析">3 TII分数及衍生分析<a hidden class="anchor" aria-hidden="true" href="#3-tii分数及衍生分析">#</a></h4>
+<ul>
+<li>分别计算signatue A/B的第一主成分之和，然后相减作为每个样本的TII score</li>
+<li>根据survmier包计算最佳阈值划分成high与low score两组，并进行一系列后续分析：</li>
+</ul>
+<p>（1）生存分析</p>
+<p>（2）与之间鉴定亚群的关系</p>
+<p>（3）GSEA分析</p>
+<p>（4）与TMB的独立性分析</p>
+<p>（5）29种signature score在两组间的分布差异</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230408163023991.png" alt="image-20230408163023991" style="zoom:67%;" />
+<p>（6）免疫检查点基因表达在两组间的分布差异</p>
+<p>（7）使用pRRophetic进行药物敏感度分析</p>
+<p>（8）基于两组间的差异基因【high vs low】进行CMAP药物匹配</p>
+<p>（9）TII分组与临床信息的关系（fish exact test）</p>
+<ul>
+<li>外部数据集验证（生存分析）
+<ul>
+<li>PFS</li>
+<li>TCGA papillary renal cell carcinoma乳头状肾细胞癌</li>
+<li>IMvigor210 cohort（urothelial cancer，尿路上皮癌）</li>
+</ul>
+</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230408164231547.png" alt="image-20230408164231547" style="zoom:67%;" />
+<h3 id="02ccrcc与ifn-γ相关基因">【02】ccRCC与IFN-γ相关基因<a hidden class="anchor" aria-hidden="true" href="#02ccrcc与ifn-γ相关基因">#</a></h3>
+<blockquote>
+<p><strong>标题</strong>：Comprehensive Multi-Omics Identification of Interferon-g Response Characteristics Reveals That RBCK1 Regulates the Immunosuppressive Microenvironment of Renal Cell Carcinoma</p>
+<p><strong>期刊</strong>|<strong>日期</strong>：Cancer Science | 02 November 2021</p></blockquote>
+<h4 id="1整体批量分析">1、整体批量分析<a hidden class="anchor" aria-hidden="true" href="#1整体批量分析">#</a></h4>
+<ul>
+<li>24个IFN-γ响应相关基因</li>
+<li>（1）TCGA：530 ccRCC, 323 pRCC, and 91 chRCC
+<ul>
+<li>分别与癌旁组织差异分析</li>
+<li>基因高低表达分组与病人癌症阶段(Stage)，生存时间的关系</li>
+</ul>
+</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230408204610020.png" alt="image-20230408204610020" style="zoom:67%;" />
+<ul>
+<li>（2）肿瘤突变数据：SNV，CNV，genetic mutation
+<ul>
+<li>基于GSCA网站完成：http:// bioinfo.life.hust.edu.cn/GSCA</li>
+</ul>
+</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230408205330266.png" alt="image-20230408205330266" style="zoom:67%;" />
+<h4 id="2预后模型筛选基因">2、预后模型筛选基因<a hidden class="anchor" aria-hidden="true" href="#2预后模型筛选基因">#</a></h4>
+<ul>
+<li>分别从ccRCC，RCC的OS与RFS(2×2)的4种组合进行套路分析
+<ul>
+<li>LASSO回归建模</li>
+<li>计算risk score，以中位数分组</li>
+<li>生存分析，AUC分析，免疫浸润相关性分析</li>
+</ul>
+</li>
+<li>基于ccRCC的OS预后模型，对高低风险组差异基因分析，通路富集</li>
+<li>分别以OS与PFS为目标的诺模图分析发现RBCK1为关键基因</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230408210111651.png" alt="image-20230408210111651" style="zoom:67%;" />
+<h4 id="3单基因分析">3、单基因分析<a hidden class="anchor" aria-hidden="true" href="#3单基因分析">#</a></h4>
+<ul>
+<li>基于单细胞数据集（TISCH database），发现基因高表达的免疫细胞类型</li>
+<li>泛癌分析（1）与癌旁组织的差异表达；（2）与免疫检查基因的相关性</li>
+<li>基因表达高低分组与TIDE score、免疫检查点基因表达相关性
+<ul>
+<li>ICGC验证TIDE score</li>
+</ul>
+</li>
+<li>FUSCC数据集验证差异表达，免疫浸润、生存分析</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230408210353248.png" alt="image-20230408210353248"  />
+</p>
+<h3 id="03ccrcc的免疫预后基因">【03】ccRCC的免疫预后基因<a hidden class="anchor" aria-hidden="true" href="#03ccrcc的免疫预后基因">#</a></h3>
+<blockquote>
+<p><strong>标题</strong>：Immune-Associated Gene Signatures Serve as a Promising Biomarker of Immunotherapeutic Prognosis for Renal Clear Cell Carcinoma</p>
+<p><strong>期刊</strong>|<strong>日期</strong>：Frontiers in Immunology | 24 May 2022</p></blockquote>
+<ul>
+<li>1、筛选候选基因
+<ul>
+<li>TCGA：539 tumor/72 normal → 9459 DEGs</li>
+<li>InnateDB+ImmPort数据库 → 2660 immune genes</li>
+<li>上述取交集 → 946 个，用于WGCNA鉴定与tumor相关的两个模块，取40 hub genes</li>
+</ul>
+</li>
+<li>2、建立预后模型
+<ul>
+<li>40个候选基因经cox回归，筛选得到24个</li>
+<li>再经多变量回归，鉴定5基因组成的模型SHC1，WNT5A, NRP1, TGFA, IL4R</li>
+<li>计算risk score，根据中位数分组，生存分析具有显著性</li>
+<li>使用ICGC的生存数据做进一步验证</li>
+</ul>
+</li>
+<li>3、预后模型衍生分析
+<ul>
+<li>risk score与其它临床指标的独立性</li>
+<li>risk score分组与通路GSEA的关系</li>
+<li>risk score分组与基因突变的关系</li>
+<li>risk score分组与免疫浸润的关系</li>
+<li>risk score分组与TIDE score的关系</li>
+</ul>
+</li>
+</ul>
+<h3 id="04ccrcc与单基因">【04】ccRCC与单基因<a hidden class="anchor" aria-hidden="true" href="#04ccrcc与单基因">#</a></h3>
+<blockquote>
+<p><strong>标题</strong>：PIK3C2A is a prognostic biomarker that is linked to immune infiltrates in kidney renal clear cell carcinoma</p>
+<p><strong>期刊</strong>|<strong>日期</strong>：Frontiers in Immunology | 30 March 2023</p></blockquote>
+<ul>
+<li>PIK3C2A</li>
+<li>1、初步表达分析
+<ul>
+<li>泛癌分析：差异表达、COX相关性(OS/DFS/PFS)</li>
+<li>TCGA KIRC分析(下调) + GEO验证 + HPA验证 + WB验证</li>
+<li>单细胞分析：高表达数据类型/对照前后差异表达</li>
+</ul>
+</li>
+<li>2、临床预后分析
+<ul>
+<li>高低表达分组的生存分析/AUC</li>
+<li>高低表达分组的差异临床指标分析</li>
+<li>基因与其它临床指标的预后独立性</li>
+</ul>
+</li>
+<li>3、实验siRNA敲除后的影响</li>
+<li>4、其它衍生分析
+<ul>
+<li>基因表达与免疫浸润的关系</li>
+<li>基因表达与免疫细胞相关marker的关系</li>
+<li>与PIK3C2A基因表达所有相关的基因-→通路</li>
+</ul>
+</li>
+</ul>
+<h3 id="05pca与巨噬细胞">【05】PCa与巨噬细胞<a hidden class="anchor" aria-hidden="true" href="#05pca与巨噬细胞">#</a></h3>
+<blockquote>
+<p><strong>标题</strong>：Multi-omics analysis reveals a macrophage-related marker gene signature for prognostic prediction, immune landscape, genomic heterogeneity, and drug choices in prostate cancer</p>
+<p><strong>期刊 | 日期</strong>：Frontiers in Immunology | 14 April 2023</p></blockquote>
+<ul>
+<li>1、<strong>筛选signature gene</strong>
+<ul>
+<li>scRNA-seq
+<ul>
+<li>macrophage cluster →307 marker genes
+<ul>
+<li>Consensus分群 → C1 versus C2+C3</li>
+<li>生存分析/临床指标/免疫功能/差异基因通路</li>
+</ul>
+</li>
+<li>38个 Cox genes</li>
+</ul>
+</li>
+<li>TCGA → 18304 DEGs</li>
+<li>21 交集基因，经lasso回归，9个基因</li>
+</ul>
+</li>
+<li>2、<strong>基因层面分析</strong>
+<ul>
+<li>scRNA seq细胞类型表达、RT-qPCR验证差异表达</li>
+<li>基因表达与临床表型、CNV/SNP、ICB基因、免疫治疗IPS</li>
+</ul>
+</li>
+<li>3、<strong>risk score层面分析</strong>
+<ul>
+<li>riskscore与临床表型、免疫浸润、肿瘤相关指标评价</li>
+<li>根据中位数分为高低组
+<ul>
+<li>生存分析/AUC，差异分析/通路</li>
+<li>CNV/SNP，药物敏感度分析（分子对接）</li>
+</ul>
+</li>
+<li>构建诺模图及相关分析</li>
+<li>GEO数据验证
+<ul>
+<li>GSE70768， GSE46602</li>
+<li>“inSilicoMerging”包去批次</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/%E6%96%87%E7%8C%AE-%E6%8C%96%E6%8E%98/">文献-挖掘</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/en/posts/basic/173%E6%96%87%E7%8C%AE--%E8%82%9D%E7%99%8C%E7%A9%BA%E9%97%B4%E8%BD%AC%E5%BD%95%E7%BB%84%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>文献--肝癌空间转录组数据分析</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/en/posts/basic/175%E6%96%87%E7%8C%AE--ccrcc%E5%8D%95%E7%BB%86%E8%83%9E%E8%BD%AC%E5%BD%95%E7%BB%84/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>文献--ccRCC单细胞转录组</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

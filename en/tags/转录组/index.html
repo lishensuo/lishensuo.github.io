@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>转录组 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="李申锁的博客，记录生信学习过程。R/Python/Shell">
+<meta name="author" content="">
+<link rel="canonical" href="https://lishensuo.github.io/en/tags/%E8%BD%AC%E5%BD%95%E7%BB%84/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="https://lishensuo.github.io/en/tags/%E8%BD%AC%E5%BD%95%E7%BB%84/index.xml">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/tags/%E8%BD%AC%E5%BD%95%E7%BB%84/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="转录组" />
+<meta property="og:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://lishensuo.github.io/en/tags/%E8%BD%AC%E5%BD%95%E7%BB%84/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="转录组"/>
+<meta name="twitter:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell"/>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header"><div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/tags/">Tags</a></div>
+  <h1>转录组</h1>
+</header>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>差异分析R包-DESeq2&#43;edgeR&#43;limma
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>在对转录组数据分析时，分组比较的差异分析前提时获得测序表达矩阵。
+根据测序技术分为两种，对应的分析R包如下所示。
+RNAseq的原始count表达矩阵 DESeq2 edgeR limma 芯片array标准化后的表达矩阵 limma 1、示例count表达矩阵 如下使用TCGAbiolinks包下载共9个癌症样本、35个正常样本的表达矩阵；其中涉及到8对配对样本（tumor与normal来自同一病人）
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-06-11 00:00:00 &#43;0000 UTC&#39;&gt;2022-06-11&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-06-11&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2476&amp;nbsp;|&amp;nbsp;5 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 差异分析R包-DESeq2&#43;edgeR&#43;limma" href="https://lishensuo.github.io/en/posts/bioinfo/045%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90r%E5%8C%85-deseq2&#43;edger&#43;limma/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>TCGAbiolinks包-TCGA数据下载与差异分析
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>TCGAbiolinks包是一站式分析TCGA数据的R包工具，它集成了TCGA数据下载、分析、可视化的全部流程。此次系列笔记主要跟着 TCGAbiolinks帮助文档重新学习下TCGA数据挖掘流程。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-30 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-30&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-05-06&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;4785&amp;nbsp;|&amp;nbsp;10 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to TCGAbiolinks包-TCGA数据下载与差异分析" href="https://lishensuo.github.io/en/posts/bioinfo/046tcgabiolinks%E5%8C%85-tcga%E6%95%B0%E6%8D%AE%E4%B8%8B%E8%BD%BD%E4%B8%8E%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>表达矩阵TPM,FPKM标准化
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1、计算公式 sample 1 sample 2 …….. sample k Gene 1 10 12 30 Gene 2 20 25 60 …… … … … … Gene n 0 0 … 1 对于(n*k)表达矩阵中k个样本的n个基因的count表达数据。
+在任意样本（列）中，基因i的长度为l，count表达值为q；则基因i的FPKM与TPM标准化方式计算如下
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-30 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-30&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-04-30&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;934&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 表达矩阵TPM,FPKM标准化" href="https://lishensuo.github.io/en/posts/bioinfo/047%E8%A1%A8%E8%BE%BE%E7%9F%A9%E9%98%B5tpmfpkm%E6%A0%87%E5%87%86%E5%8C%96/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>从GEO下载芯片或RNAseq测序数据
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 挖掘GEO数据时，主要一方面是下载GEO的测序数据（包括基因芯片array与RNAseq两类）的表达矩阵。同时会涉及到一些细节问题，例如array芯片ID转换、样本meta信息等。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-30 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-30&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-04-30&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1791&amp;nbsp;|&amp;nbsp;4 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 从GEO下载芯片或RNAseq测序数据" href="https://lishensuo.github.io/en/posts/bioinfo/048%E4%BB%8Egeo%E4%B8%8B%E8%BD%BD%E8%8A%AF%E7%89%87%E6%88%96rnaseq%E6%B5%8B%E5%BA%8F%E6%95%B0%E6%8D%AE/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>下载测序数据SRR与fastq.gz方式
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1、准备conda环境与软件 1 2 3 4 5 6 7 8 # 准备download环境 conda create -n download conda activate download # 安装软件 conda install -c hcc aspera-cli conda install -c bioconda sra-tools conda install -c conda-forge pigz 以SRR13911909为例 2、aspera下载 https://www.ebi.ac.uk/ena/browser/view/SRR13911909 2.1 下载链接 1 2 3 4 5 # era-fasp@fasp.sra.ebi.ac.uk:/vol1/fastq/SRR139/009/SRR13911909/SRR13911909_1.fastq.gz # era-fasp@fasp.sra.ebi.ac.uk:/vol1/fastq/SRR139/009/SRR13911909/SRR13911909_2.fastq.gz # 观察上述链接规律后，可以自动生成下载链接 era-fasp@fasp.sra.ebi.ac.uk:/vol1/fastq/${id:0:6}/00${id:0-1}/${id}/${id}_1.fastq.gz era-fasp@fasp.sra.ebi.ac.uk:/vol1/fastq/${id:0:6}/00${id:0-1}/${id}/${id}_2.fastq.gz 2.2 aspera下载 1 2 3 4 5 6 7 8 9 10 11 12 13 id=SRR13911909 ascp -QT -l 300m -P33001 \ -i ~/miniconda3/envs/download/etc/asperaweb_id_dsa.openssh \ era-fasp@fasp.sra.ebi.ac.uk:/vol1/fastq/${id:0:6}/00${id:0-1}/${id}/${id}_1.fastq.gz . ascp -QT -l 300m -P33001 \ -i ~/miniconda3/envs/download/etc/asperaweb_id_dsa.openssh \ era-fasp@fasp.sra.ebi.ac.uk:/vol1/fastq/${id:0:6}/00${id:0-1}/${id}/${id}_2.fastq.gz . #最后一个点表示下载文件的储存路径 #如果是其它环境，将download替换为对应环境名即可 #如果是base环境： ~/miniconda3/etc/asperaweb_id_dsa.openssh 使用aspera可以达到百兆的速度，建议首先尝试。但最近试了几次，容易报错，不稳定(报错内容如下)；有时候可以。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-16 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-16&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-05-23&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;559&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 下载测序数据SRR与fastq.gz方式" href="https://lishensuo.github.io/en/posts/bioinfo/049%E4%B8%8B%E8%BD%BD%E6%B5%8B%E5%BA%8F%E6%95%B0%E6%8D%AEsrr%E4%B8%8Efastq.gz%E6%96%B9%E5%BC%8F/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>GSEA富集分析工具
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>以前通路富集分析直接使用clusterprofiler包，阅读文献发现GSEA分析及可视化较多使用Broad团队研发的工具，现简要学习其(window版本)使用方法。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-01-13 00:00:00 &#43;0000 UTC&#39;&gt;2023-01-13&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-01-13&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1154&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to GSEA富集分析工具" href="https://lishensuo.github.io/en/posts/bioinfo/055gsea%E5%AF%8C%E9%9B%86%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>clusterProfiler包富集分析与可视化
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1、背景知识 （1）两种富集分析 基于超几何检验的ORA(over representation analysis)富集分析 ① 假设对转录组分组测序的10000个基因表达数据进行差异分析；
+② 按照规定cutoff阈值(logFC/Pvalue)筛选得到100个差异表达基因；
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-01-14 00:00:00 &#43;0000 UTC&#39;&gt;2023-01-14&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-01-14&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;3645&amp;nbsp;|&amp;nbsp;8 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to clusterProfiler包富集分析与可视化" href="https://lishensuo.github.io/en/posts/bioinfo/056clusterprofiler%E5%8C%85%E5%AF%8C%E9%9B%86%E5%88%86%E6%9E%90%E4%B8%8E%E5%8F%AF%E8%A7%86%E5%8C%96/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>富集通路可视化方式
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>0、示例数据 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 library(clusterProfiler) library(org.Hs.eg.db) data(geneList, package=&#34;DOSE&#34;) str(geneList) # Named num [1:12495] 4.57 4.51 4.42 4.14 3.88 ... # - attr(*, &#34;names&#34;)= chr [1:12495] &#34;4312&#34; &#34;8318&#34; &#34;10874&#34; &#34;55143&#34; ... gene_ids&lt;-AnnotationDbi::select(org.Hs.eg.db, keys=as.character(names(gene_list)), columns=&#34;SYMBOL&#34;, #目标格式 keytype=&#34;ENTREZID&#34;) #目前的格式 # &#39;select()&#39; returned 1:1 mapping between keys and columns ## ORA分析 gene_deg = names(geneList)[abs(geneList) &gt; 2] ego &lt;- enrichGO(gene = gene_deg, OrgDb = org.Hs.eg.db, ont = &#34;CC&#34;, # &#34;BP&#34;,&#34;MF&#34;,&#34;ALL&#34; pAdjustMethod = &#34;BH&#34;, pvalueCutoff = 0.01, qvalueCutoff = 0.05, readable = TRUE) ## GSEA分析 gseago &lt;- gseGO(geneList = geneList, OrgDb = org.Hs.eg.db, ont = &#34;CC&#34;, minGSSize = 100, maxGSSize = 500, pvalueCutoff = 0.05, verbose = FALSE) gseago = setReadable(gseago, OrgDb = org.Hs.eg.db) 1、ggplot2 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 ## ORA library(tidyverse) ego_df = ego@result %&gt;% head(10) %&gt;% dplyr::mutate(logp = -log10(p.adjust)) %&gt;% dplyr::arrange(logp) %&gt;% dplyr::mutate(Label=str_wrap(gsub(&#34;_&#34;,&#34; &#34;,Description), width = 50)) %&gt;% dplyr::mutate(Label = factor(Label, levels=Label)) %&gt;% tibble::remove_rownames() %&gt;% dplyr::select(Label, logp) head(ego_df) # Label logp # 1 microtubule associated complex 5.419514 # 2 spindle midzone 5.681085 # 3 spindle microtubule 7.341138 ggplot(ego_df, aes(x=Label, y=logp)) &#43; geom_bar(stat=&#34;identity&#34;, fill=&#34;#1b9e77&#34;) &#43; xlab(&#34;Pathway names&#34;) &#43; ylab(&#34;-log10(P.adj)&#34;) &#43; scale_y_continuous(expand=c(0,0)) &#43; coord_flip() &#43; xlab(&#34;GO Pathway&#34;) &#43; ylab(&#34;Adjusted P value(-log10)&#34;) &#43; geom_text(aes(label = Label, y=0.2), hjust = 0, size=5) &#43; theme_classic() &#43; theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.title.y = element_text(size = 25), axis.title.x = element_text(size = 20), axis.text.x = element_text(size = 16)) 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 ## GSEA library(tidyverse) gseago_df = gseago@result %&gt;% head(20) %&gt;% dplyr::mutate(logp = -log10(p.adjust)) %&gt;% dplyr::arrange(logp) %&gt;% dplyr::mutate(Label=str_wrap(gsub(&#34;_&#34;,&#34; &#34;,Description), width = 50)) %&gt;% dplyr::mutate(Label = factor(Label, levels=Label)) %&gt;% tibble::remove_rownames() %&gt;% dplyr::select(Label, logp, NES) head(gseago_df) # Label logp NES # 1 polymeric cytoskeletal fiber 3.755730 1.487284 # 2 chromosome, telomeric region 4.311816 1.907511 # 3 microtubule associated complex 4.432327 1.944046 ggplot(gseago_df, aes(NES, fct_reorder(Label, NES), fill=qvalue)) &#43; geom_bar(stat=&#39;identity&#39;) &#43; scale_fill_continuous(low=&#39;red&#39;, high=&#39;blue&#39;, guide=guide_colorbar(reverse=TRUE)) &#43; theme_minimal() &#43; ylab(NULL) 2、GOplot 官方教程：https://wencke.github.io/ 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 # install.packages(&#39;GOplot&#39;) library(GOplot) # (1) 准备数据 ## 富集通路结果 res_enrich = ego@result %&gt;% dplyr::select(ID, Description, geneID,p.adjust) %&gt;% dplyr::mutate(Category = &#34;GO&#34;, .before=1) %&gt;% dplyr::mutate(geneID = gsub(&#34;/&#34;,&#34;, &#34;, geneID)) %&gt;% dplyr::rename(&#34;Term&#34;=&#34;Description&#34;, &#34;Genes&#34;=&#34;geneID&#34;, &#34;adj_pval&#34;=&#34;p.adjust&#34;) %&gt;% dplyr::select(Category,ID,Term,Genes,adj_pval) %&gt;% tibble::remove_rownames() t(res_enrich[1,]) # 1 # Category &#34;GO&#34; # ID &#34;GO:0005819&#34; # Term &#34;spindle&#34; # Genes &#34;CDCA8, CDC20, KIF23, CENPE, ASPM, DLGAP5, SKA1, NUSAP1, TPX2, TACC3, NEK2, CDK1, MAD2L1, KIF18A, BIRC5, KIF11, TRAT1, TTK, AURKB, PRC1, KIFC1, KIF18B, KIF20A, AURKA, CCNB1, KIF4A&#34; # adj_pval &#34;6.339976e-11&#34; ## 如上，ID为optional，Category为required ## (2) 基因差异倍数 res_logfc = data.frame(ID=gene_ids$SYMBOL, logFC=geneList) head(res_logfc) # ID logFC # 1 MMP1 4.572613 # 2 CDC45 4.514594 # 3 NMU 4.418218 ## 如无相关数据，可随便设置为0 ## (3) 构建绘图对象 circ &lt;- circle_dat(res_enrich, res_logfc) head(circ) Circular visualization
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-01-14 00:00:00 &#43;0000 UTC&#39;&gt;2023-01-14&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-06-17&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1544&amp;nbsp;|&amp;nbsp;4 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 富集通路可视化方式" href="https://lishensuo.github.io/en/posts/bioinfo/057%E5%AF%8C%E9%9B%86%E9%80%9A%E8%B7%AF%E5%8F%AF%E8%A7%86%E5%8C%96%E6%96%B9%E5%BC%8F/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>WGCNA基因加权共表达网络分析
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1、关于WGCNA原理 1.1 建立共表达网络 在基因共表达网络中，节点node代表基因，边edge代表两个基因间共表达关系。
+若一个基因同时与多个基因存在相关性，称为hub基因。 若一群基因存在高度互相相关，称为module。 基因共表达网络的展示形式一般为 n × n 邻接矩阵adjacency matrix(n个基因)
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-25 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-25&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-05-06&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;5111&amp;nbsp;|&amp;nbsp;11 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to WGCNA基因加权共表达网络分析" href="https://lishensuo.github.io/en/posts/bioinfo/071wgcna%E5%9F%BA%E5%9B%A0%E5%8A%A0%E6%9D%83%E5%85%B1%E8%A1%A8%E8%BE%BE%E7%BD%91%E7%BB%9C%E5%88%86%E6%9E%90/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>GSVA包单样本富集分析
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1、GSVA函数 1 2 3 4 5 6 7 # BiocManager::install(&#34;GSVA&#34;) library(GSVA) ?gsva gsva(expr = , #metrix格式表达矩阵(行--基因，列--样本) gset.idx.list = , #list格式基因集 method=c(&#34;gsva&#34;, &#34;ssgsea&#34;, &#34;zscore&#34;, &#34;plage&#34;), # defaul:gsva kcdf=c(&#34;Gaussian&#34;, &#34;Poisson&#34;, &#34;none&#34;)) # default:Gaussian 如上所示，gsva()函数有4个关键参数。
+前两个参数分别提供表达矩阵与基因集，其中基因名需要为相同的格式。 method参数设置方法，默认为gsva kcdf参数设置分布模拟类型，默认为Gaussian，适合于array数据以及log标准化(CPM/RPKM/TPM等)的RNA-seq数据。Poisson分布适合RNA-seq的原始count矩阵。 2、示例数据 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 ## (1) 表达矩阵 # BiocManager::install(&#34;GSVAdata&#34;) library(GSVAdata) data(commonPickrellHuang) ### array矩阵 array_mt = exprs(huangArrayRMAnoBatchCommon_eset) dim(array_mt) # [1] 11508 36 array_mt[1:4,1:4] # NA19099 NA18523 NA19144 NA19137 # 8567 8.370526 8.544890 8.270395 8.585984 # 23139 7.536228 7.232781 7.469420 7.801986 # 7580 6.325102 6.405961 6.510249 6.285510 # 55619 9.134495 9.049938 9.704679 9.285202 ### count矩阵 count_mt = exprs(pickrellCountsArgonneCQNcommon_eset) dim(count_mt) # [1] 11508 36 count_mt[1:4,1:4] # NA19099 NA18523 NA19144 NA19137 # 8567 326 209 318 343 # 23139 255 169 245 361 # 7580 72 69 124 76 # 55619 487 590 678 540 ## (2) 基因集 library(tidyverse) library(msigdbr) hm_H = msigdbr(species = &#34;Homo sapiens&#34;, category = &#34;H&#34;, subcategory = NULL) %&gt;% as.data.frame() %&gt;% dplyr::select(gs_cat, gs_subcat, gs_name, entrez_gene) hm_H.list = split(hm_H$entrez_gene, hm_H$gs_name) str(head(hm_H.list)) # List of 6 # $ HALLMARK_ADIPOGENESIS : int [1:210] 19 11194 10449 33 34 35 47 50 51 112 ... # $ HALLMARK_ALLOGRAFT_REJECTION: int [1:335] 16 6059 10006 43 92 207 322 567 567 586 ... # $ HALLMARK_ANDROGEN_RESPONSE : int [1:102] 10257 11057 2181 87 9510 11047 9590 207 220 56172 ... # $ HALLMARK_ANGIOGENESIS : int [1:36] 350 351 894 1281 1290 6372 2260 11167 3685 182 ... # $ HALLMARK_APICAL_JUNCTION : int [1:231] 58 60 70 71 72 87 88 89 81 81 ... # $ HALLMARK_APICAL_SURFACE : int [1:46] 102 79602 79602 84632 9465 351 50617 5205 2683 672 ... 3、GSVA分析 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 ## (1) array &#43; gsva res_gsva = gsva(array_mt, hm_H.list) class(res_gsva) # [1] &#34;matrix&#34; &#34;array&#34; dim(res_gsva) # [1] 50 36 res_gsva[1:4,1:4] # NA19099 NA18523 NA19144 NA19137 # HALLMARK_ADIPOGENESIS -0.21147644 0.08157479 0.004672524 -0.1656925 # HALLMARK_ALLOGRAFT_REJECTION -0.32620137 -0.44105423 -0.452996166 -0.4288909 # HALLMARK_ANDROGEN_RESPONSE 0.02056377 0.09123573 -0.135386552 -0.2198959 # HALLMARK_ANGIOGENESIS -0.02435541 -0.18282244 0.281235763 0.5114103 ## (2) count &#43; ssgsea res_gsva = gsva(count_mt, hm_H.list, method = &#34;ssgsea&#34;, kcdf = &#34;Poisson&#34;) class(res_gsva) # [1] &#34;matrix&#34; &#34;array&#34; dim(res_gsva) # [1] 50 36 res_gsva[1:4,1:4] # NA19099 NA18523 NA19144 NA19137 # HALLMARK_ADIPOGENESIS 0.3288768 0.32899026 0.2893928 0.3297140 # HALLMARK_ALLOGRAFT_REJECTION 0.5018248 0.49183093 0.4672342 0.4531009 # HALLMARK_ANDROGEN_RESPONSE 0.3210905 0.28289473 0.2818011 0.2845855 # HALLMARK_ANGIOGENESIS 0.1794361 0.07705857 0.2076328 0.1276449 4、limma差异分析 以上面array &#43; gsva的分析结果为例，随机模拟分组进行limma差异分析 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 ## 模拟分组 meta = data.frame(sample=colnames(array_mt), group=rep(c(&#34;G1&#34;,&#34;G2&#34;), each=18)) head(meta) # sample group # 1 NA19099 G1 # 2 NA18523 G1 # 3 NA19144 G1 # 4 NA19137 G1 # 5 NA18861 G1 # 6 NA19116 G1 ## limma差异分析 library(limma) mod &lt;- model.matrix(~ factor(meta$group)) colnames(mod) &lt;- c(&#34;G1&#34;, &#34;G2&#34;) fit &lt;- lmFit(res_gsva, mod) fit &lt;- eBayes(fit) tt &lt;- topTable(fit, coef=2, n=Inf) head(tt) # logFC AveExpr t P.Value adj.P.Val B # HALLMARK_COMPLEMENT 0.08684907 -0.10731154 2.495909 0.01676849 0.3324198 -3.059104 # HALLMARK_HEME_METABOLISM 0.07942485 -0.04250442 2.238926 0.03076698 0.3324198 -3.486635 # HALLMARK_IL2_STAT5_SIGNALING 0.07839683 -0.09276742 2.193525 0.03411795 0.3324198 -3.558694 # HALLMARK_MITOTIC_SPINDLE -0.10721385 -0.07656961 -2.057416 0.04617883 0.3324198 -3.768076 # HALLMARK_IL6_JAK_STAT3_SIGNALING 0.09342746 -0.20104143 2.026107 0.04943145 0.3324198 -3.814790 # HALLMARK_INFLAMMATORY_RESPONSE 0.10211588 -0.10571870 1.996939 0.05263925 0.3324198 -3.857810 </p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-01-15 00:00:00 &#43;0000 UTC&#39;&gt;2023-01-15&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-01-15&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;872&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to GSVA包单样本富集分析" href="https://lishensuo.github.io/en/posts/bioinfo/058gsva%E5%8C%85%E5%8D%95%E6%A0%B7%E6%9C%AC%E5%AF%8C%E9%9B%86%E5%88%86%E6%9E%90/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="next" href="https://lishensuo.github.io/en/tags/%E8%BD%AC%E5%BD%95%E7%BB%84/page/2/">Next Page »</a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

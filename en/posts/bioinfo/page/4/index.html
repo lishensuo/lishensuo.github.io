@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>📖 生信数据分析--分析流程，工具包等 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="📖 生信数据分析--分析流程，工具包等 - Li&#39;s Bioinfo-Blog">
+<meta name="author" content="">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/bioinfo/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="https://lishensuo.github.io/en/posts/bioinfo/index.xml">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/bioinfo/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="📖 生信数据分析--分析流程，工具包等" />
+<meta property="og:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/bioinfo/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="📖 生信数据分析--分析流程，工具包等"/>
+<meta name="twitter:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 生信数据分析--分析流程，工具包等",
+      "item": "https://lishensuo.github.io/en/posts/bioinfo/"
+    }
+  ]
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header"><div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a></div>
+  <h1>📖 生信数据分析--分析流程，工具包等</h1>
+</header>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>单细胞分析工具--sccode综合差异分析
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> scCODE( single-cell consensus optimization of differentially expressed gene detection)是由复旦大学附属金山医院邹欣等人开发的R包工具，于2022年12月发表于Briefing in Bioinformatics；该工具对多种差异基因分析策略进行了集成、整合，用于鉴定鲁棒性的单细胞差异基因。用法比较简单，简单记录如下。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-04-30 00:00:00 &#43;0000 UTC&#39;&gt;2023-04-30&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-04-30&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;631&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 单细胞分析工具--sccode综合差异分析" href="https://lishensuo.github.io/en/posts/bioinfo/037%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--sccode%E7%BB%BC%E5%90%88%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>单细胞分析工具--ShinyCell交互式展示单细胞数据
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> ShinyCell包是由杜克-新加坡国立大学医学院的John F. Ouyang团队开发的单细胞分析工具包，实现基于shiny网页交互式展示单细胞数据；于2021年3月发表于Bioinformatics杂志。如文章中介绍，ShinyCell相比同类工具具有多个优势，例如直观的side-by-side的降维可视化方式，hdf5格式保存表达矩阵从而读取快速，支持pdf/png保存图片，支持多种常见单细胞数据类型等。参考其教程文档，学习记录如下。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-08-07 00:00:00 &#43;0000 UTC&#39;&gt;2023-08-07&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-08-07&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2383&amp;nbsp;|&amp;nbsp;5 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 单细胞分析工具--ShinyCell交互式展示单细胞数据" href="https://lishensuo.github.io/en/posts/bioinfo/040%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--shinycell%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%B1%95%E7%A4%BA%E5%8D%95%E7%BB%86%E8%83%9E%E6%95%B0%E6%8D%AE/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>单细胞分析工具--Seurat5基础用法
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> Seurat V5版本有一段时间了，由于时间原因未来得及了解。现根据其官方文档简单整理其用法，与V4比较类似的地方就不多叙述了。此外，V5的亮点之一还在于单细胞多组学的整合分析，此次就不做记录了。（PS：中秋快乐~）
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-09-17 00:00:00 &#43;0000 UTC&#39;&gt;2024-09-17&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-09-17&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2484&amp;nbsp;|&amp;nbsp;5 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 单细胞分析工具--Seurat5基础用法" href="https://lishensuo.github.io/en/posts/bioinfo/041%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--seurat5%E5%9F%BA%E7%A1%80%E7%94%A8%E6%B3%95/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>单细胞分析工具--CELLxGENE数据库
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 网站：https://cellxgene.cziscience.com/
+API：https://chanzuckerberg.github.io/cellxgene-census/
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-10-16 00:00:00 &#43;0000 UTC&#39;&gt;2024-10-16&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-10-16&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2160&amp;nbsp;|&amp;nbsp;5 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 单细胞分析工具--CELLxGENE数据库" href="https://lishensuo.github.io/en/posts/bioinfo/042%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--cellxgene%E6%95%B0%E6%8D%AE%E5%BA%93/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>单细胞分析工具--scVI去除批次效应
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>scVI (single-cell variational inference)是2018年发表的一项单细胞分析工具。它主要基于VAE变分自编码器的思想，计算去除批次效应后的细胞低维空间表示。而后于2022年被整合到单细胞组学分析工具包scvi-tool中。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-11-05 00:00:00 &#43;0000 UTC&#39;&gt;2024-11-05&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-11-05&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1342&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 单细胞分析工具--scVI去除批次效应" href="https://lishensuo.github.io/en/posts/bioinfo/043%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--scvi%E5%8E%BB%E9%99%A4%E6%89%B9%E6%AC%A1%E6%95%88%E5%BA%94/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>单细胞分析工具--sccoda细胞组成比较
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> scCODA(single-cell compositional data analysis)是由德国环境健康研究中心计算生物学研究所M Büttner等人基于python开发的单细胞数据分析工具，于2021年11月发表于Nature Communication；主要用于分析不同分组样本的细胞组成的差异。参考官方文档记录用法如下。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-04-30 00:00:00 &#43;0000 UTC&#39;&gt;2023-04-30&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-04-30&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;840&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 单细胞分析工具--sccoda细胞组成比较" href="https://lishensuo.github.io/en/posts/bioinfo/038%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--sccoda%E7%BB%86%E8%83%9E%E7%BB%84%E6%88%90%E6%AF%94%E8%BE%83/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>单细胞分析工具--COSG鉴定marker基因
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> COSG(COSine similarity-based marker Gene identification)是由来自哈佛医学院和Broad研究所博后Ming Dai等人开发，旨在从余弦相似度的角度鉴定cluster的marker gene，于2021年12月被Briefings in Bioinformatics接收。目前已将此方法分别包装为R包与Python包，分别对应Seurat与Scanny分析流程。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-07-01 00:00:00 &#43;0000 UTC&#39;&gt;2023-07-01&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-07-01&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;894&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 单细胞分析工具--COSG鉴定marker基因" href="https://lishensuo.github.io/en/posts/bioinfo/039%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--cosg%E9%89%B4%E5%AE%9Amarker%E5%9F%BA%E5%9B%A0/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>差异分析R包-DESeq2&#43;edgeR&#43;limma
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>在对转录组数据分析时，分组比较的差异分析前提时获得测序表达矩阵。
+根据测序技术分为两种，对应的分析R包如下所示。
+RNAseq的原始count表达矩阵 DESeq2 edgeR limma 芯片array标准化后的表达矩阵 limma 1、示例count表达矩阵 如下使用TCGAbiolinks包下载共9个癌症样本、35个正常样本的表达矩阵；其中涉及到8对配对样本（tumor与normal来自同一病人）
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-06-11 00:00:00 &#43;0000 UTC&#39;&gt;2022-06-11&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-06-11&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2476&amp;nbsp;|&amp;nbsp;5 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 差异分析R包-DESeq2&#43;edgeR&#43;limma" href="https://lishensuo.github.io/en/posts/bioinfo/045%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90r%E5%8C%85-deseq2&#43;edger&#43;limma/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>TCGAbiolinks包-TCGA数据下载与差异分析
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>TCGAbiolinks包是一站式分析TCGA数据的R包工具，它集成了TCGA数据下载、分析、可视化的全部流程。此次系列笔记主要跟着 TCGAbiolinks帮助文档重新学习下TCGA数据挖掘流程。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-30 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-30&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-05-06&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;4785&amp;nbsp;|&amp;nbsp;10 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to TCGAbiolinks包-TCGA数据下载与差异分析" href="https://lishensuo.github.io/en/posts/bioinfo/046tcgabiolinks%E5%8C%85-tcga%E6%95%B0%E6%8D%AE%E4%B8%8B%E8%BD%BD%E4%B8%8E%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>表达矩阵TPM,FPKM标准化
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1、计算公式 sample 1 sample 2 …….. sample k Gene 1 10 12 30 Gene 2 20 25 60 …… … … … … Gene n 0 0 … 1 对于(n*k)表达矩阵中k个样本的n个基因的count表达数据。
+在任意样本（列）中，基因i的长度为l，count表达值为q；则基因i的FPKM与TPM标准化方式计算如下
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-30 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-30&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-04-30&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;934&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 表达矩阵TPM,FPKM标准化" href="https://lishensuo.github.io/en/posts/bioinfo/047%E8%A1%A8%E8%BE%BE%E7%9F%A9%E9%98%B5tpmfpkm%E6%A0%87%E5%87%86%E5%8C%96/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="https://lishensuo.github.io/en/posts/bioinfo/page/3/">« Prev Page</a>
+    <a class="next" href="https://lishensuo.github.io/en/posts/bioinfo/page/5/">Next Page »</a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

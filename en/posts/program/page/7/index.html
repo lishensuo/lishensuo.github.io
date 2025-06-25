@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>📖 R&amp;Python&amp;Shell --- 编程基础、可视化等 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="📖 R&amp;Python&amp;Shell --- 编程基础、可视化等 - Li&#39;s Bioinfo-Blog">
+<meta name="author" content="">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/program/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="https://lishensuo.github.io/en/posts/program/index.xml">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/program/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="📖 R&amp;Python&amp;Shell --- 编程基础、可视化等" />
+<meta property="og:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/program/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="📖 R&amp;Python&amp;Shell --- 编程基础、可视化等"/>
+<meta name="twitter:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 R\u0026Python\u0026Shell --- 编程基础、可视化等",
+      "item": "https://lishensuo.github.io/en/posts/program/"
+    }
+  ]
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header"><div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a></div>
+  <h1>📖 R&amp;Python&amp;Shell --- 编程基础、可视化等</h1>
+</header>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>Shiny-pkg-6-others
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>Shiny Basic系列:
+参考教程：https://mastering-shiny.org/
+（1）IO控件
+（2）Layout布局
+（3）Reactive用法
+（4）Feedback提醒
+（5）Module模块
+Shiny Package系列:
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-03-31 00:00:00 &#43;0000 UTC&#39;&gt;2024-03-31&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-03-31&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;699&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to Shiny-pkg-6-others" href="https://lishensuo.github.io/en/posts/program/265shiny-pkg-6-others/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>renv包环境可重复性
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> https://rstudio.github.io/renv 记录一个R项目所需的R包来源及其相应的版本号，方便对于其他用户的可重复性分析。 1. 初始化项目 在当前目录下创建一个文件夹，是包含一个R project对象的工作环境； 其中library文件夹是该工作环境安装R包的路径，renv.lock是记录R包及其版本后的重要文件。 1 2 3 renv::init(&#34;foo_project&#34;) #初始化后会自动切换到该环境下，如果没有可以手动切换 # setwd(&#34;foo_project&#34;) ...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-04-06 00:00:00 &#43;0000 UTC&#39;&gt;2024-04-06&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-04-06&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;526&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to renv包环境可重复性" href="https://lishensuo.github.io/en/posts/program/266renv%E5%8C%85%E7%8E%AF%E5%A2%83%E5%8F%AF%E9%87%8D%E5%A4%8D%E6%80%A7/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>rhinoverse系列-rhino包
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>rhinoverse系列
+rhinoverse系列-rhino包； rhinoverse系列-shiny.router包； https://github.com/Appsilon/rhino/ https://appsilon.github.io/rhino/ 1 2 3 4 5 6 7 install.packages(&#34;rhino&#34;) packageVersion(&#34;rhino&#34;) # [1] ‘1.7.0’ ## 启动项目 rhino::init(&#34;example_app&#34;) setwd(&#34;./example_app&#34;) 在初始化项目中，相对重要基础的文件如下：
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-04-06 00:00:00 &#43;0000 UTC&#39;&gt;2024-04-06&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-04-06&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1530&amp;nbsp;|&amp;nbsp;4 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to rhinoverse系列-rhino包" href="https://lishensuo.github.io/en/posts/program/267rhinoverse%E7%B3%BB%E5%88%97-rhino%E5%8C%85/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>rhinoverse系列-shiny.router包
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>rhinoverse系列
+rhinoverse系列-rhino包； rhinoverse系列-shiny.router包； https://appsilon.github.io/shiny.router/ https://github.com/Appsilon/shiny.router 在网页设计和开发中，路由（Routing）是指确定用户在浏览器中访问不同页面（URL）时，应该加载哪些页面内容（UI）过程。其优点包括（1）允许单页面应用，无需一次性加载全部页面；（2）页面之间的流畅切换，不会感到明显的延迟等
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-04-06 00:00:00 &#43;0000 UTC&#39;&gt;2024-04-06&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-04-06&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1313&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to rhinoverse系列-shiny.router包" href="https://lishensuo.github.io/en/posts/program/268rhinoverse%E7%B3%BB%E5%88%97-shiny.router%E5%8C%85/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>UCSCXenaShiny development tutorials(231119)
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> Recently, we have added some new modules for general TCGA data analysis and visualization. Here, we will provide the tutorials for easy use. Please note it is not the latest version and we are still in the stage of development. Therefore, if you have any question, please do not hesitate to contact us on GitHub or email (lishensuo@163.com) which could greatly contribute to UCSCXenaShiny V2.0 process.
+The temporary tutorial is based on the latest commit On November 18, 2023. It may be outdated in the future and we will update the latest tutorials as soon as possible.
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2023-11-19 00:00:00 &#43;0000 UTC&#39;&gt;2023-11-19&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-11-19&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1198&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to UCSCXenaShiny development tutorials(231119)" href="https://lishensuo.github.io/en/posts/program/300ucscxenashiny-dev-tutorials--231119/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>shell基础--变量名字符串操作
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 1 2 3 4 5 6 7 8 test=&#34;https://www.baidu.com&#34; #打印字符串内容 echo ${test} #https://www.baidu.com #打印字符串长度 echo ${#test} #21 1、截取 （1）指定截取字符串的起始位置与长度 对于字符串的起始位置定义：如果是从左到右，则第一个字符位置为0； 如果是从右到左，则第一个字符位置为1。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-16 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-16&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-04-16&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;531&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to shell基础--变量名字符串操作" href="https://lishensuo.github.io/en/posts/program/400shell%E5%9F%BA%E7%A1%80--%E5%8F%98%E9%87%8F%E5%90%8D%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>shell基础--find查找文件
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 # 第一个参数交待查找路径，默认为当前路径 # -name 参数指定需要查找的文件名，支持正则表达式 find -name &#39;*.txt&#39; find ./dir1/ -name &#39;*.txt&#39; # -maxdepth 指定查找的最大目录层级深度 find -maxdepth 2 -name &#39;*.txt&#39; # -type d 表示查找目录类型 # -type f 表示查找文件类型 find -type f -name &#39;*.txt&#39; # 查找指定大小范围的文件；如下表示查找大小范围在50M~100M范围之间的文件 find -size &#43;50M -size -100M # 找到文件后，执行一些命令操作 ## 查看找到文件的详细信息 find -name &#39;*.txt&#39; -exec ls -l {} \; ## 返回找到文件的文件名（去除路径） find -name &#39;*.txt&#39; -exec basename {} \; </p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-16 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-16&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-04-16&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;219&amp;nbsp;|&amp;nbsp;1 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to shell基础--find查找文件" href="https://lishensuo.github.io/en/posts/program/401shell%E5%9F%BA%E7%A1%80--find%E6%9F%A5%E6%89%BE%E6%96%87%E4%BB%B6/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>shell基础--tar.gz相关、gzip压缩与pigz多线程
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> tar相关 1 2 3 4 5 6 7 8 9 10 11 #(1) 将多个文件打包为 .tar文件 tar -cvf test.tar dir1 file4 #(2) 将多个文件打包并压缩为 .tar.gz tar -czvf test.tar.gz dir1 file4 #(3) 将 .tar文件拆包 tar -xvf test.tar #(4) 将 .tar.gz文件解压拆包 tar -xzvf test.tar.gz gzip压缩是的文件多为file.gz, 对应的linux命令为：
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-16 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-16&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-04-16&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;413&amp;nbsp;|&amp;nbsp;1 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to shell基础--tar.gz相关、gzip压缩与pigz多线程" href="https://lishensuo.github.io/en/posts/program/402sehll%E5%9F%BA%E7%A1%80--gzip%E5%8E%8B%E7%BC%A9%E4%B8%8Epigz%E5%A4%9A%E7%BA%BF%E7%A8%8B/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>shell基础--grep等文本处理命令
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1、grep 主要功能：查询符合条件的行 1 2 3 4 5 6 7 8 9 10 11 12 13 14 #返回符合条件的行,可使用正则表达式 who | grep &#34;wuyt&#34; # -n参数：返回符合条件的行，及其在原文件中的位置 who | grep -n &#34;wuyt&#34; # -c参数：仅返回符合条件的行数 who | grep -c &#34;wuyt&#34; # -v参数：反选 who | grep -v &#34;wuyt&#34; # -E参数：符合多个条件之一 who | grep -E &#34;wuyt|ssli&#34; 2、sed 主要功能：增删改查 （1）删除
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-16 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-16&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-04-16&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1483&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to shell基础--grep等文本处理命令" href="https://lishensuo.github.io/en/posts/program/403shell%E5%9F%BA%E7%A1%80--grep%E7%AD%89%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>linux进程管理与后台运行
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1、关于CPU与线程 1.1 简单理解进程与线程 进程：计算机执行的一个命令或者程序 线程：一般来说一个进程对应一个线程。但是如果进程任务可以分为若干独立子任务独立运行时，可以调用多线程，加快分析速度。 1.2 cpu与核数 CPU(Central Processing Unit)中央处理器，属于硬件。一般window笔记本电脑有一个CPU(physical cpu) 核心（core），又称为内核。一个CPU芯片可以物理技术上集成多个内核，每个内核可以独立运行一个线程，最大化利用CPU资源。 逻辑CPU数，是指通过虚拟化技术每个内核划分为两个虚拟(logical)CPU内核，可以理解为每个内核的超线程数，一般为2。目前window/linux系统都支持。 总逻辑CPU数=物理CPU数 × 每个CPU芯片上的集成内核数 × 每个内核的超线程数 ...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-05-14 00:00:00 &#43;0000 UTC&#39;&gt;2022-05-14&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-05-14&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1619&amp;nbsp;|&amp;nbsp;4 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to linux进程管理与后台运行" href="https://lishensuo.github.io/en/posts/program/450linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E4%B8%8E%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="https://lishensuo.github.io/en/posts/program/page/6/">« Prev Page</a>
+    <a class="next" href="https://lishensuo.github.io/en/posts/program/page/8/">Next Page »</a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

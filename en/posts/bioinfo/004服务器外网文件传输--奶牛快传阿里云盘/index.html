@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>服务器外网文件传输--奶牛快传、阿里云盘 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="Linux">
+<meta name="description" content="1、奶牛快传
+(1) linux服务器安装
+
+
+https://github.com/Mikubill/cowtransfer-uploader/releases
+
+
+选择一个最新的linux版本下载（如果wget下载太慢，就下载的本地电脑，再上传到linux）
+
+
+解压即用
+
+
+
+
+1
+2
+3
+
+
+wget https://github.com/Mikubill/cowtransfer-uploader/releases/download/v0.4.21/cowtransfer-uploader_0.4.21_linux_amd64.tar.gz
+tar -zxvf cowtransfer-uploader_0.4.21_linux_amd64.tar.gz
+./cowtransfer-uploader #查看帮助文档
+
+
+(2) 将本地文件上传到服务器
+
+
+进入https://cowtransfer.com/，上传本地文件，获取下载链接">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/bioinfo/004%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%A4%96%E7%BD%91%E6%96%87%E4%BB%B6%E4%BC%A0%E8%BE%93--%E5%A5%B6%E7%89%9B%E5%BF%AB%E4%BC%A0%E9%98%BF%E9%87%8C%E4%BA%91%E7%9B%98/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/bioinfo/004%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%A4%96%E7%BD%91%E6%96%87%E4%BB%B6%E4%BC%A0%E8%BE%93--%E5%A5%B6%E7%89%9B%E5%BF%AB%E4%BC%A0%E9%98%BF%E9%87%8C%E4%BA%91%E7%9B%98/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="服务器外网文件传输--奶牛快传、阿里云盘" />
+<meta property="og:description" content="1、奶牛快传
+(1) linux服务器安装
+
+
+https://github.com/Mikubill/cowtransfer-uploader/releases
+
+
+选择一个最新的linux版本下载（如果wget下载太慢，就下载的本地电脑，再上传到linux）
+
+
+解压即用
+
+
+
+
+1
+2
+3
+
+
+wget https://github.com/Mikubill/cowtransfer-uploader/releases/download/v0.4.21/cowtransfer-uploader_0.4.21_linux_amd64.tar.gz
+tar -zxvf cowtransfer-uploader_0.4.21_linux_amd64.tar.gz
+./cowtransfer-uploader #查看帮助文档
+
+
+(2) 将本地文件上传到服务器
+
+
+进入https://cowtransfer.com/，上传本地文件，获取下载链接" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/bioinfo/004%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%A4%96%E7%BD%91%E6%96%87%E4%BB%B6%E4%BC%A0%E8%BE%93--%E5%A5%B6%E7%89%9B%E5%BF%AB%E4%BC%A0%E9%98%BF%E9%87%8C%E4%BA%91%E7%9B%98/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-04-16T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2022-04-16T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="服务器外网文件传输--奶牛快传、阿里云盘"/>
+<meta name="twitter:description" content="1、奶牛快传
+(1) linux服务器安装
+
+
+https://github.com/Mikubill/cowtransfer-uploader/releases
+
+
+选择一个最新的linux版本下载（如果wget下载太慢，就下载的本地电脑，再上传到linux）
+
+
+解压即用
+
+
+
+
+1
+2
+3
+
+
+wget https://github.com/Mikubill/cowtransfer-uploader/releases/download/v0.4.21/cowtransfer-uploader_0.4.21_linux_amd64.tar.gz
+tar -zxvf cowtransfer-uploader_0.4.21_linux_amd64.tar.gz
+./cowtransfer-uploader #查看帮助文档
+
+
+(2) 将本地文件上传到服务器
+
+
+进入https://cowtransfer.com/，上传本地文件，获取下载链接"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 生信数据分析--分析流程，工具包等",
+      "item": "https://lishensuo.github.io/en/posts/bioinfo/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "服务器外网文件传输--奶牛快传、阿里云盘",
+      "item": "https://lishensuo.github.io/en/posts/bioinfo/004%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%A4%96%E7%BD%91%E6%96%87%E4%BB%B6%E4%BC%A0%E8%BE%93--%E5%A5%B6%E7%89%9B%E5%BF%AB%E4%BC%A0%E9%98%BF%E9%87%8C%E4%BA%91%E7%9B%98/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "服务器外网文件传输--奶牛快传、阿里云盘",
+  "name": "服务器外网文件传输--奶牛快传、阿里云盘",
+  "description": "1、奶牛快传 (1) linux服务器安装 https://github.com/Mikubill/cowtransfer-uploader/releases\n选择一个最新的linux版本下载（如果wget下载太慢，就下载的本地电脑，再上传到linux）\n解压即用\n1 2 3 wget https://github.com/Mikubill/cowtransfer-uploader/releases/download/v0.4.21/cowtransfer-uploader_0.4.21_linux_amd64.tar.gz tar -zxvf cowtransfer-uploader_0.4.21_linux_amd64.tar.gz ./cowtransfer-uploader #查看帮助文档 (2) 将本地文件上传到服务器 进入https://cowtransfer.com/，上传本地文件，获取下载链接\n",
+  "keywords": [
+    "Linux"
+  ],
+  "articleBody": "1、奶牛快传 (1) linux服务器安装 https://github.com/Mikubill/cowtransfer-uploader/releases\n选择一个最新的linux版本下载（如果wget下载太慢，就下载的本地电脑，再上传到linux）\n解压即用\n1 2 3 wget https://github.com/Mikubill/cowtransfer-uploader/releases/download/v0.4.21/cowtransfer-uploader_0.4.21_linux_amd64.tar.gz tar -zxvf cowtransfer-uploader_0.4.21_linux_amd64.tar.gz ./cowtransfer-uploader #查看帮助文档 (2) 将本地文件上传到服务器 进入https://cowtransfer.com/，上传本地文件，获取下载链接\n在linux端，下载即可\n1 2 3 4 5 ./cowtransfer-uploader https://cowtransfer.com/s/c7899f85cb354f # Remote: https://cowtransfer.com/s/c7899f85cb354f # File save to: 图片1.png # 0 B / 36.34 KiB [_________________________________________________________________________________________________________________________] 0.00% ? p/s ? # 36.34 KiB / 36.34 KiB [-----------------------------------------------------------------------------------------------------] 100.00% 76.27 KiB p/s 700ms (3) 将服务器文件下载到本地(试了几次，都失败了) 上传服务器文件，获取下载链接。但是遇到如下报错，尚未解决。 1 2 ./cowtransfer-uploader test.txt.gz # getSendConfig returns error: json: cannot unmarshal string into Go struct field prepareSendResp.error of type bool, onfile: test.txt.gz 进入https://cowtransfer.com/，根据链接接收文件即可。 最近发现这个工具的linux版本不好用了，仍适用于window电脑之间互传数据比较方便。\n2、阿里云盘 官方教程：GitHub - tickstep/aliyunpan: 阿里云盘命令行客户端，支持webdav文件服务\n简单使用如下\n（1）linux安装 1 2 3 4 5 6 7 8 9 10 11 cd ~ wget https://github.com/tickstep/aliyunpan/releases/download/v0.1.2/aliyunpan-v0.1.2-linux-amd64.zip unzip aliyunpan-v0.1.2-linux-amd64.zip mv aliyunpan-v0.1.2-linux-amd64 aliyunpan #获取帮助 ~/aliyunpan/aliyunpan --help #查看版本 ~/aliyunpan/aliyunpan -v #进入cli模式（按下图方式获取个人账户的RefreshToken） ~/aliyunpan/aliyunpan #测试了下，仅第一次需要输入，以后可自动登入 需要通过浏览器获取refresh_token。这里以Chrome浏览器为例，其他浏览器类似。 打开 阿里云盘网页 并进行登录，然后F12按键打开浏览器调试菜单，按照下面步骤进行\n（2）文件上传/下载 进入cli模式后，就进入了云盘的操作环境。 对云盘文件的基本操作与linux的shell命令大致相同，比如ls, mkdir, mv, rm… 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 ~/aliyunpan/aliyunpan #查看当前登陆账户 who #查看云盘空间配额 quota #下载云盘文件/文件夹到服务器(当前路径) download file/dir --save #下载云盘文件/文件夹到服务器(指定路径) download file/dir --saveto /home/shensuo/ #上传服务器文件到云盘 upload file/dir 云盘路径 ",
+  "wordCount" : "753",
+  "inLanguage": "en",
+  "datePublished": "2022-04-16T00:00:00Z",
+  "dateModified": "2022-04-16T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/bioinfo/004%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%A4%96%E7%BD%91%E6%96%87%E4%BB%B6%E4%BC%A0%E8%BE%93--%E5%A5%B6%E7%89%9B%E5%BF%AB%E4%BC%A0%E9%98%BF%E9%87%8C%E4%BA%91%E7%9B%98/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/bioinfo/">📖 生信数据分析--分析流程，工具包等</a></div>
+    <h1 class="post-title">
+      服务器外网文件传输--奶牛快传、阿里云盘
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-16 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-16&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-04-16&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;753&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#1%e5%a5%b6%e7%89%9b%e5%bf%ab%e4%bc%a0" aria-label="1、奶牛快传">1、奶牛快传</a><ul>
+                            <ul>
+                            
+                    <li>
+                        <a href="#1-linux%e6%9c%8d%e5%8a%a1%e5%99%a8%e5%ae%89%e8%a3%85" aria-label="(1) linux服务器安装">(1) linux服务器安装</a></li>
+                    <li>
+                        <a href="#2-%e5%b0%86%e6%9c%ac%e5%9c%b0%e6%96%87%e4%bb%b6%e4%b8%8a%e4%bc%a0%e5%88%b0%e6%9c%8d%e5%8a%a1%e5%99%a8" aria-label="(2) 将本地文件上传到服务器">(2) 将本地文件上传到服务器</a></li>
+                    <li>
+                        <a href="#3-%e5%b0%86%e6%9c%8d%e5%8a%a1%e5%99%a8%e6%96%87%e4%bb%b6%e4%b8%8b%e8%bd%bd%e5%88%b0%e6%9c%ac%e5%9c%b0%e8%af%95%e4%ba%86%e5%87%a0%e6%ac%a1%e9%83%bd%e5%a4%b1%e8%b4%a5%e4%ba%86" aria-label="(3) 将服务器文件下载到本地(试了几次，都失败了)">(3) 将服务器文件下载到本地(试了几次，都失败了)</a></li></ul>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#2%e9%98%bf%e9%87%8c%e4%ba%91%e7%9b%98" aria-label="2、阿里云盘">2、阿里云盘</a><ul>
+                            <ul>
+                            
+                    <li>
+                        <a href="#1linux%e5%ae%89%e8%a3%85" aria-label="（1）linux安装">（1）linux安装</a></li>
+                    <li>
+                        <a href="#2%e6%96%87%e4%bb%b6%e4%b8%8a%e4%bc%a0%e4%b8%8b%e8%bd%bd" aria-label="（2）文件上传/下载">（2）文件上传/下载</a>
+                    </li>
+                </ul>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><h1 id="1奶牛快传">1、奶牛快传<a hidden class="anchor" aria-hidden="true" href="#1奶牛快传">#</a></h1>
+<h3 id="1-linux服务器安装">(1) linux服务器安装<a hidden class="anchor" aria-hidden="true" href="#1-linux服务器安装">#</a></h3>
+<ul>
+<li>
+<p><a href="https://github.com/Mikubill/cowtransfer-uploader/releases">https://github.com/Mikubill/cowtransfer-uploader/releases</a></p>
+</li>
+<li>
+<p>选择一个最新的linux版本下载（如果wget下载太慢，就下载的本地电脑，再上传到linux）</p>
+</li>
+<li>
+<p>解压即用</p>
+</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>wget https://github.com/Mikubill/cowtransfer-uploader/releases/download/v0.4.21/cowtransfer-uploader_0.4.21_linux_amd64.tar.gz
+</span></span><span style="display:flex;"><span>tar -zxvf cowtransfer-uploader_0.4.21_linux_amd64.tar.gz
+</span></span><span style="display:flex;"><span>./cowtransfer-uploader <span style="color:#007f7f">#查看帮助文档</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="2-将本地文件上传到服务器">(2) 将本地文件上传到服务器<a hidden class="anchor" aria-hidden="true" href="#2-将本地文件上传到服务器">#</a></h3>
+<ul>
+<li>
+<p>进入https://cowtransfer.com/，上传本地文件，获取下载链接</p>
+</li>
+<li>
+<p>在linux端，下载即可</p>
+</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>./cowtransfer-uploader https://cowtransfer.com/s/c7899f85cb354f
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Remote: https://cowtransfer.com/s/c7899f85cb354f</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># File save to: 图片1.png</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 0 B / 36.34 KiB [_________________________________________________________________________________________________________________________] 0.00% ? p/s ?</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 36.34 KiB / 36.34 KiB [-----------------------------------------------------------------------------------------------------] 100.00% 76.27 KiB p/s 700ms</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="3-将服务器文件下载到本地试了几次都失败了">(3) 将服务器文件下载到本地(试了几次，都失败了)<a hidden class="anchor" aria-hidden="true" href="#3-将服务器文件下载到本地试了几次都失败了">#</a></h3>
+<ul>
+<li>上传服务器文件，获取下载链接。但是遇到如下报错，尚未解决。</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>./cowtransfer-uploader test.txt.gz
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># getSendConfig returns error: json: cannot unmarshal string into Go struct field prepareSendResp.error of type bool, onfile: test.txt.gz</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>进入https://cowtransfer.com/，根据链接接收文件即可。</li>
+</ul>
+<blockquote>
+<p>最近发现这个工具的linux版本不好用了，仍适用于window电脑之间互传数据比较方便。</p></blockquote>
+<h1 id="2阿里云盘">2、阿里云盘<a hidden class="anchor" aria-hidden="true" href="#2阿里云盘">#</a></h1>
+<p>官方教程：<a href="https://github.com/tickstep/aliyunpan">GitHub - tickstep/aliyunpan: 阿里云盘命令行客户端，支持webdav文件服务</a></p>
+<p>简单使用如下</p>
+<h3 id="1linux安装">（1）linux安装<a hidden class="anchor" aria-hidden="true" href="#1linux安装">#</a></h3>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">cd</span> ~
+</span></span><span style="display:flex;"><span>wget https://github.com/tickstep/aliyunpan/releases/download/v0.1.2/aliyunpan-v0.1.2-linux-amd64.zip
+</span></span><span style="display:flex;"><span>unzip aliyunpan-v0.1.2-linux-amd64.zip
+</span></span><span style="display:flex;"><span>mv aliyunpan-v0.1.2-linux-amd64 aliyunpan
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#获取帮助</span>
+</span></span><span style="display:flex;"><span>~/aliyunpan/aliyunpan --help
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#查看版本</span>
+</span></span><span style="display:flex;"><span>~/aliyunpan/aliyunpan -v
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#进入cli模式（按下图方式获取个人账户的RefreshToken）</span>
+</span></span><span style="display:flex;"><span>~/aliyunpan/aliyunpan
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#测试了下，仅第一次需要输入，以后可自动登入</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>需要通过浏览器获取refresh_token。这里以Chrome浏览器为例，其他浏览器类似。
+打开 <a href="https://www.aliyundrive.com/drive">阿里云盘网页</a> 并进行登录，然后F12按键打开浏览器调试菜单，按照下面步骤进行</p>
+<p><img loading="lazy" src="https://github.com/tickstep/aliyunpan/raw/main/assets/images/how-to-get-refresh-token.png" alt=""  />
+</p></blockquote>
+<h3 id="2文件上传下载">（2）文件上传/下载<a hidden class="anchor" aria-hidden="true" href="#2文件上传下载">#</a></h3>
+<ul>
+<li>进入cli模式后，就进入了云盘的操作环境。</li>
+<li>对云盘文件的基本操作与linux的shell命令大致相同，比如<code>ls</code>, <code>mkdir</code>, <code>mv</code>,  <code>rm</code>&hellip;</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>~/aliyunpan/aliyunpan
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#查看当前登陆账户</span>
+</span></span><span style="display:flex;"><span>who
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#查看云盘空间配额</span>
+</span></span><span style="display:flex;"><span>quota
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#下载云盘文件/文件夹到服务器(当前路径)</span>
+</span></span><span style="display:flex;"><span>download file/dir --save
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#下载云盘文件/文件夹到服务器(指定路径)</span>
+</span></span><span style="display:flex;"><span>download file/dir --saveto /home/shensuo/
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#上传服务器文件到云盘</span>
+</span></span><span style="display:flex;"><span>upload file/dir 云盘路径
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/linux/">Linux</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/en/posts/basic/004%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%9F%BA%E7%A1%80--%E7%9B%B8%E5%85%B3%E6%80%A7%E4%B8%8E%E4%B8%80%E8%87%B4%E6%80%A7/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>统计学基础--相关性与一致性</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/en/posts/program/004python%E5%9F%BA%E7%A1%80-4%E5%87%BD%E6%95%B0function/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>Python基础-(4)函数Function</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

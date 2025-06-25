@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>单细胞分析工具--pySCENIC转录因子分析 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="scRNA-seq">
+<meta name="description" content="
+SCENIC全称Single-Cell rEgulatory Network Inference and Clustering，即转录因子分析，用于构建GRN，gene regulatory network基因调控网络。2017年于Nat Methods首次发表R包版本(https://doi:10.1038/nmeth.4463.)，后又于2020年NATURE PROTOCOLS发表python版本(https://doi.org/10.1038/s41596-020-0336-2)，分析速度得到大幅度提升，而分析方法基本相同。">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/bioinfo/010%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--%E8%BD%AC%E5%BD%95%E5%9B%A0%E5%AD%90pyscenic/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/bioinfo/010%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--%E8%BD%AC%E5%BD%95%E5%9B%A0%E5%AD%90pyscenic/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="单细胞分析工具--pySCENIC转录因子分析" />
+<meta property="og:description" content="
+SCENIC全称Single-Cell rEgulatory Network Inference and Clustering，即转录因子分析，用于构建GRN，gene regulatory network基因调控网络。2017年于Nat Methods首次发表R包版本(https://doi:10.1038/nmeth.4463.)，后又于2020年NATURE PROTOCOLS发表python版本(https://doi.org/10.1038/s41596-020-0336-2)，分析速度得到大幅度提升，而分析方法基本相同。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/bioinfo/010%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--%E8%BD%AC%E5%BD%95%E5%9B%A0%E5%AD%90pyscenic/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-04-16T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2022-04-16T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="单细胞分析工具--pySCENIC转录因子分析"/>
+<meta name="twitter:description" content="
+SCENIC全称Single-Cell rEgulatory Network Inference and Clustering，即转录因子分析，用于构建GRN，gene regulatory network基因调控网络。2017年于Nat Methods首次发表R包版本(https://doi:10.1038/nmeth.4463.)，后又于2020年NATURE PROTOCOLS发表python版本(https://doi.org/10.1038/s41596-020-0336-2)，分析速度得到大幅度提升，而分析方法基本相同。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 生信数据分析--分析流程，工具包等",
+      "item": "https://lishensuo.github.io/en/posts/bioinfo/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "单细胞分析工具--pySCENIC转录因子分析",
+      "item": "https://lishensuo.github.io/en/posts/bioinfo/010%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--%E8%BD%AC%E5%BD%95%E5%9B%A0%E5%AD%90pyscenic/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "单细胞分析工具--pySCENIC转录因子分析",
+  "name": "单细胞分析工具--pySCENIC转录因子分析",
+  "description": " SCENIC全称Single-Cell rEgulatory Network Inference and Clustering，即转录因子分析，用于构建GRN，gene regulatory network基因调控网络。2017年于Nat Methods首次发表R包版本(https://doi:10.1038/nmeth.4463.)，后又于2020年NATURE PROTOCOLS发表python版本(https://doi.org/10.1038/s41596-020-0336-2)，分析速度得到大幅度提升，而分析方法基本相同。\n",
+  "keywords": [
+    "scRNA-seq"
+  ],
+  "articleBody": " SCENIC全称Single-Cell rEgulatory Network Inference and Clustering，即转录因子分析，用于构建GRN，gene regulatory network基因调控网络。2017年于Nat Methods首次发表R包版本(https://doi:10.1038/nmeth.4463.)，后又于2020年NATURE PROTOCOLS发表python版本(https://doi.org/10.1038/s41596-020-0336-2)，分析速度得到大幅度提升，而分析方法基本相同。\n这篇笔记首先简单了解下分析步骤与原理，然后参考文章提供代码进行实操\n1、TF转录因子 转录因子(Transcription factor)是指能够识别、结合在某基因上游特异核苷酸序列上的蛋白质;\n这类蛋白通过介导RNA聚合酶与DNA模板的结合，从而调控下游靶基因的转录；也可以和其它转录因子形成转录因子复合体来影响基因的转录。\n转录因子特异识别、结合的DNA序列称为转录因子结合位点(Transcription factor binding site,TFBS)，长度在5~20bp范围。由于同一个TF可以调控多个，而其具体结合到每个靶基因的TFBS不完全相同，但具有一定的保守性。\n基于此，使用motif来概括TFBS的特征序列，具体是使用PWM(Postion Weight Matrix)表示。如下例图，即有的位点是某一种特定碱基，而有的位点是多种可能。\n同一个基因上游可能存在多种motif，受到多个TF调控；而同一个TF也可能识别多种motif，从而形成复杂的基因表达转录调控网络。 2、SCENIC分析步骤 2.1 单细胞数据预处理 输入：单细胞测序数据；输出：单细胞表达矩阵 这一步主要就是读入单细胞数据，过滤低质量的细胞、低表达的基因；然后将单细胞count表达矩阵(行名是细胞，列名是基因)存储为csv格式（或者loom）;\n文章建议使用Scanpy预处理，因为更适合大的单细胞数据集。但个人还是更习惯于Seurat的流程。\n2.2 网络推断Network inference 输入：单细胞表达矩阵，转录因子列表；输出：TF-gene.csv文件。第1列是转录因子，第2列是共表达的基因，第3列是共表达强度(weight) 针对转录因子列表里的每一个转录因子，探索在单细胞表达矩阵中哪些基因与之存在共表达关系。\n通过基于树(tree-based)的回归模型，根据转录因子的表达去预测基因的表达情况。具体算法可选择GRNBoost2或者GENIE3，前者的计算效率会更高。\n2.3 得到TF-regulon 输入：上一步得到的TF-gene.csv，motif-gene注释数据，motif-TF注释数据，单细胞表达数据 输出：motif富集结果或者regulon数据 分为如下几个子步骤\n(1) Module generation 首先根据第二步得到的TF-gene.csv文件，计算中TF -module(one Translate factor and its target genes)。scenic提供下面三种思路计算得到。\nBased on a percentile score; the default is to select sets based on the 75th or 90th percentile of a factor’s targets. Based on the top N targets for each factor, with a default of 50 targets. Based on the top N regulators for a target; the default settings select sets of 5, 10, and 50 regulators. 按照如上默认值设置的话，有 2 + 1 + 3 = 6种思路的module结果。所以在最终得到的结果里，可能同一个TF有多个module。 根据调控基因与转录因子的相关性方向可分为 activating module(ρ ≥ +0.03)与 repressing module(ρ ≤ −0.03)。由于负相关模块(TF介导对靶基因的转录抑制)的数量一般较少，默认后续分析只保留正相关的activating module进行后续分析。\n最后可限制module所包含的最少基因数，默认为20。\n(2) Motif enrichment 在提供的motif-gene注释文件中，提供了每个motif的基因排名，即哪些基因的上游区域含有最类似该motif的区域。\n基于此计算出每个module中所富集的motif有哪些。然后根据motif-TF注释数据，判断module 所富集到的motif是否为该module TF的motif。再然后，通过module的motif预测模块中真正的靶基因，去除其中的假阳性或者间接靶点。\n最后通过合并同一个TF的所有保留基因，作为一个Regulon(one TF and its target gene)\n2.4 Regulon活性评分 基于上一步得到的所有Regulon(可认为是Gene Set)，结合单细胞表达矩阵去评价每一个细胞对于每一个Regulon的表达程度评分。\n不同细胞对于同一Regulon的表达活性是可以比较的，但同一细胞的不同Regulon的表达与否是不好比较的。\n文章提供一种分析思路，将Regulon的活性得分二值化，即是否激活(On/Off)。这主要通过对那些具有 bimodal distribution双峰分布曲线的Regulon进行混合高斯分布拟合，确定合适的分割阈值，从而将细胞划分为两种状态。\n原先参考代码是pySCENIC文章里提供的示范代码；如今版本以及数据库均已更新，现主要参考官方手册：\nhttps://pyscenic.readthedocs.io/en/latest/index.html 3、pySCENIC代码实操 原文的预处理步骤是使用Scanpy进行单细胞预处理的，我还是比较熟悉Seurat流程，因此对文章给的代码有所删改。\n3.1 准备conda环境 1 2 3 4 conda create -y -n pyscenic python=3.10 conda activate pyscenic pip install pyscenic 3.2 下载参考数据 （1）motif–gene注释数据(genome ranking database)\nhttps://resources.aertslab.org/cistarget/databases/ 提供了不同物种以及不同基因组版本的注释数据，可根据需要选择；\n1 2 wget https://resources.aertslab.org/cistarget/databases/homo_sapiens/hg38/refseq_r80/mc_v10_clust/gene_based/hg38_10kbp_up_10kbp_down_full_tx_v10_clust.genes_vs_motifs.rankings.feather wget https://resources.aertslab.org/cistarget/databases/homo_sapiens/hg38/refseq_r80/mc_v10_clust/gene_based/hg38_500bp_up_100bp_down_full_tx_v10_clust.genes_vs_motifs.rankings.feather （2）motif–TF注释数据\nhttps://resources.aertslab.org/cistarget/motif2tf/ 提供了不同物种的注释数据，可根据需要选择；\n1 wget https://resources.aertslab.org/cistarget/motif2tf/motifs-v10nr_clust-nr.hgnc-m0.001-o0.0.tbl （3）转录因子列表\nhttps://resources.aertslab.org/cistarget/tf_lists/ 提供了不同物种的注释数据，可根据需要选择；\n1 wget https://resources.aertslab.org/cistarget/tf_lists/allTFs_hg38.txt 3.3 示例单细胞表达矩阵 1 2 3 4 5 6 7 8 9 10 11 12 13 ##下载单细胞示例数据 # wget http://cf.10xgenomics.com/samples/cell-exp/3.0.0/pbmc_10k_v3/pbmc_10k_v3_filtered_feature_bc_matrix.tar.gz # tar xvf pbmc_10k_v3_filtered_feature_bc_matrix.tar.gz library(Seurat) sce = Read10X(data.dir = \"filtered_feature_bc_matrix\") sce = CreateSeuratObject(sce) ## 省略质控相关步骤 sce_count = GetAssayData(sce[[\"RNA\"]], slot = \"counts\") sce_count[1:4,1:4] #行名基因，列名细胞 write.csv(sce_count, file=\"sce_count.csv\") Note：\n上面输出、保存的表达矩阵行名是基因，列名是细胞； 而SCENIC分析需要的表达矩阵格式为：行名是细胞，列名是基因； 因此可在之后pyscenic分析时添加参数 –transpose，进行转置。 3.4 scenic分析(命令行) 分别对应上述的2.2~2.4简介\n1 2 3 4 5 6 7 ## expression matrix f_ex_matrix_csv=/path/to/sce_count.csv ## referrence databases f_db_names=$(ls /path/to/*feather | tr \"\\n\" \" \") f_motif_path=/path/to/motifs-v10nr_clust-nr.hgnc-m0.001-o0.0.tbl f_tfs=/path/to/hs_hgnc_tfs.txt (1) pyscenic grn 1 2 3 4 5 6 7 8 9 pyscenic grn \\ --output adj.tsv \\ --method grnboost2 \\ --transpose \\ ${f_ex_matrix_csv} \\ ${f_tfs} \\ --num_workers 2 head adj.tsv (2) pyscenic ctx 1 2 3 4 5 6 7 8 9 10 11 12 13 pyscenic ctx adj.tsv \\ ${f_db_names} \\ --annotations_fname ${f_motif_path} \\ --expression_mtx_fname ${f_ex_matrix_csv} \\ --transpose \\ --output sce_regulon.gmt \\ --mask_dropouts \\ --mode \"dask_multiprocessing\" \\ --num_workers 20 less -SN sce_regulon.gmt #每一行是一个regulon：第一列是转录因子，第二列是说明性文字，第三列往后是target gene (3) pyscenic aucell 1 2 3 4 5 6 7 8 pyscenic aucell \\ ${f_ex_matrix_csv} \\ sce_regulon.gmt \\ --transpose \\ --output sce_regulon_AUC.csv \\ --num_workers 20 less -SN regulon_AUC.csv 将AUCell结果二值化：on/off。需要进入python环境 1 2 3 4 5 6 7 8 from pyscenic import binarization import pandas as pd auc_mtx = pd.read_csv(\"sce_regulon_AUC.csv\", index_col=\"Regulon\") # time consuming auc_binary = binarization.binarize(auc_mtx, num_workers=20) # 结果返回一个tuple，包含两个元素：第一个是二值化后的表达矩阵；第二个是每个转录因子二值化的阈值 auc_binary[0] auc_binary[1] Note :\n（1）输入单细胞表达矩阵也支持loom格式；输出结果中也支持不同类型的数据格式，具体可参看命令帮助文档 。\n（2）官方手册中也提供了多种不同使用方法，例如在python中的分析流程；docker环境中的使用方法。\n",
+  "wordCount" : "2838",
+  "inLanguage": "en",
+  "datePublished": "2022-04-16T00:00:00Z",
+  "dateModified": "2022-04-16T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/bioinfo/010%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7--%E8%BD%AC%E5%BD%95%E5%9B%A0%E5%AD%90pyscenic/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/bioinfo/">📖 生信数据分析--分析流程，工具包等</a></div>
+    <h1 class="post-title">
+      单细胞分析工具--pySCENIC转录因子分析
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-16 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-16&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-04-16&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2838&amp;nbsp;|&amp;nbsp;6 min&amp;nbsp;|&amp;nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#1tf%e8%bd%ac%e5%bd%95%e5%9b%a0%e5%ad%90" aria-label="1、TF转录因子">1、TF转录因子</a></li>
+                    <li>
+                        <a href="#2scenic%e5%88%86%e6%9e%90%e6%ad%a5%e9%aa%a4" aria-label="2、SCENIC分析步骤">2、SCENIC分析步骤</a><ul>
+                            <ul>
+                            
+                    <li>
+                        <a href="#21-%e5%8d%95%e7%bb%86%e8%83%9e%e6%95%b0%e6%8d%ae%e9%a2%84%e5%a4%84%e7%90%86" aria-label="2.1 单细胞数据预处理">2.1 单细胞数据预处理</a></li>
+                    <li>
+                        <a href="#22-%e7%bd%91%e7%bb%9c%e6%8e%a8%e6%96%adnetwork-inference" aria-label="2.2 网络推断Network inference">2.2 网络推断Network inference</a></li>
+                    <li>
+                        <a href="#23-%e5%be%97%e5%88%b0tf-regulon" aria-label="2.3 得到TF-regulon">2.3 得到TF-regulon</a><ul>
+                            
+                    <li>
+                        <a href="#1-module-generation" aria-label="(1) Module generation">(1) Module generation</a></li>
+                    <li>
+                        <a href="#2-motif-enrichment" aria-label="(2) Motif enrichment">(2) Motif enrichment</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#24-regulon%e6%b4%bb%e6%80%a7%e8%af%84%e5%88%86" aria-label="2.4 Regulon活性评分">2.4 Regulon活性评分</a></li></ul>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#3pyscenic%e4%bb%a3%e7%a0%81%e5%ae%9e%e6%93%8d" aria-label="3、pySCENIC代码实操">3、pySCENIC代码实操</a><ul>
+                            <ul>
+                            
+                    <li>
+                        <a href="#31-%e5%87%86%e5%a4%87conda%e7%8e%af%e5%a2%83" aria-label="3.1 准备conda环境">3.1 准备conda环境</a></li>
+                    <li>
+                        <a href="#32-%e4%b8%8b%e8%bd%bd%e5%8f%82%e8%80%83%e6%95%b0%e6%8d%ae" aria-label="3.2 下载参考数据">3.2 下载参考数据</a></li>
+                    <li>
+                        <a href="#33-%e7%a4%ba%e4%be%8b%e5%8d%95%e7%bb%86%e8%83%9e%e8%a1%a8%e8%be%be%e7%9f%a9%e9%98%b5" aria-label="3.3 示例单细胞表达矩阵">3.3 示例单细胞表达矩阵</a></li>
+                    <li>
+                        <a href="#34-scenic%e5%88%86%e6%9e%90%e5%91%bd%e4%bb%a4%e8%a1%8c" aria-label="3.4 scenic分析(命令行)">3.4 scenic分析(命令行)</a><ul>
+                            
+                    <li>
+                        <a href="#1-pyscenic-grn" aria-label="(1) pyscenic grn">(1) pyscenic grn</a></li>
+                    <li>
+                        <a href="#2-pyscenic-ctx" aria-label="(2) pyscenic ctx">(2) pyscenic ctx</a></li>
+                    <li>
+                        <a href="#3-pyscenic-aucell" aria-label="(3) pyscenic aucell">(3) pyscenic aucell</a>
+                    </li>
+                </ul>
+                </ul>
+                </li>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><blockquote>
+<p>SCENIC全称Single-Cell rEgulatory Network Inference and Clustering，即转录因子分析，用于构建GRN，gene regulatory network基因调控网络。2017年于Nat Methods首次发表R包版本(https://doi:10.1038/nmeth.4463.)，后又于2020年NATURE PROTOCOLS发表python版本(<a href="https://doi.org/10.1038/s41596-020-0336-2">https://doi.org/10.1038/s41596-020-0336-2</a>)，分析速度得到大幅度提升，而分析方法基本相同。</p>
+<p>这篇笔记首先简单了解下分析步骤与原理，然后参考文章提供代码进行实操</p></blockquote>
+<h2 id="1tf转录因子">1、TF转录因子<a hidden class="anchor" aria-hidden="true" href="#1tf转录因子">#</a></h2>
+<ul>
+<li>
+<p>转录因子(Transcription factor)是指能够识别、结合在某基因上游特异核苷酸序列上的蛋白质;</p>
+</li>
+<li>
+<p>这类蛋白通过介导RNA聚合酶与DNA模板的结合，从而调控下游靶基因的转录；也可以和其它转录因子形成转录因子复合体来影响基因的转录。</p>
+<p><img loading="lazy" src="https://ars.els-cdn.com/content/image/3-s2.0-B9780128110140000044-f04-06-9780128110140.jpg" alt="Transcription Factors - an overview | ScienceDirect Topics"  />
+</p>
+</li>
+<li>
+<p>转录因子特异识别、结合的DNA序列称为转录因子结合位点(Transcription factor binding site,TFBS)，长度在5~20bp范围。由于同一个TF可以调控多个，而其具体结合到每个靶基因的TFBS不完全相同，但具有一定的保守性。</p>
+</li>
+<li>
+<p>基于此，使用motif来概括TFBS的特征序列，具体是使用PWM(Postion Weight Matrix)表示。如下例图，即有的位点是某一种特定碱基，而有的位点是多种可能。</p>
+</li>
+</ul>
+<p><img loading="lazy" src="https://www.ebi.ac.uk/training/online/courses/human-genetic-variation-introduction/wp-content/uploads/sites/76/2020/05/fig7.png" alt="img"  />
+</p>
+<ul>
+<li>同一个基因上游可能存在多种motif，受到多个TF调控；而同一个TF也可能识别多种motif，从而形成复杂的基因表达转录调控网络。</li>
+</ul>
+<h2 id="2scenic分析步骤">2、SCENIC分析步骤<a hidden class="anchor" aria-hidden="true" href="#2scenic分析步骤">#</a></h2>
+<h4 id="21-单细胞数据预处理">2.1 单细胞数据预处理<a hidden class="anchor" aria-hidden="true" href="#21-单细胞数据预处理">#</a></h4>
+<ul>
+<li><strong>输入</strong>：单细胞测序数据；<strong>输出</strong>：单细胞表达矩阵</li>
+</ul>
+<p>这一步主要就是读入单细胞数据，过滤低质量的细胞、低表达的基因；然后将单细胞count表达矩阵(行名是细胞，列名是基因)存储为csv格式（或者loom）;</p>
+<p>文章建议使用Scanpy预处理，因为更适合大的单细胞数据集。但个人还是更习惯于Seurat的流程。</p>
+<h4 id="22-网络推断network-inference">2.2 网络推断Network inference<a hidden class="anchor" aria-hidden="true" href="#22-网络推断network-inference">#</a></h4>
+<ul>
+<li><strong>输入</strong>：单细胞表达矩阵，转录因子列表；<strong>输出</strong>：TF-gene.csv文件。第1列是转录因子，第2列是共表达的基因，第3列是共表达强度(weight)</li>
+</ul>
+<p>针对转录因子列表里的每一个转录因子，探索在单细胞表达矩阵中哪些基因与之存在共表达关系。</p>
+<p>通过基于树(tree-based)的回归模型，根据转录因子的表达去预测基因的表达情况。具体算法可选择GRNBoost2或者GENIE3，前者的计算效率会更高。</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220415133927800.png" alt="image-20220415133927800" style="zoom: 67%;" />
+<h4 id="23-得到tf-regulon">2.3 得到TF-regulon<a hidden class="anchor" aria-hidden="true" href="#23-得到tf-regulon">#</a></h4>
+<ul>
+<li><strong>输入</strong>：上一步得到的TF-gene.csv，motif-gene注释数据，motif-TF注释数据，单细胞表达数据</li>
+<li><strong>输出</strong>：motif富集结果或者regulon数据</li>
+</ul>
+<p>分为如下几个子步骤</p>
+<h5 id="1-module-generation">(1) Module generation<a hidden class="anchor" aria-hidden="true" href="#1-module-generation">#</a></h5>
+<p>首先根据第二步得到的TF-gene.csv文件，计算中TF -module(one Translate factor and its target genes)。scenic提供下面三种思路计算得到。</p>
+<blockquote>
+<ul>
+<li>Based on a percentile score; the default is to select sets based on the 75th or 90th percentile of a factor’s targets.</li>
+<li>Based on the top N targets for each factor, with a default of 50 targets.</li>
+<li>Based on the top N regulators for a target; the default settings select sets of 5, 10, and 50 regulators.</li>
+<li>按照如上默认值设置的话，有 2 + 1 + 3 = 6种思路的module结果。所以在最终得到的结果里，可能同一个TF有多个module。</li>
+</ul></blockquote>
+<p>根据调控基因与转录因子的相关性方向可分为 activating module(ρ ≥ +0.03)与 repressing module(ρ ≤ −0.03)。由于负相关模块(TF介导对靶基因的转录抑制)的数量一般较少，默认后续分析只保留正相关的activating module进行后续分析。</p>
+<p>最后可限制module所包含的最少基因数，默认为20。</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220415150220003.png" alt="image-20220415150220003" style="zoom:67%;" />
+<h5 id="2-motif-enrichment">(2) Motif enrichment<a hidden class="anchor" aria-hidden="true" href="#2-motif-enrichment">#</a></h5>
+<p>在提供的motif-gene注释文件中，提供了每个motif的基因排名，即哪些基因的上游区域含有最类似该motif的区域。</p>
+<p>基于此计算出每个module中所富集的motif有哪些。然后根据motif-TF注释数据，判断module 所富集到的motif是否为该module TF的motif。再然后，通过module的motif预测模块中真正的靶基因，去除其中的假阳性或者间接靶点。</p>
+<p>最后通过合并同一个TF的所有保留基因，作为一个Regulon(one TF and its target gene)</p>
+<h4 id="24-regulon活性评分">2.4 Regulon活性评分<a hidden class="anchor" aria-hidden="true" href="#24-regulon活性评分">#</a></h4>
+<p>基于上一步得到的所有Regulon(可认为是Gene Set)，结合单细胞表达矩阵去评价每一个细胞对于每一个Regulon的表达程度评分。</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220415152516641.png" alt="image-20220415152516641" style="zoom:67%;" />
+<p>不同细胞对于同一Regulon的表达活性是可以比较的，但同一细胞的不同Regulon的表达与否是不好比较的。</p>
+<p>文章提供一种分析思路，将Regulon的活性得分二值化，即是否激活(On/Off)。这主要通过对那些具有 bimodal distribution双峰分布曲线的Regulon进行混合高斯分布拟合，确定合适的分割阈值，从而将细胞划分为两种状态。</p>
+<blockquote>
+<p>原先参考代码是pySCENIC文章里提供的示范代码；如今版本以及数据库均已更新，现主要参考官方手册：</p>
+<ul>
+<li><a href="https://pyscenic.readthedocs.io/en/latest/index.html">https://pyscenic.readthedocs.io/en/latest/index.html</a></li>
+</ul></blockquote>
+<h2 id="3pyscenic代码实操">3、pySCENIC代码实操<a hidden class="anchor" aria-hidden="true" href="#3pyscenic代码实操">#</a></h2>
+<p>原文的预处理步骤是使用Scanpy进行单细胞预处理的，我还是比较熟悉Seurat流程，因此对文章给的代码有所删改。</p>
+<h4 id="31-准备conda环境">3.1 准备conda环境<a hidden class="anchor" aria-hidden="true" href="#31-准备conda环境">#</a></h4>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>conda create -y -n pyscenic python=3.10
+</span></span><span style="display:flex;"><span>conda activate pyscenic
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>pip install pyscenic
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="32-下载参考数据">3.2 下载参考数据<a hidden class="anchor" aria-hidden="true" href="#32-下载参考数据">#</a></h4>
+<ul>
+<li>
+<p>（1）motif&ndash;gene注释数据(genome ranking database)</p>
+<p><a href="https://resources.aertslab.org/cistarget/databases/">https://resources.aertslab.org/cistarget/databases/</a> 提供了不同物种以及不同基因组版本的注释数据，可根据需要选择；</p>
+</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>wget https://resources.aertslab.org/cistarget/databases/homo_sapiens/hg38/refseq_r80/mc_v10_clust/gene_based/hg38_10kbp_up_10kbp_down_full_tx_v10_clust.genes_vs_motifs.rankings.feather
+</span></span><span style="display:flex;"><span>wget https://resources.aertslab.org/cistarget/databases/homo_sapiens/hg38/refseq_r80/mc_v10_clust/gene_based/hg38_500bp_up_100bp_down_full_tx_v10_clust.genes_vs_motifs.rankings.feather
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>
+<p>（2）motif&ndash;TF注释数据</p>
+<p><a href="https://resources.aertslab.org/cistarget/motif2tf/">https://resources.aertslab.org/cistarget/motif2tf/</a> 提供了不同物种的注释数据，可根据需要选择；</p>
+</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>wget https://resources.aertslab.org/cistarget/motif2tf/motifs-v10nr_clust-nr.hgnc-m0.001-o0.0.tbl
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>
+<p>（3）转录因子列表</p>
+<p><a href="https://resources.aertslab.org/cistarget/tf_lists/">https://resources.aertslab.org/cistarget/tf_lists/</a> 提供了不同物种的注释数据，可根据需要选择；</p>
+</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>wget https://resources.aertslab.org/cistarget/tf_lists/allTFs_hg38.txt
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="33-示例单细胞表达矩阵">3.3 示例单细胞表达矩阵<a hidden class="anchor" aria-hidden="true" href="#33-示例单细胞表达矩阵">#</a></h4>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">##下载单细胞示例数据</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># wget http://cf.10xgenomics.com/samples/cell-exp/3.0.0/pbmc_10k_v3/pbmc_10k_v3_filtered_feature_bc_matrix.tar.gz</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># tar xvf pbmc_10k_v3_filtered_feature_bc_matrix.tar.gz</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>library(Seurat)
+</span></span><span style="display:flex;"><span>sce = Read10X(data.dir = <span style="color:#0ff;font-weight:bold">&#34;filtered_feature_bc_matrix&#34;</span>)
+</span></span><span style="display:flex;"><span>sce = CreateSeuratObject(sce)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## 省略质控相关步骤</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sce_count = GetAssayData(sce[[<span style="color:#0ff;font-weight:bold">&#34;RNA&#34;</span>]], slot = <span style="color:#0ff;font-weight:bold">&#34;counts&#34;</span>)
+</span></span><span style="display:flex;"><span>sce_count[1:<span style="color:#ff0;font-weight:bold">4</span>,<span style="color:#ff0;font-weight:bold">1</span>:<span style="color:#ff0;font-weight:bold">4</span>] <span style="color:#007f7f">#行名基因，列名细胞</span>
+</span></span><span style="display:flex;"><span>write.csv(sce_count, file=<span style="color:#0ff;font-weight:bold">&#34;sce_count.csv&#34;</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p><strong>Note</strong>：</p>
+<ul>
+<li>上面输出、保存的表达矩阵行名是基因，列名是细胞；</li>
+<li>而SCENIC分析需要的表达矩阵格式为：行名是细胞，列名是基因；</li>
+<li>因此可在之后pyscenic分析时添加参数 &ndash;transpose，进行转置。</li>
+</ul></blockquote>
+<h4 id="34-scenic分析命令行">3.4 scenic分析(命令行)<a hidden class="anchor" aria-hidden="true" href="#34-scenic分析命令行">#</a></h4>
+<p>分别对应上述的2.2~2.4简介</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#007f7f">## expression matrix</span>
+</span></span><span style="display:flex;"><span>f_ex_matrix_csv=/path/to/sce_count.csv
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## referrence databases</span>
+</span></span><span style="display:flex;"><span>f_db_names=<span style="color:#fff;font-weight:bold">$(</span>ls /path/to/*feather | tr <span style="color:#0ff;font-weight:bold">&#34;\n&#34;</span> <span style="color:#0ff;font-weight:bold">&#34; &#34;</span><span style="color:#fff;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>f_motif_path=/path/to/motifs-v10nr_clust-nr.hgnc-m0.001-o0.0.tbl
+</span></span><span style="display:flex;"><span>f_tfs=/path/to/hs_hgnc_tfs.txt
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h5 id="1-pyscenic-grn">(1) pyscenic grn<a hidden class="anchor" aria-hidden="true" href="#1-pyscenic-grn">#</a></h5>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>pyscenic grn <span style="color:#0ff;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold"></span>--output adj.tsv <span style="color:#0ff;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold"></span>--method grnboost2 <span style="color:#0ff;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold"></span>--transpose <span style="color:#0ff;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold"></span><span style="color:#0ff;font-weight:bold">${</span>f_ex_matrix_csv<span style="color:#0ff;font-weight:bold">}</span> <span style="color:#0ff;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold"></span><span style="color:#0ff;font-weight:bold">${</span>f_tfs<span style="color:#0ff;font-weight:bold">}</span> <span style="color:#0ff;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold"></span>--num_workers <span style="color:#ff0;font-weight:bold">2</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>head adj.tsv
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h5 id="2-pyscenic-ctx">(2) pyscenic ctx<a hidden class="anchor" aria-hidden="true" href="#2-pyscenic-ctx">#</a></h5>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>pyscenic ctx adj.tsv <span style="color:#0ff;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold"></span><span style="color:#0ff;font-weight:bold">${</span>f_db_names<span style="color:#0ff;font-weight:bold">}</span> <span style="color:#0ff;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold"></span>--annotations_fname <span style="color:#0ff;font-weight:bold">${</span>f_motif_path<span style="color:#0ff;font-weight:bold">}</span> <span style="color:#0ff;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold"></span>--expression_mtx_fname <span style="color:#0ff;font-weight:bold">${</span>f_ex_matrix_csv<span style="color:#0ff;font-weight:bold">}</span> <span style="color:#0ff;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold"></span>--transpose <span style="color:#0ff;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold"></span>--output sce_regulon.gmt <span style="color:#0ff;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold"></span>--mask_dropouts <span style="color:#0ff;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold"></span>--mode <span style="color:#0ff;font-weight:bold">&#34;dask_multiprocessing&#34;</span> <span style="color:#0ff;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold"></span>--num_workers <span style="color:#ff0;font-weight:bold">20</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>less -SN sce_regulon.gmt
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#每一行是一个regulon：第一列是转录因子，第二列是说明性文字，第三列往后是target gene</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h5 id="3-pyscenic-aucell">(3) pyscenic aucell<a hidden class="anchor" aria-hidden="true" href="#3-pyscenic-aucell">#</a></h5>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>pyscenic aucell <span style="color:#0ff;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold"></span><span style="color:#0ff;font-weight:bold">${</span>f_ex_matrix_csv<span style="color:#0ff;font-weight:bold">}</span> <span style="color:#0ff;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold"></span>sce_regulon.gmt <span style="color:#0ff;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold"></span>--transpose <span style="color:#0ff;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold"></span>--output sce_regulon_AUC.csv <span style="color:#0ff;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold"></span>--num_workers <span style="color:#ff0;font-weight:bold">20</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>less -SN regulon_AUC.csv
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>将AUCell结果二值化：on/off。需要进入python环境</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">from</span> pyscenic <span style="color:#fff;font-weight:bold">import</span> binarization
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> pandas <span style="color:#fff;font-weight:bold">as</span> pd
+</span></span><span style="display:flex;"><span>auc_mtx = pd.read_csv(<span style="color:#0ff;font-weight:bold">&#34;sce_regulon_AUC.csv&#34;</span>, index_col=<span style="color:#0ff;font-weight:bold">&#34;Regulon&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># time consuming</span>
+</span></span><span style="display:flex;"><span>auc_binary = binarization.binarize(auc_mtx, num_workers=<span style="color:#ff0;font-weight:bold">20</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 结果返回一个tuple，包含两个元素：第一个是二值化后的表达矩阵；第二个是每个转录因子二值化的阈值</span>
+</span></span><span style="display:flex;"><span>auc_binary[<span style="color:#ff0;font-weight:bold">0</span>]
+</span></span><span style="display:flex;"><span>auc_binary[<span style="color:#ff0;font-weight:bold">1</span>]
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p><strong>Note</strong> :</p>
+<p>（1）输入单细胞表达矩阵也支持loom格式；输出结果中也支持不同类型的数据格式，具体可参看命令帮助文档 。</p>
+<p>（2）官方手册中也提供了多种不同使用方法，例如在python中的分析流程；docker环境中的使用方法。</p></blockquote>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/scrna-seq/">ScRNA-Seq</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/en/posts/program/010python-dunder%E5%8F%8C%E4%B8%8B%E5%88%92%E7%BA%BF%E7%89%B9%E6%AE%8A%E6%96%B9%E6%B3%95/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>Python-Dunder双下划线特殊方法</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/en/posts/program/011python-%E8%A3%85%E9%A5%B0%E5%99%A8decorator/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>Python-装饰器Decorator</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

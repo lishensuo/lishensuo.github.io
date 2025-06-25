@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>obabel化学小分子格式转换 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="化合物">
+<meta name="description" content="
+conda 安装
+
+
+
+1
+2
+3
+4
+
+
+conda install -c conda-forge openbabel
+
+obabel
+# Open Babel 3.1.0 -- Nov  2 2021 -- 08:43:45
+
+
+
+查看支持的格式
+
+
+
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+
+
+obabel -L
+# charges
+# descriptors
+# fingerprints
+# forcefields
+# formats
+# loaders
+# ops
+
+obabel -L formats | head
+# acesin -- ACES input format [Write-only]
+# acesout -- ACES output format [Read-only]
+# acr -- ACR format [Read-only]
+# adf -- ADF cartesian input format [Write-only]
+# adfband -- ADF Band output format [Read-only]
+# adfdftb -- ADF DFTB output format [Read-only]
+# adfout -- ADF output format [Read-only]
+# alc -- Alchemy format
+# aoforce -- Turbomole AOFORCE output format [Read-only]
+
+
+
+
+格式转换">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/bioinfo/500obabel%E5%8C%96%E5%AD%A6%E5%B0%8F%E5%88%86%E5%AD%90%E6%A0%BC%E5%BC%8F%E8%BD%AC%E6%8D%A2/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/bioinfo/500obabel%E5%8C%96%E5%AD%A6%E5%B0%8F%E5%88%86%E5%AD%90%E6%A0%BC%E5%BC%8F%E8%BD%AC%E6%8D%A2/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="obabel化学小分子格式转换" />
+<meta property="og:description" content="
+conda 安装
+
+
+
+1
+2
+3
+4
+
+
+conda install -c conda-forge openbabel
+
+obabel
+# Open Babel 3.1.0 -- Nov  2 2021 -- 08:43:45
+
+
+
+查看支持的格式
+
+
+
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+
+
+obabel -L
+# charges
+# descriptors
+# fingerprints
+# forcefields
+# formats
+# loaders
+# ops
+
+obabel -L formats | head
+# acesin -- ACES input format [Write-only]
+# acesout -- ACES output format [Read-only]
+# acr -- ACR format [Read-only]
+# adf -- ADF cartesian input format [Write-only]
+# adfband -- ADF Band output format [Read-only]
+# adfdftb -- ADF DFTB output format [Read-only]
+# adfout -- ADF output format [Read-only]
+# alc -- Alchemy format
+# aoforce -- Turbomole AOFORCE output format [Read-only]
+
+
+
+
+格式转换" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/bioinfo/500obabel%E5%8C%96%E5%AD%A6%E5%B0%8F%E5%88%86%E5%AD%90%E6%A0%BC%E5%BC%8F%E8%BD%AC%E6%8D%A2/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-04-16T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2022-04-16T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="obabel化学小分子格式转换"/>
+<meta name="twitter:description" content="
+conda 安装
+
+
+
+1
+2
+3
+4
+
+
+conda install -c conda-forge openbabel
+
+obabel
+# Open Babel 3.1.0 -- Nov  2 2021 -- 08:43:45
+
+
+
+查看支持的格式
+
+
+
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+
+
+obabel -L
+# charges
+# descriptors
+# fingerprints
+# forcefields
+# formats
+# loaders
+# ops
+
+obabel -L formats | head
+# acesin -- ACES input format [Write-only]
+# acesout -- ACES output format [Read-only]
+# acr -- ACR format [Read-only]
+# adf -- ADF cartesian input format [Write-only]
+# adfband -- ADF Band output format [Read-only]
+# adfdftb -- ADF DFTB output format [Read-only]
+# adfout -- ADF output format [Read-only]
+# alc -- Alchemy format
+# aoforce -- Turbomole AOFORCE output format [Read-only]
+
+
+
+
+格式转换"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 生信数据分析--分析流程，工具包等",
+      "item": "https://lishensuo.github.io/en/posts/bioinfo/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "obabel化学小分子格式转换",
+      "item": "https://lishensuo.github.io/en/posts/bioinfo/500obabel%E5%8C%96%E5%AD%A6%E5%B0%8F%E5%88%86%E5%AD%90%E6%A0%BC%E5%BC%8F%E8%BD%AC%E6%8D%A2/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "obabel化学小分子格式转换",
+  "name": "obabel化学小分子格式转换",
+  "description": " conda 安装 1 2 3 4 conda install -c conda-forge openbabel obabel # Open Babel 3.1.0 -- Nov 2 2021 -- 08:43:45 查看支持的格式 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 obabel -L # charges # descriptors # fingerprints # forcefields # formats # loaders # ops obabel -L formats | head # acesin -- ACES input format [Write-only] # acesout -- ACES output format [Read-only] # acr -- ACR format [Read-only] # adf -- ADF cartesian input format [Write-only] # adfband -- ADF Band output format [Read-only] # adfdftb -- ADF DFTB output format [Read-only] # adfout -- ADF output format [Read-only] # alc -- Alchemy format # aoforce -- Turbomole AOFORCE output format [Read-only] 格式转换\n",
+  "keywords": [
+    "化合物"
+  ],
+  "articleBody": " conda 安装 1 2 3 4 conda install -c conda-forge openbabel obabel # Open Babel 3.1.0 -- Nov 2 2021 -- 08:43:45 查看支持的格式 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 obabel -L # charges # descriptors # fingerprints # forcefields # formats # loaders # ops obabel -L formats | head # acesin -- ACES input format [Write-only] # acesout -- ACES output format [Read-only] # acr -- ACR format [Read-only] # adf -- ADF cartesian input format [Write-only] # adfband -- ADF Band output format [Read-only] # adfdftb -- ADF DFTB output format [Read-only] # adfout -- ADF output format [Read-only] # alc -- Alchemy format # aoforce -- Turbomole AOFORCE output format [Read-only] 格式转换\n例如将mol2转为pdbqt格式\n1 2 3 4 5 6 7 8 ls *mol2 # MOL000006.mol2 MOL000098.mol2 #单个文件格式转换 obabel -imol2 MOL000006.mol2 -opdbqt -O MOL000006.pdbqt #批量转换 ls *mol2 | while read id; do obabel -imol2 $id -opdbqt -O ${id%.*}.pdbqt; done obabel -L formats: All supported format\nabinit – ABINIT Output Format [Read-only] acesin – ACES input format [Write-only] acesout – ACES output format [Read-only] acr – ACR format [Read-only] adf – ADF cartesian input format [Write-only] adfband – ADF Band output format [Read-only] adfdftb – ADF DFTB output format [Read-only] adfout – ADF output format [Read-only] alc – Alchemy format aoforce – Turbomole AOFORCE output format [Read-only] arc – Accelrys/MSI Biosym/Insight II CAR format [Read-only] ascii – ASCII format [Write-only] axsf – XCrySDen Structure Format [Read-only] bgf – MSI BGF format box – Dock 3.5 Box format bs – Ball and Stick format c09out – Crystal 09 output format [Read-only] c3d1 – Chem3D Cartesian 1 format c3d2 – Chem3D Cartesian 2 format cac – CAChe MolStruct format [Write-only] caccrt – Cacao Cartesian format cache – CAChe MolStruct format [Write-only] cacint – Cacao Internal format [Write-only] can – Canonical SMILES format car – Accelrys/MSI Biosym/Insight II CAR format [Read-only] castep – CASTEP format [Read-only] ccc – CCC format [Read-only] cdjson – ChemDoodle JSON cdx – ChemDraw binary format [Read-only] cdxml – ChemDraw CDXML format cht – Chemtool format [Write-only] cif – Crystallographic Information File ck – ChemKin format cml – Chemical Markup Language cmlr – CML Reaction format cof – Culgi object file format com – Gaussian Input [Write-only] confabreport – Confab report format [Write-only] CONFIG – DL-POLY CONFIG CONTCAR – VASP format CONTFF – MDFF format copy – Copy raw text [Write-only] crk2d – Chemical Resource Kit diagram(2D) crk3d – Chemical Resource Kit 3D format csr – Accelrys/MSI Quanta CSR format [Write-only] cssr – CSD CSSR format [Write-only] ct – ChemDraw Connection Table format cub – Gaussian cube format cube – Gaussian cube format dallog – DALTON output format [Read-only] dalmol – DALTON input format dat – Generic Output file format [Read-only] dmol – DMol3 coordinates format dx – OpenDX cube format for APBS ent – Protein Data Bank format exyz – Extended XYZ cartesian coordinates format fa – FASTA format fasta – FASTA format fch – Gaussian formatted checkpoint file format [Read-only] fchk – Gaussian formatted checkpoint file format [Read-only] fck – Gaussian formatted checkpoint file format [Read-only] feat – Feature format fh – Fenske-Hall Z-Matrix format [Write-only] fhiaims – FHIaims XYZ format fix – SMILES FIX format [Write-only] fps – FPS text fingerprint format (Dalke) [Write-only] fpt – Fingerprint format [Write-only] fract – Free Form Fractional format fs – Fastsearch format fsa – FASTA format g03 – Gaussian Output [Read-only] g09 – Gaussian Output [Read-only] g16 – Gaussian Output [Read-only] g92 – Gaussian Output [Read-only] g94 – Gaussian Output [Read-only] g98 – Gaussian Output [Read-only] gal – Gaussian Output [Read-only] gam – GAMESS Output [Read-only] gamess – GAMESS Output [Read-only] gamin – GAMESS Input gamout – GAMESS Output [Read-only] gau – Gaussian Input [Write-only] gjc – Gaussian Input [Write-only] gjf – Gaussian Input [Write-only] got – GULP format [Read-only] gpr – Ghemical format gr96 – GROMOS96 format [Write-only] gro – GRO format gukin – GAMESS-UK Input gukout – GAMESS-UK Output gzmat – Gaussian Z-Matrix Input hin – HyperChem HIN format HISTORY – DL-POLY HISTORY [Read-only] inchi – InChI format inchikey – InChIKey [Write-only] inp – GAMESS Input ins – ShelX format [Read-only] jin – Jaguar input format jout – Jaguar output format [Read-only] k – Compare molecules using InChI [Write-only] lmpdat – The LAMMPS data format [Write-only] log – Generic Output file format [Read-only] lpmd – LPMD format mcdl – MCDL format mcif – Macromolecular Crystallographic Info MDFF – MDFF format mdl – MDL MOL format ml2 – Sybyl Mol2 format mmcif – Macromolecular Crystallographic Info mmd – MacroModel format mmod – MacroModel format mna – Multilevel Neighborhoods of Atoms (MNA) [Write-only] mol – MDL MOL format mol2 – Sybyl Mol2 format mold – Molden format molden – Molden format molf – Molden format molreport – Open Babel molecule report [Write-only] moo – MOPAC Output format [Read-only] mop – MOPAC Cartesian format mopcrt – MOPAC Cartesian format mopin – MOPAC Internal mopout – MOPAC Output format [Read-only] mp – Molpro input format [Write-only] mpc – MOPAC Cartesian format mpd – MolPrint2D format [Write-only] mpo – Molpro output format [Read-only] mpqc – MPQC output format [Read-only] mpqcin – MPQC simplified input format [Write-only] mrv – Chemical Markup Language msi – Accelrys/MSI Cerius II MSI format [Read-only] msms – M.F. Sanner’s MSMS input format [Write-only] nul – Outputs nothing [Write-only] nw – NWChem input format [Write-only] nwo – NWChem output format [Read-only] orca – ORCA output format [Read-only] orcainp – ORCA input format [Write-only] out – Generic Output file format [Read-only] outmol – DMol3 coordinates format output – Generic Output file format [Read-only] paint – Painter format [Write-only] pc – PubChem format [Read-only] pcjson – PubChem JSON pcm – PCModel Format pdb – Protein Data Bank format pdbqt – AutoDock PDBQT format png – PNG 2D depiction pointcloud – Point cloud on VDW surface [Write-only] pos – POS cartesian coordinates format [Read-only] POSCAR – VASP format POSFF – MDFF format pov – POV-Ray input format [Write-only] pqr – PQR format pqs – Parallel Quantum Solutions format prep – Amber Prep format [Read-only] pwscf – PWscf format [Read-only] qcin – Q-Chem input format [Write-only] qcout – Q-Chem output format [Read-only] report – Open Babel report format [Write-only] res – ShelX format [Read-only] rinchi – RInChI [Write-only] rsmi – Reaction SMILES format rxn – MDL RXN format sd – MDL MOL format sdf – MDL MOL format siesta – SIESTA format [Read-only] smi – SMILES format smiles – SMILES format smy – SMILES format using Smiley parser [Read-only] stl – STL 3D-printing format [Write-only] svg – SVG 2D depiction [Write-only] sy2 – Sybyl Mol2 format t41 – ADF TAPE41 format [Read-only] tdd – Thermo format text – Read and write raw text therm – Thermo format tmol – TurboMole Coordinate format txt – Title format txyz – Tinker XYZ format unixyz – UniChem XYZ format VASP – VASP format vmol – ViewMol format wln – Wiswesser Line Notation [Read-only] xed – XED format [Write-only] xml – General XML format [Read-only] xsf – XCrySDen Structure Format [Read-only] xtc – XTC format [Read-only] xyz – XYZ cartesian coordinates format yob – YASARA.org YOB format zin – ZINDO input format [Write-only]\nobabel -L fingerprints\nECFP0 Extended-Connectivity Fingerprints (ECFPs) ECFP10 Extended-Connectivity Fingerprints (ECFPs) ECFP2 Extended-Connectivity Fingerprints (ECFPs) ECFP4 Extended-Connectivity Fingerprints (ECFPs) ECFP6 Extended-Connectivity Fingerprints (ECFPs) ECFP8 Extended-Connectivity Fingerprints (ECFPs) FP2 Indexes linear fragments up to 7 atoms. FP3 SMARTS patterns specified in the file patterns.txt FP4 SMARTS patterns specified in the file SMARTS_InteLigand.txt MACCS SMARTS patterns specified in the file MACCS.txt\n",
+  "wordCount" : "1296",
+  "inLanguage": "en",
+  "datePublished": "2022-04-16T00:00:00Z",
+  "dateModified": "2022-04-16T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/bioinfo/500obabel%E5%8C%96%E5%AD%A6%E5%B0%8F%E5%88%86%E5%AD%90%E6%A0%BC%E5%BC%8F%E8%BD%AC%E6%8D%A2/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/bioinfo/">📖 生信数据分析--分析流程，工具包等</a></div>
+    <h1 class="post-title">
+      obabel化学小分子格式转换
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-16 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-16&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-04-16&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1296&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> 
+
+
+  <div class="post-content"><ul>
+<li>conda 安装</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>conda install -c conda-forge openbabel
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>obabel
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Open Babel 3.1.0 -- Nov  2 2021 -- 08:43:45</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>查看支持的格式</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>obabel -L
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># charges</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># descriptors</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># fingerprints</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># forcefields</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># formats</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># loaders</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># ops</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>obabel -L formats | head
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># acesin -- ACES input format [Write-only]</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># acesout -- ACES output format [Read-only]</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># acr -- ACR format [Read-only]</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># adf -- ADF cartesian input format [Write-only]</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># adfband -- ADF Band output format [Read-only]</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># adfdftb -- ADF DFTB output format [Read-only]</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># adfout -- ADF output format [Read-only]</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># alc -- Alchemy format</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># aoforce -- Turbomole AOFORCE output format [Read-only]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>
+<p>格式转换</p>
+<p>例如将mol2转为pdbqt格式</p>
+</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>ls *mol2
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># MOL000006.mol2 MOL000098.mol2</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#单个文件格式转换</span>
+</span></span><span style="display:flex;"><span>obabel -imol2 MOL000006.mol2 -opdbqt -O MOL000006.pdbqt
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#批量转换</span>
+</span></span><span style="display:flex;"><span>ls *mol2 | <span style="color:#fff;font-weight:bold">while</span> <span style="color:#fff;font-weight:bold">read</span> id; <span style="color:#fff;font-weight:bold">do</span> obabel -imol2 $id -opdbqt -O <span style="color:#0ff;font-weight:bold">${</span>id%.*<span style="color:#0ff;font-weight:bold">}</span>.pdbqt; <span style="color:#fff;font-weight:bold">done</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p><code>obabel -L formats</code>: <strong>All supported format</strong></p>
+<p>abinit &ndash; ABINIT Output Format [Read-only]
+acesin &ndash; ACES input format [Write-only]
+acesout &ndash; ACES output format [Read-only]
+acr &ndash; ACR format [Read-only]
+adf &ndash; ADF cartesian input format [Write-only]
+adfband &ndash; ADF Band output format [Read-only]
+adfdftb &ndash; ADF DFTB output format [Read-only]
+adfout &ndash; ADF output format [Read-only]
+alc &ndash; Alchemy format
+aoforce &ndash; Turbomole AOFORCE output format [Read-only]
+arc &ndash; Accelrys/MSI Biosym/Insight II CAR format [Read-only]
+ascii &ndash; ASCII format [Write-only]
+axsf &ndash; XCrySDen Structure Format [Read-only]
+bgf &ndash; MSI BGF format
+box &ndash; Dock 3.5 Box format
+bs &ndash; Ball and Stick format
+c09out &ndash; Crystal 09 output format [Read-only]
+c3d1 &ndash; Chem3D Cartesian 1 format
+c3d2 &ndash; Chem3D Cartesian 2 format
+cac &ndash; CAChe MolStruct format [Write-only]
+caccrt &ndash; Cacao Cartesian format
+cache &ndash; CAChe MolStruct format [Write-only]
+cacint &ndash; Cacao Internal format [Write-only]
+can &ndash; Canonical SMILES format
+car &ndash; Accelrys/MSI Biosym/Insight II CAR format [Read-only]
+castep &ndash; CASTEP format [Read-only]
+ccc &ndash; CCC format [Read-only]
+cdjson &ndash; ChemDoodle JSON
+cdx &ndash; ChemDraw binary format [Read-only]
+cdxml &ndash; ChemDraw CDXML format
+cht &ndash; Chemtool format [Write-only]
+cif &ndash; Crystallographic Information File
+ck &ndash; ChemKin format
+cml &ndash; Chemical Markup Language
+cmlr &ndash; CML Reaction format
+cof &ndash; Culgi object file format
+com &ndash; Gaussian Input [Write-only]
+confabreport &ndash; Confab report format [Write-only]
+CONFIG &ndash; DL-POLY CONFIG
+CONTCAR &ndash; VASP format
+CONTFF &ndash; MDFF format
+copy &ndash; Copy raw text [Write-only]
+crk2d &ndash; Chemical Resource Kit diagram(2D)
+crk3d &ndash; Chemical Resource Kit 3D format
+csr &ndash; Accelrys/MSI Quanta CSR format [Write-only]
+cssr &ndash; CSD CSSR format [Write-only]
+ct &ndash; ChemDraw Connection Table format
+cub &ndash; Gaussian cube format
+cube &ndash; Gaussian cube format
+dallog &ndash; DALTON output format [Read-only]
+dalmol &ndash; DALTON input format
+dat &ndash; Generic Output file format [Read-only]
+dmol &ndash; DMol3 coordinates format
+dx &ndash; OpenDX cube format for APBS
+ent &ndash; Protein Data Bank format
+exyz &ndash; Extended XYZ cartesian coordinates format
+fa &ndash; FASTA format
+fasta &ndash; FASTA format
+fch &ndash; Gaussian formatted checkpoint file format [Read-only]
+fchk &ndash; Gaussian formatted checkpoint file format [Read-only]
+fck &ndash; Gaussian formatted checkpoint file format [Read-only]
+feat &ndash; Feature format
+fh &ndash; Fenske-Hall Z-Matrix format [Write-only]
+fhiaims &ndash; FHIaims XYZ format
+fix &ndash; SMILES FIX format [Write-only]
+fps &ndash; FPS text fingerprint format (Dalke) [Write-only]
+fpt &ndash; Fingerprint format [Write-only]
+fract &ndash; Free Form Fractional format
+fs &ndash; Fastsearch format
+fsa &ndash; FASTA format
+g03 &ndash; Gaussian Output [Read-only]
+g09 &ndash; Gaussian Output [Read-only]
+g16 &ndash; Gaussian Output [Read-only]
+g92 &ndash; Gaussian Output [Read-only]
+g94 &ndash; Gaussian Output [Read-only]
+g98 &ndash; Gaussian Output [Read-only]
+gal &ndash; Gaussian Output [Read-only]
+gam &ndash; GAMESS Output [Read-only]
+gamess &ndash; GAMESS Output [Read-only]
+gamin &ndash; GAMESS Input
+gamout &ndash; GAMESS Output [Read-only]
+gau &ndash; Gaussian Input [Write-only]
+gjc &ndash; Gaussian Input [Write-only]
+gjf &ndash; Gaussian Input [Write-only]
+got &ndash; GULP format [Read-only]
+gpr &ndash; Ghemical format
+gr96 &ndash; GROMOS96 format [Write-only]
+gro &ndash; GRO format
+gukin &ndash; GAMESS-UK Input
+gukout &ndash; GAMESS-UK Output
+gzmat &ndash; Gaussian Z-Matrix Input
+hin &ndash; HyperChem HIN format
+HISTORY &ndash; DL-POLY HISTORY [Read-only]
+inchi &ndash; InChI format
+inchikey &ndash; InChIKey [Write-only]
+inp &ndash; GAMESS Input
+ins &ndash; ShelX format [Read-only]
+jin &ndash; Jaguar input format
+jout &ndash; Jaguar output format [Read-only]
+k &ndash; Compare molecules using InChI [Write-only]
+lmpdat &ndash; The LAMMPS data format [Write-only]
+log &ndash; Generic Output file format [Read-only]
+lpmd &ndash; LPMD format
+mcdl &ndash; MCDL format
+mcif &ndash; Macromolecular Crystallographic Info
+MDFF &ndash; MDFF format
+mdl &ndash; MDL MOL format
+ml2 &ndash; Sybyl Mol2 format
+mmcif &ndash; Macromolecular Crystallographic Info
+mmd &ndash; MacroModel format
+mmod &ndash; MacroModel format
+mna &ndash; Multilevel Neighborhoods of Atoms (MNA) [Write-only]
+mol &ndash; MDL MOL format
+mol2 &ndash; Sybyl Mol2 format
+mold &ndash; Molden format
+molden &ndash; Molden format
+molf &ndash; Molden format
+molreport &ndash; Open Babel molecule report [Write-only]
+moo &ndash; MOPAC Output format [Read-only]
+mop &ndash; MOPAC Cartesian format
+mopcrt &ndash; MOPAC Cartesian format
+mopin &ndash; MOPAC Internal
+mopout &ndash; MOPAC Output format [Read-only]
+mp &ndash; Molpro input format [Write-only]
+mpc &ndash; MOPAC Cartesian format
+mpd &ndash; MolPrint2D format [Write-only]
+mpo &ndash; Molpro output format [Read-only]
+mpqc &ndash; MPQC output format [Read-only]
+mpqcin &ndash; MPQC simplified input format [Write-only]
+mrv &ndash; Chemical Markup Language
+msi &ndash; Accelrys/MSI Cerius II MSI format [Read-only]
+msms &ndash; M.F. Sanner&rsquo;s MSMS input format [Write-only]
+nul &ndash; Outputs nothing [Write-only]
+nw &ndash; NWChem input format [Write-only]
+nwo &ndash; NWChem output format [Read-only]
+orca &ndash; ORCA output format [Read-only]
+orcainp &ndash; ORCA input format [Write-only]
+out &ndash; Generic Output file format [Read-only]
+outmol &ndash; DMol3 coordinates format
+output &ndash; Generic Output file format [Read-only]
+paint &ndash; Painter format [Write-only]
+pc &ndash; PubChem format [Read-only]
+pcjson &ndash; PubChem JSON
+pcm &ndash; PCModel Format
+pdb &ndash; Protein Data Bank format
+pdbqt &ndash; AutoDock PDBQT format
+png &ndash; PNG 2D depiction
+pointcloud &ndash; Point cloud on VDW surface [Write-only]
+pos &ndash; POS cartesian coordinates format [Read-only]
+POSCAR &ndash; VASP format
+POSFF &ndash; MDFF format
+pov &ndash; POV-Ray input format [Write-only]
+pqr &ndash; PQR format
+pqs &ndash; Parallel Quantum Solutions format
+prep &ndash; Amber Prep format [Read-only]
+pwscf &ndash; PWscf format [Read-only]
+qcin &ndash; Q-Chem input format [Write-only]
+qcout &ndash; Q-Chem output format [Read-only]
+report &ndash; Open Babel report format [Write-only]
+res &ndash; ShelX format [Read-only]
+rinchi &ndash; RInChI [Write-only]
+rsmi &ndash; Reaction SMILES format
+rxn &ndash; MDL RXN format
+sd &ndash; MDL MOL format
+sdf &ndash; MDL MOL format
+siesta &ndash; SIESTA format [Read-only]
+smi &ndash; SMILES format
+smiles &ndash; SMILES format
+smy &ndash; SMILES format using Smiley parser [Read-only]
+stl &ndash; STL 3D-printing format [Write-only]
+svg &ndash; SVG 2D depiction [Write-only]
+sy2 &ndash; Sybyl Mol2 format
+t41 &ndash; ADF TAPE41 format [Read-only]
+tdd &ndash; Thermo format
+text &ndash; Read and write raw text
+therm &ndash; Thermo format
+tmol &ndash; TurboMole Coordinate format
+txt &ndash; Title format
+txyz &ndash; Tinker XYZ format
+unixyz &ndash; UniChem XYZ format
+VASP &ndash; VASP format
+vmol &ndash; ViewMol format
+wln &ndash; Wiswesser Line Notation [Read-only]
+xed &ndash; XED format [Write-only]
+xml &ndash; General XML format [Read-only]
+xsf &ndash; XCrySDen Structure Format [Read-only]
+xtc &ndash; XTC format [Read-only]
+xyz &ndash; XYZ cartesian coordinates format
+yob &ndash; YASARA.org YOB format
+zin &ndash; ZINDO input format [Write-only]</p></blockquote>
+<blockquote>
+<p><code>obabel -L fingerprints</code></p>
+<p>ECFP0    Extended-Connectivity Fingerprints (ECFPs)
+ECFP10    Extended-Connectivity Fingerprints (ECFPs)
+ECFP2    Extended-Connectivity Fingerprints (ECFPs)
+ECFP4    Extended-Connectivity Fingerprints (ECFPs)
+ECFP6    Extended-Connectivity Fingerprints (ECFPs)
+ECFP8    Extended-Connectivity Fingerprints (ECFPs)
+FP2    Indexes linear fragments up to 7 atoms.
+FP3    SMARTS patterns specified in the file patterns.txt
+FP4    SMARTS patterns specified in the file SMARTS_InteLigand.txt
+MACCS    SMARTS patterns specified in the file MACCS.txt</p></blockquote>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/%E5%8C%96%E5%90%88%E7%89%A9/">化合物</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/en/posts/program/500window%E7%B3%BB%E7%BB%9F%E5%BF%AB%E9%80%9F%E5%AE%89%E8%A3%85ubuntu%E5%AD%90%E7%B3%BB%E7%BB%9F/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>window系统快速安装ubuntu子系统</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/en/posts/bioinfo/501%E5%8C%96%E5%90%88%E7%89%A9%E6%8C%87%E7%BA%B9%E4%B8%8E%E6%8F%8F%E8%BF%B0%E7%AC%A6%E7%94%9F%E6%88%90%E7%B3%BB%E5%88%97%E5%B7%A5%E5%85%B7/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>化合物指纹与描述符生成系列工具</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

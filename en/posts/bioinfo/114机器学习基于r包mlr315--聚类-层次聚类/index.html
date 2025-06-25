@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>机器学习基于R包mlr3(15)--聚类-层次聚类 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="机器学习, mlr3">
+<meta name="description" content="1、层次聚类简介
+1.1 计算步骤
+层次聚类hierarchical clustering常用的是自下而上的聚合法(Agglomerative)。与之相对的是自顶而下的分裂法(Division)。">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/bioinfo/114%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr315--%E8%81%9A%E7%B1%BB-%E5%B1%82%E6%AC%A1%E8%81%9A%E7%B1%BB/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/bioinfo/114%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr315--%E8%81%9A%E7%B1%BB-%E5%B1%82%E6%AC%A1%E8%81%9A%E7%B1%BB/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="机器学习基于R包mlr3(15)--聚类-层次聚类" />
+<meta property="og:description" content="1、层次聚类简介
+1.1 计算步骤
+层次聚类hierarchical clustering常用的是自下而上的聚合法(Agglomerative)。与之相对的是自顶而下的分裂法(Division)。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/bioinfo/114%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr315--%E8%81%9A%E7%B1%BB-%E5%B1%82%E6%AC%A1%E8%81%9A%E7%B1%BB/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-06-18T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2022-06-18T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="机器学习基于R包mlr3(15)--聚类-层次聚类"/>
+<meta name="twitter:description" content="1、层次聚类简介
+1.1 计算步骤
+层次聚类hierarchical clustering常用的是自下而上的聚合法(Agglomerative)。与之相对的是自顶而下的分裂法(Division)。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 生信数据分析--分析流程，工具包等",
+      "item": "https://lishensuo.github.io/en/posts/bioinfo/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "机器学习基于R包mlr3(15)--聚类-层次聚类",
+      "item": "https://lishensuo.github.io/en/posts/bioinfo/114%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr315--%E8%81%9A%E7%B1%BB-%E5%B1%82%E6%AC%A1%E8%81%9A%E7%B1%BB/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "机器学习基于R包mlr3(15)--聚类-层次聚类",
+  "name": "机器学习基于R包mlr3(15)--聚类-层次聚类",
+  "description": "1、层次聚类简介 1.1 计算步骤 层次聚类hierarchical clustering常用的是自下而上的聚合法(Agglomerative)。与之相对的是自顶而下的分裂法(Division)。\n",
+  "keywords": [
+    "机器学习", "mlr3"
+  ],
+  "articleBody": "1、层次聚类简介 1.1 计算步骤 层次聚类hierarchical clustering常用的是自下而上的聚合法(Agglomerative)。与之相对的是自顶而下的分裂法(Division)。\n以聚合法为例：最初将数据集中每个单独样本视为一个聚类\n（1）计算所有聚类两两之间的距离，通常为欧几里得距离。\n（2）将最相似(距离最近)的两个聚类合并成一个聚类。\n（3）重复上述步骤1、2，直至所有的所有样本都位于单个聚类中。\n1.2 聚类距离 计算聚类之间的距离，有如下方式可供选择\n质心链接：两聚类质心之间的距离； 单链接：两聚类最近样本之间的距离； 全链接：两聚类最远样本之间的距离； 均链接：两聚类所有样本之间距离的平均值； Ward方法： 首先计算每个聚类的类内距离平方和（类内方差） 然后对于所有聚类两两组合中，类内方差增加最少的组合方式。 1.3 树状图切割聚类 对于层次聚类的结果通常以树状图(dendrogram)的方式展示。如下左图表示原始样本的分布情况；右图表示层次聚类的结果\n水平线表示相应的两个聚类被合并在一起，而这两个聚类之间的距离对应水平线的高度。 层次聚类的优势在于保留了样本之间的层次结构，即样本与哪些样本更相似性，而又与哪些样本的关系比较远。\n如下示例，从层次聚类结果来看，样本C更接近DEF，与AB较远 基于层次聚类结果，确定样本聚类的划定方式就是在树状图使用水平线切割，有如下两种思路\n给定指定的距离进行切割； 给定指定的聚类数进行切割。 如上的聚类确定方式需要对数据集有预期的把握。如不确定，可比较不同的聚类结果的性能(上一节K均值算法中提到的聚类性能评价指标)，选择最优的聚类结果。\n2、代码实操 (1) 原始数据归一化 1 2 3 4 5 6 7 8 9 10 11 data(GvHD, package = \"mclust\") gvhdTib \u003c- GvHD.control # CD4 CD8b CD3 CD8 # 1 199 420 132 226 # 2 294 311 241 164 # 3 85 79 14 218 gvhdScaled \u003c- gvhdTib %\u003e% scale() # CD4 CD8b CD3 CD8 # 1 -0.4373389 0.8752503 -0.2166459 0.1832758 # 2 0.2595066 0.1289858 0.5752226 -0.3543201 # 3 -1.2735535 -1.4593936 -1.0738981 0.1139086 (2) 计算样本两两间距离 1 2 3 4 5 gvhdDist \u003c- dist(gvhdScaled, method = \"euclidean\") dim(gvhdDist) # [1] 6809 6809 # dist_mt = as.matrix(gvhdDist) # dist_mt[1:4,1:4] (3) 层次聚类 1 2 3 4 gvhdHclust \u003c- hclust(gvhdDist, method = \"ward.D2\") #可视化 plot(as.dendrogram(gvhdHclust), leaflab = \"none\") (4) 确定聚类 1 2 3 4 5 6 7 8 gvhdCut \u003c- cutree(gvhdHclust, k = 4) #也可使用 h= 参数指定切割的高度 gvhdTib \u003c- mutate(gvhdTib, gvhdCut = as.factor(gvhdCut)) head(gvhdTib) table(gvhdTib$gvhdCut) # 1 2 3 4 # 4235 1339 580 655 rect.hclust(gvhdHclust, k = 4) ",
+  "wordCount" : "872",
+  "inLanguage": "en",
+  "datePublished": "2022-06-18T00:00:00Z",
+  "dateModified": "2022-06-18T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/bioinfo/114%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr315--%E8%81%9A%E7%B1%BB-%E5%B1%82%E6%AC%A1%E8%81%9A%E7%B1%BB/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/bioinfo/">📖 生信数据分析--分析流程，工具包等</a></div>
+    <h1 class="post-title">
+      机器学习基于R包mlr3(15)--聚类-层次聚类
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-06-18 00:00:00 &#43;0000 UTC&#39;&gt;2022-06-18&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-06-18&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;872&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#1%e5%b1%82%e6%ac%a1%e8%81%9a%e7%b1%bb%e7%ae%80%e4%bb%8b" aria-label="1、层次聚类简介">1、层次聚类简介</a><ul>
+                            
+                    <li>
+                        <a href="#11-%e8%ae%a1%e7%ae%97%e6%ad%a5%e9%aa%a4" aria-label="1.1 计算步骤">1.1 计算步骤</a></li>
+                    <li>
+                        <a href="#12-%e8%81%9a%e7%b1%bb%e8%b7%9d%e7%a6%bb" aria-label="1.2 聚类距离">1.2 聚类距离</a></li>
+                    <li>
+                        <a href="#13-%e6%a0%91%e7%8a%b6%e5%9b%be%e5%88%87%e5%89%b2%e8%81%9a%e7%b1%bb" aria-label="1.3 树状图切割聚类">1.3 树状图切割聚类</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#2%e4%bb%a3%e7%a0%81%e5%ae%9e%e6%93%8d" aria-label="2、代码实操">2、代码实操</a>
+                    </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><h1 id="1层次聚类简介">1、层次聚类简介<a hidden class="anchor" aria-hidden="true" href="#1层次聚类简介">#</a></h1>
+<h2 id="11-计算步骤">1.1 计算步骤<a hidden class="anchor" aria-hidden="true" href="#11-计算步骤">#</a></h2>
+<p>层次聚类hierarchical clustering常用的是自下而上的聚合法(Agglomerative)。与之相对的是自顶而下的分裂法(Division)。</p>
+<img src="https://starship-knowledge.com/wp-content/uploads/2020/11/hca_agglo_divi_dataset-1-1024x724.jpeg" alt="What does HCA stand for?  The figure compares the agglomerative and divisive calculation." style="zoom: 50%;" />
+<p>以聚合法为例：最初将数据集中每个单独样本视为一个聚类</p>
+<p>（1）计算所有聚类两两之间的距离，通常为欧几里得距离。</p>
+<p>（2）将最相似(距离最近)的两个聚类合并成一个聚类。</p>
+<p>（3）重复上述步骤1、2，直至所有的所有样本都位于单个聚类中。</p>
+<h2 id="12-聚类距离">1.2 聚类距离<a hidden class="anchor" aria-hidden="true" href="#12-聚类距离">#</a></h2>
+<p>计算聚类之间的距离，有如下方式可供选择</p>
+<ul>
+<li>质心链接：两聚类质心之间的距离；</li>
+<li>单链接：两聚类最近样本之间的距离；</li>
+<li>全链接：两聚类最远样本之间的距离；</li>
+<li>均链接：两聚类所有样本之间距离的平均值；</li>
+<li>Ward方法：
+<ul>
+<li>首先计算每个聚类的类内距离平方和（类内方差）</li>
+<li>然后对于所有聚类两两组合中，类内方差增加最少的组合方式。</li>
+</ul>
+</li>
+</ul>
+<img src="https://drek4537l1klr.cloudfront.net/rhys/Figures/fig17-3_alt.jpg" alt="Chapter 17. Hierarchical clustering - Machine Learning with R, the  tidyverse, and mlr" style="zoom: 67%;" />
+<h2 id="13-树状图切割聚类">1.3 树状图切割聚类<a hidden class="anchor" aria-hidden="true" href="#13-树状图切割聚类">#</a></h2>
+<p>对于层次聚类的结果通常以树状图(dendrogram)的方式展示。如下左图表示原始样本的分布情况；右图表示层次聚类的结果</p>
+<ul>
+<li>水平线表示相应的两个聚类被合并在一起，而这两个聚类之间的距离对应水平线的高度。</li>
+</ul>
+<p>层次聚类的优势在于保留了样本之间的层次结构，即样本与哪些样本更相似性，而又与哪些样本的关系比较远。</p>
+<ul>
+<li>如下示例，从层次聚类结果来看，样本C更接近DEF，与AB较远</li>
+</ul>
+<p>基于层次聚类结果，确定样本聚类的划定方式就是在树状图使用水平线切割，有如下两种思路</p>
+<ul>
+<li>给定指定的距离进行切割；</li>
+<li>给定指定的聚类数进行切割。</li>
+</ul>
+<img src="https://46gyn61z4i0t1u1pnq2bbk2e-wpengine.netdna-ssl.com/wp-content/uploads/2018/03/Screen-Shot-2018-03-28-at-11.48.48-am.png" alt="What is Hierarchical Clustering? | Displayr.com" style="zoom:50%;" />
+<blockquote>
+<p>如上的聚类确定方式需要对数据集有预期的把握。如不确定，可比较不同的聚类结果的性能(上一节K均值算法中提到的聚类性能评价指标)，选择最优的聚类结果。</p></blockquote>
+<h1 id="2代码实操">2、代码实操<a hidden class="anchor" aria-hidden="true" href="#2代码实操">#</a></h1>
+<ul>
+<li>(1) 原始数据归一化</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>data(GvHD, package = <span style="color:#0ff;font-weight:bold">&#34;mclust&#34;</span>)
+</span></span><span style="display:flex;"><span>gvhdTib &lt;- GvHD.control
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   CD4 CD8b CD3 CD8</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1 199  420 132 226</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2 294  311 241 164</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3  85   79  14 218</span>
+</span></span><span style="display:flex;"><span>gvhdScaled &lt;- gvhdTib %&gt;% scale()
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#          CD4       CD8b        CD3        CD8</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1 -0.4373389  0.8752503 -0.2166459  0.1832758</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2  0.2595066  0.1289858  0.5752226 -0.3543201</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3 -1.2735535 -1.4593936 -1.0738981  0.1139086</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>(2)  计算样本两两间距离</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>gvhdDist &lt;- dist(gvhdScaled, method = <span style="color:#0ff;font-weight:bold">&#34;euclidean&#34;</span>)
+</span></span><span style="display:flex;"><span>dim(gvhdDist)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] 6809 6809</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># dist_mt = as.matrix(gvhdDist)</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># dist_mt[1:4,1:4]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>(3) 层次聚类</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>gvhdHclust &lt;- hclust(gvhdDist, method = <span style="color:#0ff;font-weight:bold">&#34;ward.D2&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#可视化</span>
+</span></span><span style="display:flex;"><span>plot(as.dendrogram(gvhdHclust), leaflab = <span style="color:#0ff;font-weight:bold">&#34;none&#34;</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220608223153314.png" alt="image-20220608223153314" style="zoom:50%;" />
+<ul>
+<li>(4) 确定聚类</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>gvhdCut &lt;- cutree(gvhdHclust, k = <span style="color:#ff0;font-weight:bold">4</span>)   <span style="color:#007f7f">#也可使用 h= 参数指定切割的高度</span>
+</span></span><span style="display:flex;"><span>gvhdTib &lt;- mutate(gvhdTib, gvhdCut = as.factor(gvhdCut))
+</span></span><span style="display:flex;"><span>head(gvhdTib)
+</span></span><span style="display:flex;"><span>table(gvhdTib$gvhdCut)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#    1    2    3    4 </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 4235 1339  580  655</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>rect.hclust(gvhdHclust, k = <span style="color:#ff0;font-weight:bold">4</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220608223758441.png" alt="image-20220608223758441"  />
+</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></li>
+      <li><a href="https://lishensuo.github.io/en/tags/mlr3/">Mlr3</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/en/posts/bioinfo/113%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr314--%E8%81%9A%E7%B1%BB-k%E5%9D%87%E5%80%BC/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>机器学习基于R包mlr3(14)--聚类-k均值</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/en/posts/bioinfo/115%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr316--%E8%81%9A%E7%B1%BB-em%E6%B7%B7%E5%90%88%E5%88%86%E5%B8%83/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>机器学习基于R包mlr3(16)--聚类-EM混合分布</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>文献--单细胞组学大模型之CellPLM | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="文献-算法">
+<meta name="description" content="
+标题 CELLPLM: PRE-TRAINING OF CELL LANGUAGE MODEL BEYOND SINGLE CELLS https://openreview.net/forum?id=BKXvPDekud
+发表 ICLR (The International Conference on Learning Representations) 2024
+通讯 Jiliang Tang | Computer science and engineering department | Michigan State University | https://www.cse.msu.edu/~tangjili/
+1. 简介
+（1）scRNA-seq data与natural language的区别">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/basic/204%E6%96%87%E7%8C%AE--%E5%8D%95%E7%BB%86%E8%83%9E%E7%BB%84%E5%AD%A6%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B9%8Bcellplm/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/basic/204%E6%96%87%E7%8C%AE--%E5%8D%95%E7%BB%86%E8%83%9E%E7%BB%84%E5%AD%A6%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B9%8Bcellplm/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="文献--单细胞组学大模型之CellPLM" />
+<meta property="og:description" content="
+标题 CELLPLM: PRE-TRAINING OF CELL LANGUAGE MODEL BEYOND SINGLE CELLS https://openreview.net/forum?id=BKXvPDekud
+发表 ICLR (The International Conference on Learning Representations) 2024
+通讯 Jiliang Tang | Computer science and engineering department | Michigan State University | https://www.cse.msu.edu/~tangjili/
+1. 简介
+（1）scRNA-seq data与natural language的区别" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/basic/204%E6%96%87%E7%8C%AE--%E5%8D%95%E7%BB%86%E8%83%9E%E7%BB%84%E5%AD%A6%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B9%8Bcellplm/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-11-16T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2024-11-16T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="文献--单细胞组学大模型之CellPLM"/>
+<meta name="twitter:description" content="
+标题 CELLPLM: PRE-TRAINING OF CELL LANGUAGE MODEL BEYOND SINGLE CELLS https://openreview.net/forum?id=BKXvPDekud
+发表 ICLR (The International Conference on Learning Representations) 2024
+通讯 Jiliang Tang | Computer science and engineering department | Michigan State University | https://www.cse.msu.edu/~tangjili/
+1. 简介
+（1）scRNA-seq data与natural language的区别"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 科研基础 -- 读文献、看教材",
+      "item": "https://lishensuo.github.io/en/posts/basic/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "文献--单细胞组学大模型之CellPLM",
+      "item": "https://lishensuo.github.io/en/posts/basic/204%E6%96%87%E7%8C%AE--%E5%8D%95%E7%BB%86%E8%83%9E%E7%BB%84%E5%AD%A6%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B9%8Bcellplm/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "文献--单细胞组学大模型之CellPLM",
+  "name": "文献--单细胞组学大模型之CellPLM",
+  "description": " 标题 CELLPLM: PRE-TRAINING OF CELL LANGUAGE MODEL BEYOND SINGLE CELLS https://openreview.net/forum?id=BKXvPDekud\n发表 ICLR (The International Conference on Learning Representations) 2024\n通讯 Jiliang Tang | Computer science and engineering department | Michigan State University | https://www.cse.msu.edu/~tangjili/\n1. 简介 （1）scRNA-seq data与natural language的区别\n",
+  "keywords": [
+    "文献-算法"
+  ],
+  "articleBody": " 标题 CELLPLM: PRE-TRAINING OF CELL LANGUAGE MODEL BEYOND SINGLE CELLS https://openreview.net/forum?id=BKXvPDekud\n发表 ICLR (The International Conference on Learning Representations) 2024\n通讯 Jiliang Tang | Computer science and engineering department | Michigan State University | https://www.cse.msu.edu/~tangjili/\n1. 简介 （1）scRNA-seq data与natural language的区别\nNot sequential → Bag-of-genes (refer to bag-words) Cell-cell communication在细胞状态和发育过程中的重要性 单细胞数据的Quantity与Quality较差 （2）CellPLM模型特点 (single-Cell Pre-trained Language Model)\nCell language model to account for cell-cell relations 预训练过程使用了spatially-resolved transcriptomic (SRT) 空间转录组数据 使用高斯混合分布模型学习细胞的潜在分布空间 To the best of our knowledge, the proposed CellPLM is the first pre-trained transformer framework that encodes inter-cell relations, leverages spatially-resolved transcriptomic data, and adopts a reasonable prior distribution.\n（3）CellPLM模型的核心假设\n对于N个细胞，k个基因的单细胞表达矩阵X ∈ [N, k]\n如下式1，O(i)代表细胞i的 unobserved (masked) genes, U(i) 代表细胞i的 known (unmasked) genes 即细胞i的某一基因表达的条件概率分布(conditional probability distribution)可由同一细胞内其它已知表达的基因推测得到。 Gene tokens → 这在许多现有的单细胞Transformer模型常用（e.g. scBERT, scGPT） 如下式2，M表示unobserved genes from many cells, Mc表示表达矩阵X的补集。 即即预测细胞i的某一基因表达可以同一组织内多个细胞的known genes推测得到 Cell tokens → 这是CellPLM模型的核心假设 2. 预训练 预训练模型分为4个组成部分\n（1）Gene expression embedder (cell level)\n参考词袋模型，将基因信息整合至细胞水平。\n首先对gene token计算初始化的embedding表示 → (gene, embedding)\n然后以细胞的基因表达(cell, gene)分别为系数计算加权和，作为初始化的Cell Expression Embedding (N, d)\n表格矩阵基于Seurat进行了标准的library size normalization and log1p transformation处理。\n一个批次的cells作为一个样本 (N, k)，dataloader一次只迭代一个批次（batch_size = 1）\n（2）Transformer encoder\n首先Transformer的input cell embedding由两部分组成（Cat/Add）。除了上面的Expression Embed，还有Position Embed\n对于SRT数据，position embed由一个FOV (fields of view) 内的细胞二维坐标生成。 对于普通scRNA-seq数据，由于没有相关信息，则通过随机生成进行表示。 然后将上述的合并 Cell embedding输入到Transformer层中\n采用了具有线性复杂度的Flowformer计算注意力。 输出为(N, d) （3）Gaussian mixture latent space\n对注意力编码层的细胞表示(N, d)，使用高斯混合分布模型学习其潜在分布空间 z\n一方面学习得到潜在分布空间(N, z) 另一方面得到的变分重构损失（Latent loss）作为预训练损失的一部分 （4）Batch-aware decoder\n预训练的最终输出是基因表达矩阵(N, k)。在输入到MLP预测前，需要进一步考虑其它因素(Covariates)对于表达量的影响。\nCellPLM考虑的协变量因素包括批次效应/测序平台/数据集 Loss\n最后将细胞的潜在分布空间(z)以及协变量表示(b)合并后，输入到MLP网络，再经自然指数转换后，得到最终输出 (N, k)\n使用NB负二项分布计算对于掩码基因的预测值与真实值之间的差异损失(Target loss)\n最终预训练损失由两部分组成：Latent loss + Target loss，进行反向传播，更新模型。\n预训练模型包含82M参数，对11M细胞数据进行训练，\u003c24 hours via 8 v100 GPUs\nscRNA-seq HTCA (human tumor cell atlas)：4.7M HCA (human cell atlas)：1.4M GEO：2.6M SRT：2.7M 3. 微调训练 基于预训练模型，文章采用了多角度的微调任务，并与其它已有模型做对比，表明CellPLM的优势。\n对于每个微调任务，文章基本都从Downstream Task Datasets，Evaluation Metrics，Baselines，Fine-tuning展开。\nCell-level tasks\nZero shot：直接使用预训练模型，计算细胞的嵌入表示h (可用于聚类分群等) Cell Type Annotation：基于Latent输出的cell embed，连接MLP层预测细胞类型 通过查看仓库代码，上述两种微调任务都是直接使用的Latent layer输出的细胞嵌入表示执行相应任务。\nGene-level tasks\nscRNA-seq denoising：将一部分非零表达基因置换为0后，训练模型预测其原有表达值。\nSpatial Transcriptomic imputation：本质上，也是将一部分基因置换为0， 训练模型预测原有表达值。训练过程中，需要联合scRNA-seq作为Reference数据，帮助训练。\nGenetic perturbation prediction：预测扰动基因表达，关键是如何在输入数据中标记出被扰动的基因\nFor one perturbation, we set the input of perturbed genes to be −100 to mimic the gene perturbation action. 4. 其它方面 （1）消融实验\n通过三个角度的消融实验，说明CellPLM模型component所发挥的作用\n是否采用Mixture of Gaussian 是否采用Latent distribution layers 是否采用Transformer encoder （2）代码借鉴学习\n由于单细胞表达矩阵的稀疏性，torch支持相关高效的处理方式 例如 torch.sparse_csr_tensor，torch.sparse.mm等 通过from abc import ABC, abstractmethod，使得更加容易地实现同一类型，不同变体的模型component 例如 不同的微调 Pipeline 每个模型component都由一个文件夹组成，通过其中__init__.py文件发挥关键作用。 Transformer，VAE等经典模型的实现方式 ",
+  "wordCount" : "2167",
+  "inLanguage": "en",
+  "datePublished": "2024-11-16T00:00:00Z",
+  "dateModified": "2024-11-16T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/basic/204%E6%96%87%E7%8C%AE--%E5%8D%95%E7%BB%86%E8%83%9E%E7%BB%84%E5%AD%A6%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B9%8Bcellplm/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/basic/">📖 科研基础 -- 读文献、看教材</a></div>
+    <h1 class="post-title">
+      文献--单细胞组学大模型之CellPLM
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-11-16 00:00:00 &#43;0000 UTC&#39;&gt;2024-11-16&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-11-16&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2167&amp;nbsp;|&amp;nbsp;5 min&amp;nbsp;|&amp;nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#1-%e7%ae%80%e4%bb%8b" aria-label="1. 简介">1. 简介</a></li>
+                    <li>
+                        <a href="#2-%e9%a2%84%e8%ae%ad%e7%bb%83" aria-label="2. 预训练">2. 预训练</a></li>
+                    <li>
+                        <a href="#3-%e5%be%ae%e8%b0%83%e8%ae%ad%e7%bb%83" aria-label="3. 微调训练">3. 微调训练</a></li>
+                    <li>
+                        <a href="#4-%e5%85%b6%e5%ae%83%e6%96%b9%e9%9d%a2" aria-label="4. 其它方面">4. 其它方面</a>
+                    </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><blockquote>
+<p><strong>标题</strong> CELLPLM: PRE-TRAINING OF CELL LANGUAGE MODEL BEYOND SINGLE CELLS <a href="https://openreview.net/forum?id=BKXvPDekud">https://openreview.net/forum?id=BKXvPDekud</a></p>
+<p><strong>发表</strong> ICLR (The International Conference on Learning Representations) 2024</p>
+<p><strong>通讯</strong> Jiliang Tang | Computer science and engineering department | Michigan State University | <a href="https://www.cse.msu.edu/~tangjili/">https://www.cse.msu.edu/~tangjili/</a></p></blockquote>
+<h1 id="1-简介">1. 简介<a hidden class="anchor" aria-hidden="true" href="#1-简介">#</a></h1>
+<p><strong>（1）scRNA-seq data与natural language的区别</strong></p>
+<ul>
+<li>Not sequential → Bag-of-genes (refer to bag-words)</li>
+<li>Cell-cell communication在细胞状态和发育过程中的重要性</li>
+<li>单细胞数据的Quantity与Quality较差</li>
+</ul>
+<p><strong>（2）CellPLM模型特点 (single-Cell Pre-trained Language Model)</strong></p>
+<ul>
+<li>Cell language model to account for cell-cell relations</li>
+<li>预训练过程使用了spatially-resolved transcriptomic (SRT) 空间转录组数据</li>
+<li>使用高斯混合分布模型学习细胞的潜在分布空间</li>
+</ul>
+<blockquote>
+<p>To the best of our knowledge, the proposed CellPLM is the first pre-trained transformer framework that encodes inter-cell relations, leverages spatially-resolved transcriptomic data, and adopts a reasonable prior distribution.</p></blockquote>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241116130418471.png" alt="image-20241116130418471"  />
+</p>
+<p><strong>（3）CellPLM模型的核心假设</strong></p>
+<p>对于N个细胞，k个基因的单细胞表达矩阵X ∈ [N, k]</p>
+<ul>
+<li>如下式1，O(i)代表细胞i的 unobserved (masked) genes, U(i) 代表细胞i的 known (unmasked) genes
+<ul>
+<li>即细胞i的某一基因表达的条件概率分布(conditional probability distribution)可由同一细胞内其它已知表达的基因推测得到。</li>
+<li>Gene tokens → 这在许多现有的单细胞Transformer模型常用（e.g. scBERT, scGPT）</li>
+</ul>
+</li>
+<li>如下式2，M表示unobserved genes from many cells, Mc表示表达矩阵X的补集。
+<ul>
+<li>即即预测细胞i的某一基因表达可以同一组织内多个细胞的known genes推测得到</li>
+<li>Cell tokens → 这是CellPLM模型的核心假设</li>
+</ul>
+</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241116125034284.png" alt="image-20241116125034284"  />
+</p>
+<h1 id="2-预训练">2. 预训练<a hidden class="anchor" aria-hidden="true" href="#2-预训练">#</a></h1>
+<img src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241116130629315.png" alt="image-20241116130629315" style="zoom:67%;" />
+<p>预训练模型分为4个组成部分</p>
+<p><strong>（1）Gene expression embedder (cell level)</strong></p>
+<p>参考<a href="https://zh.wikipedia.org/zh-tw/%E8%AF%8D%E8%A2%8B%E6%A8%A1%E5%9E%8B">词袋模型</a>，将基因信息整合至细胞水平。</p>
+<ul>
+<li>
+<p>首先对gene token计算初始化的embedding表示 → (gene, embedding)</p>
+</li>
+<li>
+<p>然后以细胞的基因表达(cell, gene)分别为系数计算加权和，作为初始化的Cell Expression Embedding (N, d)</p>
+</li>
+</ul>
+<blockquote>
+<p>表格矩阵基于Seurat进行了标准的library size normalization and log1p transformation处理。</p>
+<p>一个批次的cells作为一个样本 (N, k)，dataloader一次只迭代一个批次（batch_size = 1）</p></blockquote>
+<p><strong>（2）Transformer encoder</strong></p>
+<p>首先Transformer的input cell embedding由两部分组成（Cat/Add）。除了上面的Expression Embed，还有Position Embed</p>
+<ul>
+<li>对于SRT数据，position embed由一个FOV (fields of view) 内的细胞二维坐标生成。</li>
+<li>对于普通scRNA-seq数据，由于没有相关信息，则通过随机生成进行表示。</li>
+</ul>
+<p>然后将上述的合并 Cell embedding输入到Transformer层中</p>
+<ul>
+<li>采用了具有线性复杂度的Flowformer计算注意力。</li>
+<li>输出为(N, d)</li>
+</ul>
+<p><strong>（3）Gaussian mixture latent space</strong></p>
+<p>对注意力编码层的细胞表示(N, d)，使用高斯混合分布模型学习其潜在分布空间 z</p>
+<ul>
+<li>一方面学习得到潜在分布空间(N, z)</li>
+<li>另一方面得到的变分重构损失（Latent loss）作为预训练损失的一部分</li>
+</ul>
+<p><strong>（4）Batch-aware decoder</strong></p>
+<p>预训练的最终输出是基因表达矩阵(N, k)。在输入到MLP预测前，需要进一步考虑其它因素(Covariates)对于表达量的影响。</p>
+<ul>
+<li>CellPLM考虑的协变量因素包括批次效应/测序平台/数据集</li>
+</ul>
+<hr>
+<p><strong>Loss</strong></p>
+<p>最后将细胞的潜在分布空间(z)以及协变量表示(b)合并后，输入到MLP网络，再经自然指数转换后，得到最终输出 (N, k)</p>
+<p>使用NB负二项分布计算对于掩码基因的预测值与真实值之间的差异损失(Target loss)</p>
+<p>最终预训练损失由两部分组成：Latent loss + Target loss，进行反向传播，更新模型。</p>
+<blockquote>
+<p>预训练模型包含82M参数，对11M细胞数据进行训练，&lt;24 hours via 8 v100 GPUs</p>
+<ul>
+<li>scRNA-seq
+<ul>
+<li>HTCA (human tumor cell atlas)：4.7M</li>
+<li>HCA (human cell atlas)：1.4M</li>
+<li>GEO：2.6M</li>
+</ul>
+</li>
+<li>SRT：2.7M</li>
+</ul></blockquote>
+<h1 id="3-微调训练">3. 微调训练<a hidden class="anchor" aria-hidden="true" href="#3-微调训练">#</a></h1>
+<p>基于预训练模型，文章采用了多角度的微调任务，并与其它已有模型做对比，表明CellPLM的优势。</p>
+<p>对于每个微调任务，文章基本都从Downstream Task Datasets，Evaluation Metrics，Baselines，Fine-tuning展开。</p>
+<p><strong>Cell-level tasks</strong></p>
+<ul>
+<li><strong>Zero shot</strong>：直接使用预训练模型，计算细胞的嵌入表示h (可用于聚类分群等)</li>
+<li><strong>Cell Type Annotation</strong>：基于Latent输出的cell embed，连接MLP层预测细胞类型</li>
+</ul>
+<blockquote>
+<p>通过查看仓库代码，上述两种微调任务都是直接使用的Latent layer输出的细胞嵌入表示执行相应任务。</p></blockquote>
+<p><strong>Gene-level tasks</strong></p>
+<ul>
+<li>
+<p><strong>scRNA-seq denoising</strong>：将一部分非零表达基因置换为0后，训练模型预测其原有表达值。</p>
+</li>
+<li>
+<p><strong>Spatial Transcriptomic imputation</strong>：本质上，也是将一部分基因置换为0， 训练模型预测原有表达值。训练过程中，需要联合scRNA-seq作为Reference数据，帮助训练。</p>
+</li>
+<li>
+<p><strong>Genetic perturbation prediction</strong>：预测扰动基因表达，关键是如何在输入数据中标记出被扰动的基因</p>
+<ul>
+<li>For one perturbation, we set the input of perturbed genes to be −100 to mimic the gene perturbation action.</li>
+</ul>
+</li>
+</ul>
+<h1 id="4-其它方面">4. 其它方面<a hidden class="anchor" aria-hidden="true" href="#4-其它方面">#</a></h1>
+<p><strong>（1）消融实验</strong></p>
+<p>通过三个角度的消融实验，说明CellPLM模型component所发挥的作用</p>
+<ul>
+<li>是否采用Mixture of Gaussian</li>
+<li>是否采用Latent distribution layers</li>
+<li>是否采用Transformer encoder</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241116222138940.png" alt="image-20241116222138940" style="zoom:67%;" />
+<p><strong>（2）代码借鉴学习</strong></p>
+<ul>
+<li>由于单细胞表达矩阵的稀疏性，torch支持相关高效的处理方式
+<ul>
+<li>例如 torch.sparse_csr_tensor，torch.sparse.mm等</li>
+</ul>
+</li>
+<li>通过<code>from abc import ABC, abstractmethod</code>，使得更加容易地实现同一类型，不同变体的模型component
+<ul>
+<li>例如 不同的微调 Pipeline</li>
+</ul>
+</li>
+<li>每个模型component都由一个文件夹组成，通过其中<code>__init__.py</code>文件发挥关键作用。</li>
+<li>Transformer，VAE等经典模型的实现方式</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/%E6%96%87%E7%8C%AE-%E7%AE%97%E6%B3%95/">文献-算法</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/en/posts/basic/203%E6%96%87%E7%8C%AE--%E5%8D%95%E7%BB%86%E8%83%9E%E7%BB%84%E5%AD%A6%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B9%8Bscbert/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>文献--单细胞组学大模型之scBERT</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/en/posts/basic/205%E6%96%87%E7%8C%AE--%E5%8D%95%E7%BB%86%E8%83%9E%E7%BB%84%E5%AD%A6%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B9%8Bgeneformer/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>文献--单细胞组学大模型之Geneformer</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

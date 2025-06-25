@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>D2L | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="李申锁的博客，记录生信学习过程。R/Python/Shell">
+<meta name="author" content="">
+<link rel="canonical" href="https://lishensuo.github.io/en/tags/d2l/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="https://lishensuo.github.io/en/tags/d2l/index.xml">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/tags/d2l/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="D2L" />
+<meta property="og:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://lishensuo.github.io/en/tags/d2l/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="D2L"/>
+<meta name="twitter:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell"/>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header"><div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/tags/">Tags</a></div>
+  <h1>D2L</h1>
+</header>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>深度学习D2L--01--线性回归
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 深度学习组成要素 线性回归可以认为是最简单的一层深度神经网络 一、从零实现 1 2 3 import numpy as np import torch import random 1、示例数据 模拟样本特征与标签数据，并分成小批量传入
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-07-31 00:00:00 &#43;0000 UTC&#39;&gt;2022-07-31&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-07-31&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;642&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 深度学习D2L--01--线性回归" href="https://lishensuo.github.io/en/posts/bioinfo/701%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0d2l--01--%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>深度学习D2L--02--softmax多分类
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>一、从零实现 1 2 3 4 import torch import torchvision from torch.utils import data from torchvision import transforms 1、示例数据 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 ##数据集为fashion_minist，10类衣服及对应的图片 def load_data_fashion_minist(batch_size): #将图片转为张量矩阵 trans = transforms.ToTensor() mnist_train = torchvision.datasets.FashionMNIST( root=&#34;./data&#34;, train=True, transform=trans, download=True) mnist_test = torchvision.datasets.FashionMNIST( root=&#34;./data&#34;, train=False, transform=trans, download=True) #生成训练集数据迭代器 train_iter = data.DataLoader(mnist_train, batch_size=batch_size, shuffle=True) #生成测试集数据迭代器 test_iter = data.DataLoader(mnist_train, batch_size=batch_size, shuffle=False) return train_iter, test_iter # batch_size = 256 # train_iter, test_iter = load_data_fashion_minist(batch_size) # X, y = next(iter(train_iter)) # X.shape # # torch.Size([256, 1, 28, 28]) 2、定义模型 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 def net(X): # W.shape -- torch.Size([784, 10]) # b.shape -- torch.Size([10]) # 全连接层 X = torch.matmul(X.reshape((-1, 784)), W) &#43; b # 激活函数(见上) X_softmax = softmax(X) return X_softmax def softmax(X): # 幂函数使数据具有非负性 X_exp = torch.exp(X) partition = X_exp.sum(1, keepdim=True) # 归一化，一个样本对于全部类别预测结果和为1 return X_exp/partition # W = torch.normal(0, 0.01, (784, 10), requires_grad = True) # b = torch.zeros(10, requires_grad = True) # y_hat = net(X) # y_hat.shape # # torch.Size([256, 10]) 3、定义损失函数 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 def cross_entropy(y_hat, y): # 对于某个样本真实类别的预测概率 y_hat_target = y_hat[range(len(y_hat)), y] # 负log转换--→ 符合最小化 return - torch.log(y_hat_target) # cross_entropy(y_hat, y).shape # # torch.Size([256]) ## 计算分类精度评价指标 # 计算1个batch的分类正确数 def accuracy(y_hat, y): y_hat_class = y_hat.argmax(1) # 样本类别预测与否(True/False) cmp = y_hat_class.type(y.dtype) == y return cmp.sum().item() # accuracy(y_hat, y) # # 8 # 定义一个累加值计数器：用以累计1轮epoch所有batch的分类精度 class Accumulator: def __init__(self, n): self.data = [0.0]*n # [0, 0] def add(self, *args): # [0, 0] &#43; [1, 2] = [1, 2] self.data = [a &#43; b for a, b in zip(self.data, args)] def reset(self): self.data = [0.0]*len(self.data) def __getitem__(self, idx): return self.data[idx] # 计算测试集的分类精度 def evaluate_accuracy(net, data_iter): metric = Accumulator(2) with torch.no_grad(): for X, y in data_iter: metric.add(accuracy(net(X), y), len(y)) Acc_avg = metric[0]/metric[1] return Acc_avg # evaluate_accuracy(net, test_iter) # # 0.0257 4、定义优化算法 1 2 3 4 5 6 # (同线性回归) def sgd(params, lr, batch_size): with torch.no_grad(): for param in params: param -= lr * param.grad / batch_size param.grad.zero_() 5、训练模型 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 W = torch.normal(0, 0.01, (784, 10), requires_grad = True) b = torch.zeros(10, requires_grad = True) lr = 0.01 batch_size=256 epoch_metric = [] num_epochs = 10 for epoch in range(num_epochs): train_metric = Accumulator(3) for X, y in train_iter: y_hat = net(X) l = cross_entropy(y_hat, y) l.sum().backward() sgd([W, b], lr, batch_size) train_metric.add(l.sum().item(), accuracy(y_hat, y), len(y)) acc_avg = train_metric[1]/train_metric[2] loss_avg = train_metric[0]/train_metric[2] test_acc_avg = evaluate_accuracy(net, test_iter) epoch_metric.append([loss_avg, acc_avg, test_acc_avg]) print(f&#39;epoch {epoch &#43; 1},train loss {loss_avg:.3f} | train acc {acc_avg:.3f} | test acc {test_acc_avg:.3f}&#39;) import pandas as pd epoch_metric_df = pd.DataFrame(epoch_metric, columns=[&#34;train_loss&#34;,&#34;train_acc&#34;,&#34;test_acc&#34;]) epoch_metric_df.plot.line() 二、torch框架 1 2 3 4 5 import torch import torchvision from torch import nn from torch.utils import data from torchvision import transforms 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 ## (1) 示例数据 def load_data_fashion_minist(batch_size): trans = transforms.ToTensor() mnist_train = torchvision.datasets.FashionMNIST( root=&#34;./data&#34;, train=True, transform=trans, download=True) mnist_test = torchvision.datasets.FashionMNIST( root=&#34;./data&#34;, train=False, transform=trans, download=True) train_iter = data.DataLoader(mnist_train, batch_size=batch_size, shuffle=True) test_iter = data.DataLoader(mnist_train, batch_size=batch_size, shuffle=False) return train_iter, test_iter # batch_size = 256 # train_iter, test_iter = load_data_fashion_minist(batch_size) # X, y = next(iter(train_iter)) # X.shape # # torch.Size([256, 1, 28, 28]) ## (2) 定义模型 net = nn.Sequential(nn.Flatten(), nn.Linear(784, 10)) # len(net) # # 2 # net[1].weight # net[1].bias # y_hat = net(X) # y_hat.shape # # torch.Size([256, 10]) ## (3) 定义损失函数 loss = nn.CrossEntropyLoss(reduction=&#39;none&#39;) # loss(y_hat, y).shape # # torch.Size([256]) # 计算1个batch的分类正确数 def accuracy(y_hat, y): y_hat_class = y_hat.argmax(1) # 样本类别预测与否(True/False) cmp = y_hat_class.type(y.dtype) == y return cmp.sum().item() # accuracy(y_hat, y) # # 13 # 定义一个累加值计数器：用以累计1轮epoch所有batch的分类精度 class Accumulator: def __init__(self, n): self.data = [0.0]*n # [0, 0] def add(self, *args): # [0, 0] &#43; [1, 2] = [1, 2] self.data = [a &#43; b for a, b in zip(self.data, args)] def reset(self): self.data = [0.0]*len(self.data) def __getitem__(self, idx): return self.data[idx] # 计算测试集的分类精度 def evaluate_accuracy(net, data_iter): metric = Accumulator(2) with torch.no_grad(): for X, y in data_iter: metric.add(accuracy(net(X), y), len(y)) Acc_avg = metric[0]/metric[1] return Acc_avg # evaluate_accuracy(net, test_iter) # # 0.0515 ## (4) 定义优化算法 net = nn.Sequential(nn.Flatten(), nn.Linear(784, 10)) optimizer = torch.optim.SGD(net.parameters(), lr = 0.1) ## (5) 训练模型 batch_size=256 train_iter, test_iter = load_data_fashion_minist(batch_size) epoch_metric = [] num_epochs = 10 for epoch in range(num_epochs): train_metric = Accumulator(3) net.train() for X, y in train_iter: y_hat = net(X) l = loss(y_hat, y) optimizer.zero_grad() l.mean().backward() optimizer.step() train_metric.add(l.sum().item(), accuracy(y_hat, y), len(y)) acc_avg = train_metric[1]/train_metric[2] loss_avg = train_metric[0]/train_metric[2] net.eval() test_acc_avg = evaluate_accuracy(net, test_iter) epoch_metric.append([loss_avg, acc_avg, test_acc_avg]) print(f&#39;epoch {epoch &#43; 1},train loss {loss_avg:.3f} | train acc {acc_avg:.3f} | test acc {test_acc_avg:.3f}&#39;) import pandas as pd epoch_metric_df = pd.DataFrame(epoch_metric, columns=[&#34;train_loss&#34;,&#34;train_acc&#34;,&#34;test_acc&#34;]) epoch_metric_df.plot.line() 值得注意的是在使用torch框架时，并没有像从零实现那样进行幂函数归一化转换。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-07-31 00:00:00 &#43;0000 UTC&#39;&gt;2022-07-31&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-07-31&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1281&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 深度学习D2L--02--softmax多分类" href="https://lishensuo.github.io/en/posts/bioinfo/702%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0d2l--02--softmax%E5%A4%9A%E5%88%86%E7%B1%BB/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>深度学习D2L--03--K折交叉验证的torch训练基础流程
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1、加载库 1 2 3 4 5 6 7 import pandas as pd import torch from torch import nn from torch.nn import functional as F from torch.utils import data import itertools 2、示例数据 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 # http://d2l-data.s3-accelerate.amazonaws.com/kaggle_house_pred_train.csv # http://d2l-data.s3-accelerate.amazonaws.com/kaggle_house_pred_test.csv train_data = pd.read_csv(&#34;../data/kaggle_house_pred_train.csv&#34;) test_data = pd.read_csv(&#34;../data/kaggle_house_pred_test.csv&#34;) train_data.shape, test_data.shape all_features = pd.concat((train_data.iloc[:, 1:-1], test_data.iloc[:, 1:])) num_features = all_features.dtypes[all_features.dtypes != &#34;object&#34;].index all_features[num_features] = all_features[num_features].apply( lambda x: (x - x.mean()) / (x.std()) ) all_features[num_features] = all_features[num_features].fillna(0) all_features = pd.get_dummies(all_features, dummy_na=True) all_features.shape n_train = train_data.shape[0] train_feats = torch.tensor(all_features[:n_train].values, dtype=torch.float32) test_feats = torch.tensor(all_features[n_train:].values, dtype=torch.float32) train_labels = torch.tensor(train_data.SalePrice.values.reshape((-1,1)), dtype=torch.float32) 3、定义模型框架 1 2 3 4 5 6 7 8 9 10 11 class MLP(nn.Module): def __init__(self, in_feats, hidden_feats, dropout): super().__init__() self.hidden = nn.Linear(in_feats, hidden_feats) self.out = nn.Linear(hidden_feats, 1) self.dropout = nn.Dropout(dropout) def forward(self, X): hiddens = F.relu(self.hidden(X)) output = self.out(self.dropout(hiddens)) return output torch模型基础 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 model = MLP(10, 6, 0.1) model ## 查看torch默认初始化的每一层参数 model.state_dict() model.state_dict().keys() model.state_dict()[&#39;hidden.bias&#39;] model.hidden.bias.data model.out.weight.grad == None #自定义模型参数初始化方式 def init_normal(m): if type(m) == nn.Linear: nn.init.normal_(m.weight, mean=0, std=0.01) nn.init.zeros_(m.bias) model.apply(init_normal) model.state_dict() def xvaier(m): if type(m) == nn.Linear: nn.init.xavier_uniform_(m.weight) model.apply(xvaier) model.state_dict() #保存与加载模型参数 torch.save(model.state_dict(), &#34;mlp.params&#34;) new_model = MLP(10, 6, 0.1) new_model.load_state_dict(torch.load(&#34;mlp.params&#34;)) #GPU加速 nvidia-smi #查看当前系统的GPU情况 watch -n 0.1 -d nvidia-smi #动态刷新查看 torch.cuda.is_available() #是否有GPU资源 torch.cuda.device_count() #查看可用的GPU数量 ##将数据与模型都转移到同一个GPU上 def try_gpu(i=0): if torch.cuda.device_count() &gt;= i &#43; 1 : return torch.device(f&#39;cuda:{i}&#39;) return torch.device(&#34;cpu&#34;) X = torch.ones(2, 3, device = try_gpu(0)) model.to(&#34;cuda:0&#34;) 4、定义损失函数与性能评价方法 1 2 3 4 5 6 loss = nn.MSELoss() def log_rmse(model, feature, labels): clipped_preds = torch.clamp(model(feature), 1, float(&#39;inf&#39;)) rmse = torch.sqrt(loss(torch.log(clipped_preds), torch.log(labels))) return rmse.item() 5、小批量训练框架 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 def load_array(data_arrays, batch_size, is_train=True): dataset = data.TensorDataset(*data_arrays) return data.DataLoader(dataset, batch_size, shuffle=is_train) def train(model, train_feats, train_labels, test_feats, test_labels, num_epochs, lr, weight_decay, batch_size): train_ls, test_ls = [],[] #记录每一轮epoch的训练集/测试集性能 train_iter = load_array((train_feats, train_labels), batch_size) optimizer = torch.optim.Adam(model.parameters(), lr = lr, weight_decay=weight_decay) for epoch in range(num_epochs): for X, y in train_iter: optimizer.zero_grad() l = loss(model(X), y) l.backward() optimizer.step() train_ls.append(log_rmse(model, train_feats, train_labels)) if test_labels is not None: test_ls.append(log_rmse(model, test_feats, test_labels)) return train_ls, test_ls 6、K折交叉验证 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 def get_k_fold_data(k, i, X, y): assert k &gt; 1 fold_size = X.shape[0] // k X_train, y_train = None, None for j in range(k): idx = slice(j*fold_size, (j&#43;1)*fold_size) X_part, y_part = X[idx, :], y[idx] if j == i: X_valid, y_valid = X_part, y_part elif X_train is None: X_train, y_train = X_part, y_part else: X_train = torch.cat([X_train, X_part], 0) y_train = torch.cat([y_train, y_part], 0) return X_train, y_train, X_valid, y_valid def k_fold(k, X_train, y_train, num_epochs, learning_rate, weight_decay, batch_size, in_feats, hidden_feats, dropout): train_l_sum, valid_l_sum = 0,0 for i in range(k): data = get_k_fold_data(k, i, X_train, y_train) model = MLP(in_feats, hidden_feats, dropout) train_ls, valid_ls = train(model, *data, num_epochs, learning_rate, weight_decay, batch_size) #将最后一轮的性能作为该模型的最终性能 train_l_sum &#43;= train_ls[-1] valid_l_sum &#43;= valid_ls[-1] # print(f&#39;Fold-{i&#43;1}, train log rmse {float(train_ls[-1]):f},&#39; # f&#39;valid log rmse {float(valid_ls[-1]):f}&#39;) return train_l_sum / k, valid_l_sum / k # k, num_epochs, learning_rate, weight_decay, batch_size = 10, 100, 5, 0, 64 # in_feats, hidden_feats, dropout = train_feats.shape[1], 64, 0.5 # train_l, valid_l = k_fold(k, train_feats, train_labels, # num_epochs, learning_rate, weight_decay, batch_size, # in_feats, hidden_feats, dropout) 7、超参数遍历 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 k, num_epochs= 5, 100 in_feats = [train_feats.shape[1]] learning_rate = [0.1, 1, 3, 5] weight_decay = [0, 0.001] batch_size = [32, 64] hidden_feats = [16, 64, 128] dropout = [0, 0.1] grid_iter = itertools.product(learning_rate, weight_decay, batch_size, in_feats, hidden_feats, dropout) len_grids = len(list(grid_iter)) grid_train_l, grid_valid_l = [], [] for j, args in enumerate(itertools.product(learning_rate, weight_decay, batch_size, in_feats, hidden_feats, dropout)): print(f&#39;{j&#43;1}--{len_grids}: {args}&#39;) train_l, valid_l = k_fold(k, train_feats, train_labels, num_epochs, *args) grid_train_l.append(train_l) grid_valid_l.append(valid_l) print(f&#39;---- valid rmse {valid_l:.2f}&#39;) </p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-08-23 00:00:00 &#43;0000 UTC&#39;&gt;2022-08-23&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-08-23&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;882&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 深度学习D2L--03--K折交叉验证的torch训练基础流程" href="https://lishensuo.github.io/en/posts/bioinfo/703%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0d2l--03--k%E6%8A%98%E4%BA%A4%E5%8F%89%E9%AA%8C%E8%AF%81%E7%9A%84torch%E8%AE%AD%E7%BB%83%E5%9F%BA%E7%A1%80%E6%B5%81%E7%A8%8B/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>D2L--第二章预备知识
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1. 数据操作 1.1 入门 张量：具有多个维度（轴）的数组。
+具有一个轴的张量，对应数学上的向量；
+具有两个轴的张量，对应数学上的矩阵。
+创建张量
+1 2 3 4 5 6 7 8 9 import torch x = torch.arange(12) # 长度为12个行向量 torch.zeros((2, 3, 4)) torch.ones((2, 3, 4)) torch.randn(3, 4) torch.tensor([[2,1,4,3],[1,2,3,4],[4,3,2,1]]) 基本信息 1 2 3 4 5 x.shape x.numel #元素个数 X = x.reshape(3, 4) #修改形状 x.reshape(-1, 4) x.reshape(3, -1) 1.2 运算符 任意两个形状相同的张量，执行基本运算符时，均为按元素操作，结果的形状不变。 1 2 3 4 x = torch.tensor([1.0, 2, 3, 4]) y = torch.tensor([2, 2, 2, 2]) x-y, x&#43;y, x*x, x/y, x**y 张量连接操作concatenate 1 2 3 4 5 x = torch.arange(12, dtype = torch.float32).reshape(3, 4) y = torch.tensor([[2,1,4,3],[1,2,3,4],[4,3,2,1]]) torch.cat((x, y), dim = 0) #纵向拼接，增加轴0的维度/行 torch.cat((x, y), dim = 1) #横向拼接，增加轴1的维度/列 逻辑运算符构建逻辑张量 1 x == y 1.3 广播机制 形状不同的两个张量执行基本运算时，会适当复制元素扩展数组，使二者具有相同形状，再按元素计算 1 2 3 4 5 6 x = torch.arange(6) x &#43; torch.tensor(1) a = torch.arange(3).reshape(3, 1) b = torch.arange(2).reshape(1, 2) a &#43; b 1.4 索引切片 类似Python数组操作 1 2 3 4 X = torch.arange(12).reshape(3, 4) X[-1] #最后一行 X[1:3] #第二、三行 X[:, 1:3] #第二、三列 1.5 节省内存 变量名赋值新的计算结果时，会重新分配内存 1 2 3 4 5 6 a = torch.tensor(0) before = id(a) #内存地址 a = a &#43; torch.tensor(1) # 重新分配内存 id(a) == before # False 原地更新、覆盖先前的计算结果 1 2 3 4 5 a = torch.tensor(0) before = id(a) #内存地址 a[:] = a &#43; torch.tensor(1) id(a) == before 1.6 转为其它Python对象 转为Numpy数组 1 2 3 A = X.numpy() # tensor→numpy torch.tensor(A) # numpy→tensor 大小为1的张量转为Python标量 1 2 3 4 5 a = torch.tensor(3.0) a.item() float(a) int(a) 2. 数据预处理 2.1 读取数据集 1 2 3 4 5 6 7 8 9 10 11 12 13 14 import os import pandas as pd os.makedirs(os.path.join(&#39;..&#39;,&#39;data&#39;), exist_ok=True) #上一级目录创建data文件夹 data_file = os.path.join(&#39;..&#39;, &#39;data&#39;, &#39;house_tiny.csv&#39;) with open(data_file, &#39;w&#39;) as f: f.write(&#39;NumRooms,Alley,Price\n&#39;) #列名 f.write(&#39;NA,Pave,127500\n&#39;) #每行一个样本 f.write(&#39;2,NA,106000\n&#39;) f.write(&#39;4,NA,178100\n&#39;) f.write(&#39;NA,NA,140000\n&#39;) data = pd.read_csv(data_file) data 2.2 处理缺失值 1 2 3 4 5 6 7 8 9 inputs, outputs = data.iloc[:, 0:2], data.iloc[:, 2] #按列拆分为两个表 # 数值缺失值填充 inputs = inputs.fillna(inputs.mean(numeric_only=True)) inputs # 类别缺失值填充 inputs = pd.get_dummies(inputs, dummy_na=True, dtype = float) inputs 2.3 转换为张量 1 2 3 4 import torch X, y = torch.tensor(inputs.values), torch.tensor(outputs.values) X, y # 深度学习通常用float32 3. 线性代数 3.1 标量 只有一个元素的张量 普通、小写的字母表示 1 2 3 4 5 6 import torch x = torch.tensor(3.0) y = torch.tensor(4.0) x &#43; y, x - y, x / y, x ** y 3.2 向量 具有一个轴的张量 粗体、小写的字母表示 1 2 3 x = torch.arange(4) x x.shape 向量/轴的维度表示向量或轴的长度；
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-07-21 00:00:00 &#43;0000 UTC&#39;&gt;2024-07-21&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-07-21&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2515&amp;nbsp;|&amp;nbsp;6 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to D2L--第二章预备知识" href="https://lishensuo.github.io/en/posts/bioinfo/705d2l-%E7%AC%AC%E4%BA%8C%E7%AB%A0%E9%A2%84%E5%A4%87%E7%9F%A5%E8%AF%86/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>D2L--第三章线性神经网络
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1. 线性回归 1.1 线性回归的基本元素 线性模型：目标(y)可以表示为输入特征的加权和，参数包括权重向量w和偏置b 损失函数：表示目标的实际值与预测值之间的差距；一般数值越小，损失越小。回归问题常用平方误差函数，如下公式。 ...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-07-21 00:00:00 &#43;0000 UTC&#39;&gt;2024-07-21&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-07-21&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;4277&amp;nbsp;|&amp;nbsp;9 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to D2L--第三章线性神经网络" href="https://lishensuo.github.io/en/posts/bioinfo/706d2l-%E7%AC%AC%E4%B8%89%E7%AB%A0%E7%BA%BF%E6%80%A7%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>D2L--第四章多层感知机
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1. 多层感知机 1.1 隐藏层 之前所学的线性模型意味着单调假设，并不适用于更复杂的建模问题，例如体温与疾病；图片某个像素点的强度与猫或狗的关系等； 多层感知机（MLP）：在输入层与输出层之间加入一个或多个隐藏层，以学习更加复杂的模型情况； 只有隐藏层与输出层涉及到神经元计算与参数更新，因此如下示例MLP的层数是2； 对于其中的隐藏层需要应用非线性的激活函数（σ），以突破对仍为线性本质的限制。 ...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-07-28 00:00:00 &#43;0000 UTC&#39;&gt;2024-07-28&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-07-28&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;4159&amp;nbsp;|&amp;nbsp;9 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to D2L--第四章多层感知机" href="https://lishensuo.github.io/en/posts/bioinfo/707d2l-%E7%AC%AC%E5%9B%9B%E7%AB%A0%E5%A4%9A%E5%B1%82%E6%84%9F%E7%9F%A5%E6%9C%BA/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>D2L--第五章深度学习计算
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1. 层和块 1.1 自定义块 块/模块（block）可以描述单个层、由多个层（lay）组成的组件或整个神经网络模型本身。
+复杂的模块也可以由简单的模块组成 从编程的角度，块由类表示，一般继承自torch的nn.Module
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-07-28 00:00:00 &#43;0000 UTC&#39;&gt;2024-07-28&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-07-28&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2955&amp;nbsp;|&amp;nbsp;6 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to D2L--第五章深度学习计算" href="https://lishensuo.github.io/en/posts/bioinfo/708d2l-%E7%AC%AC%E4%BA%94%E7%AB%A0%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%AE%A1%E7%AE%97/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>D2L--第六章卷积神经网络
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1. 从全连接层到卷积 1.1 不变性 假设一个场景：需要制作一个检测器，在一张图片中检测一种特定物体。需要满足两个性质：
+平移不变性：无论该物品在图片的哪个位置，都可以检测到； 局部性：检测器只需要关注图像中的局部区域，不过度关注其它无关区域。 1.2 多层感知机的限制 对于图片（例如12M）像素的一维展开，包含36M的元素。若使用包含100个神经元的单隐藏层，模型就要3.6B元素，训练难度过大。 卷积(convolution)计算：输入X为二维矩阵，输出的隐藏表示H仍为矩阵。参数包括权重矩阵V与偏置U。H中的每一个元素都由权重矩阵V与输入X中相应区域元素的’点积’，再加上偏置所得到。（下图演示忽略了偏置计算） 平移不变性：权重矩阵（又称为卷积核/滤波器）在每次计算中保持不变，以提取相同的模式。 局部性：卷积核(kernel)的形状通常较小(|a|&gt;△;|b|&gt;△)，即针对输入的局部区域进行特征提取。 ...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-08-04 00:00:00 &#43;0000 UTC&#39;&gt;2024-08-04&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-08-04&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;4106&amp;nbsp;|&amp;nbsp;9 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to D2L--第六章卷积神经网络" href="https://lishensuo.github.io/en/posts/bioinfo/709d2l-%E7%AC%AC%E5%85%AD%E7%AB%A0%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>D2L--第七章现代卷积神经网络
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1. 深度卷积神经网络(AlexNet) 1.1 学习表征 LeNet提出后，卷积神经网络并未占据主流，而是往往由其它机器学习方法所超越，如SVM。一个主要的原因是输入数据的特征处理上。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-08-04 00:00:00 &#43;0000 UTC&#39;&gt;2024-08-04&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-08-04&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;7080&amp;nbsp;|&amp;nbsp;15 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to D2L--第七章现代卷积神经网络" href="https://lishensuo.github.io/en/posts/bioinfo/710d2l-%E7%AC%AC%E4%B8%83%E7%AB%A0%E7%8E%B0%E4%BB%A3%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>D2L--第八章循环神经网络
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1. 序列模型 1.1 自回归模型 （1）自回归模型：对于一个包含T个’时间’节点的输入序列，若预测其中的第t个数据，则依赖于该节点前面的观察数据
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-08-11 00:00:00 &#43;0000 UTC&#39;&gt;2024-08-11&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-08-11&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;7871&amp;nbsp;|&amp;nbsp;16 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to D2L--第八章循环神经网络" href="https://lishensuo.github.io/en/posts/bioinfo/711d2l-%E7%AC%AC%E5%85%AB%E7%AB%A0%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="next" href="https://lishensuo.github.io/en/tags/d2l/page/2/">Next Page »</a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

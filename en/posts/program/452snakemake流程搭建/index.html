@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>Snakemake流程搭建 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="Linux">
+<meta name="description" content="
+https://snakemake.readthedocs.io/en/stable/tutorial/tutorial.html
+https://github.com/snakemake/snakemake
+
+
+
+1. 简介
+1.1 工具介绍
+
+Snakemake 是一个用于创建可重现、模块化、自动化的工作流管理工具，主要用于处理复杂的数据分析流程；在生物信息学领域中有较多的应用。
+
+
+">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/program/452snakemake%E6%B5%81%E7%A8%8B%E6%90%AD%E5%BB%BA/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/program/452snakemake%E6%B5%81%E7%A8%8B%E6%90%AD%E5%BB%BA/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Snakemake流程搭建" />
+<meta property="og:description" content="
+https://snakemake.readthedocs.io/en/stable/tutorial/tutorial.html
+https://github.com/snakemake/snakemake
+
+
+
+1. 简介
+1.1 工具介绍
+
+Snakemake 是一个用于创建可重现、模块化、自动化的工作流管理工具，主要用于处理复杂的数据分析流程；在生物信息学领域中有较多的应用。
+
+
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/program/452snakemake%E6%B5%81%E7%A8%8B%E6%90%AD%E5%BB%BA/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-09-22T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2024-09-22T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Snakemake流程搭建"/>
+<meta name="twitter:description" content="
+https://snakemake.readthedocs.io/en/stable/tutorial/tutorial.html
+https://github.com/snakemake/snakemake
+
+
+
+1. 简介
+1.1 工具介绍
+
+Snakemake 是一个用于创建可重现、模块化、自动化的工作流管理工具，主要用于处理复杂的数据分析流程；在生物信息学领域中有较多的应用。
+
+
+"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 R\u0026Python\u0026Shell --- 编程基础、可视化等",
+      "item": "https://lishensuo.github.io/en/posts/program/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "Snakemake流程搭建",
+      "item": "https://lishensuo.github.io/en/posts/program/452snakemake%E6%B5%81%E7%A8%8B%E6%90%AD%E5%BB%BA/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Snakemake流程搭建",
+  "name": "Snakemake流程搭建",
+  "description": " https://snakemake.readthedocs.io/en/stable/tutorial/tutorial.html https://github.com/snakemake/snakemake 1. 简介 1.1 工具介绍 Snakemake 是一个用于创建可重现、模块化、自动化的工作流管理工具，主要用于处理复杂的数据分析流程；在生物信息学领域中有较多的应用。 ",
+  "keywords": [
+    "Linux"
+  ],
+  "articleBody": " https://snakemake.readthedocs.io/en/stable/tutorial/tutorial.html https://github.com/snakemake/snakemake 1. 简介 1.1 工具介绍 Snakemake 是一个用于创建可重现、模块化、自动化的工作流管理工具，主要用于处理复杂的数据分析流程；在生物信息学领域中有较多的应用。 例如对于RNA-seq上游分析流程，通常涉及（1）质控；（2）比对；（3）定量等三大步骤。\n一方面，每个步骤一般需要使用特定的软件处理，需要特定的输入输出数据。 snakemake可以对每个步骤进行定制化/模块化。 另一方面，通常需要多个样本的数据执行完全相同的分析。 snakemake可以对方便的执行批量分析。 1.2 基本语法 关键步骤是编写一个Snakefile，定义整个流程Pipeline的分析步骤 snakemake定义的语法规则是基于python的扩展； 每个分析步骤通过rule语句定义，如下示例： 在第1行，通过rule，声明一个名字\"sort\"的分析步骤 通过input，指定该步骤的输入数据 通过output，指定该步骤的输出结果 通过shell，定义执行的shell命令 1 2 3 4 5 6 7 rule sort: input: \"path/to/dataset.txt\" output: \"dataset.sorted.txt\" shell: \"sort {input} \u003e {output}\" 1.3 安装 推荐为一个分析流程，创建特定的conda环境； 首先在进入该环境后，安装snakemake工具（需要python\u003e3.5） 1 2 3 4 5 # 轻量版：保留核心功能，适用于本地分析。 conda install bioconda::snakemake-minimal # 完整版：支持执行不同计算环境（如本地集群、云服务等）时所需要的全部功能。 conda install bioconda::snakemake 再根据流程需要，安装其它的生信分析工具。\n教程文档提供的示例分析conda环境\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 mkdir snakemake-tutorial cd snakemake-tutorial cat environment.yaml #yaml文件见2.1 # channels: # - conda-forge # - bioconda # dependencies: # - snakemake-minimal \u003e=8.4.4 # - jinja2 # - matplotlib # - graphviz # - bcftools =1.19 # - samtools =1.19.2 # - bwa =0.7.17 # - pygments # - pip: # # at the time of writing - 7. Feb 24 - pysam on bioconda will require # # a lower python version than snakemake, install pysam # # using pip # - pysam ==0.22 conda activate snakemake-tutorial # 上述的pysam安装若由于pip超时而报错，需重新指定镜像源安装 pip install pysam==0.22 -i https://pypi.tuna.tsinghua.edu.cn/simple snakemake --help 教程中推荐使用mamba安装，这里还是替换了为了的conda命令。\n2. 示例分析 2.1 下载示例数据 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 curl -L https://api.github.com/repos/snakemake/snakemake-tutorial-data/tarball -o snakemake-tutorial-data.tar.gz # 解压 tar --wildcards -xf snakemake-tutorial-data.tar.gz --strip 1 \"*/data\" \"*/environment.yaml\" # . # ├── data # │ ├── genome.fa # │ ├── genome.fa.amb # │ ├── genome.fa.ann # │ ├── genome.fa.bwt # │ ├── genome.fa.fai # │ ├── genome.fa.pac # │ ├── genome.fa.sa # │ └── samples # │ ├── A.fastq # │ ├── B.fastq # │ └── C.fastq # ├── environment.yaml # └── snakemake-tutorial-data.tar.gz 2.2 基础分析 （1）Snakefile 如下是完整的示例Snakefile文件\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 SAMPLES = [\"A\", \"B\"] rule all: input: \"plots/quals.svg\" rule bwa_map: input: \"data/genome.fa\", \"data/samples/{sample}.fastq\" output: \"mapped_reads/{sample}.bam\" shell: \"bwa mem {input} | samtools view -Sb - \u003e {output}\" rule samtools_sort: input: \"mapped_reads/{sample}.bam\" output: \"sorted_reads/{sample}.bam\" shell: \"samtools sort -T sorted_reads/{wildcards.sample} \" \"-O bam {input} \u003e {output}\" rule samtools_index: input: \"sorted_reads/{sample}.bam\" output: \"sorted_reads/{sample}.bam.bai\" shell: \"samtools index {input}\" rule bcftools_call: input: fa=\"data/genome.fa\", bam=expand(\"sorted_reads/{sample}.bam\", sample=SAMPLES), bai=expand(\"sorted_reads/{sample}.bam.bai\", sample=SAMPLES) output: \"calls/all.vcf\" shell: \"bcftools mpileup -f {input.fa} {input.bam} | \" \"bcftools call -mv - \u003e {output}\" rule plot_quals: input: \"calls/all.vcf\" output: \"plots/quals.svg\" script: \"scripts/plot-quals.py\" 相关知识点：\n在第一个 rule all语句声明该流程的最终target输出是什么，然后snakemake会逐步回溯上一步的分析步骤，从而了解全部的分析流程。\n第一行的SAMPLES = [\"A\", \"B\"]命令通常用于设置批量运行的样本。 如果上面的例子是生成bam文件结束（没有plot_qual） 1 2 3 4 5 SAMPLES = [\"A\", \"B\"] rule all: input: expand(\"sorted_reads/{sample}.bam\", sample=SAMPLES) snakemake语法中支持灵活的通配符方式，结合{}调用。可在实践中多加练习尝试\n上面的示例已展示了多个通配符，还有一种没提到的是： 1 2 3 4 5 6 7 8 rule sort_and_annotate: input: \"path/to/{dataset}.txt\", \"path/to/annotation.txt\" output: \"{dataset}.sorted.txt\" shell: \"paste \u003c(sort {input[0]}) {input[1]} \u003e {output}\" 在rule语句中，除了使用常规的shell命令，也可以设置bash/python/R等脚本script程序。\n在上面示例流程的最后一步则使用了python脚本： 1 2 3 4 5 6 7 8 9 10 # ./scripts/plot-quals.py import matplotlib matplotlib.use(\"Agg\") import matplotlib.pyplot as plt from pysam import VariantFile quals = [record.qual for record in VariantFile(snakemake.input[0])] plt.hist(quals) plt.savefig(snakemake.output[0]) 如下为R语言的示例脚本（与上述流程不相关）\n1 2 3 data \u003c- read.table(snakemake@input[[1]]) data \u003c- data[order(data$id),] write.table(data, file = snakemake@output[[1]]) 其它细节包括： 对于output的保存路径，如果当前目录不存在，则会自动创建。建议每个rule步骤都有独立的output路径 当shell命令过长时，可以分行编写；但需要再尾部添加空格。（例如第25、46行） （2）snakemake 接下来，使用snakemake命令执行即可。 1 2 3 4 5 6 7 8 9 10 11 12 # (1) snakemake会自动寻找当前路径的Snakefile, snakefile, workflow/Snakefile, workflow/snakefile文件； # 此外也可以重命名为其它，再使用 -s 参数指定即可： # (2) -n 只打印出即将执行的命令和任务顺序，而不实际执行 # -p 在任务执行前打印 Shell 命令 snake -n -p # (3) --dag 可视化工作流中的依赖关系 (DAG，Directed Acyclic Graph)，如下示意图 snakemake --dag | dot -Tpdf \u003e test_dag.pdf # (4) 直接执行 snakemake -p 2.3 进阶分析 （1）Snakefile 如下是完整的示例Snakefile文件\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 configfile: \"config.yaml\" rule all: input: \"plots/quals.svg\" def get_bwa_map_input_fastqs(wildcards): return config[\"samples\"][wildcards.sample] rule bwa_map: input: \"data/genome.fa\", get_bwa_map_input_fastqs output: temp(\"mapped_reads/{sample}.bam\") params: rg=r\"@RG\\tID:{sample}\\tSM:{sample}\" log: \"logs/bwa_mem/{sample}.log\" threads: 8 shell: \"(bwa mem -R '{params.rg}' -t {threads} {input} | \" \"samtools view -Sb - \u003e {output}) 2\u003e {log}\" rule samtools_sort: input: \"mapped_reads/{sample}.bam\" output: protected(\"sorted_reads/{sample}.bam\") shell: \"samtools sort -T sorted_reads/{wildcards.sample} \" \"-O bam {input} \u003e {output}\" rule samtools_index: input: \"sorted_reads/{sample}.bam\" output: \"sorted_reads/{sample}.bam.bai\" shell: \"samtools index {input}\" rule bcftools_call: input: fa=\"data/genome.fa\", bam=expand(\"sorted_reads/{sample}.bam\", sample=config[\"samples\"]), bai=expand(\"sorted_reads/{sample}.bam.bai\", sample=config[\"samples\"]) output: \"calls/all.vcf\" params: rate=config[\"prior_mutation_rate\"] log: \"logs/bcftools_call/all.log\" shell: \"(bcftools mpileup -f {input.fa} {input.bam} | \" \"bcftools call -mv -P {params.rate} - \u003e {output}) 2\u003e {log}\" rule plot_quals: input: \"calls/all.vcf\" output: \"plots/quals.svg\" script: \"scripts/plot-quals.py\" 此时为更通用的snakemake流程，相关知识点如下：\nconfig.yaml: 将工作流所需的所有参数(例如样本路径、参考基因组位置、工具设置)集中在一个配置文件中，而无需直接修改snakefile 1 2 3 4 5 samples: A: data/samples/A.fastq B: data/samples/B.fastq prior_mutation_rate: 0.001 类似get_bwa_map_input_fastqs函数，往往用于流程第一步的输入数据读取\nrule语句还支持其它更多的选项\nparams 用于设置生信工具命令参数 log 用于保存该步骤的log文件 threads 用户设置线程 resources: mem_mb=100 对于每个步骤的output分析结果，有两个特殊关键字\ntemp() 使得特定中间结果(例如sam/bam)在使用后会被删除，避免不必要的空间消耗 protected() 使得比较重要的中间结果不会由于报错等意外原因而被删除。 （2）snakemake 而在执行snake命令时，也有更多的参数方便个性化分析 1 2 3 4 5 6 7 8 9 10 11 12 # (1) -j 同时执行的任务数 snakemake -p -j 2 # (2) --core 允许调用的线程上限 snakemake --cores 10 # (3) --rerun-incomplete 断点继续运行未完成的任务 snakemake --rerun-incomplete # (4) --force 强制重新运行指定的目标，即使目标文件已经存在。 snakemake --force results/output.txt # 关于这一点，请参看下图： ",
+  "wordCount" : "2465",
+  "inLanguage": "en",
+  "datePublished": "2024-09-22T00:00:00Z",
+  "dateModified": "2024-09-22T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/program/452snakemake%E6%B5%81%E7%A8%8B%E6%90%AD%E5%BB%BA/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/program/">📖 R&amp;Python&amp;Shell --- 编程基础、可视化等</a></div>
+    <h1 class="post-title">
+      Snakemake流程搭建
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-09-22 00:00:00 &#43;0000 UTC&#39;&gt;2024-09-22&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-09-22&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2465&amp;nbsp;|&amp;nbsp;5 min&amp;nbsp;|&amp;nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#1-%e7%ae%80%e4%bb%8b" aria-label="1. 简介">1. 简介</a><ul>
+                            
+                    <li>
+                        <a href="#11-%e5%b7%a5%e5%85%b7%e4%bb%8b%e7%bb%8d" aria-label="1.1 工具介绍">1.1 工具介绍</a></li>
+                    <li>
+                        <a href="#12-%e5%9f%ba%e6%9c%ac%e8%af%ad%e6%b3%95" aria-label="1.2 基本语法">1.2 基本语法</a></li>
+                    <li>
+                        <a href="#13-%e5%ae%89%e8%a3%85" aria-label="1.3 安装">1.3 安装</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#2-%e7%a4%ba%e4%be%8b%e5%88%86%e6%9e%90" aria-label="2. 示例分析">2. 示例分析</a><ul>
+                            
+                    <li>
+                        <a href="#21-%e4%b8%8b%e8%bd%bd%e7%a4%ba%e4%be%8b%e6%95%b0%e6%8d%ae" aria-label="2.1 下载示例数据">2.1 下载示例数据</a></li>
+                    <li>
+                        <a href="#22-%e5%9f%ba%e7%a1%80%e5%88%86%e6%9e%90" aria-label="2.2 基础分析">2.2 基础分析</a><ul>
+                            
+                    <li>
+                        <a href="#1snakefile" aria-label="（1）Snakefile">（1）Snakefile</a></li>
+                    <li>
+                        <a href="#2snakemake" aria-label="（2）snakemake">（2）snakemake</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#23-%e8%bf%9b%e9%98%b6%e5%88%86%e6%9e%90" aria-label="2.3 进阶分析">2.3 进阶分析</a><ul>
+                            
+                    <li>
+                        <a href="#1snakefile-1" aria-label="（1）Snakefile">（1）Snakefile</a></li>
+                    <li>
+                        <a href="#2snakemake-1" aria-label="（2）snakemake">（2）snakemake</a>
+                    </li>
+                </ul>
+                </li>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><ul>
+<li><a href="https://snakemake.readthedocs.io/en/stable/tutorial/tutorial.html">https://snakemake.readthedocs.io/en/stable/tutorial/tutorial.html</a></li>
+<li><a href="https://github.com/snakemake/snakemake">https://github.com/snakemake/snakemake</a></li>
+</ul>
+<p><img loading="lazy" src="https://genomics.ed.ac.uk/wp-content/uploads/2024/08/snakemake_logo.png" alt="Snakemake"  />
+</p>
+<h1 id="1-简介">1. 简介<a hidden class="anchor" aria-hidden="true" href="#1-简介">#</a></h1>
+<h2 id="11-工具介绍">1.1 工具介绍<a hidden class="anchor" aria-hidden="true" href="#11-工具介绍">#</a></h2>
+<ul>
+<li>Snakemake 是一个用于创建可重现、模块化、自动化的工作流管理工具，主要用于处理复杂的数据分析流程；在生物信息学领域中有较多的应用。</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240922130122018.png" alt="image-20240922130122018"  />
+</p>
+<blockquote>
+<p>例如对于RNA-seq上游分析流程，通常涉及（1）质控；（2）比对；（3）定量等三大步骤。</p>
+<ul>
+<li>一方面，每个步骤一般需要使用特定的软件处理，需要特定的输入输出数据。
+<ul>
+<li>snakemake可以对每个步骤进行定制化/模块化。</li>
+</ul>
+</li>
+<li>另一方面，通常需要多个样本的数据执行完全相同的分析。
+<ul>
+<li>snakemake可以对方便的执行批量分析。</li>
+</ul>
+</li>
+</ul></blockquote>
+<h2 id="12-基本语法">1.2 基本语法<a hidden class="anchor" aria-hidden="true" href="#12-基本语法">#</a></h2>
+<ul>
+<li>关键步骤是编写一个<code>Snakefile</code>，定义整个流程Pipeline的分析步骤
+<ul>
+<li>snakemake定义的语法规则是基于<strong>python</strong>的扩展；</li>
+</ul>
+</li>
+<li>每个分析步骤通过<code>rule</code>语句定义，如下示例：
+<ul>
+<li>在第1行，通过<code>rule</code>，声明一个名字&quot;sort&quot;的分析步骤</li>
+<li>通过<code>input</code>，指定该步骤的输入数据</li>
+<li>通过<code>output</code>，指定该步骤的输出结果</li>
+<li>通过<code>shell</code>，定义执行的shell命令</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>rule sort:
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">input</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;path/to/dataset.txt&#34;</span>
+</span></span><span style="display:flex;"><span>    output:
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;dataset.sorted.txt&#34;</span>
+</span></span><span style="display:flex;"><span>    shell:
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;sort </span><span style="color:#0ff;font-weight:bold">{input}</span><span style="color:#0ff;font-weight:bold"> &gt; </span><span style="color:#0ff;font-weight:bold">{output}</span><span style="color:#0ff;font-weight:bold">&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="13-安装">1.3 安装<a hidden class="anchor" aria-hidden="true" href="#13-安装">#</a></h2>
+<ul>
+<li>推荐为一个分析流程，创建特定的conda环境；</li>
+<li>首先在进入该环境后，安装snakemake工具（需要python&gt;3.5）</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#007f7f"># 轻量版：保留核心功能，适用于本地分析。</span>
+</span></span><span style="display:flex;"><span>conda install bioconda::snakemake-minimal
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 完整版：支持执行不同计算环境（如本地集群、云服务等）时所需要的全部功能。</span>
+</span></span><span style="display:flex;"><span>conda install bioconda::snakemake
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>
+<p>再根据流程需要，安装其它的生信分析工具。</p>
+</li>
+<li>
+<p>教程文档提供的示例分析conda环境</p>
+</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">27
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>mkdir snakemake-tutorial
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">cd</span> snakemake-tutorial
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cat environment.yaml  <span style="color:#007f7f">#yaml文件见2.1</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># channels:</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   - conda-forge</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   - bioconda</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># dependencies:</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   - snakemake-minimal &gt;=8.4.4</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   - jinja2</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   - matplotlib</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   - graphviz</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   - bcftools =1.19</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   - samtools =1.19.2</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   - bwa =0.7.17</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   - pygments</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   - pip:</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#     #  at the time of writing - 7. Feb 24 - pysam on bioconda will require</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#     #  a lower python version than snakemake, install pysam</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#     #  using pip</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#     - pysam ==0.22 </span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>conda activate snakemake-tutorial
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 上述的pysam安装若由于pip超时而报错，需重新指定镜像源安装</span>
+</span></span><span style="display:flex;"><span>pip install pysam==0.22 -i https://pypi.tuna.tsinghua.edu.cn/simple
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>snakemake --help
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>教程中推荐使用mamba安装，这里还是替换了为了的conda命令。</p></blockquote>
+<h1 id="2-示例分析">2. 示例分析<a hidden class="anchor" aria-hidden="true" href="#2-示例分析">#</a></h1>
+<h2 id="21-下载示例数据">2.1 下载示例数据<a hidden class="anchor" aria-hidden="true" href="#21-下载示例数据">#</a></h2>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>curl -L https://api.github.com/repos/snakemake/snakemake-tutorial-data/tarball -o snakemake-tutorial-data.tar.gz
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 解压</span>
+</span></span><span style="display:flex;"><span>tar --wildcards -xf snakemake-tutorial-data.tar.gz --strip <span style="color:#ff0;font-weight:bold">1</span> <span style="color:#0ff;font-weight:bold">&#34;*/data&#34;</span> <span style="color:#0ff;font-weight:bold">&#34;*/environment.yaml&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># .</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># ├── data</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># │   ├── genome.fa</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># │   ├── genome.fa.amb</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># │   ├── genome.fa.ann</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># │   ├── genome.fa.bwt</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># │   ├── genome.fa.fai</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># │   ├── genome.fa.pac</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># │   ├── genome.fa.sa</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># │   └── samples</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># │       ├── A.fastq</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># │       ├── B.fastq</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># │       └── C.fastq</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># ├── environment.yaml</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># └── snakemake-tutorial-data.tar.gz</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="22-基础分析">2.2 基础分析<a hidden class="anchor" aria-hidden="true" href="#22-基础分析">#</a></h2>
+<h3 id="1snakefile">（1）Snakefile<a hidden class="anchor" aria-hidden="true" href="#1snakefile">#</a></h3>
+<p>如下是完整的示例<code>Snakefile</code>文件</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">27
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">28
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">29
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">30
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">31
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">32
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">33
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">34
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">35
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">36
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">37
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">38
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">39
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">40
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">41
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">42
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">43
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">44
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">45
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">46
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">47
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">48
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">49
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">50
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">51
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">52
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">53
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">54
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">55
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">56
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>SAMPLES = [<span style="color:#0ff;font-weight:bold">&#34;A&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;B&#34;</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>rule <span style="color:#fff;font-weight:bold">all</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">input</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;plots/quals.svg&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>rule bwa_map:
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">input</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;data/genome.fa&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;data/samples/</span><span style="color:#0ff;font-weight:bold">{sample}</span><span style="color:#0ff;font-weight:bold">.fastq&#34;</span>
+</span></span><span style="display:flex;"><span>    output:
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;mapped_reads/</span><span style="color:#0ff;font-weight:bold">{sample}</span><span style="color:#0ff;font-weight:bold">.bam&#34;</span>
+</span></span><span style="display:flex;"><span>    shell:
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;bwa mem </span><span style="color:#0ff;font-weight:bold">{input}</span><span style="color:#0ff;font-weight:bold"> | samtools view -Sb - &gt; </span><span style="color:#0ff;font-weight:bold">{output}</span><span style="color:#0ff;font-weight:bold">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>rule samtools_sort:
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">input</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;mapped_reads/</span><span style="color:#0ff;font-weight:bold">{sample}</span><span style="color:#0ff;font-weight:bold">.bam&#34;</span>
+</span></span><span style="display:flex;"><span>    output:
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;sorted_reads/</span><span style="color:#0ff;font-weight:bold">{sample}</span><span style="color:#0ff;font-weight:bold">.bam&#34;</span>
+</span></span><span style="display:flex;"><span>    shell:
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;samtools sort -T sorted_reads/</span><span style="color:#0ff;font-weight:bold">{wildcards.sample}</span><span style="color:#0ff;font-weight:bold"> &#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;-O bam </span><span style="color:#0ff;font-weight:bold">{input}</span><span style="color:#0ff;font-weight:bold"> &gt; </span><span style="color:#0ff;font-weight:bold">{output}</span><span style="color:#0ff;font-weight:bold">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>rule samtools_index:
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">input</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;sorted_reads/</span><span style="color:#0ff;font-weight:bold">{sample}</span><span style="color:#0ff;font-weight:bold">.bam&#34;</span>
+</span></span><span style="display:flex;"><span>    output:
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;sorted_reads/</span><span style="color:#0ff;font-weight:bold">{sample}</span><span style="color:#0ff;font-weight:bold">.bam.bai&#34;</span>
+</span></span><span style="display:flex;"><span>    shell:
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;samtools index </span><span style="color:#0ff;font-weight:bold">{input}</span><span style="color:#0ff;font-weight:bold">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>rule bcftools_call:
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">input</span>:
+</span></span><span style="display:flex;"><span>        fa=<span style="color:#0ff;font-weight:bold">&#34;data/genome.fa&#34;</span>,
+</span></span><span style="display:flex;"><span>        bam=expand(<span style="color:#0ff;font-weight:bold">&#34;sorted_reads/</span><span style="color:#0ff;font-weight:bold">{sample}</span><span style="color:#0ff;font-weight:bold">.bam&#34;</span>, sample=SAMPLES),
+</span></span><span style="display:flex;"><span>        bai=expand(<span style="color:#0ff;font-weight:bold">&#34;sorted_reads/</span><span style="color:#0ff;font-weight:bold">{sample}</span><span style="color:#0ff;font-weight:bold">.bam.bai&#34;</span>, sample=SAMPLES)
+</span></span><span style="display:flex;"><span>    output:
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;calls/all.vcf&#34;</span>
+</span></span><span style="display:flex;"><span>    shell:
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;bcftools mpileup -f </span><span style="color:#0ff;font-weight:bold">{input.fa}</span><span style="color:#0ff;font-weight:bold"> </span><span style="color:#0ff;font-weight:bold">{input.bam}</span><span style="color:#0ff;font-weight:bold"> | &#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;bcftools call -mv - &gt; </span><span style="color:#0ff;font-weight:bold">{output}</span><span style="color:#0ff;font-weight:bold">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>rule plot_quals:
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">input</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;calls/all.vcf&#34;</span>
+</span></span><span style="display:flex;"><span>    output:
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;plots/quals.svg&#34;</span>
+</span></span><span style="display:flex;"><span>    script:
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;scripts/plot-quals.py&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>相关知识点：</p>
+<ul>
+<li>
+<p>在第一个 <code>rule all</code>语句声明该流程的最终target输出是什么，然后snakemake会逐步回溯上一步的分析步骤，从而了解全部的分析流程。</p>
+<ul>
+<li>第一行的<code>SAMPLES = [&quot;A&quot;, &quot;B&quot;]</code>命令通常用于设置批量运行的样本。</li>
+<li>如果上面的例子是生成bam文件结束（没有<code>plot_qual</code>）</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>SAMPLES = [<span style="color:#0ff;font-weight:bold">&#34;A&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;B&#34;</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>rule <span style="color:#fff;font-weight:bold">all</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">input</span>:
+</span></span><span style="display:flex;"><span>        expand(<span style="color:#0ff;font-weight:bold">&#34;sorted_reads/</span><span style="color:#0ff;font-weight:bold">{sample}</span><span style="color:#0ff;font-weight:bold">.bam&#34;</span>, sample=SAMPLES)
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>snakemake语法中支持灵活的通配符方式，结合{}调用。可在实践中多加练习尝试</p>
+<ul>
+<li>上面的示例已展示了多个通配符，还有一种没提到的是：</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>rule sort_and_annotate:
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">input</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;path/to/</span><span style="color:#0ff;font-weight:bold">{dataset}</span><span style="color:#0ff;font-weight:bold">.txt&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;path/to/annotation.txt&#34;</span>
+</span></span><span style="display:flex;"><span>    output:
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;</span><span style="color:#0ff;font-weight:bold">{dataset}</span><span style="color:#0ff;font-weight:bold">.sorted.txt&#34;</span>
+</span></span><span style="display:flex;"><span>    shell:
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;paste &lt;(sort </span><span style="color:#0ff;font-weight:bold">{input[0]}</span><span style="color:#0ff;font-weight:bold">) </span><span style="color:#0ff;font-weight:bold">{input[1]}</span><span style="color:#0ff;font-weight:bold"> &gt; </span><span style="color:#0ff;font-weight:bold">{output}</span><span style="color:#0ff;font-weight:bold">&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>在rule语句中，除了使用常规的shell命令，也可以设置bash/python/R等脚本script程序。</p>
+<ul>
+<li>在上面示例流程的最后一步则使用了python脚本：</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#007f7f"># ./scripts/plot-quals.py</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> matplotlib
+</span></span><span style="display:flex;"><span>matplotlib.use(<span style="color:#0ff;font-weight:bold">&#34;Agg&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> matplotlib.pyplot <span style="color:#fff;font-weight:bold">as</span> plt
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">from</span> pysam <span style="color:#fff;font-weight:bold">import</span> VariantFile
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>quals = [record.qual <span style="color:#fff;font-weight:bold">for</span> record in VariantFile(snakemake.input[<span style="color:#ff0;font-weight:bold">0</span>])]
+</span></span><span style="display:flex;"><span>plt.hist(quals)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>plt.savefig(snakemake.output[<span style="color:#ff0;font-weight:bold">0</span>])
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>如下为R语言的示例脚本（与上述流程不相关）</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>data &lt;- read.table(snakemake@input[[1]])
+</span></span><span style="display:flex;"><span>data &lt;- data[order(data$id),]
+</span></span><span style="display:flex;"><span>write.table(data, file = snakemake@output[[1]])
+</span></span></code></pre></td></tr></table>
+</div>
+</div></blockquote>
+<ul>
+<li>其它细节包括：
+<ul>
+<li>对于output的保存路径，如果当前目录不存在，则会自动创建。建议每个rule步骤都有独立的output路径</li>
+<li>当shell命令过长时，可以分行编写；但需要再尾部添加空格。（例如第25、46行）</li>
+</ul>
+</li>
+</ul>
+<h3 id="2snakemake">（2）snakemake<a hidden class="anchor" aria-hidden="true" href="#2snakemake">#</a></h3>
+<ul>
+<li>接下来，使用snakemake命令执行即可。</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#007f7f"># (1) snakemake会自动寻找当前路径的Snakefile, snakefile, workflow/Snakefile, workflow/snakefile文件；</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 此外也可以重命名为其它，再使用 -s 参数指定即可：</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># (2) -n 只打印出即将执行的命令和任务顺序，而不实际执行</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># -p 在任务执行前打印 Shell 命令</span>
+</span></span><span style="display:flex;"><span>snake -n -p
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># (3) --dag 可视化工作流中的依赖关系 (DAG，Directed Acyclic Graph)，如下示意图</span>
+</span></span><span style="display:flex;"><span>snakemake --dag | dot -Tpdf &gt; test_dag.pdf
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># (4) 直接执行</span>
+</span></span><span style="display:flex;"><span>snakemake -p
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240922144708163.png" alt="image-20240922144708163"  />
+</p>
+<h2 id="23-进阶分析">2.3 进阶分析<a hidden class="anchor" aria-hidden="true" href="#23-进阶分析">#</a></h2>
+<h3 id="1snakefile-1">（1）Snakefile<a hidden class="anchor" aria-hidden="true" href="#1snakefile-1">#</a></h3>
+<p>如下是完整的示例<code>Snakefile</code>文件</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">27
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">28
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">29
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">30
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">31
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">32
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">33
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">34
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">35
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">36
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">37
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">38
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">39
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">40
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">41
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">42
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">43
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">44
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">45
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">46
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">47
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">48
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">49
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">50
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">51
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">52
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">53
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">54
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">55
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">56
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">57
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">58
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">59
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">60
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">61
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">62
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">63
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">64
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">65
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">66
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">67
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">68
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">69
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">70
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>configfile: <span style="color:#0ff;font-weight:bold">&#34;config.yaml&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>rule <span style="color:#fff;font-weight:bold">all</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">input</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;plots/quals.svg&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">def</span> get_bwa_map_input_fastqs(wildcards):
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> config[<span style="color:#0ff;font-weight:bold">&#34;samples&#34;</span>][wildcards.sample]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>rule bwa_map:
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">input</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;data/genome.fa&#34;</span>,
+</span></span><span style="display:flex;"><span>        get_bwa_map_input_fastqs
+</span></span><span style="display:flex;"><span>    output:
+</span></span><span style="display:flex;"><span>        temp(<span style="color:#0ff;font-weight:bold">&#34;mapped_reads/</span><span style="color:#0ff;font-weight:bold">{sample}</span><span style="color:#0ff;font-weight:bold">.bam&#34;</span>)
+</span></span><span style="display:flex;"><span>    params:
+</span></span><span style="display:flex;"><span>        rg=<span style="color:#0ff;font-weight:bold">r</span><span style="color:#0ff;font-weight:bold">&#34;@RG\tID:</span><span style="color:#0ff;font-weight:bold">{sample}</span><span style="color:#0ff;font-weight:bold">\tSM:</span><span style="color:#0ff;font-weight:bold">{sample}</span><span style="color:#0ff;font-weight:bold">&#34;</span>
+</span></span><span style="display:flex;"><span>    log:
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;logs/bwa_mem/</span><span style="color:#0ff;font-weight:bold">{sample}</span><span style="color:#0ff;font-weight:bold">.log&#34;</span>
+</span></span><span style="display:flex;"><span>    threads: <span style="color:#ff0;font-weight:bold">8</span>
+</span></span><span style="display:flex;"><span>    shell:
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;(bwa mem -R &#39;</span><span style="color:#0ff;font-weight:bold">{params.rg}</span><span style="color:#0ff;font-weight:bold">&#39; -t </span><span style="color:#0ff;font-weight:bold">{threads}</span><span style="color:#0ff;font-weight:bold"> </span><span style="color:#0ff;font-weight:bold">{input}</span><span style="color:#0ff;font-weight:bold"> | &#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;samtools view -Sb - &gt; </span><span style="color:#0ff;font-weight:bold">{output}</span><span style="color:#0ff;font-weight:bold">) 2&gt; </span><span style="color:#0ff;font-weight:bold">{log}</span><span style="color:#0ff;font-weight:bold">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>rule samtools_sort:
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">input</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;mapped_reads/</span><span style="color:#0ff;font-weight:bold">{sample}</span><span style="color:#0ff;font-weight:bold">.bam&#34;</span>
+</span></span><span style="display:flex;"><span>    output:
+</span></span><span style="display:flex;"><span>        protected(<span style="color:#0ff;font-weight:bold">&#34;sorted_reads/</span><span style="color:#0ff;font-weight:bold">{sample}</span><span style="color:#0ff;font-weight:bold">.bam&#34;</span>)
+</span></span><span style="display:flex;"><span>    shell:
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;samtools sort -T sorted_reads/</span><span style="color:#0ff;font-weight:bold">{wildcards.sample}</span><span style="color:#0ff;font-weight:bold"> &#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;-O bam </span><span style="color:#0ff;font-weight:bold">{input}</span><span style="color:#0ff;font-weight:bold"> &gt; </span><span style="color:#0ff;font-weight:bold">{output}</span><span style="color:#0ff;font-weight:bold">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>rule samtools_index:
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">input</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;sorted_reads/</span><span style="color:#0ff;font-weight:bold">{sample}</span><span style="color:#0ff;font-weight:bold">.bam&#34;</span>
+</span></span><span style="display:flex;"><span>    output:
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;sorted_reads/</span><span style="color:#0ff;font-weight:bold">{sample}</span><span style="color:#0ff;font-weight:bold">.bam.bai&#34;</span>
+</span></span><span style="display:flex;"><span>    shell:
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;samtools index </span><span style="color:#0ff;font-weight:bold">{input}</span><span style="color:#0ff;font-weight:bold">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>rule bcftools_call:
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">input</span>:
+</span></span><span style="display:flex;"><span>        fa=<span style="color:#0ff;font-weight:bold">&#34;data/genome.fa&#34;</span>,
+</span></span><span style="display:flex;"><span>        bam=expand(<span style="color:#0ff;font-weight:bold">&#34;sorted_reads/</span><span style="color:#0ff;font-weight:bold">{sample}</span><span style="color:#0ff;font-weight:bold">.bam&#34;</span>, sample=config[<span style="color:#0ff;font-weight:bold">&#34;samples&#34;</span>]),
+</span></span><span style="display:flex;"><span>        bai=expand(<span style="color:#0ff;font-weight:bold">&#34;sorted_reads/</span><span style="color:#0ff;font-weight:bold">{sample}</span><span style="color:#0ff;font-weight:bold">.bam.bai&#34;</span>, sample=config[<span style="color:#0ff;font-weight:bold">&#34;samples&#34;</span>])
+</span></span><span style="display:flex;"><span>    output:
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;calls/all.vcf&#34;</span>
+</span></span><span style="display:flex;"><span>    params:
+</span></span><span style="display:flex;"><span>        rate=config[<span style="color:#0ff;font-weight:bold">&#34;prior_mutation_rate&#34;</span>]
+</span></span><span style="display:flex;"><span>    log:
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;logs/bcftools_call/all.log&#34;</span>
+</span></span><span style="display:flex;"><span>    shell:
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;(bcftools mpileup -f </span><span style="color:#0ff;font-weight:bold">{input.fa}</span><span style="color:#0ff;font-weight:bold"> </span><span style="color:#0ff;font-weight:bold">{input.bam}</span><span style="color:#0ff;font-weight:bold"> | &#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;bcftools call -mv -P </span><span style="color:#0ff;font-weight:bold">{params.rate}</span><span style="color:#0ff;font-weight:bold"> - &gt; </span><span style="color:#0ff;font-weight:bold">{output}</span><span style="color:#0ff;font-weight:bold">) 2&gt; </span><span style="color:#0ff;font-weight:bold">{log}</span><span style="color:#0ff;font-weight:bold">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>rule plot_quals:
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">input</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;calls/all.vcf&#34;</span>
+</span></span><span style="display:flex;"><span>    output:
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;plots/quals.svg&#34;</span>
+</span></span><span style="display:flex;"><span>    script:
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;scripts/plot-quals.py&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>此时为更通用的snakemake流程，相关知识点如下：</p>
+<ul>
+<li><code>config.yaml</code>: 将工作流所需的所有参数(例如样本路径、参考基因组位置、工具设置)集中在一个配置文件中，而无需直接修改snakefile</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">samples</span>:
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">A</span>: data/samples/A.fastq
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">B</span>: data/samples/B.fastq
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">prior_mutation_rate</span>: <span style="color:#ff0;font-weight:bold">0.001</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>
+<p>类似<code>get_bwa_map_input_fastqs</code>函数，往往用于流程第一步的输入数据读取</p>
+</li>
+<li>
+<p>rule语句还支持其它更多的选项</p>
+<ul>
+<li>params 用于设置生信工具命令参数</li>
+<li>log 用于保存该步骤的log文件</li>
+<li>threads 用户设置线程</li>
+<li>resources: mem_mb=100</li>
+</ul>
+</li>
+<li>
+<p>对于每个步骤的output分析结果，有两个特殊关键字</p>
+<ul>
+<li>temp() 使得特定中间结果(例如sam/bam)在使用后会被删除，避免不必要的空间消耗</li>
+<li>protected() 使得比较重要的中间结果不会由于报错等意外原因而被删除。</li>
+</ul>
+</li>
+</ul>
+<h3 id="2snakemake-1">（2）snakemake<a hidden class="anchor" aria-hidden="true" href="#2snakemake-1">#</a></h3>
+<ul>
+<li>而在执行snake命令时，也有更多的参数方便个性化分析</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#007f7f"># (1) -j 同时执行的任务数</span>
+</span></span><span style="display:flex;"><span>snakemake -p -j <span style="color:#ff0;font-weight:bold">2</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># (2) --core 允许调用的线程上限</span>
+</span></span><span style="display:flex;"><span>snakemake --cores <span style="color:#ff0;font-weight:bold">10</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># (3) --rerun-incomplete 断点继续运行未完成的任务</span>
+</span></span><span style="display:flex;"><span>snakemake --rerun-incomplete
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># (4) --force 强制重新运行指定的目标，即使目标文件已经存在。</span>
+</span></span><span style="display:flex;"><span>snakemake --force results/output.txt
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 关于这一点，请参看下图：</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240922151927656.png" alt="image-20240922151927656" style="zoom:67%;" />
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/linux/">Linux</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/en/posts/program/451%E5%88%9D%E8%AF%86slurm%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>初识slurm基础操作</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/en/posts/program/500window%E7%B3%BB%E7%BB%9F%E5%BF%AB%E9%80%9F%E5%AE%89%E8%A3%85ubuntu%E5%AD%90%E7%B3%BB%E7%BB%9F/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>window系统快速安装ubuntu子系统</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

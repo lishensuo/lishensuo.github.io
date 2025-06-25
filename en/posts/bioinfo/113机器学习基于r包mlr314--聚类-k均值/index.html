@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>机器学习基于R包mlr3(14)--聚类-k均值 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="机器学习, mlr3">
+<meta name="description" content="1、算法简介
+1.1 不同种K均值算法
+k均值是常用的聚类算法之一。
+（1）首先需要预先定义样本集中存在多少种聚类（假设为k），即数据集中处在K个真正意义上的质心。
+（2）然后随机初始化k个质心，每个质心具有与样本数据相同维度的变量值。">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/bioinfo/113%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr314--%E8%81%9A%E7%B1%BB-k%E5%9D%87%E5%80%BC/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/bioinfo/113%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr314--%E8%81%9A%E7%B1%BB-k%E5%9D%87%E5%80%BC/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="机器学习基于R包mlr3(14)--聚类-k均值" />
+<meta property="og:description" content="1、算法简介
+1.1 不同种K均值算法
+k均值是常用的聚类算法之一。
+（1）首先需要预先定义样本集中存在多少种聚类（假设为k），即数据集中处在K个真正意义上的质心。
+（2）然后随机初始化k个质心，每个质心具有与样本数据相同维度的变量值。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/bioinfo/113%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr314--%E8%81%9A%E7%B1%BB-k%E5%9D%87%E5%80%BC/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-07-06T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2022-07-06T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="机器学习基于R包mlr3(14)--聚类-k均值"/>
+<meta name="twitter:description" content="1、算法简介
+1.1 不同种K均值算法
+k均值是常用的聚类算法之一。
+（1）首先需要预先定义样本集中存在多少种聚类（假设为k），即数据集中处在K个真正意义上的质心。
+（2）然后随机初始化k个质心，每个质心具有与样本数据相同维度的变量值。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 生信数据分析--分析流程，工具包等",
+      "item": "https://lishensuo.github.io/en/posts/bioinfo/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "机器学习基于R包mlr3(14)--聚类-k均值",
+      "item": "https://lishensuo.github.io/en/posts/bioinfo/113%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr314--%E8%81%9A%E7%B1%BB-k%E5%9D%87%E5%80%BC/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "机器学习基于R包mlr3(14)--聚类-k均值",
+  "name": "机器学习基于R包mlr3(14)--聚类-k均值",
+  "description": "1、算法简介 1.1 不同种K均值算法 k均值是常用的聚类算法之一。\n（1）首先需要预先定义样本集中存在多少种聚类（假设为k），即数据集中处在K个真正意义上的质心。\n（2）然后随机初始化k个质心，每个质心具有与样本数据相同维度的变量值。\n",
+  "keywords": [
+    "机器学习", "mlr3"
+  ],
+  "articleBody": "1、算法简介 1.1 不同种K均值算法 k均值是常用的聚类算法之一。\n（1）首先需要预先定义样本集中存在多少种聚类（假设为k），即数据集中处在K个真正意义上的质心。\n（2）然后随机初始化k个质心，每个质心具有与样本数据相同维度的变量值。\n（3）最后通过不断迭代，使这些初始质心点向数据集中真正意义上的质心点处移动，直到得到预期的聚类结果，\nk-均值算法有多种实现形式，即不同的迭代方式。常见有如下几种\nLloyd方法 如下图所示\n（1）预设设定数据集样本可以聚为2类，随机初始化两个质心点。[如下图b]\n（2）计算所有样本与当前2个质心的距离，通常为欧几里得距离。\n（3）将样本分配给相距最近的质心所表示的聚类。[如下图c]\n（4）将每个质心放在聚类内样本的均值位置。[如下图d]\n（5）重复上述步骤（3）~（4），直到没有样本改变聚类或者达到最大迭代次数位置。[如下图e、f]\n由于涉及两点之间欧几里得距离的计算，需要先对数据进行归一化处理。下同\nMacQueen方法 （1）预设设定数据集样本可以聚为3类，随机初始化3个质心点。\n（2）计算所有样本与当前3个质心的距离，通常为欧几里得距离。\n（3）将样本分配给相距最近的质心所表示的聚类，然后将质心放到对应聚类的中心位置。\n（4）对于所有样本逐一完成下述操作\nA：计算样本与当前3个质心的距离； B：将样本分配给相距最近的质心所表示的聚类； C：如果样本改变聚类，更新有变动的聚类内的质心位置。 对于改变类别的样本，该样本的原聚类就缺失一个样本；而新聚类就增多一个样本。 （5）重复上述步骤（3）~（4），直到没有样本改变聚类或者达到最大迭代次数位置。\n如上Lloyd算法与Macqueen算法主要的区别在于更新、移动质心位置。\n前者是一次性给所有样本分配新聚类标签，然后更新所有质心位置； 后者是逐一给样本分配新聚类标签，然后逐一更新质心位置。 此外还有一种Hartigan-Wong算法基于最小化聚类误差平方和，更新、迭代质心的位置；相对来说，计算成本最高。\n1.2 聚类评价指标 聚类clusteing通常属于无监督学习。在优化超参数时，需要寻找一个能够度量聚类性能的指标。下面介绍其中两种常用的指标。\nDavies-Bouldin指标 核心是评价每个聚类与其它聚类的可区分性。\n（1）对于得到的K个聚类，计算每个聚类自身的散度，即聚类内样本到质心距离的均方差。用以评价聚类的分散程度S。\ni：k个聚类中的第i个聚类；Ti表示该聚类的样本点数；Ai表示该聚类的质心；Xj表示该聚类的第j个样本点坐标（多维）。\n$$ S_i = ( \\frac{1}{T_i} \\sum_{j=1}^{T_i}||X_j-A_i|| ) $$ （2）对于每个聚类，逐一进行如下计算\n① 计算特定聚类的质心与其余聚类质心的距离；\nAi与Aj聚类i与聚类j的质心，n表示每个数据点的维度（或者变量数）\n$$ M_{i,j} = ||A_i-A_j|| = (\\sum_{k=1}^{n}|a_{k,i}-a_{k,j}|^2)^{\\frac{1}{2}} $$\n数学符号 ：一对竖线|x|，内为实数，表示绝对值；一对双竖线||Ai - Aj||默认求L2范数，即两个向量对应每个元素平方和的平方根\n② 计算特定聚类与其余聚类的可分性R：分子–两个聚类的散度和；分母–两个聚类的质心距离。 该值越小，表示两个聚类的可分性越好。 $$ R_{i,j} = \\frac{S_i+S_j}{M_{i,j}} $$\n③ 取特定聚类与其余聚类可分性最差的结果，即为该聚类的间隔比率D。 $$ D_i=\\max_{j\\neq i}R_{i,j} $$ （3）计算所有聚类的间隔比率的平均值作为Davies-Bouldin index，用以评估聚类性能。、\nDB指标越小，聚类性能越好。 $$ DB=\\frac{1}{N}\\sum_{i=1}^{N}D_i $$\nsilhouette指标 又称轮廓系数，核心是评价每个样本的当前分类的性能。\n（1）计算特定样本i到所在聚类CI内其它样本的平均距离a。值越小，表明该样本越接近所在聚类。\n$$ a(i) = \\frac{1}{|C_I|-1}\\sum_{j\\in C_I,i\\neq j}d(i,j) $$\n（2）计算特点样本i到其它各个聚类内样本的平均距离b，取最小值。值越小，表明该样本越接近该聚类。 $$ b(i) = \\min_{J\\neq I} \\frac{1}{|C_J|}\\sum_{j\\in C_j}d(i,j) $$\n（3）据此计算样本i的轮廓系数s。\n越接近1（b大，a小），表明该样本当前所在的聚类越合适； 越接近-1（b小，a大），表明越不符合当前聚类。 $$ s(i) = \\frac{b(i)-a(i)}{max{a(i),b(i) }} $$ （4）最后取所有样本的轮廓系数的均值，作为该聚类性能的度量。\nsilhouette平均指标越大，表示聚类性能越好 此外还有pseudo-F指标类似于方差分析。计算两两聚类之间的F统计量：聚类之间的距离平方和(组间方差)与聚类内的距离平方和(组内方差)。pseudo-F值越大，表明两聚类间的可分性越好。\n1.3 超参数 关于K均值算法的超参数主要是聚类的K值。即对数据潜在的聚类数也不太确定时，可以遍历一定范围的K值，选择使得聚类性能指标最好的聚类。\n其次可选的超参数包括不同的K均值算法、最大迭代次数、随机初始质心组数\n（1）不同的K均值算法：包括如上所述的3种 （2）最大迭代次数。K均值迭代停止的条件有2个：要么没有样本改变聚类；要么已达到最大迭代次数。 （3）随机初始质心组数：在开始迭代前，通过初始化多组质心，选择初始聚类中平方误差和最小的质心组可有效降低需要迭代的次数。 2、mlr建模 1 2 library(mlr3verse) library(tidyverse) 2.1 细胞的4种基因表达量数据 1 2 3 4 5 6 7 8 9 10 11 data(GvHD, package = \"mclust\") head(GvHD.control) # CD4 CD8b CD3 CD8 # 1 199 420 132 226 # 2 294 311 241 164 # 3 85 79 14 218 # 4 19 1 141 130 # 5 35 29 6 135 # 6 376 346 138 176 #由于涉及距离的计算，需要将数据归一化 gvhdScaled \u003c- GvHD.control %\u003e% scale() 2.2 确定聚类任务与训练方法 根据5种基因表达特征，使用k均值方法将细胞分为若干类 1 task_clust = as_task_clust(gvhdScaled) 确定需要遍历的超参数组合 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 learner = lrn(\"clust.kmeans\") learner$param_set # # id class lower upper nlevels default value # 1: centers ParamUty NA NA Inf 2 2 # 2: iter.max ParamInt 1 Inf Inf 10 # 3: algorithm ParamFct NA NA 4 Hartigan-Wong # 4: nstart ParamInt 1 Inf Inf 1 # 5: trace ParamInt 0 Inf Inf 0 # centers : 聚类数 # iter.max: 迭代次数 # nstart : 随机初始多少组质心 # algorithm : k均值算法 ##(1) 对于nstart、iter.max 建议先确定固定值 ##(2) 对于algorithm、centers可设置多个候选值组合。 search_space = ps( algorithm = p_fct(c(\"Hartigan-Wong\", \"Lloyd\", \"MacQueen\")), centers = p_int(lower=3,upper=8), iter.max = p_int(lower=100,upper=100), nstart = p_int(lower=5,upper=5) ) design = expand.grid(algorithm = c(\"Hartigan-Wong\", \"Lloyd\", \"MacQueen\"), centers = 3:8, iter.max = 100, nstart = 5, stringsAsFactors = FALSE) %\u003e% as.data.table() ## 交叉验证与评价指标 resampling = rsmp(\"cv\") grep(\"clust\",mlr_measures$keys(), value = T) # [1] \"clust.ch\" \"clust.db\" \"clust.dunn\" \"clust.silhouette\" \"clust.wss\" measure = msr(\"clust.silhouette\") 2.3 优化超参数 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 ##创建实例 instance = TuningInstanceSingleCrit$new( task = task_clust, learner = learner, resampling = resampling, measure = measure, terminator = trm(\"none\"), search_space = search_space ) tuner = tnr(\"design_points\", design = design) tuner$optimize(instance) as.data.table(instance$archive)[,1:5] %\u003e% head() # algorithm centers iter.max nstart clust.silhouette # 1: Hartigan-Wong 3 100 5 0.4529947 # 2: Lloyd 3 100 5 0.4678896 # 3: MacQueen 3 100 5 0.4680556 # 4: Hartigan-Wong 4 100 5 0.4944346 # 5: Lloyd 4 100 5 0.4943383 # 6: MacQueen 4 100 5 0.4944346 instance$result_learner_param_vals #最佳超参数 # $centers # [1] 4 # $algorithm # [1] \"Hartigan-Wong\" # $iter.max # [1] 100 # $nstart # [1] 5 instance$result_y #最佳超参数的CV结果 # clust.silhouette # 0.4944346 2.4 确定模型 1 2 3 learner$param_set$values = instance$result_learner_param_vals learner$train(task_clust) learner$model ",
+  "wordCount" : "2566",
+  "inLanguage": "en",
+  "datePublished": "2022-07-06T00:00:00Z",
+  "dateModified": "2022-07-06T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/bioinfo/113%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr314--%E8%81%9A%E7%B1%BB-k%E5%9D%87%E5%80%BC/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/bioinfo/">📖 生信数据分析--分析流程，工具包等</a></div>
+    <h1 class="post-title">
+      机器学习基于R包mlr3(14)--聚类-k均值
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-07-06 00:00:00 &#43;0000 UTC&#39;&gt;2022-07-06&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-07-06&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2566&amp;nbsp;|&amp;nbsp;6 min&amp;nbsp;|&amp;nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#1%e7%ae%97%e6%b3%95%e7%ae%80%e4%bb%8b" aria-label="1、算法简介">1、算法简介</a><ul>
+                            
+                    <li>
+                        <a href="#11-%e4%b8%8d%e5%90%8c%e7%a7%8dk%e5%9d%87%e5%80%bc%e7%ae%97%e6%b3%95" aria-label="1.1 不同种K均值算法">1.1 不同种K均值算法</a><ul>
+                            
+                    <li>
+                        <a href="#lloyd%e6%96%b9%e6%b3%95" aria-label="Lloyd方法">Lloyd方法</a></li>
+                    <li>
+                        <a href="#macqueen%e6%96%b9%e6%b3%95" aria-label="MacQueen方法">MacQueen方法</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#12-%e8%81%9a%e7%b1%bb%e8%af%84%e4%bb%b7%e6%8c%87%e6%a0%87" aria-label="1.2 聚类评价指标">1.2 聚类评价指标</a><ul>
+                            
+                    <li>
+                        <a href="#davies-bouldin%e6%8c%87%e6%a0%87" aria-label="Davies-Bouldin指标">Davies-Bouldin指标</a></li>
+                    <li>
+                        <a href="#silhouette%e6%8c%87%e6%a0%87" aria-label="silhouette指标">silhouette指标</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#13-%e8%b6%85%e5%8f%82%e6%95%b0" aria-label="1.3 超参数">1.3 超参数</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#2mlr%e5%bb%ba%e6%a8%a1" aria-label="2、mlr建模">2、mlr建模</a><ul>
+                            
+                    <li>
+                        <a href="#21-%e7%bb%86%e8%83%9e%e7%9a%844%e7%a7%8d%e5%9f%ba%e5%9b%a0%e8%a1%a8%e8%be%be%e9%87%8f%e6%95%b0%e6%8d%ae" aria-label="2.1 细胞的4种基因表达量数据">2.1 细胞的4种基因表达量数据</a></li>
+                    <li>
+                        <a href="#22-%e7%a1%ae%e5%ae%9a%e8%81%9a%e7%b1%bb%e4%bb%bb%e5%8a%a1%e4%b8%8e%e8%ae%ad%e7%bb%83%e6%96%b9%e6%b3%95" aria-label="2.2 确定聚类任务与训练方法">2.2 确定聚类任务与训练方法</a></li>
+                    <li>
+                        <a href="#23-%e4%bc%98%e5%8c%96%e8%b6%85%e5%8f%82%e6%95%b0" aria-label="2.3 优化超参数">2.3 优化超参数</a></li>
+                    <li>
+                        <a href="#24-%e7%a1%ae%e5%ae%9a%e6%a8%a1%e5%9e%8b" aria-label="2.4 确定模型">2.4 确定模型</a>
+                    </li>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><h1 id="1算法简介">1、算法简介<a hidden class="anchor" aria-hidden="true" href="#1算法简介">#</a></h1>
+<h2 id="11-不同种k均值算法">1.1 不同种K均值算法<a hidden class="anchor" aria-hidden="true" href="#11-不同种k均值算法">#</a></h2>
+<p>k均值是常用的聚类算法之一。</p>
+<p>（1）首先需要预先定义样本集中存在多少种聚类（假设为k），即数据集中处在K个真正意义上的质心。</p>
+<p>（2）然后随机初始化k个质心，每个质心具有与样本数据相同维度的变量值。</p>
+<p>（3）最后通过不断迭代，使这些初始质心点向数据集中真正意义上的质心点处移动，直到得到预期的聚类结果，</p>
+<p>k-均值算法有多种实现形式，即不同的迭代方式。常见有如下几种</p>
+<h3 id="lloyd方法">Lloyd方法<a hidden class="anchor" aria-hidden="true" href="#lloyd方法">#</a></h3>
+<p>如下图所示</p>
+<p>（1）预设设定数据集样本可以聚为2类，随机初始化两个质心点。[如下图b]</p>
+<p>（2）计算所有样本与当前2个质心的距离，通常为欧几里得距离。</p>
+<p>（3）将样本分配给相距最近的质心所表示的聚类。[如下图c]</p>
+<p>（4）将每个质心放在聚类内样本的均值位置。[如下图d]</p>
+<p>（5）重复上述步骤（3）~（4），直到没有样本改变聚类或者达到最大迭代次数位置。[如下图e、f]</p>
+<p><img loading="lazy" src="https://stanford.edu/~cpiech/cs221/img/kmeansViz.png" alt="CS221"  />
+</p>
+<blockquote>
+<p>由于涉及两点之间欧几里得距离的计算，需要先对数据进行归一化处理。下同</p></blockquote>
+<h3 id="macqueen方法">MacQueen方法<a hidden class="anchor" aria-hidden="true" href="#macqueen方法">#</a></h3>
+<p>（1）预设设定数据集样本可以聚为3类，随机初始化3个质心点。</p>
+<p>（2）计算所有样本与当前3个质心的距离，通常为欧几里得距离。</p>
+<p>（3）将样本分配给相距最近的质心所表示的聚类，然后将质心放到对应聚类的中心位置。</p>
+<p>（4）对于所有样本逐一完成下述操作</p>
+<ul>
+<li>A：计算样本与当前3个质心的距离；</li>
+<li>B：将样本分配给相距最近的质心所表示的聚类；</li>
+<li>C：如果样本改变聚类，更新有变动的聚类内的质心位置。
+<ul>
+<li>对于改变类别的样本，该样本的原聚类就缺失一个样本；而新聚类就增多一个样本。</li>
+</ul>
+</li>
+</ul>
+<p>（5）重复上述步骤（3）~（4），直到没有样本改变聚类或者达到最大迭代次数位置。</p>
+<p>如上Lloyd算法与Macqueen算法主要的区别在于更新、移动质心位置。</p>
+<ul>
+<li>前者是一次性给所有样本分配新聚类标签，然后更新所有质心位置；</li>
+<li>后者是逐一给样本分配新聚类标签，然后逐一更新质心位置。</li>
+</ul>
+<blockquote>
+<p>此外还有一种Hartigan-Wong算法基于最小化聚类误差平方和，更新、迭代质心的位置；相对来说，计算成本最高。</p></blockquote>
+<h2 id="12-聚类评价指标">1.2 聚类评价指标<a hidden class="anchor" aria-hidden="true" href="#12-聚类评价指标">#</a></h2>
+<p>聚类clusteing通常属于无监督学习。在优化超参数时，需要寻找一个能够度量聚类性能的指标。下面介绍其中两种常用的指标。</p>
+<h3 id="davies-bouldin指标">Davies-Bouldin指标<a hidden class="anchor" aria-hidden="true" href="#davies-bouldin指标">#</a></h3>
+<p>核心是评价每个聚类与其它聚类的可区分性。</p>
+<p>（1）对于得到的K个聚类，计算每个聚类自身的散度，即聚类内样本到质心距离的均方差。用以评价聚类的分散程度S。</p>
+<p>i：k个聚类中的第i个聚类；Ti表示该聚类的样本点数；Ai表示该聚类的质心；Xj表示该聚类的第j个样本点坐标（多维）。</p>
+<p>$$
+S_i = ( \frac{1}{T_i} \sum_{j=1}^{T_i}||X_j-A_i|| )
+$$
+（2）对于每个聚类，逐一进行如下计算</p>
+<ul>
+<li>
+<p>① 计算特定聚类的质心与其余聚类质心的距离；</p>
+<p>Ai与Aj聚类i与聚类j的质心，n表示每个数据点的维度（或者变量数）</p>
+</li>
+</ul>
+<p>$$
+M_{i,j} = ||A_i-A_j|| = (\sum_{k=1}^{n}|a_{k,i}-a_{k,j}|^2)^{\frac{1}{2}}
+$$</p>
+<blockquote>
+<p>数学符号 ：一对竖线|x|，内为实数，表示绝对值；一对双竖线||Ai - Aj||默认求L2范数，即两个向量对应每个元素平方和的平方根</p></blockquote>
+<ul>
+<li>② 计算特定聚类与其余聚类的可分性R：分子&ndash;两个聚类的散度和；分母&ndash;两个聚类的质心距离。
+<ul>
+<li>该值越小，表示两个聚类的可分性越好。</li>
+</ul>
+</li>
+</ul>
+<p>$$
+R_{i,j} = \frac{S_i+S_j}{M_{i,j}}
+$$</p>
+<ul>
+<li>③ 取特定聚类与其余聚类可分性最差的结果，即为该聚类的间隔比率D。
+$$
+D_i=\max_{j\neq i}R_{i,j}
+$$</li>
+</ul>
+<p>（3）计算所有聚类的间隔比率的平均值作为Davies-Bouldin index，用以评估聚类性能。、</p>
+<ul>
+<li>DB指标越小，聚类性能越好。</li>
+</ul>
+<p>$$
+DB=\frac{1}{N}\sum_{i=1}^{N}D_i
+$$</p>
+<p><img loading="lazy" src="https://drek4537l1klr.cloudfront.net/rhys/Figures/fig16-4.jpg" alt="img"  />
+</p>
+<h3 id="silhouette指标">silhouette指标<a hidden class="anchor" aria-hidden="true" href="#silhouette指标">#</a></h3>
+<p>又称轮廓系数，核心是评价每个样本的当前分类的性能。</p>
+<p>（1）计算特定样本i到所在聚类CI内其它样本的平均距离a。值越小，表明该样本越接近所在聚类。</p>
+<p>$$
+a(i) = \frac{1}{|C_I|-1}\sum_{j\in C_I,i\neq j}d(i,j)
+$$</p>
+<p>（2）计算特点样本i到其它各个聚类内样本的平均距离b，取最小值。值越小，表明该样本越接近该聚类。
+$$
+b(i) = \min_{J\neq I} \frac{1}{|C_J|}\sum_{j\in C_j}d(i,j)
+$$</p>
+<p>（3）据此计算样本i的轮廓系数s。</p>
+<ul>
+<li>越接近1（b大，a小），表明该样本当前所在的聚类越合适；</li>
+<li>越接近-1（b小，a大），表明越不符合当前聚类。</li>
+</ul>
+<p>$$
+s(i) = \frac{b(i)-a(i)}{max{a(i),b(i) }}
+$$
+<img src="https://uploads-ssl.webflow.com/5f5148a709e16c7d368ea080/5f7dea907b8e8c7769e769c8_5f7c9650bc3b1ed0ad2247eb_silhouette_formula.jpg" alt="The Silhouette Loss Function: Metric Learning with a Cluster Validity Index" style="zoom:80%;" /></p>
+<p>（4）最后取所有样本的轮廓系数的均值，作为该聚类性能的度量。</p>
+<ul>
+<li>silhouette平均指标越大，表示聚类性能越好</li>
+</ul>
+<blockquote>
+<p>此外还有pseudo-F指标类似于方差分析。计算两两聚类之间的F统计量：聚类之间的距离平方和(组间方差)与聚类内的距离平方和(组内方差)。pseudo-F值越大，表明两聚类间的可分性越好。</p></blockquote>
+<h2 id="13-超参数">1.3 超参数<a hidden class="anchor" aria-hidden="true" href="#13-超参数">#</a></h2>
+<p>关于K均值算法的超参数主要是聚类的K值。即对数据潜在的聚类数也不太确定时，可以遍历一定范围的K值，选择使得聚类性能指标最好的聚类。</p>
+<p>其次可选的超参数包括不同的K均值算法、最大迭代次数、随机初始质心组数</p>
+<ul>
+<li>（1）不同的K均值算法：包括如上所述的3种</li>
+<li>（2）最大迭代次数。K均值迭代停止的条件有2个：要么没有样本改变聚类；要么已达到最大迭代次数。</li>
+<li>（3）随机初始质心组数：在开始迭代前，通过初始化多组质心，选择初始聚类中平方误差和最小的质心组可有效降低需要迭代的次数。</li>
+</ul>
+<h1 id="2mlr建模">2、mlr建模<a hidden class="anchor" aria-hidden="true" href="#2mlr建模">#</a></h1>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>library(mlr3verse)
+</span></span><span style="display:flex;"><span>library(tidyverse)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="21-细胞的4种基因表达量数据">2.1 细胞的4种基因表达量数据<a hidden class="anchor" aria-hidden="true" href="#21-细胞的4种基因表达量数据">#</a></h2>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>data(GvHD, package = <span style="color:#0ff;font-weight:bold">&#34;mclust&#34;</span>)
+</span></span><span style="display:flex;"><span>head(GvHD.control)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#   CD4 CD8b CD3 CD8</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1 199  420 132 226</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2 294  311 241 164</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3  85   79  14 218</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 4  19    1 141 130</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 5  35   29   6 135</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 6 376  346 138 176</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#由于涉及距离的计算，需要将数据归一化</span>
+</span></span><span style="display:flex;"><span>gvhdScaled &lt;- GvHD.control %&gt;% scale()
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="22-确定聚类任务与训练方法">2.2 确定聚类任务与训练方法<a hidden class="anchor" aria-hidden="true" href="#22-确定聚类任务与训练方法">#</a></h2>
+<ul>
+<li>根据5种基因表达特征，使用k均值方法将细胞分为若干类</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>task_clust = as_task_clust(gvhdScaled)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>确定需要遍历的超参数组合</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">27
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">28
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">29
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">30
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">31
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">32
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">33
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">34
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>learner = lrn(<span style="color:#0ff;font-weight:bold">&#34;clust.kmeans&#34;</span>)
+</span></span><span style="display:flex;"><span>learner$param_set
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># &lt;ParamSet&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#           id    class lower upper nlevels       default value</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1:   centers ParamUty    NA    NA     Inf             2     2</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2:  iter.max ParamInt     1   Inf     Inf            10      </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3: algorithm ParamFct    NA    NA       4 Hartigan-Wong      </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 4:    nstart ParamInt     1   Inf     Inf             1      </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 5:     trace ParamInt     0   Inf     Inf             0   </span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># centers : 聚类数</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># iter.max: 迭代次数</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># nstart : 随机初始多少组质心 </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># algorithm : k均值算法</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##(1) 对于nstart、iter.max 建议先确定固定值</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##(2) 对于algorithm、centers可设置多个候选值组合。</span>
+</span></span><span style="display:flex;"><span>search_space = ps(
+</span></span><span style="display:flex;"><span>  algorithm = p_fct(c(<span style="color:#0ff;font-weight:bold">&#34;Hartigan-Wong&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;Lloyd&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;MacQueen&#34;</span>)),
+</span></span><span style="display:flex;"><span>  centers = p_int(lower=<span style="color:#ff0;font-weight:bold">3</span>,upper=<span style="color:#ff0;font-weight:bold">8</span>),
+</span></span><span style="display:flex;"><span>  iter.max = p_int(lower=<span style="color:#ff0;font-weight:bold">100</span>,upper=<span style="color:#ff0;font-weight:bold">100</span>),
+</span></span><span style="display:flex;"><span>  nstart = p_int(lower=<span style="color:#ff0;font-weight:bold">5</span>,upper=<span style="color:#ff0;font-weight:bold">5</span>)
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>design = expand.grid(algorithm = c(<span style="color:#0ff;font-weight:bold">&#34;Hartigan-Wong&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;Lloyd&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;MacQueen&#34;</span>),
+</span></span><span style="display:flex;"><span>                     centers = <span style="color:#ff0;font-weight:bold">3</span>:<span style="color:#ff0;font-weight:bold">8</span>,
+</span></span><span style="display:flex;"><span>                     iter.max = <span style="color:#ff0;font-weight:bold">100</span>,
+</span></span><span style="display:flex;"><span>                     nstart = <span style="color:#ff0;font-weight:bold">5</span>,
+</span></span><span style="display:flex;"><span>                     stringsAsFactors = <span style="color:#fff;font-weight:bold">FALSE</span>) %&gt;% as.data.table()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## 交叉验证与评价指标</span>
+</span></span><span style="display:flex;"><span>resampling = rsmp(<span style="color:#0ff;font-weight:bold">&#34;cv&#34;</span>)
+</span></span><span style="display:flex;"><span>grep(<span style="color:#0ff;font-weight:bold">&#34;clust&#34;</span>,mlr_measures$keys(), value = <span style="color:#fff;font-weight:bold">T</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] &#34;clust.ch&#34;         &#34;clust.db&#34;         &#34;clust.dunn&#34;       &#34;clust.silhouette&#34; &#34;clust.wss&#34;</span>
+</span></span><span style="display:flex;"><span>measure = msr(<span style="color:#0ff;font-weight:bold">&#34;clust.silhouette&#34;</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="23-优化超参数">2.3 优化超参数<a hidden class="anchor" aria-hidden="true" href="#23-优化超参数">#</a></h2>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">27
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">28
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">29
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">30
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">31
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">32
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">33
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">34
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">35
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">36
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">37
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">##创建实例</span>
+</span></span><span style="display:flex;"><span>instance = TuningInstanceSingleCrit$new(
+</span></span><span style="display:flex;"><span>  task = task_clust,
+</span></span><span style="display:flex;"><span>  learner = learner,
+</span></span><span style="display:flex;"><span>  resampling = resampling,
+</span></span><span style="display:flex;"><span>  measure = measure,
+</span></span><span style="display:flex;"><span>  terminator = trm(<span style="color:#0ff;font-weight:bold">&#34;none&#34;</span>),
+</span></span><span style="display:flex;"><span>  search_space = search_space
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>tuner = tnr(<span style="color:#0ff;font-weight:bold">&#34;design_points&#34;</span>, design = design)  
+</span></span><span style="display:flex;"><span>tuner$optimize(instance)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>as.data.table(instance$archive)[,<span style="color:#ff0;font-weight:bold">1</span>:<span style="color:#ff0;font-weight:bold">5</span>] %&gt;% head()
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#        algorithm centers iter.max nstart clust.silhouette</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 1: Hartigan-Wong       3      100      5        0.4529947</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2:         Lloyd       3      100      5        0.4678896</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 3:      MacQueen       3      100      5        0.4680556</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 4: Hartigan-Wong       4      100      5        0.4944346</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 5:         Lloyd       4      100      5        0.4943383</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 6:      MacQueen       4      100      5        0.4944346</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>instance$result_learner_param_vals      <span style="color:#007f7f">#最佳超参数</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># $centers</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] 4</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># $algorithm</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] &#34;Hartigan-Wong&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># $iter.max</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] 100</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># $nstart</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] 5</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>instance$result_y                       <span style="color:#007f7f">#最佳超参数的CV结果</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># clust.silhouette </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 0.4944346  </span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="24-确定模型">2.4 确定模型<a hidden class="anchor" aria-hidden="true" href="#24-确定模型">#</a></h2>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>learner$param_set$values = instance$result_learner_param_vals
+</span></span><span style="display:flex;"><span>learner$train(task_clust)
+</span></span><span style="display:flex;"><span>learner$model
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></li>
+      <li><a href="https://lishensuo.github.io/en/tags/mlr3/">Mlr3</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/en/posts/bioinfo/112%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr313--%E9%99%8D%E7%BB%B4t-sne%E4%B8%8Eumap/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>机器学习基于R包mlr3(13)--降维t-SNE与UMAP</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/en/posts/bioinfo/114%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr315--%E8%81%9A%E7%B1%BB-%E5%B1%82%E6%AC%A1%E8%81%9A%E7%B1%BB/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>机器学习基于R包mlr3(15)--聚类-层次聚类</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>
