@@ -178,6 +178,40 @@
 <article class="post-entry">
 	<div class="post-info">  
 		<header class="entry-header">
+			<h2>Python-可视化-statannotations包为sns绘图注释显著性
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>参考
+https://github.com/trevismd/statannotations/blob/master/usage/example.ipynb https://github.com/trevismd/statannotations/tree/master 1 2 3 4 5 6 7 8 9 10 11 12 import numpy as np import pandas as pd import matplotlib.pyplot as plt import seaborn as sns # Box plots -- sns.boxplot() # Bar plots -- sns.barplot() # Swarm plots -- sns.swarmplot() # Strip plots -- sns.stripplot() # Violin plots -- sns.violinplot() # Supporting FacetGrid -- sns.catplot(col=..., row=...) from statannotations.Annotator import Annotator 1. Basic use 1 2 3 4 5 6 7 8 9 10 11 x = &#34;day&#34; y = &#34;total_bill&#34; order = [&#39;Sun&#39;, &#39;Thur&#39;, &#39;Fri&#39;, &#39;Sat&#39;] ax = sns.boxplot(data=df, x=x, y=y, order=order) pairs = [(&#34;Thur&#34;, &#34;Fri&#34;), (&#34;Thur&#34;, &#34;Sat&#34;), (&#34;Fri&#34;, &#34;Sun&#34;)] annot = Annotator(ax, pairs, data=df, x=x, y=y, order=order) annot.configure(test=&#39;t-test_ind&#39;, text_format=&#39;star&#39;, loc=&#39;outside&#39;, verbose=2) # annot.apply_test() # ax, test_results = annot.annotate() ax, test_results = annot.apply_and_annotate() Tips: sns.plot的data, x, y, order等绘图参数需要与Annotator的保持一致。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2025-07-14 00:00:00 &#43;0000 UTC&#39;&gt;2025-07-14&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2025-07-14&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1237&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to Python-可视化-statannotations包为sns绘图注释显著性" href="https://lishensuo.github.io/en/posts/program/032python-%E5%8F%AF%E8%A7%86%E5%8C%96-statannotations%E5%8C%85%E4%B8%BAsns%E7%BB%98%E5%9B%BE%E6%B3%A8%E9%87%8A%E6%98%BE%E8%91%97%E6%80%A7/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
 			<h2>050快捷键
 			</h2>
 		</header>
@@ -473,39 +507,6 @@ Create:&amp;nbsp;&lt;span title=&#39;2022-07-03 00:00:00 &#43;0000 UTC&#39;&gt;2
 Create:&amp;nbsp;&lt;span title=&#39;2022-07-23 00:00:00 &#43;0000 UTC&#39;&gt;2022-07-23&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-07-23&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;964&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
 	</div>   
   <a class="entry-link" aria-label="post link to R-可视化-ggpubr包快速绘制点图、线图与柱状图" href="https://lishensuo.github.io/en/posts/program/213r-%E5%8F%AF%E8%A7%86%E5%8C%96-ggpubr%E5%8C%85%E5%BF%AB%E9%80%9F%E7%BB%98%E5%88%B6%E7%82%B9%E5%9B%BE%E7%BA%BF%E5%9B%BE%E4%B8%8E%E6%9F%B1%E7%8A%B6%E5%9B%BE/"></a>
-</article>
-
-
-
-
-
-<article class="post-entry">
-	<div class="post-info">  
-		<header class="entry-header">
-			<h2>R-可视化-拼图patchwork
-			</h2>
-		</header>
-		<section class="entry-content">
-			<p>一、ggplot2组图 0、安装包及示例图 1 2 3 4 5 6 7 8 9 10 # #install.packages(&#34;devtools&#34;) # devtools::install_github(&#34;thomasp85/patchwork&#34;) library(ggplot2) library(patchwork) p1 &lt;- ggplot(mtcars) &#43; geom_point(aes(mpg, disp)) p2 &lt;- ggplot(mtcars) &#43; geom_boxplot(aes(gear, disp, group = gear)) p3 &lt;- ggplot(mtcars) &#43; geom_bar(aes(gear)) &#43; facet_wrap(~cyl) p4 &lt;- ggplot(mtcars) &#43; geom_bar(aes(carb)) p5 &lt;- ggplot(mtcars) &#43; geom_violin(aes(cyl, mpg, group = cyl)) 1、简单使用 （1）符号连接：&#43;或者| 均表示左右拼接，/表示上下拼接，()可以用于调整优先级 （2）函数调用：wrap_plots()，可通过具体参数设置排列方式
-...</p>
-		</section>
-		<footer class="entry-footer">
-
-
-
-
-
-
-
-
-
-
-
-
-
-Create:&amp;nbsp;&lt;span title=&#39;2022-09-04 00:00:00 &#43;0000 UTC&#39;&gt;2022-09-04&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-09-04&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1139&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
-	</div>   
-  <a class="entry-link" aria-label="post link to R-可视化-拼图patchwork" href="https://lishensuo.github.io/en/posts/program/214r-%E5%8F%AF%E8%A7%86%E5%8C%96-%E6%8B%BC%E5%9B%BEpatchwork/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

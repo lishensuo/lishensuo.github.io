@@ -178,6 +178,39 @@
 <article class="post-entry">
 	<div class="post-info">  
 		<header class="entry-header">
+			<h2>R-可视化-拼图patchwork
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>一、ggplot2组图 0、安装包及示例图 1 2 3 4 5 6 7 8 9 10 # #install.packages(&#34;devtools&#34;) # devtools::install_github(&#34;thomasp85/patchwork&#34;) library(ggplot2) library(patchwork) p1 &lt;- ggplot(mtcars) &#43; geom_point(aes(mpg, disp)) p2 &lt;- ggplot(mtcars) &#43; geom_boxplot(aes(gear, disp, group = gear)) p3 &lt;- ggplot(mtcars) &#43; geom_bar(aes(gear)) &#43; facet_wrap(~cyl) p4 &lt;- ggplot(mtcars) &#43; geom_bar(aes(carb)) p5 &lt;- ggplot(mtcars) &#43; geom_violin(aes(cyl, mpg, group = cyl)) 1、简单使用 （1）符号连接：&#43;或者| 均表示左右拼接，/表示上下拼接，()可以用于调整优先级 （2）函数调用：wrap_plots()，可通过具体参数设置排列方式
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-09-04 00:00:00 &#43;0000 UTC&#39;&gt;2022-09-04&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-09-04&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1139&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to R-可视化-拼图patchwork" href="https://lishensuo.github.io/en/posts/program/214r-%E5%8F%AF%E8%A7%86%E5%8C%96-%E6%8B%BC%E5%9B%BEpatchwork/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
 			<h2>R-可视化-韦恩图venn
 			</h2>
 		</header>
@@ -469,38 +502,6 @@ Create:&amp;nbsp;&lt;span title=&#39;2023-03-11 00:00:00 &#43;0000 UTC&#39;&gt;2
 Create:&amp;nbsp;&lt;span title=&#39;2023-03-11 00:00:00 &#43;0000 UTC&#39;&gt;2023-03-11&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-03-11&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;656&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
 	</div>   
   <a class="entry-link" aria-label="post link to R-可视化--ggplot标注文本标签text&label" href="https://lishensuo.github.io/en/posts/program/223r-%E5%8F%AF%E8%A7%86%E5%8C%96--ggplot%E6%A0%87%E6%B3%A8%E6%96%87%E6%9C%AC%E6%A0%87%E7%AD%BEtextlabel/"></a>
-</article>
-
-
-
-
-
-<article class="post-entry">
-	<div class="post-info">  
-		<header class="entry-header">
-			<h2>R-可视化--corrplot相关性绘图
-			</h2>
-		</header>
-		<section class="entry-content">
-			<p> 1 2 3 4 5 6 # install.packages(&#34;corrplot&#34;) library(corrplot) # 计算相关性矩阵 M&lt;-cor(mtcars) dim(M) # [1] 11 11 1、可视化R系数方式 method参数提供了如下6种可视化方式 circle(default), square, ellipse, number, shade, color, pie 1 corrplot(M, method=&#34;ellipse&#34;) 2、对称布局方式 type参数提供了如下3种布局方式 full(default), upper, lower 1 corrplot(M, type=&#34;lower&#34;) 3、样本排序 order参数提供了如下 original(default), AOE, FPC, hclust, alphabet 如果采用hclust，可以通过hclust.method参数设置聚类方法 1 corrplot(M, order=&#34;hclust&#34;) 4、颜色方案 （1）相关性颜色 1 2 3 col = colorRampPalette(c(&#34;blue&#34;, &#34;white&#34;, &#34;red&#34;))(20) # 连续型 col = RColorBrewer::brewer.pal(n=8, name=&#34;RdBu&#34;) #离散型 corrplot(M, col=col) （2）其它颜色 1 2 3 4 5 # 背景填充颜色 corrplot(M, bg=&#34;grey&#34;) # 方格边框颜色 corrplot(M, addgrid.col = &#34;black&#34;) 5、文本属性设置 （1）坐标轴名：通过tl.系列参数设置大小，颜色、角度等 1 corrplot(M, tl.col=&#34;black&#34;, tl.srt=45) （2）标注相关性系数 1 corrplot(M, addCoef.col = &#34;black&#34;, number.digits = 1) （3）标注P值 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 ## 首先得到P值矩阵 cor.mtest &lt;- function(mat, ...) { mat &lt;- as.matrix(mat) n &lt;- ncol(mat) p.mat&lt;- matrix(NA, n, n) diag(p.mat) &lt;- 0 for (i in 1:(n - 1)) { for (j in (i &#43; 1):n) { tmp &lt;- cor.test(mat[, i], mat[, j], ...) p.mat[i, j] &lt;- p.mat[j, i] &lt;- tmp$p.value } } colnames(p.mat) &lt;- rownames(p.mat) &lt;- colnames(mat) p.mat } p.mat &lt;- cor.mtest(mtcars) dim(p.mat) # [1] 11 11 sig.level 参数设置显著阈值 insig参数设置标注方式，可选项包括 pch（default）：将不显著的，标注为叉 blank：将不显著的，不显示 n：不作处理 label_sig 将显著的，标注星号 1 corrplot(M, p.mat = p.mat, sig.level = 0.01, insig = &#34;blank&#34;) 1 2 3 corrplot(M, p.mat = p.mat, sig.level = c(0.1, 0.01), insig = &#34;label_sig&#34;, pch.cex = 1.5, pch.col = &#34;red&#34;) 6、其它参数 is.corr参数， 默认为TRUE；即输入矩阵是否为相关性矩阵 1 corrplot(scale(t(mtcars)), is.corr = FALSE) diag参数，默认为TRUE；即是否显示对角线的相关性 1 corrplot(M, diag=FALSE) </p>
-		</section>
-		<footer class="entry-footer">
-
-
-
-
-
-
-
-
-
-
-
-
-
-Create:&amp;nbsp;&lt;span title=&#39;2023-04-01 00:00:00 &#43;0000 UTC&#39;&gt;2023-04-01&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-04-01&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;564&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
-	</div>   
-  <a class="entry-link" aria-label="post link to R-可视化--corrplot相关性绘图" href="https://lishensuo.github.io/en/posts/program/224r-%E5%8F%AF%E8%A7%86%E5%8C%96--corrplot%E7%9B%B8%E5%85%B3%E6%80%A7%E7%BB%98%E5%9B%BE/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

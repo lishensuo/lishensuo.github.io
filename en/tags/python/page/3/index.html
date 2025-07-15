@@ -157,6 +157,40 @@
 <article class="post-entry tag-entry">
 	<div class="post-info">  
 		<header class="entry-header">
+			<h2>Python-可视化-statannotations包为sns绘图注释显著性
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>参考
+https://github.com/trevismd/statannotations/blob/master/usage/example.ipynb https://github.com/trevismd/statannotations/tree/master 1 2 3 4 5 6 7 8 9 10 11 12 import numpy as np import pandas as pd import matplotlib.pyplot as plt import seaborn as sns # Box plots -- sns.boxplot() # Bar plots -- sns.barplot() # Swarm plots -- sns.swarmplot() # Strip plots -- sns.stripplot() # Violin plots -- sns.violinplot() # Supporting FacetGrid -- sns.catplot(col=..., row=...) from statannotations.Annotator import Annotator 1. Basic use 1 2 3 4 5 6 7 8 9 10 11 x = &#34;day&#34; y = &#34;total_bill&#34; order = [&#39;Sun&#39;, &#39;Thur&#39;, &#39;Fri&#39;, &#39;Sat&#39;] ax = sns.boxplot(data=df, x=x, y=y, order=order) pairs = [(&#34;Thur&#34;, &#34;Fri&#34;), (&#34;Thur&#34;, &#34;Sat&#34;), (&#34;Fri&#34;, &#34;Sun&#34;)] annot = Annotator(ax, pairs, data=df, x=x, y=y, order=order) annot.configure(test=&#39;t-test_ind&#39;, text_format=&#39;star&#39;, loc=&#39;outside&#39;, verbose=2) # annot.apply_test() # ax, test_results = annot.annotate() ax, test_results = annot.apply_and_annotate() Tips: sns.plot的data, x, y, order等绘图参数需要与Annotator的保持一致。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2025-07-14 00:00:00 &#43;0000 UTC&#39;&gt;2025-07-14&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2025-07-14&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1237&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to Python-可视化-statannotations包为sns绘图注释显著性" href="https://lishensuo.github.io/en/posts/program/032python-%E5%8F%AF%E8%A7%86%E5%8C%96-statannotations%E5%8C%85%E4%B8%BAsns%E7%BB%98%E5%9B%BE%E6%B3%A8%E9%87%8A%E6%98%BE%E8%91%97%E6%80%A7/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry tag-entry">
+	<div class="post-info">  
+		<header class="entry-header">
 			<h2>Shell_Python_R脚本基础
 			</h2>
 		</header>
