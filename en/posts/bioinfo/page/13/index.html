@@ -178,6 +178,38 @@
 <article class="post-entry">
 	<div class="post-info">  
 		<header class="entry-header">
+			<h2>Torchtext构建Vocab词表
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>torchtext.vocab 1 from torchtext.vocab import vocab 1. 定义词汇表 基于词元的频率统计表，OrderedDict 对象 1 2 3 4 vocab(ordered_dict = , #一个 OrderedDict 对象，包含词汇和它们的频率。 min_freq = 1, #指定词汇表中词出现的最小频率。 specials = None, #一个列表，包含特殊标记（如 &lt;unk&gt;, &lt;pad&gt;, &lt;bos&gt;, &lt;eos&gt; 等）。 special_first = True) #一个布尔值，决定特殊标记是否在词汇表的开头。 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 from collections import Counter, OrderedDict counter = Counter([&#34;a&#34;, &#34;a&#34;, &#34;b&#34;, &#34;b&#34;, &#34;b&#34;]) counter # Counter({&#39;b&#39;: 3, &#39;a&#39;: 2}) sorted_by_freq_tuples = sorted(counter.items(), key=lambda x: x[1], reverse=True) sorted_by_freq_tuples # [(&#39;b&#39;, 3), (&#39;a&#39;, 2)] ordered_dict = OrderedDict(sorted_by_freq_tuples) # OrderedDict([(&#39;b&#39;, 3), (&#39;a&#39;, 2)]) v1 = vocab(ordered_dict) # Vocab() 直接基于可迭代对象 1 2 3 4 5 6 7 build_vocab_from_iterator( iterator = , # Iterator used to build Vocab. Must yield list or iterator of tokens. min_freq = , specials = , special_first = , max_tokens =None #最多引入多少个词元 ) 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 from torchtext.vocab import build_vocab_from_iterator # 定义一个简单的迭代器 # yield关键字，用于定义生成器函数。惰性取值：按需生成值，而不是一次性生成所有值，适合处理大数据集。 def yield_tokens(data_iter): for text in data_iter: yield text.split() # 示例数据 data = [&#34;this is a sentence&#34;, &#34;this is another sentence&#34;] # 构建词汇表 v2 = build_vocab_from_iterator(yield_tokens(data), min_freq=1, specials=[&#39;&lt;unk&gt;&#39;, &#39;&lt;pad&gt;&#39;], special_first=True) ### 直接使用token list作为输入 token_lists = [ [&#34;this&#34;, &#34;is&#34;, &#34;a&#34;, &#34;sentence&#34;], [&#34;this&#34;, &#34;is&#34;, &#34;another&#34;, &#34;sentence&#34;] ] # 构建词汇表 v3 = build_vocab_from_iterator(token_lists) 2. 查询词汇表 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 # 1. 查看词元的索引 v1[&#39;a&#39;], v1[&#39;b&#39;] # 2. 设置当查询不在词汇表的新词元时，返回的索引 v2.set_default_index(v2[unk_token]) v2[&#39;sss&#39;] # 3. 查询索引对应的词元 v2.get_itos()[:3] # v2[&#39;out of vocab&#39;] is v2[unk_token] v2.get_stoi() # {&#39;a&#39;: 5, # &#39;this&#39;: 4, # &#39;another&#39;: 6, # &#39;sentence&#39;: 3, # &#39;is&#39;: 2, # &#39;&lt;pad&gt;&#39;: 1, # &#39;&lt;unk&gt;&#39;: 0} </p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-10-16 00:00:00 &#43;0000 UTC&#39;&gt;2024-10-16&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-10-16&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;508&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to Torchtext构建Vocab词表" href="https://lishensuo.github.io/en/posts/bioinfo/720torchtext%E6%9E%84%E5%BB%BAvocab%E8%AF%8D%E8%A1%A8/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
 			<h2>Pytorch-Dataset与Dataloader的使用.
 			</h2>
 		</header>
@@ -469,39 +501,6 @@ Create:&amp;nbsp;&lt;span title=&#39;2024-11-09 00:00:00 &#43;0000 UTC&#39;&gt;2
 Create:&amp;nbsp;&lt;span title=&#39;2024-12-14 00:00:00 &#43;0000 UTC&#39;&gt;2024-12-14&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-12-14&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;670&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
 	</div>   
   <a class="entry-link" aria-label="post link to torch模型组成模块参数查询、管理、保存" href="https://lishensuo.github.io/en/posts/bioinfo/729torch%E6%A8%A1%E5%9E%8B%E7%BB%84%E6%88%90%E6%A8%A1%E5%9D%97%E5%8F%82%E6%95%B0%E6%9F%A5%E8%AF%A2%E7%AE%A1%E7%90%86%E4%BF%9D%E5%AD%98/"></a>
-</article>
-
-
-
-
-
-<article class="post-entry">
-	<div class="post-info">  
-		<header class="entry-header">
-			<h2>Hugging face(4) Bert模型及Collator与Trainer
-			</h2>
-		</header>
-		<section class="entry-content">
-			<p>1. Collator数据处理 目的：将dataset的初始数据进行规范化批量处理，用以后续的前向计算 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 # Start from dataset (Sequences could have diff lengths) Dataset({ features: [&#39;input_ids&#39;], num_rows: 5 }) # End to encoded batch input (BatchEncoding格式) {&#39;input_ids&#39;: tensor([[350, 241, 345, 705, 695, 1, 427, 645, 99, 943, 0, 0, 0, 0], [196, 464, 546, 626, 413, 1, 973, 98, 824, 1, 410, 0, 0, 0], [475, 665, 1, 164, 306, 788, 53, 562, 232, 216, 252, 990, 0, 0], [ 1, 966, 734, 897, 171, 357, 217, 850, 529, 895, 728, 234, 799, 0], [713, 76, 1, 428, 913, 890, 143, 992, 832, 963, 555, 18, 354, 455]]), &#39;attention_mask&#39;: tensor([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0], [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0], [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0], [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0], [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]), &#39;labels&#39;: tensor([[-100, -100, -100, -100, -100, 716, -100, -100, -100, -100, -100, -100, -100, -100], [-100, -100, -100, -100, -100, 665, -100, -100, -100, 686, -100, -100, -100, -100], [-100, -100, 56, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100], [ 619, 966, -100, -100, -100, 357, -100, -100, -100, -100, -100, -100, -100, -100], [-100, -100, 218, -100, -100, -100, -100, -100, -100, 963, -100, -100, -100, -100]])} 常见的关键字段包括：
-...</p>
-		</section>
-		<footer class="entry-footer">
-
-
-
-
-
-
-
-
-
-
-
-
-
-Create:&amp;nbsp;&lt;span title=&#39;2025-01-24 00:00:00 &#43;0000 UTC&#39;&gt;2025-01-24&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2025-01-24&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;3796&amp;nbsp;|&amp;nbsp;8 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
-	</div>   
-  <a class="entry-link" aria-label="post link to Hugging face(4) Bert模型及Collator与Trainer" href="https://lishensuo.github.io/en/posts/bioinfo/730hugging-face4-bert%E6%A8%A1%E5%9E%8B%E5%8F%8Acollator%E4%B8%8Etrainer/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

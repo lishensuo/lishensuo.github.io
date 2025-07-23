@@ -178,6 +178,39 @@
 <article class="post-entry">
 	<div class="post-info">  
 		<header class="entry-header">
+			<h2>D2L--第七章现代卷积神经网络
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1. 深度卷积神经网络(AlexNet) 1.1 学习表征 LeNet提出后，卷积神经网络并未占据主流，而是往往由其它机器学习方法所超越，如SVM。一个主要的原因是输入数据的特征处理上。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-08-04 00:00:00 &#43;0000 UTC&#39;&gt;2024-08-04&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-08-04&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;7080&amp;nbsp;|&amp;nbsp;15 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to D2L--第七章现代卷积神经网络" href="https://lishensuo.github.io/en/posts/bioinfo/710d2l-%E7%AC%AC%E4%B8%83%E7%AB%A0%E7%8E%B0%E4%BB%A3%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
 			<h2>D2L--第八章循环神经网络
 			</h2>
 		</header>
@@ -472,38 +505,6 @@ https://huggingface.co/learn/nlp-course/chapter5/4?fw=pt#streaming-datasets http
 Create:&amp;nbsp;&lt;span title=&#39;2024-10-16 00:00:00 &#43;0000 UTC&#39;&gt;2024-10-16&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-10-16&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1415&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
 	</div>   
   <a class="entry-link" aria-label="post link to Hugging Face(2)-Datasets库" href="https://lishensuo.github.io/en/posts/bioinfo/719hugging-face2-datasets%E5%BA%93/"></a>
-</article>
-
-
-
-
-
-<article class="post-entry">
-	<div class="post-info">  
-		<header class="entry-header">
-			<h2>Torchtext构建Vocab词表
-			</h2>
-		</header>
-		<section class="entry-content">
-			<p>torchtext.vocab 1 from torchtext.vocab import vocab 1. 定义词汇表 基于词元的频率统计表，OrderedDict 对象 1 2 3 4 vocab(ordered_dict = , #一个 OrderedDict 对象，包含词汇和它们的频率。 min_freq = 1, #指定词汇表中词出现的最小频率。 specials = None, #一个列表，包含特殊标记（如 &lt;unk&gt;, &lt;pad&gt;, &lt;bos&gt;, &lt;eos&gt; 等）。 special_first = True) #一个布尔值，决定特殊标记是否在词汇表的开头。 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 from collections import Counter, OrderedDict counter = Counter([&#34;a&#34;, &#34;a&#34;, &#34;b&#34;, &#34;b&#34;, &#34;b&#34;]) counter # Counter({&#39;b&#39;: 3, &#39;a&#39;: 2}) sorted_by_freq_tuples = sorted(counter.items(), key=lambda x: x[1], reverse=True) sorted_by_freq_tuples # [(&#39;b&#39;, 3), (&#39;a&#39;, 2)] ordered_dict = OrderedDict(sorted_by_freq_tuples) # OrderedDict([(&#39;b&#39;, 3), (&#39;a&#39;, 2)]) v1 = vocab(ordered_dict) # Vocab() 直接基于可迭代对象 1 2 3 4 5 6 7 build_vocab_from_iterator( iterator = , # Iterator used to build Vocab. Must yield list or iterator of tokens. min_freq = , specials = , special_first = , max_tokens =None #最多引入多少个词元 ) 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 from torchtext.vocab import build_vocab_from_iterator # 定义一个简单的迭代器 # yield关键字，用于定义生成器函数。惰性取值：按需生成值，而不是一次性生成所有值，适合处理大数据集。 def yield_tokens(data_iter): for text in data_iter: yield text.split() # 示例数据 data = [&#34;this is a sentence&#34;, &#34;this is another sentence&#34;] # 构建词汇表 v2 = build_vocab_from_iterator(yield_tokens(data), min_freq=1, specials=[&#39;&lt;unk&gt;&#39;, &#39;&lt;pad&gt;&#39;], special_first=True) ### 直接使用token list作为输入 token_lists = [ [&#34;this&#34;, &#34;is&#34;, &#34;a&#34;, &#34;sentence&#34;], [&#34;this&#34;, &#34;is&#34;, &#34;another&#34;, &#34;sentence&#34;] ] # 构建词汇表 v3 = build_vocab_from_iterator(token_lists) 2. 查询词汇表 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 # 1. 查看词元的索引 v1[&#39;a&#39;], v1[&#39;b&#39;] # 2. 设置当查询不在词汇表的新词元时，返回的索引 v2.set_default_index(v2[unk_token]) v2[&#39;sss&#39;] # 3. 查询索引对应的词元 v2.get_itos()[:3] # v2[&#39;out of vocab&#39;] is v2[unk_token] v2.get_stoi() # {&#39;a&#39;: 5, # &#39;this&#39;: 4, # &#39;another&#39;: 6, # &#39;sentence&#39;: 3, # &#39;is&#39;: 2, # &#39;&lt;pad&gt;&#39;: 1, # &#39;&lt;unk&gt;&#39;: 0} </p>
-		</section>
-		<footer class="entry-footer">
-
-
-
-
-
-
-
-
-
-
-
-
-
-Create:&amp;nbsp;&lt;span title=&#39;2024-10-16 00:00:00 &#43;0000 UTC&#39;&gt;2024-10-16&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-10-16&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;508&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
-	</div>   
-  <a class="entry-link" aria-label="post link to Torchtext构建Vocab词表" href="https://lishensuo.github.io/en/posts/bioinfo/720torchtext%E6%9E%84%E5%BB%BAvocab%E8%AF%8D%E8%A1%A8/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

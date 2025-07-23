@@ -178,6 +178,39 @@
 <article class="post-entry">
 	<div class="post-info">  
 		<header class="entry-header">
+			<h2>机器学习基于R包mlr3(11)--回归--kNN&#43;随机森林&#43;XGBboost
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 1 2 library(mlr3verse) library(tidyverse) 0、示例数据 1 2 3 4 5 6 7 8 9 10 11 12 13 data(Iowa, package = &#34;lasso2&#34;) head(Iowa) # Year Rain0 Temp1 Rain1 Temp2 Rain2 Temp3 Rain3 Temp4 Yield # 1 1930 17.75 60.2 5.83 69.0 1.49 77.9 2.42 74.4 34.0 # 2 1931 14.76 57.5 3.83 75.0 2.72 77.2 3.30 72.6 32.9 # 3 1932 27.99 62.3 5.17 72.0 3.12 75.8 7.10 72.2 43.0 # 4 1933 16.76 60.5 1.64 77.8 3.45 76.4 3.01 70.5 40.0 # 5 1934 11.36 69.5 3.49 77.2 3.85 79.7 2.84 73.4 23.0 # 6 1935 22.71 55.0 7.00 65.9 3.35 79.4 2.42 73.6 38.4 ##第10列为小麦的产量 ##其余列为小麦生长不同阶段的天气情况 task_regr = as_task_regr(Iowa, target = &#34;Yield&#34;) 1、KNN 基于KNN，解决分类任务的步骤之前已经学习过，可参考之前的学习笔记； 而用KNN解决回归问题与之十分类似，只是最后一步变为取k的最近样本的均值。(在分类问题中是取众数) 1.1 确定学习方法 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 ##(1) 定义学习器 learner = lrn(&#34;regr.kknn&#34;) learner$param_set #主要参数为k #默认scale为TRUE，即对预测变量进行标准化 ##(2) 超参数 search_space = ps( k = p_int(lower = 3, upper = 15) ) design = data.frame(k = 3:15) %&gt;% as.data.table() ##(3) 交叉验证与评价指标 resampling = rsmp(&#34;cv&#34;) measure = msr(&#34;regr.mse&#34;) 1.2 选出最优超参数 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 instance = TuningInstanceSingleCrit$new( task = task_regr, learner = learner, resampling = resampling, measure = measure, terminator = trm(&#34;none&#34;), search_space = search_space ) tuner = tnr(&#34;design_points&#34;, design = design) future::plan(&#34;multisession&#34;) tuner$optimize(instance) #历史记录 as.data.table(instance$archive)[,1:2] %&gt;% head() # k regr.mse # 1: 3 98.39484 # 2: 4 95.16022 # 3: 5 94.21570 # 4: 6 93.94832 # 5: 7 93.65615 # 6: 8 93.95614 #最优超参数结果 instance$result_learner_param_vals #$k #[1] 7 instance$result_y # regr.mse # 93.65615 1.3 训练最终模型 1 2 3 learner$param_set$values$k = instance$result_learner_param_vals$k learner$train(task_regr) learner$model 2、随机森林 由许多决策树组成的随机森林同样可以用于解决回归问题；
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-05-08 00:00:00 &#43;0000 UTC&#39;&gt;2022-05-08&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-05-08&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1307&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 机器学习基于R包mlr3(11)--回归--kNN&#43;随机森林&#43;XGBboost" href="https://lishensuo.github.io/en/posts/bioinfo/110%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr311--%E5%9B%9E%E5%BD%92--knn&#43;%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97&#43;xgboost/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
 			<h2>机器学习基于R包mlr3(12)--降维--PCA
 			</h2>
 		</header>
@@ -472,39 +505,6 @@ Create:&amp;nbsp;&lt;span title=&#39;2022-09-04 00:00:00 &#43;0000 UTC&#39;&gt;2
 Create:&amp;nbsp;&lt;span title=&#39;2022-09-04 00:00:00 &#43;0000 UTC&#39;&gt;2022-09-04&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-09-04&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;578&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
 	</div>   
   <a class="entry-link" aria-label="post link to 机器学习基于sklearn(4)--常见回归任务学习器" href="https://lishensuo.github.io/en/posts/bioinfo/119%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Esklearn4--%E5%B8%B8%E8%A7%81%E5%9B%9E%E5%BD%92%E4%BB%BB%E5%8A%A1%E5%AD%A6%E4%B9%A0%E5%99%A8/"></a>
-</article>
-
-
-
-
-
-<article class="post-entry">
-	<div class="post-info">  
-		<header class="entry-header">
-			<h2>机器学习--自动机器学习工具autogluon
-			</h2>
-		</header>
-		<section class="entry-content">
-			<p> 最先在李沐大神在B站的分享中了解到autogluon，它是一个自动机器学习工具，可用于文本图片识别、表格任务等。据说效果非常不错–号称3行代码打败99%的机器学习模型，甚至说标志着手动调参的时代已经结束。
-...</p>
-		</section>
-		<footer class="entry-footer">
-
-
-
-
-
-
-
-
-
-
-
-
-
-Create:&amp;nbsp;&lt;span title=&#39;2022-09-17 00:00:00 &#43;0000 UTC&#39;&gt;2022-09-17&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-09-17&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1667&amp;nbsp;|&amp;nbsp;4 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
-	</div>   
-  <a class="entry-link" aria-label="post link to 机器学习--自动机器学习工具autogluon" href="https://lishensuo.github.io/en/posts/bioinfo/130%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0--%E8%87%AA%E5%8A%A8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B7%A5%E5%85%B7autogluon/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
