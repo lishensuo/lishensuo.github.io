@@ -178,6 +178,39 @@
 <article class="post-entry">
 	<div class="post-info">  
 		<header class="entry-header">
+			<h2>shell基础--grep等文本处理命令
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1、grep 主要功能：查询符合条件的行 1 2 3 4 5 6 7 8 9 10 11 12 13 14 #返回符合条件的行,可使用正则表达式 who | grep &#34;wuyt&#34; # -n参数：返回符合条件的行，及其在原文件中的位置 who | grep -n &#34;wuyt&#34; # -c参数：仅返回符合条件的行数 who | grep -c &#34;wuyt&#34; # -v参数：反选 who | grep -v &#34;wuyt&#34; # -E参数：符合多个条件之一 who | grep -E &#34;wuyt|ssli&#34; 2、sed 主要功能：增删改查 （1）删除
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-04-16 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-16&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-04-16&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1483&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to shell基础--grep等文本处理命令" href="https://lishensuo.github.io/en/posts/program/403shell%E5%9F%BA%E7%A1%80--grep%E7%AD%89%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
 			<h2>linux进程管理与后台运行
 			</h2>
 		</header>
@@ -466,38 +499,6 @@ Create:&amp;nbsp;&lt;span title=&#39;2022-05-15 00:00:00 &#43;0000 UTC&#39;&gt;2
 Create:&amp;nbsp;&lt;span title=&#39;2023-03-25 00:00:00 &#43;0000 UTC&#39;&gt;2023-03-25&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-03-25&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;734&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
 	</div>   
   <a class="entry-link" aria-label="post link to Shell_Python_R脚本基础" href="https://lishensuo.github.io/en/posts/program/504shell_python_r%E8%84%9A%E6%9C%AC%E5%9F%BA%E7%A1%80/"></a>
-</article>
-
-
-
-
-
-<article class="post-entry">
-	<div class="post-info">  
-		<header class="entry-header">
-			<h2>Json文件格式
-			</h2>
-		</header>
-		<section class="entry-content">
-			<p> JSON (JavaScript Object Notation)：一种轻量级的数据交换格式，易于人类阅读和编写，同时也易于机器解析和生成。它广泛用于网络数据传输和配置文件。 JSON的整体是由花括号{}定义的键值对，值包括字符串、数字、布尔值、对象、数组和 null 1 2 3 4 5 6 7 8 9 10 11 { &#34;name&#34;: &#34;Alice&#34;, &#34;age&#34;: 30, &#34;isStudent&#34;: false, &#34;fruit&#34;: [&#34;apple&#34;, &#34;banana&#34;, &#34;cherry&#34;], &#34;birthday&#34;: { &#34;year&#34;: 2000, &#34;month&#34;: 12, &#34;day&#34;: null } } 在python中，可使用json库高效处理json格式： 键值对（对象） → Python字典 布尔值true/false → Python True/False 数组 → Python 列表list null → Python None 1 import json 1. json对象 json对象 → Python字典 1 2 3 4 5 6 7 8 9 10 # JSON 字符串 json_str = &#39;{&#34;name&#34;: &#34;Alice&#34;, &#34;age&#34;: 30, &#34;isStudent&#34;: false}&#39; # 解析 JSON data = json.loads(json_str) data.items() # dict_items([(&#39;name&#39;, &#39;Alice&#39;), (&#39;age&#39;, 30), (&#39;isStudent&#39;, False)]) data[&#39;birth&#39;] = {&#34;year&#34;:2000, &#39;month&#39;:12, &#34;day&#34;:None} data[&#39;like&#39;] = [&#39;apple&#39;, &#39;banana&#39;, &#39;cherry&#39;] **Python字典 → json对象 ** 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 json_str = json.dumps(data) print(json_str) # {&#34;name&#34;: &#34;Alice&#34;, &#34;age&#34;: 30, &#34;isStudent&#34;: false, &#34;birth&#34;: {&#34;year&#34;: 2000, &#34;month&#34;: 12, &#34;day&#34;: null}, &#34;like&#34;: [&#34;apple&#34;, &#34;banana&#34;, &#34;cherry&#34;]} json_str = json.dumps(data, indent=4) print(json_str) # { # &#34;name&#34;: &#34;Alice&#34;, # &#34;age&#34;: 30, # &#34;isStudent&#34;: false, # &#34;birth&#34;: { # &#34;year&#34;: 2000, # &#34;month&#34;: 12, # &#34;day&#34;: null # }, # &#34;like&#34;: [ # &#34;apple&#34;, # &#34;banana&#34;, # &#34;cherry&#34; # ] # } 2. json文件 保存python字典为json文件 1 2 with open(&#39;demo.json&#39;, &#39;w&#39;) as file: json.dump(data, file, indent=4) 读取json文件为python字典 1 2 with open(&#39;demo.json&#39;, &#39;r&#39;) as file: data = json.load(file) </p>
-		</section>
-		<footer class="entry-footer">
-
-
-
-
-
-
-
-
-
-
-
-
-
-Create:&amp;nbsp;&lt;span title=&#39;2024-11-05 00:00:00 &#43;0000 UTC&#39;&gt;2024-11-05&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-11-05&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;452&amp;nbsp;|&amp;nbsp;1 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
-	</div>   
-  <a class="entry-link" aria-label="post link to Json文件格式" href="https://lishensuo.github.io/en/posts/program/505json%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

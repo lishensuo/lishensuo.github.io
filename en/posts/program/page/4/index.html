@@ -178,6 +178,39 @@
 <article class="post-entry">
 	<div class="post-info">  
 		<header class="entry-header">
+			<h2>R-可视化-ggpubr包快速绘制点图、线图与柱状图
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 参考教程：http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-07-23 00:00:00 &#43;0000 UTC&#39;&gt;2022-07-23&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-07-23&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;964&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to R-可视化-ggpubr包快速绘制点图、线图与柱状图" href="https://lishensuo.github.io/en/posts/program/213r-%E5%8F%AF%E8%A7%86%E5%8C%96-ggpubr%E5%8C%85%E5%BF%AB%E9%80%9F%E7%BB%98%E5%88%B6%E7%82%B9%E5%9B%BE%E7%BA%BF%E5%9B%BE%E4%B8%8E%E6%9F%B1%E7%8A%B6%E5%9B%BE/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
 			<h2>R-可视化-拼图patchwork
 			</h2>
 		</header>
@@ -469,39 +502,6 @@ Create:&amp;nbsp;&lt;span title=&#39;2023-01-16 00:00:00 &#43;0000 UTC&#39;&gt;2
 Create:&amp;nbsp;&lt;span title=&#39;2023-03-11 00:00:00 &#43;0000 UTC&#39;&gt;2023-03-11&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-03-11&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;628&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
 	</div>   
   <a class="entry-link" aria-label="post link to R-可视化--饼图与环图" href="https://lishensuo.github.io/en/posts/program/222r-%E5%8F%AF%E8%A7%86%E5%8C%96--%E9%A5%BC%E5%9B%BE%E4%B8%8E%E7%8E%AF%E5%9B%BE/"></a>
-</article>
-
-
-
-
-
-<article class="post-entry">
-	<div class="post-info">  
-		<header class="entry-header">
-			<h2>R-可视化--ggplot标注文本标签text&amp;label
-			</h2>
-		</header>
-		<section class="entry-content">
-			<p>1、ggplot geom_text()通过交代文本的坐标位置与内容绘制，通常与点图联用。相关参数包括： color 标签的颜色 alpha 标签的透明度 check_overlap 若有重叠的标签则不显示，默认为False 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 library(tidyverse) library(patchwork) p = ggplot(mpg, aes(displ, hwy)) &#43; geom_point() # 设置候选标签 best_in_class &lt;- mpg %&gt;% group_by(class) %&gt;% filter(row_number(desc(hwy)) == 1) # nudge_x / nudge_y：设置标签的相对位置，移动单位与x/y轴匹配；大于0分别表示右、上 # hjust / vjust：设置标签的相对位置，移动单位与自身长宽匹配；小于0分别表示右，上 p1 = p &#43; geom_text(aes(label = model), data = best_in_class) p2 = p &#43; geom_text(aes(label = model), data = best_in_class, nudge_x = 1, nudge_y = 10) p1 | p2 geom_label()在上述的基础上设置文本框，相关参数包括： label.size：框轮廓线的宽度 label.r：框轮廓的平滑度 label.padding：框的大小 alpha：框的透明度 1 2 3 4 p1 = p &#43; geom_label(aes(label = model), data = best_in_class) p2 = p &#43; geom_label(aes(label = model), data = best_in_class, alpha=0.5, fill=&#34;grey&#34;, color=&#34;red&#34;) p1 | p2 2、ggrepel 上述函数对于重叠标签的处理能力有限，ggrepel包可对此进行有效的补充。简单理解就是确定文本标签的坐标后，对于存在互相重叠的标签进行适当偏移，使各自均能完整的显示。
-...</p>
-		</section>
-		<footer class="entry-footer">
-
-
-
-
-
-
-
-
-
-
-
-
-
-Create:&amp;nbsp;&lt;span title=&#39;2023-03-11 00:00:00 &#43;0000 UTC&#39;&gt;2023-03-11&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2023-03-11&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;656&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
-	</div>   
-  <a class="entry-link" aria-label="post link to R-可视化--ggplot标注文本标签text&label" href="https://lishensuo.github.io/en/posts/program/223r-%E5%8F%AF%E8%A7%86%E5%8C%96--ggplot%E6%A0%87%E6%B3%A8%E6%96%87%E6%9C%AC%E6%A0%87%E7%AD%BEtextlabel/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

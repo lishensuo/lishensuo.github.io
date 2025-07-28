@@ -178,6 +178,39 @@
 <article class="post-entry">
 	<div class="post-info">  
 		<header class="entry-header">
+			<h2>机器学习基于R(0)--mlr3基本流程 V2
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> https://mlr3book.mlr-org.com/ 1 2 3 4 5 6 7 8 9 10 library(mlr3verse) library(tidyverse) tsks() #预置数据任务 lrns() #机器学习算法 msrs() #性能评价指标 as.data.table() 1. Task 任务 https://mlr3book.mlr-org.com/chapters/chapter2/data_and_basic_modeling.html 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 tsk() #预置数据任务 as.data.table(tsk()) tsk(&#34;mtcars&#34;) #自定义任务 tsk_mtcars = as_task_regr(mtcars, target = &#34;mpg&#34;, id = &#34;cars&#34;) #target参数指定标签列，id参数（可选）设置任务名 as_task_classif() #支持对任务对象进行数据查看、修改等操作，不一一列举，详见上述链接 #有两点需要重点说明 tsk_mtcars$row_ids #不等于一般的行序号。一旦定义任务，row_ids就确定不变了，可以理解为row name。方便后续数据分割。 tsk_mtcars_another = tsk_mtcars$clone() #想要独立的复制任务时，需要使用clone() 对于分类任务基本类似。值得注意的是在二分类问题时，需要进一步指定阳性标签
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-06-18 00:00:00 &#43;0000 UTC&#39;&gt;2024-06-18&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-06-18&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;4081&amp;nbsp;|&amp;nbsp;9 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 机器学习基于R(0)--mlr3基本流程 V2" href="https://lishensuo.github.io/en/posts/bioinfo/099%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr30--mlr3%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B_v2/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
 			<h2>机器学习基于R(0)--mlr3基本流程
 			</h2>
 		</header>
@@ -467,39 +500,6 @@ Create:&amp;nbsp;&lt;span title=&#39;2022-04-22 00:00:00 &#43;0000 UTC&#39;&gt;2
 Create:&amp;nbsp;&lt;span title=&#39;2022-04-27 00:00:00 &#43;0000 UTC&#39;&gt;2022-04-27&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-04-27&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1047&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
 	</div>   
   <a class="entry-link" aria-label="post link to 机器学习基于R包mlr3(9)--回归--GAM非线性回归" href="https://lishensuo.github.io/en/posts/bioinfo/108%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr39--%E5%9B%9E%E5%BD%92--gam%E9%9D%9E%E7%BA%BF%E5%9B%9E%E5%BD%92/"></a>
-</article>
-
-
-
-
-
-<article class="post-entry">
-	<div class="post-info">  
-		<header class="entry-header">
-			<h2>机器学习基于R包mlr3(10)--回归--岭回归&#43;LASSO回归&#43;弹性网络
-			</h2>
-		</header>
-		<section class="entry-content">
-			<p> 在建立通用线性模型时，当模型参数即斜率值绝对值过大时，容易存在过拟合的风险。可通过下面介绍的3种正则化方法将每个预测变量的斜率参数缩小为0或者接近0。 $$ y = \beta_0 &#43; \beta_1x_1 &#43; \beta_2x_2 &#43; …&#43;\beta_kx_k &#43; \epsilon $$
-...</p>
-		</section>
-		<footer class="entry-footer">
-
-
-
-
-
-
-
-
-
-
-
-
-
-Create:&amp;nbsp;&lt;span title=&#39;2022-05-07 00:00:00 &#43;0000 UTC&#39;&gt;2022-05-07&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-05-07&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2477&amp;nbsp;|&amp;nbsp;5 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
-	</div>   
-  <a class="entry-link" aria-label="post link to 机器学习基于R包mlr3(10)--回归--岭回归&#43;LASSO回归&#43;弹性网络" href="https://lishensuo.github.io/en/posts/bioinfo/109%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E4%BA%8Er%E5%8C%85mlr310--%E5%9B%9E%E5%BD%92--%E5%B2%AD%E5%9B%9E%E5%BD%92&#43;lasson%E5%9B%9E%E5%BD%92&#43;%E5%BC%B9%E6%80%A7%E7%BD%91%E7%BB%9C/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

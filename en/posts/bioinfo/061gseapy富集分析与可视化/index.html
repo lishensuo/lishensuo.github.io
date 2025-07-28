@@ -7,7 +7,7 @@
 <meta name="robots" content="index, follow">
 
 <link rel="icon" href="/favicon.ico" type="image/x-icon"> 
-<title>clusterProfiler包富集分析与可视化 | Li&#39;s Bioinfo-Blog</title>
+<title>gseapy富集分析与可视化 | Li&#39;s Bioinfo-Blog</title>
 <meta name="keywords" content="转录组">
 <meta name="description" content="参考
 
@@ -414,7 +414,7 @@ ax = barplot(enr.res2d, title=&#39;Enrichr&#39;,cmap=&#39;viridis_r&#39;, size=4
         }
 
     </style>
-</noscript><meta property="og:title" content="clusterProfiler包富集分析与可视化" />
+</noscript><meta property="og:title" content="gseapy富集分析与可视化" />
 <meta property="og:description" content="参考
 
 https://gseapy.readthedocs.io/en/latest/index.html
@@ -777,7 +777,7 @@ ax = barplot(enr.res2d, title=&#39;Enrichr&#39;,cmap=&#39;viridis_r&#39;, size=4
 <meta property="article:modified_time" content="2025-07-22T00:00:00&#43;00:00" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="clusterProfiler包富集分析与可视化"/>
+<meta name="twitter:title" content="gseapy富集分析与可视化"/>
 <meta name="twitter:description" content="参考
 
 https://gseapy.readthedocs.io/en/latest/index.html
@@ -1156,7 +1156,7 @@ ax = barplot(enr.res2d, title=&#39;Enrichr&#39;,cmap=&#39;viridis_r&#39;, size=4
     {
       "@type": "ListItem",
       "position":  3 ,
-      "name": "clusterProfiler包富集分析与可视化",
+      "name": "gseapy富集分析与可视化",
       "item": "https://lishensuo.github.io/en/posts/bioinfo/061gseapy%E5%AF%8C%E9%9B%86%E5%88%86%E6%9E%90%E4%B8%8E%E5%8F%AF%E8%A7%86%E5%8C%96/"
     }
   ]
@@ -1166,8 +1166,8 @@ ax = barplot(enr.res2d, title=&#39;Enrichr&#39;,cmap=&#39;viridis_r&#39;, size=4
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "clusterProfiler包富集分析与可视化",
-  "name": "clusterProfiler包富集分析与可视化",
+  "headline": "gseapy富集分析与可视化",
+  "name": "gseapy富集分析与可视化",
   "description": "参考\nhttps://gseapy.readthedocs.io/en/latest/index.html 示例数据来自 https://github.com/zqfang/GSEApy/tree/master/tests/data 1 2 3 4 5 6 7 8 import os import pandas as pd import scanpy as sc import gseapy as gp from gseapy import barplot, dotplot import matplotlib.pyplot as plt 0. 基因集获取 Enrichr API supported organisms: Human, Mouse, Yeast, Fly, Fish, Worm 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 names = gp.get_library_name(organism = \u0026#34;Human\u0026#34;) len(names) # 217 [name for name in names if \u0026#34;GO\u0026#34; in name] # [\u0026#39;GO_Biological_Process_2021\u0026#39;, # \u0026#39;GO_Biological_Process_2023\u0026#39;, # \u0026#39;GO_Biological_Process_2025\u0026#39;, # \u0026#39;GO_Cellular_Component_2021\u0026#39;, # \u0026#39;GO_Cellular_Component_2023\u0026#39;, # \u0026#39;GO_Cellular_Component_2025\u0026#39;, # \u0026#39;GO_Molecular_Function_2021\u0026#39;, # \u0026#39;GO_Molecular_Function_2023\u0026#39;, # \u0026#39;GO_Molecular_Function_2025\u0026#39;, # \u0026#39;SynGO_2022\u0026#39;, # \u0026#39;SynGO_2024\u0026#39;] [name for name in names if \u0026#34;KEGG\u0026#34; in name] # [\u0026#39;KEGG_2013\u0026#39;, # \u0026#39;KEGG_2015\u0026#39;, # \u0026#39;KEGG_2016\u0026#39;, # \u0026#39;KEGG_2019_Human\u0026#39;, # \u0026#39;KEGG_2019_Mouse\u0026#39;, # \u0026#39;KEGG_2021_Human\u0026#39;] [name for name in names if \u0026#34;MSigDB\u0026#34; in name] # [\u0026#39;MSigDB_Computational\u0026#39;, \u0026#39;MSigDB_Hallmark_2020\u0026#39;, \u0026#39;MSigDB_Oncogenic_Signatures\u0026#39;] kegg = gp.get_library(name=\u0026#39;KEGG_2021_Human\u0026#39;, organism=\u0026#39;Human\u0026#39;) type(kegg) # dict kegg[\u0026#39;AMPK signaling pathway\u0026#39;][:4] # [\u0026#39;RAB2A\u0026#39;, \u0026#39;PPP2R1A\u0026#39;, \u0026#39;TSC2\u0026#39;, \u0026#39;TSC1\u0026#39;] 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 # 还支持对MSigDB基因集数据库的获取 from gseapy import Msigdb msig = Msigdb() # all available versions msig.list_dbver() # all types of gene sets given a dbver msig.list_category(dbver=\u0026#34;2025.1.Hs\u0026#34;) # all gene sets of one type gmt = msig.get_gmt(category=\u0026#39;h.all\u0026#39;, dbver=\u0026#34;2025.1.Hs\u0026#34;) type(gmt) # dict gmt.keys() # hallmark pathway names gmt[\u0026#34;HALLMARK_ADIPOGENESIS\u0026#34;] # gene list 1. ORA富集 1.1 分析 Online analysis 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 ## 1) 两个最重要的参数 （后同） # gene_list gene_list=\u0026#34;tests/data/gene_list.txt\u0026#34; # file path, one gene per row gene_list= [\u0026#34;RAB2A\u0026#34;,\u0026#34;PRKAB2\u0026#34;,\u0026#34;PRKAA1\u0026#34;] # list of genes # gene_sets (from enrichr API) gene_sets=\u0026#39;KEGG_2016\u0026#39; gene_sets=[\u0026#39;KEGG_2021_Human\u0026#39;,\u0026#39;GO_Biological_Process_2025\u0026#39;] gene_list = pd.read_csv(\u0026#34;tests/data/gene_list.txt\u0026#34;, header=None)[0].tolist() gene_list[:4] # [\u0026#39;IGKV4-1\u0026#39;, \u0026#39;CD55\u0026#39;, \u0026#39;IGKC\u0026#39;, \u0026#39;PPFIBP1\u0026#39;] enr = gp.enrichr(gene_list=gene_list, # or \u0026#34;./tests/data/gene_list.txt\u0026#34;, gene_sets=[\u0026#39;GO_Biological_Process_2025\u0026#39;], organism=\u0026#39;human\u0026#39;, outdir=None, ) enr.results.head(5) # Index([\u0026#39;Gene_set\u0026#39;, \u0026#39;Term\u0026#39;, \u0026#39;Overlap\u0026#39;, \u0026#39;P-value\u0026#39;, \u0026#39;Adjusted P-value\u0026#39;, # \u0026#39;Old P-value\u0026#39;, \u0026#39;Old Adjusted P-value\u0026#39;, \u0026#39;Odds Ratio\u0026#39;, \u0026#39;Combined Score\u0026#39;, # \u0026#39;Genes\u0026#39;], # dtype=\u0026#39;object\u0026#39;) ## 2) 设置结果导出路径 enr = gp.enrichr(gene_list=gene_list, gene_sets=[\u0026#39;GO_Biological_Process_2025\u0026#39;], organism=\u0026#39;human\u0026#39;, outdir=\u0026#34;enrichr_kegg\u0026#34;, ) os.listdir(\u0026#34;enrichr_kegg\u0026#34;) # [\u0026#39;GO_Biological_Process_2025.human.enrichr.reports.txt\u0026#39;, # \u0026#39;GO_Biological_Process_2025.human.enrichr.reports.pdf\u0026#39;] ## 3) 自定义Background genes (P值会存在一定差异) enr = gp.enrichr(gene_list=gene_list, gene_sets=[\u0026#39;GO_Biological_Process_2025\u0026#39;], organism=\u0026#39;human\u0026#39;, background=\u0026#34;tests/data/background.txt\u0026#34;, # 自定义背景基因 / or list object outdir=None, ) Offline analysis (本地提供通路基因集数据) 1 2 3 4 5 6 7 8 9 10 11 from gseapy.parser import read_gmt gmt_dict = read_gmt(\u0026#34;tests/data/c2.cp.kegg.v7.5.1.symbols.gmt\u0026#34;) gmt_dict.keys() enr2 = gp.enrich(gene_list=gene_list, # or gene_list=glist gene_sets=[\u0026#34;tests/data/c2.cp.kegg.v7.5.1.symbols.gmt\u0026#34;], background=None, outdir=None, verbose=True) enr2.results.head(5) 1.2 可视化 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 # ofname 设置图片的导出路径，若为None则不保存。也支持后续使用plt语法进一步调整图片 ax = dotplot(enr.results, column=\u0026#34;Adjusted P-value\u0026#34;, x=\u0026#39;Gene_set\u0026#39;, # set x axis, so you could do a multi-sample/library comparsion size=5, cutoff=0.05, top_term=10, figsize=(3, 5), title = \u0026#34;GO_BP\u0026#34;, xticklabels_rot=45, # rotate xtick labels show_ring=True, # set to False to revmove outer ring marker=\u0026#39;o\u0026#39;, ofname=\u0026#39;./plot/p1.png\u0026#39; ) ax = barplot(enr.results, column=\u0026#34;Adjusted P-value\u0026#34;, group=\u0026#39;Gene_set\u0026#39;, # set group, so you could do a multi-sample/library comparsion size=10, top_term=10, figsize=(3,5), #color=[\u0026#39;darkred\u0026#39;, \u0026#39;darkblue\u0026#39;] # set colors for group color = {\u0026#39;GO_Biological_Process_2025\u0026#39;: \u0026#39;salmon\u0026#39;}, ofname=\u0026#39;./plot/p2.png\u0026#39; ) 1 2 3 ax = dotplot(enr.res2d, title=\u0026#39;Enrichr\u0026#39;,cmap=\u0026#39;viridis_r\u0026#39;, size=10, figsize=(3,5), ofname=\u0026#39;./plot/p3.png\u0026#39;) ax = barplot(enr.res2d, title=\u0026#39;Enrichr\u0026#39;,cmap=\u0026#39;viridis_r\u0026#39;, size=4, figsize=(4, 5), color=\u0026#39;darkred\u0026#39;, ofname=\u0026#39;./plot/p4.png\u0026#39;) # 差别不大 2. Prerank富集 基于差异分析结果的GSEA\n",
   "keywords": [
     "转录组"
@@ -1279,7 +1279,7 @@ ax = barplot(enr.res2d, title=&#39;Enrichr&#39;,cmap=&#39;viridis_r&#39;, size=4
   <header class="post-header">
     <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/bioinfo/">📖 生信数据分析--分析流程，工具包等</a></div>
     <h1 class="post-title">
-      clusterProfiler包富集分析与可视化
+      gseapy富集分析与可视化
     </h1>
     <div class="post-meta">
 

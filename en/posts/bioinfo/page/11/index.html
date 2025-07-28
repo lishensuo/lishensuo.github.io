@@ -178,6 +178,40 @@
 <article class="post-entry">
 	<div class="post-info">  
 		<header class="entry-header">
+			<h2>化合物敏感度数据库GDSC_CTRL
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>一、GDSC GDSC : https://www.cancerrxgene.org/，已上传至阿里云盘
+1、原始数据整理 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 ## 预处理 # library(tidyverse) # #RAW 文件夹 # gdsc_drug = read.csv(&#34;GDSC_drug.csv&#34;) # colnames(gdsc_drug) = gsub(&#34;[.]&#34;, &#34;_&#34;, colnames(gdsc_drug)) # # gdsc_cl = read.csv(&#34;GDSC_cellline.csv&#34;) # colnames(gdsc_cl) = gsub(&#34;[.]&#34;, &#34;_&#34;, colnames(gdsc_cl)) # gdsc_cl = gdsc_cl %&gt;% # reshape2::dcast(Cell_line_Name&#43;Model_ID&#43;COSMIC_ID&#43;TCGA_Classfication&#43;Tissue&#43;Tissue_sub_type~Datasets, # value.var = &#34;number_of_drugs&#34;) # # GDSC1 = readxl::read_excel(&#34;GDSC1_fitted_dose_response_25Feb20.xlsx&#34;) # GDSC1 = GDSC1[,c(-4, -6)] # GDSC1 = GDSC1[,c(-6, -8, -9)] # GDSC1 = GDSC1 %&gt;% # dplyr::select(DATASET, DRUG_NAME, CELL_LINE_NAME, TCGA_DESC, LN_IC50, AUC, RMSE, Z_SCORE, everything()) # GDSC1 = GDSC1 %&gt;% as.data.frame() # head(GDSC1) # # GDSC2 = readxl::read_excel(&#34;GDSC2_fitted_dose_response_25Feb20.xlsx&#34;) # GDSC2 = GDSC2[,c(-4, -6)] # GDSC2 = GDSC2[,c(-6, -8, -9)] # GDSC2 = GDSC2 %&gt;% # dplyr::select(DATASET, DRUG_NAME, CELL_LINE_NAME, TCGA_DESC, LN_IC50, AUC, RMSE, Z_SCORE, everything()) # GDSC2 = GDSC2 %&gt;% as.data.frame() # head(GDSC2) # # GDSC_merge = rbind(GDSC1, GDSC2) # head(GDSC_merge) # # head(gdsc_cl) 2、敏感度实验结果 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 GDSC_res = read.csv(&#34;GDSC/GDSC_result.csv&#34;) # DATASET DRUG_NAME CELL_LINE_NAME TCGA_DESC LN_IC50 AUC RMSE Z_SCORE # 1 GDSC1 Erlotinib MC-CAR MM 2.395685 0.982114 0.022521 -0.189576 # 2 GDSC1 Erlotinib ES3 UNCLASSIFIED 3.140923 0.984816 0.031840 0.508635 # 3 GDSC1 Erlotinib ES5 UNCLASSIFIED 3.968757 0.985693 0.026052 1.284229 # 4 GDSC1 Erlotinib ES7 UNCLASSIFIED 2.692768 0.972699 0.110056 0.088760 # 5 GDSC1 Erlotinib EW-11 UNCLASSIFIED 2.478678 0.944462 0.087011 -0.111820 # 6 GDSC1 Erlotinib SK-ES-1 UNCLASSIFIED 2.034050 0.950763 0.016288 -0.528390 ## 总共药物数 GDSC_res %&gt;% dplyr::distinct(DRUG_NAME) %&gt;% dim() # [1] 449 1 ## 每期药物数 GDSC_res %&gt;% dplyr::distinct(DATASET, DRUG_NAME) %&gt;% dplyr::count(DATASET, name = &#34;Drugs&#34;) # DATASET Drugs # 1 GDSC1 345 # 2 GDSC2 192 ## 每个细胞系的实验数 GDSC_res %&gt;% dplyr::count(DATASET, CELL_LINE_NAME, name = &#34;assays&#34;) %&gt;% reshape2::dcast(CELL_LINE_NAME ~ DATASET, value.var = &#34;assays&#34;) %&gt;% dplyr::arrange(desc(GDSC1)) %&gt;% head() # CELL_LINE_NAME GDSC1 GDSC2 # 1 A253 367 179 # 2 AMO-1 367 178 # 3 KCL-22 367 178 # 4 KNS-42 367 NA summary(GDSC_res$LN_IC50) # Min. 1st Qu. Median Mean 3rd Qu. Max. # -10.5793 0.8435 2.6228 2.2052 4.1216 12.3591 summary(GDSC_res$AUC) # Min. 1st Qu. Median Mean 3rd Qu. Max. # 0.00479 0.78839 0.92309 0.84467 0.97306 0.99984 cor(GDSC_res$LN_IC50, GDSC_res$AUC) # [1] 0.7534196 关于IC50与AUC：https://blog.csdn.net/linkequa/article/details/88221975
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2022-10-09 00:00:00 &#43;0000 UTC&#39;&gt;2022-10-09&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-10-09&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1391&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 化合物敏感度数据库GDSC_CTRL" href="https://lishensuo.github.io/en/posts/bioinfo/502%E6%95%B0%E6%8D%AE%E5%BA%93--%E5%8C%96%E5%90%88%E7%89%A9%E6%95%8F%E6%84%9F%E5%BA%A6gdsc_ctrl/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
 			<h2>ChemmineR处理化合物信息的基础工具R包
 			</h2>
 		</header>
@@ -469,39 +503,6 @@ Create:&amp;nbsp;&lt;span title=&#39;2024-07-28 00:00:00 &#43;0000 UTC&#39;&gt;2
 Create:&amp;nbsp;&lt;span title=&#39;2024-07-28 00:00:00 &#43;0000 UTC&#39;&gt;2024-07-28&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-07-28&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2955&amp;nbsp;|&amp;nbsp;6 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
 	</div>   
   <a class="entry-link" aria-label="post link to D2L--第五章深度学习计算" href="https://lishensuo.github.io/en/posts/bioinfo/708d2l-%E7%AC%AC%E4%BA%94%E7%AB%A0%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%AE%A1%E7%AE%97/"></a>
-</article>
-
-
-
-
-
-<article class="post-entry">
-	<div class="post-info">  
-		<header class="entry-header">
-			<h2>D2L--第六章卷积神经网络
-			</h2>
-		</header>
-		<section class="entry-content">
-			<p>1. 从全连接层到卷积 1.1 不变性 假设一个场景：需要制作一个检测器，在一张图片中检测一种特定物体。需要满足两个性质：
-平移不变性：无论该物品在图片的哪个位置，都可以检测到； 局部性：检测器只需要关注图像中的局部区域，不过度关注其它无关区域。 1.2 多层感知机的限制 对于图片（例如12M）像素的一维展开，包含36M的元素。若使用包含100个神经元的单隐藏层，模型就要3.6B元素，训练难度过大。 卷积(convolution)计算：输入X为二维矩阵，输出的隐藏表示H仍为矩阵。参数包括权重矩阵V与偏置U。H中的每一个元素都由权重矩阵V与输入X中相应区域元素的’点积’，再加上偏置所得到。（下图演示忽略了偏置计算） 平移不变性：权重矩阵（又称为卷积核/滤波器）在每次计算中保持不变，以提取相同的模式。 局部性：卷积核(kernel)的形状通常较小(|a|&gt;△;|b|&gt;△)，即针对输入的局部区域进行特征提取。 ...</p>
-		</section>
-		<footer class="entry-footer">
-
-
-
-
-
-
-
-
-
-
-
-
-
-Create:&amp;nbsp;&lt;span title=&#39;2024-08-04 00:00:00 &#43;0000 UTC&#39;&gt;2024-08-04&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-08-04&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;4106&amp;nbsp;|&amp;nbsp;9 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
-	</div>   
-  <a class="entry-link" aria-label="post link to D2L--第六章卷积神经网络" href="https://lishensuo.github.io/en/posts/bioinfo/709d2l-%E7%AC%AC%E5%85%AD%E7%AB%A0%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

@@ -178,6 +178,42 @@
 <article class="post-entry">
 	<div class="post-info">  
 		<header class="entry-header">
+			<h2>Hugging Face(2)-Datasets库
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>https://huggingface.co/docs/datasets/index
+A Dataset provides fast random access to the rows, and memory-mapping so that loading even large datasets only uses a relatively small amount of device memory.
+But for really, really big datasets ( &gt; 100G) that won’t even fit on disk or in memory, an IterableDataset allows you to access and use the dataset without waiting for it to download completely!
+https://huggingface.co/learn/nlp-course/chapter5/4?fw=pt#streaming-datasets https://huggingface.co/docs/datasets/about_mapstyle_vs_iterable 1. 读取 1.1 以Json文件读取为例 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 ## 预先下载解压到本地的datasets文件夹 # wget https://github.com/crux82/squad-it/raw/master/SQuAD_it-train.json.gz # wget https://github.com/crux82/squad-it/raw/master/SQuAD_it-test.json.gz # gzip -dkv SQuAD_it-*.json.gz from datasets import load_dataset squad_it_dataset = load_dataset(&#34;json&#34;, data_files=&#34;./datasets/SQuAD_it-train.json&#34;, field=&#34;data&#34;) # field参数为JSON文件特有，用于指定 JSON 文件中包含实际数据的字段名 squad_it_dataset # 默认读取为train split squad_it_dataset.keys() # dict_keys([&#39;train&#39;]) squad_it_dataset # DatasetDict({ # train: Dataset({ # features: [&#39;title&#39;, &#39;paragraphs&#39;], # num_rows: 442 # }) # }) 1.2 JSON的其它形式读取 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 # (1) 同时读取两个split data_files = {&#34;train&#34;: &#34;SQuAD_it-train.json&#34;, &#34;test&#34;: &#34;SQuAD_it-test.json&#34;} squad_it_dataset = load_dataset(&#34;json&#34;, data_files=data_files, field=&#34;data&#34;) # (2) 读取gz压缩格式 data_files = {&#34;train&#34;: &#34;SQuAD_it-train.json.gz&#34;, &#34;test&#34;: &#34;SQuAD_it-test.json.gz&#34;} squad_it_dataset = load_dataset(&#34;json&#34;, data_files=data_files, field=&#34;data&#34;) # (3) 远程读取 url = &#34;https://github.com/crux82/squad-it/raw/master/&#34; data_files = { &#34;train&#34;: url &#43; &#34;SQuAD_it-train.json.gz&#34;, &#34;test&#34;: url &#43; &#34;SQuAD_it-test.json.gz&#34;, } squad_it_dataset = load_dataset(&#34;json&#34;, data_files=data_files, field=&#34;data&#34;) data_files可以为每个split指定多个文件，https://huggingface.co/docs/datasets/loading
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-10-16 00:00:00 &#43;0000 UTC&#39;&gt;2024-10-16&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-10-16&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1415&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to Hugging Face(2)-Datasets库" href="https://lishensuo.github.io/en/posts/bioinfo/719hugging-face2-datasets%E5%BA%93/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
 			<h2>Torchtext构建Vocab词表
 			</h2>
 		</header>
@@ -469,38 +505,6 @@ Create:&amp;nbsp;&lt;span title=&#39;2024-11-05 00:00:00 &#43;0000 UTC&#39;&gt;2
 Create:&amp;nbsp;&lt;span title=&#39;2024-11-09 00:00:00 &#43;0000 UTC&#39;&gt;2024-11-09&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-11-09&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1625&amp;nbsp;|&amp;nbsp;4 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
 	</div>   
   <a class="entry-link" aria-label="post link to 单机多卡torchrun分布式训练" href="https://lishensuo.github.io/en/posts/bioinfo/728%E5%8D%95%E6%9C%BA%E5%A4%9A%E5%8D%A1torchrun%E5%88%86%E5%B8%83%E5%BC%8F%E8%AE%AD%E7%BB%83/"></a>
-</article>
-
-
-
-
-
-<article class="post-entry">
-	<div class="post-info">  
-		<header class="entry-header">
-			<h2>torch模型组成模块参数查询、管理、保存
-			</h2>
-		</header>
-		<section class="entry-content">
-			<p>1. 示例模型 两层MLP的神经网络 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 import torch import torch.nn as nn import torch.nn.functional as F class SimpleMLP(nn.Module): def __init__(self, input_size, hidden_size, output_size): super(SimpleMLP, self).__init__() self.fc1 = nn.Linear(input_size, hidden_size) self.fc2 = nn.Linear(hidden_size, output_size) def forward(self, x): x = F.relu(self.fc1(x)) x = self.fc2(x) return x # Example usage input_size = 256 # Number of input features hidden_size = 128 # Number of neurons in the hidden layer output_size = 2 # Number of output classes model = SimpleMLP(input_size, hidden_size, output_size) 2. 组成模块查询 通过递归的方式遍历模型的所有层，包括嵌套在其他层内的子模块 1 2 3 4 5 6 7 8 9 10 # torch.nn.Module类 model.modules for module in model.modules(): print(f&#34;Module: {module}&#34;) for name, module in model.named_modules(): print(f&#34;{name}: {module}&#34;) # fc1: Linear(in_features=256, out_features=128, bias=True) # fc2: Linear(in_features=128, out_features=2, bias=True) 3. 模型参数查询 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 # torch.nn.Parameter类 for param in model.parameters(): print(f&#34;{param.shape}&#34;) for name, param in model.named_parameters(): print(f&#34;{name}: {param.shape}&#34;) # fc1.weight: torch.Size([128, 256]) # fc1.bias: torch.Size([128]) # fc2.weight: torch.Size([2, 128]) # fc2.bias: torch.Size([2]) for name, param in model.fc1.named_parameters(): print(f&#34;{name}: {param.shape}&#34;) # weight: torch.Size([128, 256]) # bias: torch.Size([128]) # 模型总参数量 total_parameters = sum(p.numel() for p in model.parameters()) # 查看具体某一层的参数 param = next(iter(model.fc1.parameters())) type(param) # torch.nn.parameter.Parameter param.shape # torch.Size([128, 256]) param.numel() # 32768 param.requires_grad # True # 参数冻结，即不更新该module参数 param.requires_grad=False 4. 模型（参数）保存与加载 1 2 3 4 5 6 7 type(model.state_dict()) # save torch.save(model.state_dict(), &#39;model.pth&#39;) # pt后缀也可 # load model.load_state_dict(torch.load(&#39;model.pth&#39;)) pretrained_params = torch.load(model_pt, map_location=&#39;cuda:2&#39;) 一个实际加载的示例函数 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 # def load_pretrained( model: torch.nn.Module, pretrained_params: dict = None, strict: bool = False, prefix: list = None, use_flash_attn = True, verbose: bool = True, ) -&gt; torch.nn.Module: # 修改特定参数的key name if not use_flash_attn: pretrained_params = { k.replace(&#34;Wqkv.&#34;, &#34;in_proj_&#34;): v for k, v in pretrained_params.items() } # 只加载特定keys的参数 if prefix is not None and len(prefix) &gt; 0: if isinstance(prefix, str): prefix = [prefix] pretrained_params = { k: v for k, v in pretrained_params.items() if any(k.startswith(p) for p in prefix) } model_dict = model.state_dict() # 严格加载：全部参数需要匹配 if strict: if verbose: for k, v in pretrained_params.items(): print(f&#34;Loading parameter {k} with shape {v.shape}&#34;) model_dict.update(pretrained_params) model.load_state_dict(model_dict) # 部分加载：只加载部分能够匹配的参数（key name以及 value shape） else: if verbose: for k, v in pretrained_params.items(): if k in model_dict and v.shape == model_dict[k].shape: print(f&#34;Loading parameter {k} with shape {v.shape}&#34;) pretrained_params = { k: v for k, v in pretrained_params.items() if k in model_dict and v.shape == model_dict[k].shape } model_dict.update(pretrained_params) model.load_state_dict(model_dict) return model </p>
-		</section>
-		<footer class="entry-footer">
-
-
-
-
-
-
-
-
-
-
-
-
-
-Create:&amp;nbsp;&lt;span title=&#39;2024-12-14 00:00:00 &#43;0000 UTC&#39;&gt;2024-12-14&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-12-14&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;670&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
-	</div>   
-  <a class="entry-link" aria-label="post link to torch模型组成模块参数查询、管理、保存" href="https://lishensuo.github.io/en/posts/bioinfo/729torch%E6%A8%A1%E5%9E%8B%E7%BB%84%E6%88%90%E6%A8%A1%E5%9D%97%E5%8F%82%E6%95%B0%E6%9F%A5%E8%AF%A2%E7%AE%A1%E7%90%86%E4%BF%9D%E5%AD%98/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

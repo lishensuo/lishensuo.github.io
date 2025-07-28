@@ -178,6 +178,39 @@
 <article class="post-entry">
 	<div class="post-info">  
 		<header class="entry-header">
+			<h2>D2L--第六章卷积神经网络
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>1. 从全连接层到卷积 1.1 不变性 假设一个场景：需要制作一个检测器，在一张图片中检测一种特定物体。需要满足两个性质：
+平移不变性：无论该物品在图片的哪个位置，都可以检测到； 局部性：检测器只需要关注图像中的局部区域，不过度关注其它无关区域。 1.2 多层感知机的限制 对于图片（例如12M）像素的一维展开，包含36M的元素。若使用包含100个神经元的单隐藏层，模型就要3.6B元素，训练难度过大。 卷积(convolution)计算：输入X为二维矩阵，输出的隐藏表示H仍为矩阵。参数包括权重矩阵V与偏置U。H中的每一个元素都由权重矩阵V与输入X中相应区域元素的’点积’，再加上偏置所得到。（下图演示忽略了偏置计算） 平移不变性：权重矩阵（又称为卷积核/滤波器）在每次计算中保持不变，以提取相同的模式。 局部性：卷积核(kernel)的形状通常较小(|a|&gt;△;|b|&gt;△)，即针对输入的局部区域进行特征提取。 ...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2024-08-04 00:00:00 &#43;0000 UTC&#39;&gt;2024-08-04&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-08-04&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;4106&amp;nbsp;|&amp;nbsp;9 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to D2L--第六章卷积神经网络" href="https://lishensuo.github.io/en/posts/bioinfo/709d2l-%E7%AC%AC%E5%85%AD%E7%AB%A0%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
 			<h2>D2L--第七章现代卷积神经网络
 			</h2>
 		</header>
@@ -469,42 +502,6 @@ Normalizers: 文本句预处理，使规范化 Pre-tokenizers: 将句子初步�
 Create:&amp;nbsp;&lt;span title=&#39;2024-10-16 00:00:00 &#43;0000 UTC&#39;&gt;2024-10-16&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-10-16&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1144&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
 	</div>   
   <a class="entry-link" aria-label="post link to Hugging Face(3)-Tokenizer库" href="https://lishensuo.github.io/en/posts/bioinfo/718hugging-face3-tokenizers%E5%BA%93/"></a>
-</article>
-
-
-
-
-
-<article class="post-entry">
-	<div class="post-info">  
-		<header class="entry-header">
-			<h2>Hugging Face(2)-Datasets库
-			</h2>
-		</header>
-		<section class="entry-content">
-			<p>https://huggingface.co/docs/datasets/index
-A Dataset provides fast random access to the rows, and memory-mapping so that loading even large datasets only uses a relatively small amount of device memory.
-But for really, really big datasets ( &gt; 100G) that won’t even fit on disk or in memory, an IterableDataset allows you to access and use the dataset without waiting for it to download completely!
-https://huggingface.co/learn/nlp-course/chapter5/4?fw=pt#streaming-datasets https://huggingface.co/docs/datasets/about_mapstyle_vs_iterable 1. 读取 1.1 以Json文件读取为例 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 ## 预先下载解压到本地的datasets文件夹 # wget https://github.com/crux82/squad-it/raw/master/SQuAD_it-train.json.gz # wget https://github.com/crux82/squad-it/raw/master/SQuAD_it-test.json.gz # gzip -dkv SQuAD_it-*.json.gz from datasets import load_dataset squad_it_dataset = load_dataset(&#34;json&#34;, data_files=&#34;./datasets/SQuAD_it-train.json&#34;, field=&#34;data&#34;) # field参数为JSON文件特有，用于指定 JSON 文件中包含实际数据的字段名 squad_it_dataset # 默认读取为train split squad_it_dataset.keys() # dict_keys([&#39;train&#39;]) squad_it_dataset # DatasetDict({ # train: Dataset({ # features: [&#39;title&#39;, &#39;paragraphs&#39;], # num_rows: 442 # }) # }) 1.2 JSON的其它形式读取 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 # (1) 同时读取两个split data_files = {&#34;train&#34;: &#34;SQuAD_it-train.json&#34;, &#34;test&#34;: &#34;SQuAD_it-test.json&#34;} squad_it_dataset = load_dataset(&#34;json&#34;, data_files=data_files, field=&#34;data&#34;) # (2) 读取gz压缩格式 data_files = {&#34;train&#34;: &#34;SQuAD_it-train.json.gz&#34;, &#34;test&#34;: &#34;SQuAD_it-test.json.gz&#34;} squad_it_dataset = load_dataset(&#34;json&#34;, data_files=data_files, field=&#34;data&#34;) # (3) 远程读取 url = &#34;https://github.com/crux82/squad-it/raw/master/&#34; data_files = { &#34;train&#34;: url &#43; &#34;SQuAD_it-train.json.gz&#34;, &#34;test&#34;: url &#43; &#34;SQuAD_it-test.json.gz&#34;, } squad_it_dataset = load_dataset(&#34;json&#34;, data_files=data_files, field=&#34;data&#34;) data_files可以为每个split指定多个文件，https://huggingface.co/docs/datasets/loading
-...</p>
-		</section>
-		<footer class="entry-footer">
-
-
-
-
-
-
-
-
-
-
-
-
-
-Create:&amp;nbsp;&lt;span title=&#39;2024-10-16 00:00:00 &#43;0000 UTC&#39;&gt;2024-10-16&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2024-10-16&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1415&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
-	</div>   
-  <a class="entry-link" aria-label="post link to Hugging Face(2)-Datasets库" href="https://lishensuo.github.io/en/posts/bioinfo/719hugging-face2-datasets%E5%BA%93/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
