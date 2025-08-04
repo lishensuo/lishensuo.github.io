@@ -7,10 +7,9 @@
 <meta name="robots" content="index, follow">
 
 <link rel="icon" href="/favicon.ico" type="image/x-icon"> 
-<title>UCSCXenaShiny V2简要教程 | Li&#39;s Bioinfo-Blog</title>
+<title>MAGeCK-VISPR质控分析CRISPR测序数据 | Li&#39;s Bioinfo-Blog</title>
 <meta name="keywords" content="转录组">
-<meta name="description" content="085MAGeCK-VISPR质控分析CRISPR测序数据
-参考
+<meta name="description" content="参考
 
 https://bitbucket.org/liulab/mageck-vispr
 MAGeCK-VISPR：https://doi.org/10.1186%2Fs13059-015-0843-6
@@ -78,9 +77,8 @@ conda install -c bioconda -c conda-forge mageck-vispr
         }
 
     </style>
-</noscript><meta property="og:title" content="UCSCXenaShiny V2简要教程" />
-<meta property="og:description" content="085MAGeCK-VISPR质控分析CRISPR测序数据
-参考
+</noscript><meta property="og:title" content="MAGeCK-VISPR质控分析CRISPR测序数据" />
+<meta property="og:description" content="参考
 
 https://bitbucket.org/liulab/mageck-vispr
 MAGeCK-VISPR：https://doi.org/10.1186%2Fs13059-015-0843-6
@@ -105,9 +103,8 @@ conda install -c bioconda -c conda-forge mageck-vispr
 <meta property="article:modified_time" content="2025-07-27T00:00:00&#43;00:00" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="UCSCXenaShiny V2简要教程"/>
-<meta name="twitter:description" content="085MAGeCK-VISPR质控分析CRISPR测序数据
-参考
+<meta name="twitter:title" content="MAGeCK-VISPR质控分析CRISPR测序数据"/>
+<meta name="twitter:description" content="参考
 
 https://bitbucket.org/liulab/mageck-vispr
 MAGeCK-VISPR：https://doi.org/10.1186%2Fs13059-015-0843-6
@@ -148,7 +145,7 @@ conda install -c bioconda -c conda-forge mageck-vispr
     {
       "@type": "ListItem",
       "position":  3 ,
-      "name": "UCSCXenaShiny V2简要教程",
+      "name": "MAGeCK-VISPR质控分析CRISPR测序数据",
       "item": "https://lishensuo.github.io/en/posts/bioinfo/085mageck-vispr%E8%B4%A8%E6%8E%A7%E5%88%86%E6%9E%90crispr%E6%B5%8B%E5%BA%8F%E6%95%B0%E6%8D%AE/"
     }
   ]
@@ -158,14 +155,14 @@ conda install -c bioconda -c conda-forge mageck-vispr
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "UCSCXenaShiny V2简要教程",
-  "name": "UCSCXenaShiny V2简要教程",
-  "description": "085MAGeCK-VISPR质控分析CRISPR测序数据\n参考\nhttps://bitbucket.org/liulab/mageck-vispr MAGeCK-VISPR：https://doi.org/10.1186%2Fs13059-015-0843-6 1. 安装环境 1 2 3 conda create -n mageck-vispr python=3.7 conda activate mageck-vispr conda install -c bioconda -c conda-forge mageck-vispr 经过实际操作，部分源代码需要修改\n",
+  "headline": "MAGeCK-VISPR质控分析CRISPR测序数据",
+  "name": "MAGeCK-VISPR质控分析CRISPR测序数据",
+  "description": "参考\nhttps://bitbucket.org/liulab/mageck-vispr MAGeCK-VISPR：https://doi.org/10.1186%2Fs13059-015-0843-6 1. 安装环境 1 2 3 conda create -n mageck-vispr python=3.7 conda activate mageck-vispr conda install -c bioconda -c conda-forge mageck-vispr 经过实际操作，部分源代码需要修改\n",
   "keywords": [
     "转录组"
   ],
-  "articleBody": "085MAGeCK-VISPR质控分析CRISPR测序数据\n参考\nhttps://bitbucket.org/liulab/mageck-vispr MAGeCK-VISPR：https://doi.org/10.1186%2Fs13059-015-0843-6 1. 安装环境 1 2 3 conda create -n mageck-vispr python=3.7 conda activate mageck-vispr conda install -c bioconda -c conda-forge mageck-vispr 经过实际操作，部分源代码需要修改\n1 2 3 4 5 6 7 8 9 # ***/miniconda3/envs/mageck-vispr/lib/python3.7/site-packages/vispr/server.py # (1) 注释第13行代码 ## from jinja2 import Markup # (2) CAPTIONS = yaml.load(f) 替换为 CAPTIONS = yaml.safe_load(f) # ***/miniconda3/envs/mageck-vispr/lib/python3.7/site-packages/vispr/cli.py # (1) config = yaml.load(f) 同样替换为 config = yaml.safe_load(f) 2. 下载示例数据 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 tar xvf esc.testdata.step2.tar.bz2 ls esc-testdata # designmatrix.txt reads yusa_library.csv ## (1) 原始fastq数据 ls esc-testdata/reads # ERR376998.subsample.fastq # ERR376999.subsample.fastq # ERR377000.subsample.fastq ## (2) sgRNA坐标/序列/靶基因信息 head esc-testdata/yusa_library.csv # id,gRNA.sequence,Gene # chr9:21066101-21066124,CCTTCTCAATACCCATTCG,ZGLP1 # chr9:21066102-21066125,CTTCTCAATACCCATTCGC,ZGLP1 # chr9:21066273-21066296,GACCTGGGTGGCCGGCGAA,ZGLP1 ## (3) 样本设计(optional) cat esc-testdata/designmatrix.txt # samples baseline esc # plasmid 1 0 # esc1 1 1 # esc2 1 1 3. 初始化项目 1 2 3 4 5 6 7 8 mkdir workflow mageck-vispr init workflow/ \\ --reads esc-testdata/reads/ERR376998.subsample.fastq \\ esc-testdata/reads/ERR376999.subsample.fastq \\ esc-testdata/reads/ERR377000.subsample.fastq ls workflow # config.yaml README.txt Snakefile 根据需要修改config.yaml，比较关键的有如下\nlibrarry: 指定sgRNA信息，即上面的yusa_library.csv 文件 species与assembly指定物种与参考基因组 sample: 修改样本名 day0label: control初始样本(刚加入sgRNA还没产生效应) 要么通过day0label设置control，要么通过后面的experiments，指定designmatrix文件。总之，似乎必须要有这个实验设计control–treat。\nnorm_method默认使用所有sgRNA median norm factor进行标准化。若设置为control，需要提供文库中的阴性对照sgRNA(one sgrna id per row)，即仅使用这些sgRNA median norm factor进行标准化。\n关于paired参数适用于双端测序，即提供每一样本的r2的fastq.gz文件路径。不过根据结果来看，似乎还是默认采用的R1。不过一般来说，sgRNA 序列信息一般都在Read1了。\n关于count， 即直接提供已经计算好的count矩阵，再进行后续的阳性与阴性筛选分析。\n4. 执行snakemake脚本 1 2 3 4 5 6 cd workflow # dry-run snakemake -n # 实际允许 snakemake --cores 8 查询结果\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 ls # config.yaml logs README.txt results Snakefile ls results # count mle.vispr.yaml qc test # 可视化展示 vispr server results/*.vispr.yaml # Loading data. # Starting server. # Open: go to 127.0.0.1:5000 in your browser. # Note: Safari and Internet Explorer are currently unsupported. # Close: hit Ctrl-C in this terminal. # * Serving Flask app 'vispr.server' # * Debug mode: off # 本地端口查看可视化结果 ssh -i 秘钥地址 -p 端口 -N -L localhost:5000:localhost:5000 user@ip # -N 表示不执行远程命令，仅建立端口转发（即不登录 Shell，只用于端口转发） 其他补充\nMageck在计算Gini-index时，会先对Count进行log转换后，再计算。 ",
-  "wordCount" : "1011",
+  "articleBody": "参考\nhttps://bitbucket.org/liulab/mageck-vispr MAGeCK-VISPR：https://doi.org/10.1186%2Fs13059-015-0843-6 1. 安装环境 1 2 3 conda create -n mageck-vispr python=3.7 conda activate mageck-vispr conda install -c bioconda -c conda-forge mageck-vispr 经过实际操作，部分源代码需要修改\n1 2 3 4 5 6 7 8 9 # ***/miniconda3/envs/mageck-vispr/lib/python3.7/site-packages/vispr/server.py # (1) 注释第13行代码 ## from jinja2 import Markup # (2) CAPTIONS = yaml.load(f) 替换为 CAPTIONS = yaml.safe_load(f) # ***/miniconda3/envs/mageck-vispr/lib/python3.7/site-packages/vispr/cli.py # (1) config = yaml.load(f) 同样替换为 config = yaml.safe_load(f) 2. 下载示例数据 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 tar xvf esc.testdata.step2.tar.bz2 ls esc-testdata # designmatrix.txt reads yusa_library.csv ## (1) 原始fastq数据 ls esc-testdata/reads # ERR376998.subsample.fastq # ERR376999.subsample.fastq # ERR377000.subsample.fastq ## (2) sgRNA坐标/序列/靶基因信息 head esc-testdata/yusa_library.csv # id,gRNA.sequence,Gene # chr9:21066101-21066124,CCTTCTCAATACCCATTCG,ZGLP1 # chr9:21066102-21066125,CTTCTCAATACCCATTCGC,ZGLP1 # chr9:21066273-21066296,GACCTGGGTGGCCGGCGAA,ZGLP1 ## (3) 样本设计(optional) cat esc-testdata/designmatrix.txt # samples baseline esc # plasmid 1 0 # esc1 1 1 # esc2 1 1 3. 初始化项目 1 2 3 4 5 6 7 8 mkdir workflow mageck-vispr init workflow/ \\ --reads esc-testdata/reads/ERR376998.subsample.fastq \\ esc-testdata/reads/ERR376999.subsample.fastq \\ esc-testdata/reads/ERR377000.subsample.fastq ls workflow # config.yaml README.txt Snakefile 根据需要修改config.yaml，比较关键的有如下\nlibrarry: 指定sgRNA信息，即上面的yusa_library.csv 文件 species与assembly指定物种与参考基因组 sample: 修改样本名 day0label: control初始样本(刚加入sgRNA还没产生效应) 要么通过day0label设置control，要么通过后面的experiments，指定designmatrix文件。总之，似乎必须要有这个实验设计control–treat。\nnorm_method默认使用所有sgRNA median norm factor进行标准化。若设置为control，需要提供文库中的阴性对照sgRNA(one sgrna id per row)，即仅使用这些sgRNA median norm factor进行标准化。\n关于paired参数适用于双端测序，即提供每一样本的r2的fastq.gz文件路径。不过根据结果来看，似乎还是默认采用的R1。不过一般来说，sgRNA 序列信息一般都在Read1了。\n关于count， 即直接提供已经计算好的count矩阵，再进行后续的阳性与阴性筛选分析。\n4. 执行snakemake脚本 1 2 3 4 5 6 cd workflow # dry-run snakemake -n # 实际允许 snakemake --cores 8 查询结果\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 ls # config.yaml logs README.txt results Snakefile ls results # count mle.vispr.yaml qc test # 可视化展示 vispr server results/*.vispr.yaml # Loading data. # Starting server. # Open: go to 127.0.0.1:5000 in your browser. # Note: Safari and Internet Explorer are currently unsupported. # Close: hit Ctrl-C in this terminal. # * Serving Flask app 'vispr.server' # * Debug mode: off # 本地端口查看可视化结果 ssh -i 秘钥地址 -p 端口 -N -L localhost:5000:localhost:5000 user@ip # -N 表示不执行远程命令，仅建立端口转发（即不登录 Shell，只用于端口转发） 其他补充\nMageck在计算Gini-index时，会先对Count进行log转换后，再计算。 ",
+  "wordCount" : "982",
   "inLanguage": "en",
   "datePublished": "2025-07-27T00:00:00Z",
   "dateModified": "2025-07-27T00:00:00Z",
@@ -271,7 +268,7 @@ conda install -c bioconda -c conda-forge mageck-vispr
   <header class="post-header">
     <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/bioinfo/">📖 生信数据分析--分析流程，工具包等</a></div>
     <h1 class="post-title">
-      UCSCXenaShiny V2简要教程
+      MAGeCK-VISPR质控分析CRISPR测序数据
     </h1>
     <div class="post-meta">
 
@@ -287,7 +284,7 @@ conda install -c bioconda -c conda-forge mageck-vispr
 
 
 
-Create:&amp;nbsp;&lt;span title=&#39;2025-07-27 00:00:00 &#43;0000 UTC&#39;&gt;2025-07-27&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2025-07-27&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1011&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo
+Create:&amp;nbsp;&lt;span title=&#39;2025-07-27 00:00:00 &#43;0000 UTC&#39;&gt;2025-07-27&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2025-07-27&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;982&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo
 
 |  Viewers: <span id="busuanzi_value_page_pv"></span> 
 	  
@@ -375,8 +372,7 @@ Create:&amp;nbsp;&lt;span title=&#39;2025-07-27 00:00:00 &#43;0000 UTC&#39;&gt;2
 </script>
 
 
-  <div class="post-content"><p>085MAGeCK-VISPR质控分析CRISPR测序数据</p>
-<p>参考</p>
+  <div class="post-content"><p>参考</p>
 <ul>
 <li><a href="https://bitbucket.org/liulab/mageck-vispr">https://bitbucket.org/liulab/mageck-vispr</a></li>
 <li>MAGeCK-VISPR：https://doi.org/10.1186%2Fs13059-015-0843-6</li>

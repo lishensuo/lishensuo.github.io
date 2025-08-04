@@ -244,6 +244,38 @@ Create:&amp;nbsp;&lt;span title=&#39;2025-07-28 00:00:00 &#43;0000 UTC&#39;&gt;2
 <article class="post-entry">
 	<div class="post-info">  
 		<header class="entry-header">
+			<h2>Python-可视化-sns绘制回归点图
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 1 2 3 4 5 import seaborn as sns import matplotlib.pyplot as plt import numpy as np import pandas as pd 1. sns.regplot 适合展示简单的两组关系 1 2 3 4 5 6 mpg = sns.load_dataset(&#39;mpg&#39;) # 1) 一般用法 sns.regplot(data=mpg, x=&#34;weight&#34;, y=&#34;acceleration&#34;) # sns.regplot(data=mpg, x=&#34;weight&#34;, y=&#34;acceleration&#34;, ci=None) # 不显示置信区间 # sns.regplot(data=mpg, x=&#34;weight&#34;, y=&#34;acceleration&#34;, ci=99) # 自定义置信区间 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 # 2) 修改scatter点与line线的显示细节 sns.regplot( data=mpg, x=&#34;weight&#34;, y=&#34;acceleration&#34;, scatter_kws={ &#39;color&#39;: &#39;blue&#39;, # 散点颜色 &#39;s&#39;: 50, # 点的大小（面积） &#39;alpha&#39;: 0.6, # 透明度 &#39;marker&#39;: &#39;o&#39;, # 点的样式，比如 &#39;o&#39;, &#39;x&#39;, &#39;^&#39;, etc. &#39;linewidths&#39;: 0 # 点的轮廓线 } ) sns.regplot( data=mpg, x=&#34;weight&#34;, y=&#34;acceleration&#34;, line_kws={ &#39;color&#39;: &#39;red&#39;, # 回归线颜色 &#39;linewidth&#39;: 2, # 线宽 &#39;linestyle&#39;: &#39;--&#39;, # 线型：&#39;-&#39;、&#39;--&#39;、&#39;:&#39;、&#39;-.&#39; 等 &#39;alpha&#39;: 0.9 # 回归线透明度 } ) 1 2 3 4 5 6 7 # 3) 对具有&#34;离散&#34;性质的变量(数据类型仍是float/int), 为避免重叠可以设置抖动 sns.regplot(data=mpg, x=&#34;cylinders&#34;, y=&#34;weight&#34;, x_jitter=.15) # 4) 线的拟合方式 sns.regplot(data=mpg, x=&#34;weight&#34;, y=&#34;mpg&#34;, order=2) # 拟合高阶函数 # sns.regplot(data=mpg, x=&#34;horsepower&#34;, y=&#34;weight&#34;, robust=True) # 不受离群点影响 # sns.regplot(data=mpg, x=&#34;horsepower&#34;, y=&#34;mpg&#34;, lowess=True) # 拟合平滑曲线 2. sns.lmplot 适用于分组线性回归, 即分面绘图 1 2 3 tips = sns.load_dataset(&#34;tips&#34;) sns.lmplot(x=&#34;total_bill&#34;, y=&#34;tip&#34;, hue=&#34;sex&#34;, data=tips) 1 2 sns.lmplot(x=&#34;total_bill&#34;, y=&#34;tip&#34;, col=&#34;day&#34;, data=tips, facet_kws=dict(sharex=False, sharey=False),) ...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2025-08-04 00:00:00 &#43;0000 UTC&#39;&gt;2025-08-04&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2025-08-04&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;620&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to Python-可视化-sns绘制回归点图" href="https://lishensuo.github.io/en/posts/program/034python-%E5%8F%AF%E8%A7%86%E5%8C%96-sns%E7%BB%98%E5%88%B6%E5%9B%9E%E5%BD%92%E7%82%B9%E5%9B%BE/"></a>
+</article>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
 			<h2>050快捷键
 			</h2>
 		</header>
@@ -473,39 +505,6 @@ Create:&amp;nbsp;&lt;span title=&#39;2022-05-08 00:00:00 &#43;0000 UTC&#39;&gt;2
 Create:&amp;nbsp;&lt;span title=&#39;2022-06-25 00:00:00 &#43;0000 UTC&#39;&gt;2022-06-25&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-06-25&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;580&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
 	</div>   
   <a class="entry-link" aria-label="post link to R-数据分析-reshape2表格长短转换" href="https://lishensuo.github.io/en/posts/program/211r-%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90-reshape2%E8%A1%A8%E6%A0%BC%E9%95%BF%E7%9F%AD%E8%BD%AC%E6%8D%A2/"></a>
-</article>
-
-
-
-
-
-<article class="post-entry">
-	<div class="post-info">  
-		<header class="entry-header">
-			<h2>R-可视化-ggplot2绘图基础
-			</h2>
-		</header>
-		<section class="entry-content">
-			<p> ggplot2包一方面可以实现多种形式的数据可视化、比如箱图、柱状图等；另一方面也可以从多个角度进行美化、修饰。对于前者，之前对ggplot2的柱状图、箱图用法进行了详细的学习。关于其它类型的图，例如密度图、折线图、直方图等，可参考他人的总结，例如下面的sthda网站。
-...</p>
-		</section>
-		<footer class="entry-footer">
-
-
-
-
-
-
-
-
-
-
-
-
-
-Create:&amp;nbsp;&lt;span title=&#39;2022-07-03 00:00:00 &#43;0000 UTC&#39;&gt;2022-07-03&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2022-07-03&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;1267&amp;nbsp;|&amp;nbsp;3 min&amp;nbsp;|&amp;nbsp;Lishensuo</footer>
-	</div>   
-  <a class="entry-link" aria-label="post link to R-可视化-ggplot2绘图基础" href="https://lishensuo.github.io/en/posts/program/212r-%E5%8F%AF%E8%A7%86%E5%8C%96-ggplot2%E7%BB%98%E5%9B%BE%E5%9F%BA%E7%A1%80/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
