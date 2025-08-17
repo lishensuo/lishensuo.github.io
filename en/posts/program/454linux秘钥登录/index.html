@@ -7,65 +7,17 @@
 <meta name="robots" content="index, follow">
 
 <link rel="icon" href="/favicon.ico" type="image/x-icon"> 
-<title>linux设备挂载mount | Li&#39;s Bioinfo-Blog</title>
+<title>linux秘钥登录 | Li&#39;s Bioinfo-Blog</title>
 <meta name="keywords" content="Linux">
-<meta name="description" content="简单背景知识
-挂载(mount) = 把一个存储设备（如硬盘、U盘， 通常在/dev/下面）连接到系统的某个目录，让用户可以通过这个目录访问设备内容。
+<meta name="description" content="1. 背景知识
+默认情况下，SSH 登录需要输入用户名和密码，更安全的方式是使用密钥对（公钥 &#43; 私钥）进行登录
 
-/dev/sda :第一个被识别的磁盘（通常是主硬盘）, 常作为系统盘；
-/dev/sdb: 第二个被识别的磁盘（通常是U盘或外接盘）,常作为移动设备。
+私钥 (private key)：存放在客户端（你的电脑）上，不可泄露。
+公钥 (public key)：存放在服务器上，用来验证对应的私钥。
 
-可有多个分区，将一块磁盘逻辑上划分为多个块
-例如/dev/sdb1, /dev/sdb2
-
-
-
-常用命令
-
-
- 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-
-
-# 示磁盘、分区、挂载点的树状结构
-lsblk -f  
-
-# 查看所有挂载设备的空间使用情况
-df -h 
-
-
-# 创建挂载点目录
-sudo mkdir -p /media/user/usb1    
-
-
-# 创建挂载点目录
-sudo mount /dev/sdb1 /media/user/usb1
-
-# 卸载分区（安全弹出U盘）
-sudo umount /media/user/usb1
-# 或者根据设备路径
-sudo umount /dev/sdb1
-
-
-">
+最常用的密钥类型是RSA (Rivest–Shamir–Adleman)">
 <meta name="author" content="Lishensuo">
-<link rel="canonical" href="https://lishensuo.github.io/en/posts/program/453linux%E8%AE%BE%E5%A4%87%E6%8C%82%E8%BD%BDmount/">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/program/454linux%E7%A7%98%E9%92%A5%E7%99%BB%E5%BD%95/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
 <script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
     onload="hljs.initHighlightingOnLoad();"></script>
@@ -76,7 +28,7 @@ sudo umount /dev/sdb1
 <link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/program/453linux%E8%AE%BE%E5%A4%87%E6%8C%82%E8%BD%BDmount/">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/program/454linux%E7%A7%98%E9%92%A5%E7%99%BB%E5%BD%95/">
 <noscript>
     <style>
         #theme-toggle,
@@ -113,124 +65,28 @@ sudo umount /dev/sdb1
         }
 
     </style>
-</noscript><meta property="og:title" content="linux设备挂载mount" />
-<meta property="og:description" content="简单背景知识
-挂载(mount) = 把一个存储设备（如硬盘、U盘， 通常在/dev/下面）连接到系统的某个目录，让用户可以通过这个目录访问设备内容。
+</noscript><meta property="og:title" content="linux秘钥登录" />
+<meta property="og:description" content="1. 背景知识
+默认情况下，SSH 登录需要输入用户名和密码，更安全的方式是使用密钥对（公钥 &#43; 私钥）进行登录
 
-/dev/sda :第一个被识别的磁盘（通常是主硬盘）, 常作为系统盘；
-/dev/sdb: 第二个被识别的磁盘（通常是U盘或外接盘）,常作为移动设备。
+私钥 (private key)：存放在客户端（你的电脑）上，不可泄露。
+公钥 (public key)：存放在服务器上，用来验证对应的私钥。
 
-可有多个分区，将一块磁盘逻辑上划分为多个块
-例如/dev/sdb1, /dev/sdb2
-
-
-
-常用命令
-
-
- 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-
-
-# 示磁盘、分区、挂载点的树状结构
-lsblk -f  
-
-# 查看所有挂载设备的空间使用情况
-df -h 
-
-
-# 创建挂载点目录
-sudo mkdir -p /media/user/usb1    
-
-
-# 创建挂载点目录
-sudo mount /dev/sdb1 /media/user/usb1
-
-# 卸载分区（安全弹出U盘）
-sudo umount /media/user/usb1
-# 或者根据设备路径
-sudo umount /dev/sdb1
-
-
-" />
+最常用的密钥类型是RSA (Rivest–Shamir–Adleman)" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://lishensuo.github.io/en/posts/program/453linux%E8%AE%BE%E5%A4%87%E6%8C%82%E8%BD%BDmount/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2025-07-01T00:00:00&#43;00:00" />
-<meta property="article:modified_time" content="2025-07-01T00:00:00&#43;00:00" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/program/454linux%E7%A7%98%E9%92%A5%E7%99%BB%E5%BD%95/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2025-08-17T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2025-08-17T00:00:00&#43;00:00" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="linux设备挂载mount"/>
-<meta name="twitter:description" content="简单背景知识
-挂载(mount) = 把一个存储设备（如硬盘、U盘， 通常在/dev/下面）连接到系统的某个目录，让用户可以通过这个目录访问设备内容。
+<meta name="twitter:title" content="linux秘钥登录"/>
+<meta name="twitter:description" content="1. 背景知识
+默认情况下，SSH 登录需要输入用户名和密码，更安全的方式是使用密钥对（公钥 &#43; 私钥）进行登录
 
-/dev/sda :第一个被识别的磁盘（通常是主硬盘）, 常作为系统盘；
-/dev/sdb: 第二个被识别的磁盘（通常是U盘或外接盘）,常作为移动设备。
+私钥 (private key)：存放在客户端（你的电脑）上，不可泄露。
+公钥 (public key)：存放在服务器上，用来验证对应的私钥。
 
-可有多个分区，将一块磁盘逻辑上划分为多个块
-例如/dev/sdb1, /dev/sdb2
-
-
-
-常用命令
-
-
- 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-
-
-# 示磁盘、分区、挂载点的树状结构
-lsblk -f  
-
-# 查看所有挂载设备的空间使用情况
-df -h 
-
-
-# 创建挂载点目录
-sudo mkdir -p /media/user/usb1    
-
-
-# 创建挂载点目录
-sudo mount /dev/sdb1 /media/user/usb1
-
-# 卸载分区（安全弹出U盘）
-sudo umount /media/user/usb1
-# 或者根据设备路径
-sudo umount /dev/sdb1
-
-
-"/>
+最常用的密钥类型是RSA (Rivest–Shamir–Adleman)"/>
 
 
 <script type="application/ld+json">
@@ -253,8 +109,8 @@ sudo umount /dev/sdb1
     {
       "@type": "ListItem",
       "position":  3 ,
-      "name": "linux设备挂载mount",
-      "item": "https://lishensuo.github.io/en/posts/program/453linux%E8%AE%BE%E5%A4%87%E6%8C%82%E8%BD%BDmount/"
+      "name": "linux秘钥登录",
+      "item": "https://lishensuo.github.io/en/posts/program/454linux%E7%A7%98%E9%92%A5%E7%99%BB%E5%BD%95/"
     }
   ]
 }
@@ -263,24 +119,24 @@ sudo umount /dev/sdb1
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "linux设备挂载mount",
-  "name": "linux设备挂载mount",
-  "description": "简单背景知识 挂载(mount) = 把一个存储设备（如硬盘、U盘， 通常在/dev/下面）连接到系统的某个目录，让用户可以通过这个目录访问设备内容。\n/dev/sda :第一个被识别的磁盘（通常是主硬盘）, 常作为系统盘； /dev/sdb: 第二个被识别的磁盘（通常是U盘或外接盘）,常作为移动设备。 可有多个分区，将一块磁盘逻辑上划分为多个块 例如/dev/sdb1, /dev/sdb2 常用命令 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 # 示磁盘、分区、挂载点的树状结构 lsblk -f # 查看所有挂载设备的空间使用情况 df -h # 创建挂载点目录 sudo mkdir -p /media/user/usb1 # 创建挂载点目录 sudo mount /dev/sdb1 /media/user/usb1 # 卸载分区（安全弹出U盘） sudo umount /media/user/usb1 # 或者根据设备路径 sudo umount /dev/sdb1 ",
+  "headline": "linux秘钥登录",
+  "name": "linux秘钥登录",
+  "description": "1. 背景知识 默认情况下，SSH 登录需要输入用户名和密码，更安全的方式是使用密钥对（公钥 + 私钥）进行登录\n私钥 (private key)：存放在客户端（你的电脑）上，不可泄露。 公钥 (public key)：存放在服务器上，用来验证对应的私钥。 最常用的密钥类型是RSA (Rivest–Shamir–Adleman)\n",
   "keywords": [
     "Linux"
   ],
-  "articleBody": "简单背景知识 挂载(mount) = 把一个存储设备（如硬盘、U盘， 通常在/dev/下面）连接到系统的某个目录，让用户可以通过这个目录访问设备内容。\n/dev/sda :第一个被识别的磁盘（通常是主硬盘）, 常作为系统盘； /dev/sdb: 第二个被识别的磁盘（通常是U盘或外接盘）,常作为移动设备。 可有多个分区，将一块磁盘逻辑上划分为多个块 例如/dev/sdb1, /dev/sdb2 常用命令 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 # 示磁盘、分区、挂载点的树状结构 lsblk -f # 查看所有挂载设备的空间使用情况 df -h # 创建挂载点目录 sudo mkdir -p /media/user/usb1 # 创建挂载点目录 sudo mount /dev/sdb1 /media/user/usb1 # 卸载分区（安全弹出U盘） sudo umount /media/user/usb1 # 或者根据设备路径 sudo umount /dev/sdb1 ",
-  "wordCount" : "272",
+  "articleBody": "1. 背景知识 默认情况下，SSH 登录需要输入用户名和密码，更安全的方式是使用密钥对（公钥 + 私钥）进行登录\n私钥 (private key)：存放在客户端（你的电脑）上，不可泄露。 公钥 (public key)：存放在服务器上，用来验证对应的私钥。 最常用的密钥类型是RSA (Rivest–Shamir–Adleman)\n最经典的非对称加密算法，历史最悠久。 默认支持大多数 SSH 客户端和服务器。 安全性依赖密钥长度，一般推荐至少 2048 位，现在常用 4096 位。 2. 使用流程 （1）在本地电脑客户端生成RSA密钥对 1 2 3 4 5 ssh-keygen -t rsa -b 4096 -C \"your_email@example.com\" # -t rsa → 指定算法为 RSA # -b 4096 → 设置密钥长度，推荐 4096。 # -C → 注释（通常写邮箱或设备名，方便区分） 1）在出现下述提示时，设置key的保存全路径（包括name）。如果直接回车，就会设置为括号内默认的值。\n1 Enter file in which to save the key (/home/you/.ssh/id_rsa): 2）然后再输入下述提示时，可以进一步设置私钥密码，保证即使私钥文件泄露，也需要密码才能用。\n1 Enter passphrase (empty for no passphrase): 3）如上操作后，最终会得到两个文件，例如\n1 2 ~/.ssh/id_rsa # 私钥（不要泄露） ~/.ssh/id_rsa.pub # 公钥（可以随意分享给服务器） （2）放置密钥对文件 以window为例，对于私钥文件一般放在C:\\Users\\user\\.ssh\\id_rsa位置\n而对于公钥文件id_rsa.pub，需要将其内容放(追加)到 ~/.ssh/authorized_keys文件中。具体方式有如下：\nauthorized_keys 可以储存多个密钥对的公钥信息，即通过多个密钥对登录。\n1）使用ssh-copy-id 直接自动追加\n1 ssh-copy-id -i ~/.ssh/id_rsa.pub user@server_ip 2）手动逐步操作\n1 2 3 4 5 6 7 8 9 10 11 12 # 1. 首先将id_rsa.pub内容，上传到服务器的任一目录，例如 /tmp/id_rsa.pub cat /tmp/id_rsa.pub # 2. 如果事先不存在 .ssh 目录 ssh user@server_ip mkdir -p ~/.ssh cat /tmp/id_rsa.pub \u003e\u003e ~/.ssh/authorized_keys chmod 700 ~/.ssh chmod 600 ~/.ssh/authorized_keys rm /tmp/id_rsa.pub （3）密钥登录 1 2 3 4 5 6 7 8 9 ssh -i ~/.ssh/serverA_rsa user@server_ip # -i 参数 # or 编辑好config文件 (大写为参数名，小写为参数值) Host myserver HostName server_ip User user IdentityFile ~/.ssh/serverA_rsa ssh myserver ",
+  "wordCount" : "764",
   "inLanguage": "en",
-  "datePublished": "2025-07-01T00:00:00Z",
-  "dateModified": "2025-07-01T00:00:00Z",
+  "datePublished": "2025-08-17T00:00:00Z",
+  "dateModified": "2025-08-17T00:00:00Z",
   "author":[{
     "@type": "Person",
     "name": "Lishensuo"
   }],
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://lishensuo.github.io/en/posts/program/453linux%E8%AE%BE%E5%A4%87%E6%8C%82%E8%BD%BDmount/"
+    "@id": "https://lishensuo.github.io/en/posts/program/454linux%E7%A7%98%E9%92%A5%E7%99%BB%E5%BD%95/"
   },
   "publisher": {
     "@type": "Organization",
@@ -376,7 +232,7 @@ sudo umount /dev/sdb1
   <header class="post-header">
     <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/program/">📖 R&amp;Python&amp;Shell --- 编程基础、可视化等</a></div>
     <h1 class="post-title">
-      linux设备挂载mount
+      linux秘钥登录
     </h1>
     <div class="post-meta">
 
@@ -392,7 +248,7 @@ sudo umount /dev/sdb1
 
 
 
-Create:&amp;nbsp;&lt;span title=&#39;2025-07-01 00:00:00 &#43;0000 UTC&#39;&gt;2025-07-01&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2025-07-01&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;272&amp;nbsp;|&amp;nbsp;1 min&amp;nbsp;|&amp;nbsp;Lishensuo
+Create:&amp;nbsp;&lt;span title=&#39;2025-08-17 00:00:00 &#43;0000 UTC&#39;&gt;2025-08-17&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2025-08-17&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;764&amp;nbsp;|&amp;nbsp;2 min&amp;nbsp;|&amp;nbsp;Lishensuo
 
 |  Viewers: <span id="busuanzi_value_page_pv"></span> 
 	  
@@ -406,9 +262,9 @@ Create:&amp;nbsp;&lt;span title=&#39;2025-07-01 00:00:00 &#43;0000 UTC&#39;&gt;2
 
             <div class="inner"><ul>
                     <li>
-                        <a href="#%e7%ae%80%e5%8d%95%e8%83%8c%e6%99%af%e7%9f%a5%e8%af%86" aria-label="简单背景知识">简单背景知识</a></li>
+                        <a href="#1-%e8%83%8c%e6%99%af%e7%9f%a5%e8%af%86" aria-label="1. 背景知识">1. 背景知识</a></li>
                     <li>
-                        <a href="#%e5%b8%b8%e7%94%a8%e5%91%bd%e4%bb%a4" aria-label="常用命令">常用命令</a>
+                        <a href="#2-%e4%bd%bf%e7%94%a8%e6%b5%81%e7%a8%8b" aria-label="2. 使用流程">2. 使用流程</a>
                     </li>
                 </ul>
             </div>
@@ -476,18 +332,84 @@ Create:&amp;nbsp;&lt;span title=&#39;2025-07-01 00:00:00 &#43;0000 UTC&#39;&gt;2
 </script>
 
 
-  <div class="post-content"><h1 id="简单背景知识">简单背景知识<a hidden class="anchor" aria-hidden="true" href="#简单背景知识">#</a></h1>
-<p>挂载(mount) = 把一个存储设备（如硬盘、U盘， 通常在<code>/dev/</code>下面）连接到系统的某个目录，让用户可以通过这个目录访问设备内容。</p>
+  <div class="post-content"><h2 id="1-背景知识">1. 背景知识<a hidden class="anchor" aria-hidden="true" href="#1-背景知识">#</a></h2>
+<p>默认情况下，SSH 登录需要输入用户名和密码，更安全的方式是使用密钥对（公钥 + 私钥）进行登录</p>
 <ul>
-<li><code>/dev/sda</code> :第一个被识别的磁盘（通常是主硬盘）, 常作为系统盘；</li>
-<li><code>/dev/sdb</code>: 第二个被识别的磁盘（通常是U盘或外接盘）,常作为移动设备。
+<li>私钥 (private key)：存放在客户端（你的电脑）上，不可泄露。</li>
+<li>公钥 (public key)：存放在服务器上，用来验证对应的私钥。</li>
+</ul>
+<p>最常用的密钥类型是RSA (Rivest–Shamir–Adleman)</p>
 <ul>
-<li>可有多个分区，将一块磁盘逻辑上划分为多个块</li>
-<li>例如<code>/dev/sdb1</code>, <code>/dev/sdb2</code></li>
+<li>最经典的非对称加密算法，历史最悠久。</li>
+<li>默认支持大多数 SSH 客户端和服务器。</li>
+<li>安全性依赖密钥长度，一般推荐至少 2048 位，现在常用 4096 位。</li>
 </ul>
-</li>
+<h2 id="2-使用流程">2. 使用流程<a hidden class="anchor" aria-hidden="true" href="#2-使用流程">#</a></h2>
+<ul>
+<li>（1）在本地电脑客户端生成RSA密钥对</li>
 </ul>
-<h1 id="常用命令">常用命令<a hidden class="anchor" aria-hidden="true" href="#常用命令">#</a></h1>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>ssh-keygen -t rsa -b <span style="color:#ff0;font-weight:bold">4096</span> -C <span style="color:#0ff;font-weight:bold">&#34;your_email@example.com&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># -t rsa → 指定算法为 RSA</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># -b 4096 → 设置密钥长度，推荐 4096。</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># -C → 注释（通常写邮箱或设备名，方便区分）</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>1）在出现下述提示时，设置key的保存全路径（包括name）。如果直接回车，就会设置为括号内默认的值。</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>Enter file in which to save the key (/home/you/.ssh/id_rsa): 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>2）然后再输入下述提示时，可以进一步设置私钥密码，保证即使私钥文件泄露，也需要密码才能用。</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>Enter passphrase (empty for no passphrase): 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>3）如上操作后，最终会得到两个文件，例如</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>~/.ssh/id_rsa      # 私钥（不要泄露）
+</span></span><span style="display:flex;"><span>~/.ssh/id_rsa.pub  # 公钥（可以随意分享给服务器）
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>（2）放置密钥对文件</li>
+</ul>
+<p>以window为例，对于私钥文件一般放在<code>C:\Users\user\.ssh\id_rsa</code>位置</p>
+<p>而对于公钥文件<code>id_rsa.pub</code>，需要将其内容放(追加)到 <code>~/.ssh/authorized_keys</code>文件中。具体方式有如下：</p>
+<blockquote>
+<p>authorized_keys 可以储存多个密钥对的公钥信息，即通过多个密钥对登录。</p></blockquote>
+<p>1）使用<code>ssh-copy-id</code> 直接自动追加</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>ssh-copy-id -i ~/.ssh/id_rsa.pub user@server_ip
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>2）手动逐步操作</p>
 <div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
@@ -502,32 +424,47 @@ Create:&amp;nbsp;&lt;span title=&#39;2025-07-01 00:00:00 &#43;0000 UTC&#39;&gt;2
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#007f7f"># 示磁盘、分区、挂载点的树状结构</span>
-</span></span><span style="display:flex;"><span>lsblk -f  
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#007f7f"># 1. 首先将id_rsa.pub内容，上传到服务器的任一目录，例如 /tmp/id_rsa.pub</span>
+</span></span><span style="display:flex;"><span>cat /tmp/id_rsa.pub
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 查看所有挂载设备的空间使用情况</span>
-</span></span><span style="display:flex;"><span>df -h 
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 2. 如果事先不存在 .ssh 目录</span>
+</span></span><span style="display:flex;"><span>ssh user@server_ip
+</span></span><span style="display:flex;"><span>mkdir -p ~/.ssh
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cat /tmp/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys
+</span></span><span style="display:flex;"><span>chmod <span style="color:#ff0;font-weight:bold">700</span> ~/.ssh
+</span></span><span style="display:flex;"><span>chmod <span style="color:#ff0;font-weight:bold">600</span> ~/.ssh/authorized_keys
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 创建挂载点目录</span>
-</span></span><span style="display:flex;"><span>sudo mkdir -p /media/user/usb1    
+</span></span><span style="display:flex;"><span>rm /tmp/id_rsa.pub
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>（3）密钥登录</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>ssh -i ~/.ssh/serverA_rsa user@server_ip  <span style="color:#007f7f"># -i 参数</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 创建挂载点目录</span>
-</span></span><span style="display:flex;"><span>sudo mount /dev/sdb1 /media/user/usb1
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 卸载分区（安全弹出U盘）</span>
-</span></span><span style="display:flex;"><span>sudo umount /media/user/usb1
-</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 或者根据设备路径</span>
-</span></span><span style="display:flex;"><span>sudo umount /dev/sdb1
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># or 编辑好config文件 (大写为参数名，小写为参数值)</span>
+</span></span><span style="display:flex;"><span>Host myserver
+</span></span><span style="display:flex;"><span>    HostName server_ip
+</span></span><span style="display:flex;"><span>    User user
+</span></span><span style="display:flex;"><span>    IdentityFile ~/.ssh/serverA_rsa
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>ssh myserver
 </span></span></code></pre></td></tr></table>
 </div>
 </div>
@@ -539,15 +476,15 @@ Create:&amp;nbsp;&lt;span title=&#39;2025-07-01 00:00:00 &#43;0000 UTC&#39;&gt;2
       <li><a href="https://lishensuo.github.io/en/tags/linux/">Linux</a></li>
     </ul>
 <nav class="paginav">
-  <a class="prev" href="https://lishensuo.github.io/en/posts/program/452snakemake%E6%B5%81%E7%A8%8B%E6%90%AD%E5%BB%BA/">
+  <a class="prev" href="https://lishensuo.github.io/en/posts/program/453linux%E8%AE%BE%E5%A4%87%E6%8C%82%E8%BD%BDmount/">
     <span class="title">« Prev Page</span>
     <br>
-    <span>Snakemake流程搭建</span>
+    <span>linux设备挂载mount</span>
   </a>
-  <a class="next" href="https://lishensuo.github.io/en/posts/program/454linux%E7%A7%98%E9%92%A5%E7%99%BB%E5%BD%95/">
+  <a class="next" href="https://lishensuo.github.io/en/posts/program/500window%E7%B3%BB%E7%BB%9F%E5%BF%AB%E9%80%9F%E5%AE%89%E8%A3%85ubuntu%E5%AD%90%E7%B3%BB%E7%BB%9F/">
     <span class="title">Next Page »</span>
     <br>
-    <span>linux秘钥登录</span>
+    <span>window系统快速安装ubuntu子系统</span>
   </a>
 </nav>
 
