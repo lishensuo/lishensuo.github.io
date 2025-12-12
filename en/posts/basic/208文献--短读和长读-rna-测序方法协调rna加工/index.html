@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>文献--使用短读长和长读长RNA测序方法阐明RNA加工的协调性 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="文献-组学, CBG">
+<meta name="description" content="Elucidating the coordination of RNA processing using short-read and long-read RNA-sequencing methods
+使用短读长和长读长 RNA 测序方法阐明 RNA 加工的协调性
+
+时间：06 October 2025
+期刊：Nature Reviews Molecular Cell Biology
+
+
+
+导读：文章的概念很多，但是没有做过多介绍，所以该文包含了一些背景介绍以及我个人的理解。">
+<meta name="author" content="神经蛙的藏宝阁">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/basic/208%E6%96%87%E7%8C%AE--%E7%9F%AD%E8%AF%BB%E5%92%8C%E9%95%BF%E8%AF%BB-rna-%E6%B5%8B%E5%BA%8F%E6%96%B9%E6%B3%95%E5%8D%8F%E8%B0%83rna%E5%8A%A0%E5%B7%A5/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/basic/208%E6%96%87%E7%8C%AE--%E7%9F%AD%E8%AF%BB%E5%92%8C%E9%95%BF%E8%AF%BB-rna-%E6%B5%8B%E5%BA%8F%E6%96%B9%E6%B3%95%E5%8D%8F%E8%B0%83rna%E5%8A%A0%E5%B7%A5/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="文献--使用短读长和长读长RNA测序方法阐明RNA加工的协调性" />
+<meta property="og:description" content="Elucidating the coordination of RNA processing using short-read and long-read RNA-sequencing methods
+使用短读长和长读长 RNA 测序方法阐明 RNA 加工的协调性
+
+时间：06 October 2025
+期刊：Nature Reviews Molecular Cell Biology
+
+
+
+导读：文章的概念很多，但是没有做过多介绍，所以该文包含了一些背景介绍以及我个人的理解。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/basic/208%E6%96%87%E7%8C%AE--%E7%9F%AD%E8%AF%BB%E5%92%8C%E9%95%BF%E8%AF%BB-rna-%E6%B5%8B%E5%BA%8F%E6%96%B9%E6%B3%95%E5%8D%8F%E8%B0%83rna%E5%8A%A0%E5%B7%A5/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2025-12-12T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2025-12-12T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="文献--使用短读长和长读长RNA测序方法阐明RNA加工的协调性"/>
+<meta name="twitter:description" content="Elucidating the coordination of RNA processing using short-read and long-read RNA-sequencing methods
+使用短读长和长读长 RNA 测序方法阐明 RNA 加工的协调性
+
+时间：06 October 2025
+期刊：Nature Reviews Molecular Cell Biology
+
+
+
+导读：文章的概念很多，但是没有做过多介绍，所以该文包含了一些背景介绍以及我个人的理解。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 科研基础 -- 读文献、看教材",
+      "item": "https://lishensuo.github.io/en/posts/basic/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "文献--使用短读长和长读长RNA测序方法阐明RNA加工的协调性",
+      "item": "https://lishensuo.github.io/en/posts/basic/208%E6%96%87%E7%8C%AE--%E7%9F%AD%E8%AF%BB%E5%92%8C%E9%95%BF%E8%AF%BB-rna-%E6%B5%8B%E5%BA%8F%E6%96%B9%E6%B3%95%E5%8D%8F%E8%B0%83rna%E5%8A%A0%E5%B7%A5/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "文献--使用短读长和长读长RNA测序方法阐明RNA加工的协调性",
+  "name": "文献--使用短读长和长读长RNA测序方法阐明RNA加工的协调性",
+  "description": "Elucidating the coordination of RNA processing using short-read and long-read RNA-sequencing methods\n使用短读长和长读长 RNA 测序方法阐明 RNA 加工的协调性\n时间：06 October 2025 期刊：Nature Reviews Molecular Cell Biology 导读：文章的概念很多，但是没有做过多介绍，所以该文包含了一些背景介绍以及我个人的理解。\n",
+  "keywords": [
+    "文献-组学", "CBG"
+  ],
+  "articleBody": "Elucidating the coordination of RNA processing using short-read and long-read RNA-sequencing methods\n使用短读长和长读长 RNA 测序方法阐明 RNA 加工的协调性\n时间：06 October 2025 期刊：Nature Reviews Molecular Cell Biology 导读：文章的概念很多，但是没有做过多介绍，所以该文包含了一些背景介绍以及我个人的理解。\n0. 背景简单了解：二代 vs 三代 \u0026 新生 RNA 测序 0.1 测序的三代 一代（Sanger）\n思路：逐条读，很准但通量极低。 现状：现在基本只用于克隆验证、小片段测序。 二代（NGS，短读长）\n代表：Illumina。 特点： 读长短（几十～几百 bp）。 准确率高（\u003e99%）。 通量惊人，成本低。 应用：几乎所有传统 RNA‑seq、ChIP‑seq、ATAC‑seq 等 high‑throughput 项目都基于它。 三代（长读长）\n代表：PacBio（HiFi）、Oxford Nanopore（ONT）。 特点： 单条 read 很长（几 kb 到几十 kb），可以跨越整条转录本。 初期错误率高、但 PacBio HiFi 等已大幅提高精度。 通量和成本仍不如二代，但在“结构解析”和“单分子层面”有不可替代的优势。 应用： 全长转录本（Iso‑Seq / long‑read RNA‑seq）。 复杂结构变异检测（SV）。 某些方案可直接测 RNA（direct RNA sequencing）。 核心差异总结：\n二代：碎片视角，超强定量，适合大 cohort。 三代：整分子视角，可以直接看到一条 RNA 的“头 + 身体 + 尾巴”如何搭配。 0.2 什么是“新生 RNA”？它为什么重要？ 定义：\n成熟 mRNA：已经完成加工（剪接、3′ 端切割加尾）、准备翻译或转运的 RNA。 新生 RNA（nascent RNA）：仍然连在线上（Pol II 上）或刚合成不久的 RNA。中间态很多：可能还没剪完、可能还没做 3′ 尾、有的甚至还是带着一堆 intron 的“前体”。 为什么要测新生 RNA？ 常规 bulk RNA‑seq 测到的是稳态丰度（steady‑state），即「合成」+「降解」长期平衡后的结果。很多调控其实发生在：\n转录起始 / 延伸速度。 剪接什么时候完成。 终止是否高效。 只看成熟 mRNA，会把这些动力学“压扁”成一个数，难以区分“生产变快”和“降解变慢”。 新生 RNA 测序（nascent RNA‑seq）家族：\n核 run‑on / 转录瞬时抓捕系\n代表：GRO‑seq / PRO‑seq / PRO‑cap / NET‑seq 等。 原理：在核内给 Pol II “延伸一小步”并打上标记 → 抓住此时此刻正在合成的 RNA。 能看：Pol II 在基因上的分布（起始/停顿/终止）、某些剪接中间态的比例。 代谢标记系\n代表：4sU/4tU / BrU 标记 + SLAM‑seq, TT‑seq, Bru‑seq 等。 原理：在一定时间窗口投喂可被掺入的新核苷，让“新合成 RNA”带上标签，之后区分“新”与“旧”。 能看：合成速率（谁在快速上调）、剪接速度、mRNA 稳定性/半衰期。 1. 二代短读长：仍然是 RNA‑seq 世界的“量的王者” 1.1 二代短读长 RNA‑seq 的定位 数据形态：\nRead 长度：一般 50–150 bp（单端）或 2×75, 2×150（双端）。 通常测的是 cDNA 文库，最终 mapping 回基因组或转录本注释。 关键特征：\n优点：便宜、可扩展（上百/上千样本没压力）、每个位点覆盖度高（统计功效强）、公共数据海量（GTEx, TCGA 等）。 缺点：Read 很短，只能覆盖局部；大部分分析都是**“统计局部事件的频率”**，很难在单分子层面还原完整 isoform 结构；强依赖注释。 结论：它最擅长的是各种“局部加工事件”的定量（谁多谁少、比例差多少），而非“全长结构 + 协同模式”的解析。\n1.2 从短读长看 TSS 选择（ATSS） 问题：同一个基因有多个启动子 / TSS，不同条件下到底偏向用哪一个？ 二代数据策略：依赖覆盖在首 exon 区域的 reads 和下游 exon 的 junction reads。 局限：注释 \u0026 模型。如果某个 exon 既可能是某些转录本的首 exon，又是另一些转录本的内部 exon，短读长很难 100% 确定它属于哪种结构。 1.3 从短读长看剪接（AS） 背景：前体 mRNA 剪接后去掉 intron，连上 exon。某些保留/跳过是可变的（Alternative Splicing, AS）。 二代数据策略： 利用 exon 覆盖度、exon–exon junction reads。 常用指标：PSI（Percent Spliced In）。 工具：rMATS / DEXSeq / MISO 等。 小结：短读长 + 合理模型 = 非常成熟的“大规模 AS 定量管线”。缺点是通常只在“单个事件”层面看，很难知道不同 AS 事件之间在单分子上是怎样组合的。 1.4 从短读长看 APA（alternative polyadenylation） 背景：同一条 pre‑mRNA 上有多个 poly(A) signal，在不同 PAS 切断导致不同 3′UTR 长度，影响 miRNA 靶点、RBP 结合及翻译效率。 数据来源两大类： 专门的 3′‑end 测序（如 3′READS, Quant‑seq）：位置精确，画高分辨率 APA 图谱，但看不到上游结构。 从常规 RNA‑seq 里“抠 APA”：利用 reads 分布梯度推断。优点是不需额外实验、适合大队列；缺点是分辨率有限。 1.5 用短读长 + 新生 RNA 测序看“时间维度” 常规 RNA-seq 只能看稳态（Steady-state），新生 RNA 测序补上了**“时间/动力学”维度**。\n1.5.1 核 run‑on / NET‑seq 家族：直接抓 nascent RNA 原理：分离细胞核 -\u003e 核内延伸 -\u003e 标记 -\u003e 富集 -\u003e 测序。 能看到：Pol II 空间分布（Pausing, 延伸速率）、剪接中间态（Intron reads 何时减少）。 类比：直接走进生产线车间，用高速相机拍下“半成品”在各工位之间的堆积情况。 1.5.2 代谢标记（4sU / 4tU / BrU 等）+ 二代测序 原理：投喂特殊核苷 -\u003e 区分新旧 RNA -\u003e 测序。 能看到：转录合成速率、剪接完成时间、降解速率 / 半衰期。 2. 三代长读长：把“结构 + 协调”推到单分子分辨率 2.1 三代长读长平台的技术特点 PacBio（SMRT / HiFi）：单分子实时测序。HiFi 模式通过循环读同一分子多圈，精度极高（\u003e99.9%）。 Oxford Nanopore（ONT）：电流信号判读。读长几乎无限，可做 direct RNA sequencing（捕捉 RNA 修饰）。 2.2 长读长 RNA‑seq 的基本思想 每条 read 天然携带：\n使用了哪个 TSS / 首 exon。 中间哪些 exon 被 include / skip。 内部 splice site 选择如何。 最后在哪个 PAS 结束。 核心升级：从“局部事件频率”升级到单分子级别的“全程搭配”信息。\n2.3 相比二代，三代长读长多看到了哪些维度？ 完整 isoform 结构：支持直接做 isoform‑level quantification。 多个事件的“同现/互斥”关系：统计 TSS、AS、PAS 的组合模式。 TSS–AS–APA 三者的联动：回答某个 TSS 是否倾向搭配特定剪接模式和 PAS。 等位基因特异性 isoform：利用 haplotype 信息区分不同等位基因的 isoform 结构。 发现新结构：不再严重依赖注释，可发现 novel TSS / exon / PAS / fusion。 单细胞长读长（scLRS）：在单细胞层面看 isoform 程序。 2.4 二代 vs 三代：总结 特性 二代短读长 (SRS) 三代长读长 (LRS) Read 特点 短但多 长但相对少 优势 事件频率统计 + 大样本研究 单分子结构解析 + 事件协同模式分析 核心逻辑 间接反演结构，依赖注释 一条 read 就是“结构证据” 常见组合 大规模“导航地图” 关键样本上的“结构放大镜” 3. 不同 RNA 加工步骤之间的“协调” 文章的问题升级为：这些加工步骤（TSS 选择、剪接、APA、终止）是“松散的小开关”，还是被组织成几个相对稳定的“RNA 程序”？\n3.1 问题：独立开关 vs 协同程序 传统视角假设各个事件是独立的，总体效果是线性叠加。LRS 数据让我们发问：在真实细胞里，这些“开关”是不是被强行绑定成有限种搭配模式（程序）？\n3.2 一些典型的“协调模式”例子 3.2.1 Promoter–Splicing 协同 现象：同一基因从不同 TSS 起跑，下游剪接模式也随之切换。 推测机制：染色质状态、TF 结合、Pol II CTD 标记组合、增强子-启动子构象等。 3.2.2 Splicing–APA 协同 现象：内部某个剪接事件和 3′UTR 长短紧密耦合（例如：Exon A include 总是搭配长 3′UTR）。 推测机制：某个 RBP 同时结合 Intron/Exon 和 3′UTR，充当物理上的“桥”。 3.2.3 Promoter–APA 协同 现象：不同 TSS 对应不同的 3′UTR 长度偏好。 推测机制：Promoter 级调控可以一路影响到 3′端的选择。 3.3 如何用 LRS 量化“协调程度” 定义维度：TSS, Exon, PAS。 编码向量：把每条 LRS read 编成一个多维标签向量（如 [TSS=1][A=on][PAS=2]）。 统计频率：看哪些组合是高频模式，哪些被排除。 计算关联：使用互信息、相关系数等指标。 跨条件比较：观察“程序”权重的切换。 3.4 从“操作系统配置”的角度看这些协同 LRS + 协同分析告诉我们：细胞真实在跑的是几套预定义好的“配置档/启动模式”。\n配置档 1：TSS1 + A‑in + B‑out + 长 3′UTR 配置档 2：TSS2 + A‑out + B‑in + 短 3′UTR 许多环境变化、发育阶段转换、疾病状态，可能就是在不同配置档之间切换权重，而非“所有小开关逐个独立调”。\n注：QTL 的影响和 CRISPR 调控探究因果部分可以根据需要自行在综述原文中查阅。\n",
+  "wordCount" : "3523",
+  "inLanguage": "en",
+  "datePublished": "2025-12-12T00:00:00Z",
+  "dateModified": "2025-12-12T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "神经蛙的藏宝阁"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/basic/208%E6%96%87%E7%8C%AE--%E7%9F%AD%E8%AF%BB%E5%92%8C%E9%95%BF%E8%AF%BB-rna-%E6%B5%8B%E5%BA%8F%E6%96%B9%E6%B3%95%E5%8D%8F%E8%B0%83rna%E5%8A%A0%E5%B7%A5/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/basic/">📖 科研基础 -- 读文献、看教材</a></div>
+    <h1 class="post-title">
+      文献--使用短读长和长读长RNA测序方法阐明RNA加工的协调性
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2025-12-12 00:00:00 &#43;0000 UTC&#39;&gt;2025-12-12&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2025-12-12&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;3523&amp;nbsp;|&amp;nbsp;8 min&amp;nbsp;|&amp;nbsp;神经蛙的藏宝阁
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#0-%e8%83%8c%e6%99%af%e7%ae%80%e5%8d%95%e4%ba%86%e8%a7%a3%e4%ba%8c%e4%bb%a3-vs-%e4%b8%89%e4%bb%a3--%e6%96%b0%e7%94%9f-rna-%e6%b5%8b%e5%ba%8f" aria-label="0. 背景简单了解：二代 vs 三代 &amp; 新生 RNA 测序">0. 背景简单了解：二代 vs 三代 &amp; 新生 RNA 测序</a><ul>
+                            
+                    <li>
+                        <a href="#01-%e6%b5%8b%e5%ba%8f%e7%9a%84%e4%b8%89%e4%bb%a3" aria-label="0.1 测序的三代">0.1 测序的三代</a></li>
+                    <li>
+                        <a href="#02-%e4%bb%80%e4%b9%88%e6%98%af%e6%96%b0%e7%94%9f-rna%e5%ae%83%e4%b8%ba%e4%bb%80%e4%b9%88%e9%87%8d%e8%a6%81" aria-label="0.2 什么是“新生 RNA”？它为什么重要？">0.2 什么是“新生 RNA”？它为什么重要？</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#1-%e4%ba%8c%e4%bb%a3%e7%9f%ad%e8%af%bb%e9%95%bf%e4%bb%8d%e7%84%b6%e6%98%af-rnaseq-%e4%b8%96%e7%95%8c%e7%9a%84%e9%87%8f%e7%9a%84%e7%8e%8b%e8%80%85" aria-label="1. 二代短读长：仍然是 RNA‑seq 世界的“量的王者”">1. 二代短读长：仍然是 RNA‑seq 世界的“量的王者”</a><ul>
+                            
+                    <li>
+                        <a href="#11-%e4%ba%8c%e4%bb%a3%e7%9f%ad%e8%af%bb%e9%95%bf-rnaseq-%e7%9a%84%e5%ae%9a%e4%bd%8d" aria-label="1.1 二代短读长 RNA‑seq 的定位">1.1 二代短读长 RNA‑seq 的定位</a></li>
+                    <li>
+                        <a href="#12-%e4%bb%8e%e7%9f%ad%e8%af%bb%e9%95%bf%e7%9c%8b-tss-%e9%80%89%e6%8b%a9atss" aria-label="1.2 从短读长看 TSS 选择（ATSS）">1.2 从短读长看 TSS 选择（ATSS）</a></li>
+                    <li>
+                        <a href="#13-%e4%bb%8e%e7%9f%ad%e8%af%bb%e9%95%bf%e7%9c%8b%e5%89%aa%e6%8e%a5as" aria-label="1.3 从短读长看剪接（AS）">1.3 从短读长看剪接（AS）</a></li>
+                    <li>
+                        <a href="#14-%e4%bb%8e%e7%9f%ad%e8%af%bb%e9%95%bf%e7%9c%8b-apaalternative-polyadenylation" aria-label="1.4 从短读长看 APA（alternative polyadenylation）">1.4 从短读长看 APA（alternative polyadenylation）</a></li>
+                    <li>
+                        <a href="#15-%e7%94%a8%e7%9f%ad%e8%af%bb%e9%95%bf--%e6%96%b0%e7%94%9f-rna-%e6%b5%8b%e5%ba%8f%e7%9c%8b%e6%97%b6%e9%97%b4%e7%bb%b4%e5%ba%a6" aria-label="1.5 用短读长 &#43; 新生 RNA 测序看“时间维度”">1.5 用短读长 + 新生 RNA 测序看“时间维度”</a><ul>
+                            
+                    <li>
+                        <a href="#151-%e6%a0%b8-runon--netseq-%e5%ae%b6%e6%97%8f%e7%9b%b4%e6%8e%a5%e6%8a%93-nascent-rna" aria-label="1.5.1 核 run‑on / NET‑seq 家族：直接抓 nascent RNA">1.5.1 核 run‑on / NET‑seq 家族：直接抓 nascent RNA</a></li>
+                    <li>
+                        <a href="#152-%e4%bb%a3%e8%b0%a2%e6%a0%87%e8%ae%b04su--4tu--bru-%e7%ad%89-%e4%ba%8c%e4%bb%a3%e6%b5%8b%e5%ba%8f" aria-label="1.5.2 代谢标记（4sU / 4tU / BrU 等）&#43; 二代测序">1.5.2 代谢标记（4sU / 4tU / BrU 等）+ 二代测序</a></li></ul>
+                    </li></ul>
+                    </li>
+                    <li>
+                        <a href="#2-%e4%b8%89%e4%bb%a3%e9%95%bf%e8%af%bb%e9%95%bf%e6%8a%8a%e7%bb%93%e6%9e%84--%e5%8d%8f%e8%b0%83%e6%8e%a8%e5%88%b0%e5%8d%95%e5%88%86%e5%ad%90%e5%88%86%e8%be%a8%e7%8e%87" aria-label="2. 三代长读长：把“结构 &#43; 协调”推到单分子分辨率">2. 三代长读长：把“结构 + 协调”推到单分子分辨率</a><ul>
+                            
+                    <li>
+                        <a href="#21-%e4%b8%89%e4%bb%a3%e9%95%bf%e8%af%bb%e9%95%bf%e5%b9%b3%e5%8f%b0%e7%9a%84%e6%8a%80%e6%9c%af%e7%89%b9%e7%82%b9" aria-label="2.1 三代长读长平台的技术特点">2.1 三代长读长平台的技术特点</a></li>
+                    <li>
+                        <a href="#22-%e9%95%bf%e8%af%bb%e9%95%bf-rnaseq-%e7%9a%84%e5%9f%ba%e6%9c%ac%e6%80%9d%e6%83%b3" aria-label="2.2 长读长 RNA‑seq 的基本思想">2.2 长读长 RNA‑seq 的基本思想</a></li>
+                    <li>
+                        <a href="#23-%e7%9b%b8%e6%af%94%e4%ba%8c%e4%bb%a3%e4%b8%89%e4%bb%a3%e9%95%bf%e8%af%bb%e9%95%bf%e5%a4%9a%e7%9c%8b%e5%88%b0%e4%ba%86%e5%93%aa%e4%ba%9b%e7%bb%b4%e5%ba%a6" aria-label="2.3 相比二代，三代长读长多看到了哪些维度？">2.3 相比二代，三代长读长多看到了哪些维度？</a></li>
+                    <li>
+                        <a href="#24-%e4%ba%8c%e4%bb%a3-vs-%e4%b8%89%e4%bb%a3%e6%80%bb%e7%bb%93" aria-label="2.4 二代 vs 三代：总结">2.4 二代 vs 三代：总结</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#3-%e4%b8%8d%e5%90%8c-rna-%e5%8a%a0%e5%b7%a5%e6%ad%a5%e9%aa%a4%e4%b9%8b%e9%97%b4%e7%9a%84%e5%8d%8f%e8%b0%83" aria-label="3. 不同 RNA 加工步骤之间的“协调”">3. 不同 RNA 加工步骤之间的“协调”</a><ul>
+                            
+                    <li>
+                        <a href="#31-%e9%97%ae%e9%a2%98%e7%8b%ac%e7%ab%8b%e5%bc%80%e5%85%b3-vs-%e5%8d%8f%e5%90%8c%e7%a8%8b%e5%ba%8f" aria-label="3.1 问题：独立开关 vs 协同程序">3.1 问题：独立开关 vs 协同程序</a></li>
+                    <li>
+                        <a href="#32-%e4%b8%80%e4%ba%9b%e5%85%b8%e5%9e%8b%e7%9a%84%e5%8d%8f%e8%b0%83%e6%a8%a1%e5%bc%8f%e4%be%8b%e5%ad%90" aria-label="3.2 一些典型的“协调模式”例子">3.2 一些典型的“协调模式”例子</a><ul>
+                            
+                    <li>
+                        <a href="#321-promotersplicing-%e5%8d%8f%e5%90%8c" aria-label="3.2.1 Promoter–Splicing 协同">3.2.1 Promoter–Splicing 协同</a></li>
+                    <li>
+                        <a href="#322-splicingapa-%e5%8d%8f%e5%90%8c" aria-label="3.2.2 Splicing–APA 协同">3.2.2 Splicing–APA 协同</a></li>
+                    <li>
+                        <a href="#323-promoterapa-%e5%8d%8f%e5%90%8c" aria-label="3.2.3 Promoter–APA 协同">3.2.3 Promoter–APA 协同</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#33-%e5%a6%82%e4%bd%95%e7%94%a8-lrs-%e9%87%8f%e5%8c%96%e5%8d%8f%e8%b0%83%e7%a8%8b%e5%ba%a6" aria-label="3.3 如何用 LRS 量化“协调程度”">3.3 如何用 LRS 量化“协调程度”</a></li>
+                    <li>
+                        <a href="#34-%e4%bb%8e%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e9%85%8d%e7%bd%ae%e7%9a%84%e8%a7%92%e5%ba%a6%e7%9c%8b%e8%bf%99%e4%ba%9b%e5%8d%8f%e5%90%8c" aria-label="3.4 从“操作系统配置”的角度看这些协同">3.4 从“操作系统配置”的角度看这些协同</a>
+                    </li>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><p><strong>Elucidating the coordination of RNA processing using short-read and long-read RNA-sequencing methods</strong></p>
+<p><strong>使用短读长和长读长 RNA 测序方法阐明 RNA 加工的协调性</strong></p>
+<ul>
+<li><strong>时间</strong>：06 October 2025</li>
+<li><strong>期刊</strong>：Nature Reviews Molecular Cell Biology</li>
+</ul>
+<hr>
+<blockquote>
+<p><strong>导读</strong>：文章的概念很多，但是没有做过多介绍，所以该文包含了一些背景介绍以及我个人的理解。</p></blockquote>
+<h2 id="0-背景简单了解二代-vs-三代--新生-rna-测序">0. 背景简单了解：二代 vs 三代 &amp; 新生 RNA 测序<a hidden class="anchor" aria-hidden="true" href="#0-背景简单了解二代-vs-三代--新生-rna-测序">#</a></h2>
+<h3 id="01-测序的三代">0.1 测序的三代<a hidden class="anchor" aria-hidden="true" href="#01-测序的三代">#</a></h3>
+<ul>
+<li>
+<p><strong>一代（Sanger）</strong></p>
+<ul>
+<li><strong>思路</strong>：逐条读，很准但通量极低。</li>
+<li><strong>现状</strong>：现在基本只用于克隆验证、小片段测序。</li>
+</ul>
+</li>
+<li>
+<p><strong>二代（NGS，短读长）</strong></p>
+<ul>
+<li><strong>代表</strong>：Illumina。</li>
+<li><strong>特点</strong>：
+<ul>
+<li>读长短（几十～几百 bp）。</li>
+<li>准确率高（&gt;99%）。</li>
+<li>通量惊人，成本低。</li>
+</ul>
+</li>
+<li><strong>应用</strong>：几乎所有传统 RNA‑seq、ChIP‑seq、ATAC‑seq 等 high‑throughput 项目都基于它。</li>
+</ul>
+</li>
+<li>
+<p><strong>三代（长读长）</strong></p>
+<ul>
+<li><strong>代表</strong>：PacBio（HiFi）、Oxford Nanopore（ONT）。</li>
+<li><strong>特点</strong>：
+<ul>
+<li>单条 read 很长（几 kb 到几十 kb），可以跨越整条转录本。</li>
+<li>初期错误率高、但 PacBio HiFi 等已大幅提高精度。</li>
+<li>通量和成本仍不如二代，但在“结构解析”和“单分子层面”有不可替代的优势。</li>
+</ul>
+</li>
+<li><strong>应用</strong>：
+<ul>
+<li>全长转录本（Iso‑Seq / long‑read RNA‑seq）。</li>
+<li>复杂结构变异检测（SV）。</li>
+<li>某些方案可直接测 RNA（direct RNA sequencing）。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p><strong>核心差异总结</strong>：</p>
+<ul>
+<li><strong>二代</strong>：碎片视角，超强定量，适合大 cohort。</li>
+<li><strong>三代</strong>：整分子视角，可以直接看到一条 RNA 的“头 + 身体 + 尾巴”如何搭配。</li>
+</ul></blockquote>
+<h3 id="02-什么是新生-rna它为什么重要">0.2 什么是“新生 RNA”？它为什么重要？<a hidden class="anchor" aria-hidden="true" href="#02-什么是新生-rna它为什么重要">#</a></h3>
+<p><strong>定义</strong>：</p>
+<ul>
+<li><strong>成熟 mRNA</strong>：已经完成加工（剪接、3′ 端切割加尾）、准备翻译或转运的 RNA。</li>
+<li><strong>新生 RNA（nascent RNA）</strong>：仍然连在线上（Pol II 上）或刚合成不久的 RNA。中间态很多：可能还没剪完、可能还没做 3′ 尾、有的甚至还是带着一堆 intron 的“前体”。</li>
+</ul>
+<p><strong>为什么要测新生 RNA？</strong>
+常规 bulk RNA‑seq 测到的是稳态丰度（steady‑state），即「合成」+「降解」长期平衡后的结果。很多调控其实发生在：</p>
+<ul>
+<li>转录起始 / 延伸速度。</li>
+<li>剪接什么时候完成。</li>
+<li>终止是否高效。</li>
+<li><em>只看成熟 mRNA，会把这些动力学“压扁”成一个数，难以区分“生产变快”和“降解变慢”。</em></li>
+</ul>
+<p><strong>新生 RNA 测序（nascent RNA‑seq）家族</strong>：</p>
+<ol>
+<li>
+<p><strong>核 run‑on / 转录瞬时抓捕系</strong></p>
+<ul>
+<li><strong>代表</strong>：GRO‑seq / PRO‑seq / PRO‑cap / NET‑seq 等。</li>
+<li><strong>原理</strong>：在核内给 Pol II “延伸一小步”并打上标记 → 抓住此时此刻正在合成的 RNA。</li>
+<li><strong>能看</strong>：Pol II 在基因上的分布（起始/停顿/终止）、某些剪接中间态的比例。</li>
+</ul>
+</li>
+<li>
+<p><strong>代谢标记系</strong></p>
+<ul>
+<li><strong>代表</strong>：4sU/4tU / BrU 标记 + SLAM‑seq, TT‑seq, Bru‑seq 等。</li>
+<li><strong>原理</strong>：在一定时间窗口投喂可被掺入的新核苷，让“新合成 RNA”带上标签，之后区分“新”与“旧”。</li>
+<li><strong>能看</strong>：合成速率（谁在快速上调）、剪接速度、mRNA 稳定性/半衰期。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="1-二代短读长仍然是-rnaseq-世界的量的王者">1. 二代短读长：仍然是 RNA‑seq 世界的“量的王者”<a hidden class="anchor" aria-hidden="true" href="#1-二代短读长仍然是-rnaseq-世界的量的王者">#</a></h2>
+<h3 id="11-二代短读长-rnaseq-的定位">1.1 二代短读长 RNA‑seq 的定位<a hidden class="anchor" aria-hidden="true" href="#11-二代短读长-rnaseq-的定位">#</a></h3>
+<p><strong>数据形态</strong>：</p>
+<ul>
+<li>Read 长度：一般 50–150 bp（单端）或 2×75, 2×150（双端）。</li>
+<li>通常测的是 cDNA 文库，最终 mapping 回基因组或转录本注释。</li>
+</ul>
+<p><strong>关键特征</strong>：</p>
+<ul>
+<li><strong>优点</strong>：便宜、可扩展（上百/上千样本没压力）、每个位点覆盖度高（统计功效强）、公共数据海量（GTEx, TCGA 等）。</li>
+<li><strong>缺点</strong>：Read 很短，只能覆盖局部；大部分分析都是**“统计局部事件的频率”**，很难在单分子层面还原完整 isoform 结构；强依赖注释。</li>
+</ul>
+<blockquote>
+<p><strong>结论</strong>：它最擅长的是各种“局部加工事件”的定量（谁多谁少、比例差多少），而非“全长结构 + 协同模式”的解析。</p></blockquote>
+<h3 id="12-从短读长看-tss-选择atss">1.2 从短读长看 TSS 选择（ATSS）<a hidden class="anchor" aria-hidden="true" href="#12-从短读长看-tss-选择atss">#</a></h3>
+<ul>
+<li><strong>问题</strong>：同一个基因有多个启动子 / TSS，不同条件下到底偏向用哪一个？</li>
+<li><strong>二代数据策略</strong>：依赖覆盖在首 exon 区域的 reads 和下游 exon 的 junction reads。</li>
+<li><strong>局限</strong>：注释 &amp; 模型。如果某个 exon 既可能是某些转录本的首 exon，又是另一些转录本的内部 exon，短读长很难 100% 确定它属于哪种结构。</li>
+</ul>
+<h3 id="13-从短读长看剪接as">1.3 从短读长看剪接（AS）<a hidden class="anchor" aria-hidden="true" href="#13-从短读长看剪接as">#</a></h3>
+<ul>
+<li><strong>背景</strong>：前体 mRNA 剪接后去掉 intron，连上 exon。某些保留/跳过是可变的（Alternative Splicing, AS）。</li>
+<li><strong>二代数据策略</strong>：
+<ul>
+<li>利用 exon 覆盖度、exon–exon junction reads。</li>
+<li><strong>常用指标</strong>：PSI（Percent Spliced In）。</li>
+<li><strong>工具</strong>：rMATS / DEXSeq / MISO 等。</li>
+</ul>
+</li>
+<li><strong>小结</strong>：短读长 + 合理模型 = 非常成熟的“大规模 AS 定量管线”。缺点是通常只在“单个事件”层面看，很难知道不同 AS 事件之间在单分子上是怎样组合的。</li>
+</ul>
+<h3 id="14-从短读长看-apaalternative-polyadenylation">1.4 从短读长看 APA（alternative polyadenylation）<a hidden class="anchor" aria-hidden="true" href="#14-从短读长看-apaalternative-polyadenylation">#</a></h3>
+<ul>
+<li><strong>背景</strong>：同一条 pre‑mRNA 上有多个 poly(A) signal，在不同 PAS 切断导致不同 3′UTR 长度，影响 miRNA 靶点、RBP 结合及翻译效率。</li>
+<li><strong>数据来源两大类</strong>：
+<ol>
+<li><strong>专门的 3′‑end 测序</strong>（如 3′READS, Quant‑seq）：位置精确，画高分辨率 APA 图谱，但看不到上游结构。</li>
+<li><strong>从常规 RNA‑seq 里“抠 APA”</strong>：利用 reads 分布梯度推断。优点是不需额外实验、适合大队列；缺点是分辨率有限。</li>
+</ol>
+</li>
+</ul>
+<h3 id="15-用短读长--新生-rna-测序看时间维度">1.5 用短读长 + 新生 RNA 测序看“时间维度”<a hidden class="anchor" aria-hidden="true" href="#15-用短读长--新生-rna-测序看时间维度">#</a></h3>
+<p>常规 RNA-seq 只能看稳态（Steady-state），新生 RNA 测序补上了**“时间/动力学”维度**。</p>
+<h4 id="151-核-runon--netseq-家族直接抓-nascent-rna">1.5.1 核 run‑on / NET‑seq 家族：直接抓 nascent RNA<a hidden class="anchor" aria-hidden="true" href="#151-核-runon--netseq-家族直接抓-nascent-rna">#</a></h4>
+<ul>
+<li><strong>原理</strong>：分离细胞核 -&gt; 核内延伸 -&gt; 标记 -&gt; 富集 -&gt; 测序。</li>
+<li><strong>能看到</strong>：Pol II 空间分布（Pausing, 延伸速率）、剪接中间态（Intron reads 何时减少）。</li>
+<li><strong>类比</strong>：直接走进生产线车间，用高速相机拍下“半成品”在各工位之间的堆积情况。</li>
+</ul>
+<h4 id="152-代谢标记4su--4tu--bru-等-二代测序">1.5.2 代谢标记（4sU / 4tU / BrU 等）+ 二代测序<a hidden class="anchor" aria-hidden="true" href="#152-代谢标记4su--4tu--bru-等-二代测序">#</a></h4>
+<ul>
+<li><strong>原理</strong>：投喂特殊核苷 -&gt; 区分新旧 RNA -&gt; 测序。</li>
+<li><strong>能看到</strong>：转录合成速率、剪接完成时间、降解速率 / 半衰期。</li>
+</ul>
+<hr>
+<h2 id="2-三代长读长把结构--协调推到单分子分辨率">2. 三代长读长：把“结构 + 协调”推到单分子分辨率<a hidden class="anchor" aria-hidden="true" href="#2-三代长读长把结构--协调推到单分子分辨率">#</a></h2>
+<h3 id="21-三代长读长平台的技术特点">2.1 三代长读长平台的技术特点<a hidden class="anchor" aria-hidden="true" href="#21-三代长读长平台的技术特点">#</a></h3>
+<ul>
+<li><strong>PacBio（SMRT / HiFi）</strong>：单分子实时测序。HiFi 模式通过循环读同一分子多圈，精度极高（&gt;99.9%）。</li>
+<li><strong>Oxford Nanopore（ONT）</strong>：电流信号判读。读长几乎无限，可做 direct RNA sequencing（捕捉 RNA 修饰）。</li>
+</ul>
+<h3 id="22-长读长-rnaseq-的基本思想">2.2 长读长 RNA‑seq 的基本思想<a hidden class="anchor" aria-hidden="true" href="#22-长读长-rnaseq-的基本思想">#</a></h3>
+<p>每条 read 天然携带：</p>
+<ol>
+<li>使用了哪个 TSS / 首 exon。</li>
+<li>中间哪些 exon 被 include / skip。</li>
+<li>内部 splice site 选择如何。</li>
+<li>最后在哪个 PAS 结束。</li>
+</ol>
+<blockquote>
+<p><strong>核心升级</strong>：从“局部事件频率”升级到单分子级别的“全程搭配”信息。</p></blockquote>
+<h3 id="23-相比二代三代长读长多看到了哪些维度">2.3 相比二代，三代长读长多看到了哪些维度？<a hidden class="anchor" aria-hidden="true" href="#23-相比二代三代长读长多看到了哪些维度">#</a></h3>
+<ol>
+<li><strong>完整 isoform 结构</strong>：支持直接做 isoform‑level quantification。</li>
+<li><strong>多个事件的“同现/互斥”关系</strong>：统计 TSS、AS、PAS 的组合模式。</li>
+<li><strong>TSS–AS–APA 三者的联动</strong>：回答某个 TSS 是否倾向搭配特定剪接模式和 PAS。</li>
+<li><strong>等位基因特异性 isoform</strong>：利用 haplotype 信息区分不同等位基因的 isoform 结构。</li>
+<li><strong>发现新结构</strong>：不再严重依赖注释，可发现 novel TSS / exon / PAS / fusion。</li>
+<li><strong>单细胞长读长（scLRS）</strong>：在单细胞层面看 isoform 程序。</li>
+</ol>
+<h3 id="24-二代-vs-三代总结">2.4 二代 vs 三代：总结<a hidden class="anchor" aria-hidden="true" href="#24-二代-vs-三代总结">#</a></h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">特性</th>
+          <th style="text-align: left">二代短读长 (SRS)</th>
+          <th style="text-align: left">三代长读长 (LRS)</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>Read 特点</strong></td>
+          <td style="text-align: left">短但多</td>
+          <td style="text-align: left">长但相对少</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>优势</strong></td>
+          <td style="text-align: left">事件频率统计 + 大样本研究</td>
+          <td style="text-align: left">单分子结构解析 + 事件协同模式分析</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>核心逻辑</strong></td>
+          <td style="text-align: left">间接反演结构，依赖注释</td>
+          <td style="text-align: left">一条 read 就是“结构证据”</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>常见组合</strong></td>
+          <td style="text-align: left">大规模“导航地图”</td>
+          <td style="text-align: left">关键样本上的“结构放大镜”</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h2 id="3-不同-rna-加工步骤之间的协调">3. 不同 RNA 加工步骤之间的“协调”<a hidden class="anchor" aria-hidden="true" href="#3-不同-rna-加工步骤之间的协调">#</a></h2>
+<p>文章的问题升级为：这些加工步骤（TSS 选择、剪接、APA、终止）是“松散的小开关”，还是被组织成几个相对稳定的“RNA 程序”？</p>
+<h3 id="31-问题独立开关-vs-协同程序">3.1 问题：独立开关 vs 协同程序<a hidden class="anchor" aria-hidden="true" href="#31-问题独立开关-vs-协同程序">#</a></h3>
+<p>传统视角假设各个事件是独立的，总体效果是线性叠加。LRS 数据让我们发问：在真实细胞里，这些“开关”是不是被强行绑定成有限种搭配模式（程序）？</p>
+<h3 id="32-一些典型的协调模式例子">3.2 一些典型的“协调模式”例子<a hidden class="anchor" aria-hidden="true" href="#32-一些典型的协调模式例子">#</a></h3>
+<h4 id="321-promotersplicing-协同">3.2.1 Promoter–Splicing 协同<a hidden class="anchor" aria-hidden="true" href="#321-promotersplicing-协同">#</a></h4>
+<ul>
+<li><strong>现象</strong>：同一基因从不同 TSS 起跑，下游剪接模式也随之切换。</li>
+<li><strong>推测机制</strong>：染色质状态、TF 结合、Pol II CTD 标记组合、增强子-启动子构象等。</li>
+</ul>
+<h4 id="322-splicingapa-协同">3.2.2 Splicing–APA 协同<a hidden class="anchor" aria-hidden="true" href="#322-splicingapa-协同">#</a></h4>
+<ul>
+<li><strong>现象</strong>：内部某个剪接事件和 3′UTR 长短紧密耦合（例如：Exon A include 总是搭配长 3′UTR）。</li>
+<li><strong>推测机制</strong>：某个 RBP 同时结合 Intron/Exon 和 3′UTR，充当物理上的“桥”。</li>
+</ul>
+<h4 id="323-promoterapa-协同">3.2.3 Promoter–APA 协同<a hidden class="anchor" aria-hidden="true" href="#323-promoterapa-协同">#</a></h4>
+<ul>
+<li><strong>现象</strong>：不同 TSS 对应不同的 3′UTR 长度偏好。</li>
+<li><strong>推测机制</strong>：Promoter 级调控可以一路影响到 3′端的选择。</li>
+</ul>
+<h3 id="33-如何用-lrs-量化协调程度">3.3 如何用 LRS 量化“协调程度”<a hidden class="anchor" aria-hidden="true" href="#33-如何用-lrs-量化协调程度">#</a></h3>
+<ol>
+<li><strong>定义维度</strong>：TSS, Exon, PAS。</li>
+<li><strong>编码向量</strong>：把每条 LRS read 编成一个多维标签向量（如 <code>[TSS=1][A=on][PAS=2]</code>）。</li>
+<li><strong>统计频率</strong>：看哪些组合是高频模式，哪些被排除。</li>
+<li><strong>计算关联</strong>：使用互信息、相关系数等指标。</li>
+<li><strong>跨条件比较</strong>：观察“程序”权重的切换。</li>
+</ol>
+<h3 id="34-从操作系统配置的角度看这些协同">3.4 从“操作系统配置”的角度看这些协同<a hidden class="anchor" aria-hidden="true" href="#34-从操作系统配置的角度看这些协同">#</a></h3>
+<p>LRS + 协同分析告诉我们：细胞真实在跑的是几套预定义好的“配置档/启动模式”。</p>
+<ul>
+<li><strong>配置档 1</strong>：<code>TSS1 + A‑in + B‑out + 长 3′UTR</code></li>
+<li><strong>配置档 2</strong>：<code>TSS2 + A‑out + B‑in + 短 3′UTR</code></li>
+</ul>
+<p>许多环境变化、发育阶段转换、疾病状态，可能就是在不同配置档之间切换权重，而非“所有小开关逐个独立调”。</p>
+<hr>
+<blockquote>
+<p><strong>注</strong>：QTL 的影响和 CRISPR 调控探究因果部分可以根据需要自行在综述原文中查阅。</p></blockquote>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/%E6%96%87%E7%8C%AE-%E7%BB%84%E5%AD%A6/">文献-组学</a></li>
+      <li><a href="https://lishensuo.github.io/en/tags/cbg/">CBG</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/en/posts/basic/207%E6%96%87%E7%8C%AE--%E5%8D%95%E7%BB%86%E8%83%9E%E7%BB%84%E5%AD%A6%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B9%8Bgeneformer-v2%E9%A2%84%E5%8D%B0%E6%9C%AC/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>文献--单细胞组学大模型之Geneformer V2[预印本]</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/en/posts/program/210r-%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90-dplyr%E8%A1%A8%E6%A0%BC%E6%93%8D%E4%BD%9C/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>R-数据分析-dplyr表格操作</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>
