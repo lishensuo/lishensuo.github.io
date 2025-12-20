@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>文献--单细胞扰动预测模型Benchmark | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="文献-算法">
+<meta name="description" content="
+
+Benchmarking algorithms for generalizable single-cell perturbation response prediction
+11 December 2025, Nature Methods
+https://doi.org/10.1038/s41592-025-02980-0
+https://github.com/bm2-lab/scPerturBench/
+
+1. 介绍
+背景
+
+
+单细胞CRISPR实验成本高；
+
+
+目前两类预测模型：context generalization &amp; perturbation generalization
+
+
+Foundation model v.s. linear baseline model
+
+
+如何合理的评价模型的预测能力">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/basic/209%E6%96%87%E7%8C%AE--%E5%8D%95%E7%BB%86%E8%83%9E%E6%89%B0%E5%8A%A8%E9%A2%84%E6%B5%8B%E6%A8%A1%E5%9E%8Bbenchmark/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/basic/209%E6%96%87%E7%8C%AE--%E5%8D%95%E7%BB%86%E8%83%9E%E6%89%B0%E5%8A%A8%E9%A2%84%E6%B5%8B%E6%A8%A1%E5%9E%8Bbenchmark/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="文献--单细胞扰动预测模型Benchmark" />
+<meta property="og:description" content="
+
+Benchmarking algorithms for generalizable single-cell perturbation response prediction
+11 December 2025, Nature Methods
+https://doi.org/10.1038/s41592-025-02980-0
+https://github.com/bm2-lab/scPerturBench/
+
+1. 介绍
+背景
+
+
+单细胞CRISPR实验成本高；
+
+
+目前两类预测模型：context generalization &amp; perturbation generalization
+
+
+Foundation model v.s. linear baseline model
+
+
+如何合理的评价模型的预测能力" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/basic/209%E6%96%87%E7%8C%AE--%E5%8D%95%E7%BB%86%E8%83%9E%E6%89%B0%E5%8A%A8%E9%A2%84%E6%B5%8B%E6%A8%A1%E5%9E%8Bbenchmark/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2025-12-20T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2025-12-20T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="文献--单细胞扰动预测模型Benchmark"/>
+<meta name="twitter:description" content="
+
+Benchmarking algorithms for generalizable single-cell perturbation response prediction
+11 December 2025, Nature Methods
+https://doi.org/10.1038/s41592-025-02980-0
+https://github.com/bm2-lab/scPerturBench/
+
+1. 介绍
+背景
+
+
+单细胞CRISPR实验成本高；
+
+
+目前两类预测模型：context generalization &amp; perturbation generalization
+
+
+Foundation model v.s. linear baseline model
+
+
+如何合理的评价模型的预测能力"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 科研基础 -- 读文献、看教材",
+      "item": "https://lishensuo.github.io/en/posts/basic/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "文献--单细胞扰动预测模型Benchmark",
+      "item": "https://lishensuo.github.io/en/posts/basic/209%E6%96%87%E7%8C%AE--%E5%8D%95%E7%BB%86%E8%83%9E%E6%89%B0%E5%8A%A8%E9%A2%84%E6%B5%8B%E6%A8%A1%E5%9E%8Bbenchmark/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "文献--单细胞扰动预测模型Benchmark",
+  "name": "文献--单细胞扰动预测模型Benchmark",
+  "description": " Benchmarking algorithms for generalizable single-cell perturbation response prediction 11 December 2025, Nature Methods https://doi.org/10.1038/s41592-025-02980-0 https://github.com/bm2-lab/scPerturBench/ 1. 介绍 背景\n单细胞CRISPR实验成本高；\n目前两类预测模型：context generalization \u0026amp; perturbation generalization\nFoundation model v.s. linear baseline model\n如何合理的评价模型的预测能力\n",
+  "keywords": [
+    "文献-算法"
+  ],
+  "articleBody": " Benchmarking algorithms for generalizable single-cell perturbation response prediction 11 December 2025, Nature Methods https://doi.org/10.1038/s41592-025-02980-0 https://github.com/bm2-lab/scPerturBench/ 1. 介绍 背景\n单细胞CRISPR实验成本高；\n目前两类预测模型：context generalization \u0026 perturbation generalization\nFoundation model v.s. linear baseline model\n如何合理的评价模型的预测能力\n分析概述\n1）对于context generalization：14个模型（4 baseline models），12个数据集\n2）对于perturbation generalization：18个模型（4 baseline models），17个数据集（可分为gene与chemical两类）\n3）使用6个评价指标，比较模型效果：3个Population-average (MSE, E-distance, PCC-delta), 3个Population-distribution (Wasserstein distance, KL-divergence, Common-DEGs)，其中重点关注了MSE与PCC-delta\n4）使用了模拟数据进一步评价模型的效果（robustness）\n结果概述\n1）没有一种模型适合所有数据集场景，都有自身局限性，尤其是对于context generalization。（提供了user guidance，视情况选择合适的模型）；\n2）对于perturbation generalization，在小数据规模下，简单的baseline model表现更好；而大数据规模性，Foundation model/深度学习模型表现较好；\n3）使用cellular context embedding strategy可提高context generalization的效果。\n2. Results Result-1：系统介绍\n系统介绍了本文面向两类扰动场景所采用的（1）带比较的模型方法，（2）扰动数据集，（3）评价方法与角度。\nResult-2：context generalization模型比较分析\n1）context generalization的模型表现，主要基于out-of-distribution的leave-one-out cross-validation（逐一将每种细胞系数据作为外部验证）；\n2）在所有数据集的平均表现来看，部分模型在多种指标中整体表现较好，个别模型在特定指标中最好；\n3）扰动的协同性信息可能会对提高模型预测有帮助，例如time-point/dosage。\nResult-3：context generalization模型局限性分析\n1）同一模型在不同数据集的表现差异非常大；\n2）经多个角度实验，发现当外部验证的 context与训练集的context差异比较大的时候，验证效果会比较差；反之会比较好。\n3）最后提供了一个user guidance，供用户在context generalization的场景下，根据自身情况，选择合适的模型。\nResult-4：perturbation generalization模型比较分析\n1）分为gene与chemical两类perturbation分别benchmark，主要还是对前者进行了分析讨论；\n2）在训练数据集比较大的情境下，深度学习模型/foundation模型效果是会比较好；\n3）先前研究指出的Linear模型反而更好的情况主是针对数据集较小的情况。\nResult-5：perturbation generalization模型局限性分析\n1）组合扰动预测的效果较差，尤其是相较于linear base model；\n2）在扰动数据异质性比较大，或者扰动效应较大的情况下（strong perturbations and heterogeneous perturbations），模型的泛化性比较差；\n3）population-distribution metrics指标整体都不好，尤其对于conmon-DEG；\n4）最后同样提供了一个user guidance\n3. Discuss 1）首先概述了文章的主体内容，给出了每种扰动场景下的最优模型\n2）总结了现有模型方法的不足\n在context generalization上，对time-point/dosage的利用不足 population-distribution相关评价指标都偏低 linear base model在small-scale数据中优势 在context generalization上的泛化性整体偏低，作者提出通过添加cell-line embeddings的先验知识来解决，具体在附件，正文没有详细介绍 3）本文研究的不足\n当前的扰动数据集还比较有限 本文所提出的cell-line embeddings方法还比较初期 由于数据异质性而导致population-distribution较差的问题，并没有解决 本文所使用的模拟数据来评估robustness的方法仍有不足。（有必要参考scDesign3） 4）未来展望\n更多的扰动数据 在建模时，考虑整合更多的生物先验知识 chemical perturbation prediction研究还较少 4. Personal thinking 这篇文章的布局逻辑还是比较清晰的。首先系统介绍了研究框架，包括模型、数据、指标等。然后分为两种预测场景，比较了不同模型的效果，再分析其局限性； 在分析的最后，会给出一个user guidance，介绍了每种具体预测场景下所建议的模型。这一点想的很周到，给读者以直观的参考； 虽然正文比较凝练，但是细节很多，附件材料也很充分，值得课题直接相关的人员深入学习。 ",
+  "wordCount" : "2032",
+  "inLanguage": "en",
+  "datePublished": "2025-12-20T00:00:00Z",
+  "dateModified": "2025-12-20T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/basic/209%E6%96%87%E7%8C%AE--%E5%8D%95%E7%BB%86%E8%83%9E%E6%89%B0%E5%8A%A8%E9%A2%84%E6%B5%8B%E6%A8%A1%E5%9E%8Bbenchmark/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/basic/">📖 科研基础 -- 读文献、看教材</a></div>
+    <h1 class="post-title">
+      文献--单细胞扰动预测模型Benchmark
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2025-12-20 00:00:00 &#43;0000 UTC&#39;&gt;2025-12-20&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2025-12-20&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;2032&amp;nbsp;|&amp;nbsp;5 min&amp;nbsp;|&amp;nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#1-%e4%bb%8b%e7%bb%8d" aria-label="1. 介绍">1. 介绍</a></li>
+                    <li>
+                        <a href="#2-results" aria-label="2. Results">2. Results</a></li>
+                    <li>
+                        <a href="#3-discuss" aria-label="3. Discuss">3. Discuss</a></li>
+                    <li>
+                        <a href="#4-personal-thinking" aria-label="4. Personal thinking">4. Personal thinking</a>
+                    </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><blockquote>
+<ul>
+<li>Benchmarking algorithms for generalizable single-cell perturbation response prediction</li>
+<li>11 December 2025, Nature Methods</li>
+<li><a href="https://doi.org/10.1038/s41592-025-02980-0">https://doi.org/10.1038/s41592-025-02980-0</a></li>
+<li><a href="https://github.com/bm2-lab/scPerturBench/">https://github.com/bm2-lab/scPerturBench/</a></li>
+</ul></blockquote>
+<h3 id="1-介绍">1. 介绍<a hidden class="anchor" aria-hidden="true" href="#1-介绍">#</a></h3>
+<p><strong>背景</strong></p>
+<ul>
+<li>
+<p>单细胞CRISPR实验成本高；</p>
+</li>
+<li>
+<p>目前两类预测模型：context generalization &amp; perturbation generalization</p>
+</li>
+<li>
+<p>Foundation model v.s. linear baseline model</p>
+</li>
+<li>
+<p>如何合理的评价模型的预测能力</p>
+</li>
+</ul>
+<p><strong>分析概述</strong></p>
+<p>1）对于context generalization：14个模型（4 baseline models），12个数据集</p>
+<p>2）对于perturbation generalization：18个模型（4 baseline models），17个数据集（可分为gene与chemical两类）</p>
+<p>3）使用6个评价指标，比较模型效果：3个Population-average (MSE, E-distance, <strong>PCC-delta</strong>), 3个Population-distribution (Wasserstein distance, KL-divergence, Common-DEGs)，其中重点关注了MSE与PCC-delta</p>
+<p>4）使用了模拟数据进一步评价模型的效果（robustness）</p>
+<p><strong>结果概述</strong></p>
+<p>1）没有一种模型适合所有数据集场景，都有自身局限性，尤其是对于context generalization。（提供了user guidance，视情况选择合适的模型）；</p>
+<p>2）对于perturbation generalization，在小数据规模下，简单的baseline model表现更好；而大数据规模性，Foundation model/深度学习模型表现较好；</p>
+<p>3）使用cellular context embedding strategy可提高context generalization的效果。</p>
+<hr>
+<h3 id="2-results">2. Results<a hidden class="anchor" aria-hidden="true" href="#2-results">#</a></h3>
+<p><strong>Result-1：系统介绍</strong></p>
+<p>系统介绍了本文面向两类扰动场景所采用的（1）带比较的模型方法，（2）扰动数据集，（3）评价方法与角度。</p>
+<p><strong>Result-2：context generalization模型比较分析</strong></p>
+<p>1）context generalization的模型表现，主要基于out-of-distribution的leave-one-out cross-validation（逐一将每种细胞系数据作为外部验证）；</p>
+<p>2）在所有数据集的平均表现来看，部分模型在多种指标中整体表现较好，个别模型在特定指标中最好；</p>
+<p>3）扰动的协同性信息可能会对提高模型预测有帮助，例如time-point/dosage。</p>
+<p><strong>Result-3：context generalization模型局限性分析</strong></p>
+<p>1）同一模型在不同数据集的表现差异非常大；</p>
+<p>2）经多个角度实验，发现当外部验证的 context与训练集的context差异比较大的时候，验证效果会比较差；反之会比较好。</p>
+<p>3）最后提供了一个user guidance，供用户在context generalization的场景下，根据自身情况，选择合适的模型。</p>
+<p><strong>Result-4：perturbation generalization模型比较分析</strong></p>
+<p>1）分为gene与chemical两类perturbation分别benchmark，主要还是对前者进行了分析讨论；</p>
+<p>2）在训练数据集比较大的情境下，深度学习模型/foundation模型效果是会比较好；</p>
+<p>3）先前研究指出的Linear模型反而更好的情况主是针对数据集较小的情况。</p>
+<p><strong>Result-5：perturbation generalization模型局限性分析</strong></p>
+<p>1）组合扰动预测的效果较差，尤其是相较于linear base model；</p>
+<p>2）在扰动数据异质性比较大，或者扰动效应较大的情况下（strong perturbations and heterogeneous perturbations），模型的泛化性比较差；</p>
+<p>3）population-distribution metrics指标整体都不好，尤其对于conmon-DEG；</p>
+<p>4）最后同样提供了一个user guidance</p>
+<hr>
+<h3 id="3-discuss">3. Discuss<a hidden class="anchor" aria-hidden="true" href="#3-discuss">#</a></h3>
+<p>1）首先概述了文章的主体内容，给出了每种扰动场景下的最优模型</p>
+<p>2）总结了现有模型方法的不足</p>
+<ul>
+<li>在context generalization上，对time-point/dosage的利用不足</li>
+<li>population-distribution相关评价指标都偏低</li>
+<li>linear base model在small-scale数据中优势</li>
+<li>在context generalization上的泛化性整体偏低，作者提出通过添加cell-line embeddings的先验知识来解决，具体在附件，正文没有详细介绍</li>
+</ul>
+<p>3）本文研究的不足</p>
+<ul>
+<li>当前的扰动数据集还比较有限</li>
+<li>本文所提出的cell-line embeddings方法还比较初期</li>
+<li>由于数据异质性而导致population-distribution较差的问题，并没有解决</li>
+<li>本文所使用的模拟数据来评估robustness的方法仍有不足。（有必要参考scDesign3）</li>
+</ul>
+<p>4）未来展望</p>
+<ul>
+<li>更多的扰动数据</li>
+<li>在建模时，考虑整合更多的生物先验知识</li>
+<li>chemical perturbation prediction研究还较少</li>
+</ul>
+<hr>
+<h3 id="4-personal-thinking">4. Personal thinking<a hidden class="anchor" aria-hidden="true" href="#4-personal-thinking">#</a></h3>
+<ul>
+<li>这篇文章的布局逻辑还是比较清晰的。首先系统介绍了研究框架，包括模型、数据、指标等。然后分为两种预测场景，比较了不同模型的效果，再分析其局限性；</li>
+<li>在分析的最后，会给出一个user guidance，介绍了每种具体预测场景下所建议的模型。这一点想的很周到，给读者以直观的参考；</li>
+<li>虽然正文比较凝练，但是细节很多，附件材料也很充分，值得课题直接相关的人员深入学习。</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/%E6%96%87%E7%8C%AE-%E7%AE%97%E6%B3%95/">文献-算法</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/en/posts/basic/208%E6%96%87%E7%8C%AE--%E7%9F%AD%E8%AF%BB%E5%92%8C%E9%95%BF%E8%AF%BB-rna-%E6%B5%8B%E5%BA%8F%E6%96%B9%E6%B3%95%E5%8D%8F%E8%B0%83rna%E5%8A%A0%E5%B7%A5/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>文献--使用短读长和长读长RNA测序方法阐明RNA加工的协调性</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/en/posts/program/210r-%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90-dplyr%E8%A1%A8%E6%A0%BC%E6%93%8D%E4%BD%9C/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>R-数据分析-dplyr表格操作</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>
