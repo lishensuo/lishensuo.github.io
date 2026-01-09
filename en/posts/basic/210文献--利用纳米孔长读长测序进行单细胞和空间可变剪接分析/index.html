@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>文献--利用纳米孔长读长测序进行单细胞和空间可变剪接分析 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="文献-组学, 神经蛙的藏宝阁">
+<meta name="description" content="Single cell and spatial alternative splicing analysis with Nanopore long read sequencing
+利用纳米孔长读长测序进行单细胞和空间可变剪接分析
+创建：2026-01-08 | 神经蛙的藏宝阁
+
+时间：19 July 2025
+期刊：Nature Communications
+
+
+Tip：文章的概念很多，但是没有做过多介绍，所以该文包含了一些背景介绍以及我个人的理解。">
+<meta name="author" content="神经蛙的藏宝阁">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/basic/210%E6%96%87%E7%8C%AE--%E5%88%A9%E7%94%A8%E7%BA%B3%E7%B1%B3%E5%AD%94%E9%95%BF%E8%AF%BB%E9%95%BF%E6%B5%8B%E5%BA%8F%E8%BF%9B%E8%A1%8C%E5%8D%95%E7%BB%86%E8%83%9E%E5%92%8C%E7%A9%BA%E9%97%B4%E5%8F%AF%E5%8F%98%E5%89%AA%E6%8E%A5%E5%88%86%E6%9E%90/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.9e4de5e3ba61ea358168341aa7cdf70abfaafb7c697dfe8624af3ddff9a35c2f.css" integrity="sha256-nk3l47ph6jWBaDQap833Cr&#43;q&#43;3xpff6GJK893/mjXC8=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/basic/210%E6%96%87%E7%8C%AE--%E5%88%A9%E7%94%A8%E7%BA%B3%E7%B1%B3%E5%AD%94%E9%95%BF%E8%AF%BB%E9%95%BF%E6%B5%8B%E5%BA%8F%E8%BF%9B%E8%A1%8C%E5%8D%95%E7%BB%86%E8%83%9E%E5%92%8C%E7%A9%BA%E9%97%B4%E5%8F%AF%E5%8F%98%E5%89%AA%E6%8E%A5%E5%88%86%E6%9E%90/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="文献--利用纳米孔长读长测序进行单细胞和空间可变剪接分析" />
+<meta property="og:description" content="Single cell and spatial alternative splicing analysis with Nanopore long read sequencing
+利用纳米孔长读长测序进行单细胞和空间可变剪接分析
+创建：2026-01-08 | 神经蛙的藏宝阁
+
+时间：19 July 2025
+期刊：Nature Communications
+
+
+Tip：文章的概念很多，但是没有做过多介绍，所以该文包含了一些背景介绍以及我个人的理解。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/basic/210%E6%96%87%E7%8C%AE--%E5%88%A9%E7%94%A8%E7%BA%B3%E7%B1%B3%E5%AD%94%E9%95%BF%E8%AF%BB%E9%95%BF%E6%B5%8B%E5%BA%8F%E8%BF%9B%E8%A1%8C%E5%8D%95%E7%BB%86%E8%83%9E%E5%92%8C%E7%A9%BA%E9%97%B4%E5%8F%AF%E5%8F%98%E5%89%AA%E6%8E%A5%E5%88%86%E6%9E%90/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2026-01-09T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2026-01-09T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="文献--利用纳米孔长读长测序进行单细胞和空间可变剪接分析"/>
+<meta name="twitter:description" content="Single cell and spatial alternative splicing analysis with Nanopore long read sequencing
+利用纳米孔长读长测序进行单细胞和空间可变剪接分析
+创建：2026-01-08 | 神经蛙的藏宝阁
+
+时间：19 July 2025
+期刊：Nature Communications
+
+
+Tip：文章的概念很多，但是没有做过多介绍，所以该文包含了一些背景介绍以及我个人的理解。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 科研基础 -- 读文献、看教材",
+      "item": "https://lishensuo.github.io/en/posts/basic/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "文献--利用纳米孔长读长测序进行单细胞和空间可变剪接分析",
+      "item": "https://lishensuo.github.io/en/posts/basic/210%E6%96%87%E7%8C%AE--%E5%88%A9%E7%94%A8%E7%BA%B3%E7%B1%B3%E5%AD%94%E9%95%BF%E8%AF%BB%E9%95%BF%E6%B5%8B%E5%BA%8F%E8%BF%9B%E8%A1%8C%E5%8D%95%E7%BB%86%E8%83%9E%E5%92%8C%E7%A9%BA%E9%97%B4%E5%8F%AF%E5%8F%98%E5%89%AA%E6%8E%A5%E5%88%86%E6%9E%90/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "文献--利用纳米孔长读长测序进行单细胞和空间可变剪接分析",
+  "name": "文献--利用纳米孔长读长测序进行单细胞和空间可变剪接分析",
+  "description": "Single cell and spatial alternative splicing analysis with Nanopore long read sequencing\n利用纳米孔长读长测序进行单细胞和空间可变剪接分析\n创建：2026-01-08 | 神经蛙的藏宝阁 时间：19 July 2025 期刊：Nature Communications Tip：文章的概念很多，但是没有做过多介绍，所以该文包含了一些背景介绍以及我个人的理解。\n",
+  "keywords": [
+    "文献-组学", "神经蛙的藏宝阁"
+  ],
+  "articleBody": "Single cell and spatial alternative splicing analysis with Nanopore long read sequencing\n利用纳米孔长读长测序进行单细胞和空间可变剪接分析\n创建：2026-01-08 | 神经蛙的藏宝阁 时间：19 July 2025 期刊：Nature Communications Tip：文章的概念很多，但是没有做过多介绍，所以该文包含了一些背景介绍以及我个人的理解。\n一、这篇 Longcell 文章在讲什么、为什么要做 1.1 研究动机：为什么要在单细胞/空间里搞长读剪接分析？ 背景问题：\n剪接/isoform 本质是「转录本结构多样性」的问题。 但传统 scRNA‑seq / Visium 都是 Illumina 短读： 读段短、跨外显子有限，很难还原整条 isoform； 定量剪接事件常常靠 间接推断（junction reads + 外显子覆盖），噪声大、歧义多。 Nanopore / PacBio 等 长读测序 可以一条 read 穿过多个外显子： 理论上很适合做 isoform / 剪接分析； 但缺点是：错误率高 + 单细胞 UMI 条形码不好用 + 深度有限。 核心痛点：\nNanopore 错误率 + 对 UMI 不友好 直接拿长读做剪接调用，会把 mapping error / indel 当作新剪接事件； 条形码/UMI 识别困难 → 很多 read 不能可靠分配到 cell/spot。 注释不全，尤其在肿瘤/特殊组织 很多 isoform 根本不在 Gencode 里，单纯基于现有转录本注释的分析框架会漏掉、或误判很多东西。 想回答的是“在单细胞/组织层面，剪接异质性到底长什么样” 例如：一个可变外显子，在同一个 cell type 内： 是 几乎所有细胞都「一半一半」共存多 isoform？ 还是「有两类细胞，一个型用 isoform A，一个型用 isoform B」？ 这需要能对 PSI 的分布和异质性（而不只是均值）建模。 简化一句话： 如何在单细胞 \u0026 空间转录组里，可靠地用长读去做 isoform/剪接，并把“剪接异质性”这件事说清楚。\n1.2 Longcell 做的技术工作（方法核心） Longcell 主要解决三个技术问题，可以记成三层：\n(1) 先把 Nanopore 读段「拉回正轨」：UMI‑aware 纠错 使用 10x 的条形码/UMI 信息，把读段按（cell barcode, UMI）聚成 UMI‑cluster。 对每个 cluster： 看该 UMI 的所有长读的比对结果； 假定「同一 UMI 内真正的 isoform 应该一致」； 用类似「多数表决」（consensus）方式来纠正：错误的 splice junction、偶发的错配、indel。 纠错之后： 各种「看起来像剪接事件的噪声」大幅减少； 真实的 constitutive 外显子在长读中的 PSI 接近 1。 这一步的本质： 利用 UMI 这一「多次独立观测」来抵消 Nanopore 的高错误率。\n(2) 不依赖现成注释的 meta‑splice site 建模 他们不是直接在「具体 isoform」上建模，而是先： 收集所有长读中出现的剪接位点（donor/acceptor）； 根据 它们在 read 里共现的模式（co‑occurrence），把一堆近邻／相关的 splice sites 聚成一个 meta‑splice site。 每个 meta‑splice site 可以理解为一个「局部剪接事件/结构单元」，比如： 保留/跳过一个外显子； 两个互斥外显子； 某个外显子的 alternative 3’/5’ splice site 组合。 这么做的好处： 不完全依赖 Gencode：即使肿瘤里有新 isoform，只要读段有足够 coverage，新的 splice site 也能被聚进某个 meta‑site。 维度大幅压缩：不用处理上万条具体 isoform，只需在「meta‑site × 选项」上算 PSI；在统计上更稳健，样本量也够。 (3) 用 Beta–Binomial 同时刻画「平均 PSI（μ） + 异质性（φ）」 对每个 meta‑site，在单细胞或空间 spot 层面： 每个 cell/spot 给出一个「支持 splice 选项 A vs B 的 read 计数」； 记作：每个 cell 的次数是二项分布抽样，整个群体的真实 PSI 分布再是一个 Beta 分布； 于是整体是 Beta–Binomial（层级模型）。 模型参数： μ：整个群体（比如同一 cell type）中，该事件的「平均 PSI」。 φ：类似「overdispersion」，反映 cell‑to‑cell 的 PSI 异质性有多大。 直观理解： φ 低：大多数细胞的 PSI 接近群体平均 → 说明 isoform 选择在细胞间很一致，更像是「每个细胞内部多 isoform 共存」。 φ 高：不同细胞的 PSI 差异大 → 说明存在明显的细胞亚群在用截然不同的 isoform，更像是「binary splicing / subpopulation」。 这是文章的一个关键视角： 不只问“PSI ≈ 0.3 还是 0.7”，而是问「不同细胞的 PSI 是都差不多，还是分成两拨？」\n1.3 文章整体给出的生物学图景（简单说一波） 在多个数据集（Jurkat, 其他 cell line, CRCLM 肿瘤, MOB 脑组织）中，针对 高表达、覆盖足够的基因和事件： 大多数剪接事件的 φ 都不高； 也就是说：对这些事件而言，「单个细胞内部多 isoform 共存 + 细胞间差别不大」是常态。 真正具有明显 cell‑to‑cell binary pattern 的事件（高 φ）是少数，但往往更有调控/功能兴趣。 通过 KO 剪接因子 + 长读，他们找出了一批这样的「高异质性/强调控」事件，并在特定基因上做了靶向长读验证。 二、CRCLM 肿瘤数据集：设计 这一块主要是「单细胞 + 空间 + 双平台」的组合。\n2.1 实验设计：同一 CRCLM 样本，四路数据 对一个结直肠癌肝转移（CRCLM）样本，他们做了：\n单细胞（10x Chromium 5’） – Illumina 单细胞（同一 cDNA） – Nanopore Visium 空间转录组 – Illumina Visium（同一 cDNA） – Nanopore 我理解的是相当于\nsc 和 Visium 各自建好 cDNA 文库后，再把各自的文库一分为二，分别上 Illumina 和 Nanopore。\n四路数据的分工 (1) scRNA‑seq – Illumina 用来做常规： UMAP、聚类； cell type 注释（肿瘤上皮、髓系、T cell 等）。 同时提供一个「高质量的 barcode/UMI 白名单」，方便： 对 Nanopore 读段的条形码识别与 UMI 校正； 在同一细胞空间上进行长读局部对照。 (2) scRNA‑seq – Nanopore + Longcell 用来做： 在单细胞层面定量 isoform / meta‑splice site； 用 Beta–Binomial 模型估计每个事件的 μ 和 φ。 通过和 Illumina 结果比对，检验： 基因表达和细胞类型结构能否在长读上被重构； φ 的估计是否稳定（只在高表达、覆盖好的基因上）。 这部分得出的重要结论之一： 对能可靠建模的高表达基因，大多数剪接事件的 φ 低：说明同一 cell type 内多数细胞的 isoform 比例类似，并不常见「一部分细胞纯用 isoform A，另一部分细胞纯用 isoform B」这种二元格局。\n(3) Visium – Illumina 用来做标准的空间分析： 基于 gene expression 的 spot 聚类； 区分肿瘤区、免疫浸润区等空间 domain； 通过 marker 基因做 cell-type deconvolution（估计每个 spot 中各 cell type 的组成）； 与 HE 染色的组织切片对位。 简单理解：Illumina 的 Visium 负责把“空间位置”这件事搞清楚：哪些区域是肿瘤主导，哪些富含免疫细胞等等。\n(4) Visium – Nanopore + Longcell 在每个空间 spot 上： 用 Longcell 做 isoform 和 meta‑splice site 的定量； 看不同空间区域中，某些外显子/isoform 的使用情况； 也可以在「spot 层面」估计一个类似 φ 的指标（intra‑spot vs inter‑spot 异质性）。 这让他们可以绘制：\n某个剪接事件的 “PSI 空间热图” —— 哪些区域中某个外显子 inclusion 高，哪些区域偏 skipping。\n一个经典例子：MYL6\n在单细胞 Nanopore 里：肿瘤上皮细胞普遍共存两种 isoform；髓系/T 细胞则偏向某一种 isoform。 在配套的 Visium Nanopore 里：肿瘤区域的 spot 中，两个 isoform 都高；富含髓系的区域则主要是一条 isoform。 结论：说明单细胞层面的 cell-type 特异剪接，在空间层面表现为肿瘤区 vs 免疫区的 isoform usage 差异。 2.2 为什么要「sc + Visium + 双平台」这么设计？ 这部分我认为主要是回答三个「为什么」：\n① 为什么 sc + Visium 都要上 Illumina？ 因为 Illumina 错误率低、深度高，更适合建立“结构骨架”：\nsc：cell type / cell state； Visium：空间 domain + 粗略 cell-type 组成。 在这个基础上，再去叠加 Nanopore 的 isoform 信息，会更可解释。 相当于：先用 Illumina 画出「谁是哪个类型的细胞、在组织的哪个区域」，再问「他们各自用的是什么 isoform」。\n② 为什么 sc + Visium 都要上 Nanopore？ sc Nanopore：回答「在单细胞层面，剪接异质性到底长什么样」，比如 φ–μ 图揭示的「多 isoform 共存」这一整体倾向。 Visium Nanopore：回答「这些剪接差异在组织空间中走向哪里」，比如肿瘤区域 vs 免疫浸润区域的 isoform pattern 是否与 cell-type 特征匹配。 两者合在一起，相当于：「cell type 视角」 + 「空间视角」共同描绘 isoform 的分布。\n③ 为什么要「拆同一批 cDNA 上双平台」？ 最大限度减少「生物学差异」：避免因为两次独立建库/测序造成样本差异；确保短读与长读看到的是 同一批细胞 / 同一批 spot。 技术上：可以用 Illumina 的 barcode / UMI 白名单辅助 Nanopore 条形码识别；对定量结果做 cross‑platform QC。 2.3 Longcell 在 CRCLM 这块具体带来了什么信息？ 概括来说：\n把 Nanopore 的剪接调用从「很脏」变成「可用」 未纠错前，即使是本该 constitutive 的外显子，PSI 都会被错误读段拉低很多； Longcell 的 UMI‑based 纠错，把这些 mapping/mis‑junction 噪声大幅干掉，让你敢在 Nanopore 数据上做精细剪接定量。 在 annotation 部分不全的肿瘤中，仍能稳定建模剪接事件 通过 meta‑splice site，将局部结构聚成「可分析单元」； 避免直接在「转录本 ID」层面建模（因为很多 novel isoform 没有 ID）。 首次较系统地给出「单细胞剪接异质性的整体统计图景」 利用 φ–μ 框架证明：大部分高表达事件的 φ 低 → 细胞间差别不大，细胞内多 isoform 共存。 这有点纠正了一些早期基于短读、覆盖不够时得出的「binary」印象。 同一套 φ 模型兼容单细胞与空间层面 让他们能说出：高表达基因的剪接大多是「局部混合」而非「局部互斥」，跨组织/平台都如此。 三、CRISPR 剪接因子 KO 数据集：设计 这部分的关键词是：pooled CRISPR + scRNA‑seq + 长读。\n3.1 实验设计：同一批细胞，三重信息绑定 对象：Jurkat Cas9 细胞系。\n操作： 用 pooled gRNA 文库，靶向 9 个 splicing factor（每个 2 条 gRNA）； 感染后培养 14 天（让 KO 效应充分显现）。 测序： Illumina（短读，10x）：标准 scRNA‑seq；额外设计引物，捕获 gRNA 序列；这样，每个单细胞可以打上「携带哪个 gRNA → KO 哪个因子」的标签。 Nanopore（长读，全转录组）：同一批 10x cDNA 再上 Nanopore；用 Longcell 恢复 UMI，并做 meta‑splice 定量。 后续：对某些重点基因（如 DGUOK）再做高覆盖的靶向 Nanopore 长读验证。 结果是，每个细胞同时有：\n表达谱； gRNA / KO 身份； 长读剪接结构信息。 3.2 借此回答的剪接生物学问题 (1) 哪些剪接事件被哪些 splicing factor 调控？方向如何？ 用 Longcell 的 meta‑site 定量 + Beta–Binomial 差异检验：在 nontarget 对照 vs 某 KO 群体之间，找到「PSI 分布明显不同」的 meta‑site。 稳健性：他们在不同条件（未刺激 vs 刺激 T cell）下，也做了一样的分析，发现很多事件在两种状态下的 ΔPSI 方向一致，说明这类调控关系 在激活前后较为稳定。 例子：\nHNRNPLL – PTPRC：已知 HNRNPLL 调控 CD45（PTPRC）外显子包含；他们在 KO 数据中重新找到了这一经典模型，算是 sanity check。 PCBP2 – DGUOK：KO PCBP2 之后，DGUOK 的 exon 3/4 inclusion 降低，isoform 从某个「长 isoform」切换到「短 isoform」；这是一个此前并未突出的调控关系，被他们发现并通过靶向长读验证。 CELF2 – PTS / ARHGEF1 等：显示 CELF2 可在不同基因上分别促进或抑制 exon inclusion，说明同一个 splicing factor 对不同位点的作用方向不必一致。 (2) 同一调控事件在不同状态（naive vs stimulated）下是否一致？ 在 T cell 未刺激和激活后两个状态中都做了 KO； 对重叠的 meta‑site 比较 ΔPSI：发现高度相关，→ 很多剪接调控是「状态稳定」的，而不是仅在某一状态才起作用。 3.3 Longcell 在 CRISPR KO 这一块的优势 UMI‑aware 纠错对于 “剪接位点附近有 CRISPR 编辑” 尤其重要 CRISPR 靶向剪接因子或剪接位点常常会引入局部 indel 或改变 splicing pattern。 再叠加 Nanopore 自身高错率，如果没有 UMI‑based 纠错，很难区分「真实新剪接事件」和「测序噪声」。 分布水平（distribution-level）的差异剪接检验 传统 DA 工具多看「ΔPSI 均值」； Longcell 框架用 Beta–Binomial 来比较 KO vs 对照的 PSI 分布：不仅看 mean，也捕捉「方差/分布形状」的变化。 这在 CRISPR 场景中很重要：比如 KO 后出现一个新的高 PSI 亚群，即便总体平均变化不大，也能被检测。 帮助发掘新的剪接调控关系，并给出结构级别的证据 由于有长读，每个事件不仅能说「PSI 变了」，还能精确说是哪条 isoform 被削弱/增强。 再配合靶向高覆盖长读验证，对 PCBP2–DGUOK 之类的新关系给出了结构级证据。 暂闭\n待续\n",
+  "wordCount" : "4831",
+  "inLanguage": "en",
+  "datePublished": "2026-01-09T00:00:00Z",
+  "dateModified": "2026-01-09T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "神经蛙的藏宝阁"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/basic/210%E6%96%87%E7%8C%AE--%E5%88%A9%E7%94%A8%E7%BA%B3%E7%B1%B3%E5%AD%94%E9%95%BF%E8%AF%BB%E9%95%BF%E6%B5%8B%E5%BA%8F%E8%BF%9B%E8%A1%8C%E5%8D%95%E7%BB%86%E8%83%9E%E5%92%8C%E7%A9%BA%E9%97%B4%E5%8F%AF%E5%8F%98%E5%89%AA%E6%8E%A5%E5%88%86%E6%9E%90/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/basic/">📖 科研基础 -- 读文献、看教材</a></div>
+    <h1 class="post-title">
+      文献--利用纳米孔长读长测序进行单细胞和空间可变剪接分析
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&amp;nbsp;&lt;span title=&#39;2026-01-09 00:00:00 &#43;0000 UTC&#39;&gt;2026-01-09&lt;/span&gt;&amp;nbsp;|&amp;nbsp;Update:&amp;nbsp;2026-01-09&amp;nbsp;|&amp;nbsp;Words:&amp;nbsp;4831&amp;nbsp;|&amp;nbsp;10 min&amp;nbsp;|&amp;nbsp;神经蛙的藏宝阁
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul><ul><ul>
+                    <li>
+                        <a href="#%e5%88%9b%e5%bb%ba2026-01-08--%e7%a5%9e%e7%bb%8f%e8%9b%99%e7%9a%84%e8%97%8f%e5%ae%9d%e9%98%81" aria-label="创建：2026-01-08 | 神经蛙的藏宝阁">创建：2026-01-08 | 神经蛙的藏宝阁</a></li></ul>
+                        </ul>
+                        
+                    <li>
+                        <a href="#%e4%b8%80%e8%bf%99%e7%af%87-longcell-%e6%96%87%e7%ab%a0%e5%9c%a8%e8%ae%b2%e4%bb%80%e4%b9%88%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81%e5%81%9a" aria-label="一、这篇 Longcell 文章在讲什么、为什么要做">一、这篇 Longcell 文章在讲什么、为什么要做</a><ul>
+                            
+                    <li>
+                        <a href="#11-%e7%a0%94%e7%a9%b6%e5%8a%a8%e6%9c%ba%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81%e5%9c%a8%e5%8d%95%e7%bb%86%e8%83%9e%e7%a9%ba%e9%97%b4%e9%87%8c%e6%90%9e%e9%95%bf%e8%af%bb%e5%89%aa%e6%8e%a5%e5%88%86%e6%9e%90" aria-label="1.1 研究动机：为什么要在单细胞/空间里搞长读剪接分析？">1.1 研究动机：为什么要在单细胞/空间里搞长读剪接分析？</a></li>
+                    <li>
+                        <a href="#12-longcell-%e5%81%9a%e7%9a%84%e6%8a%80%e6%9c%af%e5%b7%a5%e4%bd%9c%e6%96%b9%e6%b3%95%e6%a0%b8%e5%bf%83" aria-label="1.2 Longcell 做的技术工作（方法核心）">1.2 Longcell 做的技术工作（方法核心）</a><ul>
+                            
+                    <li>
+                        <a href="#1-%e5%85%88%e6%8a%8a-nanopore-%e8%af%bb%e6%ae%b5%e6%8b%89%e5%9b%9e%e6%ad%a3%e8%bd%a8umiaware-%e7%ba%a0%e9%94%99" aria-label="(1) 先把 Nanopore 读段「拉回正轨」：UMI‑aware 纠错">(1) 先把 Nanopore 读段「拉回正轨」：UMI‑aware 纠错</a></li>
+                    <li>
+                        <a href="#2-%e4%b8%8d%e4%be%9d%e8%b5%96%e7%8e%b0%e6%88%90%e6%b3%a8%e9%87%8a%e7%9a%84-metasplice-site-%e5%bb%ba%e6%a8%a1" aria-label="(2) 不依赖现成注释的 meta‑splice site 建模">(2) 不依赖现成注释的 <strong>meta‑splice site 建模</strong></a></li>
+                    <li>
+                        <a href="#3-%e7%94%a8-betabinomial-%e5%90%8c%e6%97%b6%e5%88%bb%e7%94%bb%e5%b9%b3%e5%9d%87-psi%ce%bc--%e5%bc%82%e8%b4%a8%e6%80%a7%cf%86" aria-label="(3) 用 Beta–Binomial 同时刻画「平均 PSI（μ） &#43; 异质性（φ）」">(3) 用 Beta–Binomial 同时刻画「平均 PSI（μ） + 异质性（φ）」</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#13-%e6%96%87%e7%ab%a0%e6%95%b4%e4%bd%93%e7%bb%99%e5%87%ba%e7%9a%84%e7%94%9f%e7%89%a9%e5%ad%a6%e5%9b%be%e6%99%af%e7%ae%80%e5%8d%95%e8%af%b4%e4%b8%80%e6%b3%a2" aria-label="1.3 文章整体给出的生物学图景（简单说一波）">1.3 文章整体给出的生物学图景（简单说一波）</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#%e4%ba%8ccrclm-%e8%82%bf%e7%98%a4%e6%95%b0%e6%8d%ae%e9%9b%86%e8%ae%be%e8%ae%a1" aria-label="二、CRCLM 肿瘤数据集：设计">二、CRCLM 肿瘤数据集：设计</a><ul>
+                            
+                    <li>
+                        <a href="#21-%e5%ae%9e%e9%aa%8c%e8%ae%be%e8%ae%a1%e5%90%8c%e4%b8%80-crclm-%e6%a0%b7%e6%9c%ac%e5%9b%9b%e8%b7%af%e6%95%b0%e6%8d%ae" aria-label="2.1 实验设计：同一 CRCLM 样本，四路数据">2.1 实验设计：同一 CRCLM 样本，四路数据</a><ul>
+                            
+                    <li>
+                        <a href="#%e5%9b%9b%e8%b7%af%e6%95%b0%e6%8d%ae%e7%9a%84%e5%88%86%e5%b7%a5" aria-label="四路数据的分工">四路数据的分工</a><ul>
+                            
+                    <li>
+                        <a href="#1-scrnaseq--illumina" aria-label="(1) scRNA‑seq – Illumina">(1) scRNA‑seq – Illumina</a></li>
+                    <li>
+                        <a href="#2-scrnaseq--nanopore--longcell" aria-label="(2) scRNA‑seq – Nanopore &#43; Longcell">(2) scRNA‑seq – Nanopore + Longcell</a></li>
+                    <li>
+                        <a href="#3-visium--illumina" aria-label="(3) Visium – Illumina">(3) Visium – Illumina</a></li>
+                    <li>
+                        <a href="#4-visium--nanopore--longcell" aria-label="(4) Visium – Nanopore &#43; Longcell">(4) Visium – Nanopore + Longcell</a></li></ul>
+                    </li></ul>
+                    </li>
+                    <li>
+                        <a href="#22-%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81sc--visium--%e5%8f%8c%e5%b9%b3%e5%8f%b0%e8%bf%99%e4%b9%88%e8%ae%be%e8%ae%a1" aria-label="2.2 为什么要「sc &#43; Visium &#43; 双平台」这么设计？">2.2 为什么要「sc + Visium + 双平台」这么设计？</a><ul>
+                            
+                    <li>
+                        <a href="#-%e4%b8%ba%e4%bb%80%e4%b9%88-sc--visium-%e9%83%bd%e8%a6%81%e4%b8%8a-illumina" aria-label="① 为什么 sc &#43; Visium 都要上 Illumina？">① 为什么 sc + Visium 都要上 Illumina？</a></li>
+                    <li>
+                        <a href="#-%e4%b8%ba%e4%bb%80%e4%b9%88-sc--visium-%e9%83%bd%e8%a6%81%e4%b8%8a-nanopore" aria-label="② 为什么 sc &#43; Visium 都要上 Nanopore？">② 为什么 sc + Visium 都要上 Nanopore？</a></li>
+                    <li>
+                        <a href="#-%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81%e6%8b%86%e5%90%8c%e4%b8%80%e6%89%b9-cdna-%e4%b8%8a%e5%8f%8c%e5%b9%b3%e5%8f%b0" aria-label="③ 为什么要「拆同一批 cDNA 上双平台」？">③ 为什么要「拆同一批 cDNA 上双平台」？</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#23-longcell-%e5%9c%a8-crclm-%e8%bf%99%e5%9d%97%e5%85%b7%e4%bd%93%e5%b8%a6%e6%9d%a5%e4%ba%86%e4%bb%80%e4%b9%88%e4%bf%a1%e6%81%af" aria-label="2.3 Longcell 在 CRCLM 这块具体带来了什么信息？">2.3 Longcell 在 CRCLM 这块具体带来了什么信息？</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#%e4%b8%89crispr-%e5%89%aa%e6%8e%a5%e5%9b%a0%e5%ad%90-ko-%e6%95%b0%e6%8d%ae%e9%9b%86%e8%ae%be%e8%ae%a1" aria-label="三、CRISPR 剪接因子 KO 数据集：设计">三、CRISPR 剪接因子 KO 数据集：设计</a><ul>
+                            
+                    <li>
+                        <a href="#31-%e5%ae%9e%e9%aa%8c%e8%ae%be%e8%ae%a1%e5%90%8c%e4%b8%80%e6%89%b9%e7%bb%86%e8%83%9e%e4%b8%89%e9%87%8d%e4%bf%a1%e6%81%af%e7%bb%91%e5%ae%9a" aria-label="3.1 实验设计：同一批细胞，三重信息绑定">3.1 实验设计：同一批细胞，三重信息绑定</a></li>
+                    <li>
+                        <a href="#32-%e5%80%9f%e6%ad%a4%e5%9b%9e%e7%ad%94%e7%9a%84%e5%89%aa%e6%8e%a5%e7%94%9f%e7%89%a9%e5%ad%a6%e9%97%ae%e9%a2%98" aria-label="3.2 借此回答的剪接生物学问题">3.2 借此回答的剪接生物学问题</a><ul>
+                            
+                    <li>
+                        <a href="#1-%e5%93%aa%e4%ba%9b%e5%89%aa%e6%8e%a5%e4%ba%8b%e4%bb%b6%e8%a2%ab%e5%93%aa%e4%ba%9b-splicing-factor-%e8%b0%83%e6%8e%a7%e6%96%b9%e5%90%91%e5%a6%82%e4%bd%95" aria-label="(1) 哪些剪接事件被哪些 splicing factor 调控？方向如何？">(1) 哪些剪接事件被哪些 splicing factor 调控？方向如何？</a></li>
+                    <li>
+                        <a href="#2-%e5%90%8c%e4%b8%80%e8%b0%83%e6%8e%a7%e4%ba%8b%e4%bb%b6%e5%9c%a8%e4%b8%8d%e5%90%8c%e7%8a%b6%e6%80%81naive-vs-stimulated%e4%b8%8b%e6%98%af%e5%90%a6%e4%b8%80%e8%87%b4" aria-label="(2) 同一调控事件在不同状态（naive vs stimulated）下是否一致？">(2) 同一调控事件在不同状态（naive vs stimulated）下是否一致？</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#33-longcell-%e5%9c%a8-crispr-ko-%e8%bf%99%e4%b8%80%e5%9d%97%e7%9a%84%e4%bc%98%e5%8a%bf" aria-label="3.3 Longcell 在 CRISPR KO 这一块的优势">3.3 Longcell 在 CRISPR KO 这一块的优势</a>
+                    </li>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><p><strong>Single cell and spatial alternative splicing analysis with Nanopore long read sequencing</strong></p>
+<p><strong>利用纳米孔长读长测序进行单细胞和空间可变剪接分析</strong></p>
+<h3 id="创建2026-01-08--神经蛙的藏宝阁">创建：2026-01-08 | 神经蛙的藏宝阁<a hidden class="anchor" aria-hidden="true" href="#创建2026-01-08--神经蛙的藏宝阁">#</a></h3>
+<ul>
+<li><strong>时间</strong>：19 July 2025</li>
+<li><strong>期刊</strong>：Nature Communications</li>
+</ul>
+<blockquote>
+<p><strong>Tip</strong>：文章的概念很多，但是没有做过多介绍，所以该文包含了一些背景介绍以及我个人的理解。</p></blockquote>
+<hr>
+<h1 id="一这篇-longcell-文章在讲什么为什么要做">一、这篇 Longcell 文章在讲什么、为什么要做<a hidden class="anchor" aria-hidden="true" href="#一这篇-longcell-文章在讲什么为什么要做">#</a></h1>
+<h2 id="11-研究动机为什么要在单细胞空间里搞长读剪接分析">1.1 研究动机：为什么要在单细胞/空间里搞长读剪接分析？<a hidden class="anchor" aria-hidden="true" href="#11-研究动机为什么要在单细胞空间里搞长读剪接分析">#</a></h2>
+<p><strong>背景问题：</strong></p>
+<ul>
+<li>剪接/isoform 本质是「<strong>转录本结构多样性</strong>」的问题。</li>
+<li>但传统 scRNA‑seq / Visium 都是 <strong>Illumina 短读</strong>：
+<ul>
+<li>读段短、跨外显子有限，<strong>很难还原整条 isoform</strong>；</li>
+<li>定量剪接事件常常靠 <strong>间接推断（junction reads + 外显子覆盖）</strong>，噪声大、歧义多。</li>
+</ul>
+</li>
+<li>Nanopore / PacBio 等 <strong>长读测序</strong> 可以一条 read 穿过多个外显子：
+<ul>
+<li>理论上很适合做 isoform / 剪接分析；</li>
+<li>但缺点是：<strong>错误率高 + 单细胞 UMI 条形码不好用 + 深度有限</strong>。</li>
+</ul>
+</li>
+</ul>
+<p><strong>核心痛点：</strong></p>
+<ol>
+<li><strong>Nanopore 错误率 + 对 UMI 不友好</strong>
+<ul>
+<li>直接拿长读做剪接调用，会把 mapping error / indel 当作新剪接事件；</li>
+<li>条形码/UMI 识别困难 → 很多 read 不能可靠分配到 cell/spot。</li>
+</ul>
+</li>
+<li><strong>注释不全，尤其在肿瘤/特殊组织</strong>
+<ul>
+<li>很多 isoform 根本不在 Gencode 里，单纯基于现有转录本注释的分析框架会漏掉、或误判很多东西。</li>
+</ul>
+</li>
+<li><strong>想回答的是“在单细胞/组织层面，剪接异质性到底长什么样”</strong>
+<ul>
+<li>例如：一个可变外显子，在同一个 cell type 内：
+<ul>
+<li>是 <strong>几乎所有细胞都「一半一半」共存多 isoform</strong>？</li>
+<li>还是「有两类细胞，一个型用 isoform A，一个型用 isoform B」？</li>
+</ul>
+</li>
+<li>这需要能对 <strong>PSI 的分布和异质性</strong>（而不只是均值）建模。</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p><strong>简化一句话：</strong>
+<strong>如何在单细胞 &amp; 空间转录组里，可靠地用长读去做 isoform/剪接，并把“剪接异质性”这件事说清楚。</strong></p></blockquote>
+<hr>
+<h2 id="12-longcell-做的技术工作方法核心">1.2 Longcell 做的技术工作（方法核心）<a hidden class="anchor" aria-hidden="true" href="#12-longcell-做的技术工作方法核心">#</a></h2>
+<p>Longcell 主要解决三个技术问题，可以记成三层：</p>
+<h3 id="1-先把-nanopore-读段拉回正轨umiaware-纠错">(1) 先把 Nanopore 读段「拉回正轨」：UMI‑aware 纠错<a hidden class="anchor" aria-hidden="true" href="#1-先把-nanopore-读段拉回正轨umiaware-纠错">#</a></h3>
+<ul>
+<li>使用 <strong>10x 的条形码/UMI 信息</strong>，把读段按（cell barcode, UMI）聚成 <strong>UMI‑cluster</strong>。</li>
+<li>对每个 cluster：
+<ul>
+<li>看该 UMI 的所有长读的比对结果；</li>
+<li>假定「同一 UMI 内真正的 isoform 应该一致」；</li>
+<li>用类似「多数表决」（consensus）方式来纠正：错误的 splice junction、偶发的错配、indel。</li>
+</ul>
+</li>
+<li>纠错之后：
+<ul>
+<li>各种「看起来像剪接事件的噪声」大幅减少；</li>
+<li>真实的 constitutive 外显子在长读中的 PSI 接近 1。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p><strong>这一步的本质：</strong>
+利用 UMI 这一「多次独立观测」来抵消 Nanopore 的高错误率。</p></blockquote>
+<h3 id="2-不依赖现成注释的-metasplice-site-建模">(2) 不依赖现成注释的 <strong>meta‑splice site 建模</strong><a hidden class="anchor" aria-hidden="true" href="#2-不依赖现成注释的-metasplice-site-建模">#</a></h3>
+<ul>
+<li>他们不是直接在「具体 isoform」上建模，而是先：
+<ol>
+<li>收集所有长读中出现的剪接位点（donor/acceptor）；</li>
+<li>根据 <strong>它们在 read 里共现的模式（co‑occurrence）</strong>，把一堆近邻／相关的 splice sites 聚成一个 <strong>meta‑splice site</strong>。</li>
+</ol>
+</li>
+<li>每个 meta‑splice site 可以理解为一个「<strong>局部剪接事件/结构单元</strong>」，比如：
+<ul>
+<li>保留/跳过一个外显子；</li>
+<li>两个互斥外显子；</li>
+<li>某个外显子的 alternative 3&rsquo;/5&rsquo; splice site 组合。</li>
+</ul>
+</li>
+<li><strong>这么做的好处</strong>：
+<ol>
+<li><strong>不完全依赖 Gencode</strong>：即使肿瘤里有新 isoform，只要读段有足够 coverage，新的 splice site 也能被聚进某个 meta‑site。</li>
+<li><strong>维度大幅压缩</strong>：不用处理上万条具体 isoform，只需在「meta‑site × 选项」上算 PSI；在统计上更稳健，样本量也够。</li>
+</ol>
+</li>
+</ul>
+<h3 id="3-用-betabinomial-同时刻画平均-psiμ--异质性φ">(3) 用 Beta–Binomial 同时刻画「平均 PSI（μ） + 异质性（φ）」<a hidden class="anchor" aria-hidden="true" href="#3-用-betabinomial-同时刻画平均-psiμ--异质性φ">#</a></h3>
+<ul>
+<li>对每个 meta‑site，在单细胞或空间 spot 层面：
+<ul>
+<li>每个 cell/spot 给出一个「支持 splice 选项 A vs B 的 read 计数」；</li>
+<li>记作：每个 cell 的次数是二项分布抽样，整个群体的真实 PSI 分布再是一个 Beta 分布；</li>
+<li>于是整体是 <strong>Beta–Binomial（层级模型）</strong>。</li>
+</ul>
+</li>
+<li><strong>模型参数</strong>：
+<ul>
+<li><strong>μ</strong>：整个群体（比如同一 cell type）中，该事件的「平均 PSI」。</li>
+<li><strong>φ</strong>：类似「overdispersion」，反映 <strong>cell‑to‑cell 的 PSI 异质性</strong>有多大。</li>
+</ul>
+</li>
+<li><strong>直观理解</strong>：
+<ul>
+<li><strong>φ 低</strong>：大多数细胞的 PSI 接近群体平均 → <strong>说明 isoform 选择在细胞间很一致</strong>，更像是「每个细胞内部多 isoform 共存」。</li>
+<li><strong>φ 高</strong>：不同细胞的 PSI 差异大 → <strong>说明存在明显的细胞亚群在用截然不同的 isoform</strong>，更像是「binary splicing / subpopulation」。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p><strong>这是文章的一个关键视角：</strong>
+不只问“PSI ≈ 0.3 还是 0.7”，而是问「不同细胞的 PSI 是都差不多，还是分成两拨？」</p></blockquote>
+<hr>
+<h2 id="13-文章整体给出的生物学图景简单说一波">1.3 文章整体给出的生物学图景（简单说一波）<a hidden class="anchor" aria-hidden="true" href="#13-文章整体给出的生物学图景简单说一波">#</a></h2>
+<ul>
+<li>在多个数据集（Jurkat, 其他 cell line, CRCLM 肿瘤, MOB 脑组织）中，针对 <strong>高表达、覆盖足够的基因和事件</strong>：
+<ul>
+<li>大多数剪接事件的 φ 都不高；</li>
+<li>也就是说：<strong>对这些事件而言，「单个细胞内部多 isoform 共存 + 细胞间差别不大」是常态</strong>。</li>
+</ul>
+</li>
+<li>真正具有明显 cell‑to‑cell binary pattern 的事件（高 φ）是少数，但往往更有调控/功能兴趣。</li>
+<li>通过 KO 剪接因子 + 长读，他们找出了一批这样的「高异质性/强调控」事件，并在特定基因上做了靶向长读验证。</li>
+</ul>
+<hr>
+<hr>
+<h1 id="二crclm-肿瘤数据集设计">二、CRCLM 肿瘤数据集：设计<a hidden class="anchor" aria-hidden="true" href="#二crclm-肿瘤数据集设计">#</a></h1>
+<p>这一块主要是「<strong>单细胞 + 空间 + 双平台</strong>」的组合。</p>
+<h2 id="21-实验设计同一-crclm-样本四路数据">2.1 实验设计：同一 CRCLM 样本，四路数据<a hidden class="anchor" aria-hidden="true" href="#21-实验设计同一-crclm-样本四路数据">#</a></h2>
+<p>对一个结直肠癌肝转移（CRCLM）样本，他们做了：</p>
+<ol>
+<li><strong>单细胞（10x Chromium 5&rsquo;） – Illumina</strong></li>
+<li><strong>单细胞（同一 cDNA） – Nanopore</strong></li>
+<li><strong>Visium 空间转录组 – Illumina</strong></li>
+<li><strong>Visium（同一 cDNA） – Nanopore</strong></li>
+</ol>
+<p>我理解的是相当于</p>
+<blockquote>
+<p><strong>sc 和 Visium 各自建好 cDNA 文库后，再把各自的文库一分为二，分别上 Illumina 和 Nanopore。</strong></p></blockquote>
+<h3 id="四路数据的分工">四路数据的分工<a hidden class="anchor" aria-hidden="true" href="#四路数据的分工">#</a></h3>
+<h4 id="1-scrnaseq--illumina">(1) scRNA‑seq – Illumina<a hidden class="anchor" aria-hidden="true" href="#1-scrnaseq--illumina">#</a></h4>
+<ul>
+<li>用来做常规：
+<ul>
+<li>UMAP、聚类；</li>
+<li>cell type 注释（肿瘤上皮、髓系、T cell 等）。</li>
+</ul>
+</li>
+<li>同时提供一个「<strong>高质量的 barcode/UMI 白名单</strong>」，方便：
+<ul>
+<li>对 Nanopore 读段的条形码识别与 UMI 校正；</li>
+<li>在同一细胞空间上进行长读局部对照。</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-scrnaseq--nanopore--longcell">(2) scRNA‑seq – Nanopore + Longcell<a hidden class="anchor" aria-hidden="true" href="#2-scrnaseq--nanopore--longcell">#</a></h4>
+<ul>
+<li>用来做：
+<ul>
+<li>在单细胞层面定量 isoform / meta‑splice site；</li>
+<li>用 Beta–Binomial 模型估计每个事件的 μ 和 φ。</li>
+</ul>
+</li>
+<li>通过和 Illumina 结果比对，检验：
+<ul>
+<li>基因表达和细胞类型结构能否在长读上被重构；</li>
+<li>φ 的估计是否稳定（只在高表达、覆盖好的基因上）。</li>
+</ul>
+</li>
+</ul>
+<p><strong>这部分得出的重要结论之一：</strong>
+对能可靠建模的高表达基因，大多数剪接事件的 φ 低：说明同一 cell type 内多数细胞的 isoform 比例类似，并不常见「一部分细胞纯用 isoform A，另一部分细胞纯用 isoform B」这种二元格局。</p>
+<h4 id="3-visium--illumina">(3) Visium – Illumina<a hidden class="anchor" aria-hidden="true" href="#3-visium--illumina">#</a></h4>
+<ul>
+<li>用来做标准的空间分析：
+<ul>
+<li>基于 gene expression 的 spot 聚类；</li>
+<li>区分肿瘤区、免疫浸润区等空间 domain；</li>
+<li>通过 marker 基因做 cell-type deconvolution（估计每个 spot 中各 cell type 的组成）；</li>
+<li>与 HE 染色的组织切片对位。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p><strong>简单理解</strong>：Illumina 的 Visium 负责把“空间位置”这件事搞清楚：哪些区域是肿瘤主导，哪些富含免疫细胞等等。</p></blockquote>
+<h4 id="4-visium--nanopore--longcell">(4) Visium – Nanopore + Longcell<a hidden class="anchor" aria-hidden="true" href="#4-visium--nanopore--longcell">#</a></h4>
+<ul>
+<li>在每个空间 spot 上：
+<ul>
+<li>用 Longcell 做 isoform 和 meta‑splice site 的定量；</li>
+<li>看不同空间区域中，某些外显子/isoform 的使用情况；</li>
+<li>也可以在「spot 层面」估计一个类似 φ 的指标（intra‑spot vs inter‑spot 异质性）。</li>
+</ul>
+</li>
+</ul>
+<p>这让他们可以绘制：</p>
+<blockquote>
+<p><strong>某个剪接事件的 “PSI 空间热图”</strong> —— 哪些区域中某个外显子 inclusion 高，哪些区域偏 skipping。</p></blockquote>
+<p><strong>一个经典例子：MYL6</strong></p>
+<ul>
+<li><strong>在单细胞 Nanopore 里</strong>：肿瘤上皮细胞普遍共存两种 isoform；髓系/T 细胞则偏向某一种 isoform。</li>
+<li><strong>在配套的 Visium Nanopore 里</strong>：肿瘤区域的 spot 中，两个 isoform 都高；富含髓系的区域则主要是一条 isoform。</li>
+<li><strong>结论</strong>：说明单细胞层面的 cell-type 特异剪接，在空间层面表现为肿瘤区 vs 免疫区的 isoform usage 差异。</li>
+</ul>
+<hr>
+<h2 id="22-为什么要sc--visium--双平台这么设计">2.2 为什么要「sc + Visium + 双平台」这么设计？<a hidden class="anchor" aria-hidden="true" href="#22-为什么要sc--visium--双平台这么设计">#</a></h2>
+<p>这部分我认为主要是回答三个「为什么」：</p>
+<h3 id="-为什么-sc--visium-都要上-illumina">① 为什么 sc + Visium 都要上 Illumina？<a hidden class="anchor" aria-hidden="true" href="#-为什么-sc--visium-都要上-illumina">#</a></h3>
+<p>因为 Illumina 错误率低、深度高，<strong>更适合建立“结构骨架”</strong>：</p>
+<ul>
+<li>sc：cell type / cell state；</li>
+<li>Visium：空间 domain + 粗略 cell-type 组成。
+在这个基础上，再去叠加 Nanopore 的 isoform 信息，会更可解释。</li>
+</ul>
+<blockquote>
+<p>相当于：先用 Illumina 画出「谁是哪个类型的细胞、在组织的哪个区域」，再问「他们各自用的是什么 isoform」。</p></blockquote>
+<h3 id="-为什么-sc--visium-都要上-nanopore">② 为什么 sc + Visium 都要上 Nanopore？<a hidden class="anchor" aria-hidden="true" href="#-为什么-sc--visium-都要上-nanopore">#</a></h3>
+<ul>
+<li><strong>sc Nanopore</strong>：回答「在单细胞层面，剪接异质性到底长什么样」，比如 φ–μ 图揭示的「多 isoform 共存」这一整体倾向。</li>
+<li><strong>Visium Nanopore</strong>：回答「这些剪接差异在组织空间中走向哪里」，比如肿瘤区域 vs 免疫浸润区域的 isoform pattern 是否与 cell-type 特征匹配。</li>
+</ul>
+<blockquote>
+<p>两者合在一起，相当于：「<strong>cell type 视角</strong>」 + 「<strong>空间视角</strong>」共同描绘 isoform 的分布。</p></blockquote>
+<h3 id="-为什么要拆同一批-cdna-上双平台">③ 为什么要「拆同一批 cDNA 上双平台」？<a hidden class="anchor" aria-hidden="true" href="#-为什么要拆同一批-cdna-上双平台">#</a></h3>
+<ul>
+<li><strong>最大限度减少「生物学差异」</strong>：避免因为两次独立建库/测序造成样本差异；确保短读与长读看到的是 <strong>同一批细胞 / 同一批 spot</strong>。</li>
+<li><strong>技术上</strong>：可以用 Illumina 的 barcode / UMI 白名单辅助 Nanopore 条形码识别；对定量结果做 cross‑platform QC。</li>
+</ul>
+<hr>
+<h2 id="23-longcell-在-crclm-这块具体带来了什么信息">2.3 Longcell 在 CRCLM 这块具体带来了什么信息？<a hidden class="anchor" aria-hidden="true" href="#23-longcell-在-crclm-这块具体带来了什么信息">#</a></h2>
+<p>概括来说：</p>
+<ol>
+<li><strong>把 Nanopore 的剪接调用从「很脏」变成「可用」</strong>
+<ul>
+<li>未纠错前，即使是本该 constitutive 的外显子，PSI 都会被错误读段拉低很多；</li>
+<li>Longcell 的 UMI‑based 纠错，把这些 mapping/mis‑junction 噪声大幅干掉，让你敢在 Nanopore 数据上做精细剪接定量。</li>
+</ul>
+</li>
+<li><strong>在 annotation 部分不全的肿瘤中，仍能稳定建模剪接事件</strong>
+<ul>
+<li>通过 meta‑splice site，将局部结构聚成「可分析单元」；</li>
+<li>避免直接在「转录本 ID」层面建模（因为很多 novel isoform 没有 ID）。</li>
+</ul>
+</li>
+<li><strong>首次较系统地给出「单细胞剪接异质性的整体统计图景」</strong>
+<ul>
+<li>利用 φ–μ 框架证明：大部分高表达事件的 φ 低 → <strong>细胞间差别不大，细胞内多 isoform 共存</strong>。</li>
+<li>这有点纠正了一些早期基于短读、覆盖不够时得出的「binary」印象。</li>
+</ul>
+</li>
+<li><strong>同一套 φ 模型兼容单细胞与空间层面</strong>
+<ul>
+<li>让他们能说出：<strong>高表达基因的剪接大多是「局部混合」而非「局部互斥」</strong>，跨组织/平台都如此。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<hr>
+<h1 id="三crispr-剪接因子-ko-数据集设计">三、CRISPR 剪接因子 KO 数据集：设计<a hidden class="anchor" aria-hidden="true" href="#三crispr-剪接因子-ko-数据集设计">#</a></h1>
+<p>这部分的关键词是：<strong>pooled CRISPR + scRNA‑seq + 长读</strong>。</p>
+<h2 id="31-实验设计同一批细胞三重信息绑定">3.1 实验设计：同一批细胞，三重信息绑定<a hidden class="anchor" aria-hidden="true" href="#31-实验设计同一批细胞三重信息绑定">#</a></h2>
+<p><strong>对象</strong>：Jurkat Cas9 细胞系。</p>
+<ul>
+<li><strong>操作</strong>：
+<ol>
+<li>用 pooled gRNA 文库，靶向 9 个 splicing factor（每个 2 条 gRNA）；</li>
+<li>感染后培养 14 天（让 KO 效应充分显现）。</li>
+</ol>
+</li>
+<li><strong>测序</strong>：
+<ul>
+<li><strong>Illumina（短读，10x）</strong>：标准 scRNA‑seq；额外设计引物，捕获 gRNA 序列；这样，每个单细胞可以打上「携带哪个 gRNA → KO 哪个因子」的标签。</li>
+<li><strong>Nanopore（长读，全转录组）</strong>：同一批 10x cDNA 再上 Nanopore；用 Longcell 恢复 UMI，并做 meta‑splice 定量。</li>
+</ul>
+</li>
+<li><strong>后续</strong>：对某些重点基因（如 DGUOK）再做高覆盖的靶向 Nanopore 长读验证。</li>
+</ul>
+<p><strong>结果是，每个细胞同时有：</strong></p>
+<ol>
+<li>表达谱；</li>
+<li>gRNA / KO 身份；</li>
+<li>长读剪接结构信息。</li>
+</ol>
+<hr>
+<h2 id="32-借此回答的剪接生物学问题">3.2 借此回答的剪接生物学问题<a hidden class="anchor" aria-hidden="true" href="#32-借此回答的剪接生物学问题">#</a></h2>
+<h3 id="1-哪些剪接事件被哪些-splicing-factor-调控方向如何">(1) 哪些剪接事件被哪些 splicing factor 调控？方向如何？<a hidden class="anchor" aria-hidden="true" href="#1-哪些剪接事件被哪些-splicing-factor-调控方向如何">#</a></h3>
+<ul>
+<li>用 Longcell 的 meta‑site 定量 + Beta–Binomial 差异检验：在 nontarget 对照 vs 某 KO 群体之间，找到「PSI 分布明显不同」的 meta‑site。</li>
+<li><strong>稳健性</strong>：他们在不同条件（未刺激 vs 刺激 T cell）下，也做了一样的分析，发现很多事件在两种状态下的 ΔPSI 方向一致，说明这类调控关系 <strong>在激活前后较为稳定</strong>。</li>
+</ul>
+<p><strong>例子：</strong></p>
+<ul>
+<li><strong>HNRNPLL – PTPRC</strong>：已知 HNRNPLL 调控 CD45（PTPRC）外显子包含；他们在 KO 数据中重新找到了这一经典模型，算是 sanity check。</li>
+<li><strong>PCBP2 – DGUOK</strong>：KO PCBP2 之后，DGUOK 的 exon 3/4 inclusion 降低，isoform 从某个「长 isoform」切换到「短 isoform」；这是一个此前并未突出的调控关系，被他们发现并通过靶向长读验证。</li>
+<li><strong>CELF2 – PTS / ARHGEF1 等</strong>：显示 CELF2 可在不同基因上分别促进或抑制 exon inclusion，说明同一个 splicing factor 对不同位点的作用方向不必一致。</li>
+</ul>
+<h3 id="2-同一调控事件在不同状态naive-vs-stimulated下是否一致">(2) 同一调控事件在不同状态（naive vs stimulated）下是否一致？<a hidden class="anchor" aria-hidden="true" href="#2-同一调控事件在不同状态naive-vs-stimulated下是否一致">#</a></h3>
+<ul>
+<li>在 T cell 未刺激和激活后两个状态中都做了 KO；</li>
+<li>对重叠的 meta‑site 比较 ΔPSI：发现高度相关，→ <strong>很多剪接调控是「状态稳定」的，而不是仅在某一状态才起作用</strong>。</li>
+</ul>
+<hr>
+<h2 id="33-longcell-在-crispr-ko-这一块的优势">3.3 Longcell 在 CRISPR KO 这一块的优势<a hidden class="anchor" aria-hidden="true" href="#33-longcell-在-crispr-ko-这一块的优势">#</a></h2>
+<ol>
+<li><strong>UMI‑aware 纠错对于 “剪接位点附近有 CRISPR 编辑” 尤其重要</strong>
+<ul>
+<li>CRISPR 靶向剪接因子或剪接位点常常会引入局部 indel 或改变 splicing pattern。</li>
+<li>再叠加 Nanopore 自身高错率，如果没有 UMI‑based 纠错，很难区分「真实新剪接事件」和「测序噪声」。</li>
+</ul>
+</li>
+<li><strong>分布水平（distribution-level）的差异剪接检验</strong>
+<ul>
+<li>传统 DA 工具多看「ΔPSI 均值」；</li>
+<li>Longcell 框架用 Beta–Binomial 来比较 KO vs 对照的 PSI 分布：不仅看 mean，也捕捉「方差/分布形状」的变化。</li>
+<li>这在 CRISPR 场景中很重要：比如 KO 后出现一个新的高 PSI 亚群，即便总体平均变化不大，也能被检测。</li>
+</ul>
+</li>
+<li><strong>帮助发掘新的剪接调控关系，并给出结构级别的证据</strong>
+<ul>
+<li>由于有长读，每个事件不仅能说「PSI 变了」，还能精确说是哪条 isoform 被削弱/增强。</li>
+<li>再配合靶向高覆盖长读验证，对 PCBP2–DGUOK 之类的新关系给出了结构级证据。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<p><strong>暂闭</strong></p>
+<p><strong>待续</strong></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/%E6%96%87%E7%8C%AE-%E7%BB%84%E5%AD%A6/">文献-组学</a></li>
+      <li><a href="https://lishensuo.github.io/en/tags/%E7%A5%9E%E7%BB%8F%E8%9B%99%E7%9A%84%E8%97%8F%E5%AE%9D%E9%98%81/">神经蛙的藏宝阁</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://lishensuo.github.io/en/posts/basic/209%E6%96%87%E7%8C%AE--%E5%8D%95%E7%BB%86%E8%83%9E%E6%89%B0%E5%8A%A8%E9%A2%84%E6%B5%8B%E6%A8%A1%E5%9E%8Bbenchmark/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>文献--单细胞扰动预测模型Benchmark</span>
+  </a>
+  <a class="next" href="https://lishensuo.github.io/en/posts/program/210r-%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90-dplyr%E8%A1%A8%E6%A0%BC%E6%93%8D%E4%BD%9C/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>R-数据分析-dplyr表格操作</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2026 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>
