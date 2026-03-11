@@ -410,7 +410,8 @@ Create:&nbsp;<span title='2023-02-10 00:00:00 +0000 UTC'>2023-02-10</span>&nbsp;
 <li>比较3类数据集的Molecular/AlogP特征分布（左）；</li>
 <li>计算化合物两两相似性Tanimoto similarity coefficient（右）</li>
 </ul>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230210161821032.png" alt="image-20230210161821032"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20230210161821032.png -->
+<p><img loading="lazy" src="/img/basic/image-20230210161821032.png" alt="image-20230210161821032"  />
 </p>
 <h3 id="23-模型训练">2.3 模型训练<a hidden class="anchor" aria-hidden="true" href="#23-模型训练">#</a></h3>
 <p>（1）在训练集中，使用10次的10折交叉验证方式优化参数(grid search)</p>
@@ -425,10 +426,12 @@ Create:&nbsp;<span title='2023-02-10 00:00:00 +0000 UTC'>2023-02-10</span>&nbsp;
 </ul>
 <h3 id="4模型评价">4、模型评价<a hidden class="anchor" aria-hidden="true" href="#4模型评价">#</a></h3>
 <p>（1）对于每个优化好的模型(72个)在internal validation set中作第一次验证，优选综合评价最好的6个模型。</p>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230210163033990.png" alt="image-20230210163033990"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20230210163033990.png -->
+<p><img loading="lazy" src="/img/basic/image-20230210163033990.png" alt="image-20230210163033990"  />
 </p>
 <p>（2）使用这6个模型在external validation set中作第二次验证，分3个角度进行(单独天然药、单独化药、混合数据)。</p>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230210163524853.png" alt="image-20230210163524853"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20230210163524853.png -->
+<p><img loading="lazy" src="/img/basic/image-20230210163524853.png" alt="image-20230210163524853"  />
 </p>
 <h3 id="5衍生">5、衍生<a hidden class="anchor" aria-hidden="true" href="#5衍生">#</a></h3>
 <ul>

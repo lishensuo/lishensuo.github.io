@@ -506,7 +506,8 @@ Create:&nbsp;<span title='2024-08-24 00:00:00 +0000 UTC'>2024-08-24</span>&nbsp;
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h1 id="2-sgd">2. SGD<a hidden class="anchor" aria-hidden="true" href="#2-sgd">#</a></h1>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240820203200138.png" alt="image-20240820203200138"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240820203200138.png -->
+<p><img loading="lazy" src="/img/bioinfo/image-20240820203200138.png" alt="image-20240820203200138"  />
 </p>
 <ul>
 <li><strong>梯度下降(Gradient Descent)</strong>: 在每次迭代中，批量梯度下降会使用所有训练样本计算损失函数的梯度，然后根据这个梯度更新模型参数。
@@ -551,7 +552,8 @@ Create:&nbsp;<span title='2024-08-24 00:00:00 +0000 UTC'>2024-08-24</span>&nbsp;
 </ul>
 </li>
 </ul>
-<img src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240820204917387.png" alt="image-20240820204917387" style="zoom:67%;" />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240820204917387.png -->
+<img src="/img/bioinfo/image-20240820204917387.png" alt="image-20240820204917387" style="zoom:67%;" />
 <ul>
 <li>通常来说，动量法通过在参数更新时引入“动量”，使得梯度下降更稳定和快速。</li>
 <li>可以直接在<code>torch.optim.SGD</code>中添加momentum参数，设置动量法</li>
@@ -678,7 +680,8 @@ Create:&nbsp;<span title='2024-08-24 00:00:00 +0000 UTC'>2024-08-24</span>&nbsp;
 </ul>
 </li>
 </ul>
-<img src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241108121359188.png" alt="image-20240823205742276" style="zoom:67%;" />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241108121359188.png -->
+<img src="/img/bioinfo/image-20241108121359188.png" alt="image-20240823205742276" style="zoom:67%;" />
 <ul>
 <li>对于具有两个GPU的数据并行训练过程为：
 <ol>
@@ -690,7 +693,8 @@ Create:&nbsp;<span title='2024-08-24 00:00:00 +0000 UTC'>2024-08-24</span>&nbsp;
 </ol>
 </li>
 </ul>
-<img src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240823232521945.png" alt="image-20240823232521945"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240823232521945.png -->
+<img src="/img/bioinfo/image-20240823232521945.png" alt="image-20240823232521945"  />
 <blockquote>
 <p>TIP：当原本小批量为b的单GPU训练，增加到k个GPU时，此时总的小批量需要扩展到k×b，从而确保每个GPU训练的小批量还是b。</p></blockquote>
 <div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">

@@ -47,6 +47,7 @@ barplot(numbers, col=cols)
 
 
 
+
 关于透明色，虽然不在这657个颜色当中，可以通过transparent指定。">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/en/posts/program/218-color-palette/">
@@ -136,6 +137,7 @@ barplot(numbers, col=cols)
 
 
 
+
 关于透明色，虽然不在这657个颜色当中，可以通过transparent指定。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://lishensuo.github.io/en/posts/program/218-color-palette/" /><meta property="article:section" content="posts" />
@@ -178,6 +180,7 @@ set.seed(111)
 cols = sample(colors(), 5)
 numbers = 1:5; names(numbers) = cols
 barplot(numbers, col=cols)
+
 
 
 
@@ -484,7 +487,8 @@ Create:&nbsp;<span title='2022-11-05 00:00:00 +0000 UTC'>2022-11-05</span>&nbsp;
 </span></span><span style="display:flex;"><span>barplot(numbers, col=cols)
 </span></span></code></pre></td></tr></table>
 </div>
-</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-3d4495bcbec94b10.png" style="zoom:50%;" />
+</div><!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/20354525-3d4495bcbec94b10.png -->
+<img src="/img/program/20354525-3d4495bcbec94b10.png" style="zoom:50%;" />
 <blockquote>
 <p>关于透明色，虽然不在这657个颜色当中，可以通过<code>transparent</code>指定。</p></blockquote>
 <h3 id="12-十六进制颜色代码">1.2 十六进制颜色代码<a hidden class="anchor" aria-hidden="true" href="#12-十六进制颜色代码">#</a></h3>
@@ -504,7 +508,8 @@ Create:&nbsp;<span title='2022-11-05 00:00:00 +0000 UTC'>2022-11-05</span>&nbsp;
 </span></span><span style="display:flex;"><span>barplot(c(<span style="color:#ff0;font-weight:bold">1</span>:<span style="color:#ff0;font-weight:bold">7</span>), col=rainbow(<span style="color:#ff0;font-weight:bold">7</span>))
 </span></span></code></pre></td></tr></table>
 </div>
-</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-1aabd40ecf747ec0.png" style="zoom: 50%;" />
+</div><!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/20354525-1aabd40ecf747ec0.png -->
+<img src="/img/program/20354525-1aabd40ecf747ec0.png" style="zoom: 50%;" />
 <h2 id="2色板系列">2、色板系列<a hidden class="anchor" aria-hidden="true" href="#2色板系列">#</a></h2>
 <p>在理解上述颜色表示方法后，在实际绘图时，一般不会一一手动寻找合适的颜色，而是通过一些R包、网站提供好的，美观的颜色组合，即调色板（palette），可供使用。下面罗列下我目前常用的几种方式。</p>
 <h3 id="21-rcolorbrewer包">2.1 RColorBrewer包<a hidden class="anchor" aria-hidden="true" href="#21-rcolorbrewer包">#</a></h3>
@@ -530,7 +535,8 @@ Create:&nbsp;<span title='2022-11-05 00:00:00 +0000 UTC'>2022-11-05</span>&nbsp;
 </span></span><span style="display:flex;"><span>display.brewer.pal(n=<span style="color:#ff0;font-weight:bold">12</span>, name = <span style="color:#0ff;font-weight:bold">&#39;Set3&#39;</span>)
 </span></span></code></pre></td></tr></table>
 </div>
-</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-ebc5d1edefb9fe21.png" style="zoom: 33%;" />
+</div><!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/20354525-ebc5d1edefb9fe21.png -->
+<img src="/img/program/20354525-ebc5d1edefb9fe21.png" style="zoom: 33%;" />
 <p>如上图所示，这个包提供了三类色板：
 （1）sequential【上】：渐变型（生成由浅入深的渐变色，适用于标注数值大小的情况）；
 （2）qualitative【中】：离散型（生成彼此差异明显的颜色，适用于分类数据）；
@@ -569,14 +575,16 @@ Create:&nbsp;<span title='2022-11-05 00:00:00 +0000 UTC'>2022-11-05</span>&nbsp;
 <li>非常值得安利的一个配色网站，也是大体分为如上三种色板。</li>
 <li>其实使用起来很简单，就不总结了。也可以参看别人的笔记：https://zhuanlan.zhihu.com/p/27167989</li>
 </ul>
-<img src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-427e1a2f6e9e82ba.png" style="zoom: 33%;" />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/20354525-427e1a2f6e9e82ba.png -->
+<img src="/img/program/20354525-427e1a2f6e9e82ba.png" style="zoom: 33%;" />
 <h3 id="23-ggsci包">2.3 ggsci包<a hidden class="anchor" aria-hidden="true" href="#23-ggsci包">#</a></h3>
 <ul>
 <li>自动对接ggplot2包，提供期刊杂志级别的配色方案；</li>
 <li>使用十分简单，配合ggplot，只需要选择color还是fill，会自动根据变量类别确认配色；</li>
 <li>具体使用方法也不介绍了，安装、加载，配合ggplot绘图即可。可参看官方教程：https://cran.r-project.org/web/packages/ggsci/vignettes/ggsci.html</li>
 </ul>
-<img src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-049fdcae3b458ee5.png" alt="部分配色方案" style="zoom: 67%;" />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/20354525-049fdcae3b458ee5.png -->
+<img src="/img/program/20354525-049fdcae3b458ee5.png" alt="部分配色方案" style="zoom: 67%;" />
 <h4 id="24-其它备选方案">2.4 其它备选方案<a hidden class="anchor" aria-hidden="true" href="#24-其它备选方案">#</a></h4>
 <ul>
 <li>

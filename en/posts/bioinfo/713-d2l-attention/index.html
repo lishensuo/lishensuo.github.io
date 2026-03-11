@@ -25,6 +25,7 @@
 
 
 
+
 ">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/en/posts/bioinfo/713-d2l-attention/">
@@ -92,6 +93,7 @@
 
 
 
+
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://lishensuo.github.io/en/posts/bioinfo/713-d2l-attention/" /><meta property="article:section" content="posts" />
@@ -112,6 +114,7 @@
 喝完咖啡，处于兴奋状态的大脑经思考后，相比看报等，可能更想要读一本书（自主性权重更高）；
 
 在受试者的主观意愿推动下所做的决定。
+
 
 
 
@@ -450,7 +453,8 @@ Create:&nbsp;<span title='2024-08-17 00:00:00 +0000 UTC'>2024-08-17</span>&nbsp;
 </ul>
 </li>
 </ul>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240812204130442.png" alt="image-20240812204130442"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240812204130442.png -->
+<p><img loading="lazy" src="/img/bioinfo/image-20240812204130442.png" alt="image-20240812204130442"  />
 </p>
 <h2 id="12-查询键和值">1.2 查询、键和值<a hidden class="anchor" aria-hidden="true" href="#12-查询键和值">#</a></h2>
 <ul>
@@ -467,7 +471,8 @@ Create:&nbsp;<span title='2024-08-17 00:00:00 +0000 UTC'>2024-08-17</span>&nbsp;
 </ul>
 </li>
 </ul>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240812205100062.png" alt="image-20240812205100062"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240812205100062.png -->
+<p><img loading="lazy" src="/img/bioinfo/image-20240812205100062.png" alt="image-20240812205100062"  />
 </p>
 <h2 id="13-注意力的可视化">1.3 注意力的可视化<a hidden class="anchor" aria-hidden="true" href="#13-注意力的可视化">#</a></h2>
 <ul>
@@ -589,7 +594,8 @@ Create:&nbsp;<span title='2024-08-17 00:00:00 +0000 UTC'>2024-08-17</span>&nbsp;
 <ul>
 <li>最简单的做法是对于任意Query（x），都直接计算所有训练样本输出值(yi)的均值</li>
 </ul>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240812213916763.png" alt="image-20240812213916763"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240812213916763.png -->
+<p><img loading="lazy" src="/img/bioinfo/image-20240812213916763.png" alt="image-20240812213916763"  />
 </p>
 <div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
@@ -615,7 +621,8 @@ Create:&nbsp;<span title='2024-08-17 00:00:00 +0000 UTC'>2024-08-17</span>&nbsp;
 <li>一种关系度量方式是将x与xi间的距离进行高斯核函数转换。距离越近，则值越大。</li>
 <li>最后的Softmax操作将权重和变为1，得到最终的加权平均方式。</li>
 </ul>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240812214652217.png" alt="image-20240812214652217"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240812214652217.png -->
+<p><img loading="lazy" src="/img/bioinfo/image-20240812214652217.png" alt="image-20240812214652217"  />
 </p>
 <ul>
 <li>下述的计算为非参数的注意力汇聚，即没有可学习的模型参数。</li>
@@ -644,7 +651,8 @@ Create:&nbsp;<span title='2024-08-17 00:00:00 +0000 UTC'>2024-08-17</span>&nbsp;
 </span></span><span style="display:flex;"><span>plot_kernel_reg(y_hat) <span style="color:#007f7f">#下图左</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><img src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240812220059975.png" alt="image-20240812220059975" style="zoom:50%;" />
+</div><!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240812220059975.png -->
+<img src="/img/bioinfo/image-20240812220059975.png" alt="image-20240812220059975" style="zoom:50%;" />
 <div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
@@ -672,7 +680,8 @@ Create:&nbsp;<span title='2024-08-17 00:00:00 +0000 UTC'>2024-08-17</span>&nbsp;
 </ul>
 </li>
 </ul>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240812220957816.png" alt="image-20240812220957816"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240812220957816.png -->
+<p><img loading="lazy" src="/img/bioinfo/image-20240812220957816.png" alt="image-20240812220957816"  />
 </p>
 <p><strong>（1）批量矩阵乘法</strong></p>
 <ul>
@@ -855,7 +864,8 @@ Create:&nbsp;<span title='2024-08-17 00:00:00 +0000 UTC'>2024-08-17</span>&nbsp;
 </span></span><span style="display:flex;"><span>plot_kernel_reg(y_hat)  <span style="color:#007f7f">#下图左</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><img src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240813083120379.png" alt="image-20240813083120379" style="zoom:50%;" />
+</div><!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240813083120379.png -->
+<img src="/img/bioinfo/image-20240813083120379.png" alt="image-20240813083120379" style="zoom:50%;" />
 <div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
@@ -887,7 +897,8 @@ Create:&nbsp;<span title='2024-08-17 00:00:00 +0000 UTC'>2024-08-17</span>&nbsp;
 </ul>
 </li>
 </ul>
-<img src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240813090639100.png" alt="image-20240813090639100" style="zoom:50%;" />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240813090639100.png -->
+<img src="/img/bioinfo/image-20240813090639100.png" alt="image-20240813090639100" style="zoom:50%;" />
 <div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
@@ -1128,7 +1139,8 @@ Create:&nbsp;<span title='2024-08-17 00:00:00 +0000 UTC'>2024-08-17</span>&nbsp;
 </ul>
 </li>
 </ul>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240813121308655.png" alt="image-20240813121308655"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240813121308655.png -->
+<p><img loading="lazy" src="/img/bioinfo/image-20240813121308655.png" alt="image-20240813121308655"  />
 </p>
 <div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
@@ -1208,7 +1220,8 @@ Create:&nbsp;<span title='2024-08-17 00:00:00 +0000 UTC'>2024-08-17</span>&nbsp;
 </li>
 <li>其它操作与之前学习基本一致。</li>
 </ul>
-<img src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240813134102502.png" alt="image-20240813134102502" style="zoom:50%;" />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240813134102502.png -->
+<img src="/img/bioinfo/image-20240813134102502.png" alt="image-20240813134102502" style="zoom:50%;" />
 <div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
@@ -1513,7 +1526,8 @@ Create:&nbsp;<span title='2024-08-17 00:00:00 +0000 UTC'>2024-08-17</span>&nbsp;
 </ul>
 </li>
 </ul>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240813202604493.png" alt="image-20240813202604493"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240813202604493.png -->
+<p><img loading="lazy" src="/img/bioinfo/image-20240813202604493.png" alt="image-20240813202604493"  />
 </p>
 <h2 id="52-实现">5.2 实现<a hidden class="anchor" aria-hidden="true" href="#52-实现">#</a></h2>
 <ul>
@@ -1790,7 +1804,8 @@ Create:&nbsp;<span title='2024-08-17 00:00:00 +0000 UTC'>2024-08-17</span>&nbsp;
 </ul>
 </li>
 </ul>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240813213636081.png" alt="image-20240813213636081"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240813213636081.png -->
+<p><img loading="lazy" src="/img/bioinfo/image-20240813213636081.png" alt="image-20240813213636081"  />
 </p>
 <div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
@@ -1907,7 +1922,8 @@ Create:&nbsp;<span title='2024-08-17 00:00:00 +0000 UTC'>2024-08-17</span>&nbsp;
 </ul>
 </li>
 </ul>
-<img src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240814101932173.png" alt="image-20240814101932173" style="zoom:67%;" />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240814101932173.png -->
+<img src="/img/bioinfo/image-20240814101932173.png" alt="image-20240814101932173" style="zoom:67%;" />
 <div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1

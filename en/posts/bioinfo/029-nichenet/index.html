@@ -404,7 +404,8 @@ Create:&nbsp;<span title='2023-02-09 00:00:00 +0000 UTC'>2023-02-09</span>&nbsp;
 </div></blockquote>
 <h2 id="0原理简介">0、原理简介<a hidden class="anchor" aria-hidden="true" href="#0原理简介">#</a></h2>
 <p>（1）NicheNet是2020年于Nature method提出的单细胞数据细胞通讯分析工具。相比于cellphoneDB等工具，NicheNet进一步考虑了受体被激活后的信号传导与下游靶基因的差异表达情况。</p>
-<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230209090357212.png" alt="image-20230209090357212" style="zoom:67%;" />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20230209090357212.png -->
+<img src="/img/bioinfo/image-20230209090357212.png" alt="image-20230209090357212" style="zoom:67%;" />
 <p>（2）如下图所示，NicheNet的核心思路是根据<strong>receiver cell</strong>的特定基因集，寻找<strong>最有可能的上游配体</strong>以及相应的<strong>sender cell</strong>。其中有如下要点</p>
 <ul>
 <li>特定基因集，原文称为gene set of interest，即细胞通讯最终所影响的基因(target gene)；一般表示receiver cell受外界影响因素而产生的差异表达基因(e.g. 造模前后、给药前后)。</li>
@@ -412,7 +413,8 @@ Create:&nbsp;<span title='2023-02-09 00:00:00 +0000 UTC'>2023-02-09</span>&nbsp;
 <li>NicheNet预测潜在上游配体的核心思路是计算<strong>配体所影响的下游基因</strong>与<strong>受体细胞所观测的特定基因集</strong>的相似性。如果相似性高，则认为是潜在的配体。</li>
 <li>在分析时，仅根据所在细胞类型对于配/受体<strong>表达比例</strong>界定是否表达，之后的分析将不会再考虑其表达情况；</li>
 </ul>
-<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230208215340805.png" alt="image-20230208215340805" style="zoom: 80%;" />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20230208215340805.png -->
+<img src="/img/bioinfo/image-20230208215340805.png" alt="image-20230208215340805" style="zoom: 80%;" />
 <h2 id="1数据准备">1、数据准备<a hidden class="anchor" aria-hidden="true" href="#1数据准备">#</a></h2>
 <blockquote>
 <p>NicheNet基础分析时需要准备如下的3个输入数据。其由人类基因相关数据库整理而成；对于小鼠单细胞数据分析，可（1）直接将人基因名进行同源转换；（2）根据小鼠相关数据库，自己整理出下面的文件。</p></blockquote>
@@ -768,7 +770,8 @@ Create:&nbsp;<span title='2023-02-09 00:00:00 +0000 UTC'>2023-02-09</span>&nbsp;
 </span></span><span style="display:flex;"><span>nichenet_output$ligand_activity_target_heatmap
 </span></span></code></pre></td></tr></table>
 </div>
-</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230209101805086.png" alt="image-20230209101805086" style="zoom:67%;" />
+</div><!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20230209101805086.png -->
+<img src="/img/bioinfo/image-20230209101805086.png" alt="image-20230209101805086" style="zoom:67%;" />
 <ul>
 <li>ligand对应的receptor</li>
 </ul>
@@ -823,7 +826,8 @@ Create:&nbsp;<span title='2023-02-09 00:00:00 +0000 UTC'>2023-02-09</span>&nbsp;
 </div>
 </div><blockquote>
 <p>衍生可视化：可将ligand-target或者ligand-receptor的关系绘制成弦图，具体可参考：https://github.com/saeyslab/nichenetr/blob/master/vignettes/seurat_wrapper_circos.md</p>
-<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230209104527290.png" alt="image-20230209104527290" style="zoom:67%;" /></blockquote>
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20230209104527290.png --></blockquote>
+<img src="/img/bioinfo/image-20230209104527290.png" alt="image-20230209104527290" style="zoom:67%;" />
 <h2 id="3衍生分析">3、衍生分析<a hidden class="anchor" aria-hidden="true" href="#3衍生分析">#</a></h2>
 <h3 id="1信号路径可视化">（1）信号路径可视化<a hidden class="anchor" aria-hidden="true" href="#1信号路径可视化">#</a></h3>
 <p>对基础分析结果得到的感兴趣上游配体与预测靶基因之间的信号传递过程进行网络可视化</p>
@@ -970,7 +974,8 @@ Create:&nbsp;<span title='2023-02-09 00:00:00 +0000 UTC'>2023-02-09</span>&nbsp;
 </span></span><span style="display:flex;"><span>	)
 </span></span></code></pre></td></tr></table>
 </div>
-</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230209113757496.png" alt="image-20230209113757496" style="zoom:67%;" />
+</div><!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20230209113757496.png -->
+<img src="/img/bioinfo/image-20230209113757496.png" alt="image-20230209113757496" style="zoom:67%;" />
 <ul>
 <li>保存为cytoscape输入文件</li>
 </ul>
@@ -1396,7 +1401,8 @@ Create:&nbsp;<span title='2023-02-09 00:00:00 +0000 UTC'>2023-02-09</span>&nbsp;
 </span></span><span style="display:flex;"><span>	geom_smooth(method = <span style="color:#0ff;font-weight:bold">&#34;lm&#34;</span>)
 </span></span></code></pre></td></tr></table>
 </div>
-</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230209151151918.png" alt="image-20230209151151918" style="zoom: 50%;" />
+</div><!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20230209151151918.png -->
+<img src="/img/bioinfo/image-20230209151151918.png" alt="image-20230209151151918" style="zoom: 50%;" />
 
 
   </div>

@@ -347,30 +347,39 @@ Create:&nbsp;<span title='2022-12-01 00:00:00 +0000 UTC'>2022-12-01</span>&nbsp;
 </ul></blockquote>
 <h2 id="0文献概要">0、文献概要<a hidden class="anchor" aria-hidden="true" href="#0文献概要">#</a></h2>
 <p>如标题所述，这篇文献旨在分析软骨终板细胞中与DDD发生相关的关键基因与细胞类型。主要分为两个方面：首先通过WGCNA分析得到DDD相关的模块，围绕模块展开系列分析。其次结合单细胞数据以MSC细胞类型为核心展开多角度分析。</p>
-<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20221120091552419.png" alt="image-20221120091552419" style="zoom: 67%;" />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20221120091552419.png -->
+<img src="/img/basic/image-20221120091552419.png" alt="image-20221120091552419" style="zoom: 67%;" />
 <h2 id="1流程总结">1、流程总结<a hidden class="anchor" aria-hidden="true" href="#1流程总结">#</a></h2>
 <p>结合自己的理解对文献的结果部分进行总结，具体流程与图表可参看原文</p>
 <h4 id="11-wgcna部分">1.1 WGCNA部分<a hidden class="anchor" aria-hidden="true" href="#11-wgcna部分">#</a></h4>
 <p>（1）从GSE153761的6个样本中（3疾病3对照）进行常规WGCNA流程分析，发现与疾病分组的核心模块，进行通路分析；</p>
-<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20221120100428783.png" alt="image-20221120100428783" style="zoom:50%;" />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20221120100428783.png -->
+<img src="/img/basic/image-20221120100428783.png" alt="image-20221120100428783" style="zoom:50%;" />
 <p>（2）通过STRING的PPI进一步鉴定出两个子模块与5个hub基因，进行通路分析，</p>
-<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20221120100520169.png" alt="image-20221120100520169" style="zoom: 50%;" />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20221120100520169.png -->
+<img src="/img/basic/image-20221120100520169.png" alt="image-20221120100520169" style="zoom: 50%;" />
 <p>（3）由于上述富集通路涉及免疫信号，文章进一步补充了CIBERSORT免疫浸润分析，发现显著差异的免疫细胞</p>
-<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20221120100731964.png" alt="image-20221120100731964" style="zoom:67%;" />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20221120100731964.png -->
+<img src="/img/basic/image-20221120100731964.png" alt="image-20221120100731964" style="zoom:67%;" />
 <blockquote>
 <p>这一步部分的核心结论是发现了5个与degenerative CEP高度相关的5个signature gene。</p></blockquote>
 <h4 id="12-scrna-seq部分">1.2 scRNA-seq部分<a hidden class="anchor" aria-hidden="true" href="#12-scrna-seq部分">#</a></h4>
 <p>（1）从GSE160756收集人椎间盘CEP部位的26209个细胞测序数据，进行质控、去批次、降维、分群、细胞类型注释、亚群分析等常规步骤。共得到13个cluster，6大类细胞；其中对于mesenchymal chondrocytes得到3个亚群。</p>
-<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20221120101453167.png" alt="image-20221120101453167" style="zoom: 50%;" />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20221120101453167.png -->
+<img src="/img/basic/image-20221120101453167.png" alt="image-20221120101453167" style="zoom: 50%;" />
 <p>（2）对6类细胞分析得到的marker gene进行功能注释分析；</p>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20221120101831270.png" alt="image-20221120101831270"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20221120101831270.png -->
+<p><img loading="lazy" src="/img/basic/image-20221120101831270.png" alt="image-20221120101831270"  />
 </p>
 <p>（3）对mesenchymal chondrocytes的3个亚型细胞命运(cytoTRACE)与轨迹分析(Monocle2)</p>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20221120102013008.png" alt="image-20221120102013008"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20221120102013008.png -->
+<p><img loading="lazy" src="/img/basic/image-20221120102013008.png" alt="image-20221120102013008"  />
 </p>
-<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20221120104822168.png" alt="image-20221120104822168" style="zoom: 67%;" />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20221120104822168.png -->
+<img src="/img/basic/image-20221120104822168.png" alt="image-20221120104822168" style="zoom: 67%;" />
 <p>（4）使用CellPhoneDB对CEP的6类细胞（包括mesenchymal chondrocytes的3个亚型）进行配受体对水平的细胞通讯分析。</p>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20221120102436617.png" alt="image-20221120102436617"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20221120102436617.png -->
+<p><img loading="lazy" src="/img/basic/image-20221120102436617.png" alt="image-20221120102436617"  />
 </p>
 <blockquote>
 <p>这一部分的核心结论是发现了mesenchymal chondrocytes中的两个亚群在CEP稳态或恶化过程中起到关键的作用。</p></blockquote>

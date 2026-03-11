@@ -20,7 +20,9 @@ step1：建立开发环境
 
 
 
+
 如上操作后，会进入新的工作环境，即R包开发环境；同时已经创建好R包开发所需的所必须的模板文档。主要包括4个部分：
+
 
 
 （1）R 文件夹：用于存放R函数脚本的文件夹；里面有一个示例文件hello.R
@@ -88,7 +90,9 @@ step1：建立开发环境
 
 
 
+
 如上操作后，会进入新的工作环境，即R包开发环境；同时已经创建好R包开发所需的所必须的模板文档。主要包括4个部分：
+
 
 
 （1）R 文件夹：用于存放R函数脚本的文件夹；里面有一个示例文件hello.R
@@ -113,7 +117,9 @@ step1：建立开发环境
 
 
 
+
 如上操作后，会进入新的工作环境，即R包开发环境；同时已经创建好R包开发所需的所必须的模板文档。主要包括4个部分：
+
 
 
 （1）R 文件夹：用于存放R函数脚本的文件夹；里面有一个示例文件hello.R
@@ -401,11 +407,13 @@ Create:&nbsp;<span title='2023-01-22 00:00:00 +0000 UTC'>2023-01-22</span>&nbsp;
 <li>这里示例R包名为<code>newPackage</code>。</li>
 <li>进入Rstudio界面，依次点击<code>File → New project → New Directory → R package</code>,会出现如下界面，填写好R包名字，选择好开发包的工作目录（其它暂时都不用考虑）；最后点击<code>Creat Project</code>即可。</li>
 </ul>
-<img src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-dfcc151f2e1b379a.png" style="zoom:50%;" />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/20354525-dfcc151f2e1b379a.png -->
+<img src="/img/program/20354525-dfcc151f2e1b379a.png" style="zoom:50%;" />
 <ul>
 <li>如上操作后，会进入新的工作环境，即R包开发环境；同时已经创建好R包开发所需的所必须的模板文档。主要包括4个部分：</li>
 </ul>
-<img src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-cbe293578c2aeb32.png" style="zoom:67%;" />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/20354525-cbe293578c2aeb32.png -->
+<img src="/img/program/20354525-cbe293578c2aeb32.png" style="zoom:67%;" />
 <p>（1）<strong>R 文件夹</strong>：用于存放R函数脚本的文件夹；里面有一个示例文件hello.R
 （2）man 文件夹：用于存放对应上述R函数的说明文档Rd文件的文件夹；里面有一个示例文件hello.Rd。
 （3）<strong>DESCRIPTION</strong>：关于R包的说明文档。
@@ -422,10 +430,12 @@ Create:&nbsp;<span title='2023-01-22 00:00:00 +0000 UTC'>2023-01-22</span>&nbsp;
 </li>
 </ul>
 <p>（1）如下在新创建的<code>add.R</code>脚本中，编写一个简单的加法函数。</p>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-bc8edaaa1de73bae.png" alt=""  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/20354525-bc8edaaa1de73bae.png -->
+<p><img loading="lazy" src="/img/program/20354525-bc8edaaa1de73bae.png" alt=""  />
 </p>
 <p>（2） 然后鼠标放置在函数上（如上图），按<code>Ctrl+Alt+Shift+R</code>组合快捷键为函数添加说明文档模板（Insert Roxygen Skeleton）(下左)；根据自己函数的功能完成注释(下右)</p>
-<img src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-d7ad4d62a3c56014.png" style="zoom:67%;" />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/20354525-d7ad4d62a3c56014.png -->
+<img src="/img/program/20354525-d7ad4d62a3c56014.png" style="zoom:67%;" />
 <p>（3）测试编写的函数，有没有问题</p>
 <div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
@@ -466,14 +476,16 @@ Create:&nbsp;<span title='2023-01-22 00:00:00 +0000 UTC'>2023-01-22</span>&nbsp;
 </span></span><span style="display:flex;"><span><span style="color:#007f7f"># Writing NAMESPACE</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-180c45b5ffb0cf0e.png" style="zoom:67%;" />
+</div><!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/20354525-180c45b5ffb0cf0e.png -->
+<img src="/img/program/20354525-180c45b5ffb0cf0e.png" style="zoom:67%;" />
 <h3 id="step3编写description文件">step3：编写DESCRIPTION文件<a hidden class="anchor" aria-hidden="true" href="#step3编写description文件">#</a></h3>
 <blockquote>
 <p>函数写好了之后，就需要对这个包的总体功能等信息进行描述与说明，这些信息主要包含在<code>DESCRIPTION</code>文件中</p></blockquote>
 <ul>
 <li>首先如下图所示，修改其中的四点说明：<code>Title</code>包的名字，<code>Authors@R</code>、<code>Maintainer</code>作者以及维护者信息、<code>Description</code>包的简要描述</li>
 </ul>
-<img src="https://upload-images.jianshu.io/upload_images/20354525-ae294d293699c986.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" style="zoom:80%;" />
+<!-- 原链接：https://upload-images.jianshu.io/upload_images/20354525-ae294d293699c986.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240 -->
+<img src="/img/program/20354525-ae294d293699c986.png" style="zoom:80%;" />
 <ul>
 <li>然后使用下述函数，自动编写License部分</li>
 </ul>
@@ -520,7 +532,8 @@ Create:&nbsp;<span title='2023-01-22 00:00:00 +0000 UTC'>2023-01-22</span>&nbsp;
 </span></span><span style="display:flex;"><span><span style="color:#007f7f"># 在函数脚本中使用的过程调用其它包的函数时，必须按照`package::function`，如`dplyr::filter()`的形式调用。</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-77e6f385108b4fe8.png" alt=""  />
+</div><!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/20354525-77e6f385108b4fe8.png -->
+<p><img loading="lazy" src="/img/program/20354525-77e6f385108b4fe8.png" alt=""  />
 </p>
 <ul>
 <li>最后再check一下上述的所有文件，包括函数脚本，看看有没有问题</li>
@@ -734,20 +747,24 @@ Create:&nbsp;<span title='2023-01-22 00:00:00 +0000 UTC'>2023-01-22</span>&nbsp;
 <p>已经基本完成了R包的成形工作（Part1），或者刚建立好R包开发环境也可以。</p>
 <p>下载安装 Github Desktop，并登陆自己的个人账户。</p>
 <p>如下图，将R包开发环境目录关联到respository仓库内。</p>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-fe63df782f957e48.png" alt=""  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/20354525-fe63df782f957e48.png -->
+<p><img loading="lazy" src="/img/program/20354525-fe63df782f957e48.png" alt=""  />
 </p>
 <p>点击之后，一般会提示关联的R包开发环境目录不在Git的仓库列表中，点击<code>creat a repository</code>即可</p>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-75ae598207c55399.png" alt=""  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/20354525-75ae598207c55399.png -->
+<p><img loading="lazy" src="/img/program/20354525-75ae598207c55399.png" alt=""  />
 </p>
 <p>最后再点击<code>Publish respository</code>，并设置是否code private即可成功上传到github。</p>
-<p><img loading="lazy" src="https://upload-images.jianshu.io/upload_images/20354525-822ebaee91851b43.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""  />
+<!-- 原链接：https://upload-images.jianshu.io/upload_images/20354525-822ebaee91851b43.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240 -->
+<p><img loading="lazy" src="/img/program/20354525-822ebaee91851b43.png" alt=""  />
 </p>
 <ul>
 <li>（2）commit → push</li>
 </ul>
 <p>之后对包的文档进行修改、更新等操作时，都可以通过Github Desktop进行方便的提交</p>
 <p>如下，对包添加了一个函数：在Github Desktop左下角填写更改的描述、点击Commit to main，再push到github上。之后在github主页看到的就是更新后的版本。</p>
-<p><img loading="lazy" src="https://upload-images.jianshu.io/upload_images/20354525-9f87391e96476b23.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""  />
+<!-- 原链接：https://upload-images.jianshu.io/upload_images/20354525-9f87391e96476b23.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240 -->
+<p><img loading="lazy" src="/img/program/20354525-9f87391e96476b23.png" alt=""  />
 </p>
 <ul>
 <li>（3）创建README文件</li>
@@ -778,7 +795,8 @@ Create:&nbsp;<span title='2023-01-22 00:00:00 +0000 UTC'>2023-01-22</span>&nbsp;
 </span></span><span style="display:flex;"><span><span style="color:#007f7f"># 最后再在Github Desktop里 commit→push即可再github页面创建美观的read.me文档</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-c9c0ecac78db3894.png" alt="https://github.com/lishensuo"  />
+</div><!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/20354525-c9c0ecac78db3894.png -->
+<p><img loading="lazy" src="/img/program/20354525-c9c0ecac78db3894.png" alt="https://github.com/lishensuo"  />
 </p>
 <hr>
 <p>参考教程：

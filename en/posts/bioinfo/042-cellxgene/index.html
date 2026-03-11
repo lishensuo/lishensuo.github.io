@@ -251,7 +251,8 @@ Create:&nbsp;<span title='2024-10-16 00:00:00 +0000 UTC'>2024-10-16</span>&nbsp;
 <p>CELLxGENE 是一套工具，可帮助科学家查找、下载、探索、分析、注释和发布单细胞数据集。它包含几个功能强大的工具，具有各种功能，可帮助您处理单细胞数据。</p>
 <blockquote>
 <p>Chan Zuckerberg Initiative（CZI）是由马克·扎克伯格（Mark Zuckerberg）和妻子普莉希拉·陈（Priscilla Chan）于2015年创立的慈善组织。其使命是通过支持科学、教育和社区发展来推动人类潜能和促进平等。</p></blockquote>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241010122823513.png" alt="image-20241010122823513"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241010122823513.png -->
+<p><img loading="lazy" src="/img/bioinfo/image-20241010122823513.png" alt="image-20241010122823513"  />
 </p>
 <p>其核心是整合了大量的单细胞转录组数据集于一体，具有如下特点</p>
 <ul>
@@ -262,12 +263,14 @@ Create:&nbsp;<span title='2024-10-16 00:00:00 +0000 UTC'>2024-10-16</span>&nbsp;
 </ul>
 <blockquote>
 <p>Note that the Census RNA data includes duplicate cells present across multiple datasets. Duplicate cells can be filtered in or out using the cell metadata variable <code>is_primary_data</code> which is described in the <a href="https://github.com/chanzuckerberg/cellxgene-census/blob/main/docs/cellxgene_census_schema.md#repeated-data">Census schema</a>.</p></blockquote>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241010123328975.png" alt="image-20241010123328975"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241010123328975.png -->
+<p><img loading="lazy" src="/img/bioinfo/image-20241010123328975.png" alt="image-20241010123328975"  />
 </p>
 <p>CELLxGENE基于这些数据资源主要提供两类功能，Download (下载) &amp; Explore (分析)。下面将主要学习下数据获取的方式。</p>
 <p>方式1（如上图）：从网站的<code>Datasets</code>页面，根据提供的多种filter筛选目标数据集，然后点击下载按钮；提供了h5ad与rds两种格式，可分别用于Python的scanpy(v0.8)分析以及R的Seurat分析(v5)</p>
 <p>方式2：使用网站提供的API接口进行定制化下载，如下主要记录对于Python端的简单学习。</p>
-<img src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241010125712780.png" alt="image-20241010125712780" style="zoom:67%;" />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241010125712780.png -->
+<img src="/img/bioinfo/image-20241010125712780.png" alt="image-20241010125712780" style="zoom:67%;" />
 <p>简单来说，可以将census视为CELLxGENE将所有细胞数据进行的整合。我们可以基于特定的cell或者gene metadata条件(Slice)，筛选目标的单细胞数据。</p>
 <div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">

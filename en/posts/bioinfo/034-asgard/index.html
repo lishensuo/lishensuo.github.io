@@ -344,7 +344,8 @@ Create:&nbsp;<span title='2023-03-18 00:00:00 +0000 UTC'>2023-03-18</span>&nbsp;
 <p>（1）基本的计算思路与CMAP方法类似，即疾病的差异基因方向与药物干扰细胞系方向相反；</p>
 <p>（2）使用对照组与疾病组单细胞数据分析每个细胞亚群的差异基因及其候选药物列表；</p>
 <p>（3）合并不同细胞群的结果，得到单药物对于所有细胞群的综合打分，以评价其重定向的潜力。</p>
-<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230318155942963.png" alt="image-20230318155942963" style="zoom:80%;" />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20230318155942963.png -->
+<img src="/img/bioinfo/image-20230318155942963.png" alt="image-20230318155942963" style="zoom:80%;" />
 <p>（4）单药-单细胞群的打分</p>
 <ul>
 <li>预先将疾病细胞群差异基因<strong>由低到高</strong>排序，而药物干扰基因<strong>由高到低</strong>排序。如果排序完全相反则认为药物越好；</li>
@@ -354,7 +355,8 @@ Create:&nbsp;<span title='2023-03-18 00:00:00 +0000 UTC'>2023-03-18</span>&nbsp;
 </ul>
 </li>
 </ul>
-<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230318164402827.png" alt="image-20230318164402827" style="zoom:67%;" />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20230318164402827.png -->
+<img src="/img/bioinfo/image-20230318164402827.png" alt="image-20230318164402827" style="zoom:67%;" />
 <ul>
 <li>设定一定的阈值（默认为0.05）计算所有药物实验结果P值显著的基因数；</li>
 <li>由于一个药物可因浓度剂量等涉及多种实验，所以再进一步根据KS统计量计算单药的P值，作为单药对于单细胞群的打分。</li>
@@ -363,7 +365,8 @@ Create:&nbsp;<span title='2023-03-18 00:00:00 +0000 UTC'>2023-03-18</span>&nbsp;
 <ul>
 <li>按如下公式计算综合得分，其中考虑3项因素：细胞群比例， 单药对于细胞群的P值，药物可逆转的细胞群差异基因比例。</li>
 </ul>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230318165441882.png" alt="image-20230318165441882"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20230318165441882.png -->
+<p><img loading="lazy" src="/img/bioinfo/image-20230318165441882.png" alt="image-20230318165441882"  />
 </p>
 <ul>
 <li>基于单药对于不同细胞群的P值计算出fisher-based combined P值作为综合得分的P值。</li>
@@ -387,13 +390,16 @@ Create:&nbsp;<span title='2023-03-18 00:00:00 +0000 UTC'>2023-03-18</span>&nbsp;
 </li>
 </ul>
 <p>如下图发现，limma-bayes方法结果针对3个数据集均较优，后面的差异分析将使用这种分析方法。</p>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230318190628665.png" alt="image-20230318190628665"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20230318190628665.png -->
+<p><img loading="lazy" src="/img/bioinfo/image-20230318190628665.png" alt="image-20230318190628665"  />
 </p>
 <p>（2）对比基于Bulk RNA-seq数据的重定向方法（CLUE，DrInsight），将单细胞数据转换成pseudobulk RNA-Seq data。</p>
 <p>如下图发现ASGARD在三个数据集中均表现最优。</p>
-<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230318191202719.png" alt="image-20230318191202719"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20230318191202719.png -->
+<img src="/img/bioinfo/image-20230318191202719.png" alt="image-20230318191202719"  />
 <p>（3）对比另外两种同样基于单细胞数据的重定向方法，由于后两者只能针对单独cluster进行预测，所以仅使用ASGARD的cluster预测模式。尽管如此，仍然发现ASGARD在3种数据集中均表现最优。</p>
-<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230318191640687.png" alt="image-20230318191640687" style="zoom:67%;" />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20230318191640687.png -->
+<img src="/img/bioinfo/image-20230318191640687.png" alt="image-20230318191640687" style="zoom:67%;" />
 <p>（4）之后文章就ASGARD对于上述3种数据集的预测Top药物结合文献、靶点通路等角度说明预测结果的可靠性；具体可参考原文。</p>
 <h2 id="3r包用法">3、R包用法<a hidden class="anchor" aria-hidden="true" href="#3r包用法">#</a></h2>
 <div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">

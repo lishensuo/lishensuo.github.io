@@ -330,8 +330,10 @@ Create:&nbsp;<span title='2022-09-17 00:00:00 +0000 UTC'>2022-09-17</span>&nbsp;
   <div class="post-content"><blockquote>
 <p>最先在李沐大神在B站的分享中了解到autogluon，它是一个自动机器学习工具，可用于文本图片识别、表格任务等。据说效果非常不错&ndash;号称3行代码打败99%的机器学习模型，甚至说标志着手动调参的时代已经结束。</p>
 <p>关于它的原理暂且不深入了解了，简单记录下在传统表格任务上的用法，可以作为对数据的初步探索。</p>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220916202545442.png" alt="image-20220916202545442"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20220916202545442.png --></blockquote>
+<p><img loading="lazy" src="/img/bioinfo/image-20220916202545442.png" alt="image-20220916202545442"  />
 </p>
+<blockquote>
 <ul>
 <li>安装方式：https://auto.gluon.ai/stable/index.html</li>
 <li>官方教程：https://auto.gluon.ai/stable/tutorials/tabular_prediction/tabular-quickstart.html</li>
@@ -379,7 +381,8 @@ Create:&nbsp;<span title='2022-09-17 00:00:00 +0000 UTC'>2022-09-17</span>&nbsp;
 </span></span><span style="display:flex;"><span>train_data = TabularDataset(train_df)
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220916160535419.png" alt="image-20220916160535419"  />
+</div><!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20220916160535419.png -->
+<p><img loading="lazy" src="/img/bioinfo/image-20220916160535419.png" alt="image-20220916160535419"  />
 </p>
 <h2 id="2模型训练">2、模型训练<a hidden class="anchor" aria-hidden="true" href="#2模型训练">#</a></h2>
 <p>（1）autogluon可自动根据target列的内容决定是回归还是分类任务；</p>
@@ -530,7 +533,8 @@ Create:&nbsp;<span title='2022-09-17 00:00:00 +0000 UTC'>2022-09-17</span>&nbsp;
 <p>默认为&quot;medium_quality&quot;，其余依次为&quot;good_quality&quot;, &ldquo;high_quality&rdquo;, &ldquo;best_quality&rdquo;</p>
 <p>从左到右，代表了训练时间/成本与训练结果性能之间的取舍。</p>
 <p>官方教程建议先按默认的medium_quality训练，对模型有初步的了解后，在尝试best_quality</p>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220916201804416.png" alt="image-20220916201804416"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20220916201804416.png -->
+<p><img loading="lazy" src="/img/bioinfo/image-20220916201804416.png" alt="image-20220916201804416"  />
 </p>
 <blockquote>
 <p>此外fit()函数还包括一个<code>time_limit=</code>参数，单位为秒，直接指定训练的时长。如不指定默认训练完全部可能的模型。</p></blockquote>

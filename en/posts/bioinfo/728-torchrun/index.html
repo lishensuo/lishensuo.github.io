@@ -326,7 +326,8 @@ Create:&nbsp;<span title='2024-11-09 00:00:00 +0000 UTC'>2024-11-09</span>&nbsp;
 <p>DDP分布式训练与DP并行训练</p>
 <p>在之前了解<a href="https://lishensuo.github.io/posts/bioinfo/715d2l-%E7%AC%AC%E5%8D%81%E4%B8%80%E5%8F%8A%E5%8D%81%E4%BA%8C%E7%AB%A0%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95%E5%A4%9Agpu%E5%B9%B6%E8%A1%8C/#5-%e5%a4%9agpu%e8%ae%ad%e7%bb%83">多GPU训练</a>时，学习过一种数据并行方式DataParallel (<strong>DP</strong>)。其核心将模型复制到每个 GPU，然后在每个 GPU 上分配一小部分数据并行执行计算。最后，主 GPU 汇总所有 GPU 的梯度并更新模型参数。实现角度也非常简单，使用<code>nn.DataParallel()</code>即可。</p>
 <p>在实际场景中，另一种数据并行方式DistributedDataParallel (<strong>DDP</strong>)使用更加广泛。每个 GPU（进程）都有一个模型副本，各个副本只处理数据的一个子集。每个 GPU 都独立地进行前向和反向传播，之后所有 GPU 的梯度会同步，确保更新一致。</p>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241108122505578.png" alt="image-20241108122505578"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241108122505578.png -->
+<p><img loading="lazy" src="/img/bioinfo/image-20241108122505578.png" alt="image-20241108122505578"  />
 </p>
 <p>以Pytorch为例，其启用方式有很多种，下面学习基于<code>torchrun</code>的用法。</p>
 <p>参考资料</p>

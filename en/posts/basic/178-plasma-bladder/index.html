@@ -347,7 +347,8 @@ Create:&nbsp;<span title='2023-06-23 00:00:00 +0000 UTC'>2023-06-23</span>&nbsp;
 <p>（3）使用配受体对相关基因作为建模候选基因，理论上可以反应建立在互作水平上的预后意义；</p>
 <p>（4）文章构图很美观，丰富。除了正文部分展示了最重要的7张图，附件中还有10余张附图。</p>
 <p>总体来说是值得借鉴的一篇生信文章，下面简单总结了文章的分析思路。</p></blockquote>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230623165421412.png" alt="image-20230623165421412"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20230623165421412.png -->
+<p><img loading="lazy" src="/img/basic/image-20230623165421412.png" alt="image-20230623165421412"  />
 </p>
 <h3 id="1pcs水平对bc生存分析">1、PCs水平对BC生存分析<a hidden class="anchor" aria-hidden="true" href="#1pcs水平对bc生存分析">#</a></h3>
 <ul>
@@ -355,10 +356,12 @@ Create:&nbsp;<span title='2023-06-23 00:00:00 +0000 UTC'>2023-06-23</span>&nbsp;
 <li>在TCGA中，class-switched memory B cells/PCs与较好预后相关；</li>
 <li>在IMvigor210中， PCs与较好预后相关；且Response组的PCs水平较高。</li>
 </ul>
-<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230623143256779.png" alt="image-20230623143256779" style="zoom:67%;" />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20230623143256779.png -->
+<img src="/img/basic/image-20230623143256779.png" alt="image-20230623143256779" style="zoom:67%;" />
 <h2 id="2bc单细胞数据分析">2、BC单细胞数据分析<a hidden class="anchor" aria-hidden="true" href="#2bc单细胞数据分析">#</a></h2>
 <p>根据PRJNA662018单细胞数据集，首先分析PCs与Tumor cell的异质性；然后进行cellchat细胞通讯分析。</p>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230623144643387.png" alt="image-20230623144643387"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20230623144643387.png -->
+<p><img loading="lazy" src="/img/basic/image-20230623144643387.png" alt="image-20230623144643387"  />
 </p>
 <p><strong>2.1 两个PCs亚群</strong></p>
 <ul>
@@ -366,14 +369,16 @@ Create:&nbsp;<span title='2023-06-23 00:00:00 +0000 UTC'>2023-06-23</span>&nbsp;
 <li>然后根据抗体相关基因表达，又可将PCs主要分为两个亚群：IGHG1-, IGHA1-；</li>
 <li>对这两个亚群进行特征基因(COSG tool)通路分析分析以及拟时序分析阐释二者生物意义。</li>
 </ul>
-<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230623150235684.png" alt="image-20230623150235684" style="zoom: 67%;" />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20230623150235684.png -->
+<img src="/img/basic/image-20230623150235684.png" alt="image-20230623150235684" style="zoom: 67%;" />
 <p><strong>2.2 六种肿瘤细胞状态</strong></p>
 <ul>
 <li>根据CNV水平，从上皮细胞中鉴定肿瘤细胞；并使用NMF算法进行降维分析；</li>
 <li>基于<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9886402/#SD1">肿瘤状态基因集</a>打分，定义出处于6种状态下的肿瘤细胞；</li>
 <li>对每种状态肿瘤细胞的特征基因(COSG tool)进行通路分析， 生存分析。</li>
 </ul>
-<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230623150403939.png" alt="image-20230623150403939" style="zoom: 67%;" />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20230623150403939.png -->
+<img src="/img/basic/image-20230623150403939.png" alt="image-20230623150403939" style="zoom: 67%;" />
 <p><strong>2.3 PCs与Tumor通讯分析</strong></p>
 <ul>
 <li>在总体细胞通讯水平中，PCs主要是基质细胞的receiver；是T细胞与MDCs的sender；</li>
@@ -381,7 +386,8 @@ Create:&nbsp;<span title='2023-06-23 00:00:00 +0000 UTC'>2023-06-23</span>&nbsp;
 <li>在其中58个显著配受体对涉及基因中，33个基因在TCGA tumor/normal差异表达；16个基因在IMvigor210 response/nonresponse差异表达；</li>
 <li>结合空间转录组数据集(GSE171351)对上述中的两个配受体共表达进行了验证。</li>
 </ul>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230623151531913.png" alt="image-20230623151531913"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20230623151531913.png -->
+<p><img loading="lazy" src="/img/basic/image-20230623151531913.png" alt="image-20230623151531913"  />
 </p>
 <h2 id="3预后模型系列分析">3、预后模型系列分析<a hidden class="anchor" aria-hidden="true" href="#3预后模型系列分析">#</a></h2>
 <p><strong>3.1 构建预后模型</strong></p>
@@ -390,7 +396,8 @@ Create:&nbsp;<span title='2023-06-23 00:00:00 +0000 UTC'>2023-06-23</span>&nbsp;
 <li>signature衍生的riskscore与TCGA较差预后相关，且预测性能优于其它临床指标；</li>
 <li>在IMvigor210数据集中发现riskscore与较差预后相同，同时也与免疫治疗效果负相关。</li>
 </ul>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230623153046194.png" alt="image-20230623153046194"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20230623153046194.png -->
+<p><img loading="lazy" src="/img/basic/image-20230623153046194.png" alt="image-20230623153046194"  />
 </p>
 <p><strong>3.2 模型相关性分析</strong></p>
 <ul>
@@ -407,7 +414,8 @@ Create:&nbsp;<span title='2023-06-23 00:00:00 +0000 UTC'>2023-06-23</span>&nbsp;
 <p>高低风险分组与不同BC亚型、药物敏感度、基因突变的相关性分析。</p>
 </li>
 </ul>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20230623154903385.png" alt="image-20230623154903385"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20230623154903385.png -->
+<p><img loading="lazy" src="/img/basic/image-20230623154903385.png" alt="image-20230623154903385"  />
 </p>
 
 

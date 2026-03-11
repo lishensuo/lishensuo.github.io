@@ -338,7 +338,8 @@ Create:&nbsp;<span title='2024-11-09 00:00:00 +0000 UTC'>2024-11-09</span>&nbsp;
 <li>预训练：基于数百万单细胞数据得到的预训练模型学习基因间相互作用；</li>
 <li>微调：基于参考数据集，学习标注细胞类型相关的基因嵌入表示</li>
 </ul>
-<img src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241108210056018.png" alt="image-20241108210056018" style="zoom:67%;" />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241108210056018.png -->
+<img src="/img/basic/image-20241108210056018.png" alt="image-20241108210056018" style="zoom:67%;" />
 <h1 id="2-建模过程">2. 建模过程<a hidden class="anchor" aria-hidden="true" href="#2-建模过程">#</a></h1>
 <p><strong>2.1  输入数据</strong></p>
 <blockquote>
@@ -351,7 +352,8 @@ Create:&nbsp;<span title='2024-11-09 00:00:00 +0000 UTC'>2024-11-09</span>&nbsp;
 <p>最后将上述每个基因的上述两种表示相加，得到每个基因最终的200维向量表示</p>
 <blockquote>
 <p>Tips: 上面的Exp embed中相当于把离散化的表达值作为token处理。这与scGPT等将Gene id词汇表作为token处理方式不同。</p></blockquote>
-<img src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241108214605040.png" alt="image-20241108214605040" style="zoom:67%;" />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241108214605040.png -->
+<img src="/img/basic/image-20241108214605040.png" alt="image-20241108214605040" style="zoom:67%;" />
 <p><strong>2.2 自监督训练</strong></p>
 <ul>
 <li>对每个细胞的15%的非零表达基因进行掩码，然后自监督输出的目的是重构掩码基因的表达。</li>
@@ -387,7 +389,8 @@ Create:&nbsp;<span title='2024-11-09 00:00:00 +0000 UTC'>2024-11-09</span>&nbsp;
 <p>（1） Intra-dataset：在单个数据集内部进行5折交叉验证。</p>
 <p>（2） Inter-dataset：跨多个相似数据集的应用。例如4个数据集中，数据集为单位的CV。</p>
 <p>（3）其它方面：包括允许对未知细胞类型的预测，以及注意力矩阵的可解释性分析等</p>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241108215429759.png" alt="image-20241108215429759"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241108215429759.png -->
+<p><img loading="lazy" src="/img/basic/image-20241108215429759.png" alt="image-20241108215429759"  />
 </p>
 
 

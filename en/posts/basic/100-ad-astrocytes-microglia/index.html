@@ -17,12 +17,6 @@ IF=17
 https://doi.org/10.1007/s00401-021-02372-6
 
 
-1、测序样本
-
-24个样本：AD与NDC的EC(entorhinal)与SSC(somatosensory) cortical region(2×2×6)
-使用Immunohistochemistry量化每个样本的p-Tau与Amyloid-beta指标
-
-
 ">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/en/posts/basic/100-ad-astrocytes-microglia/">
@@ -82,12 +76,6 @@ IF=17
 https://doi.org/10.1007/s00401-021-02372-6
 
 
-1、测序样本
-
-24个样本：AD与NDC的EC(entorhinal)与SSC(somatosensory) cortical region(2×2×6)
-使用Immunohistochemistry量化每个样本的p-Tau与Amyloid-beta指标
-
-
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://lishensuo.github.io/en/posts/basic/100-ad-astrocytes-microglia/" /><meta property="article:section" content="posts" />
@@ -102,12 +90,6 @@ Diverse human astrocyte and microglial transcriptional responses to Alzheimer’
 Acta Neuropathologica (2022) 143:75–91
 IF=17
 https://doi.org/10.1007/s00401-021-02372-6
-
-
-1、测序样本
-
-24个样本：AD与NDC的EC(entorhinal)与SSC(somatosensory) cortical region(2×2×6)
-使用Immunohistochemistry量化每个样本的p-Tau与Amyloid-beta指标
 
 
 "/>
@@ -145,11 +127,11 @@ https://doi.org/10.1007/s00401-021-02372-6
   "@type": "BlogPosting",
   "headline": "文献--AD星形胶质与小胶质细胞的单细胞数据分析",
   "name": "文献--AD星形胶质与小胶质细胞的单细胞数据分析",
-  "description": " AD星形胶质细胞与小胶质细胞的snRNA-seq数据分析\nDiverse human astrocyte and microglial transcriptional responses to Alzheimer’s pathology\nActa Neuropathologica (2022) 143:75–91\nIF=17\nhttps://doi.org/10.1007/s00401-021-02372-6\n1、测序样本 24个样本：AD与NDC的EC(entorhinal)与SSC(somatosensory) cortical region(2×2×6) 使用Immunohistochemistry量化每个样本的p-Tau与Amyloid-beta指标 ",
+  "description": " AD星形胶质细胞与小胶质细胞的snRNA-seq数据分析\nDiverse human astrocyte and microglial transcriptional responses to Alzheimer’s pathology\nActa Neuropathologica (2022) 143:75–91\nIF=17\nhttps://doi.org/10.1007/s00401-021-02372-6\n",
   "keywords": [
     "文献-组学"
   ],
-  "articleBody": " AD星形胶质细胞与小胶质细胞的snRNA-seq数据分析\nDiverse human astrocyte and microglial transcriptional responses to Alzheimer’s pathology\nActa Neuropathologica (2022) 143:75–91\nIF=17\nhttps://doi.org/10.1007/s00401-021-02372-6\n1、测序样本 24个样本：AD与NDC的EC(entorhinal)与SSC(somatosensory) cortical region(2×2×6) 使用Immunohistochemistry量化每个样本的p-Tau与Amyloid-beta指标 本文是想研究astrocyte星形胶质细胞与microglial小胶质细胞在AD中所发挥的作用。但是The proportions of microglia and astrocytes defined by snR- NASeq of nuclei isolated from the human brain post-mortem are low and variable。 因此本文采取的方式是使用阴性选择方法去除样本中的neuron与oligodendroglia，间接富集Astro与Micro，再进行snRNA-seq测序。测序数据已经上传到GSE160936。 2、鉴定细胞类型 经数据预处理后，使用AUCell，结合细胞marker基因进行细胞类型注释，如下图所示Astro(52706)与Micro(27592)占大部分\n文章为了验证所富集的Astro与Micro不存在偏差bias，做了进一步的分析。即对上述24个样本又做了非富集的snRNAseq测序，注释出细胞类型。通过比较同一样本的富集与非富集的Astro(Micro)细胞类型的Top10% HVG高变基因的相关性，从而表示富集到Astro(Micro)不存在bias。\n24+24=48个snRNAseq，这篇文章应该花了很多钱。\n3、差异基因分析 文章并非按一般的AD/NAD差异分析，而是将基因表达与样本的p-Tau(或Amyloid-beta)指标进行回归分析，并校正性别、线粒体含量等因素。\n此时基因差异表达倍数的含义表示为pTau (or amyloid density)发生一单位的变化，基因表达差异的log2倍数（斜率）。如下例图所示\n文章提到是使用MAST包的zlm()进行的回归分析。\n按照上述思路可分别对Astro与Micro进行Amyloid-beta、pTau两个指标的回归分析，即得到4类差异基因。如下图所示在Astro中的两类差异基因火山图。从右侧的韦恩图可以得到有208个基因表达与Amyloid-beta、pTau正相关等信息。 继续以Astro差异基因为例。文章将Amyloid-beta、pTau两个指标的回归差异基因进行通路富集分析(GO/Reactome/Wikipathways)，得出结论：Increased expression of genes related to metal ion homeostasis, proteostasis, and inflammation in astrocytes with AD pathology。同法，也对Micro差异基因结果进行类似的分析。\n4、细胞通讯分析 使用CellChat包对Astro与Micro进行ligand–receptor的细胞间通讯分析。 根据配受体基因与Amyloid-beta、pTau两个指标的相关性，将CellChat结果分为3类：（1）Amyloid-beta and pTau；（2）Amyloid-beta only；（3）pTau only 如下图是Amyloid-beta and pTau的结果，可结合配受体对的功能展开分析与讨论。 5、共表达网络分析 文章使用MEGENA进行共表达网络分析，计算得到astrocytes与microglia分别在EC与SSC的module；使用SCENIC进行转录因子分析，也分别得到astrocytes与microglia分别在EC与SSC的regulons。\n然后使用AUCell包计算出每个细胞核的对应细胞类型模块的score。然后结合Aβ/pTau指标进行类似上述差异基因的回归分析。即Aβ/pTau指标变化与模块表达score是否存在相关性。根据分析结果，初步得到结论：The EC and SSC show similar co‑expression signatures。如下图展示部分module与regulon\n根据上述得到的基因模块表达特征与功能特征，分析AD GWAS基因所发挥的cell-specific功能。例如下图所示：GPNMB已知是AD的biomarker，它是Micro的amyloid-beta and pTau 正相关模块(module11)的hub gene；而且该基因在AD的Micro中也是相对高表达。 6、亚群特征分析 根据之前的细胞类型注释，将Astro与Micro进行在亚群分析。\n在亚群分析时，主要结合细胞亚群的marker基因功能，是否为上述的差异基因；亚群细胞是否特异表达/参与上述计算得到的module/regulon等，具体可参看原文献。\n我的想法：这篇单细胞文章测序样本量大，且有创新之处，即富集的Astro与Micro。而且计算差异基因方式很有新意，即进行病理指标的回归，也许更可以反映出基因表达水平与AD病理特征的关系。文章也使用多种多样的单细胞数据分析手段，例如亚群分析、细胞通讯分析、转录因子分析。总之无论是测序数据还是分析方法，都挺有借鉴价值的。\n",
+  "articleBody": " AD星形胶质细胞与小胶质细胞的snRNA-seq数据分析\nDiverse human astrocyte and microglial transcriptional responses to Alzheimer’s pathology\nActa Neuropathologica (2022) 143:75–91\nIF=17\nhttps://doi.org/10.1007/s00401-021-02372-6\n1、测序样本 24个样本：AD与NDC的EC(entorhinal)与SSC(somatosensory) cortical region(2×2×6) 使用Immunohistochemistry量化每个样本的p-Tau与Amyloid-beta指标 本文是想研究astrocyte星形胶质细胞与microglial小胶质细胞在AD中所发挥的作用。但是The proportions of microglia and astrocytes defined by snR- NASeq of nuclei isolated from the human brain post-mortem are low and variable。 因此本文采取的方式是使用阴性选择方法去除样本中的neuron与oligodendroglia，间接富集Astro与Micro，再进行snRNA-seq测序。测序数据已经上传到GSE160936。 2、鉴定细胞类型 经数据预处理后，使用AUCell，结合细胞marker基因进行细胞类型注释，如下图所示Astro(52706)与Micro(27592)占大部分\n文章为了验证所富集的Astro与Micro不存在偏差bias，做了进一步的分析。即对上述24个样本又做了非富集的snRNAseq测序，注释出细胞类型。通过比较同一样本的富集与非富集的Astro(Micro)细胞类型的Top10% HVG高变基因的相关性，从而表示富集到Astro(Micro)不存在bias。\n24+24=48个snRNAseq，这篇文章应该花了很多钱。\n3、差异基因分析 文章并非按一般的AD/NAD差异分析，而是将基因表达与样本的p-Tau(或Amyloid-beta)指标进行回归分析，并校正性别、线粒体含量等因素。\n此时基因差异表达倍数的含义表示为pTau (or amyloid density)发生一单位的变化，基因表达差异的log2倍数（斜率）。如下例图所示\n文章提到是使用MAST包的zlm()进行的回归分析。\n按照上述思路可分别对Astro与Micro进行Amyloid-beta、pTau两个指标的回归分析，即得到4类差异基因。如下图所示在Astro中的两类差异基因火山图。从右侧的韦恩图可以得到有208个基因表达与Amyloid-beta、pTau正相关等信息。 继续以Astro差异基因为例。文章将Amyloid-beta、pTau两个指标的回归差异基因进行通路富集分析(GO/Reactome/Wikipathways)，得出结论：Increased expression of genes related to metal ion homeostasis, proteostasis, and inflammation in astrocytes with AD pathology。同法，也对Micro差异基因结果进行类似的分析。\n4、细胞通讯分析 使用CellChat包对Astro与Micro进行ligand–receptor的细胞间通讯分析。 根据配受体基因与Amyloid-beta、pTau两个指标的相关性，将CellChat结果分为3类：（1）Amyloid-beta and pTau；（2）Amyloid-beta only；（3）pTau only 如下图是Amyloid-beta and pTau的结果，可结合配受体对的功能展开分析与讨论。 5、共表达网络分析 文章使用MEGENA进行共表达网络分析，计算得到astrocytes与microglia分别在EC与SSC的module；使用SCENIC进行转录因子分析，也分别得到astrocytes与microglia分别在EC与SSC的regulons。\n然后使用AUCell包计算出每个细胞核的对应细胞类型模块的score。然后结合Aβ/pTau指标进行类似上述差异基因的回归分析。即Aβ/pTau指标变化与模块表达score是否存在相关性。根据分析结果，初步得到结论：The EC and SSC show similar co‑expression signatures。如下图展示部分module与regulon\n根据上述得到的基因模块表达特征与功能特征，分析AD GWAS基因所发挥的cell-specific功能。例如下图所示：GPNMB已知是AD的biomarker，它是Micro的amyloid-beta and pTau 正相关模块(module11)的hub gene；而且该基因在AD的Micro中也是相对高表达。 6、亚群特征分析 根据之前的细胞类型注释，将Astro与Micro进行在亚群分析。\n在亚群分析时，主要结合细胞亚群的marker基因功能，是否为上述的差异基因；亚群细胞是否特异表达/参与上述计算得到的module/regulon等，具体可参看原文献。 我的想法：这篇单细胞文章测序样本量大，且有创新之处，即富集的Astro与Micro。而且计算差异基因方式很有新意，即进行病理指标的回归，也许更可以反映出基因表达水平与AD病理特征的关系。文章也使用多种多样的单细胞数据分析手段，例如亚群分析、细胞通讯分析、转录因子分析。总之无论是测序数据还是分析方法，都挺有借鉴价值的。\n",
   "wordCount" : "1983",
   "inLanguage": "en",
   "datePublished": "2022-04-10T00:00:00Z",
@@ -370,14 +352,16 @@ Create:&nbsp;<span title='2022-04-10 00:00:00 +0000 UTC'>2022-04-10</span>&nbsp;
 <p>Acta Neuropathologica (2022) 143:75–91</p>
 <p>IF=17</p>
 <p><a href="https://doi.org/10.1007/s00401-021-02372-6">https://doi.org/10.1007/s00401-021-02372-6</a></p></blockquote>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220414201022304.png" alt="文章分析思路"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20220414201022304.png -->
+<p><img loading="lazy" src="/img/basic/image-20220414201022304.png" alt="文章分析思路"  />
 </p>
 <h3 id="1测序样本">1、测序样本<a hidden class="anchor" aria-hidden="true" href="#1测序样本">#</a></h3>
 <ul>
 <li>24个样本：AD与NDC的EC(entorhinal)与SSC(somatosensory) cortical region(2×2×6)</li>
 <li>使用Immunohistochemistry量化每个样本的p-Tau与Amyloid-beta指标</li>
 </ul>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220414173342171.png" alt="image-20220414173342171"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20220414173342171.png -->
+<p><img loading="lazy" src="/img/basic/image-20220414173342171.png" alt="image-20220414173342171"  />
 </p>
 <ul>
 <li>本文是想研究astrocyte星形胶质细胞与microglial小胶质细胞在AD中所发挥的作用。但是The proportions of microglia and astrocytes defined by snR-
@@ -388,15 +372,19 @@ NASeq of nuclei isolated from the human brain post-mortem are <strong>low and va
 <ul>
 <li>
 <p>经数据预处理后，使用AUCell，结合细胞marker基因进行细胞类型注释，如下图所示Astro(52706)与Micro(27592)占大部分</p>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220414173951402.png" alt="image-20220414173951402"  />
-</p>
-</li>
-<li>
-<p>文章为了验证所富集的Astro与Micro不存在偏差bias，做了进一步的分析。即对上述24个样本又做了非富集的snRNAseq测序，注释出细胞类型。通过比较同一样本的富集与非富集的Astro(Micro)细胞类型的Top10% HVG高变基因的相关性，从而表示富集到Astro(Micro)不存在bias。</p>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220414174726441.png" alt="image-20220414174726441"  />
-</p>
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20220414173951402.png -->
 </li>
 </ul>
+<p><img loading="lazy" src="/img/basic/image-20220414173951402.png" alt="image-20220414173951402"  />
+</p>
+<ul>
+<li>
+<p>文章为了验证所富集的Astro与Micro不存在偏差bias，做了进一步的分析。即对上述24个样本又做了非富集的snRNAseq测序，注释出细胞类型。通过比较同一样本的富集与非富集的Astro(Micro)细胞类型的Top10% HVG高变基因的相关性，从而表示富集到Astro(Micro)不存在bias。</p>
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20220414174726441.png -->
+</li>
+</ul>
+<p><img loading="lazy" src="/img/basic/image-20220414174726441.png" alt="image-20220414174726441"  />
+</p>
 <blockquote>
 <p>24+24=48个snRNAseq，这篇文章应该花了很多钱。</p></blockquote>
 <h3 id="3差异基因分析">3、差异基因分析<a hidden class="anchor" aria-hidden="true" href="#3差异基因分析">#</a></h3>
@@ -406,31 +394,35 @@ NASeq of nuclei isolated from the human brain post-mortem are <strong>low and va
 </li>
 <li>
 <p>此时基因差异表达倍数的含义表示为pTau (or amyloid density)发生一单位的变化，基因表达差异的log2倍数（斜率）。如下例图所示</p>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220414195615054.png" alt="image-20220414195615054"  />
-</p>
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20220414195615054.png -->
 </li>
 </ul>
+<p><img loading="lazy" src="/img/basic/image-20220414195615054.png" alt="image-20220414195615054"  />
+</p>
 <blockquote>
 <p>文章提到是使用MAST包的zlm()进行的回归分析。</p></blockquote>
 <ul>
 <li>按照上述思路可分别对Astro与Micro进行Amyloid-beta、pTau两个指标的回归分析，即得到4类差异基因。如下图所示在Astro中的两类差异基因火山图。从右侧的韦恩图可以得到有208个基因表达与Amyloid-beta、pTau正相关等信息。</li>
 </ul>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220414195954182.png" alt="image-20220414195954182"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20220414195954182.png -->
+<p><img loading="lazy" src="/img/basic/image-20220414195954182.png" alt="image-20220414195954182"  />
 </p>
 <ul>
 <li>
 <p>继续以Astro差异基因为例。文章将Amyloid-beta、pTau两个指标的回归差异基因进行通路富集分析(GO/Reactome/Wikipathways)，得出结论：Increased expression of genes related to metal ion homeostasis, proteostasis, and inflammation in astrocytes with AD pathology。同法，也对Micro差异基因结果进行类似的分析。</p>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220414200549274.png" alt="image-20220414200549274"  />
-</p>
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20220414200549274.png -->
 </li>
 </ul>
+<p><img loading="lazy" src="/img/basic/image-20220414200549274.png" alt="image-20220414200549274"  />
+</p>
 <h3 id="4细胞通讯分析">4、细胞通讯分析<a hidden class="anchor" aria-hidden="true" href="#4细胞通讯分析">#</a></h3>
 <ul>
 <li>使用CellChat包对Astro与Micro进行ligand–receptor的细胞间通讯分析。</li>
 <li>根据配受体基因与Amyloid-beta、pTau两个指标的相关性，将CellChat结果分为3类：（1）Amyloid-beta and pTau；（2）Amyloid-beta only；（3）pTau only</li>
 <li>如下图是Amyloid-beta and pTau的结果，可结合配受体对的功能展开分析与讨论。</li>
 </ul>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220414202507352.png" alt="image-20220414202507352"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20220414202507352.png -->
+<p><img loading="lazy" src="/img/basic/image-20220414202507352.png" alt="image-20220414202507352"  />
 </p>
 <h3 id="5共表达网络分析">5、共表达网络分析<a hidden class="anchor" aria-hidden="true" href="#5共表达网络分析">#</a></h3>
 <ul>
@@ -439,27 +431,31 @@ NASeq of nuclei isolated from the human brain post-mortem are <strong>low and va
 </li>
 <li>
 <p>然后使用AUCell包计算出每个细胞核的对应细胞类型模块的score。然后结合Aβ/pTau指标进行类似上述差异基因的回归分析。即Aβ/pTau指标变化与模块表达score是否存在相关性。根据分析结果，初步得到结论：The EC and SSC show similar co‑expression signatures。如下图展示部分module与regulon</p>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220414204232422.png" alt="MEGENA&ndash;module"  />
-</p>
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20220414204232422.png -->
 </li>
 </ul>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220414204324481.png" alt="SCENIC&ndash;regulon"  />
+<p><img loading="lazy" src="/img/basic/image-20220414204232422.png" alt="MEGENA&ndash;module"  />
+</p>
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20220414204324481.png -->
+<p><img loading="lazy" src="/img/basic/image-20220414204324481.png" alt="SCENIC&ndash;regulon"  />
 </p>
 <ul>
 <li>根据上述得到的基因模块表达特征与功能特征，分析AD GWAS基因所发挥的cell-specific功能。例如下图所示：GPNMB已知是AD的biomarker，它是Micro的amyloid-beta and pTau 正相关模块(module11)的hub gene；而且该基因在AD的Micro中也是相对高表达。</li>
 </ul>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220414205605748.png" alt="image-20220414205605748"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20220414205605748.png -->
+<p><img loading="lazy" src="/img/basic/image-20220414205605748.png" alt="image-20220414205605748"  />
 </p>
 <h3 id="6亚群特征分析">6、亚群特征分析<a hidden class="anchor" aria-hidden="true" href="#6亚群特征分析">#</a></h3>
 <ul>
 <li>
 <p>根据之前的细胞类型注释，将Astro与Micro进行在亚群分析。</p>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220414210755285.png" alt="image-20220414210755285"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20220414210755285.png -->
+</li>
+</ul>
+<p><img loading="lazy" src="/img/basic/image-20220414210755285.png" alt="image-20220414210755285"  />
 </p>
-</li>
-<li>
-<p>在亚群分析时，主要结合细胞亚群的marker基因功能，是否为上述的差异基因；亚群细胞是否特异表达/参与上述计算得到的module/regulon等，具体可参看原文献。</p>
-</li>
+<ul>
+<li>在亚群分析时，主要结合细胞亚群的marker基因功能，是否为上述的差异基因；亚群细胞是否特异表达/参与上述计算得到的module/regulon等，具体可参看原文献。</li>
 </ul>
 <blockquote>
 <p>我的想法：这篇单细胞文章测序样本量大，且有创新之处，即富集的Astro与Micro。而且计算差异基因方式很有新意，即进行病理指标的回归，也许更可以反映出基因表达水平与AD病理特征的关系。文章也使用多种多样的单细胞数据分析手段，例如亚群分析、细胞通讯分析、转录因子分析。总之无论是测序数据还是分析方法，都挺有借鉴价值的。</p></blockquote>

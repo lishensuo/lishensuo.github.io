@@ -22,9 +22,7 @@ https://www.ellinorlab.org/team/
 
 
 
-1. 预训练模型
-1.1 scRNA-seq数据
-数据收集：Genecorpus-30M">
+">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/en/posts/basic/205-geneformer/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.min.af29093799c35bd05a068d5ab092858ff3a75905607cac7c1c2694b85e8c8dba.css" integrity="sha256-rykJN5nDW9BaBo1asJKFj/OnWQVgfKx8HCaUuF6Mjbo=" rel="preload stylesheet" as="style">
@@ -88,9 +86,7 @@ https://www.ellinorlab.org/team/
 
 
 
-1. 预训练模型
-1.1 scRNA-seq数据
-数据收集：Genecorpus-30M" />
+" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://lishensuo.github.io/en/posts/basic/205-geneformer/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2024-12-15T00:00:00&#43;00:00" />
@@ -111,9 +107,7 @@ https://www.ellinorlab.org/team/
 
 
 
-1. 预训练模型
-1.1 scRNA-seq数据
-数据收集：Genecorpus-30M"/>
+"/>
 
 
 <script type="application/ld+json">
@@ -148,7 +142,7 @@ https://www.ellinorlab.org/team/
   "@type": "BlogPosting",
   "headline": "文献--单细胞组学大模型之Geneformer",
   "name": "文献--单细胞组学大模型之Geneformer",
-  "description": " Transfer learning enables predictions in network biology | Nature https://doi.org/10.1038/s41586-023-06139-9 Received: March 2022 / Accepted: 27 April 2023 Data \u0026amp; Code: https://huggingface.co/ctheodoris 通讯作者：Patrick T. Ellinor, M.D., Ph.D.\nhttps://www.ellinorlab.org/team/ 1. 预训练模型 1.1 scRNA-seq数据 数据收集：Genecorpus-30M\n",
+  "description": " Transfer learning enables predictions in network biology | Nature https://doi.org/10.1038/s41586-023-06139-9 Received: March 2022 / Accepted: 27 April 2023 Data \u0026amp; Code: https://huggingface.co/ctheodoris 通讯作者：Patrick T. Ellinor, M.D., Ph.D.\nhttps://www.ellinorlab.org/team/ ",
   "keywords": [
     "文献-算法"
   ],
@@ -397,7 +391,8 @@ Create:&nbsp;<span title='2024-12-15 00:00:00 +0000 UTC'>2024-12-15</span>&nbsp;
 <ul>
 <li><a href="https://www.ellinorlab.org/team/">https://www.ellinorlab.org/team/</a></li>
 </ul>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241215164105420.png" alt="image-20241215164105420"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241215164105420.png -->
+<p><img loading="lazy" src="/img/basic/image-20241215164105420.png" alt="image-20241215164105420"  />
 </p>
 <h1 id="1-预训练模型">1. 预训练模型<a hidden class="anchor" aria-hidden="true" href="#1-预训练模型">#</a></h1>
 <h2 id="11-scrna-seq数据">1.1 scRNA-seq数据<a hidden class="anchor" aria-hidden="true" href="#11-scrna-seq数据">#</a></h2>
@@ -432,7 +427,8 @@ Create:&nbsp;<span title='2024-12-15 00:00:00 +0000 UTC'>2024-12-15</span>&nbsp;
 <p>最后在每个细胞中，将基因按表达由高到低排序RANK。</p>
 </li>
 </ul>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241215134240878.png" alt="image-20241215134240878"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241215134240878.png -->
+<p><img loading="lazy" src="/img/basic/image-20241215134240878.png" alt="image-20241215134240878"  />
 </p>
 <h2 id="12-模型架构">1.2 模型架构<a hidden class="anchor" aria-hidden="true" href="#12-模型架构">#</a></h2>
 <p>Transformer模型直接继承于Hugging face的<a href="https://huggingface.co/docs/transformers/v4.47.1/en/model_doc/bert#transformers.BertForMaskedLM">BertForMaskedLM模型</a></p>
@@ -449,7 +445,8 @@ Create:&nbsp;<span title='2024-12-15 00:00:00 +0000 UTC'>2024-12-15</span>&nbsp;
 <li>Batch size 12， Epoch 3</li>
 <li>12 V100 GPU (from 3 nodes), DeepSpeed 分布式训练，3 Days</li>
 </ul>
-<img src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241215132904242.png" alt="image-20241215132904242" style="zoom:67%;" />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241215132904242.png -->
+<img src="/img/basic/image-20241215132904242.png" alt="image-20241215132904242" style="zoom:67%;" />
 <h2 id="13-预训练效果">1.3 预训练效果<a hidden class="anchor" aria-hidden="true" href="#13-预训练效果">#</a></h2>
 <p>在具体介绍微调任务前，文章首先论述了其预训练模型的可应用性</p>
 <p><strong>Gene embedding</strong></p>
@@ -465,7 +462,8 @@ Create:&nbsp;<span title='2024-12-15 00:00:00 +0000 UTC'>2024-12-15</span>&nbsp;
 </ul>
 </li>
 </ul>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241215142044752.png" alt="image-20241215142044752"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241215142044752.png -->
+<p><img loading="lazy" src="/img/basic/image-20241215142044752.png" alt="image-20241215142044752"  />
 </p>
 <blockquote>
 <p><strong>iPSC</strong>, induced Pluripotent Stem Cells: 已经分化的体细胞通过导入特定的转录因子重新编程而成的一种细胞类型</p>
@@ -535,7 +533,8 @@ Create:&nbsp;<span title='2024-12-15 00:00:00 +0000 UTC'>2024-12-15</span>&nbsp;
 <li>Genes with high rank have higher attention</li>
 <li>Early / Late layers also show diff patterns</li>
 </ul>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241215155135987.png" alt="image-20241215155135987"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241215155135987.png -->
+<p><img loading="lazy" src="/img/basic/image-20241215155135987.png" alt="image-20241215155135987"  />
 </p>
 <h2 id="32-tf-gene-network">3.2 TF Gene Network<a hidden class="anchor" aria-hidden="true" href="#32-tf-gene-network">#</a></h2>
 <ul>
@@ -549,7 +548,8 @@ Create:&nbsp;<span title='2024-12-15 00:00:00 +0000 UTC'>2024-12-15</span>&nbsp;
 <p>结果发现，先前报道具有高置信度的GATA4靶点，确实表现出更低的Cosine similarity。</p>
 </li>
 </ul>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241215160617923.png" alt="image-20241215160617923"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241215160617923.png -->
+<p><img loading="lazy" src="/img/basic/image-20241215160617923.png" alt="image-20241215160617923"  />
 </p>
 <blockquote>
 <p>衍生分析发现也可以同时删除两个TF genes</p></blockquote>
@@ -574,12 +574,14 @@ Create:&nbsp;<span title='2024-12-15 00:00:00 +0000 UTC'>2024-12-15</span>&nbsp;
 </ul>
 </li>
 </ul>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241215161636462.png" alt="image-20241215161636462"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241215161636462.png -->
+<p><img loading="lazy" src="/img/basic/image-20241215161636462.png" alt="image-20241215161636462"  />
 </p>
 <ul>
 <li>最后，对部分靶点进行实验验证</li>
 </ul>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241215162858665.png" alt="image-20241215162858665"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20241215162858665.png -->
+<p><img loading="lazy" src="/img/basic/image-20241215162858665.png" alt="image-20241215162858665"  />
 </p>
 <blockquote>
 <p>In silico deletion: remove the gene from the rank value of one cell</p>

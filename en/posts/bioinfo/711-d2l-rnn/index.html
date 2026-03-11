@@ -386,12 +386,14 @@ Create:&nbsp;<span title='2024-08-11 00:00:00 +0000 UTC'>2024-08-11</span>&nbsp;
   <div class="post-content"><h1 id="1-序列模型">1. 序列模型<a hidden class="anchor" aria-hidden="true" href="#1-序列模型">#</a></h1>
 <h2 id="11-自回归模型">1.1 自回归模型<a hidden class="anchor" aria-hidden="true" href="#11-自回归模型">#</a></h2>
 <p>（1）<strong>自回归模型</strong>：对于一个包含T个&rsquo;时间&rsquo;节点的输入序列，若预测其中的第t个数据，则依赖于该节点前面的观察数据</p>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240806194905905.png" alt="image-20240806194905905"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240806194905905.png -->
+<p><img loading="lazy" src="/img/bioinfo/image-20240806194905905.png" alt="image-20240806194905905"  />
 </p>
 <ul>
 <li>基于此，对于整个序列的估计值，可以表示为：</li>
 </ul>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240806195042014.png" alt="image-20240806195042014"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240806195042014.png -->
+<p><img loading="lazy" src="/img/bioinfo/image-20240806195042014.png" alt="image-20240806195042014"  />
 </p>
 <ul>
 <li>然而这对于长序列则计算量过大。我们可以使用该节点前面的τ个样本建模，控制模型参数的数量。
@@ -401,7 +403,8 @@ Create:&nbsp;<span title='2024-08-11 00:00:00 +0000 UTC'>2024-08-11</span>&nbsp;
 </ul>
 </li>
 </ul>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240806201637200.png" alt="image-20240806201637200"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240806201637200.png -->
+<p><img loading="lazy" src="/img/bioinfo/image-20240806201637200.png" alt="image-20240806201637200"  />
 </p>
 <blockquote>
 <p>Tips：称为自回归的原因是输入与输出预测同一类型的数据。</p></blockquote>
@@ -437,7 +440,8 @@ Create:&nbsp;<span title='2024-08-11 00:00:00 +0000 UTC'>2024-08-11</span>&nbsp;
 </span></span><span style="display:flex;"><span>d2l.plot(time, [x], <span style="color:#0ff;font-weight:bold">&#39;time&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;x&#39;</span>, xlim=[<span style="color:#ff0;font-weight:bold">1</span>, <span style="color:#ff0;font-weight:bold">1000</span>], figsize=(<span style="color:#ff0;font-weight:bold">6</span>, <span style="color:#ff0;font-weight:bold">3</span>))
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240806205930245.png" alt="image-20240806205930245"  />
+</div><!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240806205930245.png -->
+<p><img loading="lazy" src="/img/bioinfo/image-20240806205930245.png" alt="image-20240806205930245"  />
 </p>
 <ul>
 <li>第二步：生成特征与标签数据（前4个样本作为输入，第5个样本作为预测）</li>
@@ -621,7 +625,8 @@ Create:&nbsp;<span title='2024-08-11 00:00:00 +0000 UTC'>2024-08-11</span>&nbsp;
 </span></span><span style="display:flex;"><span><span style="color:#007f7f"># 下图右</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240806211506715.png" alt="image-20240806211506715"  />
+</div><!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240806211506715.png -->
+<p><img loading="lazy" src="/img/bioinfo/image-20240806211506715.png" alt="image-20240806211506715"  />
 </p>
 <ul>
 <li>如上可以看出：
@@ -631,7 +636,8 @@ Create:&nbsp;<span title='2024-08-11 00:00:00 +0000 UTC'>2024-08-11</span>&nbsp;
 </ul>
 </li>
 </ul>
-<img src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/76fd30983b088e2540cd4e2b1c9aa6e0.png" alt="skforecast：一款解决时序预测的神库-CSDN博客" style="zoom:50%;" />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/76fd30983b088e2540cd4e2b1c9aa6e0.png -->
+<img src="/img/bioinfo/76fd30983b088e2540cd4e2b1c9aa6e0.png" alt="skforecast：一款解决时序预测的神库-CSDN博客" style="zoom:50%;" />
 <h1 id="2-文本预处理">2 文本预处理<a hidden class="anchor" aria-hidden="true" href="#2-文本预处理">#</a></h1>
 <p>一篇文章可以视为一串单词的序列，需要进行必要的预处理操作步骤：</p>
 <p>（1）将文本作为字符串进行加载；</p>
@@ -1262,7 +1268,8 @@ Create:&nbsp;<span title='2024-08-11 00:00:00 +0000 UTC'>2024-08-11</span>&nbsp;
 <li>输入<strong>X</strong>，隐藏层输出<strong>H</strong>，隐藏层权重参数<strong>W</strong>xh，偏置参数<strong>b</strong></li>
 <li>输出层<strong>O</strong>，权重参数<strong>W</strong>hq，偏置参数<strong>b</strong></li>
 </ul>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240807135451800.png" alt="image-20240807135451800"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240807135451800.png -->
+<p><img loading="lazy" src="/img/bioinfo/image-20240807135451800.png" alt="image-20240807135451800"  />
 </p>
 <h2 id="42-有隐状态的神经网络">4.2 有隐状态的神经网络<a hidden class="anchor" aria-hidden="true" href="#42-有隐状态的神经网络">#</a></h2>
 <p>对于一个特定时间步长的序列：</p>
@@ -1270,14 +1277,16 @@ Create:&nbsp;<span title='2024-08-11 00:00:00 +0000 UTC'>2024-08-11</span>&nbsp;
 <li><strong>X</strong>t步的输出(<strong>O</strong>t，表示对于<strong>X</strong>t+1的预测)，取决于当前时间序列的隐状态<strong>H</strong>t；</li>
 <li>而当前的隐状态<strong>H</strong>t由当前时间步的输入<strong>X</strong>t与前一个时间步的隐状态<strong>H</strong>t-1共同计算得出。</li>
 </ul>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240807140351095.png" alt="image-20240807140351095"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240807140351095.png -->
+<p><img loading="lazy" src="/img/bioinfo/image-20240807140351095.png" alt="image-20240807140351095"  />
 </p>
 <ul>
 <li>对于输入的小批量数据，由n个长度为T的序列样本组成。若样本特征长度为d时，则每次训练输入数据为 <strong>X</strong>t：n×d</li>
 <li>基于<strong>X</strong>t的输入，参与<strong>H</strong>t计算的权重参数为<strong>W</strong>xh；基于<strong>H</strong>t-1隐状态，参与<strong>H</strong>t计算的权重参数为<strong>W</strong>hh，此外还有偏置；</li>
 <li>从<strong>H</strong>t隐状态，最终计算<strong>O</strong>t的权重参数为<strong>W</strong>hq，以及偏置。</li>
 </ul>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240807143437717.png" alt="image-20240807143437717"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240807143437717.png -->
+<p><img loading="lazy" src="/img/bioinfo/image-20240807143437717.png" alt="image-20240807143437717"  />
 </p>
 <blockquote>
 <p>（1）如上可以看出，有隐状态的神经网络从公式上来看，与单隐藏层的神经网络非常类似。只是多了一项<strong>W</strong>xh参数的计算过程。</p>
@@ -1315,7 +1324,8 @@ Create:&nbsp;<span title='2024-08-11 00:00:00 +0000 UTC'>2024-08-11</span>&nbsp;
 <li>在字符级语言模型中，文本词元为字符而不是单词；</li>
 <li>如下可以理解为小批量大小为1，文本序列为&rsquo;machine'</li>
 </ul>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240807145613774.png" alt="image-20240807145613774"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240807145613774.png -->
+<p><img loading="lazy" src="/img/bioinfo/image-20240807145613774.png" alt="image-20240807145613774"  />
 </p>
 <h2 id="44-困惑度">4.4 困惑度<a hidden class="anchor" aria-hidden="true" href="#44-困惑度">#</a></h2>
 <ul>
@@ -1329,7 +1339,8 @@ Create:&nbsp;<span title='2024-08-11 00:00:00 +0000 UTC'>2024-08-11</span>&nbsp;
 </ul>
 </li>
 </ul>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240807151122573.png" alt="image-20240807151122573"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240807151122573.png -->
+<p><img loading="lazy" src="/img/bioinfo/image-20240807151122573.png" alt="image-20240807151122573"  />
 </p>
 <h1 id="5-rnn的从零实现">5. RNN的从零实现<a hidden class="anchor" aria-hidden="true" href="#5-rnn的从零实现">#</a></h1>
 <p>从零开始基于RNN实现字符级语言模型</p>
@@ -1848,7 +1859,8 @@ Create:&nbsp;<span title='2024-08-11 00:00:00 +0000 UTC'>2024-08-11</span>&nbsp;
 </span></span><span style="display:flex;"><span><span style="color:#007f7f"># travellerit s against reason said filbywas allaing the time</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240807190952553.png" alt="image-20240807190952553"  />
+</div><!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240807190952553.png -->
+<p><img loading="lazy" src="/img/bioinfo/image-20240807190952553.png" alt="image-20240807190952553"  />
 </p>
 <h1 id="6-rnn的简洁实现">6. RNN的简洁实现<a hidden class="anchor" aria-hidden="true" href="#6-rnn的简洁实现">#</a></h1>
 <ul>

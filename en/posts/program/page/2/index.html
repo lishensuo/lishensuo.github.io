@@ -288,8 +288,6 @@ Create:&nbsp;<span title='2022-09-17 00:00:00 +0000 UTC'>2022-09-17</span>&nbsp;
 		</header>
 		<section class="entry-content">
 			<p> python内置的threading模块可以实现多任务的多线程并行处理，如下简单记录一下用法。
-参考链接
-https://zhuanlan.zhihu.com/p/34004179 https://www.runoob.com/python3/python3-multithreading.html 1、threading 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 import threading import random import time def calculate(result): t1 = random.randint(2, 10) t2 = t1-1 print(threading.current_thread().name, &#34;: waiting time is&#34;, t2) #查看当前线程名 time.sleep(t2) threadLock = threading.Lock() threadLock.acquire() #上锁 result.append(t2) #保证只有一个线程对result进行操作 threadLock.release() #解锁 ths = [] #线程列表 result = [] #储存所有线程的结果 print(time.ctime(time.time())) for i in range(5): #相当于调用5个线程 th = threading.Thread(target = calculate, args=(result,), name = &#39;thread {}&#39;.format(i)) #args参数用于传参 th.start() ths.append(th) # 如下循环语句常用来等待所有线程结束后，再执行后面的命令； # 如果不加此语句，会直接继续后面的命令，但之后result也可以得到相同的结果 for th in ths: th.join() print(time.ctime(time.time())) print(result) # Mon Sep 19 10:28:23 2022 #开始时间 # thread 0 : waiting time is 2 # thread 1 : waiting time is 4 # thread 2 : waiting time is 7 # thread 3 : waiting time is 3 # thread 4 : waiting time is 8 # Mon Sep 19 10:28:31 2022 #结束时间，即运行时间为8s # [2, 3, 4, 7, 8] 上面的例子作用是：随机初始化一个数，等待相应的时间后，再加入到同一个列表中。
 ...</p>
 		</section>
 		<footer class="entry-footer">

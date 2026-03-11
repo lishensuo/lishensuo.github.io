@@ -352,7 +352,8 @@ Create:&nbsp;<span title='2022-06-18 00:00:00 +0000 UTC'>2022-06-18</span>&nbsp;
 <p>EM， Expectation-Maximization 期望最大化算法</p>
 <p>混合分布：来自两种或两种以上概率分布(高斯分布最典型)的随机数据组成的一组混合数据所形成的分布。</p>
 <p>混合模型聚类：识别混合分布中，样本的原始分布，从而进行聚类(一种原始分布对应一个聚类)，属于<strong>软聚类</strong>。</p>
-<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220613223043136.png" alt="image-20220613223043136" style="zoom: 80%;" />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20220613223043136.png -->
+<img src="/img/bioinfo/image-20220613223043136.png" alt="image-20220613223043136" style="zoom: 80%;" />
 <p>假设一组混合分布的30个数据，虚线为混合分布的概率密度。混合模型聚类的目的就是找到其中哪些样本属于红色分布类，哪些样本属于绿色分布类。</p>
 <p>（已知：其中10个来自红色正态分布，20个来自绿色正态分布。在计算时是不知道这一信息）</p>
 <p>后验概率(posterior probability)：样本属于某种特定分布的概率</p>
@@ -401,7 +402,8 @@ $$</p>
 <p>（6）重复步骤（3），如果总体似然概率的增幅小于预设的阈值(收敛)，则结束；否则继续执行步骤4、5、6，不断更新高斯分布，提高似然概率(最大化)。</p>
 <blockquote>
 <p>参考下图，EM算法主要分为两步：Expectation Step(对应上述步骤3、4)；Maximization  Step(对应上述步骤5)</p></blockquote>
-<img src="https://raw.githubusercontent.com/lishensuo/images/main/EM21.jpg" alt="Expectation Maximization Algorithm | EM Algorithm Explained" style="zoom: 67%;" />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/EM21.jpg -->
+<img src="/img/bioinfo/EM21.jpg" alt="Expectation Maximization Algorithm | EM Algorithm Explained" style="zoom: 67%;" />
 <h2 id="12-mclust包">1.2 mclust包<a hidden class="anchor" aria-hidden="true" href="#12-mclust包">#</a></h2>
 <blockquote>
 <p><code>mclust</code>包是基于EM算法实现混合分布聚类的常用R包，现在已经更新的5.4.10。</p>
@@ -412,7 +414,8 @@ $$</p>
 <li>第二个字母：（1）<strong>E</strong>表示等长径比，<strong>V</strong>表示不同长径比，<strong>I</strong>表示球形；</li>
 <li>第三个字母：（1）<strong>I</strong>表示与轴方向正交，<strong>E</strong>表示不正交，<strong>V</strong>表示每个分布方向不同。</li>
 </ul>
-<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220618092623386.png" alt="image-20220618092623386" style="zoom: 67%;" />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20220618092623386.png -->
+<img src="/img/bioinfo/image-20220618092623386.png" alt="image-20220618092623386" style="zoom: 67%;" />
 <p>（2）对于不同Mclust模型的结果，可通过BIC(贝叶斯信息准则)指标进行比较。在模型的似然概率结果的基础上，进一步考虑模型的参数。如果模型中包含太多的参数，BIC就会对模型进行惩罚。</p>
 <ul>
 <li>简单来说在<code>Mclust()</code>结果中，特定模型的<u>BIC指标越小，表示该模型性能越好</u>。</li>
@@ -544,7 +547,8 @@ $$</p>
 </span></span><span style="display:flex;"><span><span style="color:#007f7f"># plot(swissMclust, what = &#34;density&#34;)</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220618101352587.png" alt="image-20220618101352587" style="zoom:50%;" />
+</div><!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20220618101352587.png -->
+<img src="/img/bioinfo/image-20220618101352587.png" alt="image-20220618101352587" style="zoom:50%;" />
 <h3 id="2相关参数设置">（2）相关参数设置<a hidden class="anchor" aria-hidden="true" href="#2相关参数设置">#</a></h3>
 <ul>
 <li>限定聚类数量或者混合类型</li>
@@ -724,7 +728,8 @@ $$</p>
 </span></span><span style="display:flex;"><span>plot(acidityMclust, what = <span style="color:#0ff;font-weight:bold">&#34;density&#34;</span>)
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220618103402384.png" alt="image-20220618103402384"  />
+</div><!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20220618103402384.png -->
+<p><img loading="lazy" src="/img/bioinfo/image-20220618103402384.png" alt="image-20220618103402384"  />
 </p>
 
 

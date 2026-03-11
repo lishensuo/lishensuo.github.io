@@ -359,11 +359,14 @@ $$</p>
 <p>其中<code>||Xi-Xj||</code>表示高维空间中数据点i与数据点j的欧几里得距离</p></blockquote>
 <img src="https://drek4537l1klr.cloudfront.net/rhys/Figures/fig14-1_alt.jpg" alt="t-sne in machine-learning" style="zoom: 80%;" />
 <p>如上以所以样本点均为中心样本进行正态分布密度转换之后，可以得到一个概率矩阵<code>p</code>，用以描述每个样本与其它样本的相似程度。</p>
-<img src="https://raw.githubusercontent.com/lishensuo/images/main/3852990-c36b50400afbfcc7.png" alt="img" style="zoom:80%;" />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/3852990-c36b50400afbfcc7.png -->
+<img src="/img/bioinfo/3852990-c36b50400afbfcc7.png" alt="img" style="zoom:80%;" />
 <p>在二维的空间中，对所有数据点重新排布。使用上述方法再次计算新的概率矩阵与<code>q</code>。使用损失函数KL散度评价两个概率矩阵的相似性。采用梯度下降的方法，不断迭代的、”移动“二维空间中数据点的位置，使得KL散度指标逐渐降低，直至达到预期水平。</p>
-<img src="https://raw.githubusercontent.com/lishensuo/images/main/3852990-fb41076a4122eb14.png" alt="img" style="zoom:80%;" />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/3852990-fb41076a4122eb14.png -->
+<img src="/img/bioinfo/3852990-fb41076a4122eb14.png" alt="img" style="zoom:80%;" />
 <p>t-SNE中的t的含义是指在计算新的、二维空间中样本间的概率矩阵时，使用T分布将样本距离转换为概率值可以更好的兼容离群点的影响，识别出真正距离相近的样本。</p>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/t_compare_with_Gaussian.png" alt="img"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/t_compare_with_Gaussian.png -->
+<p><img loading="lazy" src="/img/bioinfo/t_compare_with_Gaussian.png" alt="img"  />
 </p>
 <h2 id="umap">UMAP<a hidden class="anchor" aria-hidden="true" href="#umap">#</a></h2>
 <p>UMAP的思路与tSNE类似，将样本在高维空间中的距离转换到二维平面中。与tSNE不同的是UMAP采用了所谓流形的概念，测量流形中样本之间的距离。</p>
@@ -371,9 +374,11 @@ $$</p>
 <p>在学习流形时，有两个关键步骤</p>
 <p>（1）对于既定的样本点进行局部连接，扩展最近的样本（local_connectivity=1），这样可以确保不存在孤立的样本。</p>
 <p>（2）然后以局部连接样本为边界进行模糊扩展，确定近邻样本。可通过超参数设置，较大的值表示包含更多的近邻样本，更关注全局结构；反之更关注局部结构。</p>
-<img src="https://raw.githubusercontent.com/lishensuo/images/main/v2-5f6760dc33fe34774ce35a348583ce4e_720w.jpg" alt="img" style="zoom: 50%;" />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/v2-5f6760dc33fe34774ce35a348583ce4e_720w.jpg -->
+<img src="/img/bioinfo/v2-5f6760dc33fe34774ce35a348583ce4e_720w.jpg" alt="img" style="zoom: 50%;" />
 <p>计算如此得到的流形中，得到所有样本与近邻样本之间的距离。下一步将数据放在两个维度的流形中，并迭代地移动数据点，直至新流形中样本间的距离等于沿着原始高维流形中样本间的距离。损失函数为交叉熵。</p>
-<img src="https://raw.githubusercontent.com/lishensuo/images/main/v2-111f8e1e28cbc1a591fbfcf13aa3f447_720w.jpg" alt="img" style="zoom: 50%;" />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/v2-111f8e1e28cbc1a591fbfcf13aa3f447_720w.jpg -->
+<img src="/img/bioinfo/v2-111f8e1e28cbc1a591fbfcf13aa3f447_720w.jpg" alt="img" style="zoom: 50%;" />
 <h2 id="二者比较">二者比较<a hidden class="anchor" aria-hidden="true" href="#二者比较">#</a></h2>
 <p>（1）tSNE与UMAP相对于PCA均属于非线性降维方式，获得的二维平面新轴不能用原始变量直接解释</p>
 <p>（2）相比于tSNE，UMAP的具有更多的优势：计算开销小、同时保留了局部与全局结构；而且作为一种确定性算法，给定相同的输入可以给出相同的输出。</p>
@@ -475,7 +480,8 @@ $$</p>
 </span></span><span style="display:flex;"><span>  geom_point()
 </span></span></code></pre></td></tr></table>
 </div>
-</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220521220650321.png" alt="image-20220521220650321" style="zoom:50%;" />
+</div><!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20220521220650321.png -->
+<img src="/img/bioinfo/image-20220521220650321.png" alt="image-20220521220650321" style="zoom:50%;" />
 <h2 id="2umap">2、UMAP<a hidden class="anchor" aria-hidden="true" href="#2umap">#</a></h2>
 <div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
@@ -569,7 +575,8 @@ $$</p>
 </span></span><span style="display:flex;"><span>  geom_point()
 </span></span></code></pre></td></tr></table>
 </div>
-</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220521222449680.png" alt="image-20220521222449680" style="zoom: 67%;" />
+</div><!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20220521222449680.png -->
+<img src="/img/bioinfo/image-20220521222449680.png" alt="image-20220521222449680" style="zoom: 67%;" />
 
   </div>
 

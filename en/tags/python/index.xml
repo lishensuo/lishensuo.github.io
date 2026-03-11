@@ -1124,7 +1124,8 @@
 &lt;li&gt;函数所需的参数，根据需要可以有多个&lt;/li&gt;
 &lt;li&gt;函数表达式，通常就是一行。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;img src=&#34;https://raw.githubusercontent.com/lishensuo/images/main/python-lambda-functions-new.png&#34; alt=&#34;Python Lambda Function/Anonymous Function | Hack The Developer&#34; style=&#34;zoom: 50%;&#34; /&gt;
+&lt;!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/python-lambda-functions-new.png --&gt;
+&lt;img src=&#34;https://lishensuo.github.io/img/program/python-lambda-functions-new.png&#34; alt=&#34;Python Lambda Function/Anonymous Function | Hack The Developer&#34; style=&#34;zoom: 50%;&#34; /&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;1
@@ -1158,100 +1159,9 @@
       <guid>https://lishensuo.github.io/en/posts/program/016-python-threading/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;python内置的threading模块可以实现多任务的多线程并行处理，如下简单记录一下用法。&lt;/p&gt;
-&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://raw.githubusercontent.com/lishensuo/images/main/t1_p0bram.png&#34; alt=&#34;Definitive Guide: Threading in Python Tutorial | DataCamp&#34;  /&gt;
-&lt;/p&gt;
-&lt;p&gt;参考链接&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://zhuanlan.zhihu.com/p/34004179&#34;&gt;https://zhuanlan.zhihu.com/p/34004179&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.runoob.com/python3/python3-multithreading.html&#34;&gt;https://www.runoob.com/python3/python3-multithreading.html&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/blockquote&gt;
-&lt;h2 id=&#34;1threading&#34;&gt;1、threading&lt;/h2&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
-&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 1
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 2
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 3
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 4
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 5
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 6
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 7
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 8
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 9
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;10
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;11
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;12
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;13
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;14
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;15
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;16
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;17
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;18
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;19
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;20
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;21
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;22
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;23
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;24
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;25
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;26
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;27
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;28
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;29
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;30
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;31
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;32
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;33
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;34
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;35
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;36
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;37
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;38
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;39
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;import&lt;/span&gt; threading
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;import&lt;/span&gt; random
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;import&lt;/span&gt; time
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;def&lt;/span&gt; calculate(result):
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    t1 = random.randint(&lt;span style=&#34;color:#ff0;font-weight:bold&#34;&gt;2&lt;/span&gt;, &lt;span style=&#34;color:#ff0;font-weight:bold&#34;&gt;10&lt;/span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    t2 = t1-&lt;span style=&#34;color:#ff0;font-weight:bold&#34;&gt;1&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;print&lt;/span&gt;(threading.current_thread().name, &lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#34;: waiting time is&amp;#34;&lt;/span&gt;, t2) &lt;span style=&#34;color:#007f7f&#34;&gt;#查看当前线程名&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    time.sleep(t2)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    threadLock = threading.Lock() 
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    threadLock.acquire()  &lt;span style=&#34;color:#007f7f&#34;&gt;#上锁&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    result.append(t2)     &lt;span style=&#34;color:#007f7f&#34;&gt;#保证只有一个线程对result进行操作&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    threadLock.release()  &lt;span style=&#34;color:#007f7f&#34;&gt;#解锁&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;ths = []      &lt;span style=&#34;color:#007f7f&#34;&gt;#线程列表&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;result = []   &lt;span style=&#34;color:#007f7f&#34;&gt;#储存所有线程的结果&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;print&lt;/span&gt;(time.ctime(time.time()))
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;for&lt;/span&gt; i in &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;range&lt;/span&gt;(&lt;span style=&#34;color:#ff0;font-weight:bold&#34;&gt;5&lt;/span&gt;):  &lt;span style=&#34;color:#007f7f&#34;&gt;#相当于调用5个线程&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    th = threading.Thread(target = calculate, args=(result,),
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    					  name = &lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#39;thread &lt;/span&gt;&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;{}&lt;/span&gt;&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#39;&lt;/span&gt;.format(i))   &lt;span style=&#34;color:#007f7f&#34;&gt;#args参数用于传参&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    th.start()
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    ths.append(th)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;# 如下循环语句常用来等待所有线程结束后，再执行后面的命令；&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;# 如果不加此语句，会直接继续后面的命令，但之后result也可以得到相同的结果&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;for&lt;/span&gt; th in ths:  
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    th.join()
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;print&lt;/span&gt;(time.ctime(time.time()))
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;print&lt;/span&gt;(result)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;# Mon Sep 19 10:28:23 2022         #开始时间&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;# thread 0 : waiting time is 2&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;# thread 1 : waiting time is 4&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;# thread 2 : waiting time is 7&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;# thread 3 : waiting time is 3&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;# thread 4 : waiting time is 8&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;# Mon Sep 19 10:28:31 2022         #结束时间，即运行时间为8s&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;# [2, 3, 4, 7, 8]&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;blockquote&gt;
-&lt;p&gt;上面的例子作用是：随机初始化一个数，等待相应的时间后，再加入到同一个列表中。&lt;/p&gt;</description>
+&lt;!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/t1_p0bram.png --&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://lishensuo.github.io/img/program/t1_p0bram.png&#34; alt=&#34;Definitive Guide: Threading in Python Tutorial | DataCamp&#34;  /&gt;
+&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -1282,7 +1192,8 @@
       <guid>https://lishensuo.github.io/en/posts/program/022-pandas/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Pandas相比Numpy数组支持行列标签、多种数据类型，类似R语言中data.frame数据框。&lt;/p&gt;
-&lt;img src=&#34;https://raw.githubusercontent.com/lishensuo/images/main/20354525-b4c441acfb525f6e.png&#34; alt=&#34;img&#34; style=&#34;zoom: 33%;&#34; /&gt;&lt;/blockquote&gt;
+&lt;!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/20354525-b4c441acfb525f6e.png --&gt;&lt;/blockquote&gt;
+&lt;img src=&#34;https://lishensuo.github.io/img/program/20354525-b4c441acfb525f6e.png&#34; alt=&#34;img&#34; style=&#34;zoom: 33%;&#34; /&gt;
 &lt;h1 id=&#34;1pandas结构&#34;&gt;1、Pandas结构&lt;/h1&gt;
 &lt;h2 id=&#34;11-series有索引的一维数组&#34;&gt;1.1 Series：有索引的一维数组&lt;/h2&gt;
 &lt;h3 id=&#34;111-创建series对象&#34;&gt;1.1.1 创建Series对象&lt;/h3&gt;
@@ -1469,7 +1380,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;ax = df.plot.bar(x=&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#39;lab&amp;#39;&lt;/span&gt;, y=&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#39;val&amp;#39;&lt;/span&gt;, rot=&lt;span style=&#34;color:#ff0;font-weight:bold&#34;&gt;0&lt;/span&gt;, color=&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#34;green&amp;#34;&lt;/span&gt;)
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;img src=&#34;https://raw.githubusercontent.com/lishensuo/images/main/image-20220730145626960.png&#34; alt=&#34;image-20220730145626960&#34; style=&#34;zoom: 67%;&#34; /&gt;
+&lt;/div&gt;&lt;!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20220730145626960.png --&gt;
+&lt;img src=&#34;https://lishensuo.github.io/img/program/image-20220730145626960.png&#34; alt=&#34;image-20220730145626960&#34; style=&#34;zoom: 67%;&#34; /&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 1
@@ -1512,7 +1424,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;img src=&#34;https://raw.githubusercontent.com/lishensuo/images/main/image-20220730153508146.png&#34; alt=&#34;image-20220730153508146&#34; style=&#34;zoom: 80%;&#34; /&gt;
+&lt;/div&gt;&lt;!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20220730153508146.png --&gt;
+&lt;img src=&#34;https://lishensuo.github.io/img/program/image-20220730153508146.png&#34; alt=&#34;image-20220730153508146&#34; style=&#34;zoom: 80%;&#34; /&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;code&gt;pandas.DataFrame.plot.barh()&lt;/code&gt;支持绘制横向的柱状图（Dataframe数据内容需要是横向的）&lt;/p&gt;</description>
     </item>
@@ -1701,7 +1614,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            )
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;img src=&#34;https://raw.githubusercontent.com/lishensuo/images2/main/img01image-20250728213912620.png&#34; alt=&#34;image-20250728213912620&#34; style=&#34;zoom: 80%;&#34; /&gt;
+&lt;/div&gt;&lt;!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01image-20250728213912620.png --&gt;
+&lt;img src=&#34;https://lishensuo.github.io/img/program/img01image-20250728213912620.png&#34; alt=&#34;image-20250728213912620&#34; style=&#34;zoom: 80%;&#34; /&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;1
@@ -1726,7 +1640,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;# 最后也可以通过cbar系列参数调整颜色条&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://raw.githubusercontent.com/lishensuo/images2/main/img01image-20250728214104341.png&#34; alt=&#34;image-20250728214104341&#34;  /&gt;
+&lt;/div&gt;&lt;!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01image-20250728214104341.png --&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://lishensuo.github.io/img/program/img01image-20250728214104341.png&#34; alt=&#34;image-20250728214104341&#34;  /&gt;
 &lt;/p&gt;</description>
     </item>
     
@@ -1774,7 +1689,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;# sns.regplot(data=mpg, x=&amp;#34;weight&amp;#34;, y=&amp;#34;acceleration&amp;#34;, ci=99)   # 自定义置信区间&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;img src=&#34;https://raw.githubusercontent.com/lishensuo/images2/main/img01image-20250804214851272.png&#34; alt=&#34;image-20250804214851272&#34; style=&#34;zoom: 67%;&#34; /&gt;
+&lt;/div&gt;&lt;!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01image-20250804214851272.png --&gt;
+&lt;img src=&#34;https://lishensuo.github.io/img/program/img01image-20250804214851272.png&#34; alt=&#34;image-20250804214851272&#34; style=&#34;zoom: 67%;&#34; /&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 1
@@ -1825,7 +1741,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;img src=&#34;https://raw.githubusercontent.com/lishensuo/images2/main/img01image-20250804215207233.png&#34; alt=&#34;image-20250804215207233&#34; style=&#34;zoom:80%;&#34; /&gt;
+&lt;/div&gt;&lt;!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01image-20250804215207233.png --&gt;
+&lt;img src=&#34;https://lishensuo.github.io/img/program/img01image-20250804215207233.png&#34; alt=&#34;image-20250804215207233&#34; style=&#34;zoom:80%;&#34; /&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;1
@@ -1846,7 +1763,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;# sns.regplot(data=mpg, x=&amp;#34;horsepower&amp;#34;, y=&amp;#34;mpg&amp;#34;, lowess=True)     # 拟合平滑曲线&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;img src=&#34;https://raw.githubusercontent.com/lishensuo/images2/main/img01image-20250804215520321.png&#34; alt=&#34;image-20250804215520321&#34; style=&#34;zoom:80%;&#34; /&gt;
+&lt;/div&gt;&lt;!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01image-20250804215520321.png --&gt;
+&lt;img src=&#34;https://lishensuo.github.io/img/program/img01image-20250804215520321.png&#34; alt=&#34;image-20250804215520321&#34; style=&#34;zoom:80%;&#34; /&gt;
 &lt;h1 id=&#34;2-snslmplot&#34;&gt;2. sns.lmplot&lt;/h1&gt;
 &lt;ul&gt;
 &lt;li&gt;适用于分组线性回归, 即分面绘图&lt;/li&gt;
@@ -1863,7 +1781,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sns.lmplot(x=&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#34;total_bill&amp;#34;&lt;/span&gt;, y=&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#34;tip&amp;#34;&lt;/span&gt;, hue=&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#34;sex&amp;#34;&lt;/span&gt;, data=tips)
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;img src=&#34;https://raw.githubusercontent.com/lishensuo/images2/main/img01image-20250804215915652.png&#34; alt=&#34;image-20250804215915652&#34; style=&#34;zoom: 67%;&#34; /&gt;
+&lt;/div&gt;&lt;!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01image-20250804215915652.png --&gt;
+&lt;img src=&#34;https://lishensuo.github.io/img/program/img01image-20250804215915652.png&#34; alt=&#34;image-20250804215915652&#34; style=&#34;zoom: 67%;&#34; /&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;1
@@ -1874,7 +1793,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;           facet_kws=&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;dict&lt;/span&gt;(sharex=&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;False&lt;/span&gt;, sharey=&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;False&lt;/span&gt;),)
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://raw.githubusercontent.com/lishensuo/images2/main/img01image-20250804220011872.png&#34; alt=&#34;image-20250804220011872&#34;  /&gt;
+&lt;/div&gt;&lt;!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01image-20250804220011872.png --&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://lishensuo.github.io/img/program/img01image-20250804220011872.png&#34; alt=&#34;image-20250804220011872&#34;  /&gt;
 &lt;/p&gt;</description>
     </item>
     

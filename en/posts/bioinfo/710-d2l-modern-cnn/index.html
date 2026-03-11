@@ -407,8 +407,9 @@ Create:&nbsp;<span title='2024-08-04 00:00:00 +0000 UTC'>2024-08-04</span>&nbsp;
 <p>在2012年，AlexNet模型取得了当年ImageNet挑战赛的冠军，标志着深层神经网络相关研究的起点。</p>
 <blockquote>
 <p>在CNN的底层（例如第一层、第二层等）中的每一个通道可以&rsquo;理解&rsquo;为对某种模式特征的提取表示，用于更高层的综合学习。</p>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240802120203408.png" alt="image-20240802120203408"  />
-</p></blockquote>
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240802120203408.png --></blockquote>
+<p><img loading="lazy" src="/img/bioinfo/image-20240802120203408.png" alt="image-20240802120203408"  />
+</p>
 <p>此外，限制神经网络取得良好性能的因素还包括<strong>数据与硬件</strong>两方面——</p>
 <ul>
 <li>数据：深度模型需要大量的有标签数据才能显著优于基于凸优化的传统方法（如线性方法和核方法）
@@ -438,7 +439,8 @@ Create:&nbsp;<span title='2024-08-04 00:00:00 +0000 UTC'>2024-08-04</span>&nbsp;
 <li>激活函数：使用ReLU激活函数相比于Sigmoid计算更加简单，且更适应多种参数初始化方法。</li>
 <li>容量控制：使用Dropout暂退法控制了全连接层的模型复杂度。</li>
 </ul>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240802122156855.png" alt="image-20240802122156855"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240802122156855.png -->
+<p><img loading="lazy" src="/img/bioinfo/image-20240802122156855.png" alt="image-20240802122156855"  />
 </p>
 <ul>
 <li>如下的模型架构是为Fashion-MNIST数据集修改后的设计，主要体现在第一层卷积层的输入通道数为1。</li>
@@ -520,7 +522,8 @@ Create:&nbsp;<span title='2024-08-04 00:00:00 +0000 UTC'>2024-08-04</span>&nbsp;
 </span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">print</span>(layer.__class__.__name__,<span style="color:#0ff;font-weight:bold">&#39;output shape:</span><span style="color:#0ff;font-weight:bold">\t</span><span style="color:#0ff;font-weight:bold">&#39;</span>,X.shape)
 </span></span></code></pre></td></tr></table>
 </div>
-</div><img src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240802124919501.png" alt="image-20240802124919501" style="zoom: 67%;" />
+</div><!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240802124919501.png -->
+<img src="/img/bioinfo/image-20240802124919501.png" alt="image-20240802124919501" style="zoom: 67%;" />
 <h2 id="13-读取数据集">1.3 读取数据集<a hidden class="anchor" aria-hidden="true" href="#13-读取数据集">#</a></h2>
 <ul>
 <li>为了将Fashion-MNIST数据用于AlexNet模型框架，需要将像素分辨率重新设置为224×224</li>
@@ -614,7 +617,8 @@ Create:&nbsp;<span title='2024-08-04 00:00:00 +0000 UTC'>2024-08-04</span>&nbsp;
 <li>第一部分由多个VGG块组成的卷积层部分；</li>
 <li>第二部分由3个的全连接层组成。</li>
 </ul>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240802135712008.png" alt="image-20240802135712008"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240802135712008.png -->
+<p><img loading="lazy" src="/img/bioinfo/image-20240802135712008.png" alt="image-20240802135712008"  />
 </p>
 <p>原始VGG网络包含如下5个VGG块，共有5个卷积层；结合三个全连接层，因此又称为VGG-11。</p>
 <ul>
@@ -684,7 +688,8 @@ Create:&nbsp;<span title='2024-08-04 00:00:00 +0000 UTC'>2024-08-04</span>&nbsp;
 </span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">print</span>(blk.__class__.__name__,<span style="color:#0ff;font-weight:bold">&#39;output shape:</span><span style="color:#0ff;font-weight:bold">\t</span><span style="color:#0ff;font-weight:bold">&#39;</span>,X.shape)
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240802140636464.png" alt="image-20240802140636464"  />
+</div><!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240802140636464.png -->
+<p><img loading="lazy" src="/img/bioinfo/image-20240802140636464.png" alt="image-20240802140636464"  />
 </p>
 <h2 id="23-训练模型">2.3 训练模型<a hidden class="anchor" aria-hidden="true" href="#23-训练模型">#</a></h2>
 <ul>
@@ -728,8 +733,9 @@ Create:&nbsp;<span title='2024-08-04 00:00:00 +0000 UTC'>2024-08-04</span>&nbsp;
 </ul>
 <blockquote>
 <p>使用1×1卷积核时，相当于对同一位置，不同通道的元素进行全连接层</p>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240802211038993.png" alt="image-20240802211038993"  />
-</p></blockquote>
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240802211038993.png --></blockquote>
+<p><img loading="lazy" src="/img/bioinfo/image-20240802211038993.png" alt="image-20240802211038993"  />
+</p>
 <p>代码实现如下：</p>
 <div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
@@ -758,7 +764,8 @@ Create:&nbsp;<span title='2024-08-04 00:00:00 +0000 UTC'>2024-08-04</span>&nbsp;
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="32-nin模型">3.2 NiN模型<a hidden class="anchor" aria-hidden="true" href="#32-nin模型">#</a></h2>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240802155334846.png" alt="image-20240802155334846"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240802155334846.png -->
+<p><img loading="lazy" src="/img/bioinfo/image-20240802155334846.png" alt="image-20240802155334846"  />
 </p>
 <ul>
 <li>由4个NiN块组成，每个NiN块中的卷积核窗口参考AlexNet设置为11×11，5×5，3×3，3×3</li>
@@ -840,7 +847,8 @@ Create:&nbsp;<span title='2024-08-04 00:00:00 +0000 UTC'>2024-08-04</span>&nbsp;
 <li>第三条：1×1卷积，加上5×5卷积(填充2)</li>
 <li>第四条：3×3最大汇聚(填充1)，加上1×1卷积</li>
 </ul>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240803083313073.png" alt="image-20240803083313073"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240803083313073.png -->
+<p><img loading="lazy" src="/img/bioinfo/image-20240803083313073.png" alt="image-20240803083313073"  />
 </p>
 <p>如下是定义Inception块的代码，其中可调参数均是输入以及每条路径中的通道数。</p>
 <ul>
@@ -916,7 +924,8 @@ Create:&nbsp;<span title='2024-08-04 00:00:00 +0000 UTC'>2024-08-04</span>&nbsp;
 </div>
 </div><h2 id="42-googlenet模型">4.2 GoogLeNet模型<a hidden class="anchor" aria-hidden="true" href="#42-googlenet模型">#</a></h2>
 <p>如下示意图，GoogLeNet模型共有5个部分组成(从下到上)：</p>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240803085510921.png" alt="image-20240803085510921"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240803085510921.png -->
+<p><img loading="lazy" src="/img/bioinfo/image-20240803085510921.png" alt="image-20240803085510921"  />
 </p>
 <ul>
 <li>第一部分：类似于AlexNet，一个卷积层加上一个最大汇聚层；</li>
@@ -1077,10 +1086,12 @@ Create:&nbsp;<span title='2024-08-04 00:00:00 +0000 UTC'>2024-08-04</span>&nbsp;
 </li>
 </ul>
 <p>（1）首先对一个小批量B，计算其（feature）均值与方差</p>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240803134949274.png" alt="image-20240803134949274"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240803134949274.png -->
+<p><img loading="lazy" src="/img/bioinfo/image-20240803134949274.png" alt="image-20240803134949274"  />
 </p>
 <p>（2）然后，进行均值为0，方差为1的归一化处理后，进一步进行拉伸与偏移。γ可以变换方差，β可以变换均值，均属于可学习的参数，从而拟合最适合的规范化分布。</p>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240803135335299.png" alt="image-20240803135335299"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240803135335299.png -->
+<p><img loading="lazy" src="/img/bioinfo/image-20240803135335299.png" alt="image-20240803135335299"  />
 </p>
 <blockquote>
 <p>一种角度的解释是BN操作中会引入一定的噪声，控制了模型复杂度。因为随机抽样的小批量分布不能代表总体情况。</p></blockquote>
@@ -1308,7 +1319,8 @@ Create:&nbsp;<span title='2024-08-04 00:00:00 +0000 UTC'>2024-08-04</span>&nbsp;
 <li>新模型 = 新添加的层 + 原模型</li>
 <li>如果新添加的层效果不明显，新模型仍然有机会基于原模型更新梯度。即新模型可能得出更优的解来拟合数据集（至少不会变差）。</li>
 </ul>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240803170211365.png" alt="image-20240803170211365"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240803170211365.png -->
+<p><img loading="lazy" src="/img/bioinfo/image-20240803170211365.png" alt="image-20240803170211365"  />
 </p>
 <h2 id="62-残差块">6.2 残差块<a hidden class="anchor" aria-hidden="true" href="#62-残差块">#</a></h2>
 <ul>
@@ -1323,7 +1335,8 @@ Create:&nbsp;<span title='2024-08-04 00:00:00 +0000 UTC'>2024-08-04</span>&nbsp;
 </ul>
 </li>
 </ul>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240803173550957.png" alt="image-20240803173550957"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240803173550957.png -->
+<p><img loading="lazy" src="/img/bioinfo/image-20240803173550957.png" alt="image-20240803173550957"  />
 </p>
 <ul>
 <li>ResNet网络中残差块共有两种，区别在于原模型数据的输入：
@@ -1333,7 +1346,8 @@ Create:&nbsp;<span title='2024-08-04 00:00:00 +0000 UTC'>2024-08-04</span>&nbsp;
 </ul>
 </li>
 </ul>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240803200259327.png" alt="image-20240803200259327"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240803200259327.png -->
+<p><img loading="lazy" src="/img/bioinfo/image-20240803200259327.png" alt="image-20240803200259327"  />
 </p>
 <div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
@@ -1438,7 +1452,8 @@ Create:&nbsp;<span title='2024-08-04 00:00:00 +0000 UTC'>2024-08-04</span>&nbsp;
 </div>
 </div><h2 id="63-resnet模型">6.3 ResNet模型<a hidden class="anchor" aria-hidden="true" href="#63-resnet模型">#</a></h2>
 <p>ResNet模型由如下部分组成</p>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240803201636063.png" alt="image-20240803201636063"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240803201636063.png -->
+<p><img loading="lazy" src="/img/bioinfo/image-20240803201636063.png" alt="image-20240803201636063"  />
 </p>
 <ul>
 <li>第1部分：卷积层+BN+最大汇聚层，64通道输出，高宽降低四倍</li>
@@ -1562,7 +1577,8 @@ Create:&nbsp;<span title='2024-08-04 00:00:00 +0000 UTC'>2024-08-04</span>&nbsp;
 <li>ResNet和DenseNet的关键区别在于，DenseNet输出是<em>连接</em>（用图中的[,]表示）而不是如ResNet的简单相加。</li>
 <li>稠密网络主要由2部分构成：<em>稠密块</em>（dense block）和<em>过渡层</em>（transition layer）。 前者定义如何连接输入和输出，而后者则控制通道数量，使其不会太复杂。</li>
 </ul>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240803211424419.png" alt="image-20240803211424419"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240803211424419.png -->
+<p><img loading="lazy" src="/img/bioinfo/image-20240803211424419.png" alt="image-20240803211424419"  />
 </p>
 <h2 id="72-稠密块">7.2 稠密块<a hidden class="anchor" aria-hidden="true" href="#72-稠密块">#</a></h2>
 <ul>

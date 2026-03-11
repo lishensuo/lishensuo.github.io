@@ -16,11 +16,7 @@ SIGN: similarity identification in gene expression
 Bioinformatics  2019 / 2  IF = 7
 
 
-1.1 TSC score
-文章根据2009年学者提出的modified RV coefficient，使用transcriptional similarity coefficient(TSC)分数，用以表征两个矩阵的相似性。计算公式如下：其中P1矩阵与P2矩阵的纵轴(Gene Row)需要保持一致，而两个矩阵的样本数(Sample Column)没有要求。
-$$
-TSC(P_1,P_2) = \frac{\sum_{i}(P_{10}×P_{20}){ij}} {{\sqrt{\sum{ij}(P_{10}){ij}^2}}× {\sqrt{\sum{ij}(P_{20})_{ij}^2}}}
-$$">
+">
 <meta name="author" content="Lishensuo">
 <link rel="canonical" href="https://lishensuo.github.io/en/posts/basic/152-pathway-consistency/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.min.af29093799c35bd05a068d5ab092858ff3a75905607cac7c1c2694b85e8c8dba.css" integrity="sha256-rykJN5nDW9BaBo1asJKFj/OnWQVgfKx8HCaUuF6Mjbo=" rel="preload stylesheet" as="style">
@@ -78,11 +74,7 @@ SIGN: similarity identification in gene expression
 Bioinformatics  2019 / 2  IF = 7
 
 
-1.1 TSC score
-文章根据2009年学者提出的modified RV coefficient，使用transcriptional similarity coefficient(TSC)分数，用以表征两个矩阵的相似性。计算公式如下：其中P1矩阵与P2矩阵的纵轴(Gene Row)需要保持一致，而两个矩阵的样本数(Sample Column)没有要求。
-$$
-TSC(P_1,P_2) = \frac{\sum_{i}(P_{10}×P_{20}){ij}} {{\sqrt{\sum{ij}(P_{10}){ij}^2}}× {\sqrt{\sum{ij}(P_{20})_{ij}^2}}}
-$$" />
+" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://lishensuo.github.io/en/posts/basic/152-pathway-consistency/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2022-05-13T00:00:00&#43;00:00" />
@@ -97,11 +89,7 @@ SIGN: similarity identification in gene expression
 Bioinformatics  2019 / 2  IF = 7
 
 
-1.1 TSC score
-文章根据2009年学者提出的modified RV coefficient，使用transcriptional similarity coefficient(TSC)分数，用以表征两个矩阵的相似性。计算公式如下：其中P1矩阵与P2矩阵的纵轴(Gene Row)需要保持一致，而两个矩阵的样本数(Sample Column)没有要求。
-$$
-TSC(P_1,P_2) = \frac{\sum_{i}(P_{10}×P_{20}){ij}} {{\sqrt{\sum{ij}(P_{10}){ij}^2}}× {\sqrt{\sum{ij}(P_{20})_{ij}^2}}}
-$$"/>
+"/>
 
 
 <script type="application/ld+json">
@@ -136,7 +124,7 @@ $$"/>
   "@type": "BlogPosting",
   "headline": "矩阵相似性计算样本通路一致性",
   "name": "矩阵相似性计算样本通路一致性",
-  "description": "本次的两篇文章属于同一团队，第一篇文章侧重提出计算方法；第二篇文章侧重于应用方法，发现生物学规律\nPaper1：提出方法 SIGN: similarity identification in gene expression\nBioinformatics 2019 / 2 IF = 7\n1.1 TSC score 文章根据2009年学者提出的modified RV coefficient，使用transcriptional similarity coefficient(TSC)分数，用以表征两个矩阵的相似性。计算公式如下：其中P1矩阵与P2矩阵的纵轴(Gene Row)需要保持一致，而两个矩阵的样本数(Sample Column)没有要求。 $$ TSC(P_1,P_2) = \\frac{\\sum_{i}(P_{10}×P_{20}){ij}} {{\\sqrt{\\sum{ij}(P_{10}){ij}^2}}× {\\sqrt{\\sum{ij}(P_{20})_{ij}^2}}} $$\n",
+  "description": "本次的两篇文章属于同一团队，第一篇文章侧重提出计算方法；第二篇文章侧重于应用方法，发现生物学规律\nPaper1：提出方法 SIGN: similarity identification in gene expression\nBioinformatics 2019 / 2 IF = 7\n",
   "keywords": [
     "文献-算法"
   ],
@@ -388,8 +376,11 @@ Create:&nbsp;<span title='2022-05-13 00:00:00 +0000 UTC'>2022-05-13</span>&nbsp;
 <blockquote>
 <p><strong>SIGN: similarity identification in gene expression</strong></p>
 <p>Bioinformatics  2019 / 2  IF = 7</p>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220513150043152.png" alt="image-20220513150043152"  />
-</p></blockquote>
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20220513150043152.png --></blockquote>
+<p><img loading="lazy" src="/img/basic/image-20220513150043152.png" alt="image-20220513150043152"  />
+</p>
+<blockquote>
+</blockquote>
 <h2 id="11-tsc-score">1.1 TSC score<a hidden class="anchor" aria-hidden="true" href="#11-tsc-score">#</a></h2>
 <p>文章根据2009年学者提出的<a href="https://pubmed.ncbi.nlm.nih.gov/19073588/">modified RV coefficient</a>，使用transcriptional similarity coefficient(TSC)分数，用以表征两个矩阵的相似性。计算公式如下：其中P1矩阵与P2矩阵的纵轴(Gene Row)需要保持一致，而两个矩阵的样本数(Sample Column)没有要求。
 $$
@@ -403,18 +394,23 @@ P_{m0} = P_m × P&rsquo;_m - Diagonal(P_m × P&rsquo;_m)
 $$</p>
 <p>计算的TSC score范围在[-1, 1]之间，值越高表明两个样本(群)具有相同的基因表达模式。</p>
 <p>根据RV coefficient，符合以下特征规律：</p>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220513145621072.png" alt="image-20220513145621072"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20220513145621072.png -->
+<p><img loading="lazy" src="/img/basic/image-20220513145621072.png" alt="image-20220513145621072"  />
 </p>
 <blockquote>
 <p>举例计算，实现需要了解矩阵乘法的原理。</p>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/matrix-multiply-a.svg" alt="矩阵乘法"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/matrix-multiply-a.svg --></blockquote>
+<p><img loading="lazy" src="/img/basic/matrix-multiply-a.svg" alt="矩阵乘法"  />
 </p>
-<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220513144649229.png" alt="image-20220513144649229" style="zoom: 25%;" /></blockquote>
+<blockquote>
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20220513144649229.png --></blockquote>
+<img src="/img/basic/image-20220513144649229.png" alt="image-20220513144649229" style="zoom: 25%;" />
 <h2 id="12-简单应用">1.2 简单应用<a hidden class="anchor" aria-hidden="true" href="#12-简单应用">#</a></h2>
 <h3 id="121-乳腺癌分型">1.2.1 乳腺癌分型<a hidden class="anchor" aria-hidden="true" href="#121-乳腺癌分型">#</a></h3>
 <p>文章根据一个乳腺癌数据集表达矩阵，计算其中两两样本间分别关于ESR1、ERBB2相关基因集的相似性。基于此计算样本间的欧几里得距离(详见原文代码)，用于层次聚类。</p>
 <p>根据样本已知注释评价聚类结果，如下图所示具有较好的一致性。</p>
-<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220513152042461.png" alt="image-20220513152042461" style="zoom:50%;" />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20220513152042461.png -->
+<img src="/img/basic/image-20220513152042461.png" alt="image-20220513152042461" style="zoom:50%;" />
 <h3 id="122-生存分析">1.2.2 生存分析<a hidden class="anchor" aria-hidden="true" href="#122-生存分析">#</a></h3>
 <p>同样的数据集，根据不同给药处理分为四组，每组单独分析。在每组中，找到生存最好、最差的10%样本作为标准，计算其余每一样本分别与之的相似性，进行比较，得出Delta结果。
 $$
@@ -422,7 +418,8 @@ Delta =  (similarity,to,good,survival,cohort) -  (similarity,to,poor,survival,co
 $$
 如果Delta&gt;0, 表示该样本与生存良好的样本集更接近；反之Delta&lt;0, 表示与生存较差的样本集更接近。</p>
 <p>然后根据Delta正负性对每组样本进行分组生存分析，用以评价Delta的生存预后价值。</p>
-<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220513154846954.png" alt="image-20220513154846954" style="zoom:50%;" />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20220513154846954.png -->
+<img src="/img/basic/image-20220513154846954.png" alt="image-20220513154846954" style="zoom:50%;" />
 <h2 id="13-数据分享">1.3 数据分享<a hidden class="anchor" aria-hidden="true" href="#13-数据分享">#</a></h2>
 <h3 id="131-sign包">1.3.1 SIGN包<a hidden class="anchor" aria-hidden="true" href="#131-sign包">#</a></h3>
 <p>文章编写了一个R包 SIGN(Similarity Identiﬁcation in Gene expressioN)用于计算两个基因表达矩阵的相似性，已经上传到CRAN。</p>
@@ -455,7 +452,8 @@ $$
 <blockquote>
 <p>Pathway-Based Drug Response Prediction Using Similarity Identification in Gene Expression</p>
 <p>Frontiers in Genetics  2020 / 09  IF=4.6</p>
-<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220513161845939.png" alt="image-20220513161845939" style="zoom:50%;" /></blockquote>
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20220513161845939.png --></blockquote>
+<img src="/img/basic/image-20220513161845939.png" alt="image-20220513161845939" style="zoom:50%;" />
 <h2 id="21-应用思路">2.1 应用思路<a hidden class="anchor" aria-hidden="true" href="#21-应用思路">#</a></h2>
 <ul>
 <li>
@@ -468,15 +466,17 @@ $$
 <p>一方面考虑单基因作为biomarker的区分效果，另一方面使用上面提及的TSC score方法评价通路作为biomarker的预测效果。</p>
 </li>
 </ul>
-<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220513164326014.png" alt="image-20220513164326014" style="zoom: 25%;" />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20220513164326014.png -->
+<img src="/img/basic/image-20220513164326014.png" alt="image-20220513164326014" style="zoom: 25%;" />
 <h2 id="22-研究步骤">2.2 研究步骤<a hidden class="anchor" aria-hidden="true" href="#22-研究步骤">#</a></h2>
 <h3 id="221-数据与方法">2.2.1 数据与方法<a hidden class="anchor" aria-hidden="true" href="#221-数据与方法">#</a></h3>
 <ul>
 <li>
 <p>使用来自NeoALTTO clinical trial数据集，根据治疗方式分为Lapatinib、Trastuzumab，以及联用组。并进一步根据ER状态分为阴性组与阳性组。</p>
-<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220513171315466.png" alt="image-20220513171315466" style="zoom: 67%;" />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20220513171315466.png -->
 </li>
 </ul>
+<img src="/img/basic/image-20220513171315466.png" alt="image-20220513171315466" style="zoom: 67%;" />
 <blockquote>
 <p>Relying on the common knowledge on ER being one of the main drivers in breast cancer development and progression (Fuqua,1997), we stratified our analyses based on the ER status.</p></blockquote>
 <ul>
@@ -490,7 +490,8 @@ $$
 <h3 id="222-单基因biomarker分析">2.2.2 单基因biomarker分析<a hidden class="anchor" aria-hidden="true" href="#222-单基因biomarker分析">#</a></h3>
 <p>根据患者的基因表达与响应状态关系，计算C-index。使用置换检验评价结果的显著性。</p>
 <p>结果发现最好的单基因C-index值为0.68，即使是marker基因ERBB2的C-index值仅为0.59。</p>
-<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220513170032138.png" alt="image-20220513170032138"  />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20220513170032138.png -->
+<p><img loading="lazy" src="/img/basic/image-20220513170032138.png" alt="image-20220513170032138"  />
 </p>
 <h3 id="223-通路biomaker分析">2.2.3 通路biomaker分析<a hidden class="anchor" aria-hidden="true" href="#223-通路biomaker分析">#</a></h3>
 <ul>
@@ -505,11 +506,13 @@ $$
 <p><strong>留一法交叉验证</strong>：选择一个病人，分别计算其与剩余样本中任意5个Responder的通路相似度，以及任意5个Non-Responder的通路相似度，比较二者结果的中位数，贴标签；重复100次取众数。计算C-index。</p>
 </li>
 </ul>
-<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220513171414207.png" alt="image-20220513171414207" style="zoom:67%;" />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20220513171414207.png -->
+<img src="/img/basic/image-20220513171414207.png" alt="image-20220513171414207" style="zoom:67%;" />
 <ul>
 <li>结果发现，每组的Top通路的C-index可达到0.8，优于其它机器学习的预测结果。</li>
 </ul>
-<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220513170442175.png" alt="image-20220513170442175" style="zoom: 67%;" />
+<!-- 原链接：https://raw.githubusercontent.com/lishensuo/images/main/image-20220513170442175.png -->
+<img src="/img/basic/image-20220513170442175.png" alt="image-20220513170442175" style="zoom: 67%;" />
 
   </div>
 
