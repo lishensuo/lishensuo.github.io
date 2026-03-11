@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>文献--单细胞组学大模型之scGPT | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="文献-算法">
+<meta name="description" content="
+文献： scGPT: toward building a foundation model for single-cell multi-omics using generative AI
+时间：2024 Feb. (Published)
+期刊：Nature Method
+DOI：https://doi.org/10.1038/s41592-024-02201-0">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/basic/202-scgpt/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.af29093799c35bd05a068d5ab092858ff3a75905607cac7c1c2694b85e8c8dba.css" integrity="sha256-rykJN5nDW9BaBo1asJKFj/OnWQVgfKx8HCaUuF6Mjbo=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/basic/202-scgpt/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="文献--单细胞组学大模型之scGPT" />
+<meta property="og:description" content="
+文献： scGPT: toward building a foundation model for single-cell multi-omics using generative AI
+时间：2024 Feb. (Published)
+期刊：Nature Method
+DOI：https://doi.org/10.1038/s41592-024-02201-0" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/basic/202-scgpt/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-09-29T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2024-09-29T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="文献--单细胞组学大模型之scGPT"/>
+<meta name="twitter:description" content="
+文献： scGPT: toward building a foundation model for single-cell multi-omics using generative AI
+时间：2024 Feb. (Published)
+期刊：Nature Method
+DOI：https://doi.org/10.1038/s41592-024-02201-0"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 科研基础 -- 读文献、看教材",
+      "item": "https://lishensuo.github.io/en/posts/basic/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "文献--单细胞组学大模型之scGPT",
+      "item": "https://lishensuo.github.io/en/posts/basic/202-scgpt/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "文献--单细胞组学大模型之scGPT",
+  "name": "文献--单细胞组学大模型之scGPT",
+  "description": " 文献： scGPT: toward building a foundation model for single-cell multi-omics using generative AI\n时间：2024 Feb. (Published)\n期刊：Nature Method\nDOI：https://doi.org/10.1038/s41592-024-02201-0\n",
+  "keywords": [
+    "文献-算法"
+  ],
+  "articleBody": " 文献： scGPT: toward building a foundation model for single-cell multi-omics using generative AI\n时间：2024 Feb. (Published)\n期刊：Nature Method\nDOI：https://doi.org/10.1038/s41592-024-02201-0\nGithub：https://github.com/bowang-lab/scGPT\n1. 简介 1.1 关于作者 通讯作者：Bo Wang，多伦多大学\nhttps://wanglab.ai/ https://github.com/bowang-lab/ https://scholar.google.com/citations?hl=en\u0026user=37FDILIAAAAJ 1.2 文献概述 受启发于GPT等基于transformer的大模型，Wang团队基于大量单细胞转录组数据，构建了scGPT foundation model，可用于多种常见的单细胞下游分析任务，性能优于其它已有的分析工具。\n核心假设：\n在NLP领域中，一个句子由多个单词组成。经过预训练的自监督学习，foundation model可以提取输入句子中每个单词(或者句子整体)的高级表示(Embedding)； 而在scRNA-seq中，一个细胞可以认为由所有基因的不同程度表达定义。经过预训练的自监督学习，foundation model可以提取输入单细胞表达数据的每个基因(或者细胞整体)的高级表示(Embedding)。 在Pre-trained foundation models基础上，将提取的基因/细胞Embedding在具体的单细胞下游分析任务中进行二次微调(fine-tune)，发挥大数据生成的强大优势。\n2. Pretrain预训练 Pre-train foundation model的核心功能就是以一个单细胞的数据为输入，将提取的Gene/Cell Embedding为输出。\n2.0 数据规模 文章从CELLxGENE网站收集了33M个正常细胞的scRNA-seq数据用于训练Foundation model 其中来自Brain、Blood等器官的细胞数最多 2.1 初始化输入 scGPT的原始输入数据通常为N个细胞，G个基因的Count表达矩阵。此时，需要对每个细胞的基因数据进行初始化处理，作为scGPT的标准输入； 概括来说，分别从每个基因的三个角度进行D维嵌入编码 (1×D)，然后再进行矩阵加法（仍为1×D），最终将所有基因合并得到（M×D）的细胞特征矩阵。 因为细胞的基因会根据情况进行选择，并且考虑到等特殊词元，所以这里并不是G×D\n（1）Gene token\n所有基因(词元)构成的词表中，每个基因都有一个对应的整数标识符（Integer Identifier） 此外还有其它特殊的词元，例如, 等 词元通常放在细胞M个词元中的第一个，不表示特定基因，而用于cell representation 词元用于补长至固定长度M(e.g. 有些情况不考虑表达值为0的基因时) 采用PyTorch embedding layer将投射成D维的Embedding （2）Gene expression\n单细胞的count表达值在不同测序背景的条件下，不具有可比性。 scGPT采用bin分段处理，将单个细胞i的非零基因表达值，分为k个bins，分数分别是1..k。 例如，若基因bin打分为k，表示其表达值处于最高的bin范围内； 每个细胞分bin的阈值标准都会不尽相同。 采用MLP，转换为D维的Embedding （3）Condition token\n记录基因额外的Condition token，例如是否为perturbated genes 采用PyTorch embedding layer将投射成D维的Embedding 综上，一个细胞(i)的初始化输入h (M × D)的计算方式如下图所示。其中第一列通常表示为作为Cell representation；其它列（除等特殊字符外，均表示Gene Embedding。\n2.2 自监督训练 （1）Transformer块\nFoundation model主要由 12 (l)个Transformer块组成，每个块则均采用了多头（8）自注意力机制； 由于这里的M通常较大，即一个细胞考虑数千上万个基因（可以理解为特别长的句子），scGPT采用了FlashAttention算法用以加速自注意力计算。\n此外，对于每个细胞，只有表达值非0的基因参与预训练过程，以提高速度。\n作者也推荐了其它高效计算的Transformer变体，包括linear complexity (Linformer)，Kernelized Self-Attention (KSA)。\n（2）自监督任务\nscGPT自监督任务的核心是预测掩码(masked)基因的表达值水平，采用MSE损失函数。 具体分为如下两个子任务： Gene-prompt：基于已知表达值的Gene Embedding，预测未知表达值Gene的expression value； Cell-prompt：基于 cell representation预测全基因的expression value。 然后，将上述两种模式的损失loss相加后，再计算梯度并更新模型参数。 （3）Masked Attention\n自注意计算过程为：将masked gene Embedding( without expression) 作为query，计算与其它known gene Embedding（也包括自己）的注意力权重后，再进行加权运算得到输出； 与GPT模型所处理的文本句不同之处在于：the non-sequential nature of the genes in one cell. 为此作者设计了masked attention注意力计算方式； 如上公式，在不考虑Amask的情况下，为标准的自注意力计算方式。而Amask可参考如下公式，以及下图左A（行表示query，列表示key）理解。每一个query（i）计算与其他词元注意力（包括与它自己）时： 若key （j）不是unknown expression gene，则为0； 若i = j时，且j是unknown expression gene，则为0（自己与自己的注意力计算） 其它情况下，则为负无穷（对应图中的深蓝色单元格） 每一行(i)表示一个query词元与该细胞所有词元的注意力计算。 a = 0表示不产生任何影响，a = -inf表示将query(i)对于key(j)的注意力置换为-inf，经softmax转换后则变为0。 The rule of thumb for scGPT attention masking is to only allow attention computation between embeddings of the ‘known genes’ and the query gene itself.\n在一个cell的全部masked gene表达值预测的过程中，采用多轮（k）迭代预测的思路（如上图右，类比GPT的自回归训练） 在第一轮中，对于所有masked token的预测，将其中1/k个high prediction confidence的token标注为known genes。 然后在新一轮迭代中，重复上一步骤，直至预测出所有的masked token。 值得注意的是，文章并没有说明prediction confidence是如何计算的。个人理解本质还是基于与真实表达值之间的误差。 In each generation iteration, scGPT predicts the gene expression values of a new set of genes, and these genes in turn become the ‘known genes’ in the next iteration for attention computation.\n2.3 多批次与多模态表示 在多批次、多组学合并下游任务中，需要额外的token Embedding以表示必要的批次和组学信息，供模型学习； 但是scGPT在Transformer的pre-train过程中，并未加入相关信息。而是在foundation model的输出结果中再进行拼接操作，即模型在Pre-train后，Fine-tune前引入批次和模态信息，以希望在微调过程中学习到相关信息。 这样做的主要原因是：如果批次和模态信息在输入阶段被引入，Transformer的自注意力机制可能会过度关注同一模态或批次内的特征，导致模型忽略跨模态或批次的重要关联。 This is to prevent the transformer from amplifying the attention within features of the same modalities while underestimating those of different modalities.\nmodality tokens (tm)：表示词元对应的feature是Gene/Protein/Peak中的哪一种； batch tokens (tb)：表示token是否来自一个批次，通常对于细胞来说的。因此一个细胞的batch token都是一样的。 如下公式，表示同时存在多批次以及多组学的情况 如下公式，表示同种组学，存在多批次的情况 3. Fine-tune微调 3.1 细胞类型注释 （1）Method\n对于Foundation model提取的每个细胞Cell Embedding () 构建一个MLP分类器，用以预测细胞的类别，并使用交叉熵作为损失函数。\n首先使用一个标注细胞类型的数据集（reference set）进行Fine-tune，然后再使用一个Held-out数据集验证\n输入数据前的预处理：\ncommon set between foundation model and the input data Gene expression: normalization → log1 → bin All gene as input (include zero expression) （2）Result\n在Human pancreas (胰腺) dataset\n对于每种细胞的预测Precision都达到0.8以上 (预测为该细胞类型中，实际为该细胞类型的比例) 以Human immune cells进行fine-tune，预测多发性硬化症(MS)的细胞类型\n平均准确率Accuracy可以达到0.85左右 使用6种肿瘤细胞类型作为fine-tune，预测3种其它肿瘤的细胞类型\n在肿瘤微环境细胞类型预测同样表现良好 与TOSICA、scBERT模型进行了比较，均表现出一定的优势\n此外，作者还提出了Reference mapping注释方法：在Zero/Fine-tune模型时，获得标签细胞类型的Cell Embedding。然后再计算出Query cells的Embedding。最后据此，计算出每个Query cell最相近的Reference cells，从而注释其细胞类型（KNN）。\n3.2 基因扰动预测 （1）Method\n对于Foundation model提取的每个细胞的Gene Embedding，将一部分基因的表达值掩码，从而进行Fine-tune微调训练，并以MSE作为损失函数； 在Perturbation prediction task： Input: Gene expression为Control cell expression, Condition token标注相应位置Gene是否被Perturbate Output: Post-perturbation expression 输入数据前的预处理： only select HVGs for training Log1p expression instead of binned values （output相同） （2）Result\n分别基于三个单细胞CRISPR数据集，比较了scGPT与Linear、GEARS模型的性能表现 Adamson: 87 one-gene perturbations； Replogle: 2823 one-gene perturbations； Norman: 131 two-gene and 105 one-gene perturbations 对于每个数据集，使用一部分的扰动数据进行fine-tune，再对其余unseen gene的扰动数据作为test 评价指标为计算预测与真实的post-perturbation expression的相关性 (基于全部基因，或者是前20个影响最显著的基因) 结果发现scGPT模型相比于其它两种模型，提高了5–20% （3）In silicon reverse perturbation prediction\n简单理解，根据perturbation expression的结果反向预测是最有可能哪个基因被扰动； 参考作者在Github issue （https://github.com/bowang-lab/scGPT/issues/87）的解答： 其Fine-tune步骤其实与上面Perturbation prediction task基本一致； 使用数据集的一部分进行微调后，再预测所有相关基因扰动的表达结果； 最后使用真实的Query perturbation上述的预测结果进行KNN关联分析。 The model was fine-tuned in the same way as in the “forward” perturbation prediction. It used a subset of the dataset as we illustrated in Figure 3F. The reverse perturbation task utilized the model in a different way. To summarize, the result cell states of all possible perturbations were predicted by the fine-tuned model, and then an actual sequenced cell state can query all the predicted cell states in a nearest neighbor search manner, so that the retrieved neighbors indicate the possible origin perturbations.\n3.3 多批次/组学整合 （1）Method（Multi-batch）\n核心目标：对于多批次的scRNA-seq数据，优化不同批次中每个细胞的cell representation\ncorrect batch effects while preserving biological variance 输入数据的预处理\nCommon set between foundation model and the input data\nGene expression: normalization–log1–bin\nAll genes as input (include zero expression)\n如2.3中所述，在微调前，还需要在Foundation model的输出结果中，补充细胞的批次信息。\n具体在Fine-tune训练中，设计了对多个目标函数进行损失计算，以共同用于模型优化\n1）GEP：基因表达预测，参考3.2；\n2）GEPC, Gene expression prediction for cell modeling，即为了优化Cell Embedding(hc)，而预测基因表达。\n3）ECS, Elastic cell similarity：基于一个mini-batch的两个细胞的相似度计算损失函数。使得高于某个阈值的两个细胞更相似，低于的则更远离。\n4）Domain adaptation via reverse back propagation：主要作用是使得生成的cell representation表示经过MLP分类器无法预测其正确的batch信息（类似于GAN 对抗神经网络）。本质上还是建立MLP预测Batch的分类器，但是计算梯度后，进行反向更新参数。\n（2）Result\n基于三个数据集，比较了scGPT与scVI，Seurat，Harmony三个工具去批次的效果\nCOVID-19: 18 batches\nPBMC-10K: 2 batches\nPerirhinal cortex: 2 batches\n评价指标：基于三个指标（NMI/ARI/ASW）的AvgBIO，值越高表明去批次效果越好。\nscGPT均优于其它三种工具的效果。 （3）Multi-omics integration\nMethod\n目标是使得相同细胞类型的不同组学数据能够有相似的Cell Embedding，从而在聚类时比较接近。 scGPT主要考虑了3种组学，分别是scRNA-seq、scATAC-seq，Single-cell proteomics。对此，有两种数据形式： paired setting：一群细胞同时测多种组学 mosaic setting：一群细胞测一种组学，另一群测另一组。 对于scRNA-seq可以直接继承第2节训练的Foundation model，对于其它两组需要重头训练。 在Pre-train之后，如2.3小节需要拼接表示多模态的token（如果涉及多批次，也要添加batch token） Fine-tune 目标函数包括GEP，GEPC（如果涉及多批次，还需要添加DAR） Result\n对于Multiome PBMC (paired)数据集，与scGLUE，Seurat进行了比较，如下图所示\nRNA-seq、ATAC 对于Bone marrow mononuclear cells (paired)数据集，与Seurat进行了比较\nRNA-seq、Protein 9w个细胞，12个donor(multiple batches)，48种细胞类型 对于ASAP human PBMC (mosaic)数据集，与scMoMat进行了比较\n4个批次，3种组学 3.4 基因调控网络构建 （1）Method\n本质上是基于Foundation model或者Fine-tune model提取的Gene Embedding计算两两基因间的相关性，用来构建gene similarity network。\nZero-shot setting模式下，直接使用Foundation model输出的Gene Embedding计算；\nFine-tuned setting模式下，使用特定数据集微调后输出的Gene Embedding计算\n使用integration task进行微调，以学习特定数据集相关的Gene Embedding （下同）\n基于注意力机制的target gene鉴定：Attention map可以反映出基因之间的相互影响。其中，每一列(column)，表示这个gene（列名）对所有query gene的influence。\n使用perturbation datasets可以帮助推测perturbating gene的target，如下图所示\n首先，基于control cell得到的attention map； 然后，基于perturbation expression得到的attention map； 计算上述二者对的差值，可以推测特定基因干扰前后，影响最大的gene （2）Result\n文章首先对zero-shot模式进行了探索，然后在对一个human immune dataset进行了Fine-tune后构建GRN，均发现了具有生物学意义的调控网络以及Gene cluster (Leiden)，并进行了通路富集分析等。 接下来，作者基于Pre-train scGPT blood model，使用了Adamson CRISPR数据集(87 CRISPR inference on leukemia cells)进行了微调。 例如下图，通过比较DDIT3扰动前后的difference attention score, 鉴定了其影响最大的的Top20/100个基因。 4. 模型影响因素 综上，scGPT Foundation model在处理下游分析任务时，相比于其它已有的单细胞工具均表现出明显的优势； 最后，文章讨论了两个可能影响Pre-train model性能表现的因素。 4.1 训练样本量 首先，文章研究了训练样本量对于预训练模型的影响； 如下图，结果发现数据量最多时（从30K到33M），模型在多种下游任务中的表现越好； As larger and more diverse datasets become available, we can anticipate further improvements in model performance, advancing our understanding of cellular processes. 4.2 训练样本类型 文章进一步研究了细胞来源对于模型的影响； 在COVID-19数据集的多批次合并任务中，结果发现： 使用全部33M数据与仅使用Blood数据的Foundation model的性能比较接近； Lung来源的细胞量尽管只有2.1M，远少于Brain细胞量(13.2M)，但前者性能明显表现更优。 This emphasizes the importance of aligning the cellular context in pretraining with the target dataset for superior results in downstream tasks. 后续将参考scGPT工具的教程手册及源代码，学习其构建细节与数据处理方式等。\n",
+  "wordCount" : "6652",
+  "inLanguage": "en",
+  "datePublished": "2024-09-29T00:00:00Z",
+  "dateModified": "2024-09-29T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/basic/202-scgpt/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/basic/">📖 科研基础 -- 读文献、看教材</a></div>
+    <h1 class="post-title">
+      文献--单细胞组学大模型之scGPT
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2024-09-29 00:00:00 +0000 UTC'>2024-09-29</span>&nbsp;|&nbsp;Update:&nbsp;2024-09-29&nbsp;|&nbsp;Words:&nbsp;6652&nbsp;|&nbsp;14 min&nbsp;|&nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#1-%e7%ae%80%e4%bb%8b" aria-label="1. 简介">1. 简介</a><ul>
+                            
+                    <li>
+                        <a href="#11-%e5%85%b3%e4%ba%8e%e4%bd%9c%e8%80%85" aria-label="1.1 关于作者">1.1 关于作者</a></li>
+                    <li>
+                        <a href="#12-%e6%96%87%e7%8c%ae%e6%a6%82%e8%bf%b0" aria-label="1.2 文献概述">1.2 文献概述</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#2-pretrain%e9%a2%84%e8%ae%ad%e7%bb%83" aria-label="2. Pretrain预训练">2. Pretrain预训练</a><ul>
+                            
+                    <li>
+                        <a href="#20-%e6%95%b0%e6%8d%ae%e8%a7%84%e6%a8%a1" aria-label="2.0 数据规模">2.0 数据规模</a></li>
+                    <li>
+                        <a href="#21-%e5%88%9d%e5%a7%8b%e5%8c%96%e8%be%93%e5%85%a5" aria-label="2.1 初始化输入">2.1 初始化输入</a></li>
+                    <li>
+                        <a href="#22-%e8%87%aa%e7%9b%91%e7%9d%a3%e8%ae%ad%e7%bb%83" aria-label="2.2 自监督训练">2.2 自监督训练</a></li>
+                    <li>
+                        <a href="#23-%e5%a4%9a%e6%89%b9%e6%ac%a1%e4%b8%8e%e5%a4%9a%e6%a8%a1%e6%80%81%e8%a1%a8%e7%a4%ba" aria-label="2.3 多批次与多模态表示">2.3 多批次与多模态表示</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#3-fine-tune%e5%be%ae%e8%b0%83" aria-label="3. Fine-tune微调">3. Fine-tune微调</a><ul>
+                            
+                    <li>
+                        <a href="#31-%e7%bb%86%e8%83%9e%e7%b1%bb%e5%9e%8b%e6%b3%a8%e9%87%8a" aria-label="3.1 细胞类型注释">3.1 细胞类型注释</a></li>
+                    <li>
+                        <a href="#32-%e5%9f%ba%e5%9b%a0%e6%89%b0%e5%8a%a8%e9%a2%84%e6%b5%8b" aria-label="3.2 基因扰动预测">3.2 基因扰动预测</a></li>
+                    <li>
+                        <a href="#33-%e5%a4%9a%e6%89%b9%e6%ac%a1%e7%bb%84%e5%ad%a6%e6%95%b4%e5%90%88" aria-label="3.3 多批次/组学整合">3.3 多批次/组学整合</a></li>
+                    <li>
+                        <a href="#34-%e5%9f%ba%e5%9b%a0%e8%b0%83%e6%8e%a7%e7%bd%91%e7%bb%9c%e6%9e%84%e5%bb%ba" aria-label="3.4 基因调控网络构建">3.4 基因调控网络构建</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#4-%e6%a8%a1%e5%9e%8b%e5%bd%b1%e5%93%8d%e5%9b%a0%e7%b4%a0" aria-label="4. 模型影响因素">4. 模型影响因素</a><ul>
+                            
+                    <li>
+                        <a href="#41-%e8%ae%ad%e7%bb%83%e6%a0%b7%e6%9c%ac%e9%87%8f" aria-label="4.1 训练样本量">4.1 训练样本量</a></li>
+                    <li>
+                        <a href="#42-%e8%ae%ad%e7%bb%83%e6%a0%b7%e6%9c%ac%e7%b1%bb%e5%9e%8b" aria-label="4.2 训练样本类型">4.2 训练样本类型</a>
+                    </li>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><blockquote>
+<p><strong>文献</strong>： scGPT: toward building a foundation model for single-cell multi-omics using generative AI</p>
+<p><strong>时间</strong>：2024 Feb. (Published)</p>
+<p><strong>期刊</strong>：Nature Method</p>
+<p><strong>DOI</strong>：https://doi.org/10.1038/s41592-024-02201-0</p>
+<p><strong>Github</strong>：https://github.com/bowang-lab/scGPT</p></blockquote>
+<h1 id="1-简介">1. 简介<a hidden class="anchor" aria-hidden="true" href="#1-简介">#</a></h1>
+<h2 id="11-关于作者">1.1 关于作者<a hidden class="anchor" aria-hidden="true" href="#11-关于作者">#</a></h2>
+<p>通讯作者：<strong>Bo Wang</strong>，多伦多大学</p>
+<ul>
+<li><a href="https://wanglab.ai/">https://wanglab.ai/</a></li>
+<li><a href="https://github.com/bowang-lab/">https://github.com/bowang-lab/</a></li>
+<li><a href="https://scholar.google.com/citations?hl=en&amp;user=37FDILIAAAAJ">https://scholar.google.com/citations?hl=en&user=37FDILIAAAAJ</a></li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240928131111066.png" alt="image-20240928131111066"  />
+</p>
+<h2 id="12-文献概述">1.2 文献概述<a hidden class="anchor" aria-hidden="true" href="#12-文献概述">#</a></h2>
+<ul>
+<li>
+<p>受启发于GPT等基于transformer的大模型，Wang团队基于大量单细胞转录组数据，构建了scGPT foundation model，可用于多种常见的单细胞下游分析任务，性能优于其它已有的分析工具。</p>
+</li>
+<li>
+<p>核心假设：</p>
+<ul>
+<li>在NLP领域中，一个句子由多个单词组成。经过预训练的自监督学习，foundation model可以提取输入句子中每个单词(或者句子整体)的高级表示(Embedding)；</li>
+<li>而在scRNA-seq中，一个细胞可以认为由所有基因的不同程度表达定义。经过预训练的自监督学习，foundation model可以提取输入单细胞表达数据的每个基因(或者细胞整体)的高级表示(Embedding)。</li>
+</ul>
+</li>
+<li>
+<p>在Pre-trained foundation models基础上，将提取的基因/细胞Embedding在具体的单细胞下游分析任务中进行二次微调(fine-tune)，发挥大数据生成的强大优势。</p>
+</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240928131642668.png" alt="image-20240928131642668"  />
+</p>
+<h1 id="2-pretrain预训练">2. Pretrain预训练<a hidden class="anchor" aria-hidden="true" href="#2-pretrain预训练">#</a></h1>
+<blockquote>
+<p>Pre-train foundation model的核心功能就是以一个单细胞的数据为输入，将提取的Gene/Cell Embedding为输出。</p></blockquote>
+<h2 id="20-数据规模">2.0 数据规模<a hidden class="anchor" aria-hidden="true" href="#20-数据规模">#</a></h2>
+<ul>
+<li>文章从CELLxGENE网站收集了33M个正常细胞的scRNA-seq数据用于训练Foundation model</li>
+<li>其中来自Brain、Blood等器官的细胞数最多</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240929091250859.png" alt="image-20240929091250859"  />
+</p>
+<h2 id="21-初始化输入">2.1 初始化输入<a hidden class="anchor" aria-hidden="true" href="#21-初始化输入">#</a></h2>
+<ul>
+<li>scGPT的原始输入数据通常为N个细胞，G个基因的Count表达矩阵。此时，需要对每个细胞的基因数据进行初始化处理，作为scGPT的标准输入；</li>
+<li>概括来说，分别从每个基因的三个角度进行D维嵌入编码 (1×D)，然后再进行矩阵加法（仍为1×D），最终将所有基因合并得到（M×D）的细胞特征矩阵。</li>
+</ul>
+<blockquote>
+<p>因为细胞的基因会根据情况进行选择，并且考虑到&lt;cls&gt;等特殊词元，所以这里并不是G×D</p></blockquote>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240928150405475.png" alt="image-20240928150405475"  />
+</p>
+<p><strong>（1）Gene token</strong></p>
+<ul>
+<li>所有基因(词元)构成的词表中，每个基因都有一个对应的整数标识符（Integer Identifier）</li>
+<li>此外还有其它特殊的词元，例如&lt;cls&gt;, &lt;pad&gt;等
+<ul>
+<li>&lt;cls&gt;词元通常放在细胞M个词元中的第一个，不表示特定基因，而用于cell representation</li>
+<li>&lt;pad&gt;词元用于补长至固定长度M(e.g. 有些情况不考虑表达值为0的基因时)</li>
+</ul>
+</li>
+<li>采用PyTorch embedding layer将投射成D维的Embedding</li>
+</ul>
+<p><strong>（2）Gene expression</strong></p>
+<ul>
+<li>单细胞的count表达值在不同测序背景的条件下，不具有可比性。</li>
+<li>scGPT采用bin分段处理，将单个细胞i的非零基因表达值，分为k个bins，分数分别是1..k。
+<ul>
+<li>例如，若基因bin打分为k，表示其表达值处于最高的bin范围内；</li>
+<li>每个细胞分bin的阈值标准都会不尽相同。</li>
+</ul>
+</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240928144527642.png" alt="image-20240928144527642"  />
+</p>
+<ul>
+<li>采用MLP，转换为D维的Embedding</li>
+</ul>
+<p><strong>（3）Condition token</strong></p>
+<ul>
+<li>记录基因额外的Condition token，例如是否为perturbated genes</li>
+<li>采用PyTorch embedding layer将投射成D维的Embedding</li>
+</ul>
+<p>综上，一个细胞(i)的初始化输入h (M × D)的计算方式如下图所示。其中第一列通常表示为&lt;cls&gt;作为Cell representation；其它列（除&lt;pad&gt;等特殊字符外，均表示Gene Embedding。</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240928143902797.png" alt="image-20240928143902797"  />
+</p>
+<h2 id="22-自监督训练">2.2 自监督训练<a hidden class="anchor" aria-hidden="true" href="#22-自监督训练">#</a></h2>
+<p><strong>（1）Transformer块</strong></p>
+<ul>
+<li>Foundation model主要由 12 (<code>l</code>)个Transformer块组成，每个块则均采用了多头（8）自注意力机制；</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240928152927329.png" alt="image-20240928152927329"  />
+</p>
+<ul>
+<li>
+<p>由于这里的M通常较大，即一个细胞考虑数千上万个基因（可以理解为特别长的句子），scGPT采用了FlashAttention算法用以加速自注意力计算。</p>
+<blockquote>
+<p>此外，对于每个细胞，只有表达值非0的基因参与预训练过程，以提高速度。</p></blockquote>
+</li>
+<li>
+<p>作者也推荐了其它高效计算的Transformer变体，包括linear complexity (Linformer)，Kernelized Self-Attention (KSA)。</p>
+</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240928151221844.png" alt="image-20240928151221844" style="zoom:67%;" />
+<p><strong>（2）自监督任务</strong></p>
+<ul>
+<li>scGPT自监督任务的核心是预测掩码(masked)基因的表达值水平，采用MSE损失函数。</li>
+<li>具体分为如下两个子任务：
+<ul>
+<li>Gene-prompt：基于已知表达值的Gene Embedding，预测未知表达值Gene的expression value；</li>
+<li>Cell-prompt：基于&lt;cls&gt; cell representation预测全基因的expression value。</li>
+</ul>
+</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240928154530333.png" alt="image-20240928154530333"  />
+</p>
+<ul>
+<li>然后，将上述两种模式的损失loss相加后，再计算梯度并更新模型参数。</li>
+</ul>
+<p><strong>（3）Masked Attention</strong></p>
+<ul>
+<li>自注意计算过程为：将masked gene Embedding( without expression) 作为query，计算与其它known gene Embedding（也包括自己）的注意力权重后，再进行加权运算得到输出；</li>
+<li>与GPT模型所处理的文本句不同之处在于：the <strong>non-sequential</strong> nature of the genes in one cell. 为此作者设计了masked attention注意力计算方式；</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240928155607273.png" alt="image-20240928155607273"  />
+</p>
+<ul>
+<li>如上公式，在不考虑<strong>A</strong>mask的情况下，为标准的自注意力计算方式。而<strong>A</strong>mask可参考如下公式，以及下图左A（行表示query，列表示key）理解。每一个query（i）计算与其他词元注意力（包括与它自己）时：
+<ul>
+<li>若key （j）不是unknown expression gene，则为0；</li>
+<li>若i = j时，且j是unknown expression gene，则为0（自己与自己的注意力计算）</li>
+<li>其它情况下，则为负无穷（对应图中的深蓝色单元格）</li>
+<li>每一行(i)表示一个query词元与该细胞所有词元的注意力计算。</li>
+</ul>
+</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240928160244274.png" alt="image-20240928160244274" style="zoom:67%;" />
+<ul>
+<li>a = 0表示不产生任何影响，a = -inf表示将query(i)对于key(j)的注意力置换为-inf，经softmax转换后则变为0。</li>
+</ul>
+<blockquote>
+<p>The rule of thumb for scGPT attention masking is to only allow attention computation between embeddings of the ‘known genes’ and the query gene itself.</p></blockquote>
+<img src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240928160540771.png" alt="image-20240928160540771" style="zoom: 50%;" />
+<ul>
+<li>在一个cell的全部masked gene表达值预测的过程中，采用多轮（k）迭代预测的思路（如上图右，类比GPT的自回归训练）
+<ul>
+<li>在第一轮中，对于所有masked token的预测，将其中1/k个high prediction confidence的token标注为known genes。</li>
+<li>然后在新一轮迭代中，重复上一步骤，直至预测出所有的masked token。</li>
+<li>值得注意的是，文章并没有说明prediction confidence是如何计算的。个人理解本质还是基于与真实表达值之间的误差。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>In each generation iteration, scGPT predicts the gene expression values of a new set of genes, and these genes in turn become the ‘known genes’ in the next iteration for attention computation.</p></blockquote>
+<h2 id="23-多批次与多模态表示">2.3 多批次与多模态表示<a hidden class="anchor" aria-hidden="true" href="#23-多批次与多模态表示">#</a></h2>
+<ul>
+<li>在多批次、多组学合并下游任务中，需要额外的token Embedding以表示必要的批次和组学信息，供模型学习；</li>
+<li>但是scGPT在Transformer的pre-train过程中，并未加入相关信息。而是在foundation model的输出结果中再进行拼接操作，即模型在Pre-train后，Fine-tune前引入批次和模态信息，以希望在微调过程中学习到相关信息。</li>
+<li>这样做的主要原因是：如果批次和模态信息在输入阶段被引入，Transformer的自注意力机制可能会过度关注同一模态或批次内的特征，导致模型忽略跨模态或批次的重要关联。</li>
+</ul>
+<blockquote>
+<p>This is to prevent the transformer from amplifying the attention within features of the same modalities while underestimating those of different modalities.</p></blockquote>
+<ul>
+<li>modality tokens (tm)：表示词元对应的feature是Gene/Protein/Peak中的哪一种；</li>
+<li>batch tokens (tb)：表示token是否来自一个批次，通常对于细胞来说的。因此一个细胞的batch token都是一样的。</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240924205846107.png" alt="image-20240924205846107"  />
+</p>
+<ul>
+<li>如下公式，表示同时存在多批次以及多组学的情况</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240924211913127.png" alt="image-20240924211913127"  />
+</p>
+<ul>
+<li>如下公式，表示同种组学，存在多批次的情况</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240924212230354.png" alt="image-20240924212230354"  />
+</p>
+<h1 id="3-fine-tune微调">3. Fine-tune微调<a hidden class="anchor" aria-hidden="true" href="#3-fine-tune微调">#</a></h1>
+<h2 id="31-细胞类型注释">3.1 细胞类型注释<a hidden class="anchor" aria-hidden="true" href="#31-细胞类型注释">#</a></h2>
+<p><strong>（1）Method</strong></p>
+<ul>
+<li>
+<p>对于Foundation model提取的每个细胞<strong>Cell Embedding (&lt;cls&gt;)</strong> 构建一个MLP分类器，用以预测细胞的类别，并使用交叉熵作为损失函数。</p>
+</li>
+<li>
+<p>首先使用一个标注细胞类型的数据集（reference set）进行Fine-tune，然后再使用一个Held-out数据集验证</p>
+</li>
+<li>
+<p>输入数据前的预处理：</p>
+<ul>
+<li>common set between foundation model and the input data</li>
+<li>Gene expression: normalization → log1 → bin</li>
+<li>All gene as input (include zero expression)</li>
+</ul>
+</li>
+</ul>
+<p><strong>（2）Result</strong></p>
+<ul>
+<li>
+<p>在Human pancreas (胰腺) dataset</p>
+<ul>
+<li>对于每种细胞的预测Precision都达到0.8以上 (预测为该细胞类型中，实际为该细胞类型的比例)</li>
+</ul>
+</li>
+<li>
+<p>以Human immune cells进行fine-tune，预测多发性硬化症(MS)的细胞类型</p>
+<ul>
+<li>平均准确率Accuracy可以达到0.85左右</li>
+</ul>
+</li>
+<li>
+<p>使用6种肿瘤细胞类型作为fine-tune，预测3种其它肿瘤的细胞类型</p>
+<ul>
+<li>在肿瘤微环境细胞类型预测同样表现良好</li>
+</ul>
+</li>
+<li>
+<p>与TOSICA、scBERT模型进行了比较，均表现出一定的优势</p>
+</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240926100118451.png" alt="image-20240926100118451"  />
+</p>
+<blockquote>
+<p>此外，作者还提出了Reference mapping注释方法：在Zero/Fine-tune模型时，获得标签细胞类型的Cell Embedding。然后再计算出Query cells的Embedding。最后据此，计算出每个Query cell最相近的Reference cells，从而注释其细胞类型（KNN）。</p></blockquote>
+<h2 id="32-基因扰动预测">3.2 基因扰动预测<a hidden class="anchor" aria-hidden="true" href="#32-基因扰动预测">#</a></h2>
+<p><strong>（1）Method</strong></p>
+<ul>
+<li>对于Foundation model提取的每个细胞的Gene Embedding，将一部分基因的表达值掩码，从而进行Fine-tune微调训练，并以MSE作为损失函数；</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240928201056193.png" alt="image-20240928201056193" style="zoom:80%;" />
+<ul>
+<li>在Perturbation prediction task：
+<ul>
+<li>Input: Gene expression为Control cell expression, Condition token标注相应位置Gene是否被Perturbate</li>
+<li>Output: Post-perturbation expression</li>
+</ul>
+</li>
+<li>输入数据前的预处理：
+<ul>
+<li>only select HVGs for training</li>
+<li>Log1p expression instead of binned values （output相同）</li>
+</ul>
+</li>
+</ul>
+<p><strong>（2）Result</strong></p>
+<ul>
+<li>分别基于三个单细胞CRISPR数据集，比较了scGPT与Linear、GEARS模型的性能表现
+<ul>
+<li>Adamson: 87 one-gene perturbations；</li>
+<li>Replogle: 2823 one-gene perturbations；</li>
+<li>Norman: 131 two-gene and 105 one-gene perturbations</li>
+</ul>
+</li>
+<li>对于每个数据集，使用一部分的扰动数据进行fine-tune，再对其余unseen gene的扰动数据作为test</li>
+<li>评价指标为计算预测与真实的post-perturbation expression的相关性 (基于全部基因，或者是前20个影响最显著的基因)
+<ul>
+<li>结果发现scGPT模型相比于其它两种模型，提高了5–20%</li>
+</ul>
+</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240928203804558.png" alt="image-20240928203804558"  />
+</p>
+<p><strong>（3）In silicon reverse perturbation prediction</strong></p>
+<ul>
+<li>简单理解，根据perturbation expression的结果反向预测是最有可能哪个基因被扰动；</li>
+<li>参考作者在Github issue （https://github.com/bowang-lab/scGPT/issues/87）的解答：
+<ul>
+<li>其Fine-tune步骤其实与上面Perturbation prediction task基本一致；</li>
+<li>使用数据集的一部分进行微调后，再预测所有相关基因扰动的表达结果；</li>
+<li>最后使用真实的Query perturbation上述的预测结果进行KNN关联分析。</li>
+</ul>
+</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240928205214389.png" alt="image-20240928205214389"  />
+</p>
+<blockquote>
+<p>The model was fine-tuned in the same way as in the &ldquo;forward&rdquo; perturbation prediction. It used a subset of the dataset as we illustrated in Figure 3F. The reverse perturbation task utilized the model in a different way. To summarize, the result cell states of <strong>all possible perturbations were predicted by the fine-tuned model</strong>, and then <strong>an actual sequenced cell state can query</strong> all the predicted cell states in a nearest neighbor search manner, so that the retrieved neighbors indicate the possible origin perturbations.</p></blockquote>
+<h2 id="33-多批次组学整合">3.3 多批次/组学整合<a hidden class="anchor" aria-hidden="true" href="#33-多批次组学整合">#</a></h2>
+<p><strong>（1）Method（Multi-batch）</strong></p>
+<ul>
+<li>
+<p>核心目标：对于多批次的scRNA-seq数据，优化不同批次中每个细胞的cell representation</p>
+<ul>
+<li>correct batch effects while preserving biological variance</li>
+</ul>
+</li>
+<li>
+<p>输入数据的预处理</p>
+<ul>
+<li>
+<p>Common set between foundation model and the input data</p>
+</li>
+<li>
+<p>Gene expression: normalization&ndash;log1&ndash;bin</p>
+</li>
+<li>
+<p>All genes as input (include zero expression)</p>
+</li>
+<li>
+<p>如2.3中所述，在微调前，还需要在Foundation model的输出结果中，补充细胞的批次信息。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>具体在Fine-tune训练中，设计了对多个目标函数进行损失计算，以共同用于模型优化</p>
+</li>
+</ul>
+<p>1）GEP：基因表达预测，参考3.2；</p>
+<p>2）GEPC, Gene expression prediction for cell modeling，即为了优化Cell Embedding(hc)，而预测基因表达。</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240928212510674.png" alt="image-20240928212510674"  />
+</p>
+<p>3）ECS, Elastic cell similarity：基于一个mini-batch的两个细胞的相似度计算损失函数。使得高于某个阈值的两个细胞更相似，低于的则更远离。</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240928213604728.png" alt="image-20240928213604728"  />
+</p>
+<p>4）Domain adaptation via reverse back propagation：主要作用是使得生成的cell representation表示经过MLP分类器无法预测其正确的batch信息（类似于GAN 对抗神经网络）。本质上还是建立MLP预测Batch的分类器，但是计算梯度后，进行反向更新参数。</p>
+<p><strong>（2）Result</strong></p>
+<ul>
+<li>
+<p>基于三个数据集，比较了scGPT与scVI，Seurat，Harmony三个工具去批次的效果</p>
+<ul>
+<li>
+<p>COVID-19: 18 batches</p>
+</li>
+<li>
+<p>PBMC-10K: 2 batches</p>
+</li>
+<li>
+<p>Perirhinal cortex: 2 batches</p>
+</li>
+</ul>
+</li>
+<li>
+<p>评价指标：基于三个指标（NMI/ARI/ASW）的AvgBIO，值越高表明去批次效果越好。</p>
+<ul>
+<li>scGPT均优于其它三种工具的效果。</li>
+</ul>
+</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240926125712463.png" alt="image-20240926125712463"  />
+</p>
+<p><strong>（3）Multi-omics integration</strong></p>
+<p><strong>Method</strong></p>
+<ul>
+<li>目标是使得相同细胞类型的不同组学数据能够有相似的Cell Embedding，从而在聚类时比较接近。</li>
+<li>scGPT主要考虑了3种组学，分别是scRNA-seq、scATAC-seq，Single-cell proteomics。对此，有两种数据形式：
+<ul>
+<li>paired setting：一群细胞同时测多种组学</li>
+<li>mosaic setting：一群细胞测一种组学，另一群测另一组。</li>
+</ul>
+</li>
+<li>对于scRNA-seq可以直接继承第2节训练的Foundation model，对于其它两组需要重头训练。</li>
+<li>在Pre-train之后，如2.3小节需要拼接表示多模态的token（如果涉及多批次，也要添加batch token）</li>
+<li>Fine-tune 目标函数包括GEP，GEPC（如果涉及多批次，还需要添加DAR）</li>
+</ul>
+<p><strong>Result</strong></p>
+<ul>
+<li>
+<p>对于Multiome PBMC (paired)数据集，与scGLUE，Seurat进行了比较，如下图所示</p>
+<ul>
+<li>RNA-seq、ATAC</li>
+</ul>
+</li>
+<li>
+<p>对于Bone marrow mononuclear cells (paired)数据集，与Seurat进行了比较</p>
+<ul>
+<li>RNA-seq、Protein</li>
+<li>9w个细胞，12个donor(multiple batches)，48种细胞类型</li>
+</ul>
+</li>
+<li>
+<p>对于ASAP human PBMC (mosaic)数据集，与scMoMat进行了比较</p>
+<ul>
+<li>4个批次，3种组学</li>
+</ul>
+</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240926132021275.png" alt="image-20240926132021275"  />
+</p>
+<h2 id="34-基因调控网络构建">3.4 基因调控网络构建<a hidden class="anchor" aria-hidden="true" href="#34-基因调控网络构建">#</a></h2>
+<p><strong>（1）Method</strong></p>
+<ul>
+<li>
+<p>本质上是基于Foundation model或者Fine-tune model提取的Gene Embedding计算两两基因间的相关性，用来构建gene similarity network。</p>
+<ul>
+<li>
+<p>Zero-shot setting模式下，直接使用Foundation model输出的Gene Embedding计算；</p>
+</li>
+<li>
+<p>Fine-tuned setting模式下，使用特定数据集微调后输出的Gene Embedding计算</p>
+<blockquote>
+<p>使用integration task进行微调，以学习特定数据集相关的Gene Embedding （下同）</p></blockquote>
+</li>
+</ul>
+</li>
+<li>
+<p>基于注意力机制的target gene鉴定：Attention map可以反映出基因之间的相互影响。其中，每一列(column)，表示这个gene（列名）对所有query gene的influence。</p>
+</li>
+<li>
+<p>使用perturbation datasets可以帮助推测perturbating gene的target，如下图所示</p>
+<ul>
+<li>首先，基于control cell得到的attention map；</li>
+<li>然后，基于perturbation expression得到的attention map；</li>
+<li>计算上述二者对的差值，可以推测特定基因干扰前后，影响最大的gene</li>
+</ul>
+</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240926134630079.png" alt="image-20240926134630079"  />
+</p>
+<p><strong>（2）Result</strong></p>
+<ul>
+<li>文章首先对zero-shot模式进行了探索，然后在对一个human immune dataset进行了Fine-tune后构建GRN，均发现了具有生物学意义的调控网络以及Gene cluster (Leiden)，并进行了通路富集分析等。</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240929081715151.png" alt="image-20240929081715151"  />
+</p>
+<ul>
+<li>接下来，作者基于Pre-train scGPT blood model，使用了Adamson CRISPR数据集(87 CRISPR inference on leukemia cells)进行了微调。</li>
+<li>例如下图，通过比较DDIT3扰动前后的difference attention score, 鉴定了其影响最大的的Top20/100个基因。</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240929082629291.png" alt="image-20240929082629291"  />
+</p>
+<h1 id="4-模型影响因素">4. 模型影响因素<a hidden class="anchor" aria-hidden="true" href="#4-模型影响因素">#</a></h1>
+<ul>
+<li>综上，scGPT Foundation model在处理下游分析任务时，相比于其它已有的单细胞工具均表现出明显的优势；</li>
+<li>最后，文章讨论了两个可能影响Pre-train model性能表现的因素。</li>
+</ul>
+<h2 id="41-训练样本量">4.1 训练样本量<a hidden class="anchor" aria-hidden="true" href="#41-训练样本量">#</a></h2>
+<ul>
+<li>首先，文章研究了训练样本量对于预训练模型的影响；</li>
+<li>如下图，结果发现数据量最多时（从30K到33M），模型在多种下游任务中的表现越好；</li>
+<li>As larger and more diverse datasets become available, we can anticipate further improvements in model performance, advancing our understanding of cellular processes.</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240929085432250.png" alt="image-20240929085432250"  />
+</p>
+<h2 id="42-训练样本类型">4.2 训练样本类型<a hidden class="anchor" aria-hidden="true" href="#42-训练样本类型">#</a></h2>
+<ul>
+<li>文章进一步研究了细胞来源对于模型的影响；</li>
+<li>在COVID-19数据集的多批次合并任务中，结果发现：
+<ul>
+<li>使用全部33M数据与仅使用Blood数据的Foundation model的性能比较接近；</li>
+<li>Lung来源的细胞量尽管只有2.1M，远少于Brain细胞量(13.2M)，但前者性能明显表现更优。</li>
+</ul>
+</li>
+<li>This emphasizes the importance of aligning the cellular context in pretraining with the target dataset for superior results in downstream tasks.</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images2/main/img01/image-20240929085123045.png" alt="image-20240929085123045"  />
+</p>
+<blockquote>
+<p>后续将参考scGPT工具的教程手册及源代码，学习其构建细节与数据处理方式等。</p></blockquote>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/%E6%96%87%E7%8C%AE-%E7%AE%97%E6%B3%95/">文献-算法</a></li>
+    </ul>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2026 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

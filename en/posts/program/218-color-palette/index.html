@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>R-可视化-绘图颜色与画板的选择 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="R可视化">
+<meta name="description" content="1、R中颜色的表示方式
+1.1  颜色的名字
+
+
+R内置了657种颜色的名字可供调用
+http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf
+
+
+
+
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+
+
+str(colors())
+# chr [1:657] &#34;white&#34; &#34;aliceblue&#34; &#34;antiquewhite&#34; ...
+
+head(colors()[1:10])
+# [1] &#34;white&#34;         &#34;aliceblue&#34;     &#34;antiquewhite&#34; 
+# [4] &#34;antiquewhite1&#34; &#34;antiquewhite2&#34; &#34;antiquewhite3&#34;
+
+set.seed(111)
+cols = sample(colors(), 5)
+numbers = 1:5; names(numbers) = cols
+barplot(numbers, col=cols)
+
+
+
+
+关于透明色，虽然不在这657个颜色当中，可以通过transparent指定。">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/program/218-color-palette/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.af29093799c35bd05a068d5ab092858ff3a75905607cac7c1c2694b85e8c8dba.css" integrity="sha256-rykJN5nDW9BaBo1asJKFj/OnWQVgfKx8HCaUuF6Mjbo=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/program/218-color-palette/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="R-可视化-绘图颜色与画板的选择" />
+<meta property="og:description" content="1、R中颜色的表示方式
+1.1  颜色的名字
+
+
+R内置了657种颜色的名字可供调用
+http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf
+
+
+
+
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+
+
+str(colors())
+# chr [1:657] &#34;white&#34; &#34;aliceblue&#34; &#34;antiquewhite&#34; ...
+
+head(colors()[1:10])
+# [1] &#34;white&#34;         &#34;aliceblue&#34;     &#34;antiquewhite&#34; 
+# [4] &#34;antiquewhite1&#34; &#34;antiquewhite2&#34; &#34;antiquewhite3&#34;
+
+set.seed(111)
+cols = sample(colors(), 5)
+numbers = 1:5; names(numbers) = cols
+barplot(numbers, col=cols)
+
+
+
+
+关于透明色，虽然不在这657个颜色当中，可以通过transparent指定。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/program/218-color-palette/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-11-05T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2022-11-05T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="R-可视化-绘图颜色与画板的选择"/>
+<meta name="twitter:description" content="1、R中颜色的表示方式
+1.1  颜色的名字
+
+
+R内置了657种颜色的名字可供调用
+http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf
+
+
+
+
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+
+
+str(colors())
+# chr [1:657] &#34;white&#34; &#34;aliceblue&#34; &#34;antiquewhite&#34; ...
+
+head(colors()[1:10])
+# [1] &#34;white&#34;         &#34;aliceblue&#34;     &#34;antiquewhite&#34; 
+# [4] &#34;antiquewhite1&#34; &#34;antiquewhite2&#34; &#34;antiquewhite3&#34;
+
+set.seed(111)
+cols = sample(colors(), 5)
+numbers = 1:5; names(numbers) = cols
+barplot(numbers, col=cols)
+
+
+
+
+关于透明色，虽然不在这657个颜色当中，可以通过transparent指定。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 R\u0026Python\u0026Shell --- 编程基础、可视化等",
+      "item": "https://lishensuo.github.io/en/posts/program/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "R-可视化-绘图颜色与画板的选择",
+      "item": "https://lishensuo.github.io/en/posts/program/218-color-palette/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "R-可视化-绘图颜色与画板的选择",
+  "name": "R-可视化-绘图颜色与画板的选择",
+  "description": "1、R中颜色的表示方式 1.1 颜色的名字 R内置了657种颜色的名字可供调用\nhttp://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf\n1 2 3 4 5 6 7 8 9 10 11 str(colors()) # chr [1:657] \u0026#34;white\u0026#34; \u0026#34;aliceblue\u0026#34; \u0026#34;antiquewhite\u0026#34; ... head(colors()[1:10]) # [1] \u0026#34;white\u0026#34; \u0026#34;aliceblue\u0026#34; \u0026#34;antiquewhite\u0026#34; # [4] \u0026#34;antiquewhite1\u0026#34; \u0026#34;antiquewhite2\u0026#34; \u0026#34;antiquewhite3\u0026#34; set.seed(111) cols = sample(colors(), 5) numbers = 1:5; names(numbers) = cols barplot(numbers, col=cols) 关于透明色，虽然不在这657个颜色当中，可以通过transparent指定。\n",
+  "keywords": [
+    "R可视化"
+  ],
+  "articleBody": "1、R中颜色的表示方式 1.1 颜色的名字 R内置了657种颜色的名字可供调用\nhttp://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf\n1 2 3 4 5 6 7 8 9 10 11 str(colors()) # chr [1:657] \"white\" \"aliceblue\" \"antiquewhite\" ... head(colors()[1:10]) # [1] \"white\" \"aliceblue\" \"antiquewhite\" # [4] \"antiquewhite1\" \"antiquewhite2\" \"antiquewhite3\" set.seed(111) cols = sample(colors(), 5) numbers = 1:5; names(numbers) = cols barplot(numbers, col=cols) 关于透明色，虽然不在这657个颜色当中，可以通过transparent指定。\n1.2 十六进制颜色代码 16进制的颜色代码是将RGB颜色值的进制转换的表示方式，使用方便，颜色丰富，更加常用 RGB颜色值与十六进制颜色码转换工具：https://www.sioe.cn/yingyong/yanse-rgb-16/ 1 2 3 rainbow(3) # [1] \"#FF0000\" \"#00FF00\" \"#0000FF\" barplot(c(1:7), col=rainbow(7)) 2、色板系列 在理解上述颜色表示方法后，在实际绘图时，一般不会一一手动寻找合适的颜色，而是通过一些R包、网站提供好的，美观的颜色组合，即调色板（palette），可供使用。下面罗列下我目前常用的几种方式。\n2.1 RColorBrewer包 1 2 3 4 5 6 7 8 # install.packages(\"RColorBrewer\") library(RColorBrewer) display.brewer.all() #default: type=\"all\" #仅展示离散类颜色组合 display.brewer.all(type=\"qual\") #展示具体某一个组合 display.brewer.pal(n=12, name = 'Set3') 如上图所示，这个包提供了三类色板： （1）sequential【上】：渐变型（生成由浅入深的渐变色，适用于标注数值大小的情况）； （2）qualitative【中】：离散型（生成彼此差异明显的颜色，适用于分类数据）； （3）diverging【下】：发散型（生成深色强调两端、浅色表示中部的颜色，适用于标注数据中的离群点。）\n1 2 3 4 5 6 7 8 9 10 11 ##（1）对于离散类颜色，会自动返回前n个颜色 brewer.pal(n = 9, name = \"Set1\") # [1] \"#E41A1C\" \"#377EB8\" \"#4DAF4A\" \"#984EA3\" \"#FF7F00\" \"#FFFF33\" \"#A65628\" \"#F781BF\" \"#999999\" brewer.pal(n = 3, name = \"Set1\") # [1] \"#E41A1C\" \"#377EB8\" \"#4DAF4A\" ##（2）对于发散型和渐变型，会考虑整体配色方案，自动返回最合适的n个颜色 brewer.pal(n = 9, name = \"Blues\") # [1] \"#F7FBFF\" \"#DEEBF7\" \"#C6DBEF\" \"#9ECAE1\" \"#6BAED6\" \"#4292C6\" \"#2171B5\" \"#08519C\" \"#08306B\" brewer.pal(n = 3, name = \"Blues\") # [1] \"#DEEBF7\" \"#9ECAE1\" \"#3182BD\" 2.2 colorbrewer配色网站 https://colorbrewer2.org/ 非常值得安利的一个配色网站，也是大体分为如上三种色板。 其实使用起来很简单，就不总结了。也可以参看别人的笔记：https://zhuanlan.zhihu.com/p/27167989 2.3 ggsci包 自动对接ggplot2包，提供期刊杂志级别的配色方案； 使用十分简单，配合ggplot，只需要选择color还是fill，会自动根据变量类别确认配色； 具体使用方法也不介绍了，安装、加载，配合ggplot绘图即可。可参看官方教程：https://cran.r-project.org/web/packages/ggsci/vignettes/ggsci.html 2.4 其它备选方案 （1）viridis包 特点：色盲友好 官方介绍：https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html 中文介绍：https://zhuanlan.zhihu.com/p/81571392\n（2）paletteer包 特点：集成了目前已知所有配色R包的配色方案\n使用网址：https://emilhvitfeldt.github.io/r-color-palettes/discrete.html\n官方介绍：https://github.com/EmilHvitfeldt/paletteer 中文介绍：https://www.yuque.com/xiaojiewanglezenmofenshen/dbwkg1/ilbqqz\n",
+  "wordCount" : "1339",
+  "inLanguage": "en",
+  "datePublished": "2022-11-05T00:00:00Z",
+  "dateModified": "2022-11-05T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/program/218-color-palette/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/program/">📖 R&amp;Python&amp;Shell --- 编程基础、可视化等</a></div>
+    <h1 class="post-title">
+      R-可视化-绘图颜色与画板的选择
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2022-11-05 00:00:00 +0000 UTC'>2022-11-05</span>&nbsp;|&nbsp;Update:&nbsp;2022-11-05&nbsp;|&nbsp;Words:&nbsp;1339&nbsp;|&nbsp;3 min&nbsp;|&nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#1r%e4%b8%ad%e9%a2%9c%e8%89%b2%e7%9a%84%e8%a1%a8%e7%a4%ba%e6%96%b9%e5%bc%8f" aria-label="1、R中颜色的表示方式">1、R中颜色的表示方式</a><ul>
+                            
+                    <li>
+                        <a href="#11--%e9%a2%9c%e8%89%b2%e7%9a%84%e5%90%8d%e5%ad%97" aria-label="1.1  颜色的名字">1.1  颜色的名字</a></li>
+                    <li>
+                        <a href="#12-%e5%8d%81%e5%85%ad%e8%bf%9b%e5%88%b6%e9%a2%9c%e8%89%b2%e4%bb%a3%e7%a0%81" aria-label="1.2 十六进制颜色代码">1.2 十六进制颜色代码</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#2%e8%89%b2%e6%9d%bf%e7%b3%bb%e5%88%97" aria-label="2、色板系列">2、色板系列</a><ul>
+                            
+                    <li>
+                        <a href="#21-rcolorbrewer%e5%8c%85" aria-label="2.1 RColorBrewer包">2.1 RColorBrewer包</a></li>
+                    <li>
+                        <a href="#22-colorbrewer%e9%85%8d%e8%89%b2%e7%bd%91%e7%ab%99" aria-label="2.2 colorbrewer配色网站">2.2 colorbrewer配色网站</a></li>
+                    <li>
+                        <a href="#23-ggsci%e5%8c%85" aria-label="2.3 ggsci包">2.3 ggsci包</a><ul>
+                            
+                    <li>
+                        <a href="#24-%e5%85%b6%e5%ae%83%e5%a4%87%e9%80%89%e6%96%b9%e6%a1%88" aria-label="2.4 其它备选方案">2.4 其它备选方案</a>
+                    </li>
+                </ul>
+                </li>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><h2 id="1r中颜色的表示方式">1、R中颜色的表示方式<a hidden class="anchor" aria-hidden="true" href="#1r中颜色的表示方式">#</a></h2>
+<h3 id="11--颜色的名字">1.1  颜色的名字<a hidden class="anchor" aria-hidden="true" href="#11--颜色的名字">#</a></h3>
+<ul>
+<li>
+<p>R内置了657种颜色的名字可供调用</p>
+<p><a href="http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf">http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf</a></p>
+</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>str(colors())
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># chr [1:657] &#34;white&#34; &#34;aliceblue&#34; &#34;antiquewhite&#34; ...</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>head(colors()[1:<span style="color:#ff0;font-weight:bold">10</span>])
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] &#34;white&#34;         &#34;aliceblue&#34;     &#34;antiquewhite&#34; </span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [4] &#34;antiquewhite1&#34; &#34;antiquewhite2&#34; &#34;antiquewhite3&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>set.seed(<span style="color:#ff0;font-weight:bold">111</span>)
+</span></span><span style="display:flex;"><span>cols = sample(colors(), <span style="color:#ff0;font-weight:bold">5</span>)
+</span></span><span style="display:flex;"><span>numbers = <span style="color:#ff0;font-weight:bold">1</span>:<span style="color:#ff0;font-weight:bold">5</span>; names(numbers) = cols
+</span></span><span style="display:flex;"><span>barplot(numbers, col=cols)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-3d4495bcbec94b10.png" style="zoom:50%;" />
+<blockquote>
+<p>关于透明色，虽然不在这657个颜色当中，可以通过<code>transparent</code>指定。</p></blockquote>
+<h3 id="12-十六进制颜色代码">1.2 十六进制颜色代码<a hidden class="anchor" aria-hidden="true" href="#12-十六进制颜色代码">#</a></h3>
+<ul>
+<li>16进制的颜色代码是将RGB颜色值的进制转换的表示方式，使用方便，颜色丰富，更加常用</li>
+<li>RGB颜色值与十六进制颜色码转换工具：https://www.sioe.cn/yingyong/yanse-rgb-16/</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>rainbow(<span style="color:#ff0;font-weight:bold">3</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] &#34;#FF0000&#34; &#34;#00FF00&#34; &#34;#0000FF&#34;</span>
+</span></span><span style="display:flex;"><span>barplot(c(<span style="color:#ff0;font-weight:bold">1</span>:<span style="color:#ff0;font-weight:bold">7</span>), col=rainbow(<span style="color:#ff0;font-weight:bold">7</span>))
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-1aabd40ecf747ec0.png" style="zoom: 50%;" />
+<h2 id="2色板系列">2、色板系列<a hidden class="anchor" aria-hidden="true" href="#2色板系列">#</a></h2>
+<p>在理解上述颜色表示方法后，在实际绘图时，一般不会一一手动寻找合适的颜色，而是通过一些R包、网站提供好的，美观的颜色组合，即调色板（palette），可供使用。下面罗列下我目前常用的几种方式。</p>
+<h3 id="21-rcolorbrewer包">2.1 RColorBrewer包<a hidden class="anchor" aria-hidden="true" href="#21-rcolorbrewer包">#</a></h3>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f"># install.packages(&#34;RColorBrewer&#34;)</span>
+</span></span><span style="display:flex;"><span>library(RColorBrewer)
+</span></span><span style="display:flex;"><span>display.brewer.all() <span style="color:#007f7f">#default: type=&#34;all&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#仅展示离散类颜色组合</span>
+</span></span><span style="display:flex;"><span>display.brewer.all(type=<span style="color:#0ff;font-weight:bold">&#34;qual&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#展示具体某一个组合</span>
+</span></span><span style="display:flex;"><span>display.brewer.pal(n=<span style="color:#ff0;font-weight:bold">12</span>, name = <span style="color:#0ff;font-weight:bold">&#39;Set3&#39;</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-ebc5d1edefb9fe21.png" style="zoom: 33%;" />
+<p>如上图所示，这个包提供了三类色板：
+（1）sequential【上】：渐变型（生成由浅入深的渐变色，适用于标注数值大小的情况）；
+（2）qualitative【中】：离散型（生成彼此差异明显的颜色，适用于分类数据）；
+（3）diverging【下】：发散型（生成深色强调两端、浅色表示中部的颜色，适用于标注数据中的离群点。）</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#007f7f">##（1）对于离散类颜色，会自动返回前n个颜色</span>
+</span></span><span style="display:flex;"><span>brewer.pal(n = <span style="color:#ff0;font-weight:bold">9</span>, name = <span style="color:#0ff;font-weight:bold">&#34;Set1&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] &#34;#E41A1C&#34; &#34;#377EB8&#34; &#34;#4DAF4A&#34; &#34;#984EA3&#34; &#34;#FF7F00&#34; &#34;#FFFF33&#34; &#34;#A65628&#34; &#34;#F781BF&#34; &#34;#999999&#34;</span>
+</span></span><span style="display:flex;"><span>brewer.pal(n = <span style="color:#ff0;font-weight:bold">3</span>, name = <span style="color:#0ff;font-weight:bold">&#34;Set1&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] &#34;#E41A1C&#34; &#34;#377EB8&#34; &#34;#4DAF4A&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">##（2）对于发散型和渐变型，会考虑整体配色方案，自动返回最合适的n个颜色</span>
+</span></span><span style="display:flex;"><span>brewer.pal(n = <span style="color:#ff0;font-weight:bold">9</span>, name = <span style="color:#0ff;font-weight:bold">&#34;Blues&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] &#34;#F7FBFF&#34; &#34;#DEEBF7&#34; &#34;#C6DBEF&#34; &#34;#9ECAE1&#34; &#34;#6BAED6&#34; &#34;#4292C6&#34; &#34;#2171B5&#34; &#34;#08519C&#34; &#34;#08306B&#34;</span>
+</span></span><span style="display:flex;"><span>brewer.pal(n = <span style="color:#ff0;font-weight:bold">3</span>, name = <span style="color:#0ff;font-weight:bold">&#34;Blues&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># [1] &#34;#DEEBF7&#34; &#34;#9ECAE1&#34; &#34;#3182BD&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="22-colorbrewer配色网站">2.2 colorbrewer配色网站<a hidden class="anchor" aria-hidden="true" href="#22-colorbrewer配色网站">#</a></h3>
+<ul>
+<li><a href="https://colorbrewer2.org/">https://colorbrewer2.org/</a></li>
+<li>非常值得安利的一个配色网站，也是大体分为如上三种色板。</li>
+<li>其实使用起来很简单，就不总结了。也可以参看别人的笔记：https://zhuanlan.zhihu.com/p/27167989</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-427e1a2f6e9e82ba.png" style="zoom: 33%;" />
+<h3 id="23-ggsci包">2.3 ggsci包<a hidden class="anchor" aria-hidden="true" href="#23-ggsci包">#</a></h3>
+<ul>
+<li>自动对接ggplot2包，提供期刊杂志级别的配色方案；</li>
+<li>使用十分简单，配合ggplot，只需要选择color还是fill，会自动根据变量类别确认配色；</li>
+<li>具体使用方法也不介绍了，安装、加载，配合ggplot绘图即可。可参看官方教程：https://cran.r-project.org/web/packages/ggsci/vignettes/ggsci.html</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/20354525-049fdcae3b458ee5.png" alt="部分配色方案" style="zoom: 67%;" />
+<h4 id="24-其它备选方案">2.4 其它备选方案<a hidden class="anchor" aria-hidden="true" href="#24-其它备选方案">#</a></h4>
+<ul>
+<li>
+<p>（1）viridis包
+特点：色盲友好
+官方介绍：https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html
+中文介绍：https://zhuanlan.zhihu.com/p/81571392</p>
+</li>
+<li>
+<p>（2）paletteer包
+特点：集成了目前已知所有配色R包的配色方案</p>
+<p>使用网址：https://emilhvitfeldt.github.io/r-color-palettes/discrete.html</p>
+<p>官方介绍：https://github.com/EmilHvitfeldt/paletteer
+中文介绍：https://www.yuque.com/xiaojiewanglezenmofenshen/dbwkg1/ilbqqz</p>
+</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/r%E5%8F%AF%E8%A7%86%E5%8C%96/">R可视化</a></li>
+    </ul>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2026 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

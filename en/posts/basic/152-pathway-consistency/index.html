@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>矩阵相似性计算样本通路一致性 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="文献-算法">
+<meta name="description" content="本次的两篇文章属于同一团队，第一篇文章侧重提出计算方法；第二篇文章侧重于应用方法，发现生物学规律
+Paper1：提出方法
+
+SIGN: similarity identification in gene expression
+Bioinformatics  2019 / 2  IF = 7
+
+
+1.1 TSC score
+文章根据2009年学者提出的modified RV coefficient，使用transcriptional similarity coefficient(TSC)分数，用以表征两个矩阵的相似性。计算公式如下：其中P1矩阵与P2矩阵的纵轴(Gene Row)需要保持一致，而两个矩阵的样本数(Sample Column)没有要求。
+$$
+TSC(P_1,P_2) = \frac{\sum_{i}(P_{10}×P_{20}){ij}} {{\sqrt{\sum{ij}(P_{10}){ij}^2}}× {\sqrt{\sum{ij}(P_{20})_{ij}^2}}}
+$$">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/basic/152-pathway-consistency/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.af29093799c35bd05a068d5ab092858ff3a75905607cac7c1c2694b85e8c8dba.css" integrity="sha256-rykJN5nDW9BaBo1asJKFj/OnWQVgfKx8HCaUuF6Mjbo=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/basic/152-pathway-consistency/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="矩阵相似性计算样本通路一致性" />
+<meta property="og:description" content="本次的两篇文章属于同一团队，第一篇文章侧重提出计算方法；第二篇文章侧重于应用方法，发现生物学规律
+Paper1：提出方法
+
+SIGN: similarity identification in gene expression
+Bioinformatics  2019 / 2  IF = 7
+
+
+1.1 TSC score
+文章根据2009年学者提出的modified RV coefficient，使用transcriptional similarity coefficient(TSC)分数，用以表征两个矩阵的相似性。计算公式如下：其中P1矩阵与P2矩阵的纵轴(Gene Row)需要保持一致，而两个矩阵的样本数(Sample Column)没有要求。
+$$
+TSC(P_1,P_2) = \frac{\sum_{i}(P_{10}×P_{20}){ij}} {{\sqrt{\sum{ij}(P_{10}){ij}^2}}× {\sqrt{\sum{ij}(P_{20})_{ij}^2}}}
+$$" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/basic/152-pathway-consistency/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-05-13T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2022-05-17T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="矩阵相似性计算样本通路一致性"/>
+<meta name="twitter:description" content="本次的两篇文章属于同一团队，第一篇文章侧重提出计算方法；第二篇文章侧重于应用方法，发现生物学规律
+Paper1：提出方法
+
+SIGN: similarity identification in gene expression
+Bioinformatics  2019 / 2  IF = 7
+
+
+1.1 TSC score
+文章根据2009年学者提出的modified RV coefficient，使用transcriptional similarity coefficient(TSC)分数，用以表征两个矩阵的相似性。计算公式如下：其中P1矩阵与P2矩阵的纵轴(Gene Row)需要保持一致，而两个矩阵的样本数(Sample Column)没有要求。
+$$
+TSC(P_1,P_2) = \frac{\sum_{i}(P_{10}×P_{20}){ij}} {{\sqrt{\sum{ij}(P_{10}){ij}^2}}× {\sqrt{\sum{ij}(P_{20})_{ij}^2}}}
+$$"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 科研基础 -- 读文献、看教材",
+      "item": "https://lishensuo.github.io/en/posts/basic/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "矩阵相似性计算样本通路一致性",
+      "item": "https://lishensuo.github.io/en/posts/basic/152-pathway-consistency/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "矩阵相似性计算样本通路一致性",
+  "name": "矩阵相似性计算样本通路一致性",
+  "description": "本次的两篇文章属于同一团队，第一篇文章侧重提出计算方法；第二篇文章侧重于应用方法，发现生物学规律\nPaper1：提出方法 SIGN: similarity identification in gene expression\nBioinformatics 2019 / 2 IF = 7\n1.1 TSC score 文章根据2009年学者提出的modified RV coefficient，使用transcriptional similarity coefficient(TSC)分数，用以表征两个矩阵的相似性。计算公式如下：其中P1矩阵与P2矩阵的纵轴(Gene Row)需要保持一致，而两个矩阵的样本数(Sample Column)没有要求。 $$ TSC(P_1,P_2) = \\frac{\\sum_{i}(P_{10}×P_{20}){ij}} {{\\sqrt{\\sum{ij}(P_{10}){ij}^2}}× {\\sqrt{\\sum{ij}(P_{20})_{ij}^2}}} $$\n",
+  "keywords": [
+    "文献-算法"
+  ],
+  "articleBody": "本次的两篇文章属于同一团队，第一篇文章侧重提出计算方法；第二篇文章侧重于应用方法，发现生物学规律\nPaper1：提出方法 SIGN: similarity identification in gene expression\nBioinformatics 2019 / 2 IF = 7\n1.1 TSC score 文章根据2009年学者提出的modified RV coefficient，使用transcriptional similarity coefficient(TSC)分数，用以表征两个矩阵的相似性。计算公式如下：其中P1矩阵与P2矩阵的纵轴(Gene Row)需要保持一致，而两个矩阵的样本数(Sample Column)没有要求。 $$ TSC(P_1,P_2) = \\frac{\\sum_{i}(P_{10}×P_{20}){ij}} {{\\sqrt{\\sum{ij}(P_{10}){ij}^2}}× {\\sqrt{\\sum{ij}(P_{20})_{ij}^2}}} $$\n其中Pm0的计算公式如下。 P'表示原始P矩阵的转置矩阵，Diagonal()方法仅保存原始矩阵的主对角线值，其余值标记为0。 $$ P_{m0} = P_m × P’_m - Diagonal(P_m × P’_m) $$\n计算的TSC score范围在[-1, 1]之间，值越高表明两个样本(群)具有相同的基因表达模式。\n根据RV coefficient，符合以下特征规律：\n举例计算，实现需要了解矩阵乘法的原理。\n1.2 简单应用 1.2.1 乳腺癌分型 文章根据一个乳腺癌数据集表达矩阵，计算其中两两样本间分别关于ESR1、ERBB2相关基因集的相似性。基于此计算样本间的欧几里得距离(详见原文代码)，用于层次聚类。\n根据样本已知注释评价聚类结果，如下图所示具有较好的一致性。\n1.2.2 生存分析 同样的数据集，根据不同给药处理分为四组，每组单独分析。在每组中，找到生存最好、最差的10%样本作为标准，计算其余每一样本分别与之的相似性，进行比较，得出Delta结果。 $$ Delta = (similarity,to,good,survival,cohort) - (similarity,to,poor,survival,cohort) $$ 如果Delta\u003e0, 表示该样本与生存良好的样本集更接近；反之Delta\u003c0, 表示与生存较差的样本集更接近。\n然后根据Delta正负性对每组样本进行分组生存分析，用以评价Delta的生存预后价值。\n1.3 数据分享 1.3.1 SIGN包 文章编写了一个R包 SIGN(Similarity Identiﬁcation in Gene expressioN)用于计算两个基因表达矩阵的相似性，已经上传到CRAN。\n其核心代码如下\n1 2 3 4 5 6 7 8 TSC \u003c- function(PathwayExp1, PathwayExp2){ AA \u003c- PathwayExp1%*%t(PathwayExp1) BB \u003c- PathwayExp2%*%t(PathwayExp2) AA0 \u003c- AA - diag(diag(AA)) BB0 \u003c- BB - diag(diag(BB)) TSC \u003c- sum(diag(AA0%*%BB0))/sum(AA0^2)^.5/sum(BB0^2)^.5 return(TSC) } 1.3.2 codeocean 文章已将绘制Fig2的代码、数据上传到 CodeOcean，可通过http://bit.ly/2PMwegY访问，进行复现分析。\nPaper2：应用发现 Pathway-Based Drug Response Prediction Using Similarity Identification in Gene Expression\nFrontiers in Genetics 2020 / 09 IF=4.6\n2.1 应用思路 拉帕替尼(Lapatinib)和曲妥珠单抗(trastuzumab)是针对HER2+型乳腺癌的药物，但并非所有HER2+型乳腺癌患者均有效(40%)。\n因此文章想鉴定出根据患者的基因表达情况可以预测HER2+型乳腺癌患者对上述药物是否响应的biomaker。\n一方面考虑单基因作为biomarker的区分效果，另一方面使用上面提及的TSC score方法评价通路作为biomarker的预测效果。\n2.2 研究步骤 2.2.1 数据与方法 使用来自NeoALTTO clinical trial数据集，根据治疗方式分为Lapatinib、Trastuzumab，以及联用组。并进一步根据ER状态分为阴性组与阳性组。\nRelying on the common knowledge on ER being one of the main drivers in breast cancer development and progression (Fuqua,1997), we stratified our analyses based on the ER status.\n根据Rate of pathological complete response (pCR)，将患者分为Responders，与Non-responders。相当于贴标签。\n使用C-index(concordance index)值用于评价gene/pathway的预测分类性能\n2.2.2 单基因biomarker分析 根据患者的基因表达与响应状态关系，计算C-index。使用置换检验评价结果的显著性。\n结果发现最好的单基因C-index值为0.68，即使是marker基因ERBB2的C-index值仅为0.59。\n2.2.3 通路biomaker分析 通路选择：GO term中基因数10~30之前的通路\nTSC预测：对于每一组来说，选择其中一个病人进行预测。分别计算其与剩余所有Responder与Non-responders 的相似度。\n将该样本定位为距离相距较近的一组。对所有样本逐一按此法预测。\n留一法交叉验证：选择一个病人，分别计算其与剩余样本中任意5个Responder的通路相似度，以及任意5个Non-Responder的通路相似度，比较二者结果的中位数，贴标签；重复100次取众数。计算C-index。\n结果发现，每组的Top通路的C-index可达到0.8，优于其它机器学习的预测结果。 ",
+  "wordCount" : "1807",
+  "inLanguage": "en",
+  "datePublished": "2022-05-13T00:00:00Z",
+  "dateModified": "2022-05-17T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/basic/152-pathway-consistency/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/basic/">📖 科研基础 -- 读文献、看教材</a></div>
+    <h1 class="post-title">
+      矩阵相似性计算样本通路一致性
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2022-05-13 00:00:00 +0000 UTC'>2022-05-13</span>&nbsp;|&nbsp;Update:&nbsp;2022-05-17&nbsp;|&nbsp;Words:&nbsp;1807&nbsp;|&nbsp;4 min&nbsp;|&nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#paper1%e6%8f%90%e5%87%ba%e6%96%b9%e6%b3%95" aria-label="Paper1：提出方法">Paper1：提出方法</a><ul>
+                            
+                    <li>
+                        <a href="#11-tsc-score" aria-label="1.1 TSC score">1.1 TSC score</a></li>
+                    <li>
+                        <a href="#12-%e7%ae%80%e5%8d%95%e5%ba%94%e7%94%a8" aria-label="1.2 简单应用">1.2 简单应用</a><ul>
+                            
+                    <li>
+                        <a href="#121-%e4%b9%b3%e8%85%ba%e7%99%8c%e5%88%86%e5%9e%8b" aria-label="1.2.1 乳腺癌分型">1.2.1 乳腺癌分型</a></li>
+                    <li>
+                        <a href="#122-%e7%94%9f%e5%ad%98%e5%88%86%e6%9e%90" aria-label="1.2.2 生存分析">1.2.2 生存分析</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#13-%e6%95%b0%e6%8d%ae%e5%88%86%e4%ba%ab" aria-label="1.3 数据分享">1.3 数据分享</a><ul>
+                            
+                    <li>
+                        <a href="#131-sign%e5%8c%85" aria-label="1.3.1 SIGN包">1.3.1 SIGN包</a></li>
+                    <li>
+                        <a href="#132-codeocean" aria-label="1.3.2 codeocean">1.3.2 codeocean</a></li></ul>
+                    </li></ul>
+                    </li>
+                    <li>
+                        <a href="#paper2%e5%ba%94%e7%94%a8%e5%8f%91%e7%8e%b0" aria-label="Paper2：应用发现">Paper2：应用发现</a><ul>
+                            
+                    <li>
+                        <a href="#21-%e5%ba%94%e7%94%a8%e6%80%9d%e8%b7%af" aria-label="2.1 应用思路">2.1 应用思路</a></li>
+                    <li>
+                        <a href="#22-%e7%a0%94%e7%a9%b6%e6%ad%a5%e9%aa%a4" aria-label="2.2 研究步骤">2.2 研究步骤</a><ul>
+                            
+                    <li>
+                        <a href="#221-%e6%95%b0%e6%8d%ae%e4%b8%8e%e6%96%b9%e6%b3%95" aria-label="2.2.1 数据与方法">2.2.1 数据与方法</a></li>
+                    <li>
+                        <a href="#222-%e5%8d%95%e5%9f%ba%e5%9b%a0biomarker%e5%88%86%e6%9e%90" aria-label="2.2.2 单基因biomarker分析">2.2.2 单基因biomarker分析</a></li>
+                    <li>
+                        <a href="#223-%e9%80%9a%e8%b7%afbiomaker%e5%88%86%e6%9e%90" aria-label="2.2.3 通路biomaker分析">2.2.3 通路biomaker分析</a>
+                    </li>
+                </ul>
+                </li>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><p>本次的两篇文章属于同一团队，第一篇文章侧重提出计算方法；第二篇文章侧重于应用方法，发现生物学规律</p>
+<h1 id="paper1提出方法">Paper1：提出方法<a hidden class="anchor" aria-hidden="true" href="#paper1提出方法">#</a></h1>
+<blockquote>
+<p><strong>SIGN: similarity identification in gene expression</strong></p>
+<p>Bioinformatics  2019 / 2  IF = 7</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220513150043152.png" alt="image-20220513150043152"  />
+</p></blockquote>
+<h2 id="11-tsc-score">1.1 TSC score<a hidden class="anchor" aria-hidden="true" href="#11-tsc-score">#</a></h2>
+<p>文章根据2009年学者提出的<a href="https://pubmed.ncbi.nlm.nih.gov/19073588/">modified RV coefficient</a>，使用transcriptional similarity coefficient(TSC)分数，用以表征两个矩阵的相似性。计算公式如下：其中P1矩阵与P2矩阵的纵轴(Gene Row)需要保持一致，而两个矩阵的样本数(Sample Column)没有要求。
+$$
+TSC(P_1,P_2) = \frac{\sum_{i}(P_{10}×P_{20})<em>{ij}} {{\sqrt{\sum</em>{ij}(P_{10})<em>{ij}^2}}× {\sqrt{\sum</em>{ij}(P_{20})_{ij}^2}}}
+$$</p>
+<ul>
+<li>其中<code>Pm0</code>的计算公式如下。 <code>P'</code>表示原始<code>P</code>矩阵的转置矩阵，<code>Diagonal()</code>方法仅保存原始矩阵的主对角线值，其余值标记为0。</li>
+</ul>
+<p>$$
+P_{m0} = P_m × P&rsquo;_m - Diagonal(P_m × P&rsquo;_m)
+$$</p>
+<p>计算的TSC score范围在[-1, 1]之间，值越高表明两个样本(群)具有相同的基因表达模式。</p>
+<p>根据RV coefficient，符合以下特征规律：</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220513145621072.png" alt="image-20220513145621072"  />
+</p>
+<blockquote>
+<p>举例计算，实现需要了解矩阵乘法的原理。</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/matrix-multiply-a.svg" alt="矩阵乘法"  />
+</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220513144649229.png" alt="image-20220513144649229" style="zoom: 25%;" /></blockquote>
+<h2 id="12-简单应用">1.2 简单应用<a hidden class="anchor" aria-hidden="true" href="#12-简单应用">#</a></h2>
+<h3 id="121-乳腺癌分型">1.2.1 乳腺癌分型<a hidden class="anchor" aria-hidden="true" href="#121-乳腺癌分型">#</a></h3>
+<p>文章根据一个乳腺癌数据集表达矩阵，计算其中两两样本间分别关于ESR1、ERBB2相关基因集的相似性。基于此计算样本间的欧几里得距离(详见原文代码)，用于层次聚类。</p>
+<p>根据样本已知注释评价聚类结果，如下图所示具有较好的一致性。</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220513152042461.png" alt="image-20220513152042461" style="zoom:50%;" />
+<h3 id="122-生存分析">1.2.2 生存分析<a hidden class="anchor" aria-hidden="true" href="#122-生存分析">#</a></h3>
+<p>同样的数据集，根据不同给药处理分为四组，每组单独分析。在每组中，找到生存最好、最差的10%样本作为标准，计算其余每一样本分别与之的相似性，进行比较，得出Delta结果。
+$$
+Delta =  (similarity,to,good,survival,cohort) -  (similarity,to,poor,survival,cohort)
+$$
+如果Delta&gt;0, 表示该样本与生存良好的样本集更接近；反之Delta&lt;0, 表示与生存较差的样本集更接近。</p>
+<p>然后根据Delta正负性对每组样本进行分组生存分析，用以评价Delta的生存预后价值。</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220513154846954.png" alt="image-20220513154846954" style="zoom:50%;" />
+<h2 id="13-数据分享">1.3 数据分享<a hidden class="anchor" aria-hidden="true" href="#13-数据分享">#</a></h2>
+<h3 id="131-sign包">1.3.1 SIGN包<a hidden class="anchor" aria-hidden="true" href="#131-sign包">#</a></h3>
+<p>文章编写了一个R包 SIGN(Similarity Identiﬁcation in Gene expressioN)用于计算两个基因表达矩阵的相似性，已经上传到CRAN。</p>
+<p>其核心代码如下</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span>TSC &lt;- <span style="color:#fff;font-weight:bold">function</span>(PathwayExp1, PathwayExp2){
+</span></span><span style="display:flex;"><span>  AA &lt;- PathwayExp1%*%t(PathwayExp1)
+</span></span><span style="display:flex;"><span>  BB &lt;- PathwayExp2%*%t(PathwayExp2)
+</span></span><span style="display:flex;"><span>  AA0 &lt;- AA - diag(diag(AA))
+</span></span><span style="display:flex;"><span>  BB0 &lt;- BB - diag(diag(BB))
+</span></span><span style="display:flex;"><span>  TSC &lt;- sum(diag(AA0%*%BB0))/sum(AA0^2)^.5/sum(BB0^2)^.5
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">return</span>(TSC)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="132-codeocean">1.3.2 codeocean<a hidden class="anchor" aria-hidden="true" href="#132-codeocean">#</a></h3>
+<p>文章已将绘制Fig2的代码、数据上传到 CodeOcean，可通过http://bit.ly/2PMwegY访问，进行复现分析。</p>
+<h1 id="paper2应用发现">Paper2：应用发现<a hidden class="anchor" aria-hidden="true" href="#paper2应用发现">#</a></h1>
+<blockquote>
+<p>Pathway-Based Drug Response Prediction Using Similarity Identification in Gene Expression</p>
+<p>Frontiers in Genetics  2020 / 09  IF=4.6</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220513161845939.png" alt="image-20220513161845939" style="zoom:50%;" /></blockquote>
+<h2 id="21-应用思路">2.1 应用思路<a hidden class="anchor" aria-hidden="true" href="#21-应用思路">#</a></h2>
+<ul>
+<li>
+<p>拉帕替尼(Lapatinib)和曲妥珠单抗(trastuzumab)是针对HER2+型乳腺癌的药物，但并非所有HER2+型乳腺癌患者均有效(40%)。</p>
+</li>
+<li>
+<p>因此文章想鉴定出根据患者的基因表达情况可以预测HER2+型乳腺癌患者对上述药物是否响应的biomaker。</p>
+</li>
+<li>
+<p>一方面考虑单基因作为biomarker的区分效果，另一方面使用上面提及的TSC score方法评价通路作为biomarker的预测效果。</p>
+</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220513164326014.png" alt="image-20220513164326014" style="zoom: 25%;" />
+<h2 id="22-研究步骤">2.2 研究步骤<a hidden class="anchor" aria-hidden="true" href="#22-研究步骤">#</a></h2>
+<h3 id="221-数据与方法">2.2.1 数据与方法<a hidden class="anchor" aria-hidden="true" href="#221-数据与方法">#</a></h3>
+<ul>
+<li>
+<p>使用来自NeoALTTO clinical trial数据集，根据治疗方式分为Lapatinib、Trastuzumab，以及联用组。并进一步根据ER状态分为阴性组与阳性组。</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220513171315466.png" alt="image-20220513171315466" style="zoom: 67%;" />
+</li>
+</ul>
+<blockquote>
+<p>Relying on the common knowledge on ER being one of the main drivers in breast cancer development and progression (Fuqua,1997), we stratified our analyses based on the ER status.</p></blockquote>
+<ul>
+<li>
+<p>根据Rate of pathological complete response (pCR)，将患者分为Responders，与Non-responders。相当于贴标签。</p>
+</li>
+<li>
+<p>使用C-index(concordance index)值用于评价gene/pathway的预测分类性能</p>
+</li>
+</ul>
+<h3 id="222-单基因biomarker分析">2.2.2 单基因biomarker分析<a hidden class="anchor" aria-hidden="true" href="#222-单基因biomarker分析">#</a></h3>
+<p>根据患者的基因表达与响应状态关系，计算C-index。使用置换检验评价结果的显著性。</p>
+<p>结果发现最好的单基因C-index值为0.68，即使是marker基因ERBB2的C-index值仅为0.59。</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220513170032138.png" alt="image-20220513170032138"  />
+</p>
+<h3 id="223-通路biomaker分析">2.2.3 通路biomaker分析<a hidden class="anchor" aria-hidden="true" href="#223-通路biomaker分析">#</a></h3>
+<ul>
+<li>
+<p><strong>通路选择</strong>：GO term中基因数10~30之前的通路</p>
+</li>
+<li>
+<p><strong>TSC预测</strong>：对于每一组来说，选择其中一个病人进行预测。分别计算其与剩余所有Responder与Non-responders 的相似度。</p>
+<p>将该样本定位为距离相距较近的一组。对所有样本逐一按此法预测。</p>
+</li>
+<li>
+<p><strong>留一法交叉验证</strong>：选择一个病人，分别计算其与剩余样本中任意5个Responder的通路相似度，以及任意5个Non-Responder的通路相似度，比较二者结果的中位数，贴标签；重复100次取众数。计算C-index。</p>
+</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220513171414207.png" alt="image-20220513171414207" style="zoom:67%;" />
+<ul>
+<li>结果发现，每组的Top通路的C-index可达到0.8，优于其它机器学习的预测结果。</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220513170442175.png" alt="image-20220513170442175" style="zoom: 67%;" />
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/%E6%96%87%E7%8C%AE-%E7%AE%97%E6%B3%95/">文献-算法</a></li>
+    </ul>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2026 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

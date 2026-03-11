@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>文献--椎间盘退行性疾病bulk与scRNA-seq数据挖掘 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="文献-挖掘">
+<meta name="description" content="
+文章题目：Revealing the Key MSCs Niches and Pathogenic Genes in Influencing CEP Homeostasis: A Conjoint Analysis of Single-Cell and WGCNA
+杂志/日期：Front. Immunol.  / 27 June 2022
+DOI：10.3389/fimmu.2022.933721">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/basic/104-disc-degeneration/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.af29093799c35bd05a068d5ab092858ff3a75905607cac7c1c2694b85e8c8dba.css" integrity="sha256-rykJN5nDW9BaBo1asJKFj/OnWQVgfKx8HCaUuF6Mjbo=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/basic/104-disc-degeneration/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="文献--椎间盘退行性疾病bulk与scRNA-seq数据挖掘" />
+<meta property="og:description" content="
+文章题目：Revealing the Key MSCs Niches and Pathogenic Genes in Influencing CEP Homeostasis: A Conjoint Analysis of Single-Cell and WGCNA
+杂志/日期：Front. Immunol.  / 27 June 2022
+DOI：10.3389/fimmu.2022.933721" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/basic/104-disc-degeneration/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-12-01T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2022-12-01T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="文献--椎间盘退行性疾病bulk与scRNA-seq数据挖掘"/>
+<meta name="twitter:description" content="
+文章题目：Revealing the Key MSCs Niches and Pathogenic Genes in Influencing CEP Homeostasis: A Conjoint Analysis of Single-Cell and WGCNA
+杂志/日期：Front. Immunol.  / 27 June 2022
+DOI：10.3389/fimmu.2022.933721"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 科研基础 -- 读文献、看教材",
+      "item": "https://lishensuo.github.io/en/posts/basic/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "文献--椎间盘退行性疾病bulk与scRNA-seq数据挖掘",
+      "item": "https://lishensuo.github.io/en/posts/basic/104-disc-degeneration/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "文献--椎间盘退行性疾病bulk与scRNA-seq数据挖掘",
+  "name": "文献--椎间盘退行性疾病bulk与scRNA-seq数据挖掘",
+  "description": " 文章题目：Revealing the Key MSCs Niches and Pathogenic Genes in Influencing CEP Homeostasis: A Conjoint Analysis of Single-Cell and WGCNA\n杂志/日期：Front. Immunol. / 27 June 2022\nDOI：10.3389/fimmu.2022.933721\n",
+  "keywords": [
+    "文献-挖掘"
+  ],
+  "articleBody": " 文章题目：Revealing the Key MSCs Niches and Pathogenic Genes in Influencing CEP Homeostasis: A Conjoint Analysis of Single-Cell and WGCNA\n杂志/日期：Front. Immunol. / 27 June 2022\nDOI：10.3389/fimmu.2022.933721\n由于对这一领域不甚了解，主要记录、学习文章的分析方法与技术路线。简单记录相关术语如下：\nDegenerative disc disease (DDD)：椎间盘退行性疾病 nucleus pulposus (NP)：髓核 annulus fibrosis (AF)：纤维环 cartilage endplate (CEP)：软骨终板 mesenchymal stem cells：间充质干细胞 0、文献概要 如标题所述，这篇文献旨在分析软骨终板细胞中与DDD发生相关的关键基因与细胞类型。主要分为两个方面：首先通过WGCNA分析得到DDD相关的模块，围绕模块展开系列分析。其次结合单细胞数据以MSC细胞类型为核心展开多角度分析。\n1、流程总结 结合自己的理解对文献的结果部分进行总结，具体流程与图表可参看原文\n1.1 WGCNA部分 （1）从GSE153761的6个样本中（3疾病3对照）进行常规WGCNA流程分析，发现与疾病分组的核心模块，进行通路分析；\n（2）通过STRING的PPI进一步鉴定出两个子模块与5个hub基因，进行通路分析，\n（3）由于上述富集通路涉及免疫信号，文章进一步补充了CIBERSORT免疫浸润分析，发现显著差异的免疫细胞\n这一步部分的核心结论是发现了5个与degenerative CEP高度相关的5个signature gene。\n1.2 scRNA-seq部分 （1）从GSE160756收集人椎间盘CEP部位的26209个细胞测序数据，进行质控、去批次、降维、分群、细胞类型注释、亚群分析等常规步骤。共得到13个cluster，6大类细胞；其中对于mesenchymal chondrocytes得到3个亚群。\n（2）对6类细胞分析得到的marker gene进行功能注释分析；\n（3）对mesenchymal chondrocytes的3个亚型细胞命运(cytoTRACE)与轨迹分析(Monocle2)\n（4）使用CellPhoneDB对CEP的6类细胞（包括mesenchymal chondrocytes的3个亚型）进行配受体对水平的细胞通讯分析。\n这一部分的核心结论是发现了mesenchymal chondrocytes中的两个亚群在CEP稳态或恶化过程中起到关键的作用。\n个人体会：研究从两个方面独立展开，分别研究与DDD相关的基因（模块）与细胞类型。分析手段多种多样，绘图可视化值得学习，但研究的样本量较小，也并没有将两方面很好地结合起来。如文章所说，可能这方面的数据本身就偏少，也是首次在该领域进行类似的数据挖掘。\n",
+  "wordCount" : "1042",
+  "inLanguage": "en",
+  "datePublished": "2022-12-01T00:00:00Z",
+  "dateModified": "2022-12-01T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/basic/104-disc-degeneration/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/basic/">📖 科研基础 -- 读文献、看教材</a></div>
+    <h1 class="post-title">
+      文献--椎间盘退行性疾病bulk与scRNA-seq数据挖掘
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2022-12-01 00:00:00 +0000 UTC'>2022-12-01</span>&nbsp;|&nbsp;Update:&nbsp;2022-12-01&nbsp;|&nbsp;Words:&nbsp;1042&nbsp;|&nbsp;3 min&nbsp;|&nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#0%e6%96%87%e7%8c%ae%e6%a6%82%e8%a6%81" aria-label="0、文献概要">0、文献概要</a></li>
+                    <li>
+                        <a href="#1%e6%b5%81%e7%a8%8b%e6%80%bb%e7%bb%93" aria-label="1、流程总结">1、流程总结</a><ul>
+                            <ul>
+                            
+                    <li>
+                        <a href="#11-wgcna%e9%83%a8%e5%88%86" aria-label="1.1 WGCNA部分">1.1 WGCNA部分</a></li>
+                    <li>
+                        <a href="#12-scrna-seq%e9%83%a8%e5%88%86" aria-label="1.2 scRNA-seq部分">1.2 scRNA-seq部分</a>
+                    </li>
+                </ul>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><blockquote>
+<p><strong>文章题目</strong>：Revealing the Key MSCs Niches and Pathogenic Genes in Influencing CEP Homeostasis: A Conjoint Analysis of Single-Cell and WGCNA</p>
+<p><strong>杂志/日期</strong>：Front. Immunol.  / 27 June 2022</p>
+<p><strong>DOI</strong>：10.3389/fimmu.2022.933721</p></blockquote>
+<blockquote>
+<p>由于对这一领域不甚了解，主要记录、学习文章的分析方法与技术路线。简单记录相关术语如下：</p>
+<ul>
+<li>Degenerative disc disease (DDD)：椎间盘退行性疾病</li>
+<li>nucleus pulposus (NP)：髓核</li>
+<li>annulus fibrosis (AF)：纤维环</li>
+<li>cartilage endplate (CEP)：软骨终板</li>
+<li>mesenchymal stem cells：间充质干细胞</li>
+</ul></blockquote>
+<h2 id="0文献概要">0、文献概要<a hidden class="anchor" aria-hidden="true" href="#0文献概要">#</a></h2>
+<p>如标题所述，这篇文献旨在分析软骨终板细胞中与DDD发生相关的关键基因与细胞类型。主要分为两个方面：首先通过WGCNA分析得到DDD相关的模块，围绕模块展开系列分析。其次结合单细胞数据以MSC细胞类型为核心展开多角度分析。</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20221120091552419.png" alt="image-20221120091552419" style="zoom: 67%;" />
+<h2 id="1流程总结">1、流程总结<a hidden class="anchor" aria-hidden="true" href="#1流程总结">#</a></h2>
+<p>结合自己的理解对文献的结果部分进行总结，具体流程与图表可参看原文</p>
+<h4 id="11-wgcna部分">1.1 WGCNA部分<a hidden class="anchor" aria-hidden="true" href="#11-wgcna部分">#</a></h4>
+<p>（1）从GSE153761的6个样本中（3疾病3对照）进行常规WGCNA流程分析，发现与疾病分组的核心模块，进行通路分析；</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20221120100428783.png" alt="image-20221120100428783" style="zoom:50%;" />
+<p>（2）通过STRING的PPI进一步鉴定出两个子模块与5个hub基因，进行通路分析，</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20221120100520169.png" alt="image-20221120100520169" style="zoom: 50%;" />
+<p>（3）由于上述富集通路涉及免疫信号，文章进一步补充了CIBERSORT免疫浸润分析，发现显著差异的免疫细胞</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20221120100731964.png" alt="image-20221120100731964" style="zoom:67%;" />
+<blockquote>
+<p>这一步部分的核心结论是发现了5个与degenerative CEP高度相关的5个signature gene。</p></blockquote>
+<h4 id="12-scrna-seq部分">1.2 scRNA-seq部分<a hidden class="anchor" aria-hidden="true" href="#12-scrna-seq部分">#</a></h4>
+<p>（1）从GSE160756收集人椎间盘CEP部位的26209个细胞测序数据，进行质控、去批次、降维、分群、细胞类型注释、亚群分析等常规步骤。共得到13个cluster，6大类细胞；其中对于mesenchymal chondrocytes得到3个亚群。</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20221120101453167.png" alt="image-20221120101453167" style="zoom: 50%;" />
+<p>（2）对6类细胞分析得到的marker gene进行功能注释分析；</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20221120101831270.png" alt="image-20221120101831270"  />
+</p>
+<p>（3）对mesenchymal chondrocytes的3个亚型细胞命运(cytoTRACE)与轨迹分析(Monocle2)</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20221120102013008.png" alt="image-20221120102013008"  />
+</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20221120104822168.png" alt="image-20221120104822168" style="zoom: 67%;" />
+<p>（4）使用CellPhoneDB对CEP的6类细胞（包括mesenchymal chondrocytes的3个亚型）进行配受体对水平的细胞通讯分析。</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20221120102436617.png" alt="image-20221120102436617"  />
+</p>
+<blockquote>
+<p>这一部分的核心结论是发现了mesenchymal chondrocytes中的两个亚群在CEP稳态或恶化过程中起到关键的作用。</p></blockquote>
+<hr>
+<p>个人体会：研究从两个方面独立展开，分别研究与DDD相关的基因（模块）与细胞类型。分析手段多种多样，绘图可视化值得学习，但研究的样本量较小，也并没有将两方面很好地结合起来。如文章所说，可能这方面的数据本身就偏少，也是首次在该领域进行类似的数据挖掘。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/%E6%96%87%E7%8C%AE-%E6%8C%96%E6%8E%98/">文献-挖掘</a></li>
+    </ul>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2026 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

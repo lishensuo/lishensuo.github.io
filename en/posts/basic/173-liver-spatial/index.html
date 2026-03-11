@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>文献--肝癌空间转录组数据分析 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="文献-组学">
+<meta name="description" content="
+Comprehensive analysis of spatial architecture in primary liver cancer
+Sci Adv. 2021 Dec 17
+Doi: 10.1126/sciadv.abg3750.
+
+简单摘要: 这是一篇资源型的文章，应该是第一篇较大规模的肝癌空间转录组测序文献。基于ST的所包含的空间信息，本文进行多种新颖的分析思路，例如leading-edge section区域的特征，空间相邻的细胞通讯分析，肿瘤中心与四周的通路表达差异等。文章分析的角度涉及很多方面，但具体每个角度来说大多以数据分析结果描述为主。">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/basic/173-liver-spatial/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.af29093799c35bd05a068d5ab092858ff3a75905607cac7c1c2694b85e8c8dba.css" integrity="sha256-rykJN5nDW9BaBo1asJKFj/OnWQVgfKx8HCaUuF6Mjbo=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/basic/173-liver-spatial/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="文献--肝癌空间转录组数据分析" />
+<meta property="og:description" content="
+Comprehensive analysis of spatial architecture in primary liver cancer
+Sci Adv. 2021 Dec 17
+Doi: 10.1126/sciadv.abg3750.
+
+简单摘要: 这是一篇资源型的文章，应该是第一篇较大规模的肝癌空间转录组测序文献。基于ST的所包含的空间信息，本文进行多种新颖的分析思路，例如leading-edge section区域的特征，空间相邻的细胞通讯分析，肿瘤中心与四周的通路表达差异等。文章分析的角度涉及很多方面，但具体每个角度来说大多以数据分析结果描述为主。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/basic/173-liver-spatial/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-10-08T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2022-10-08T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="文献--肝癌空间转录组数据分析"/>
+<meta name="twitter:description" content="
+Comprehensive analysis of spatial architecture in primary liver cancer
+Sci Adv. 2021 Dec 17
+Doi: 10.1126/sciadv.abg3750.
+
+简单摘要: 这是一篇资源型的文章，应该是第一篇较大规模的肝癌空间转录组测序文献。基于ST的所包含的空间信息，本文进行多种新颖的分析思路，例如leading-edge section区域的特征，空间相邻的细胞通讯分析，肿瘤中心与四周的通路表达差异等。文章分析的角度涉及很多方面，但具体每个角度来说大多以数据分析结果描述为主。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 科研基础 -- 读文献、看教材",
+      "item": "https://lishensuo.github.io/en/posts/basic/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "文献--肝癌空间转录组数据分析",
+      "item": "https://lishensuo.github.io/en/posts/basic/173-liver-spatial/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "文献--肝癌空间转录组数据分析",
+  "name": "文献--肝癌空间转录组数据分析",
+  "description": " Comprehensive analysis of spatial architecture in primary liver cancer\nSci Adv. 2021 Dec 17\nDoi: 10.1126/sciadv.abg3750.\n简单摘要: 这是一篇资源型的文章，应该是第一篇较大规模的肝癌空间转录组测序文献。基于ST的所包含的空间信息，本文进行多种新颖的分析思路，例如leading-edge section区域的特征，空间相邻的细胞通讯分析，肿瘤中心与四周的通路表达差异等。文章分析的角度涉及很多方面，但具体每个角度来说大多以数据分析结果描述为主。\n",
+  "keywords": [
+    "文献-组学"
+  ],
+  "articleBody": " Comprehensive analysis of spatial architecture in primary liver cancer\nSci Adv. 2021 Dec 17\nDoi: 10.1126/sciadv.abg3750.\n简单摘要: 这是一篇资源型的文章，应该是第一篇较大规模的肝癌空间转录组测序文献。基于ST的所包含的空间信息，本文进行多种新颖的分析思路，例如leading-edge section区域的特征，空间相邻的细胞通讯分析，肿瘤中心与四周的通路表达差异等。文章分析的角度涉及很多方面，但具体每个角度来说大多以数据分析结果描述为主。\n相关缩写：\nPLCs, primary liver cancers 原发性肝癌\nHCC, hepatocellular carcinoma 肝细胞癌\nICC, intrahepatic cholangiocarcinoma 肝内胆管癌\nTME, tumor microenvironment 肿瘤微环境\nTLSs, tertiary lymphoid structures 三级淋巴结构\n1、测序数据 1.1 21个组织切片 来自7个患者样本的21张组织切片的10x Genomics空间转录组测序，相关数据上传到 https://ngdc.cncb.ac.cn/gsa-human/browse/HRA000437 (试了下，可以正常下载)\n样本类型：5个HCC(HCC1, HCC2, HCC3, HCC4, HCC5), 1个ICC(ICC-1)，以及cHC-1(combined hepatocellular and cholangiocarcinoma)\n组织切片类型：N, nontumor section; L, leading-edge section; T, tumor section; P, the portal vein tumor thrombus\n（1）HCC1, HCC3, HCC4, cHC-1 : N + L + T —— 12张\n（2）HCC2：N + L + T + P ——- 4张\n（3）ICC：L ——– 1张\n（4）HCC5：对完整的肿瘤组织，分为4个切片 —–4张\n测序结果共有84,823个spot\n每个spot直径55μm，包括8-22个细胞；每个切片宽6.5㎜，最多有5000个spot\n1.2 初步探索 以spot为单位，进行UMAP降维；然后以特定细胞类型的signature富集分析注释spot特征；\n可以得出N类型切片的正常干细胞得分较高，L/T/P类型切片的恶性细胞得分较高等初步结论。\n2、PLC的空间异质性 对HCC1, HCC2, HCC3, HCC4, cHC-1的N/L/T/P 组织切片进行分群，共得到8个cluster。\n（1）HCC-1T、3T、4T的cluster空间分布特征较明显；而HCC-2T，cHC-1T的clutser分布较混乱\n（2）基于主成分分析的层级聚类显示不同样本的相同类型(tumor/stromal/normal)区域具有相似的特征(如下左图)\n（3）基于diffusion map算法，分析从正常组织spot到肿瘤组织spot变化时，cluster比例/细胞类型比例的变化情况。(如下右图)\n3、L(leading-edge)区特征 （1）首先定义两个指标，评价组织切片的cluster分布特征\nspatial continuity degree(空间相邻一致性): the consistency of cluster identity between each spot and its neighbors.\ntranscriptome diversity degree(全局转录异质性): the global transcriptomic heterogeneity of tumor regions in each section.\nHCC-1、3、4的L与T切片具有 high spatial continuity and lower transcriptome diversity(如下图A)\n（2）结合切片病理特征，将HCC-1、3、4的L切片定义为complete capsule (CC)组；而将HCC-2L/cHC-1L/ICC-1L定义为non- or discontinuous capsule(NC)组。\n此外，将HCC-1、2、3、4-L，cHC-1L划分为3个区域：normal、transition、tumor region(如下图C)\n（3）先比较不同细胞类型富集比例在不同区、不同组的差异分布(如下图D)\n例如CC组样本中tumor区域的T、B、myleiod细胞类型比例高于normal区域的；而在NC组中无此特征\n（4）从normal区到tumor区，每5个spot宽度划分为一个与transition分界线平行区域，对每个区域分别做hallmark pathways的GSVA通路富集分析。\n其中如下6条与肿瘤相关的通路从normal到tumor区通路活性发生突增。(如下图)\n4、PLC肿瘤内部异质性 （1）两个module\n基于上面第2步的分群结果，分析不同样本的不同tumor cluster对hallmark pathway的表达活性。\n再经层次聚类将这些cluster分为两个module：\nmodule-1与细胞周期、代谢等通路相关； module-2与炎症、EMT等通路相关。 （2）tumor cluster间细胞通讯\n对HCC-1相邻的两个tumor cluster互相接壤的spot进行细胞通讯分析。如下图所示，一边各取2个spot宽度的spot。 HCC-1由3个tumor cluster，考虑配受体方向，即做3×2、共6次细胞通讯分析(如下为部分截图)； 5、肿瘤干细胞龛异质性分析 将高表达肝癌干性的5个marker(CD47, EPCAM, KRT19, PROM1, SOX9)的Top5% tumor spot(L/T/P)定义为相应marker阳性的CSC niches。\n（1）首先分析不同类型组织的所含有的CSC niches比例变化。(如下图A)；\n（2）其次PROM1+ CSC niches 在HCC-2P中拥有最多的spot(如下图B)，以及双阳性最多的spot(如下图C)。\n（3）然后分析5种CSC niches特异的表达通路(图D)与细胞类型(图F)\n6、一个完整肝细胞癌nodule的异质性分析 （1）将一个肿瘤组织(HCC-5)，分为4个section，分别测序。将ST数据合并、分群后，得到6个cluster。根据marker基因表达分为：tumor(1/2/5), stromal cell(3/6), normal(2)\n（2）由于是完整的CSC组织，可以探究从肿瘤中心到四周围，信号通路的活性变化\n先按照径向将每个组织切片分为4个部分，A-1表示组织A的第1部分。 然后按照环形每5个spot做一次分割，即分为18个环形区域。 参下图F，A-1.1表示A-1区域的cluster1，计算通路活性与圆心距的相关性。 7、TLS在肿瘤组织的分布特征 （1）如上，HCC-5的cluster3、6为stromal cell，其中cluster6由于高表达CXCL13, CCL19, CCL21, LTF, LTB, CD79A/B等TLS marker被重新注释为TLS；\n（2）将该cluster的特异高表达的Top50基因作为signature，用于注释其它组织测序spot是否为TLS，主要多分布于L区的非肿瘤区域\n（3）比较HCC-5的stromal与TLS区域的特异相关细胞类型(下图C)\n（4）分析TLS spot的细胞类型比例与肿瘤距离的相关性(下图D)\n（5）TLS区域中心到四周的特定基因表达变化趋势(下图E)\n",
+  "wordCount" : "2425",
+  "inLanguage": "en",
+  "datePublished": "2022-10-08T00:00:00Z",
+  "dateModified": "2022-10-08T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/basic/173-liver-spatial/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/basic/">📖 科研基础 -- 读文献、看教材</a></div>
+    <h1 class="post-title">
+      文献--肝癌空间转录组数据分析
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2022-10-08 00:00:00 +0000 UTC'>2022-10-08</span>&nbsp;|&nbsp;Update:&nbsp;2022-10-08&nbsp;|&nbsp;Words:&nbsp;2425&nbsp;|&nbsp;5 min&nbsp;|&nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#1%e6%b5%8b%e5%ba%8f%e6%95%b0%e6%8d%ae" aria-label="1、测序数据">1、测序数据</a><ul>
+                            
+                    <li>
+                        <a href="#11-21%e4%b8%aa%e7%bb%84%e7%bb%87%e5%88%87%e7%89%87" aria-label="1.1 21个组织切片">1.1 21个组织切片</a></li>
+                    <li>
+                        <a href="#12-%e5%88%9d%e6%ad%a5%e6%8e%a2%e7%b4%a2" aria-label="1.2 初步探索">1.2 初步探索</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#2plc%e7%9a%84%e7%a9%ba%e9%97%b4%e5%bc%82%e8%b4%a8%e6%80%a7" aria-label="2、PLC的空间异质性">2、PLC的空间异质性</a></li>
+                    <li>
+                        <a href="#3lleading-edge%e5%8c%ba%e7%89%b9%e5%be%81" aria-label="3、L(leading-edge)区特征">3、L(leading-edge)区特征</a></li>
+                    <li>
+                        <a href="#4plc%e8%82%bf%e7%98%a4%e5%86%85%e9%83%a8%e5%bc%82%e8%b4%a8%e6%80%a7" aria-label="4、PLC肿瘤内部异质性">4、PLC肿瘤内部异质性</a></li>
+                    <li>
+                        <a href="#5%e8%82%bf%e7%98%a4%e5%b9%b2%e7%bb%86%e8%83%9e%e9%be%9b%e5%bc%82%e8%b4%a8%e6%80%a7%e5%88%86%e6%9e%90" aria-label="5、肿瘤干细胞龛异质性分析">5、肿瘤干细胞龛异质性分析</a></li>
+                    <li>
+                        <a href="#6%e4%b8%80%e4%b8%aa%e5%ae%8c%e6%95%b4%e8%82%9d%e7%bb%86%e8%83%9e%e7%99%8cnodule%e7%9a%84%e5%bc%82%e8%b4%a8%e6%80%a7%e5%88%86%e6%9e%90" aria-label="6、一个完整肝细胞癌nodule的异质性分析">6、一个完整肝细胞癌nodule的异质性分析</a></li>
+                    <li>
+                        <a href="#7tls%e5%9c%a8%e8%82%bf%e7%98%a4%e7%bb%84%e7%bb%87%e7%9a%84%e5%88%86%e5%b8%83%e7%89%b9%e5%be%81" aria-label="7、TLS在肿瘤组织的分布特征">7、TLS在肿瘤组织的分布特征</a>
+                    </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><blockquote>
+<p>Comprehensive analysis of spatial architecture in primary liver cancer</p>
+<p>Sci Adv. 2021 Dec 17</p>
+<p>Doi: 10.1126/sciadv.abg3750.</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20221002154903204.png" alt="image-20221002154903204" style="zoom:50%;" />
+<p>简单摘要: 这是一篇资源型的文章，应该是第一篇较大规模的肝癌空间转录组测序文献。基于ST的所包含的空间信息，本文进行多种新颖的分析思路，例如leading-edge section区域的特征，空间相邻的细胞通讯分析，肿瘤中心与四周的通路表达差异等。文章分析的角度涉及很多方面，但具体每个角度来说大多以数据分析结果描述为主。</p></blockquote>
+<p>相关缩写：</p>
+<p>PLCs, primary liver cancers 原发性肝癌</p>
+<p>HCC, hepatocellular carcinoma 肝细胞癌</p>
+<p>ICC, intrahepatic cholangiocarcinoma  肝内胆管癌</p>
+<p>TME, tumor microenvironment 肿瘤微环境</p>
+<p>TLSs, tertiary lymphoid structures 三级淋巴结构</p>
+<h2 id="1测序数据">1、测序数据<a hidden class="anchor" aria-hidden="true" href="#1测序数据">#</a></h2>
+<h3 id="11-21个组织切片">1.1 21个组织切片<a hidden class="anchor" aria-hidden="true" href="#11-21个组织切片">#</a></h3>
+<p>来自7个患者样本的21张组织切片的10x Genomics空间转录组测序，相关数据上传到 <a href="https://ngdc.cncb.ac.cn/gsa-human/browse/HRA000437">https://ngdc.cncb.ac.cn/gsa-human/browse/HRA000437</a> (试了下，可以正常下载)</p>
+<ul>
+<li>
+<p>样本类型：5个HCC(HCC1, HCC2, HCC3, HCC4, HCC5), 1个ICC(ICC-1)，以及cHC-1(combined hepatocellular and cholangiocarcinoma)</p>
+</li>
+<li>
+<p>组织切片类型：<strong>N</strong>, nontumor section; <strong>L</strong>, leading-edge section; <strong>T</strong>, tumor section; <strong>P</strong>, the portal vein tumor thrombus</p>
+</li>
+</ul>
+<blockquote>
+<p>（1）HCC1, HCC3, HCC4, cHC-1 : N + L + T &mdash;&mdash; 12张</p>
+<p>（2）HCC2：N + L + T + P                              &mdash;&mdash;- 4张</p>
+<p>（3）ICC：L                                                      &mdash;&mdash;&ndash; 1张</p>
+<p>（4）HCC5：对完整的肿瘤组织，分为4个切片 &mdash;&ndash;4张</p></blockquote>
+<ul>
+<li>
+<p>测序结果共有84,823个spot</p>
+<p>每个spot直径55μm，包括8-22个细胞；每个切片宽6.5㎜，最多有5000个spot</p>
+</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20221002155819193.png" alt="image-20221002155819193" style="zoom: 50%;" />
+<h3 id="12-初步探索">1.2 初步探索<a hidden class="anchor" aria-hidden="true" href="#12-初步探索">#</a></h3>
+<p>以spot为单位，进行UMAP降维；然后以特定细胞类型的signature富集分析注释spot特征；</p>
+<p>可以得出N类型切片的正常干细胞得分较高，L/T/P类型切片的恶性细胞得分较高等初步结论。</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20221002161219957.png" alt="image-20221002161219957" style="zoom: 50%;" />
+<h2 id="2plc的空间异质性">2、PLC的空间异质性<a hidden class="anchor" aria-hidden="true" href="#2plc的空间异质性">#</a></h2>
+<p>对HCC1, HCC2, HCC3, HCC4, cHC-1的N/L/T/P 组织切片进行分群，共得到8个cluster。</p>
+<p>（1）HCC-1T、3T、4T的cluster空间分布特征较明显；而HCC-2T，cHC-1T的clutser分布较混乱</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20221002162101219.png" alt="image-20221002162101219" style="zoom:50%;" />
+<p>（2）基于主成分分析的层级聚类显示不同样本的相同类型(tumor/stromal/normal)区域具有相似的特征(如下左图)</p>
+<p>（3）基于diffusion map算法，分析从正常组织spot到肿瘤组织spot变化时，cluster比例/细胞类型比例的变化情况。(如下右图)</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20221002162616840.png" alt="image-20221002162616840" style="zoom:50%;" />
+<h2 id="3lleading-edge区特征">3、L(leading-edge)区特征<a hidden class="anchor" aria-hidden="true" href="#3lleading-edge区特征">#</a></h2>
+<p>（1）首先定义两个指标，评价组织切片的cluster分布特征</p>
+<ul>
+<li>
+<p>spatial continuity degree(空间相邻一致性): the consistency of cluster identity between each spot and its neighbors.</p>
+</li>
+<li>
+<p>transcriptome diversity degree(全局转录异质性): the global transcriptomic heterogeneity of tumor regions in each section.</p>
+</li>
+</ul>
+<p>HCC-1、3、4的L与T切片具有 <strong>high</strong> spatial continuity and <strong>lower</strong> transcriptome diversity(如下图A)</p>
+<p>（2）结合切片病理特征，将HCC-1、3、4的L切片定义为complete capsule (CC)组；而将HCC-2L/cHC-1L/ICC-1L定义为non- or discontinuous capsule(NC)组。</p>
+<p>此外，将HCC-1、2、3、4-L，cHC-1L划分为3个区域：normal、transition、tumor region(如下图C)</p>
+<p>（3）先比较不同细胞类型富集比例在不同区、不同组的差异分布(如下图D)</p>
+<p>例如CC组样本中tumor区域的T、B、myleiod细胞类型比例高于normal区域的；而在NC组中无此特征</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20221002163654773.png" alt="image-20221002163654773" style="zoom:67%;" />
+<p>（4）从normal区到tumor区，每5个spot宽度划分为一个与transition分界线平行区域，对每个区域分别做hallmark pathways的GSVA通路富集分析。</p>
+<p>其中如下6条与肿瘤相关的通路从normal到tumor区通路活性发生突增。(如下图)</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20221002165859367.png" alt="image-20221002165859367" style="zoom:67%;" />
+<h2 id="4plc肿瘤内部异质性">4、PLC肿瘤内部异质性<a hidden class="anchor" aria-hidden="true" href="#4plc肿瘤内部异质性">#</a></h2>
+<p>（1）两个module</p>
+<p>基于上面第2步的分群结果，分析不同样本的不同tumor cluster对hallmark pathway的表达活性。</p>
+<p>再经层次聚类将这些cluster分为两个module：</p>
+<ul>
+<li>module-1与细胞周期、代谢等通路相关；</li>
+<li>module-2与炎症、EMT等通路相关。</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20221002200158377.png" alt="image-20221002200158377" style="zoom:67%;" />
+<p>（2）tumor cluster间细胞通讯</p>
+<ul>
+<li>对HCC-1相邻的两个tumor cluster互相接壤的spot进行细胞通讯分析。如下图所示，一边各取2个spot宽度的spot。</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20221002200217890.png" alt="image-20221002200217890" style="zoom:67%;" />
+<ul>
+<li>HCC-1由3个tumor cluster，考虑配受体方向，即做3×2、共6次细胞通讯分析(如下为部分截图)；</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20221002201024560.png" alt="image-20221002201024560" style="zoom:67%;" />
+<h2 id="5肿瘤干细胞龛异质性分析">5、肿瘤干细胞龛异质性分析<a hidden class="anchor" aria-hidden="true" href="#5肿瘤干细胞龛异质性分析">#</a></h2>
+<p>将高表达肝癌干性的5个marker(CD47, EPCAM, KRT19, PROM1, SOX9)的Top5% tumor spot(L/T/P)定义为相应marker阳性的CSC niches。</p>
+<p>（1）首先分析不同类型组织的所含有的CSC niches比例变化。(如下图A)；</p>
+<p>（2）其次PROM1+ CSC niches 在HCC-2P中拥有最多的spot(如下图B)，以及双阳性最多的spot(如下图C)。</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20221002201817468.png" alt="image-20221002201817468" style="zoom: 50%;" />
+<p>（3）然后分析5种CSC niches特异的表达通路(图D)与细胞类型(图F)</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20221002202319247.png" alt="image-20221002202319247" style="zoom: 67%;" />
+<h2 id="6一个完整肝细胞癌nodule的异质性分析">6、一个完整肝细胞癌nodule的异质性分析<a hidden class="anchor" aria-hidden="true" href="#6一个完整肝细胞癌nodule的异质性分析">#</a></h2>
+<p>（1）将一个肿瘤组织(HCC-5)，分为4个section，分别测序。将ST数据合并、分群后，得到6个cluster。根据marker基因表达分为：tumor(1/2/5), stromal cell(3/6), normal(2)</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20221002202641314.png" alt="image-20221002202641314" style="zoom: 50%;" />
+<p>（2）由于是完整的CSC组织，可以探究从肿瘤中心到四周围，信号通路的活性变化</p>
+<ul>
+<li>先按照径向将每个组织切片分为4个部分，A-1表示组织A的第1部分。</li>
+<li>然后按照环形每5个spot做一次分割，即分为18个环形区域。</li>
+<li>参下图F，A-1.1表示A-1区域的cluster1，计算通路活性与圆心距的相关性。</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20221002203054671.png" alt="image-20221002203054671" style="zoom: 67%;" />
+<h2 id="7tls在肿瘤组织的分布特征">7、TLS在肿瘤组织的分布特征<a hidden class="anchor" aria-hidden="true" href="#7tls在肿瘤组织的分布特征">#</a></h2>
+<p>（1）如上，HCC-5的cluster3、6为stromal cell，其中cluster6由于高表达CXCL13, CCL19, CCL21, LTF, LTB, CD79A/B等TLS marker被重新注释为TLS；</p>
+<p>（2）将该cluster的特异高表达的Top50基因作为signature，用于注释其它组织测序spot是否为TLS，主要多分布于L区的非肿瘤区域</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20221002204140148.png" alt="image-20221002204140148" style="zoom:67%;" />
+<p>（3）比较HCC-5的stromal与TLS区域的特异相关细胞类型(下图C)</p>
+<p>（4）分析TLS spot的细胞类型比例与肿瘤距离的相关性(下图D)</p>
+<p>（5）TLS区域中心到四周的特定基因表达变化趋势(下图E)</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20221002204643937.png" alt="image-20221002204643937" style="zoom: 80%;" />
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/%E6%96%87%E7%8C%AE-%E7%BB%84%E5%AD%A6/">文献-组学</a></li>
+    </ul>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2026 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

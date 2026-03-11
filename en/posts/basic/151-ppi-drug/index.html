@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>基于PPI网络的靶点群距离预测药物组合 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="文献-算法">
+<meta name="description" content="
+Network-based prediction of drug combinations
+Nature communication   2019 / 03  IF=15
+https://doi.org/10.1038/s41467-019-09186-x
+
+文章使用数据
+1、PPI
+high-quality protein-protein interactions (PPIs)
+原文说有243,603 PPIs connecting 16,677 unique proteins ，但是根据文章附件链接只有217160 PPIs, 涉及15970个蛋白质
+https://static-content.springer.com/esm/art%3A10.1038%2Fs41467-019-09186-x/MediaObjects/41467_2019_9186_MOESM3_ESM.xlsx
+2、药物数据
+（1）药物组方：DCDB">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/basic/151-ppi-drug/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.af29093799c35bd05a068d5ab092858ff3a75905607cac7c1c2694b85e8c8dba.css" integrity="sha256-rykJN5nDW9BaBo1asJKFj/OnWQVgfKx8HCaUuF6Mjbo=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/basic/151-ppi-drug/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="基于PPI网络的靶点群距离预测药物组合" />
+<meta property="og:description" content="
+Network-based prediction of drug combinations
+Nature communication   2019 / 03  IF=15
+https://doi.org/10.1038/s41467-019-09186-x
+
+文章使用数据
+1、PPI
+high-quality protein-protein interactions (PPIs)
+原文说有243,603 PPIs connecting 16,677 unique proteins ，但是根据文章附件链接只有217160 PPIs, 涉及15970个蛋白质
+https://static-content.springer.com/esm/art%3A10.1038%2Fs41467-019-09186-x/MediaObjects/41467_2019_9186_MOESM3_ESM.xlsx
+2、药物数据
+（1）药物组方：DCDB" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/basic/151-ppi-drug/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-04-29T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2022-04-29T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="基于PPI网络的靶点群距离预测药物组合"/>
+<meta name="twitter:description" content="
+Network-based prediction of drug combinations
+Nature communication   2019 / 03  IF=15
+https://doi.org/10.1038/s41467-019-09186-x
+
+文章使用数据
+1、PPI
+high-quality protein-protein interactions (PPIs)
+原文说有243,603 PPIs connecting 16,677 unique proteins ，但是根据文章附件链接只有217160 PPIs, 涉及15970个蛋白质
+https://static-content.springer.com/esm/art%3A10.1038%2Fs41467-019-09186-x/MediaObjects/41467_2019_9186_MOESM3_ESM.xlsx
+2、药物数据
+（1）药物组方：DCDB"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 科研基础 -- 读文献、看教材",
+      "item": "https://lishensuo.github.io/en/posts/basic/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "基于PPI网络的靶点群距离预测药物组合",
+      "item": "https://lishensuo.github.io/en/posts/basic/151-ppi-drug/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "基于PPI网络的靶点群距离预测药物组合",
+  "name": "基于PPI网络的靶点群距离预测药物组合",
+  "description": " Network-based prediction of drug combinations\nNature communication 2019 / 03 IF=15\nhttps://doi.org/10.1038/s41467-019-09186-x\n文章使用数据 1、PPI high-quality protein-protein interactions (PPIs)\n原文说有243,603 PPIs connecting 16,677 unique proteins ，但是根据文章附件链接只有217160 PPIs, 涉及15970个蛋白质\nhttps://static-content.springer.com/esm/art%3A10.1038%2Fs41467-019-09186-x/MediaObjects/41467_2019_9186_MOESM3_ESM.xlsx\n2、药物数据 （1）药物组方：DCDB\n",
+  "keywords": [
+    "文献-算法"
+  ],
+  "articleBody": " Network-based prediction of drug combinations\nNature communication 2019 / 03 IF=15\nhttps://doi.org/10.1038/s41467-019-09186-x\n文章使用数据 1、PPI high-quality protein-protein interactions (PPIs)\n原文说有243,603 PPIs connecting 16,677 unique proteins ，但是根据文章附件链接只有217160 PPIs, 涉及15970个蛋白质\nhttps://static-content.springer.com/esm/art%3A10.1038%2Fs41467-019-09186-x/MediaObjects/41467_2019_9186_MOESM3_ESM.xlsx\n2、药物数据 （1）药物组方：DCDB\n1,363 clinically reported drug combinations for 904 distinctive components\nhttp://public.synergylab.cn/dcdb/index.jsf\n在本文，作者仅关注 pairwise drug combinations ：681 combinations connnecting 362 drugs\n（2）TTD数据库\nhttp://db.idrblab.net/ttd/\ndrug, target, and drug-target pathway information\n3、疾病靶点 （1）OMIM：The OMIM database (Online Mendelian Inheritance in Man)\nhttp://www.omim.org/\nliterature-curated human disease genes with various high-quality experimental evidences.\n（2）CTD：The Comparative Toxicogenomics Database\nhttp://ctdbase.org/\nonly manually curated gene-disease interactions from the literatures were used.\n（3）ClinVar：relationships among sequence variation and various human phenotypes\nhttps://www.ncbi.nlm.nih.gov/clinvar/\ncardiovascular[Disease/Phenotype]\n（4）GWAS\nhttps://www.ebi.ac.uk/gwas/\nunbiased SNP-disease associations with genome-wide significance\np \u003c5.0×10 -8\n（5）GWASdb\nhttp://jjwanglab.org/gwasdb NOT USED\nSNP-trait associations from GWAS for PubMed and other resource\np \u003c1.0×10 -3\n（6）PheWAS Catalog\nhttps://phewascatalog.org/phewas\nphewas.mc.vanderbilt.edu\nSNP-trait associations identified by the phenome-wide association study (PheWAS) paradigm within electronic medical records\np \u003c0.05\n（7）HuGE Navigator\nhttps://phgkb.cdc.gov/PHGKB/phgHome.action?action=home\nan integrated disease candidate gene database based on the core data from PubMed abstracts using text mining algorithms\nliterature-reported disease-gene annotation data with known PubMed IDs\n（8）DisGeNET\n16,000 genes and 13,000 diseases\nonly expert-curated data\n附件上传的数据\nThe publicly available human protein–protein interactome (Supplementary Data 1)\nexperimentally validated drug–target interactions (Supplementary Data 2)\nexperimentally validated drug combinations (Supplementary Data 3)\n分析思路 1、药物靶点群与疾病群距离 假设：Disease proteins are not scattered randomly in the interactome, but tend to form localized neighborhoods, known as disease modules\n计算药物与疾病的Network-based proximity\n$$ d(X,Y) = \\frac{1}{||Y||}\\sum_{y\\in{Y}}min_{x\\in{X}}d(x,y) $$\n计算相同数量size与连接度degree的靶点群与疾病靶点群的距离，拟合高斯分布，进行Z值转换。由此判断药物距离与疾病距离是否足够近(z\u003c0)。 $$ z = \\frac{d-\\mu}{\\sigma} $$ 2、计算药物靶点群与药物靶点群的距离 药物靶点的数目通常比较少（FDA批准的1978个药物中，平均靶点为3。由上公式计算的药物与药物间距离的随机化不符合正态分布。 进一步改进计算公式，考虑两个药物的影响范围。同第一点，进行Z值转换。 $$ s_{AB} = d_{AB} - \\frac{d_{AA} + d_{BB}}{2} $$\n通过药物组合实验数据、药物性质以及药物距离的关系\n（1）两个药物靶模块之间的拓扑关系也反映了生物和药理学关系。\n（2）FDA批准的两两药物组合之间的距离比较近。如下图A\n3、药物-药物-靶点群关系 文章分为6种药物-药物-靶点群关系 结合已知药物组合数据发现：only drug pairs that have Complementary Exposure relationship to the disease module(下图B) show a statistically significant efficacy for drug combination therapies 最后文章利用Complementary Exposure relationship，预测、筛选具有抗高血压的药物组合。发现预测显著的结果有相应的研究数据支持，表明这种药物组合发现模式的准确性。 前期准备好数据很重要。不仅仅是用于预测的数据，还要有支持验证的数据。\n",
+  "wordCount" : "980",
+  "inLanguage": "en",
+  "datePublished": "2022-04-29T00:00:00Z",
+  "dateModified": "2022-04-29T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/basic/151-ppi-drug/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/basic/">📖 科研基础 -- 读文献、看教材</a></div>
+    <h1 class="post-title">
+      基于PPI网络的靶点群距离预测药物组合
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2022-04-29 00:00:00 +0000 UTC'>2022-04-29</span>&nbsp;|&nbsp;Update:&nbsp;2022-04-29&nbsp;|&nbsp;Words:&nbsp;980&nbsp;|&nbsp;2 min&nbsp;|&nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#%e6%96%87%e7%ab%a0%e4%bd%bf%e7%94%a8%e6%95%b0%e6%8d%ae" aria-label="文章使用数据">文章使用数据</a><ul>
+                            
+                    <li>
+                        <a href="#1ppi" aria-label="1、PPI">1、PPI</a></li>
+                    <li>
+                        <a href="#2%e8%8d%af%e7%89%a9%e6%95%b0%e6%8d%ae" aria-label="2、药物数据">2、药物数据</a></li>
+                    <li>
+                        <a href="#3%e7%96%be%e7%97%85%e9%9d%b6%e7%82%b9" aria-label="3、疾病靶点">3、疾病靶点</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#%e5%88%86%e6%9e%90%e6%80%9d%e8%b7%af" aria-label="分析思路">分析思路</a><ul>
+                            
+                    <li>
+                        <a href="#1%e8%8d%af%e7%89%a9%e9%9d%b6%e7%82%b9%e7%be%a4%e4%b8%8e%e7%96%be%e7%97%85%e7%be%a4%e8%b7%9d%e7%a6%bb" aria-label="1、药物靶点群与疾病群距离">1、药物靶点群与疾病群距离</a></li>
+                    <li>
+                        <a href="#2%e8%ae%a1%e7%ae%97%e8%8d%af%e7%89%a9%e9%9d%b6%e7%82%b9%e7%be%a4%e4%b8%8e%e8%8d%af%e7%89%a9%e9%9d%b6%e7%82%b9%e7%be%a4%e7%9a%84%e8%b7%9d%e7%a6%bb" aria-label="2、计算药物靶点群与药物靶点群的距离">2、计算药物靶点群与药物靶点群的距离</a></li>
+                    <li>
+                        <a href="#3%e8%8d%af%e7%89%a9-%e8%8d%af%e7%89%a9-%e9%9d%b6%e7%82%b9%e7%be%a4%e5%85%b3%e7%b3%bb" aria-label="3、药物-药物-靶点群关系">3、药物-药物-靶点群关系</a>
+                    </li>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><blockquote>
+<p>Network-based prediction of drug combinations</p>
+<p>Nature communication   2019 / 03  IF=15</p>
+<p><a href="https://doi.org/10.1038/s41467-019-09186-x">https://doi.org/10.1038/s41467-019-09186-x</a></p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220429151826294.png" alt="image-20220429151826294" style="zoom: 50%;" /></blockquote>
+<h1 id="文章使用数据">文章使用数据<a hidden class="anchor" aria-hidden="true" href="#文章使用数据">#</a></h1>
+<h2 id="1ppi">1、PPI<a hidden class="anchor" aria-hidden="true" href="#1ppi">#</a></h2>
+<p>high-quality protein-protein interactions (PPIs)</p>
+<p>原文说有<strong>243,603</strong> PPIs connecting <strong>16,677</strong> unique proteins ，但是根据文章附件链接只有217160 PPIs, 涉及15970个蛋白质</p>
+<p><a href="https://static-content.springer.com/esm/art%3A10.1038%2Fs41467-019-09186-x/MediaObjects/41467_2019_9186_MOESM3_ESM.xlsx">https://static-content.springer.com/esm/art%3A10.1038%2Fs41467-019-09186-x/MediaObjects/41467_2019_9186_MOESM3_ESM.xlsx</a></p>
+<h2 id="2药物数据">2、药物数据<a hidden class="anchor" aria-hidden="true" href="#2药物数据">#</a></h2>
+<p>（1）药物组方：DCDB</p>
+<p><strong>1,363</strong> clinically reported drug combinations for 904 distinctive components</p>
+<p><a href="http://public.synergylab.cn/dcdb/index.jsf">http://public.synergylab.cn/dcdb/index.jsf</a></p>
+<p>在本文，作者仅关注 pairwise drug combinations ：681 combinations connnecting 362 drugs</p>
+<p>（2）TTD数据库</p>
+<p><a href="http://db.idrblab.net/ttd/">http://db.idrblab.net/ttd/</a></p>
+<p>drug, target, and drug-target pathway information</p>
+<h2 id="3疾病靶点">3、疾病靶点<a hidden class="anchor" aria-hidden="true" href="#3疾病靶点">#</a></h2>
+<p>（1）OMIM：The OMIM database (Online Mendelian Inheritance in Man)</p>
+<p><a href="http://www.omim.org/">http://www.omim.org/</a></p>
+<p>literature-curated human disease genes with various high-quality experimental evidences.</p>
+<p>（2）CTD：The Comparative Toxicogenomics Database</p>
+<p><a href="http://ctdbase.org/">http://ctdbase.org/</a></p>
+<p>only manually curated gene-disease interactions from the literatures were used.</p>
+<p>（3）ClinVar：relationships among sequence variation and various human phenotypes</p>
+<p><a href="https://www.ncbi.nlm.nih.gov/clinvar/">https://www.ncbi.nlm.nih.gov/clinvar/</a></p>
+<p>cardiovascular[Disease/Phenotype]</p>
+<p>（4）GWAS</p>
+<p><a href="https://www.ebi.ac.uk/gwas/">https://www.ebi.ac.uk/gwas/</a></p>
+<p>unbiased SNP-disease associations with genome-wide significance</p>
+<p>p &lt;5.0×10 -8</p>
+<p>（5）GWASdb</p>
+<p><a href="http://jjwanglab.org/gwasdb">http://jjwanglab.org/gwasdb</a>   NOT USED</p>
+<p>SNP-trait associations from GWAS for PubMed and other resource</p>
+<p>p &lt;1.0×10 -3</p>
+<p>（6）PheWAS Catalog</p>
+<p><a href="https://phewascatalog.org/phewas">https://phewascatalog.org/phewas</a></p>
+<p>phewas.mc.vanderbilt.edu</p>
+<p>SNP-trait associations identified by the phenome-wide association study (PheWAS) paradigm within electronic medical records</p>
+<p>p &lt;0.05</p>
+<p>（7）HuGE Navigator</p>
+<p><a href="https://phgkb.cdc.gov/PHGKB/phgHome.action?action=home">https://phgkb.cdc.gov/PHGKB/phgHome.action?action=home</a></p>
+<p>an integrated disease candidate gene database based on the core data from PubMed abstracts using text mining algorithms</p>
+<p>literature-reported disease-gene annotation data with known PubMed IDs</p>
+<p>（8）DisGeNET</p>
+<p>16,000 genes and 13,000 diseases</p>
+<p>only expert-curated data</p>
+<p>附件上传的数据</p>
+<p>The publicly available human protein–protein interactome (Supplementary Data <a href="https://www.nature.com/articles/s41467-019-09186-x#MOESM3">1</a>)</p>
+<p>experimentally validated drug–target interactions (Supplementary Data <a href="https://www.nature.com/articles/s41467-019-09186-x#MOESM4">2</a>)</p>
+<p>experimentally validated drug combinations (Supplementary Data <a href="https://www.nature.com/articles/s41467-019-09186-x#MOESM5">3</a>)</p>
+<h1 id="分析思路">分析思路<a hidden class="anchor" aria-hidden="true" href="#分析思路">#</a></h1>
+<h2 id="1药物靶点群与疾病群距离">1、药物靶点群与疾病群距离<a hidden class="anchor" aria-hidden="true" href="#1药物靶点群与疾病群距离">#</a></h2>
+<ul>
+<li>
+<p>假设：Disease proteins are not scattered randomly in the interactome, but tend to form localized neighborhoods, known as disease modules</p>
+</li>
+<li>
+<p>计算药物与疾病的Network-based proximity</p>
+</li>
+</ul>
+<p>$$
+d(X,Y) = \frac{1}{||Y||}\sum_{y\in{Y}}min_{x\in{X}}d(x,y)
+$$</p>
+<ul>
+<li>计算相同数量size与连接度degree的靶点群与疾病靶点群的距离，拟合高斯分布，进行Z值转换。由此判断药物距离与疾病距离是否足够近(z&lt;0)。
+$$
+z = \frac{d-\mu}{\sigma}
+$$</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220429163822810.png" alt="image-20220429163822810" style="zoom: 15%;" />
+<h2 id="2计算药物靶点群与药物靶点群的距离">2、计算药物靶点群与药物靶点群的距离<a hidden class="anchor" aria-hidden="true" href="#2计算药物靶点群与药物靶点群的距离">#</a></h2>
+<ul>
+<li>药物靶点的数目通常比较少（FDA批准的1978个药物中，平均靶点为3。由上公式计算的药物与药物间距离的随机化不符合正态分布。</li>
+<li>进一步改进计算公式，考虑两个药物的影响范围。同第一点，进行Z值转换。</li>
+</ul>
+<p>$$
+s_{AB} = d_{AB} - \frac{d_{AA} + d_{BB}}{2}
+$$</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220429164754123.png" alt="image-20220429164754123" style="zoom: 67%;" />
+<p>通过药物组合实验数据、药物性质以及药物距离的关系</p>
+<p>（1）两个药物靶模块之间的拓扑关系也反映了生物和药理学关系。</p>
+<p>（2）FDA批准的两两药物组合之间的距离比较近。如下图A</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220429165335033.png" alt="image-20220429165335033" style="zoom:67%;" />
+<h2 id="3药物-药物-靶点群关系">3、药物-药物-靶点群关系<a hidden class="anchor" aria-hidden="true" href="#3药物-药物-靶点群关系">#</a></h2>
+<ul>
+<li>文章分为6种药物-药物-靶点群关系</li>
+<li>结合已知药物组合数据发现：only drug pairs that have  Complementary Exposure relationship to the disease module(下图B)  show a statistically significant efficacy for drug combination therapies</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220429165833622.png" alt="image-20220429165833622"  />
+</p>
+<ul>
+<li>最后文章利用Complementary Exposure relationship，预测、筛选具有抗高血压的药物组合。发现预测显著的结果有相应的研究数据支持，表明这种药物组合发现模式的准确性。</li>
+</ul>
+<blockquote>
+<p>前期准备好数据很重要。不仅仅是用于预测的数据，还要有支持验证的数据。</p></blockquote>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/%E6%96%87%E7%8C%AE-%E7%AE%97%E6%B3%95/">文献-算法</a></li>
+    </ul>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2026 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

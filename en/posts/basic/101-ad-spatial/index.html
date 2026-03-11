@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>文献--AD小鼠空间转录组数据分析 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="文献-组学">
+<meta name="description" content="
+Spatial Transcriptomics and In Situ Sequencing to Study Alzheimer&rsquo;s Disease
+Cell. 2020 Aug 20 | IF=41.5
+DOI: 10.1016/j.cell.2020.06.038
+
+
+这是关于AD的第一次空间转录组学的相关研究。如下为该文章中涉及空间转录组分析部分的简要笔记，具体可参看原文。">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/basic/101-ad-spatial/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.af29093799c35bd05a068d5ab092858ff3a75905607cac7c1c2694b85e8c8dba.css" integrity="sha256-rykJN5nDW9BaBo1asJKFj/OnWQVgfKx8HCaUuF6Mjbo=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/basic/101-ad-spatial/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="文献--AD小鼠空间转录组数据分析" />
+<meta property="og:description" content="
+Spatial Transcriptomics and In Situ Sequencing to Study Alzheimer&rsquo;s Disease
+Cell. 2020 Aug 20 | IF=41.5
+DOI: 10.1016/j.cell.2020.06.038
+
+
+这是关于AD的第一次空间转录组学的相关研究。如下为该文章中涉及空间转录组分析部分的简要笔记，具体可参看原文。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/basic/101-ad-spatial/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-06-10T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2022-06-10T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="文献--AD小鼠空间转录组数据分析"/>
+<meta name="twitter:description" content="
+Spatial Transcriptomics and In Situ Sequencing to Study Alzheimer&rsquo;s Disease
+Cell. 2020 Aug 20 | IF=41.5
+DOI: 10.1016/j.cell.2020.06.038
+
+
+这是关于AD的第一次空间转录组学的相关研究。如下为该文章中涉及空间转录组分析部分的简要笔记，具体可参看原文。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 科研基础 -- 读文献、看教材",
+      "item": "https://lishensuo.github.io/en/posts/basic/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "文献--AD小鼠空间转录组数据分析",
+      "item": "https://lishensuo.github.io/en/posts/basic/101-ad-spatial/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "文献--AD小鼠空间转录组数据分析",
+  "name": "文献--AD小鼠空间转录组数据分析",
+  "description": " Spatial Transcriptomics and In Situ Sequencing to Study Alzheimer\u0026rsquo;s Disease\nCell. 2020 Aug 20 | IF=41.5\nDOI: 10.1016/j.cell.2020.06.038\n这是关于AD的第一次空间转录组学的相关研究。如下为该文章中涉及空间转录组分析部分的简要笔记，具体可参看原文。\n",
+  "keywords": [
+    "文献-组学"
+  ],
+  "articleBody": " Spatial Transcriptomics and In Situ Sequencing to Study Alzheimer’s Disease\nCell. 2020 Aug 20 | IF=41.5\nDOI: 10.1016/j.cell.2020.06.038\n这是关于AD的第一次空间转录组学的相关研究。如下为该文章中涉及空间转录组分析部分的简要笔记，具体可参看原文。\n1、实验设计 小鼠模型 AD模型小鼠3月龄、18月龄各2只；6月龄、12月龄各1只；共8只。正常对照小鼠同。\n每次取小鼠脑组织3张连续的切片，中间一张用于空间转录组测序、两旁的切片用于免疫组化检测。\n对于3月龄、18月龄小鼠，分别取左右脑的冠状切片；对于6月龄、12月龄的小鼠仅取右脑的冠状切面。所以共有20组切片数据。\n空间转录组测序 对于每张切片，测序单位为直径100um的TD(tissue domain，可以理解为spot)；平均每个TD测得6578个基因表达信息。\n平均每张切片有500个TD，总共10327个TD，共覆盖了14个脑组织区域\n免疫组化实验 对于每张切片，共检测4种指标：\nAβ load (6E10 staining)\nreactive astrocytes (GFAP)\npresence of neurons (NeuN)\nnuclei (DAPI)\n由于3张连续切片，每张切片10um厚度，因此文章认为可将对应TD的基因表达与免疫组化指标关联起来。\n其中对于关键的Aβ load指标，根据TD区域内的荧光信号标准差计算每个TD的Aβ index。\n从文章给出数据来看，正常组小鼠的Aβ index均为0。而在AD模型小鼠中，从3月到18月，Aβ index不断增高。\n其中在18月龄的AD模型鼠中平均每张切片有1565个 Aβ plaques，平面面积在 78.5–4,950 um2\n2、两次差异分析 使用EdgeR包拟合GLM分布，然后进行quasi-likelihood F-test差异分析\n2.1 genotype model 3月龄的AD模型鼠与正常对照鼠的TD差异基因 18月龄的AD模型鼠与正常对照鼠的TD差异基因 2.2 Aβ model 研究不同TD的基因表达变化与Aβ index的关系\n计算得到的LFC表示每增加一单位的Aβ index，TD中基因表达的变化Log倍数。\n同样也是分为3月与18月龄小鼠单独分析。\n2.3 通路关联分析 将上述两类差异基因综合考虑(genotype model与Aβ model)，可以反应基因不同层次的表达依赖关系。可进一步将差异基因关联到通路，将通路组成基因的两种平均LFC作为该通路的差异表达特征。\n如下左图可以看出Antigen processing, chemotaxis, lysosomal degradation,以及 inﬂammation通路在18月龄鼠的结果中都具有正的LFC值。\n而有意思的是Myelin通路在3月与18月的Aβ model 具有相反的变化，即随着Aβ index的增多，3月龄中该通路正相关；18月龄中该通路负相关。\n3、WGCNA分析 对全部的10327个TD做WGCNA分析\n选取了Top50方差(高变)基因，分为了12个模块。每个模块的组成基因见附件Table S3。\nWGCNA包分析的相关指标：(1)Soft power 14；(2)deepSplit = 4; (3)signed network\n（1）根据模块的组成基因与cell signature基因集的超几何检验分析，判断每个模块的细胞类型特征。\n如下图，是去除了没有任何显著富集或者组成基因数过多的模块。\n其中热图中有颜色的第一个格子的上面数字表示交集基因数；中间数字表示预期交集基因数；下面数字表示矫正后的P值\nDAM : disease-associated microglia; A1：inflammatoryastrocytes\n（2）取模块组成基因的两类平均LFC，作为该通路的差异表达特征。\n如下图所示，Purple与Red的模块差异变化特征最明显。根据\n之后主要关注了与Aβ最相关的red与purple模块。\n（3）对red与purple模块内基因的通路富集分析表明\nred模块与myelin category相关，在AD的早期活跃、晚期不活跃。 purple模块与chemotaxis, lysosomal degradation, inflammation, antigen processing categories相关。 4、PIG Module Purple module，57个基因组成，Plaque-induced genes(PIGs)\n（1）PIGs模块的两类LFC在18月份都为最大值\n如下图A：在genotype model比较中，随着年龄的增长，AD中PIGs基因相较于对照组高表达的程度越明显。 如下图B：在Aβ model中，相较于AD组3月龄鼠，18月龄数各个区域的PIGs基因表达水平都显著增高。 （2）通过GO通路富集分析，发现PIGs基因与经典补体级联、以及与补体级联相关的endocytosis、lysosomal degradation、antigen processing and presentation、immune response、oxidation-reduction富集相关\n（3）通过cellular signature的基因集富集分析，发现PIGs基因与DAM/RAM小胶质细胞、A1星形胶质细胞相关。\n如下图中标红的为PIGs的hub基因。\nactivated microglia (disease-associated microglia [DAM] or activated response microglia [ARM]\ninflammatory astrocytes (A1)\n（3）进一步对PIGs基因，根据正常对照小鼠中的TD做WGCNA分析，分为3个sub module\ngreen cluster组成基因与astroglia-expressed genes相关\nblue/orange cluster与microglia相关\n根据每个TD的Aβ index大小将AD对照组中的TD分为从高到低分为Q1、Q2、Q3、Q4共4组。\n总体来看从对照组到AD组，从Q4到Q1，不同sub module之间的共表达程度增强。具体增强的基因对涉及哪些含义文章有详细论述。\n5、OLIG module Red module，165个基因组成，主要与oligodendrocytes相关(OLIGs)\n（1）通路富集分析表明主要与myelin sheath髓鞘相关；cellular signature富集分析、hub基因表明均与少突胶质细胞相关\n（2）基因差异分析表明\n相比正常小鼠，AD鼠中OLGs基因均显著高表达； 在3月AD鼠中，随着Aβ index增大，OLGs基因表达增多；在18月AD鼠中，随着Aβ index增大，OLGs基因表达反而降低。 在18月中，Genotype正相关，而Abeta负相关\n（3）文章进一步发现其实OLGs基因表达在不同年龄段存在不同的脑区域特异性。\n在3月AD鼠的FB、TH、HY区域中的TD与Aβ index呈正相关，而ENTI等区域与之呈负相关 在18月AD鼠中AUDs呈负相关，ENTI等区域则呈正相关 （4）按照Aβ index不断增大的Q4-Q1区域划分，比较不同区域的OLGs基因表达水平。\n在3月时，观察搭配在Q4~Q2时(mild Aβ index)，随着Aβ的增大，OLGs基因高表达；但是在最高的Q1，则低表达。 在18月份，OLGs基因普遍低表达，可能是由于Aβ index普遍增强相关。 6、结论 plaque-induced genes (PIGs) 模块表征了多种细胞类型的共表达网络关系，尤其是在AD晚期阶段参与了 complement system, oxidative stress, lysosomes, and inflammation等过程。\noligodendrocytegenes(OLIGs)模块基因参与AD早期病变过程，其中主要涉及myelin髓鞘相关通路。\n7、数据获取 将文章中所涉及到的所有图片整理、汇总到https://alzmap.org/网站中，可供交互式浏览。\n将空间转录组基因表达测序数据上传到GSE152506中\n文章中所有的图片、测序数据都可在https://www.synapse.org/#!Synapse:syn22153884/wiki/603937中获取。\n",
+  "wordCount" : "2887",
+  "inLanguage": "en",
+  "datePublished": "2022-06-10T00:00:00Z",
+  "dateModified": "2022-06-10T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/basic/101-ad-spatial/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/basic/">📖 科研基础 -- 读文献、看教材</a></div>
+    <h1 class="post-title">
+      文献--AD小鼠空间转录组数据分析
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2022-06-10 00:00:00 +0000 UTC'>2022-06-10</span>&nbsp;|&nbsp;Update:&nbsp;2022-06-10&nbsp;|&nbsp;Words:&nbsp;2887&nbsp;|&nbsp;6 min&nbsp;|&nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#1%e5%ae%9e%e9%aa%8c%e8%ae%be%e8%ae%a1" aria-label="1、实验设计">1、实验设计</a><ul>
+                            
+                    <li>
+                        <a href="#%e5%b0%8f%e9%bc%a0%e6%a8%a1%e5%9e%8b" aria-label="小鼠模型">小鼠模型</a></li>
+                    <li>
+                        <a href="#%e7%a9%ba%e9%97%b4%e8%bd%ac%e5%bd%95%e7%bb%84%e6%b5%8b%e5%ba%8f" aria-label="空间转录组测序">空间转录组测序</a></li>
+                    <li>
+                        <a href="#%e5%85%8d%e7%96%ab%e7%bb%84%e5%8c%96%e5%ae%9e%e9%aa%8c" aria-label="免疫组化实验">免疫组化实验</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#2%e4%b8%a4%e6%ac%a1%e5%b7%ae%e5%bc%82%e5%88%86%e6%9e%90" aria-label="2、两次差异分析">2、两次差异分析</a><ul>
+                            
+                    <li>
+                        <a href="#21-genotype-model" aria-label="2.1 genotype model">2.1 genotype model</a></li>
+                    <li>
+                        <a href="#22-a%ce%b2-model" aria-label="2.2 Aβ model">2.2 Aβ model</a></li>
+                    <li>
+                        <a href="#23-%e9%80%9a%e8%b7%af%e5%85%b3%e8%81%94%e5%88%86%e6%9e%90" aria-label="2.3 通路关联分析">2.3 通路关联分析</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#3wgcna%e5%88%86%e6%9e%90" aria-label="3、WGCNA分析">3、WGCNA分析</a></li>
+                    <li>
+                        <a href="#4pig-module" aria-label="4、PIG Module">4、PIG Module</a></li>
+                    <li>
+                        <a href="#5olig-module" aria-label="5、OLIG module">5、OLIG module</a></li>
+                    <li>
+                        <a href="#6%e7%bb%93%e8%ae%ba" aria-label="6、结论">6、结论</a></li>
+                    <li>
+                        <a href="#7%e6%95%b0%e6%8d%ae%e8%8e%b7%e5%8f%96" aria-label="7、数据获取">7、数据获取</a>
+                    </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><blockquote>
+<p>Spatial Transcriptomics and In Situ Sequencing to Study Alzheimer&rsquo;s Disease</p>
+<p>Cell. 2020 Aug 20 | IF=41.5</p>
+<p>DOI: 10.1016/j.cell.2020.06.038</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220610155820989.png" alt="image-20220610155820989"  />
+</p></blockquote>
+<p>这是关于AD的第一次空间转录组学的相关研究。如下为该文章中<strong>涉及空间转录组分析部分</strong>的简要笔记，具体可参看原文。</p>
+<h1 id="1实验设计">1、实验设计<a hidden class="anchor" aria-hidden="true" href="#1实验设计">#</a></h1>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220609140300185.png" alt="image-20220609140300185"  />
+</p>
+<h2 id="小鼠模型">小鼠模型<a hidden class="anchor" aria-hidden="true" href="#小鼠模型">#</a></h2>
+<p>AD模型小鼠3月龄、18月龄各2只；6月龄、12月龄各1只；共8只。正常对照小鼠同。</p>
+<p>每次取小鼠脑组织3张连续的切片，中间一张用于空间转录组测序、两旁的切片用于免疫组化检测。</p>
+<p>对于3月龄、18月龄小鼠，分别取左右脑的冠状切片；对于6月龄、12月龄的小鼠仅取右脑的冠状切面。所以共有20组切片数据。</p>
+<h2 id="空间转录组测序">空间转录组测序<a hidden class="anchor" aria-hidden="true" href="#空间转录组测序">#</a></h2>
+<p>对于每张切片，测序单位为直径100um的TD(tissue domain，可以理解为spot)；平均每个TD测得6578个基因表达信息。</p>
+<p>平均每张切片有500个TD，总共10327个TD，共覆盖了14个脑组织区域</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220609144958989.png" alt="image-20220609144958989" style="zoom:33%;" />
+<h2 id="免疫组化实验">免疫组化实验<a hidden class="anchor" aria-hidden="true" href="#免疫组化实验">#</a></h2>
+<p>对于每张切片，共检测4种指标：</p>
+<ul>
+<li>
+<p>Aβ load (6E10 staining)</p>
+</li>
+<li>
+<p>reactive astrocytes (GFAP)</p>
+</li>
+<li>
+<p>presence of neurons (NeuN)</p>
+</li>
+<li>
+<p>nuclei (DAPI)</p>
+</li>
+</ul>
+<p>由于3张连续切片，每张切片10um厚度，因此文章认为可将对应TD的基因表达与免疫组化指标关联起来。</p>
+<p>其中对于关键的Aβ load指标，根据TD区域内的荧光信号标准差计算每个TD的Aβ index。</p>
+<p>从文章给出数据来看，正常组小鼠的Aβ index均为0。而在AD模型小鼠中，从3月到18月，Aβ index不断增高。</p>
+<p>其中在18月龄的AD模型鼠中平均每张切片有1565个 Aβ plaques，平面面积在 78.5–4,950 um2</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220609150301613.png" alt="image-20220609150301613" style="zoom:50%;" />
+<h1 id="2两次差异分析">2、两次差异分析<a hidden class="anchor" aria-hidden="true" href="#2两次差异分析">#</a></h1>
+<p>使用EdgeR包拟合GLM分布，然后进行quasi-likelihood F-test差异分析</p>
+<h2 id="21-genotype-model">2.1 genotype model<a hidden class="anchor" aria-hidden="true" href="#21-genotype-model">#</a></h2>
+<ul>
+<li>3月龄的AD模型鼠与正常对照鼠的TD差异基因</li>
+<li>18月龄的AD模型鼠与正常对照鼠的TD差异基因</li>
+</ul>
+<h2 id="22-aβ-model">2.2 Aβ model<a hidden class="anchor" aria-hidden="true" href="#22-aβ-model">#</a></h2>
+<p>研究不同TD的基因表达变化与Aβ index的关系</p>
+<p>计算得到的LFC表示每增加一单位的Aβ index，TD中基因表达的变化Log倍数。</p>
+<p>同样也是分为3月与18月龄小鼠单独分析。</p>
+<h2 id="23-通路关联分析">2.3 通路关联分析<a hidden class="anchor" aria-hidden="true" href="#23-通路关联分析">#</a></h2>
+<p>将上述两类差异基因综合考虑(genotype model与Aβ model)，可以反应基因不同层次的表达依赖关系。可进一步将差异基因关联到通路，将通路组成基因的两种平均LFC作为该通路的差异表达特征。</p>
+<p>如下左图可以看出Antigen processing, chemotaxis, lysosomal degradation,以及 inﬂammation通路在18月龄鼠的结果中都具有正的LFC值。</p>
+<p>而有意思的是Myelin通路在3月与18月的Aβ model 具有相反的变化，即随着Aβ index的增多，3月龄中该通路正相关；18月龄中该通路负相关。</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220610142919769.png" alt="image-20220610142919769" style="zoom: 67%;" />
+<h1 id="3wgcna分析">3、WGCNA分析<a hidden class="anchor" aria-hidden="true" href="#3wgcna分析">#</a></h1>
+<p>对全部的10327个TD做WGCNA分析</p>
+<p>选取了Top50方差(高变)基因，分为了12个模块。每个模块的组成基因见附件Table S3。</p>
+<blockquote>
+<p>WGCNA包分析的相关指标：(1)Soft power 14；(2)deepSplit = 4; (3)signed network</p></blockquote>
+<p>（1）根据模块的组成基因与cell signature基因集的超几何检验分析，判断每个模块的细胞类型特征。</p>
+<p>如下图，是去除了没有任何显著富集或者组成基因数过多的模块。</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220609154631964.png" alt="image-20220609154631964" style="zoom: 67%;" />
+<blockquote>
+<p>其中热图中有颜色的第一个格子的上面数字表示交集基因数；中间数字表示预期交集基因数；下面数字表示矫正后的P值</p>
+<p>DAM : disease-associated microglia; A1：inflammatoryastrocytes</p></blockquote>
+<p>（2）取模块组成基因的两类平均LFC，作为该通路的差异表达特征。</p>
+<p>如下图所示，Purple与Red的模块差异变化特征最明显。根据</p>
+<p>之后主要关注了与Aβ最相关的red与purple模块。</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220610142953823.png" alt="image-20220610142953823" style="zoom: 67%;" />
+<p>（3）对red与purple模块内基因的通路富集分析表明</p>
+<ul>
+<li>red模块与myelin category相关，在AD的早期活跃、晚期不活跃。</li>
+<li>purple模块与chemotaxis, lysosomal degradation, inflammation, antigen processing categories相关。</li>
+</ul>
+<h1 id="4pig-module">4、PIG Module<a hidden class="anchor" aria-hidden="true" href="#4pig-module">#</a></h1>
+<p>Purple module，57个基因组成，Plaque-induced genes(PIGs)</p>
+<p>（1）PIGs模块的两类LFC在18月份都为最大值</p>
+<ul>
+<li>如下图A：在genotype model比较中，随着年龄的增长，AD中PIGs基因相较于对照组高表达的程度越明显。</li>
+<li>如下图B：在Aβ model中，相较于AD组3月龄鼠，18月龄数各个区域的PIGs基因表达水平都显著增高。</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220610144533644.png" alt="image-20220610144533644"  />
+</p>
+<p>（2）通过GO通路富集分析，发现PIGs基因与经典补体级联、以及与补体级联相关的endocytosis、lysosomal degradation、antigen processing and presentation、immune response、oxidation-reduction富集相关</p>
+<p>（3）通过cellular signature的基因集富集分析，发现PIGs基因与DAM/RAM小胶质细胞、A1星形胶质细胞相关。</p>
+<p>如下图中标红的为PIGs的hub基因。</p>
+<blockquote>
+<p>activated microglia (disease-associated microglia [DAM] or activated response microglia [ARM]</p>
+<p>inflammatory astrocytes (A1)</p></blockquote>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220610145454928.png" alt="image-20220610145454928" style="zoom:50%;" />
+<p>（3）进一步对PIGs基因，根据正常对照小鼠中的TD做WGCNA分析，分为3个sub module</p>
+<ul>
+<li>
+<p>green cluster组成基因与astroglia-expressed genes相关</p>
+</li>
+<li>
+<p>blue/orange cluster与microglia相关</p>
+</li>
+</ul>
+<p>根据每个TD的Aβ index大小将AD对照组中的TD分为从高到低分为Q1、Q2、Q3、Q4共4组。</p>
+<p>总体来看从对照组到AD组，从Q4到Q1，不同sub module之间的共表达程度增强。具体增强的基因对涉及哪些含义文章有详细论述。</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220609161738686.png" alt="image-20220609161738686" style="zoom: 80%;" />
+<h1 id="5olig-module">5、OLIG module<a hidden class="anchor" aria-hidden="true" href="#5olig-module">#</a></h1>
+<p>Red module，165个基因组成，主要与oligodendrocytes相关(OLIGs)</p>
+<p>（1）通路富集分析表明主要与myelin sheath髓鞘相关；cellular signature富集分析、hub基因表明均与少突胶质细胞相关</p>
+<p>（2）基因差异分析表明</p>
+<ul>
+<li>相比正常小鼠，AD鼠中OLGs基因均显著高表达；</li>
+<li>在3月AD鼠中，随着Aβ index增大，OLGs基因表达增多；在18月AD鼠中，随着Aβ index增大，OLGs基因表达反而降低。</li>
+</ul>
+<p>在18月中，Genotype正相关，而Abeta负相关</p>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220609163538644.png" alt="image-20220609163538644" style="zoom:50%;" />
+<p>（3）文章进一步发现其实OLGs基因表达在不同年龄段存在不同的脑区域特异性。</p>
+<ul>
+<li>在3月AD鼠的FB、TH、HY区域中的TD与Aβ index呈正相关，而ENTI等区域与之呈负相关</li>
+<li>在18月AD鼠中AUDs呈负相关，ENTI等区域则呈正相关</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220610152339043.png" alt="image-20220610152339043"  />
+</p>
+<p>（4）按照Aβ index不断增大的Q4-Q1区域划分，比较不同区域的OLGs基因表达水平。</p>
+<ul>
+<li>在3月时，观察搭配在Q4~Q2时(mild Aβ index)，随着Aβ的增大，OLGs基因高表达；但是在最高的Q1，则低表达。</li>
+<li>在18月份，OLGs基因普遍低表达，可能是由于Aβ index普遍增强相关。</li>
+</ul>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220610153155619.png" alt="image-20220610153155619"  />
+</p>
+<h1 id="6结论">6、结论<a hidden class="anchor" aria-hidden="true" href="#6结论">#</a></h1>
+<ul>
+<li>
+<p>plaque-induced genes (PIGs) 模块表征了多种细胞类型的共表达网络关系，尤其是在AD晚期阶段参与了 complement system,
+oxidative stress, lysosomes, and inflammation等过程。</p>
+</li>
+<li>
+<p>oligodendrocytegenes(OLIGs)模块基因参与AD早期病变过程，其中主要涉及myelin髓鞘相关通路。</p>
+</li>
+</ul>
+<img src="https://raw.githubusercontent.com/lishensuo/images/main/image-20220610154747798.png" alt="image-20220610154747798" style="zoom:67%;" />
+<h1 id="7数据获取">7、数据获取<a hidden class="anchor" aria-hidden="true" href="#7数据获取">#</a></h1>
+<ul>
+<li>
+<p>将文章中所涉及到的所有图片整理、汇总到https://alzmap.org/网站中，可供交互式浏览。</p>
+</li>
+<li>
+<p>将空间转录组基因表达测序数据上传到GSE152506中</p>
+</li>
+<li>
+<p>文章中所有的图片、测序数据都可在https://www.synapse.org/#!Synapse:syn22153884/wiki/603937中获取。</p>
+</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/%E6%96%87%E7%8C%AE-%E7%BB%84%E5%AD%A6/">文献-组学</a></li>
+    </ul>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2026 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>

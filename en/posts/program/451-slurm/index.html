@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<title>初识slurm基础操作 | Li&#39;s Bioinfo-Blog</title>
+<meta name="keywords" content="Linux">
+<meta name="description" content="现阶段在学习深度学习超参数优化过程中涉及到SLURM相关知识。这几天探索了一番，简单记录一下目前简单认识。
+SLURM，Simple Linux Utility for Resource Management的缩写，是一个开源、容错、高度可扩展的集群管理和作业调度系统。">
+<meta name="author" content="Lishensuo">
+<link rel="canonical" href="https://lishensuo.github.io/en/posts/program/451-slurm/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.af29093799c35bd05a068d5ab092858ff3a75905607cac7c1c2694b85e8c8dba.css" integrity="sha256-rykJN5nDW9BaBo1asJKFj/OnWQVgfKx8HCaUuF6Mjbo=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.555af97124d54bb1457985dd081b8f5616a48103aafeb30ac89fde835d65aa6c.js" integrity="sha256-VVr5cSTVS7FFeYXdCBuPVhakgQOq/rMKyJ/eg11lqmw="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://lishensuo.github.io/Q.gif">
+<link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/program/451-slurm/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="初识slurm基础操作" />
+<meta property="og:description" content="现阶段在学习深度学习超参数优化过程中涉及到SLURM相关知识。这几天探索了一番，简单记录一下目前简单认识。
+SLURM，Simple Linux Utility for Resource Management的缩写，是一个开源、容错、高度可扩展的集群管理和作业调度系统。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lishensuo.github.io/en/posts/program/451-slurm/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-09-10T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2022-09-10T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="初识slurm基础操作"/>
+<meta name="twitter:description" content="现阶段在学习深度学习超参数优化过程中涉及到SLURM相关知识。这几天探索了一番，简单记录一下目前简单认识。
+SLURM，Simple Linux Utility for Resource Management的缩写，是一个开源、容错、高度可扩展的集群管理和作业调度系统。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "分类",
+      "item": "https://lishensuo.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📖 R\u0026Python\u0026Shell --- 编程基础、可视化等",
+      "item": "https://lishensuo.github.io/en/posts/program/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "初识slurm基础操作",
+      "item": "https://lishensuo.github.io/en/posts/program/451-slurm/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "初识slurm基础操作",
+  "name": "初识slurm基础操作",
+  "description": "现阶段在学习深度学习超参数优化过程中涉及到SLURM相关知识。这几天探索了一番，简单记录一下目前简单认识。\nSLURM，Simple Linux Utility for Resource Management的缩写，是一个开源、容错、高度可扩展的集群管理和作业调度系统。\n",
+  "keywords": [
+    "Linux"
+  ],
+  "articleBody": "现阶段在学习深度学习超参数优化过程中涉及到SLURM相关知识。这几天探索了一番，简单记录一下目前简单认识。\nSLURM，Simple Linux Utility for Resource Management的缩写，是一个开源、容错、高度可扩展的集群管理和作业调度系统。\n几个关键概念：\n**node节点 **理解成一台独立的服务器（有若干内核，一定大小的内存）；\n**task任务 **理解为一个可执行脚本(.sh或者.py等)，最一般情况下执行一个脚本仅需要一个内核；\n**Job作业 **理解为一次slurm提交，可包含一个或多个任务\n基本使用流程为（1）用户进入登陆节点—（2）编写任务以及所需配置资源—（3）提交任务，分配节点，开始计算\n基础查询命令 1 2 3 4 5 6 sinfo #查看所有计算节点状态，第一列为分区名，后面会多次用到 squeue #查看正在运行的作业，包括比较重要的JobID信息 sacct #查看登陆节点以来所有的作业 scancel #根据JobID，取消正在运行的作业 两种运行方式 1、sbatch/srun提交脚本方式 （1）脚本与参数 需要考虑两部分（1）正确无误的可执行任务脚本文件；（2）指定运行脚本所需的节点资源\n脚本文件如下简单的示例 1 2 3 4 5 6 7 8 9 10 11 12 vi hello.py #---如下为脚本内容 #!/usr/bin/env python import time print(\"t1: \",time.asctime(time.localtime())) print(\"hello world\") time.sleep(5) print(\"t2: \",time.asctime(time.localtime())) print(\"hello world again!\") chmod +x hello.py #赋予执行权限 通过一些参数，设置运行环境（根据sinfo了解可用节点，以及相应的性能）。\n其中sbatch/srun的参数基本相同\n1 2 3 4 5 6 7 8 9 10 -p, --partition=partition name # 在指定分区中分配资源 -N, --nodes #节点数;如果作业不能跨节点(MPI)运行, 申请的节点数应不超过1 -n, --ntasks #请求执行任务数/分配的核心数， 默认情况下一个任务一个核心(可通过-c参数修改) # -n, --ntasks-per-node #每个节点执行的任务数/分配的核心数，如果申请一个节点与上一个参数意义等价 -c, --cpus-per-task #每个任务所需的核心数，默认为1 -J myFirstJob #设置作业名 -o job.%j.out #脚本执行的输出另保存 -e job.%j.err #脚本执行的报错另保存 --time=4-00:00 #限制运行时间 （2）srun执行 如下srun调用分区中一个c-4-1节点（已知该节点共有4个核心），并启用1个核心执行hello.py脚本任务\nsrun运行作业的主要特点之一是阻塞式的，直到运行结束后才会释放命令行。\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 srun -N 1 -n 1 -p c-4-1 ./hello.py # 结果输出如下 # t1: Sat Sep 10 14:13:31 2022 # hello world # t2: Sat Sep 10 14:13:36 2022 # hello world again! ## 如果调用2个核心，则输出结果如下，可以体会与上述启用一个节点的差异 srun -N 1 -n 2 -p c-4-1 ./hello.py # t1: Sat Sep 10 14:15:28 2022 # hello world # t2: Sat Sep 10 14:15:33 2022 # hello world again! # t1: Sat Sep 10 14:15:28 2022 # hello world # t2: Sat Sep 10 14:15:33 2022 # hello world again! （3）sbatch执行 与srun相比，sbatch更适合后台批量提交作业。\nsbatch执行的是一个shell作业脚本文件（注意与上面任务脚本是不同的），如下示例\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 vi hello.slurm #---如下为脚本内容 #!/bin/bash #SBATCH -J hello #SBATCH -p c-4-1 #SBATCH -o %j.out #SBATCH -e %j.err #SBATCH -n 1 source activate mypython3 #加载所需的conda环境 python -c 'print(\"hello, world!\")' #也可以结合srun使用 srun -n 1 ./hello.py 如上，sbatch的参数可以写在作业脚本内，相对更加便捷。\n如下执行脚本，然后会返回一个jobID；输出结果会相应保存在out与err文件中。\n1 2 3 4 5 6 7 8 9 10 sbatch hello.slurm # Submitted batch job 34 cat 34.out # hello, world! # t1: Sat Sep 10 14:36:37 2022 # hello world # t2: Sat Sep 10 14:36:42 2022 # hello world again! （4）sbatch单节点多任务 如上sbatch执行作业脚本的逻辑就是简单的自上而下思路。\n在申请一个多核的节点，结合shell命令技巧同时运行多个任务即并行。\n（1）多任务，并没有并行的示例 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 vi multi_hello.slurm #---如下为脚本内容 #!/bin/bash #SBATCH -J hello #SBATCH -p c-4-1 #SBATCH -o %j.out #SBATCH -e %j.err #SBATCH -n 2 source activate mypython3 #加载所需的conda环境 #任务1 srun -n 1 ./hello.py #任务2 srun -n 1 ./hello.py 如上为整个作业申请2个核心，使用1个核心执行单个任务\n1 2 3 4 5 6 7 8 9 10 11 12 sbatch multi_hello.slurm # Submitted batch job 35 cat 35.out # t1: Sat Sep 10 14:52:07 2022 # hello world # t2: Sat Sep 10 14:52:12 2022 # hello world again! # t1: Sat Sep 10 14:52:12 2022 ##可以看到是在第一个任务结束后再执行的 # hello world # t2: Sat Sep 10 14:52:17 2022 # hello world again! （2）多任务，且并行的示例 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 vi multi_hello.slurm #---如下为脚本内容 #!/bin/bash #SBATCH -J hello #SBATCH -p c-4-1 #SBATCH -o %j.out #SBATCH -e %j.err #SBATCH -n 2 source activate mypython3 #加载所需的conda环境 #任务1 srun -n 1 ./hello.py \u0026 #任务2 srun -n 1 ./hello.py \u0026 wait 如上有两点特殊处理\n\u0026 加在每个任务的末尾，表示放在后台运行，否则任务脚本就会卡在这一行。\nwait 放在作业脚本的末尾， 让脚本等待以上后台任务运行结束后再停止，否则作业脚本运行到末尾就结束了。\n1 2 3 4 5 6 7 8 9 10 11 12 sbatch multi_hello.slurm # Submitted batch job 36 cat 36.out # t1: Sat Sep 10 14:58:37 2022 # hello world # t2: Sat Sep 10 14:58:42 2022 # hello world again! # t1: Sat Sep 10 14:58:37 2022 ##可以看到是在第一个任务同时开始的 # hello world # t2: Sat Sep 10 14:58:42 2022 # hello world again! 2、salloc交互式运行计算 salloc可以直接调用指定配置的节点（-p等参数同上），然后通过ssh方式进入节点。之后的操作基本等同在一台相应的服务器上操作。\n可以先在salloc模式下调试脚本，之后再通过sbatch批量放到后台运行。\n1 2 3 4 5 6 7 8 9 10 11 12 13 # 查看节点 sinfo # 申请节点 salloc -p c-4-1 # 查看状态 squeue # JOBID PARTITION NAME USER ST TIME NODES NODELIST(REASON) # 38 c-4-1 bash cloudam R 0:11 1 c-4-1-worker0001 # 进入节点 ssh c-4-1-worker0001 主要参考链接\nhttp://hpc.whu.edu.cn/info/1028/1019.htm\nhttps://docs.hpc.sjtu.edu.cn/app/compilers_and_languages/python.html\n",
+  "wordCount" : "2031",
+  "inLanguage": "en",
+  "datePublished": "2022-09-10T00:00:00Z",
+  "dateModified": "2022-09-10T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Lishensuo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lishensuo.github.io/en/posts/program/451-slurm/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Li's Bioinfo-Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lishensuo.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://lishensuo.github.io/en/" accesskey="h" title="Li&#39;s Bioinfo-Blog (Alt + H)">Li&#39;s Bioinfo-Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://lishensuo.github.io/en/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/posts" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://lishensuo.github.io/en/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/program/">📖 R&amp;Python&amp;Shell --- 编程基础、可视化等</a></div>
+    <h1 class="post-title">
+      初识slurm基础操作
+    </h1>
+    <div class="post-meta">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2022-09-10 00:00:00 +0000 UTC'>2022-09-10</span>&nbsp;|&nbsp;Update:&nbsp;2022-09-10&nbsp;|&nbsp;Words:&nbsp;2031&nbsp;|&nbsp;5 min&nbsp;|&nbsp;Lishensuo
+
+|  Viewers: <span id="busuanzi_value_page_pv"></span> 
+	  
+    </div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#%e5%9f%ba%e7%a1%80%e6%9f%a5%e8%af%a2%e5%91%bd%e4%bb%a4" aria-label="基础查询命令">基础查询命令</a></li>
+                    <li>
+                        <a href="#%e4%b8%a4%e7%a7%8d%e8%bf%90%e8%a1%8c%e6%96%b9%e5%bc%8f" aria-label="两种运行方式">两种运行方式</a><ul>
+                            
+                    <li>
+                        <a href="#1sbatchsrun%e6%8f%90%e4%ba%a4%e8%84%9a%e6%9c%ac%e6%96%b9%e5%bc%8f" aria-label="1、sbatch/srun提交脚本方式">1、sbatch/srun提交脚本方式</a><ul>
+                            
+                    <li>
+                        <a href="#1%e8%84%9a%e6%9c%ac%e4%b8%8e%e5%8f%82%e6%95%b0" aria-label="（1）脚本与参数">（1）脚本与参数</a></li>
+                    <li>
+                        <a href="#2srun%e6%89%a7%e8%a1%8c" aria-label="（2）srun执行">（2）<code>srun</code>执行</a></li>
+                    <li>
+                        <a href="#3sbatch%e6%89%a7%e8%a1%8c" aria-label="（3）sbatch执行">（3）<code>sbatch</code>执行</a></li>
+                    <li>
+                        <a href="#4sbatch%e5%8d%95%e8%8a%82%e7%82%b9%e5%a4%9a%e4%bb%bb%e5%8a%a1" aria-label="（4）sbatch单节点多任务">（4）<code>sbatch</code>单节点多任务</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#2salloc%e4%ba%a4%e4%ba%92%e5%bc%8f%e8%bf%90%e8%a1%8c%e8%ae%a1%e7%ae%97" aria-label="2、salloc交互式运行计算">2、<code>salloc</code>交互式运行计算</a>
+                    </li>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+
+  <div class="post-content"><p>现阶段在学习深度学习超参数优化过程中涉及到SLURM相关知识。这几天探索了一番，简单记录一下目前简单认识。</p>
+<p>SLURM，Simple Linux Utility for Resource Management的缩写，是一个开源、容错、高度可扩展的集群管理和作业调度系统。</p>
+<blockquote>
+<p>几个关键概念：</p>
+<p>**node节点 **理解成一台独立的服务器（有若干内核，一定大小的内存）；</p>
+<p>**task任务 **理解为一个可执行脚本(.sh或者.py等)，最一般情况下执行一个脚本仅需要一个内核；</p>
+<p>**Job作业 **理解为一次slurm提交，可包含一个或多个任务</p></blockquote>
+<p>基本使用流程为（1）用户进入登陆节点&mdash;（2）编写任务以及所需配置资源&mdash;（3）提交任务，分配节点，开始计算</p>
+<img src="https://pdc-support.github.io/hpc-intro/img/scheduling_jobs.png" alt="PDC Center for High Performance Computing" style="zoom:67%;" />
+<h3 id="基础查询命令">基础查询命令<a hidden class="anchor" aria-hidden="true" href="#基础查询命令">#</a></h3>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>sinfo   <span style="color:#007f7f">#查看所有计算节点状态，第一列为分区名，后面会多次用到</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>squeue  <span style="color:#007f7f">#查看正在运行的作业，包括比较重要的JobID信息</span>
+</span></span><span style="display:flex;"><span>sacct   <span style="color:#007f7f">#查看登陆节点以来所有的作业</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>scancel <span style="color:#007f7f">#根据JobID，取消正在运行的作业</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="两种运行方式">两种运行方式<a hidden class="anchor" aria-hidden="true" href="#两种运行方式">#</a></h3>
+<h4 id="1sbatchsrun提交脚本方式">1、sbatch/srun提交脚本方式<a hidden class="anchor" aria-hidden="true" href="#1sbatchsrun提交脚本方式">#</a></h4>
+<h5 id="1脚本与参数">（1）脚本与参数<a hidden class="anchor" aria-hidden="true" href="#1脚本与参数">#</a></h5>
+<p>需要考虑两部分（1）正确无误的可执行任务脚本文件；（2）指定运行脚本所需的节点资源</p>
+<ul>
+<li>脚本文件如下简单的示例</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>vi hello.py
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#---如下为脚本内容</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#!/usr/bin/env python</span>
+</span></span><span style="display:flex;"><span>import <span style="color:#fff;font-weight:bold">time</span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#0ff;font-weight:bold">&#34;t1:  &#34;</span>,time.asctime(time.localtime())) 
+</span></span><span style="display:flex;"><span>print(<span style="color:#0ff;font-weight:bold">&#34;hello world&#34;</span>)
+</span></span><span style="display:flex;"><span>time.sleep(5)
+</span></span><span style="display:flex;"><span>print(<span style="color:#0ff;font-weight:bold">&#34;t2:  &#34;</span>,time.asctime(time.localtime())) 
+</span></span><span style="display:flex;"><span>print(<span style="color:#0ff;font-weight:bold">&#34;hello world again!&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>chmod +x hello.py  <span style="color:#007f7f">#赋予执行权限</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>
+<p>通过一些参数，设置运行环境（根据sinfo了解可用节点，以及相应的性能）。</p>
+<p>其中<code>sbatch/srun</code>的参数基本相同</p>
+</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>-p, --partition=partition name <span style="color:#007f7f"># 在指定分区中分配资源</span>
+</span></span><span style="display:flex;"><span>-N, --nodes   <span style="color:#007f7f">#节点数;如果作业不能跨节点(MPI)运行, 申请的节点数应不超过1</span>
+</span></span><span style="display:flex;"><span>-n, --ntasks  <span style="color:#007f7f">#请求执行任务数/分配的核心数， 默认情况下一个任务一个核心(可通过-c参数修改)</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># -n, --ntasks-per-node  #每个节点执行的任务数/分配的核心数，如果申请一个节点与上一个参数意义等价</span>
+</span></span><span style="display:flex;"><span>-c, --cpus-per-task    <span style="color:#007f7f">#每个任务所需的核心数，默认为1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>-J myFirstJob  <span style="color:#007f7f">#设置作业名</span>
+</span></span><span style="display:flex;"><span>-o job.%j.out  <span style="color:#007f7f">#脚本执行的输出另保存</span>
+</span></span><span style="display:flex;"><span>-e job.%j.err  <span style="color:#007f7f">#脚本执行的报错另保存</span>
+</span></span><span style="display:flex;"><span>--time=4-00:00 <span style="color:#007f7f">#限制运行时间</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h5 id="2srun执行">（2）<code>srun</code>执行<a hidden class="anchor" aria-hidden="true" href="#2srun执行">#</a></h5>
+<p>如下srun调用分区中一个c-4-1节点（已知该节点共有4个核心），并启用1个核心执行hello.py脚本任务</p>
+<p>srun运行作业的主要特点之一是阻塞式的，直到运行结束后才会释放命令行。</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>srun -N <span style="color:#ff0;font-weight:bold">1</span> -n <span style="color:#ff0;font-weight:bold">1</span> -p c-4-1 ./hello.py
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 结果输出如下</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># t1:   Sat Sep 10 14:13:31 2022</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># hello world</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># t2:   Sat Sep 10 14:13:36 2022</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># hello world again!</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">## 如果调用2个核心，则输出结果如下，可以体会与上述启用一个节点的差异</span>
+</span></span><span style="display:flex;"><span>srun -N <span style="color:#ff0;font-weight:bold">1</span> -n <span style="color:#ff0;font-weight:bold">2</span> -p c-4-1 ./hello.py
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># t1:   Sat Sep 10 14:15:28 2022</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># hello world</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># t2:   Sat Sep 10 14:15:33 2022</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># hello world again!</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># t1:   Sat Sep 10 14:15:28 2022</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># hello world</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># t2:   Sat Sep 10 14:15:33 2022</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># hello world again!</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h5 id="3sbatch执行">（3）<code>sbatch</code>执行<a hidden class="anchor" aria-hidden="true" href="#3sbatch执行">#</a></h5>
+<p>与srun相比，sbatch更适合后台批量提交作业。</p>
+<p>sbatch执行的是一个shell作业脚本文件（注意与上面任务脚本是不同的），如下示例</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>vi hello.slurm
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#---如下为脚本内容</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#!/bin/bash</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#SBATCH -J hello</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#SBATCH -p c-4-1</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#SBATCH -o %j.out</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#SBATCH -e %j.err</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#SBATCH -n 1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">source</span> activate mypython3    <span style="color:#007f7f">#加载所需的conda环境</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>python -c <span style="color:#0ff;font-weight:bold">&#39;print(&#34;hello, world!&#34;)&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#也可以结合srun使用</span>
+</span></span><span style="display:flex;"><span>srun -n <span style="color:#ff0;font-weight:bold">1</span> ./hello.py
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>
+<p>如上，sbatch的参数可以写在作业脚本内，相对更加便捷。</p>
+</li>
+<li>
+<p>如下执行脚本，然后会返回一个jobID；输出结果会相应保存在out与err文件中。</p>
+</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sbatch hello.slurm
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Submitted batch job 34</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cat 34.out
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># hello, world!</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># t1:   Sat Sep 10 14:36:37 2022</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># hello world</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># t2:   Sat Sep 10 14:36:42 2022</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># hello world again!</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h5 id="4sbatch单节点多任务">（4）<code>sbatch</code>单节点多任务<a hidden class="anchor" aria-hidden="true" href="#4sbatch单节点多任务">#</a></h5>
+<p>如上sbatch执行作业脚本的逻辑就是简单的自上而下思路。</p>
+<p>在申请一个多核的节点，结合shell命令技巧同时运行多个任务即并行。</p>
+<ul>
+<li>（1）多任务，并没有并行的示例</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>vi multi_hello.slurm
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#---如下为脚本内容</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#!/bin/bash</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#SBATCH -J hello</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#SBATCH -p c-4-1</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#SBATCH -o %j.out</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#SBATCH -e %j.err</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#SBATCH -n 2</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">source</span> activate mypython3    <span style="color:#007f7f">#加载所需的conda环境</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#任务1</span>
+</span></span><span style="display:flex;"><span>srun -n <span style="color:#ff0;font-weight:bold">1</span> ./hello.py
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#任务2</span>
+</span></span><span style="display:flex;"><span>srun -n <span style="color:#ff0;font-weight:bold">1</span> ./hello.py
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如上为整个作业申请2个核心，使用1个核心执行单个任务</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sbatch multi_hello.slurm
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Submitted batch job 35</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cat 35.out
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># t1:   Sat Sep 10 14:52:07 2022</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># hello world</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># t2:   Sat Sep 10 14:52:12 2022</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># hello world again!</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># t1:   Sat Sep 10 14:52:12 2022   ##可以看到是在第一个任务结束后再执行的</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># hello world</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># t2:   Sat Sep 10 14:52:17 2022</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># hello world again!</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>（2）多任务，且并行的示例</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>vi multi_hello.slurm
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#---如下为脚本内容</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#!/bin/bash</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#SBATCH -J hello</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#SBATCH -p c-4-1</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#SBATCH -o %j.out</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#SBATCH -e %j.err</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#SBATCH -n 2</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">source</span> activate mypython3    <span style="color:#007f7f">#加载所需的conda环境</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#任务1</span>
+</span></span><span style="display:flex;"><span>srun -n <span style="color:#ff0;font-weight:bold">1</span> ./hello.py &amp;
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#任务2</span>
+</span></span><span style="display:flex;"><span>srun -n <span style="color:#ff0;font-weight:bold">1</span> ./hello.py &amp;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">wait</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如上有两点特殊处理</p>
+<p><code>&amp;</code> 加在每个任务的末尾，表示放在后台运行，否则任务脚本就会卡在这一行。</p>
+<p><code>wait</code> 放在作业脚本的末尾， 让脚本等待以上后台任务运行结束后再停止，否则作业脚本运行到末尾就结束了。</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sbatch multi_hello.slurm
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Submitted batch job 36</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cat 36.out
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># t1:   Sat Sep 10 14:58:37 2022</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># hello world</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># t2:   Sat Sep 10 14:58:42 2022</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># hello world again!</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># t1:   Sat Sep 10 14:58:37 2022   ##可以看到是在第一个任务同时开始的</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># hello world</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># t2:   Sat Sep 10 14:58:42 2022</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># hello world again!</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="2salloc交互式运行计算">2、<code>salloc</code>交互式运行计算<a hidden class="anchor" aria-hidden="true" href="#2salloc交互式运行计算">#</a></h4>
+<p>salloc可以直接调用指定配置的节点（-p等参数同上），然后通过ssh方式进入节点。之后的操作基本等同在一台相应的服务器上操作。</p>
+<p>可以先在salloc模式下调试脚本，之后再通过sbatch批量放到后台运行。</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#007f7f"># 查看节点</span>
+</span></span><span style="display:flex;"><span>sinfo
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 申请节点</span>
+</span></span><span style="display:flex;"><span>salloc -p c-4-1
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 查看状态</span>
+</span></span><span style="display:flex;"><span>squeue
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#    38     c-4-1     bash  cloudam  R       0:11      1 c-4-1-worker0001</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 进入节点</span>
+</span></span><span style="display:flex;"><span>ssh c-4-1-worker0001
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<p>主要参考链接</p>
+<p><a href="http://hpc.whu.edu.cn/info/1028/1019.htm">http://hpc.whu.edu.cn/info/1028/1019.htm</a></p>
+<p><a href="https://docs.hpc.sjtu.edu.cn/app/compilers_and_languages/python.html">https://docs.hpc.sjtu.edu.cn/app/compilers_and_languages/python.html</a></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://lishensuo.github.io/en/tags/linux/">Linux</a></li>
+    </ul>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2026 <a href="https://lishensuo.github.io/en/">Li&#39;s Bioinfo-Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+		<br/>您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者，总浏览量为 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script type="text/javascript"
+async
+src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+displayMath: [['$$','$$'], ['\[\[','\]\]']],
+processEscapes: true,
+processEnvironments: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+TeX: { equationNumbers: { autoNumber: "AMS" },
+extensions: ["AMSmath.js", "AMSsymbols.js"] }
+}
+});
+
+MathJax.Hub.Queue(function() {
+
+
+
+var all = MathJax.Hub.getAllJax(), i;
+for(i = 0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
+</script>
+
+<style>
+code.has-jax {
+font: inherit;
+font-size: 100%;
+background: inherit;
+border: inherit;
+color: #515151;
+}
+</style></body>
+</html>
