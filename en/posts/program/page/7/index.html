@@ -5,14 +5,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-
-<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
 <title>📖 R&amp;Python&amp;Shell --- 编程基础、可视化等 | Li&#39;s Bioinfo-Blog</title>
 <meta name="keywords" content="">
 <meta name="description" content="📖 R&amp;Python&amp;Shell --- 编程基础、可视化等 - Li&#39;s Bioinfo-Blog">
 <meta name="author" content="">
 <link rel="canonical" href="https://lishensuo.github.io/en/posts/program/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.af29093799c35bd05a068d5ab092858ff3a75905607cac7c1c2694b85e8c8dba.css" integrity="sha256-rykJN5nDW9BaBo1asJKFj/OnWQVgfKx8HCaUuF6Mjbo=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.a2394dff98b76c0e83defbd90cfa9a05464df54760560011a687229ed9d52294.css" integrity="sha256-ojlN/5i3bA6D3vvZDPqaBUZN9UdgVgARpocintnVIpQ=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
 <link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
 <link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
@@ -20,7 +18,7 @@
 <link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="https://lishensuo.github.io/en/posts/program/index.xml">
+<link rel="alternate" type="application/rss+xml" href="https://lishensuo.github.io/en/posts/program/index.xml" title="rss">
 <link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/program/">
 <noscript>
     <style>
@@ -39,26 +37,42 @@
                 --secondary: rgb(155, 156, 157);
                 --tertiary: rgb(65, 66, 68);
                 --content: rgb(196, 196, 197);
-                --hljs-bg: rgb(46, 46, 51);
+                --code-block-bg: rgb(46, 46, 51);
                 --code-bg: rgb(55, 56, 62);
                 --border: rgb(51, 51, 51);
+                color-scheme: dark;
             }
 
             .list {
                 background: var(--theme);
             }
 
-            .list:not(.dark)::-webkit-scrollbar-track {
-                background: 0 0;
+            .toc {
+                background: var(--entry);
             }
+        }
 
-            .list:not(.dark)::-webkit-scrollbar-thumb {
-                border-color: var(--theme);
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
             }
         }
 
     </style>
-</noscript><meta property="og:title" content="📖 R&amp;Python&amp;Shell --- 编程基础、可视化等" />
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta property="og:title" content="📖 R&amp;Python&amp;Shell --- 编程基础、可视化等" />
 <meta property="og:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://lishensuo.github.io/en/posts/program/" />
@@ -88,7 +102,6 @@
   ]
 }
 </script>
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </head>
 
 <body class="list" id="top">
@@ -170,6 +183,46 @@
 <header class="page-header"><div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a></div>
   <h1>📖 R&amp;Python&amp;Shell --- 编程基础、可视化等</h1>
 </header>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>Shiny-pkg-2-shinyJS
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p>Shiny Basic系列:
+参考教程：https://mastering-shiny.org/
+（1）IO控件
+（2）Layout布局
+（3）Reactive用法
+（4）Feedback提醒
+（5）Module模块
+Shiny Package系列:
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2024-03-31 00:00:00 +0000 UTC'>2024-03-31</span>&nbsp;|&nbsp;Update:&nbsp;2024-03-31&nbsp;|&nbsp;Words:&nbsp;896&nbsp;|&nbsp;2 min&nbsp;|&nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to Shiny-pkg-2-shinyJS" href="https://lishensuo.github.io/en/posts/program/261-shinyjs/"></a>
+</article>
 
 
 
@@ -496,42 +549,10 @@ Create:&nbsp;<span title='2022-04-16 00:00:00 +0000 UTC'>2022-04-16</span>&nbsp;
 	</div>   
   <a class="entry-link" aria-label="post link to shell基础--变量名字符串操作" href="https://lishensuo.github.io/en/posts/program/400-shell-strings/"></a>
 </article>
-
-
-
-
-
-<article class="post-entry">
-	<div class="post-info">  
-		<header class="entry-header">
-			<h2>shell基础--find查找文件
-			</h2>
-		</header>
-		<section class="entry-content">
-			<p> 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 # 第一个参数交待查找路径，默认为当前路径 # -name 参数指定需要查找的文件名，支持正则表达式 find -name &#39;*.txt&#39; find ./dir1/ -name &#39;*.txt&#39; # -maxdepth 指定查找的最大目录层级深度 find -maxdepth 2 -name &#39;*.txt&#39; # -type d 表示查找目录类型 # -type f 表示查找文件类型 find -type f -name &#39;*.txt&#39; # 查找指定大小范围的文件；如下表示查找大小范围在50M~100M范围之间的文件 find -size &#43;50M -size -100M # 找到文件后，执行一些命令操作 ## 查看找到文件的详细信息 find -name &#39;*.txt&#39; -exec ls -l {} \; ## 返回找到文件的文件名（去除路径） find -name &#39;*.txt&#39; -exec basename {} \; </p>
-		</section>
-		<footer class="entry-footer">
-
-
-
-
-
-
-
-
-
-
-
-
-
-Create:&nbsp;<span title='2022-04-16 00:00:00 +0000 UTC'>2022-04-16</span>&nbsp;|&nbsp;Update:&nbsp;2022-04-16&nbsp;|&nbsp;Words:&nbsp;219&nbsp;|&nbsp;1 min&nbsp;|&nbsp;Lishensuo</footer>
-	</div>   
-  <a class="entry-link" aria-label="post link to shell基础--find查找文件" href="https://lishensuo.github.io/en/posts/program/401-shell-find/"></a>
-</article>
 <footer class="page-footer">
   <nav class="pagination">
-    <a class="prev" href="https://lishensuo.github.io/en/posts/program/page/6/">« Prev Page</a>
-    <a class="next" href="https://lishensuo.github.io/en/posts/program/page/8/">Next Page »</a>
+    <a class="prev" href="https://lishensuo.github.io/en/posts/program/page/6/">« Prev</a>
+    <a class="next" href="https://lishensuo.github.io/en/posts/program/page/8/">Next »</a>
   </nav>
 </footer>
     </main>

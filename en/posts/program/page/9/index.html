@@ -5,14 +5,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-
-<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
 <title>📖 R&amp;Python&amp;Shell --- 编程基础、可视化等 | Li&#39;s Bioinfo-Blog</title>
 <meta name="keywords" content="">
 <meta name="description" content="📖 R&amp;Python&amp;Shell --- 编程基础、可视化等 - Li&#39;s Bioinfo-Blog">
 <meta name="author" content="">
 <link rel="canonical" href="https://lishensuo.github.io/en/posts/program/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.af29093799c35bd05a068d5ab092858ff3a75905607cac7c1c2694b85e8c8dba.css" integrity="sha256-rykJN5nDW9BaBo1asJKFj/OnWQVgfKx8HCaUuF6Mjbo=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.a2394dff98b76c0e83defbd90cfa9a05464df54760560011a687229ed9d52294.css" integrity="sha256-ojlN/5i3bA6D3vvZDPqaBUZN9UdgVgARpocintnVIpQ=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://lishensuo.github.io/img/Q.gif">
 <link rel="icon" type="image/png" sizes="16x16" href="https://lishensuo.github.io/img/Q.gif">
 <link rel="icon" type="image/png" sizes="32x32" href="https://lishensuo.github.io/img/Q.gif">
@@ -20,7 +18,7 @@
 <link rel="mask-icon" href="https://lishensuo.github.io/Q.gif">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="https://lishensuo.github.io/en/posts/program/index.xml">
+<link rel="alternate" type="application/rss+xml" href="https://lishensuo.github.io/en/posts/program/index.xml" title="rss">
 <link rel="alternate" hreflang="en" href="https://lishensuo.github.io/en/posts/program/">
 <noscript>
     <style>
@@ -39,26 +37,42 @@
                 --secondary: rgb(155, 156, 157);
                 --tertiary: rgb(65, 66, 68);
                 --content: rgb(196, 196, 197);
-                --hljs-bg: rgb(46, 46, 51);
+                --code-block-bg: rgb(46, 46, 51);
                 --code-bg: rgb(55, 56, 62);
                 --border: rgb(51, 51, 51);
+                color-scheme: dark;
             }
 
             .list {
                 background: var(--theme);
             }
 
-            .list:not(.dark)::-webkit-scrollbar-track {
-                background: 0 0;
+            .toc {
+                background: var(--entry);
             }
+        }
 
-            .list:not(.dark)::-webkit-scrollbar-thumb {
-                border-color: var(--theme);
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
             }
         }
 
     </style>
-</noscript><meta property="og:title" content="📖 R&amp;Python&amp;Shell --- 编程基础、可视化等" />
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta property="og:title" content="📖 R&amp;Python&amp;Shell --- 编程基础、可视化等" />
 <meta property="og:description" content="李申锁的博客，记录生信学习过程。R/Python/Shell" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://lishensuo.github.io/en/posts/program/" />
@@ -88,7 +102,6 @@
   ]
 }
 </script>
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </head>
 
 <body class="list" id="top">
@@ -170,6 +183,39 @@
 <header class="page-header"><div class="breadcrumbs"><a href="https://lishensuo.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://lishensuo.github.io/en/posts/">分类</a></div>
   <h1>📖 R&amp;Python&amp;Shell --- 编程基础、可视化等</h1>
 </header>
+
+
+
+
+
+<article class="post-entry">
+	<div class="post-info">  
+		<header class="entry-header">
+			<h2>在Linux系统里部署Jupyter环境
+			</h2>
+		</header>
+		<section class="entry-content">
+			<p> 之前就了解过Jupyter notebook，是调试python代码的简洁、高效软件。现在大致整理下目前学到的在Linux系统里部署Jupyter环境的小流程，以供之后自己学习python及相关分析时使用。
+...</p>
+		</section>
+		<footer class="entry-footer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create:&nbsp;<span title='2022-05-15 00:00:00 +0000 UTC'>2022-05-15</span>&nbsp;|&nbsp;Update:&nbsp;2022-05-15&nbsp;|&nbsp;Words:&nbsp;1947&nbsp;|&nbsp;4 min&nbsp;|&nbsp;Lishensuo</footer>
+	</div>   
+  <a class="entry-link" aria-label="post link to 在Linux系统里部署Jupyter环境" href="https://lishensuo.github.io/en/posts/program/502-jupyter-linux/"></a>
+</article>
 
 
 
@@ -340,7 +386,7 @@ Create:&nbsp;<span title='2025-10-04 00:00:00 +0000 UTC'>2025-10-04</span>&nbsp;
 </article>
 <footer class="page-footer">
   <nav class="pagination">
-    <a class="prev" href="https://lishensuo.github.io/en/posts/program/page/8/">« Prev Page</a>
+    <a class="prev" href="https://lishensuo.github.io/en/posts/program/page/8/">« Prev</a>
   </nav>
 </footer>
     </main>
