@@ -5,6 +5,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon">
 <title>R包NMF非负矩阵分解 | Li&#39;s Bioinfo-Blog</title>
 <meta name="keywords" content="机器学习">
 <meta name="description" content="
@@ -37,41 +39,26 @@
                 --secondary: rgb(155, 156, 157);
                 --tertiary: rgb(65, 66, 68);
                 --content: rgb(196, 196, 197);
-                --code-block-bg: rgb(46, 46, 51);
+                --hljs-bg: rgb(46, 46, 51);
                 --code-bg: rgb(55, 56, 62);
                 --border: rgb(51, 51, 51);
-                color-scheme: dark;
             }
 
             .list {
                 background: var(--theme);
             }
 
-            .toc {
-                background: var(--entry);
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
             }
-        }
 
-        @media (prefers-color-scheme: light) {
-            .list::-webkit-scrollbar-thumb {
-                border-color: var(--code-bg);
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
             }
         }
 
     </style>
 </noscript>
-<script>
-    if (localStorage.getItem("pref-theme") === "dark") {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else if (localStorage.getItem("pref-theme") === "light") {
-       document.querySelector("html").dataset.theme = 'light';
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else {
-        document.querySelector("html").dataset.theme = 'light';
-    }
-
-</script>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta property="og:title" content="R包NMF非负矩阵分解" />
 <meta property="og:description" content="
 （1）NMF是非负矩阵分解（Non-negative Matrix Factorization）的缩写。它是将一个非负数据矩阵分解为两个非负矩阵的乘积，其中一个矩阵表示特征的基矩阵，另一个矩阵表示每个样本在这些特征上的系数矩阵。这样的分解可以将原始数据表示为一组非负基向量的加权组合，从而实现数据的降维和特征提取。" />

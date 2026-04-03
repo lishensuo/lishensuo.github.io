@@ -5,6 +5,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon">
 <title>单细胞分析工具--RNAvelocity速率分析 | Li&#39;s Bioinfo-Blog</title>
 <meta name="keywords" content="scRNA-seq">
 <meta name="description" content="
@@ -37,41 +39,26 @@ RNA velocity(RNA速率)分析是基于单细胞转录组测序数据分析细胞
                 --secondary: rgb(155, 156, 157);
                 --tertiary: rgb(65, 66, 68);
                 --content: rgb(196, 196, 197);
-                --code-block-bg: rgb(46, 46, 51);
+                --hljs-bg: rgb(46, 46, 51);
                 --code-bg: rgb(55, 56, 62);
                 --border: rgb(51, 51, 51);
-                color-scheme: dark;
             }
 
             .list {
                 background: var(--theme);
             }
 
-            .toc {
-                background: var(--entry);
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
             }
-        }
 
-        @media (prefers-color-scheme: light) {
-            .list::-webkit-scrollbar-thumb {
-                border-color: var(--code-bg);
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
             }
         }
 
     </style>
 </noscript>
-<script>
-    if (localStorage.getItem("pref-theme") === "dark") {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else if (localStorage.getItem("pref-theme") === "light") {
-       document.querySelector("html").dataset.theme = 'light';
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else {
-        document.querySelector("html").dataset.theme = 'light';
-    }
-
-</script>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta property="og:title" content="单细胞分析工具--RNAvelocity速率分析" />
 <meta property="og:description" content="
 RNA velocity(RNA速率)分析是基于单细胞转录组测序数据分析细胞发育状态动力学的方法。简单来说，该模型根据测序read片段属于unspliced pre-mrna以及spliced mature mrna的比例推测单细胞的发育轨迹。 高比例的unspliced pre-mrna的占比越高，velocity速率越大，表明在之后阶段中将产生高表达趋势。" />

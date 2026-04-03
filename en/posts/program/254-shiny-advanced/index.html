@@ -5,6 +5,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon">
 <title>shiny包开发网页APP进阶 | Li&#39;s Bioinfo-Blog</title>
 <meta name="keywords" content="Shiny">
 <meta name="description" content="
@@ -37,41 +39,26 @@ shiny中server部分的render×××系列函数是生成reactive output的主要
                 --secondary: rgb(155, 156, 157);
                 --tertiary: rgb(65, 66, 68);
                 --content: rgb(196, 196, 197);
-                --code-block-bg: rgb(46, 46, 51);
+                --hljs-bg: rgb(46, 46, 51);
                 --code-bg: rgb(55, 56, 62);
                 --border: rgb(51, 51, 51);
-                color-scheme: dark;
             }
 
             .list {
                 background: var(--theme);
             }
 
-            .toc {
-                background: var(--entry);
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
             }
-        }
 
-        @media (prefers-color-scheme: light) {
-            .list::-webkit-scrollbar-thumb {
-                border-color: var(--code-bg);
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
             }
         }
 
     </style>
 </noscript>
-<script>
-    if (localStorage.getItem("pref-theme") === "dark") {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else if (localStorage.getItem("pref-theme") === "light") {
-       document.querySelector("html").dataset.theme = 'light';
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else {
-        document.querySelector("html").dataset.theme = 'light';
-    }
-
-</script>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta property="og:title" content="shiny包开发网页APP进阶" />
 <meta property="og:description" content="
 shiny中server部分的render×××系列函数是生成reactive output的主要方式。只要其内部的任一input$×××输入参数发生变化都会重新将该函数内部代码全部重新计算一遍以更新输出。此外，类似reactive()，observeEvent()等可以帮助实现更加复杂的输入输出控制，下面简单学习记录下。" />

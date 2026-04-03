@@ -5,6 +5,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon">
 <title>TCGAbiolinks包-TCGA数据下载与差异分析 | Li&#39;s Bioinfo-Blog</title>
 <meta name="keywords" content="转录组">
 <meta name="description" content="TCGAbiolinks包是一站式分析TCGA数据的R包工具，它集成了TCGA数据下载、分析、可视化的全部流程。此次系列笔记主要跟着 TCGAbiolinks帮助文档重新学习下TCGA数据挖掘流程。">
@@ -36,41 +38,26 @@
                 --secondary: rgb(155, 156, 157);
                 --tertiary: rgb(65, 66, 68);
                 --content: rgb(196, 196, 197);
-                --code-block-bg: rgb(46, 46, 51);
+                --hljs-bg: rgb(46, 46, 51);
                 --code-bg: rgb(55, 56, 62);
                 --border: rgb(51, 51, 51);
-                color-scheme: dark;
             }
 
             .list {
                 background: var(--theme);
             }
 
-            .toc {
-                background: var(--entry);
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
             }
-        }
 
-        @media (prefers-color-scheme: light) {
-            .list::-webkit-scrollbar-thumb {
-                border-color: var(--code-bg);
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
             }
         }
 
     </style>
 </noscript>
-<script>
-    if (localStorage.getItem("pref-theme") === "dark") {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else if (localStorage.getItem("pref-theme") === "light") {
-       document.querySelector("html").dataset.theme = 'light';
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else {
-        document.querySelector("html").dataset.theme = 'light';
-    }
-
-</script>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta property="og:title" content="TCGAbiolinks包-TCGA数据下载与差异分析" />
 <meta property="og:description" content="TCGAbiolinks包是一站式分析TCGA数据的R包工具，它集成了TCGA数据下载、分析、可视化的全部流程。此次系列笔记主要跟着 TCGAbiolinks帮助文档重新学习下TCGA数据挖掘流程。" />
 <meta property="og:type" content="article" />
